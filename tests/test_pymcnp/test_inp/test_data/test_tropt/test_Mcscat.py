@@ -6,17 +6,10 @@ from ..... import classes
 class Test_Mcscat:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.tropt.Mcscat
-        EXAMPLES_VALID = [{'setting': pymcnp.types.String('off')}]
-        EXAMPLES_INVALID = [{'setting': None}]
+        EXAMPLES_VALID = [{'setting': 'off'}, {'setting': pymcnp.types.String('off')}]
+        EXAMPLES_INVALID = [{'setting': None}, {'setting': 'hello'}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.data.tropt.Mcscat
         EXAMPLES_VALID = [consts.string.inp.data.tropt.MCSCAT]
         EXAMPLES_INVALID = ['hello']
-
-
-class Test_McscatBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.tropt.McscatBuilder
-        EXAMPLES_VALID = [{'setting': 'off'}, {'setting': pymcnp.types.String('off')}]
-        EXAMPLES_INVALID = [{'setting': None}, {'setting': 'hello'}]

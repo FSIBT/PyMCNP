@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -24,7 +20,7 @@ class Genxs(_option.TroptOption):
 
     _REGEX = re.compile(rf'\Agenxs( {types.String._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(self, filename: types.String = None):
+    def __init__(self, filename: str | types.String = None):
         """
         Initializes ``Genxs``.
 
@@ -35,53 +31,38 @@ class Genxs(_option.TroptOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                filename,
-            ]
-        )
+        self.filename: types.String = filename
 
-        self.filename: typing.Final[types.String] = filename
-
-
-@dataclasses.dataclass
-class GenxsBuilder(_option.TroptOptionBuilder):
-    """
-    Builds ``Genxs``.
-
-    Attributes:
-        filename: Cross section generation setting.
-    """
-
-    filename: str | types.String = None
-
-    def build(self):
+    @property
+    def filename(self) -> types.String:
         """
-        Builds ``GenxsBuilder`` into ``Genxs``.
+        Gets ``filename``.
 
         Returns:
-            ``Genxs`` for ``GenxsBuilder``.
+            ``filename``.
         """
 
-        filename = self.filename
-        if isinstance(self.filename, types.String):
-            filename = self.filename
-        elif isinstance(self.filename, str):
-            filename = types.String.from_mcnp(self.filename)
+        return self._filename
 
-        return Genxs(
-            filename=filename,
-        )
-
-    @staticmethod
-    def unbuild(ast: Genxs):
+    @filename.setter
+    def filename(self, filename: str | types.String) -> None:
         """
-        Unbuilds ``Genxs`` into ``GenxsBuilder``
+        Sets ``filename``.
 
-        Returns:
-            ``GenxsBuilder`` for ``Genxs``.
+        Parameters:
+            filename: Cross section generation setting.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
-        return GenxsBuilder(
-            filename=copy.deepcopy(ast.filename),
-        )
+        if filename is not None:
+            if isinstance(filename, types.String):
+                filename = filename
+            elif isinstance(filename, str):
+                filename = types.String.from_mcnp(filename)
+            else:
+                raise TypeError
+
+        self._filename: types.String = filename

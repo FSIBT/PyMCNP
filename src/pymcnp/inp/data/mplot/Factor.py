@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -29,7 +25,7 @@ class Factor(_option.MplotOption):
 
     _REGEX = re.compile(rf'\Afactor( {types.String._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(self, a: types.String, f: types.Real, s: types.Real = None):
+    def __init__(self, a: str | types.String, f: str | int | float | types.Real, s: str | int | float | types.Real = None):
         """
         Initializes ``Factor``.
 
@@ -42,86 +38,122 @@ class Factor(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.a: types.String = a
+        self.f: types.Real = f
+        self.s: types.Real = s
+
+    @property
+    def a(self) -> types.String:
+        """
+        Gets ``a``.
+
+        Returns:
+            ``a``.
+        """
+
+        return self._a
+
+    @a.setter
+    def a(self, a: str | types.String) -> None:
+        """
+        Sets ``a``.
+
+        Parameters:
+            a: Multiplication axis.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if a is not None:
+            if isinstance(a, types.String):
+                a = a
+            elif isinstance(a, str):
+                a = types.String.from_mcnp(a)
+            else:
+                raise TypeError
+
         if a is None or a not in {'x', 'y', 'z'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
+
+        self._a: types.String = a
+
+    @property
+    def f(self) -> types.Real:
+        """
+        Gets ``f``.
+
+        Returns:
+            ``f``.
+        """
+
+        return self._f
+
+    @f.setter
+    def f(self, f: str | int | float | types.Real) -> None:
+        """
+        Sets ``f``.
+
+        Parameters:
+            f: Multiplication factor.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if f is not None:
+            if isinstance(f, types.Real):
+                f = f
+            elif isinstance(f, int):
+                f = types.Real(f)
+            elif isinstance(f, float):
+                f = types.Real(f)
+            elif isinstance(f, str):
+                f = types.Real.from_mcnp(f)
+            else:
+                raise TypeError
+
         if f is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                a,
-                f,
-                s,
-            ]
-        )
+        self._f: types.Real = f
 
-        self.a: typing.Final[types.String] = a
-        self.f: typing.Final[types.Real] = f
-        self.s: typing.Final[types.Real] = s
-
-
-@dataclasses.dataclass
-class FactorBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``Factor``.
-
-    Attributes:
-        a: Multiplication axis.
-        f: Multiplication factor.
-        s: Addative term.
-    """
-
-    a: str | types.String
-    f: str | float | types.Real
-    s: str | float | types.Real = None
-
-    def build(self):
+    @property
+    def s(self) -> types.Real:
         """
-        Builds ``FactorBuilder`` into ``Factor``.
+        Gets ``s``.
 
         Returns:
-            ``Factor`` for ``FactorBuilder``.
+            ``s``.
         """
 
-        a = self.a
-        if isinstance(self.a, types.String):
-            a = self.a
-        elif isinstance(self.a, str):
-            a = types.String.from_mcnp(self.a)
+        return self._s
 
-        f = self.f
-        if isinstance(self.f, types.Real):
-            f = self.f
-        elif isinstance(self.f, float) or isinstance(self.f, int):
-            f = types.Real(self.f)
-        elif isinstance(self.f, str):
-            f = types.Real.from_mcnp(self.f)
-
-        s = self.s
-        if isinstance(self.s, types.Real):
-            s = self.s
-        elif isinstance(self.s, float) or isinstance(self.s, int):
-            s = types.Real(self.s)
-        elif isinstance(self.s, str):
-            s = types.Real.from_mcnp(self.s)
-
-        return Factor(
-            a=a,
-            f=f,
-            s=s,
-        )
-
-    @staticmethod
-    def unbuild(ast: Factor):
+    @s.setter
+    def s(self, s: str | int | float | types.Real) -> None:
         """
-        Unbuilds ``Factor`` into ``FactorBuilder``
+        Sets ``s``.
 
-        Returns:
-            ``FactorBuilder`` for ``Factor``.
+        Parameters:
+            s: Addative term.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
-        return FactorBuilder(
-            a=copy.deepcopy(ast.a),
-            f=copy.deepcopy(ast.f),
-            s=copy.deepcopy(ast.s),
-        )
+        if s is not None:
+            if isinstance(s, types.Real):
+                s = s
+            elif isinstance(s, int):
+                s = types.Real(s)
+            elif isinstance(s, float):
+                s = types.Real(s)
+            elif isinstance(s, str):
+                s = types.Real.from_mcnp(s)
+            else:
+                raise TypeError
+
+        self._s: types.Real = s

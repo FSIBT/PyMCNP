@@ -6,17 +6,10 @@ from ..... import classes
 class Test_Dir_1:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.sdef.Dir_1
-        EXAMPLES_VALID = [{'cosine': consts.ast.type.DISTRIBUTIONNUMBER}, {'cosine': None}]
+        EXAMPLES_VALID = [{'cosine': consts.string.type.DISTRIBUTIONNUMBER}, {'cosine': consts.ast.type.DISTRIBUTIONNUMBER}, {'cosine': None}]
         EXAMPLES_INVALID = []
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.data.sdef.Dir_1
         EXAMPLES_VALID = [consts.string.inp.data.sdef.DIR_1]
         EXAMPLES_INVALID = ['hello']
-
-
-class Test_DirBuilder_1:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.sdef.DirBuilder_1
-        EXAMPLES_VALID = [{'cosine': consts.string.type.DISTRIBUTIONNUMBER}, {'cosine': consts.ast.type.DISTRIBUTIONNUMBER}, {'cosine': None}]
-        EXAMPLES_INVALID = []

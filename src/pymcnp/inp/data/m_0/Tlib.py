@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Tlib(_option.MOption_0):
 
     _REGEX = re.compile(rf'\Atlib( {types.String._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, abx: types.String):
+    def __init__(self, abx: str | types.String):
         """
         Initializes ``Tlib``.
 
@@ -36,56 +32,41 @@ class Tlib(_option.MOption_0):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.abx: types.String = abx
+
+    @property
+    def abx(self) -> types.String:
+        """
+        Gets ``abx``.
+
+        Returns:
+            ``abx``.
+        """
+
+        return self._abx
+
+    @abx.setter
+    def abx(self, abx: str | types.String) -> None:
+        """
+        Sets ``abx``.
+
+        Parameters:
+            abx: Default triton table identifier.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if abx is not None:
+            if isinstance(abx, types.String):
+                abx = abx
+            elif isinstance(abx, str):
+                abx = types.String.from_mcnp(abx)
+            else:
+                raise TypeError
+
         if abx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, abx)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                abx,
-            ]
-        )
-
-        self.abx: typing.Final[types.String] = abx
-
-
-@dataclasses.dataclass
-class TlibBuilder(_option.MOptionBuilder_0):
-    """
-    Builds ``Tlib``.
-
-    Attributes:
-        abx: Default triton table identifier.
-    """
-
-    abx: str | types.String
-
-    def build(self):
-        """
-        Builds ``TlibBuilder`` into ``Tlib``.
-
-        Returns:
-            ``Tlib`` for ``TlibBuilder``.
-        """
-
-        abx = self.abx
-        if isinstance(self.abx, types.String):
-            abx = self.abx
-        elif isinstance(self.abx, str):
-            abx = types.String.from_mcnp(self.abx)
-
-        return Tlib(
-            abx=abx,
-        )
-
-    @staticmethod
-    def unbuild(ast: Tlib):
-        """
-        Unbuilds ``Tlib`` into ``TlibBuilder``
-
-        Returns:
-            ``TlibBuilder`` for ``Tlib``.
-        """
-
-        return TlibBuilder(
-            abx=copy.deepcopy(ast.abx),
-        )
+        self._abx: types.String = abx

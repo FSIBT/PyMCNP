@@ -6,17 +6,10 @@ from ..... import classes
 class Test_Nap:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.act.Nap
-        EXAMPLES_VALID = [{'count': consts.ast.type.INTEGER}]
+        EXAMPLES_VALID = [{'count': consts.string.type.INTEGER}, {'count': 1}, {'count': consts.ast.type.INTEGER}]
         EXAMPLES_INVALID = [{'count': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.data.act.Nap
         EXAMPLES_VALID = [consts.string.inp.data.act.NAP]
         EXAMPLES_INVALID = ['hello']
-
-
-class Test_NapBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.act.NapBuilder
-        EXAMPLES_VALID = [{'count': consts.string.type.INTEGER}, {'count': 1}, {'count': consts.ast.type.INTEGER}]
-        EXAMPLES_INVALID = [{'count': None}]

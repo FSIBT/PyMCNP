@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -33,7 +29,9 @@ class F_1(_option.DataOption):
 
     _REGEX = re.compile(r'\A([*+])?f(\d*[5])(?::(\S+))?((?: \S+ \S+ \S+ \S+)+?)( nd)?\Z')
 
-    def __init__(self, suffix: types.Integer, spheres: types.Tuple[types.Sphere], prefix: types.String = None, designator: types.Designator = None, nd: types.String = None):
+    def __init__(
+        self, suffix: str | int | types.Integer, spheres: list[str] | list[types.Sphere], prefix: str | types.String = None, designator: str | types.Designator = None, nd: str | types.String = None
+    ):
         """
         Initializes ``F_1``.
 
@@ -48,114 +46,195 @@ class F_1(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.prefix: types.String = prefix
+        self.suffix: types.Integer = suffix
+        self.designator: types.Designator = designator
+        self.spheres: types.Tuple[types.Sphere] = spheres
+        self.nd: types.String = nd
+
+    @property
+    def prefix(self) -> types.String:
+        """
+        Gets ``prefix``.
+
+        Returns:
+            ``prefix``.
+        """
+
+        return self._prefix
+
+    @prefix.setter
+    def prefix(self, prefix: str | types.String) -> None:
+        """
+        Sets ``prefix``.
+
+        Parameters:
+            prefix: Star prefix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if prefix is not None:
+            if isinstance(prefix, types.String):
+                prefix = prefix
+            elif isinstance(prefix, str):
+                prefix = types.String.from_mcnp(prefix)
+            else:
+                raise TypeError
+
         if prefix is not None and prefix not in {'*', '+'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
+
+        self._prefix: types.String = prefix
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Data card option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
         if suffix is None or not (suffix <= 99_999_999 and suffix % 10 == 5):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def designator(self) -> types.Designator:
+        """
+        Gets ``designator``.
+
+        Returns:
+            ``designator``.
+        """
+
+        return self._designator
+
+    @designator.setter
+    def designator(self, designator: str | types.Designator) -> None:
+        """
+        Sets ``designator``.
+
+        Parameters:
+            designator: Data card particle designator.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if designator is not None:
+            if isinstance(designator, types.Designator):
+                designator = designator
+            elif isinstance(designator, str):
+                designator = types.Designator.from_mcnp(designator)
+            else:
+                raise TypeError
+
+        self._designator: types.Designator = designator
+
+    @property
+    def spheres(self) -> types.Tuple[types.Sphere]:
+        """
+        Gets ``spheres``.
+
+        Returns:
+            ``spheres``.
+        """
+
+        return self._spheres
+
+    @spheres.setter
+    def spheres(self, spheres: list[str] | list[types.Sphere]) -> None:
+        """
+        Sets ``spheres``.
+
+        Parameters:
+            spheres: Detector points.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if spheres is not None:
+            array = []
+            for item in spheres:
+                if isinstance(item, types.Sphere):
+                    array.append(item)
+                elif isinstance(item, str):
+                    array.append(types.Sphere.from_mcnp(item))
+                else:
+                    raise TypeError
+            spheres = types.Tuple(array)
+
         if spheres is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres)
+
+        self._spheres: types.Tuple[types.Sphere] = spheres
+
+    @property
+    def nd(self) -> types.String:
+        """
+        Gets ``nd``.
+
+        Returns:
+            ``nd``.
+        """
+
+        return self._nd
+
+    @nd.setter
+    def nd(self, nd: str | types.String) -> None:
+        """
+        Sets ``nd``.
+
+        Parameters:
+            nd: Total/average specified surfaces/cells option.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if nd is not None:
+            if isinstance(nd, types.String):
+                nd = nd
+            elif isinstance(nd, str):
+                nd = types.String.from_mcnp(nd)
+            else:
+                raise TypeError
+
         if nd is not None and not (nd == 'nd'):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nd)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                spheres,
-                nd,
-            ]
-        )
-
-        self.prefix: typing.Final[types.String] = prefix
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.designator: typing.Final[types.Designator] = designator
-        self.spheres: typing.Final[types.Tuple[types.Sphere]] = spheres
-        self.nd: typing.Final[types.String] = nd
-
-
-@dataclasses.dataclass
-class FBuilder_1(_option.DataOptionBuilder):
-    """
-    Builds ``F_1``.
-
-    Attributes:
-        prefix: Star prefix.
-        suffix: Data card option suffix.
-        designator: Data card particle designator.
-        spheres: Detector points.
-        nd: Total/average specified surfaces/cells option.
-    """
-
-    suffix: str | int | types.Integer
-    spheres: list[str] | list[types.Sphere]
-    prefix: str | types.String = None
-    designator: str | types.Designator = None
-    nd: str | types.String = None
-
-    def build(self):
-        """
-        Builds ``FBuilder_1`` into ``F_1``.
-
-        Returns:
-            ``F_1`` for ``FBuilder_1``.
-        """
-
-        prefix = self.prefix
-        if isinstance(self.prefix, types.String):
-            prefix = self.prefix
-        elif isinstance(self.prefix, str):
-            prefix = types.String.from_mcnp(self.prefix)
-
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
-
-        designator = self.designator
-        if isinstance(self.designator, types.Designator):
-            designator = self.designator
-        elif isinstance(self.designator, str):
-            designator = types.Designator.from_mcnp(self.designator)
-
-        if self.spheres:
-            spheres = []
-            for item in self.spheres:
-                if isinstance(item, types.Sphere):
-                    spheres.append(item)
-                elif isinstance(item, str):
-                    spheres.append(types.Sphere.from_mcnp(item))
-            spheres = types.Tuple(spheres)
-        else:
-            spheres = None
-
-        nd = self.nd
-        if isinstance(self.nd, types.String):
-            nd = self.nd
-        elif isinstance(self.nd, str):
-            nd = types.String.from_mcnp(self.nd)
-
-        return F_1(
-            prefix=prefix,
-            suffix=suffix,
-            designator=designator,
-            spheres=spheres,
-            nd=nd,
-        )
-
-    @staticmethod
-    def unbuild(ast: F_1):
-        """
-        Unbuilds ``F_1`` into ``FBuilder_1``
-
-        Returns:
-            ``FBuilder_1`` for ``F_1``.
-        """
-
-        return FBuilder_1(
-            prefix=copy.deepcopy(ast.prefix),
-            suffix=copy.deepcopy(ast.suffix),
-            designator=copy.deepcopy(ast.designator),
-            spheres=copy.deepcopy(ast.spheres),
-            nd=copy.deepcopy(ast.nd),
-        )
+        self._nd: types.String = nd

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -29,7 +25,7 @@ class Ds_0(_option.DataOption):
 
     _REGEX = re.compile(rf'\Ads(\d+)( [hls])?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, suffix: types.Integer, js: types.Tuple[types.Real], option: types.String = None):
+    def __init__(self, suffix: str | int | types.Integer, js: list[str] | list[float] | list[types.Real], option: str | types.String = None):
         """
         Initializes ``Ds_0``.
 
@@ -42,92 +38,126 @@ class Ds_0(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.suffix: types.Integer = suffix
+        self.option: types.String = option
+        self.js: types.Tuple[types.Real] = js
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Data card option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
         if suffix is None or not (suffix >= 1 and suffix <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def option(self) -> types.String:
+        """
+        Gets ``option``.
+
+        Returns:
+            ``option``.
+        """
+
+        return self._option
+
+    @option.setter
+    def option(self, option: str | types.String) -> None:
+        """
+        Sets ``option``.
+
+        Parameters:
+            option: Dependent variable setting.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if option is not None:
+            if isinstance(option, types.String):
+                option = option
+            elif isinstance(option, str):
+                option = types.String.from_mcnp(option)
+            else:
+                raise TypeError
+
         if option is not None and option not in {'h', 'l', 's'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, option)
+
+        self._option: types.String = option
+
+    @property
+    def js(self) -> types.Tuple[types.Real]:
+        """
+        Gets ``js``.
+
+        Returns:
+            ``js``.
+        """
+
+        return self._js
+
+    @js.setter
+    def js(self, js: list[str] | list[float] | list[types.Real]) -> None:
+        """
+        Sets ``js``.
+
+        Parameters:
+            js: Depdented source dependent variables.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if js is not None:
+            array = []
+            for item in js:
+                if isinstance(item, types.Real):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Real(item))
+                elif isinstance(item, float):
+                    array.append(types.Real(item))
+                elif isinstance(item, str):
+                    array.append(types.Real.from_mcnp(item))
+                else:
+                    raise TypeError
+            js = types.Tuple(array)
+
         if js is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, js)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                option,
-                js,
-            ]
-        )
-
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.option: typing.Final[types.String] = option
-        self.js: typing.Final[types.Tuple[types.Real]] = js
-
-
-@dataclasses.dataclass
-class DsBuilder_0(_option.DataOptionBuilder):
-    """
-    Builds ``Ds_0``.
-
-    Attributes:
-        suffix: Data card option suffix.
-        option: Dependent variable setting.
-        js: Depdented source dependent variables.
-    """
-
-    suffix: str | int | types.Integer
-    js: list[str] | list[float] | list[types.Real]
-    option: str | types.String = None
-
-    def build(self):
-        """
-        Builds ``DsBuilder_0`` into ``Ds_0``.
-
-        Returns:
-            ``Ds_0`` for ``DsBuilder_0``.
-        """
-
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
-
-        option = self.option
-        if isinstance(self.option, types.String):
-            option = self.option
-        elif isinstance(self.option, str):
-            option = types.String.from_mcnp(self.option)
-
-        if self.js:
-            js = []
-            for item in self.js:
-                if isinstance(item, types.Real):
-                    js.append(item)
-                elif isinstance(item, float) or isinstance(item, int):
-                    js.append(types.Real(item))
-                elif isinstance(item, str):
-                    js.append(types.Real.from_mcnp(item))
-            js = types.Tuple(js)
-        else:
-            js = None
-
-        return Ds_0(
-            suffix=suffix,
-            option=option,
-            js=js,
-        )
-
-    @staticmethod
-    def unbuild(ast: Ds_0):
-        """
-        Unbuilds ``Ds_0`` into ``DsBuilder_0``
-
-        Returns:
-            ``DsBuilder_0`` for ``Ds_0``.
-        """
-
-        return DsBuilder_0(
-            suffix=copy.deepcopy(ast.suffix),
-            option=copy.deepcopy(ast.option),
-            js=copy.deepcopy(ast.js),
-        )
+        self._js: types.Tuple[types.Real] = js

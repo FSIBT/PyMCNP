@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Max(_option.PtracOption):
 
     _REGEX = re.compile(rf'\Amax( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, events: types.Integer):
+    def __init__(self, events: str | int | types.Integer):
         """
         Initializes ``Max``.
 
@@ -36,58 +32,43 @@ class Max(_option.PtracOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.events: types.Integer = events
+
+    @property
+    def events(self) -> types.Integer:
+        """
+        Gets ``events``.
+
+        Returns:
+            ``events``.
+        """
+
+        return self._events
+
+    @events.setter
+    def events(self, events: str | int | types.Integer) -> None:
+        """
+        Sets ``events``.
+
+        Parameters:
+            events: Maximum number of events to write.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if events is not None:
+            if isinstance(events, types.Integer):
+                events = events
+            elif isinstance(events, int):
+                events = types.Integer(events)
+            elif isinstance(events, str):
+                events = types.Integer.from_mcnp(events)
+            else:
+                raise TypeError
+
         if events is None or not (events != 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, events)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                events,
-            ]
-        )
-
-        self.events: typing.Final[types.Integer] = events
-
-
-@dataclasses.dataclass
-class MaxBuilder(_option.PtracOptionBuilder):
-    """
-    Builds ``Max``.
-
-    Attributes:
-        events: Maximum number of events to write.
-    """
-
-    events: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``MaxBuilder`` into ``Max``.
-
-        Returns:
-            ``Max`` for ``MaxBuilder``.
-        """
-
-        events = self.events
-        if isinstance(self.events, types.Integer):
-            events = self.events
-        elif isinstance(self.events, int):
-            events = types.Integer(self.events)
-        elif isinstance(self.events, str):
-            events = types.Integer.from_mcnp(self.events)
-
-        return Max(
-            events=events,
-        )
-
-    @staticmethod
-    def unbuild(ast: Max):
-        """
-        Unbuilds ``Max`` into ``MaxBuilder``
-
-        Returns:
-            ``MaxBuilder`` for ``Max``.
-        """
-
-        return MaxBuilder(
-            events=copy.deepcopy(ast.events),
-        )
+        self._events: types.Integer = events

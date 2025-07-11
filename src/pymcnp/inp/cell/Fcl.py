@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -27,7 +23,7 @@ class Fcl(_option.CellOption):
 
     _REGEX = re.compile(rf'\Afcl:(\S+)( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, designator: types.Designator, control: types.Real):
+    def __init__(self, designator: str | types.Designator, control: str | int | float | types.Real):
         """
         Initializes ``Fcl``.
 
@@ -39,71 +35,83 @@ class Fcl(_option.CellOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.designator: types.Designator = designator
+        self.control: types.Real = control
+
+    @property
+    def designator(self) -> types.Designator:
+        """
+        Gets ``designator``.
+
+        Returns:
+            ``designator``.
+        """
+
+        return self._designator
+
+    @designator.setter
+    def designator(self, designator: str | types.Designator) -> None:
+        """
+        Sets ``designator``.
+
+        Parameters:
+            designator: Cell particle designator.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if designator is not None:
+            if isinstance(designator, types.Designator):
+                designator = designator
+            elif isinstance(designator, str):
+                designator = types.Designator.from_mcnp(designator)
+            else:
+                raise TypeError
+
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
+
+        self._designator: types.Designator = designator
+
+    @property
+    def control(self) -> types.Real:
+        """
+        Gets ``control``.
+
+        Returns:
+            ``control``.
+        """
+
+        return self._control
+
+    @control.setter
+    def control(self, control: str | int | float | types.Real) -> None:
+        """
+        Sets ``control``.
+
+        Parameters:
+            control: Cell forced-collision control.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if control is not None:
+            if isinstance(control, types.Real):
+                control = control
+            elif isinstance(control, int):
+                control = types.Real(control)
+            elif isinstance(control, float):
+                control = types.Real(control)
+            elif isinstance(control, str):
+                control = types.Real.from_mcnp(control)
+            else:
+                raise TypeError
+
         if control is None or not (control >= -1 and control <= 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, control)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                control,
-            ]
-        )
-
-        self.designator: typing.Final[types.Designator] = designator
-        self.control: typing.Final[types.Real] = control
-
-
-@dataclasses.dataclass
-class FclBuilder(_option.CellOptionBuilder):
-    """
-    Builds ``Fcl``.
-
-    Attributes:
-        designator: Cell particle designator.
-        control: Cell forced-collision control.
-    """
-
-    designator: str | types.Designator
-    control: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``FclBuilder`` into ``Fcl``.
-
-        Returns:
-            ``Fcl`` for ``FclBuilder``.
-        """
-
-        designator = self.designator
-        if isinstance(self.designator, types.Designator):
-            designator = self.designator
-        elif isinstance(self.designator, str):
-            designator = types.Designator.from_mcnp(self.designator)
-
-        control = self.control
-        if isinstance(self.control, types.Real):
-            control = self.control
-        elif isinstance(self.control, float) or isinstance(self.control, int):
-            control = types.Real(self.control)
-        elif isinstance(self.control, str):
-            control = types.Real.from_mcnp(self.control)
-
-        return Fcl(
-            designator=designator,
-            control=control,
-        )
-
-    @staticmethod
-    def unbuild(ast: Fcl):
-        """
-        Unbuilds ``Fcl`` into ``FclBuilder``
-
-        Returns:
-            ``FclBuilder`` for ``Fcl``.
-        """
-
-        return FclBuilder(
-            designator=copy.deepcopy(ast.designator),
-            control=copy.deepcopy(ast.control),
-        )
+        self._control: types.Real = control

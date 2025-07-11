@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -25,7 +21,7 @@ class Cosy(_option.CellOption):
 
     _REGEX = re.compile(rf'\Acosy( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, number: types.Integer):
+    def __init__(self, number: str | int | types.Integer):
         """
         Initializes ``Cosy``.
 
@@ -36,58 +32,43 @@ class Cosy(_option.CellOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.number: types.Integer = number
+
+    @property
+    def number(self) -> types.Integer:
+        """
+        Gets ``number``.
+
+        Returns:
+            ``number``.
+        """
+
+        return self._number
+
+    @number.setter
+    def number(self, number: str | int | types.Integer) -> None:
+        """
+        Sets ``number``.
+
+        Parameters:
+            number: Cell cosy map number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if number is not None:
+            if isinstance(number, types.Integer):
+                number = number
+            elif isinstance(number, int):
+                number = types.Integer(number)
+            elif isinstance(number, str):
+                number = types.Integer.from_mcnp(number)
+            else:
+                raise TypeError
+
         if number is None or number not in {1, 2, 3, 4, 5, 6}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                number,
-            ]
-        )
-
-        self.number: typing.Final[types.Integer] = number
-
-
-@dataclasses.dataclass
-class CosyBuilder(_option.CellOptionBuilder):
-    """
-    Builds ``Cosy``.
-
-    Attributes:
-        number: Cell cosy map number.
-    """
-
-    number: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``CosyBuilder`` into ``Cosy``.
-
-        Returns:
-            ``Cosy`` for ``CosyBuilder``.
-        """
-
-        number = self.number
-        if isinstance(self.number, types.Integer):
-            number = self.number
-        elif isinstance(self.number, int):
-            number = types.Integer(self.number)
-        elif isinstance(self.number, str):
-            number = types.Integer.from_mcnp(self.number)
-
-        return Cosy(
-            number=number,
-        )
-
-    @staticmethod
-    def unbuild(ast: Cosy):
-        """
-        Unbuilds ``Cosy`` into ``CosyBuilder``
-
-        Returns:
-            ``CosyBuilder`` for ``Cosy``.
-        """
-
-        return CosyBuilder(
-            number=copy.deepcopy(ast.number),
-        )
+        self._number: types.Integer = number

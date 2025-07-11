@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -25,7 +21,7 @@ class Uran(_option.DataOption):
 
     _REGEX = re.compile(r'\Auran((?: \S+ \S+ \S+ \S+)+?)\Z')
 
-    def __init__(self, transformations: types.Tuple[types.Stochastic]):
+    def __init__(self, transformations: list[str] | list[types.Stochastic]):
         """
         Initializes ``Uran``.
 
@@ -36,61 +32,44 @@ class Uran(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.transformations: types.Tuple[types.Stochastic] = transformations
+
+    @property
+    def transformations(self) -> types.Tuple[types.Stochastic]:
+        """
+        Gets ``transformations``.
+
+        Returns:
+            ``transformations``.
+        """
+
+        return self._transformations
+
+    @transformations.setter
+    def transformations(self, transformations: list[str] | list[types.Stochastic]) -> None:
+        """
+        Sets ``transformations``.
+
+        Parameters:
+            transformations: Tuple of stochastic transformations.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if transformations is not None:
+            array = []
+            for item in transformations:
+                if isinstance(item, types.Stochastic):
+                    array.append(item)
+                elif isinstance(item, str):
+                    array.append(types.Stochastic.from_mcnp(item))
+                else:
+                    raise TypeError
+            transformations = types.Tuple(array)
+
         if transformations is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, transformations)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                transformations,
-            ]
-        )
-
-        self.transformations: typing.Final[types.Tuple[types.Stochastic]] = transformations
-
-
-@dataclasses.dataclass
-class UranBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Uran``.
-
-    Attributes:
-        transformations: Tuple of stochastic transformations.
-    """
-
-    transformations: list[str] | list[types.Stochastic]
-
-    def build(self):
-        """
-        Builds ``UranBuilder`` into ``Uran``.
-
-        Returns:
-            ``Uran`` for ``UranBuilder``.
-        """
-
-        if self.transformations:
-            transformations = []
-            for item in self.transformations:
-                if isinstance(item, types.Stochastic):
-                    transformations.append(item)
-                elif isinstance(item, str):
-                    transformations.append(types.Stochastic.from_mcnp(item))
-            transformations = types.Tuple(transformations)
-        else:
-            transformations = None
-
-        return Uran(
-            transformations=transformations,
-        )
-
-    @staticmethod
-    def unbuild(ast: Uran):
-        """
-        Unbuilds ``Uran`` into ``UranBuilder``
-
-        Returns:
-            ``UranBuilder`` for ``Uran``.
-        """
-
-        return UranBuilder(
-            transformations=copy.deepcopy(ast.transformations),
-        )
+        self._transformations: types.Tuple[types.Stochastic] = transformations

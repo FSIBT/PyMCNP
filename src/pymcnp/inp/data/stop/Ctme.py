@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Ctme(_option.StopOption):
 
     _REGEX = re.compile(rf'\Actme( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, tme: types.Real):
+    def __init__(self, tme: str | int | float | types.Real):
         """
         Initializes ``Ctme``.
 
@@ -36,58 +32,45 @@ class Ctme(_option.StopOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.tme: types.Real = tme
+
+    @property
+    def tme(self) -> types.Real:
+        """
+        Gets ``tme``.
+
+        Returns:
+            ``tme``.
+        """
+
+        return self._tme
+
+    @tme.setter
+    def tme(self, tme: str | int | float | types.Real) -> None:
+        """
+        Sets ``tme``.
+
+        Parameters:
+            tme: Computer time before stop.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if tme is not None:
+            if isinstance(tme, types.Real):
+                tme = tme
+            elif isinstance(tme, int):
+                tme = types.Real(tme)
+            elif isinstance(tme, float):
+                tme = types.Real(tme)
+            elif isinstance(tme, str):
+                tme = types.Real.from_mcnp(tme)
+            else:
+                raise TypeError
+
         if tme is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tme)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                tme,
-            ]
-        )
-
-        self.tme: typing.Final[types.Real] = tme
-
-
-@dataclasses.dataclass
-class CtmeBuilder(_option.StopOptionBuilder):
-    """
-    Builds ``Ctme``.
-
-    Attributes:
-        tme: Computer time before stop.
-    """
-
-    tme: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``CtmeBuilder`` into ``Ctme``.
-
-        Returns:
-            ``Ctme`` for ``CtmeBuilder``.
-        """
-
-        tme = self.tme
-        if isinstance(self.tme, types.Real):
-            tme = self.tme
-        elif isinstance(self.tme, float) or isinstance(self.tme, int):
-            tme = types.Real(self.tme)
-        elif isinstance(self.tme, str):
-            tme = types.Real.from_mcnp(self.tme)
-
-        return Ctme(
-            tme=tme,
-        )
-
-    @staticmethod
-    def unbuild(ast: Ctme):
-        """
-        Unbuilds ``Ctme`` into ``CtmeBuilder``
-
-        Returns:
-            ``CtmeBuilder`` for ``Ctme``.
-        """
-
-        return CtmeBuilder(
-            tme=copy.deepcopy(ast.tme),
-        )
+        self._tme: types.Real = tme

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -37,7 +33,15 @@ class Phys_1(_option.DataOption):
         rf'\Aphys:p( {types.Real._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?\Z'
     )
 
-    def __init__(self, emcpf: types.Real = None, ides: types.Integer = None, nocoh: types.Integer = None, ispn: types.Integer = None, nodop: types.Integer = None, fism: types.Integer = None):
+    def __init__(
+        self,
+        emcpf: str | int | float | types.Real = None,
+        ides: str | int | types.Integer = None,
+        nocoh: str | int | types.Integer = None,
+        ispn: str | int | types.Integer = None,
+        nodop: str | int | types.Integer = None,
+        fism: str | int | types.Integer = None,
+    ):
         """
         Initializes ``Phys_1``.
 
@@ -53,134 +57,239 @@ class Phys_1(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.emcpf: types.Real = emcpf
+        self.ides: types.Integer = ides
+        self.nocoh: types.Integer = nocoh
+        self.ispn: types.Integer = ispn
+        self.nodop: types.Integer = nodop
+        self.fism: types.Integer = fism
+
+    @property
+    def emcpf(self) -> types.Real:
+        """
+        Gets ``emcpf``.
+
+        Returns:
+            ``emcpf``.
+        """
+
+        return self._emcpf
+
+    @emcpf.setter
+    def emcpf(self, emcpf: str | int | float | types.Real) -> None:
+        """
+        Sets ``emcpf``.
+
+        Parameters:
+            emcpf: Upper energy limit for photon treatment.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if emcpf is not None:
+            if isinstance(emcpf, types.Real):
+                emcpf = emcpf
+            elif isinstance(emcpf, int):
+                emcpf = types.Real(emcpf)
+            elif isinstance(emcpf, float):
+                emcpf = types.Real(emcpf)
+            elif isinstance(emcpf, str):
+                emcpf = types.Real.from_mcnp(emcpf)
+            else:
+                raise TypeError
+
+        self._emcpf: types.Real = emcpf
+
+    @property
+    def ides(self) -> types.Integer:
+        """
+        Gets ``ides``.
+
+        Returns:
+            ``ides``.
+        """
+
+        return self._ides
+
+    @ides.setter
+    def ides(self, ides: str | int | types.Integer) -> None:
+        """
+        Sets ``ides``.
+
+        Parameters:
+            ides: Generation of elections by photon controls.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ides is not None:
+            if isinstance(ides, types.Integer):
+                ides = ides
+            elif isinstance(ides, int):
+                ides = types.Integer(ides)
+            elif isinstance(ides, str):
+                ides = types.Integer.from_mcnp(ides)
+            else:
+                raise TypeError
+
         if ides is not None and not (isinstance(ides.value, types.Jump) or ides in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ides)
+
+        self._ides: types.Integer = ides
+
+    @property
+    def nocoh(self) -> types.Integer:
+        """
+        Gets ``nocoh``.
+
+        Returns:
+            ``nocoh``.
+        """
+
+        return self._nocoh
+
+    @nocoh.setter
+    def nocoh(self, nocoh: str | int | types.Integer) -> None:
+        """
+        Sets ``nocoh``.
+
+        Parameters:
+            nocoh: Coherent Thomson scattering controls.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if nocoh is not None:
+            if isinstance(nocoh, types.Integer):
+                nocoh = nocoh
+            elif isinstance(nocoh, int):
+                nocoh = types.Integer(nocoh)
+            elif isinstance(nocoh, str):
+                nocoh = types.Integer.from_mcnp(nocoh)
+            else:
+                raise TypeError
+
         if nocoh is not None and not (isinstance(nocoh.value, types.Jump) or nocoh in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nocoh)
+
+        self._nocoh: types.Integer = nocoh
+
+    @property
+    def ispn(self) -> types.Integer:
+        """
+        Gets ``ispn``.
+
+        Returns:
+            ``ispn``.
+        """
+
+        return self._ispn
+
+    @ispn.setter
+    def ispn(self, ispn: str | int | types.Integer) -> None:
+        """
+        Sets ``ispn``.
+
+        Parameters:
+            ispn: Photonuclear particle production controls.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ispn is not None:
+            if isinstance(ispn, types.Integer):
+                ispn = ispn
+            elif isinstance(ispn, int):
+                ispn = types.Integer(ispn)
+            elif isinstance(ispn, str):
+                ispn = types.Integer.from_mcnp(ispn)
+            else:
+                raise TypeError
+
         if ispn is not None and not (isinstance(ispn.value, types.Jump) or ispn in {-1, 0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ispn)
+
+        self._ispn: types.Integer = ispn
+
+    @property
+    def nodop(self) -> types.Integer:
+        """
+        Gets ``nodop``.
+
+        Returns:
+            ``nodop``.
+        """
+
+        return self._nodop
+
+    @nodop.setter
+    def nodop(self, nodop: str | int | types.Integer) -> None:
+        """
+        Sets ``nodop``.
+
+        Parameters:
+            nodop: Photon Doppler energy broadening controls.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if nodop is not None:
+            if isinstance(nodop, types.Integer):
+                nodop = nodop
+            elif isinstance(nodop, int):
+                nodop = types.Integer(nodop)
+            elif isinstance(nodop, str):
+                nodop = types.Integer.from_mcnp(nodop)
+            else:
+                raise TypeError
+
         if nodop is not None and not (isinstance(nodop.value, types.Jump) or nodop in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nodop)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                emcpf,
-                ides,
-                nocoh,
-                ispn,
-                nodop,
-                fism,
-            ]
-        )
+        self._nodop: types.Integer = nodop
 
-        self.emcpf: typing.Final[types.Real] = emcpf
-        self.ides: typing.Final[types.Integer] = ides
-        self.nocoh: typing.Final[types.Integer] = nocoh
-        self.ispn: typing.Final[types.Integer] = ispn
-        self.nodop: typing.Final[types.Integer] = nodop
-        self.fism: typing.Final[types.Integer] = fism
-
-
-@dataclasses.dataclass
-class PhysBuilder_1(_option.DataOptionBuilder):
-    """
-    Builds ``Phys_1``.
-
-    Attributes:
-        emcpf: Upper energy limit for photon treatment.
-        ides: Generation of elections by photon controls.
-        nocoh: Coherent Thomson scattering controls.
-        ispn: Photonuclear particle production controls.
-        nodop: Photon Doppler energy broadening controls.
-        fism: Selection of photofission method controls.
-    """
-
-    emcpf: str | float | types.Real = None
-    ides: str | int | types.Integer = None
-    nocoh: str | int | types.Integer = None
-    ispn: str | int | types.Integer = None
-    nodop: str | int | types.Integer = None
-    fism: str | int | types.Integer = None
-
-    def build(self):
+    @property
+    def fism(self) -> types.Integer:
         """
-        Builds ``PhysBuilder_1`` into ``Phys_1``.
+        Gets ``fism``.
 
         Returns:
-            ``Phys_1`` for ``PhysBuilder_1``.
+            ``fism``.
         """
 
-        emcpf = self.emcpf
-        if isinstance(self.emcpf, types.Real):
-            emcpf = self.emcpf
-        elif isinstance(self.emcpf, float) or isinstance(self.emcpf, int):
-            emcpf = types.Real(self.emcpf)
-        elif isinstance(self.emcpf, str):
-            emcpf = types.Real.from_mcnp(self.emcpf)
+        return self._fism
 
-        ides = self.ides
-        if isinstance(self.ides, types.Integer):
-            ides = self.ides
-        elif isinstance(self.ides, int):
-            ides = types.Integer(self.ides)
-        elif isinstance(self.ides, str):
-            ides = types.Integer.from_mcnp(self.ides)
-
-        nocoh = self.nocoh
-        if isinstance(self.nocoh, types.Integer):
-            nocoh = self.nocoh
-        elif isinstance(self.nocoh, int):
-            nocoh = types.Integer(self.nocoh)
-        elif isinstance(self.nocoh, str):
-            nocoh = types.Integer.from_mcnp(self.nocoh)
-
-        ispn = self.ispn
-        if isinstance(self.ispn, types.Integer):
-            ispn = self.ispn
-        elif isinstance(self.ispn, int):
-            ispn = types.Integer(self.ispn)
-        elif isinstance(self.ispn, str):
-            ispn = types.Integer.from_mcnp(self.ispn)
-
-        nodop = self.nodop
-        if isinstance(self.nodop, types.Integer):
-            nodop = self.nodop
-        elif isinstance(self.nodop, int):
-            nodop = types.Integer(self.nodop)
-        elif isinstance(self.nodop, str):
-            nodop = types.Integer.from_mcnp(self.nodop)
-
-        fism = self.fism
-        if isinstance(self.fism, types.Integer):
-            fism = self.fism
-        elif isinstance(self.fism, int):
-            fism = types.Integer(self.fism)
-        elif isinstance(self.fism, str):
-            fism = types.Integer.from_mcnp(self.fism)
-
-        return Phys_1(
-            emcpf=emcpf,
-            ides=ides,
-            nocoh=nocoh,
-            ispn=ispn,
-            nodop=nodop,
-            fism=fism,
-        )
-
-    @staticmethod
-    def unbuild(ast: Phys_1):
+    @fism.setter
+    def fism(self, fism: str | int | types.Integer) -> None:
         """
-        Unbuilds ``Phys_1`` into ``PhysBuilder_1``
+        Sets ``fism``.
 
-        Returns:
-            ``PhysBuilder_1`` for ``Phys_1``.
+        Parameters:
+            fism: Selection of photofission method controls.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
-        return PhysBuilder_1(
-            emcpf=copy.deepcopy(ast.emcpf),
-            ides=copy.deepcopy(ast.ides),
-            nocoh=copy.deepcopy(ast.nocoh),
-            ispn=copy.deepcopy(ast.ispn),
-            nodop=copy.deepcopy(ast.nodop),
-            fism=copy.deepcopy(ast.fism),
-        )
+        if fism is not None:
+            if isinstance(fism, types.Integer):
+                fism = fism
+            elif isinstance(fism, int):
+                fism = types.Integer(fism)
+            elif isinstance(fism, str):
+                fism = types.Integer.from_mcnp(fism)
+            else:
+                raise TypeError
+
+        self._fism: types.Integer = fism

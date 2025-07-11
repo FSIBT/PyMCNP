@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Axs(_option.SsrOption):
 
     _REGEX = re.compile(rf'\Aaxs((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, cosines: types.Tuple[types.Real]):
+    def __init__(self, cosines: list[str] | list[float] | list[types.Real]):
         """
         Initializes ``Axs``.
 
@@ -36,63 +32,48 @@ class Axs(_option.SsrOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.cosines: types.Tuple[types.Real] = cosines
+
+    @property
+    def cosines(self) -> types.Tuple[types.Real]:
+        """
+        Gets ``cosines``.
+
+        Returns:
+            ``cosines``.
+        """
+
+        return self._cosines
+
+    @cosines.setter
+    def cosines(self, cosines: list[str] | list[float] | list[types.Real]) -> None:
+        """
+        Sets ``cosines``.
+
+        Parameters:
+            cosines: Direction cosines defining.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if cosines is not None:
+            array = []
+            for item in cosines:
+                if isinstance(item, types.Real):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Real(item))
+                elif isinstance(item, float):
+                    array.append(types.Real(item))
+                elif isinstance(item, str):
+                    array.append(types.Real.from_mcnp(item))
+                else:
+                    raise TypeError
+            cosines = types.Tuple(array)
+
         if cosines is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cosines)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                cosines,
-            ]
-        )
-
-        self.cosines: typing.Final[types.Tuple[types.Real]] = cosines
-
-
-@dataclasses.dataclass
-class AxsBuilder(_option.SsrOptionBuilder):
-    """
-    Builds ``Axs``.
-
-    Attributes:
-        cosines: Direction cosines defining.
-    """
-
-    cosines: list[str] | list[float] | list[types.Real]
-
-    def build(self):
-        """
-        Builds ``AxsBuilder`` into ``Axs``.
-
-        Returns:
-            ``Axs`` for ``AxsBuilder``.
-        """
-
-        if self.cosines:
-            cosines = []
-            for item in self.cosines:
-                if isinstance(item, types.Real):
-                    cosines.append(item)
-                elif isinstance(item, float) or isinstance(item, int):
-                    cosines.append(types.Real(item))
-                elif isinstance(item, str):
-                    cosines.append(types.Real.from_mcnp(item))
-            cosines = types.Tuple(cosines)
-        else:
-            cosines = None
-
-        return Axs(
-            cosines=cosines,
-        )
-
-    @staticmethod
-    def unbuild(ast: Axs):
-        """
-        Unbuilds ``Axs`` into ``AxsBuilder``
-
-        Returns:
-            ``AxsBuilder`` for ``Axs``.
-        """
-
-        return AxsBuilder(
-            cosines=copy.deepcopy(ast.cosines),
-        )
+        self._cosines: types.Tuple[types.Real] = cosines

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from .....utils import types
@@ -25,7 +21,7 @@ class Tsaepsi(_option.BlockOption):
 
     _REGEX = re.compile(rf'\Atsaepsi( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, setting: types.Real):
+    def __init__(self, setting: str | int | float | types.Real):
         """
         Initializes ``Tsaepsi``.
 
@@ -36,58 +32,45 @@ class Tsaepsi(_option.BlockOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.setting: types.Real = setting
+
+    @property
+    def setting(self) -> types.Real:
+        """
+        Gets ``setting``.
+
+        Returns:
+            ``setting``.
+        """
+
+        return self._setting
+
+    @setting.setter
+    def setting(self, setting: str | int | float | types.Real) -> None:
+        """
+        Sets ``setting``.
+
+        Parameters:
+            setting: Convergence criteria for TSA sweeps.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if setting is not None:
+            if isinstance(setting, types.Real):
+                setting = setting
+            elif isinstance(setting, int):
+                setting = types.Real(setting)
+            elif isinstance(setting, float):
+                setting = types.Real(setting)
+            elif isinstance(setting, str):
+                setting = types.Real.from_mcnp(setting)
+            else:
+                raise TypeError
+
         if setting is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                setting,
-            ]
-        )
-
-        self.setting: typing.Final[types.Real] = setting
-
-
-@dataclasses.dataclass
-class TsaepsiBuilder(_option.BlockOptionBuilder):
-    """
-    Builds ``Tsaepsi``.
-
-    Attributes:
-        setting: Convergence criteria for TSA sweeps.
-    """
-
-    setting: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``TsaepsiBuilder`` into ``Tsaepsi``.
-
-        Returns:
-            ``Tsaepsi`` for ``TsaepsiBuilder``.
-        """
-
-        setting = self.setting
-        if isinstance(self.setting, types.Real):
-            setting = self.setting
-        elif isinstance(self.setting, float) or isinstance(self.setting, int):
-            setting = types.Real(self.setting)
-        elif isinstance(self.setting, str):
-            setting = types.Real.from_mcnp(self.setting)
-
-        return Tsaepsi(
-            setting=setting,
-        )
-
-    @staticmethod
-    def unbuild(ast: Tsaepsi):
-        """
-        Unbuilds ``Tsaepsi`` into ``TsaepsiBuilder``
-
-        Returns:
-            ``TsaepsiBuilder`` for ``Tsaepsi``.
-        """
-
-        return TsaepsiBuilder(
-            setting=copy.deepcopy(ast.setting),
-        )
+        self._setting: types.Real = setting

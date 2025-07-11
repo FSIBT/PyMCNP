@@ -1,7 +1,5 @@
 import re
-import copy
 import typing
-import dataclasses
 
 from . import data
 from ._card import Card
@@ -52,6 +50,7 @@ class Data(Card):
         return source
 
 
+'''
 @dataclasses.dataclass
 class DataBuilder:
     """
@@ -240,3 +239,4 @@ class DataBuilder:
         """
 
         return DataBuilder(option=copy.deepcopy(ast.option))
+'''

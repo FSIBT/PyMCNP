@@ -5,7 +5,6 @@ from .utils import errors
 from .cli.run import Run
 from . import inp
 from .Inp import Inp
-from .Inp import InpBuilder
 from . import ptrac
 from .Ptrac import Ptrac
 from .PtracFiltered import PtracFiltered

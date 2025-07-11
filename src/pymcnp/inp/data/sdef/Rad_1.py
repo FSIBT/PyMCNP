@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Rad_1(_option.SdefOption):
 
     _REGEX = re.compile(rf'\Arad( {types.DistributionNumber._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, radial_distance: types.DistributionNumber):
+    def __init__(self, radial_distance: str | types.DistributionNumber):
         """
         Initializes ``Rad_1``.
 
@@ -36,56 +32,41 @@ class Rad_1(_option.SdefOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.radial_distance: types.DistributionNumber = radial_distance
+
+    @property
+    def radial_distance(self) -> types.DistributionNumber:
+        """
+        Gets ``radial_distance``.
+
+        Returns:
+            ``radial_distance``.
+        """
+
+        return self._radial_distance
+
+    @radial_distance.setter
+    def radial_distance(self, radial_distance: str | types.DistributionNumber) -> None:
+        """
+        Sets ``radial_distance``.
+
+        Parameters:
+            radial_distance: Radial distance fo the position from POS or AXS.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if radial_distance is not None:
+            if isinstance(radial_distance, types.DistributionNumber):
+                radial_distance = radial_distance
+            elif isinstance(radial_distance, str):
+                radial_distance = types.DistributionNumber.from_mcnp(radial_distance)
+            else:
+                raise TypeError
+
         if radial_distance is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, radial_distance)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                radial_distance,
-            ]
-        )
-
-        self.radial_distance: typing.Final[types.DistributionNumber] = radial_distance
-
-
-@dataclasses.dataclass
-class RadBuilder_1(_option.SdefOptionBuilder):
-    """
-    Builds ``Rad_1``.
-
-    Attributes:
-        radial_distance: Radial distance fo the position from POS or AXS.
-    """
-
-    radial_distance: str | types.DistributionNumber
-
-    def build(self):
-        """
-        Builds ``RadBuilder_1`` into ``Rad_1``.
-
-        Returns:
-            ``Rad_1`` for ``RadBuilder_1``.
-        """
-
-        radial_distance = self.radial_distance
-        if isinstance(self.radial_distance, types.DistributionNumber):
-            radial_distance = self.radial_distance
-        elif isinstance(self.radial_distance, str):
-            radial_distance = types.DistributionNumber.from_mcnp(self.radial_distance)
-
-        return Rad_1(
-            radial_distance=radial_distance,
-        )
-
-    @staticmethod
-    def unbuild(ast: Rad_1):
-        """
-        Unbuilds ``Rad_1`` into ``RadBuilder_1``
-
-        Returns:
-            ``RadBuilder_1`` for ``Rad_1``.
-        """
-
-        return RadBuilder_1(
-            radial_distance=copy.deepcopy(ast.radial_distance),
-        )
+        self._radial_distance: types.DistributionNumber = radial_distance

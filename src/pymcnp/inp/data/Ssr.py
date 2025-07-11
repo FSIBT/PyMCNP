@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import ssr
 from . import _option
@@ -25,7 +21,7 @@ class Ssr(_option.DataOption):
 
     _REGEX = re.compile(rf'\Assr((?: (?:{ssr.SsrOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
-    def __init__(self, options: types.Tuple[ssr.SsrOption] = None):
+    def __init__(self, options: list[str] | list[ssr.SsrOption] = None):
         """
         Initializes ``Ssr``.
 
@@ -36,60 +32,41 @@ class Ssr(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                options,
-            ]
-        )
+        self.options: types.Tuple[ssr.SsrOption] = options
 
-        self.options: typing.Final[types.Tuple[ssr.SsrOption]] = options
-
-
-@dataclasses.dataclass
-class SsrBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Ssr``.
-
-    Attributes:
-        options: Dictionary of options.
-    """
-
-    options: list[str] | list[ssr.SsrOption] = None
-
-    def build(self):
+    @property
+    def options(self) -> types.Tuple[ssr.SsrOption]:
         """
-        Builds ``SsrBuilder`` into ``Ssr``.
+        Gets ``options``.
 
         Returns:
-            ``Ssr`` for ``SsrBuilder``.
+            ``options``.
         """
 
-        if self.options:
-            options = []
-            for item in self.options:
+        return self._options
+
+    @options.setter
+    def options(self, options: list[str] | list[ssr.SsrOption]) -> None:
+        """
+        Sets ``options``.
+
+        Parameters:
+            options: Dictionary of options.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if options is not None:
+            array = []
+            for item in options:
                 if isinstance(item, ssr.SsrOption):
-                    options.append(item)
+                    array.append(item)
                 elif isinstance(item, str):
-                    options.append(ssr.SsrOption.from_mcnp(item))
-                elif isinstance(item, ssr.SsrOptionBuilder):
-                    options.append(item.build())
-            options = types.Tuple(options)
-        else:
-            options = None
+                    array.append(ssr.SsrOption.from_mcnp(item))
+                else:
+                    raise TypeError
+            options = types.Tuple(array)
 
-        return Ssr(
-            options=options,
-        )
-
-    @staticmethod
-    def unbuild(ast: Ssr):
-        """
-        Unbuilds ``Ssr`` into ``SsrBuilder``
-
-        Returns:
-            ``SsrBuilder`` for ``Ssr``.
-        """
-
-        return SsrBuilder(
-            options=copy.deepcopy(ast.options),
-        )
+        self._options: types.Tuple[ssr.SsrOption] = options

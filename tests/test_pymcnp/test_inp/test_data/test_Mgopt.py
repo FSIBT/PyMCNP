@@ -8,92 +8,6 @@ class Test_Mgopt:
         element = pymcnp.inp.data.Mgopt
         EXAMPLES_VALID = [
             {
-                'mcal': pymcnp.types.String('a'),
-                'igm': consts.ast.type.INTEGER,
-                'iplt': consts.ast.type.INTEGER,
-                'iab': consts.ast.type.INTEGER,
-                'icw': consts.ast.type.INTEGER,
-                'fnw': consts.ast.type.REAL,
-                'rim': consts.ast.type.REAL,
-            },
-            {
-                'mcal': pymcnp.types.String('a'),
-                'igm': consts.ast.type.INTEGER,
-                'iplt': None,
-                'iab': consts.ast.type.INTEGER,
-                'icw': consts.ast.type.INTEGER,
-                'fnw': consts.ast.type.REAL,
-                'rim': consts.ast.type.REAL,
-            },
-            {
-                'mcal': pymcnp.types.String('a'),
-                'igm': consts.ast.type.INTEGER,
-                'iplt': consts.ast.type.INTEGER,
-                'iab': None,
-                'icw': consts.ast.type.INTEGER,
-                'fnw': consts.ast.type.REAL,
-                'rim': consts.ast.type.REAL,
-            },
-            {
-                'mcal': pymcnp.types.String('a'),
-                'igm': consts.ast.type.INTEGER,
-                'iplt': consts.ast.type.INTEGER,
-                'iab': consts.ast.type.INTEGER,
-                'icw': None,
-                'fnw': consts.ast.type.REAL,
-                'rim': consts.ast.type.REAL,
-            },
-            {
-                'mcal': pymcnp.types.String('a'),
-                'igm': consts.ast.type.INTEGER,
-                'iplt': consts.ast.type.INTEGER,
-                'iab': consts.ast.type.INTEGER,
-                'icw': consts.ast.type.INTEGER,
-                'fnw': None,
-                'rim': consts.ast.type.REAL,
-            },
-            {
-                'mcal': pymcnp.types.String('a'),
-                'igm': consts.ast.type.INTEGER,
-                'iplt': consts.ast.type.INTEGER,
-                'iab': consts.ast.type.INTEGER,
-                'icw': consts.ast.type.INTEGER,
-                'fnw': consts.ast.type.REAL,
-                'rim': None,
-            },
-        ]
-        EXAMPLES_INVALID = [
-            {
-                'mcal': None,
-                'igm': consts.ast.type.INTEGER,
-                'iplt': consts.ast.type.INTEGER,
-                'iab': consts.ast.type.INTEGER,
-                'icw': consts.ast.type.INTEGER,
-                'fnw': consts.ast.type.REAL,
-                'rim': consts.ast.type.REAL,
-            },
-            {
-                'mcal': pymcnp.types.String('a'),
-                'igm': None,
-                'iplt': consts.ast.type.INTEGER,
-                'iab': consts.ast.type.INTEGER,
-                'icw': consts.ast.type.INTEGER,
-                'fnw': consts.ast.type.REAL,
-                'rim': consts.ast.type.REAL,
-            },
-        ]
-
-    class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.data.Mgopt
-        EXAMPLES_VALID = [consts.string.inp.data.MGOPT]
-        EXAMPLES_INVALID = ['hello']
-
-
-class Test_MgoptBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.MgoptBuilder
-        EXAMPLES_VALID = [
-            {
                 'mcal': 'a',
                 'igm': consts.string.type.INTEGER,
                 'iplt': consts.string.type.INTEGER,
@@ -205,3 +119,8 @@ class Test_MgoptBuilder:
                 'rim': consts.string.type.REAL,
             },
         ]
+
+    class Test_Mcnp(classes.Test_Mcnp):
+        element = pymcnp.inp.data.Mgopt
+        EXAMPLES_VALID = [consts.string.inp.data.MGOPT]
+        EXAMPLES_INVALID = ['hello']

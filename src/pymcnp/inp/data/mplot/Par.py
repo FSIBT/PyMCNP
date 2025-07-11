@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Par(_option.MplotOption):
 
     _REGEX = re.compile(rf'\Apar( {types.Designator._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, particle: types.Designator):
+    def __init__(self, particle: str | types.Designator):
         """
         Initializes ``Par``.
 
@@ -36,56 +32,41 @@ class Par(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.particle: types.Designator = particle
+
+    @property
+    def particle(self) -> types.Designator:
+        """
+        Gets ``particle``.
+
+        Returns:
+            ``particle``.
+        """
+
+        return self._particle
+
+    @particle.setter
+    def particle(self, particle: str | types.Designator) -> None:
+        """
+        Sets ``particle``.
+
+        Parameters:
+            particle: Particle type to plot.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if particle is not None:
+            if isinstance(particle, types.Designator):
+                particle = particle
+            elif isinstance(particle, str):
+                particle = types.Designator.from_mcnp(particle)
+            else:
+                raise TypeError
+
         if particle is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, particle)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                particle,
-            ]
-        )
-
-        self.particle: typing.Final[types.Designator] = particle
-
-
-@dataclasses.dataclass
-class ParBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``Par``.
-
-    Attributes:
-        particle: Particle type to plot.
-    """
-
-    particle: str | types.Designator
-
-    def build(self):
-        """
-        Builds ``ParBuilder`` into ``Par``.
-
-        Returns:
-            ``Par`` for ``ParBuilder``.
-        """
-
-        particle = self.particle
-        if isinstance(self.particle, types.Designator):
-            particle = self.particle
-        elif isinstance(self.particle, str):
-            particle = types.Designator.from_mcnp(self.particle)
-
-        return Par(
-            particle=particle,
-        )
-
-    @staticmethod
-    def unbuild(ast: Par):
-        """
-        Unbuilds ``Par`` into ``ParBuilder``
-
-        Returns:
-            ``ParBuilder`` for ``Par``.
-        """
-
-        return ParBuilder(
-            particle=copy.deepcopy(ast.particle),
-        )
+        self._particle: types.Designator = particle

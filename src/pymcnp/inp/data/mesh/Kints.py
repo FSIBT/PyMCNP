@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Kints(_option.MeshOption):
 
     _REGEX = re.compile(rf'\Akints((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, number: types.Tuple[types.Integer]):
+    def __init__(self, number: list[str] | list[int] | list[types.Integer]):
         """
         Initializes ``Kints``.
 
@@ -36,63 +32,46 @@ class Kints(_option.MeshOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.number: types.Tuple[types.Integer] = number
+
+    @property
+    def number(self) -> types.Tuple[types.Integer]:
+        """
+        Gets ``number``.
+
+        Returns:
+            ``number``.
+        """
+
+        return self._number
+
+    @number.setter
+    def number(self, number: list[str] | list[int] | list[types.Integer]) -> None:
+        """
+        Sets ``number``.
+
+        Parameters:
+            number: Number of fine meshes within corresponding coarse meshes in the z/theta directions.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if number is not None:
+            array = []
+            for item in number:
+                if isinstance(item, types.Integer):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Integer(item))
+                elif isinstance(item, str):
+                    array.append(types.Integer.from_mcnp(item))
+                else:
+                    raise TypeError
+            number = types.Tuple(array)
+
         if number is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                number,
-            ]
-        )
-
-        self.number: typing.Final[types.Tuple[types.Integer]] = number
-
-
-@dataclasses.dataclass
-class KintsBuilder(_option.MeshOptionBuilder):
-    """
-    Builds ``Kints``.
-
-    Attributes:
-        number: Number of fine meshes within corresponding coarse meshes in the z/theta directions.
-    """
-
-    number: list[str] | list[int] | list[types.Integer]
-
-    def build(self):
-        """
-        Builds ``KintsBuilder`` into ``Kints``.
-
-        Returns:
-            ``Kints`` for ``KintsBuilder``.
-        """
-
-        if self.number:
-            number = []
-            for item in self.number:
-                if isinstance(item, types.Integer):
-                    number.append(item)
-                elif isinstance(item, int):
-                    number.append(types.Integer(item))
-                elif isinstance(item, str):
-                    number.append(types.Integer.from_mcnp(item))
-            number = types.Tuple(number)
-        else:
-            number = None
-
-        return Kints(
-            number=number,
-        )
-
-    @staticmethod
-    def unbuild(ast: Kints):
-        """
-        Unbuilds ``Kints`` into ``KintsBuilder``
-
-        Returns:
-            ``KintsBuilder`` for ``Kints``.
-        """
-
-        return KintsBuilder(
-            number=copy.deepcopy(ast.number),
-        )
+        self._number: types.Tuple[types.Integer] = number

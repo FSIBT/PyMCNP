@@ -6,17 +6,10 @@ from ..... import classes
 class Test_Meshgeo:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.embed.Meshgeo
-        EXAMPLES_VALID = [{'form': pymcnp.types.String('lnk3dnt')}]
-        EXAMPLES_INVALID = [{'form': None}]
+        EXAMPLES_VALID = [{'form': 'lnk3dnt'}, {'form': pymcnp.types.String('lnk3dnt')}]
+        EXAMPLES_INVALID = [{'form': None}, {'form': 'hello'}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.data.embed.Meshgeo
         EXAMPLES_VALID = [consts.string.inp.data.embed.MESHGEO]
         EXAMPLES_INVALID = ['hello']
-
-
-class Test_MeshgeoBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.embed.MeshgeoBuilder
-        EXAMPLES_VALID = [{'form': 'lnk3dnt'}, {'form': pymcnp.types.String('lnk3dnt')}]
-        EXAMPLES_INVALID = [{'form': None}, {'form': 'hello'}]

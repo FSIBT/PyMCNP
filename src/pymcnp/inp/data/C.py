@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -33,7 +29,9 @@ class C(_option.DataOption):
 
     _REGEX = re.compile(rf'\A([*]?)c(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(self, suffix: types.Integer, bounds: types.Tuple[types.Real], prefix: types.String = None, t: types.String = None, c: types.String = None):
+    def __init__(
+        self, suffix: str | int | types.Integer, bounds: list[str] | list[float] | list[types.Real], prefix: str | types.String = None, t: str | types.String = None, c: str | types.String = None
+    ):
         """
         Initializes ``C``.
 
@@ -48,115 +46,196 @@ class C(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.prefix: types.String = prefix
+        self.suffix: types.Integer = suffix
+        self.bounds: types.Tuple[types.Real] = bounds
+        self.t: types.String = t
+        self.c: types.String = c
+
+    @property
+    def prefix(self) -> types.String:
+        """
+        Gets ``prefix``.
+
+        Returns:
+            ``prefix``.
+        """
+
+        return self._prefix
+
+    @prefix.setter
+    def prefix(self, prefix: str | types.String) -> None:
+        """
+        Sets ``prefix``.
+
+        Parameters:
+            prefix: Star prefix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if prefix is not None:
+            if isinstance(prefix, types.String):
+                prefix = prefix
+            elif isinstance(prefix, str):
+                prefix = types.String.from_mcnp(prefix)
+            else:
+                raise TypeError
+
         if prefix is not None and prefix not in {'*', '+'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
+
+        self._prefix: types.String = prefix
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Data card option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def bounds(self) -> types.Tuple[types.Real]:
+        """
+        Gets ``bounds``.
+
+        Returns:
+            ``bounds``.
+        """
+
+        return self._bounds
+
+    @bounds.setter
+    def bounds(self, bounds: list[str] | list[float] | list[types.Real]) -> None:
+        """
+        Sets ``bounds``.
+
+        Parameters:
+            bounds: Upper cosine bounds for bin.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if bounds is not None:
+            array = []
+            for item in bounds:
+                if isinstance(item, types.Real):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Real(item))
+                elif isinstance(item, float):
+                    array.append(types.Real(item))
+                elif isinstance(item, str):
+                    array.append(types.Real.from_mcnp(item))
+                else:
+                    raise TypeError
+            bounds = types.Tuple(array)
+
         if bounds is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bounds)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                bounds,
-                t,
-                c,
-            ]
-        )
+        self._bounds: types.Tuple[types.Real] = bounds
 
-        self.prefix: typing.Final[types.String] = prefix
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.bounds: typing.Final[types.Tuple[types.Real]] = bounds
-        self.t: typing.Final[types.String] = t
-        self.c: typing.Final[types.String] = c
-
-
-@dataclasses.dataclass
-class CBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``C``.
-
-    Attributes:
-        prefix: Star prefix.
-        suffix: Data card option suffix.
-        bounds: Upper cosine bounds for bin.
-        t: Notation to provide totals.
-        c: Notation to make bin values cumulative.
-    """
-
-    suffix: str | int | types.Integer
-    bounds: list[str] | list[float] | list[types.Real]
-    prefix: str | types.String = None
-    t: str | types.String = None
-    c: str | types.String = None
-
-    def build(self):
+    @property
+    def t(self) -> types.String:
         """
-        Builds ``CBuilder`` into ``C``.
+        Gets ``t``.
 
         Returns:
-            ``C`` for ``CBuilder``.
+            ``t``.
         """
 
-        prefix = self.prefix
-        if isinstance(self.prefix, types.String):
-            prefix = self.prefix
-        elif isinstance(self.prefix, str):
-            prefix = types.String.from_mcnp(self.prefix)
+        return self._t
 
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
-
-        if self.bounds:
-            bounds = []
-            for item in self.bounds:
-                if isinstance(item, types.Real):
-                    bounds.append(item)
-                elif isinstance(item, float) or isinstance(item, int):
-                    bounds.append(types.Real(item))
-                elif isinstance(item, str):
-                    bounds.append(types.Real.from_mcnp(item))
-            bounds = types.Tuple(bounds)
-        else:
-            bounds = None
-
-        t = self.t
-        if isinstance(self.t, types.String):
-            t = self.t
-        elif isinstance(self.t, str):
-            t = types.String.from_mcnp(self.t)
-
-        c = self.c
-        if isinstance(self.c, types.String):
-            c = self.c
-        elif isinstance(self.c, str):
-            c = types.String.from_mcnp(self.c)
-
-        return C(
-            prefix=prefix,
-            suffix=suffix,
-            bounds=bounds,
-            t=t,
-            c=c,
-        )
-
-    @staticmethod
-    def unbuild(ast: C):
+    @t.setter
+    def t(self, t: str | types.String) -> None:
         """
-        Unbuilds ``C`` into ``CBuilder``
+        Sets ``t``.
+
+        Parameters:
+            t: Notation to provide totals.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if t is not None:
+            if isinstance(t, types.String):
+                t = t
+            elif isinstance(t, str):
+                t = types.String.from_mcnp(t)
+            else:
+                raise TypeError
+
+        self._t: types.String = t
+
+    @property
+    def c(self) -> types.String:
+        """
+        Gets ``c``.
 
         Returns:
-            ``CBuilder`` for ``C``.
+            ``c``.
         """
 
-        return CBuilder(
-            prefix=copy.deepcopy(ast.prefix),
-            suffix=copy.deepcopy(ast.suffix),
-            bounds=copy.deepcopy(ast.bounds),
-            t=copy.deepcopy(ast.t),
-            c=copy.deepcopy(ast.c),
-        )
+        return self._c
+
+    @c.setter
+    def c(self, c: str | types.String) -> None:
+        """
+        Sets ``c``.
+
+        Parameters:
+            c: Notation to make bin values cumulative.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if c is not None:
+            if isinstance(c, types.String):
+                c = c
+            elif isinstance(c, str):
+                c = types.String.from_mcnp(c)
+            else:
+                raise TypeError
+
+        self._c: types.String = c

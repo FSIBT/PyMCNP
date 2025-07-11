@@ -1,10 +1,6 @@
 import re
-import typing
-import dataclasses
-
 
 from . import _option
-from .....utils import types
 
 
 class Nocolor(_option.ContourOption):
@@ -33,36 +29,3 @@ class Nocolor(_option.ContourOption):
         Raises:
             InpError: SEMANTICS_OPTION.
         """
-
-        self.value: typing.Final[types.Tuple] = types.Tuple([])
-
-
-@dataclasses.dataclass
-class NocolorBuilder(_option.ContourOptionBuilder):
-    """
-    Builds ``Nocolor``.
-
-    Attributes:
-
-    """
-
-    def build(self):
-        """
-        Builds ``NocolorBuilder`` into ``Nocolor``.
-
-        Returns:
-            ``Nocolor`` for ``NocolorBuilder``.
-        """
-
-        return Nocolor()
-
-    @staticmethod
-    def unbuild(ast: Nocolor):
-        """
-        Unbuilds ``Nocolor`` into ``NocolorBuilder``
-
-        Returns:
-            ``NocolorBuilder`` for ``Nocolor``.
-        """
-
-        return NocolorBuilder()

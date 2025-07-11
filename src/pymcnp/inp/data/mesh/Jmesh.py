@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Jmesh(_option.MeshOption):
 
     _REGEX = re.compile(rf'\Ajmesh((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, vector: types.Tuple[types.Real]):
+    def __init__(self, vector: list[str] | list[float] | list[types.Real]):
         """
         Initializes ``Jmesh``.
 
@@ -36,63 +32,48 @@ class Jmesh(_option.MeshOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.vector: types.Tuple[types.Real] = vector
+
+    @property
+    def vector(self) -> types.Tuple[types.Real]:
+        """
+        Gets ``vector``.
+
+        Returns:
+            ``vector``.
+        """
+
+        return self._vector
+
+    @vector.setter
+    def vector(self, vector: list[str] | list[float] | list[types.Real]) -> None:
+        """
+        Sets ``vector``.
+
+        Parameters:
+            vector: Locations of the coarse meshes in the y/z directions.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if vector is not None:
+            array = []
+            for item in vector:
+                if isinstance(item, types.Real):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Real(item))
+                elif isinstance(item, float):
+                    array.append(types.Real(item))
+                elif isinstance(item, str):
+                    array.append(types.Real.from_mcnp(item))
+                else:
+                    raise TypeError
+            vector = types.Tuple(array)
+
         if vector is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vector)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                vector,
-            ]
-        )
-
-        self.vector: typing.Final[types.Tuple[types.Real]] = vector
-
-
-@dataclasses.dataclass
-class JmeshBuilder(_option.MeshOptionBuilder):
-    """
-    Builds ``Jmesh``.
-
-    Attributes:
-        vector: Locations of the coarse meshes in the y/z directions.
-    """
-
-    vector: list[str] | list[float] | list[types.Real]
-
-    def build(self):
-        """
-        Builds ``JmeshBuilder`` into ``Jmesh``.
-
-        Returns:
-            ``Jmesh`` for ``JmeshBuilder``.
-        """
-
-        if self.vector:
-            vector = []
-            for item in self.vector:
-                if isinstance(item, types.Real):
-                    vector.append(item)
-                elif isinstance(item, float) or isinstance(item, int):
-                    vector.append(types.Real(item))
-                elif isinstance(item, str):
-                    vector.append(types.Real.from_mcnp(item))
-            vector = types.Tuple(vector)
-        else:
-            vector = None
-
-        return Jmesh(
-            vector=vector,
-        )
-
-    @staticmethod
-    def unbuild(ast: Jmesh):
-        """
-        Unbuilds ``Jmesh`` into ``JmeshBuilder``
-
-        Returns:
-            ``JmeshBuilder`` for ``Jmesh``.
-        """
-
-        return JmeshBuilder(
-            vector=copy.deepcopy(ast.vector),
-        )
+        self._vector: types.Tuple[types.Real] = vector

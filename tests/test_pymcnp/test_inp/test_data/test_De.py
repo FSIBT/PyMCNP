@@ -7,24 +7,6 @@ class Test_De:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.De
         EXAMPLES_VALID = [
-            {'suffix': consts.ast.type.INTEGER, 'method': pymcnp.types.String('log'), 'values': [consts.ast.type.REAL]},
-            {'suffix': consts.ast.type.INTEGER, 'method': None, 'values': [consts.ast.type.REAL]},
-        ]
-        EXAMPLES_INVALID = [
-            {'suffix': None, 'method': pymcnp.types.String('log'), 'values': [consts.ast.type.REAL]},
-            {'suffix': consts.ast.type.INTEGER, 'method': pymcnp.types.String('log'), 'values': None},
-        ]
-
-    class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.data.De
-        EXAMPLES_VALID = [consts.string.inp.data.DE]
-        EXAMPLES_INVALID = ['hello']
-
-
-class Test_DeBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.DeBuilder
-        EXAMPLES_VALID = [
             {'suffix': consts.string.type.INTEGER, 'method': 'log', 'values': [consts.string.type.REAL]},
             {'suffix': 1, 'method': 'log', 'values': [3.1]},
             {'suffix': consts.ast.type.INTEGER, 'method': pymcnp.types.String('log'), 'values': [consts.ast.type.REAL]},
@@ -35,3 +17,8 @@ class Test_DeBuilder:
             {'suffix': consts.string.type.INTEGER, 'method': 'log', 'values': None},
             {'suffix': consts.string.type.INTEGER, 'method': 'hello', 'values': [consts.string.type.REAL]},
         ]
+
+    class Test_Mcnp(classes.Test_Mcnp):
+        element = pymcnp.inp.data.De
+        EXAMPLES_VALID = [consts.string.inp.data.DE]
+        EXAMPLES_INVALID = ['hello']

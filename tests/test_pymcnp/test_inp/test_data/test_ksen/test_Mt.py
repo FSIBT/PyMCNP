@@ -6,17 +6,10 @@ from ..... import classes
 class Test_Mt:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.ksen.Mt
-        EXAMPLES_VALID = [{'numbers': [consts.ast.type.INTEGER]}]
+        EXAMPLES_VALID = [{'numbers': [consts.string.type.INTEGER]}, {'numbers': [1]}, {'numbers': [consts.ast.type.INTEGER]}]
         EXAMPLES_INVALID = [{'numbers': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.data.ksen.Mt
         EXAMPLES_VALID = [consts.string.inp.data.ksen.MT]
         EXAMPLES_INVALID = ['hello']
-
-
-class Test_MtBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.ksen.MtBuilder
-        EXAMPLES_VALID = [{'numbers': [consts.string.type.INTEGER]}, {'numbers': [1]}, {'numbers': [consts.ast.type.INTEGER]}]
-        EXAMPLES_INVALID = [{'numbers': None}]

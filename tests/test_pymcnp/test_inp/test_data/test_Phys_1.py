@@ -8,33 +8,6 @@ class Test_Phys_1:
         element = pymcnp.inp.data.Phys_1
         EXAMPLES_VALID = [
             {
-                'emcpf': consts.ast.type.REAL,
-                'ides': consts.ast.type.INTEGER,
-                'nocoh': consts.ast.type.INTEGER,
-                'ispn': consts.ast.type.INTEGER,
-                'nodop': consts.ast.type.INTEGER,
-                'fism': consts.ast.type.INTEGER,
-            },
-            {'emcpf': None, 'ides': consts.ast.type.INTEGER, 'nocoh': consts.ast.type.INTEGER, 'ispn': consts.ast.type.INTEGER, 'nodop': consts.ast.type.INTEGER, 'fism': consts.ast.type.INTEGER},
-            {'emcpf': consts.ast.type.REAL, 'ides': None, 'nocoh': consts.ast.type.INTEGER, 'ispn': consts.ast.type.INTEGER, 'nodop': consts.ast.type.INTEGER, 'fism': consts.ast.type.INTEGER},
-            {'emcpf': consts.ast.type.REAL, 'ides': consts.ast.type.INTEGER, 'nocoh': None, 'ispn': consts.ast.type.INTEGER, 'nodop': consts.ast.type.INTEGER, 'fism': consts.ast.type.INTEGER},
-            {'emcpf': consts.ast.type.REAL, 'ides': consts.ast.type.INTEGER, 'nocoh': consts.ast.type.INTEGER, 'ispn': None, 'nodop': consts.ast.type.INTEGER, 'fism': consts.ast.type.INTEGER},
-            {'emcpf': consts.ast.type.REAL, 'ides': consts.ast.type.INTEGER, 'nocoh': consts.ast.type.INTEGER, 'ispn': consts.ast.type.INTEGER, 'nodop': None, 'fism': consts.ast.type.INTEGER},
-            {'emcpf': consts.ast.type.REAL, 'ides': consts.ast.type.INTEGER, 'nocoh': consts.ast.type.INTEGER, 'ispn': consts.ast.type.INTEGER, 'nodop': consts.ast.type.INTEGER, 'fism': None},
-        ]
-        EXAMPLES_INVALID = []
-
-    class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.data.Phys_1
-        EXAMPLES_VALID = [consts.string.inp.data.PHYS_1]
-        EXAMPLES_INVALID = ['hello']
-
-
-class Test_PhysBuilder_1:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.PhysBuilder_1
-        EXAMPLES_VALID = [
-            {
                 'emcpf': consts.string.type.REAL,
                 'ides': consts.string.type.INTEGER,
                 'nocoh': consts.string.type.INTEGER,
@@ -134,3 +107,8 @@ class Test_PhysBuilder_1:
                 'fism': consts.string.type.INTEGER,
             },
         ]
+
+    class Test_Mcnp(classes.Test_Mcnp):
+        element = pymcnp.inp.data.Phys_1
+        EXAMPLES_VALID = [consts.string.inp.data.PHYS_1]
+        EXAMPLES_INVALID = ['hello']

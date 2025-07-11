@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import free
 from . import _option
@@ -30,7 +26,7 @@ class Free(_option.MplotOption):
 
     _REGEX = re.compile(rf'\Afree( {types.String._REGEX.pattern[2:-2]})( {types.String._REGEX.pattern[2:-2]})( (?:{free.FreeOption._REGEX.pattern[2:-2]}))?\Z')
 
-    def __init__(self, x: types.String, y: types.String, option: free.FreeOption = None):
+    def __init__(self, x: str | types.String, y: str | types.String, option: str | free.FreeOption = None):
         """
         Initializes ``Free``.
 
@@ -43,84 +39,114 @@ class Free(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.x: types.String = x
+        self.y: types.String = y
+        self.option: free.FreeOption = option
+
+    @property
+    def x(self) -> types.String:
+        """
+        Gets ``x``.
+
+        Returns:
+            ``x``.
+        """
+
+        return self._x
+
+    @x.setter
+    def x(self, x: str | types.String) -> None:
+        """
+        Sets ``x``.
+
+        Parameters:
+            x: Independent variable.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if x is not None:
+            if isinstance(x, types.String):
+                x = x
+            elif isinstance(x, str):
+                x = types.String.from_mcnp(x)
+            else:
+                raise TypeError
+
         if x is None or x not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't', 'i', 'j', 'k'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
+
+        self._x: types.String = x
+
+    @property
+    def y(self) -> types.String:
+        """
+        Gets ``y``.
+
+        Returns:
+            ``y``.
+        """
+
+        return self._y
+
+    @y.setter
+    def y(self, y: str | types.String) -> None:
+        """
+        Sets ``y``.
+
+        Parameters:
+            y: Dependent variable.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if y is not None:
+            if isinstance(y, types.String):
+                y = y
+            elif isinstance(y, str):
+                y = types.String.from_mcnp(y)
+            else:
+                raise TypeError
+
         if y is None or y not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't', 'i', 'j', 'k'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                x,
-                y,
-                option,
-            ]
-        )
+        self._y: types.String = y
 
-        self.x: typing.Final[types.String] = x
-        self.y: typing.Final[types.String] = y
-        self.option: typing.Final[free.FreeOption] = option
-
-
-@dataclasses.dataclass
-class FreeBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``Free``.
-
-    Attributes:
-        x: Independent variable.
-        y: Dependent variable.
-        option: free option.
-    """
-
-    x: str | types.String
-    y: str | types.String
-    option: str | free.FreeOption = None
-
-    def build(self):
+    @property
+    def option(self) -> free.FreeOption:
         """
-        Builds ``FreeBuilder`` into ``Free``.
+        Gets ``option``.
 
         Returns:
-            ``Free`` for ``FreeBuilder``.
+            ``option``.
         """
 
-        x = self.x
-        if isinstance(self.x, types.String):
-            x = self.x
-        elif isinstance(self.x, str):
-            x = types.String.from_mcnp(self.x)
+        return self._option
 
-        y = self.y
-        if isinstance(self.y, types.String):
-            y = self.y
-        elif isinstance(self.y, str):
-            y = types.String.from_mcnp(self.y)
-
-        option = self.option
-        if isinstance(self.option, free.FreeOption):
-            option = self.option
-        elif isinstance(self.option, str):
-            option = free.FreeOption.from_mcnp(self.option)
-        elif isinstance(self.option, free.FreeOptionBuilder):
-            option = self.option.build()
-
-        return Free(
-            x=x,
-            y=y,
-            option=option,
-        )
-
-    @staticmethod
-    def unbuild(ast: Free):
+    @option.setter
+    def option(self, option: str | free.FreeOption) -> None:
         """
-        Unbuilds ``Free`` into ``FreeBuilder``
+        Sets ``option``.
 
-        Returns:
-            ``FreeBuilder`` for ``Free``.
+        Parameters:
+            option: free option.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
-        return FreeBuilder(
-            x=copy.deepcopy(ast.x),
-            y=copy.deepcopy(ast.y),
-            option=copy.deepcopy(ast.option),
-        )
+        if option is not None:
+            if isinstance(option, free.FreeOption):
+                option = option
+            elif isinstance(option, str):
+                option = free.FreeOption.from_mcnp(option)
+            else:
+                raise TypeError
+
+        self._option: free.FreeOption = option

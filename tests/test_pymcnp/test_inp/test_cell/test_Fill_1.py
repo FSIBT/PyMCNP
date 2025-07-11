@@ -7,22 +7,6 @@ class Test_Fill_1:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.cell.Fill_1
         EXAMPLES_VALID = [
-            {'prefix': pymcnp.types.String('*'), 'universe': consts.ast.type.INTEGER, 'transformation': consts.ast.type.TRANSFORMATION_0},
-            {'prefix': None, 'universe': consts.ast.type.INTEGER, 'transformation': consts.ast.type.TRANSFORMATION_0},
-            {'prefix': pymcnp.types.String('*'), 'universe': consts.ast.type.INTEGER, 'transformation': None},
-        ]
-        EXAMPLES_INVALID = [{'prefix': pymcnp.types.String('*'), 'universe': None, 'transformation': consts.ast.type.TRANSFORMATION_0}]
-
-    class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.cell.Fill_1
-        EXAMPLES_VALID = [consts.string.inp.cell.FILL_1]
-        EXAMPLES_INVALID = ['hello']
-
-
-class Test_FillBuilder_1:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.cell.FillBuilder_1
-        EXAMPLES_VALID = [
             {'prefix': '*', 'universe': consts.string.type.INTEGER, 'transformation': consts.string.type.TRANSFORMATION_0},
             {'prefix': '*', 'universe': 1, 'transformation': consts.string.type.TRANSFORMATION_0},
             {'prefix': pymcnp.types.String('*'), 'universe': consts.ast.type.INTEGER, 'transformation': consts.ast.type.TRANSFORMATION_0},
@@ -33,3 +17,8 @@ class Test_FillBuilder_1:
             {'prefix': '*', 'universe': None, 'transformation': consts.string.type.TRANSFORMATION_0},
             {'prefix': 'hello', 'universe': consts.string.type.INTEGER, 'transformation': consts.string.type.TRANSFORMATION_0},
         ]
+
+    class Test_Mcnp(classes.Test_Mcnp):
+        element = pymcnp.inp.cell.Fill_1
+        EXAMPLES_VALID = [consts.string.inp.cell.FILL_1]
+        EXAMPLES_INVALID = ['hello']

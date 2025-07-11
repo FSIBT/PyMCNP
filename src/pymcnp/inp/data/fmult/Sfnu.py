@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Sfnu(_option.FmultOption):
 
     _REGEX = re.compile(rf'\Asfnu((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, distribution: types.Tuple[types.Real]):
+    def __init__(self, distribution: list[str] | list[float] | list[types.Real]):
         """
         Initializes ``Sfnu``.
 
@@ -36,63 +32,48 @@ class Sfnu(_option.FmultOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.distribution: types.Tuple[types.Real] = distribution
+
+    @property
+    def distribution(self) -> types.Tuple[types.Real]:
+        """
+        Gets ``distribution``.
+
+        Returns:
+            ``distribution``.
+        """
+
+        return self._distribution
+
+    @distribution.setter
+    def distribution(self, distribution: list[str] | list[float] | list[types.Real]) -> None:
+        """
+        Sets ``distribution``.
+
+        Parameters:
+            distribution: V bar for or of cumulative distribution the sampling spontaneous fission.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if distribution is not None:
+            array = []
+            for item in distribution:
+                if isinstance(item, types.Real):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Real(item))
+                elif isinstance(item, float):
+                    array.append(types.Real(item))
+                elif isinstance(item, str):
+                    array.append(types.Real.from_mcnp(item))
+                else:
+                    raise TypeError
+            distribution = types.Tuple(array)
+
         if distribution is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, distribution)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                distribution,
-            ]
-        )
-
-        self.distribution: typing.Final[types.Tuple[types.Real]] = distribution
-
-
-@dataclasses.dataclass
-class SfnuBuilder(_option.FmultOptionBuilder):
-    """
-    Builds ``Sfnu``.
-
-    Attributes:
-        distribution: V bar for or of cumulative distribution the sampling spontaneous fission.
-    """
-
-    distribution: list[str] | list[float] | list[types.Real]
-
-    def build(self):
-        """
-        Builds ``SfnuBuilder`` into ``Sfnu``.
-
-        Returns:
-            ``Sfnu`` for ``SfnuBuilder``.
-        """
-
-        if self.distribution:
-            distribution = []
-            for item in self.distribution:
-                if isinstance(item, types.Real):
-                    distribution.append(item)
-                elif isinstance(item, float) or isinstance(item, int):
-                    distribution.append(types.Real(item))
-                elif isinstance(item, str):
-                    distribution.append(types.Real.from_mcnp(item))
-            distribution = types.Tuple(distribution)
-        else:
-            distribution = None
-
-        return Sfnu(
-            distribution=distribution,
-        )
-
-    @staticmethod
-    def unbuild(ast: Sfnu):
-        """
-        Unbuilds ``Sfnu`` into ``SfnuBuilder``
-
-        Returns:
-            ``SfnuBuilder`` for ``Sfnu``.
-        """
-
-        return SfnuBuilder(
-            distribution=copy.deepcopy(ast.distribution),
-        )
+        self._distribution: types.Tuple[types.Real] = distribution

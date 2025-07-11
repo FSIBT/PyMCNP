@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -29,7 +25,7 @@ class Bem(_option.SdefOption):
 
     _REGEX = re.compile(rf'\Abem( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, exn: types.Real, eyn: types.Real, bml: types.Real):
+    def __init__(self, exn: str | int | float | types.Real, eyn: str | int | float | types.Real, bml: str | int | float | types.Real):
         """
         Initializes ``Bem``.
 
@@ -42,90 +38,129 @@ class Bem(_option.SdefOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.exn: types.Real = exn
+        self.eyn: types.Real = eyn
+        self.bml: types.Real = bml
+
+    @property
+    def exn(self) -> types.Real:
+        """
+        Gets ``exn``.
+
+        Returns:
+            ``exn``.
+        """
+
+        return self._exn
+
+    @exn.setter
+    def exn(self, exn: str | int | float | types.Real) -> None:
+        """
+        Sets ``exn``.
+
+        Parameters:
+            exn: Normalized beam emittance parameter for x coordinates.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if exn is not None:
+            if isinstance(exn, types.Real):
+                exn = exn
+            elif isinstance(exn, int):
+                exn = types.Real(exn)
+            elif isinstance(exn, float):
+                exn = types.Real(exn)
+            elif isinstance(exn, str):
+                exn = types.Real.from_mcnp(exn)
+            else:
+                raise TypeError
+
         if exn is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, exn)
+
+        self._exn: types.Real = exn
+
+    @property
+    def eyn(self) -> types.Real:
+        """
+        Gets ``eyn``.
+
+        Returns:
+            ``eyn``.
+        """
+
+        return self._eyn
+
+    @eyn.setter
+    def eyn(self, eyn: str | int | float | types.Real) -> None:
+        """
+        Sets ``eyn``.
+
+        Parameters:
+            eyn: Normalized beam emittance parameter for x coordinates.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if eyn is not None:
+            if isinstance(eyn, types.Real):
+                eyn = eyn
+            elif isinstance(eyn, int):
+                eyn = types.Real(eyn)
+            elif isinstance(eyn, float):
+                eyn = types.Real(eyn)
+            elif isinstance(eyn, str):
+                eyn = types.Real.from_mcnp(eyn)
+            else:
+                raise TypeError
+
         if eyn is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, eyn)
+
+        self._eyn: types.Real = eyn
+
+    @property
+    def bml(self) -> types.Real:
+        """
+        Gets ``bml``.
+
+        Returns:
+            ``bml``.
+        """
+
+        return self._bml
+
+    @bml.setter
+    def bml(self, bml: str | int | float | types.Real) -> None:
+        """
+        Sets ``bml``.
+
+        Parameters:
+            bml: Distance from the aperture to the spot.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if bml is not None:
+            if isinstance(bml, types.Real):
+                bml = bml
+            elif isinstance(bml, int):
+                bml = types.Real(bml)
+            elif isinstance(bml, float):
+                bml = types.Real(bml)
+            elif isinstance(bml, str):
+                bml = types.Real.from_mcnp(bml)
+            else:
+                raise TypeError
+
         if bml is None or not (bml >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bml)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                exn,
-                eyn,
-                bml,
-            ]
-        )
-
-        self.exn: typing.Final[types.Real] = exn
-        self.eyn: typing.Final[types.Real] = eyn
-        self.bml: typing.Final[types.Real] = bml
-
-
-@dataclasses.dataclass
-class BemBuilder(_option.SdefOptionBuilder):
-    """
-    Builds ``Bem``.
-
-    Attributes:
-        exn: Normalized beam emittance parameter for x coordinates.
-        eyn: Normalized beam emittance parameter for x coordinates.
-        bml: Distance from the aperture to the spot.
-    """
-
-    exn: str | float | types.Real
-    eyn: str | float | types.Real
-    bml: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``BemBuilder`` into ``Bem``.
-
-        Returns:
-            ``Bem`` for ``BemBuilder``.
-        """
-
-        exn = self.exn
-        if isinstance(self.exn, types.Real):
-            exn = self.exn
-        elif isinstance(self.exn, float) or isinstance(self.exn, int):
-            exn = types.Real(self.exn)
-        elif isinstance(self.exn, str):
-            exn = types.Real.from_mcnp(self.exn)
-
-        eyn = self.eyn
-        if isinstance(self.eyn, types.Real):
-            eyn = self.eyn
-        elif isinstance(self.eyn, float) or isinstance(self.eyn, int):
-            eyn = types.Real(self.eyn)
-        elif isinstance(self.eyn, str):
-            eyn = types.Real.from_mcnp(self.eyn)
-
-        bml = self.bml
-        if isinstance(self.bml, types.Real):
-            bml = self.bml
-        elif isinstance(self.bml, float) or isinstance(self.bml, int):
-            bml = types.Real(self.bml)
-        elif isinstance(self.bml, str):
-            bml = types.Real.from_mcnp(self.bml)
-
-        return Bem(
-            exn=exn,
-            eyn=eyn,
-            bml=bml,
-        )
-
-    @staticmethod
-    def unbuild(ast: Bem):
-        """
-        Unbuilds ``Bem`` into ``BemBuilder``
-
-        Returns:
-            ``BemBuilder`` for ``Bem``.
-        """
-
-        return BemBuilder(
-            exn=copy.deepcopy(ast.exn),
-            eyn=copy.deepcopy(ast.eyn),
-            bml=copy.deepcopy(ast.bml),
-        )
+        self._bml: types.Real = bml

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -29,7 +25,7 @@ class Dxc(_option.DataOption):
 
     _REGEX = re.compile(rf'\Adxc(\d+):(\S+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, suffix: types.Integer, designator: types.Designator, probabilities: types.Tuple[types.Real]):
+    def __init__(self, suffix: str | int | types.Integer, designator: str | types.Designator, probabilities: list[str] | list[float] | list[types.Real]):
         """
         Initializes ``Dxc``.
 
@@ -42,91 +38,126 @@ class Dxc(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.suffix: types.Integer = suffix
+        self.designator: types.Designator = designator
+        self.probabilities: types.Tuple[types.Real] = probabilities
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Data card option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
         if suffix is None or not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def designator(self) -> types.Designator:
+        """
+        Gets ``designator``.
+
+        Returns:
+            ``designator``.
+        """
+
+        return self._designator
+
+    @designator.setter
+    def designator(self, designator: str | types.Designator) -> None:
+        """
+        Sets ``designator``.
+
+        Parameters:
+            designator: Data card particle designator.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if designator is not None:
+            if isinstance(designator, types.Designator):
+                designator = designator
+            elif isinstance(designator, str):
+                designator = types.Designator.from_mcnp(designator)
+            else:
+                raise TypeError
+
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
+
+        self._designator: types.Designator = designator
+
+    @property
+    def probabilities(self) -> types.Tuple[types.Real]:
+        """
+        Gets ``probabilities``.
+
+        Returns:
+            ``probabilities``.
+        """
+
+        return self._probabilities
+
+    @probabilities.setter
+    def probabilities(self, probabilities: list[str] | list[float] | list[types.Real]) -> None:
+        """
+        Sets ``probabilities``.
+
+        Parameters:
+            probabilities: Probability of contribution to DXTRAN.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if probabilities is not None:
+            array = []
+            for item in probabilities:
+                if isinstance(item, types.Real):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Real(item))
+                elif isinstance(item, float):
+                    array.append(types.Real(item))
+                elif isinstance(item, str):
+                    array.append(types.Real.from_mcnp(item))
+                else:
+                    raise TypeError
+            probabilities = types.Tuple(array)
+
         if probabilities is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, probabilities)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                probabilities,
-            ]
-        )
-
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.designator: typing.Final[types.Designator] = designator
-        self.probabilities: typing.Final[types.Tuple[types.Real]] = probabilities
-
-
-@dataclasses.dataclass
-class DxcBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Dxc``.
-
-    Attributes:
-        suffix: Data card option suffix.
-        designator: Data card particle designator.
-        probabilities: Probability of contribution to DXTRAN.
-    """
-
-    suffix: str | int | types.Integer
-    designator: str | types.Designator
-    probabilities: list[str] | list[float] | list[types.Real]
-
-    def build(self):
-        """
-        Builds ``DxcBuilder`` into ``Dxc``.
-
-        Returns:
-            ``Dxc`` for ``DxcBuilder``.
-        """
-
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
-
-        designator = self.designator
-        if isinstance(self.designator, types.Designator):
-            designator = self.designator
-        elif isinstance(self.designator, str):
-            designator = types.Designator.from_mcnp(self.designator)
-
-        if self.probabilities:
-            probabilities = []
-            for item in self.probabilities:
-                if isinstance(item, types.Real):
-                    probabilities.append(item)
-                elif isinstance(item, float) or isinstance(item, int):
-                    probabilities.append(types.Real(item))
-                elif isinstance(item, str):
-                    probabilities.append(types.Real.from_mcnp(item))
-            probabilities = types.Tuple(probabilities)
-        else:
-            probabilities = None
-
-        return Dxc(
-            suffix=suffix,
-            designator=designator,
-            probabilities=probabilities,
-        )
-
-    @staticmethod
-    def unbuild(ast: Dxc):
-        """
-        Unbuilds ``Dxc`` into ``DxcBuilder``
-
-        Returns:
-            ``DxcBuilder`` for ``Dxc``.
-        """
-
-        return DxcBuilder(
-            suffix=copy.deepcopy(ast.suffix),
-            designator=copy.deepcopy(ast.designator),
-            probabilities=copy.deepcopy(ast.probabilities),
-        )
+        self._probabilities: types.Tuple[types.Real] = probabilities

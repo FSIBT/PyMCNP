@@ -6,17 +6,10 @@ from ..... import classes
 class Test_Par:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.sdef.Par
-        EXAMPLES_VALID = [{'kind': consts.ast.type.STRING}]
+        EXAMPLES_VALID = [{'kind': consts.string.type.STRING}, {'kind': consts.ast.type.STRING}]
         EXAMPLES_INVALID = [{'kind': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.data.sdef.Par
         EXAMPLES_VALID = [consts.string.inp.data.sdef.PAR]
         EXAMPLES_INVALID = ['hello']
-
-
-class Test_ParBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.sdef.ParBuilder
-        EXAMPLES_VALID = [{'kind': consts.string.type.STRING}, {'kind': consts.ast.type.STRING}]
-        EXAMPLES_INVALID = [{'kind': None}]

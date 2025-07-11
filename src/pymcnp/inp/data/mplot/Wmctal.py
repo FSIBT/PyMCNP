@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Wmctal(_option.MplotOption):
 
     _REGEX = re.compile(rf'\Awmctal( {types.String._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, filename: types.String):
+    def __init__(self, filename: str | types.String):
         """
         Initializes ``Wmctal``.
 
@@ -36,56 +32,41 @@ class Wmctal(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.filename: types.String = filename
+
+    @property
+    def filename(self) -> types.String:
+        """
+        Gets ``filename``.
+
+        Returns:
+            ``filename``.
+        """
+
+        return self._filename
+
+    @filename.setter
+    def filename(self, filename: str | types.String) -> None:
+        """
+        Sets ``filename``.
+
+        Parameters:
+            filename: MCTAL file to write.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if filename is not None:
+            if isinstance(filename, types.String):
+                filename = filename
+            elif isinstance(filename, str):
+                filename = types.String.from_mcnp(filename)
+            else:
+                raise TypeError
+
         if filename is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, filename)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                filename,
-            ]
-        )
-
-        self.filename: typing.Final[types.String] = filename
-
-
-@dataclasses.dataclass
-class WmctalBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``Wmctal``.
-
-    Attributes:
-        filename: MCTAL file to write.
-    """
-
-    filename: str | types.String
-
-    def build(self):
-        """
-        Builds ``WmctalBuilder`` into ``Wmctal``.
-
-        Returns:
-            ``Wmctal`` for ``WmctalBuilder``.
-        """
-
-        filename = self.filename
-        if isinstance(self.filename, types.String):
-            filename = self.filename
-        elif isinstance(self.filename, str):
-            filename = types.String.from_mcnp(self.filename)
-
-        return Wmctal(
-            filename=filename,
-        )
-
-    @staticmethod
-    def unbuild(ast: Wmctal):
-        """
-        Unbuilds ``Wmctal`` into ``WmctalBuilder``
-
-        Returns:
-            ``WmctalBuilder`` for ``Wmctal``.
-        """
-
-        return WmctalBuilder(
-            filename=copy.deepcopy(ast.filename),
-        )
+        self._filename: types.String = filename

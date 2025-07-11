@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -43,14 +39,14 @@ class Lea(_option.DataOption):
 
     def __init__(
         self,
-        ipht: types.Integer = None,
-        icc: types.Integer = None,
-        nobalc: types.Integer = None,
-        nobale: types.Integer = None,
-        ifbrk: types.Integer = None,
-        ilvden: types.Integer = None,
-        ievap: types.Integer = None,
-        nofis: types.Integer = None,
+        ipht: str | int | types.Integer = None,
+        icc: str | int | types.Integer = None,
+        nobalc: str | int | types.Integer = None,
+        nobale: str | int | types.Integer = None,
+        ifbrk: str | int | types.Integer = None,
+        ilvden: str | int | types.Integer = None,
+        ievap: str | int | types.Integer = None,
+        nofis: str | int | types.Integer = None,
     ):
         """
         Initializes ``Lea``.
@@ -69,170 +65,323 @@ class Lea(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.ipht: types.Integer = ipht
+        self.icc: types.Integer = icc
+        self.nobalc: types.Integer = nobalc
+        self.nobale: types.Integer = nobale
+        self.ifbrk: types.Integer = ifbrk
+        self.ilvden: types.Integer = ilvden
+        self.ievap: types.Integer = ievap
+        self.nofis: types.Integer = nofis
+
+    @property
+    def ipht(self) -> types.Integer:
+        """
+        Gets ``ipht``.
+
+        Returns:
+            ``ipht``.
+        """
+
+        return self._ipht
+
+    @ipht.setter
+    def ipht(self, ipht: str | int | types.Integer) -> None:
+        """
+        Sets ``ipht``.
+
+        Parameters:
+            ipht: Generation of de-excitation photons setting.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ipht is not None:
+            if isinstance(ipht, types.Integer):
+                ipht = ipht
+            elif isinstance(ipht, int):
+                ipht = types.Integer(ipht)
+            elif isinstance(ipht, str):
+                ipht = types.Integer.from_mcnp(ipht)
+            else:
+                raise TypeError
+
         if ipht is not None and not (isinstance(ipht.value, types.Jump) or ipht in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ipht)
+
+        self._ipht: types.Integer = ipht
+
+    @property
+    def icc(self) -> types.Integer:
+        """
+        Gets ``icc``.
+
+        Returns:
+            ``icc``.
+        """
+
+        return self._icc
+
+    @icc.setter
+    def icc(self, icc: str | int | types.Integer) -> None:
+        """
+        Sets ``icc``.
+
+        Parameters:
+            icc: Level of physics for PHT physics setting.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if icc is not None:
+            if isinstance(icc, types.Integer):
+                icc = icc
+            elif isinstance(icc, int):
+                icc = types.Integer(icc)
+            elif isinstance(icc, str):
+                icc = types.Integer.from_mcnp(icc)
+            else:
+                raise TypeError
+
         if icc is not None and not (isinstance(icc.value, types.Jump) or icc in {0, 1, 2, 3, 4}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, icc)
+
+        self._icc: types.Integer = icc
+
+    @property
+    def nobalc(self) -> types.Integer:
+        """
+        Gets ``nobalc``.
+
+        Returns:
+            ``nobalc``.
+        """
+
+        return self._nobalc
+
+    @nobalc.setter
+    def nobalc(self, nobalc: str | int | types.Integer) -> None:
+        """
+        Sets ``nobalc``.
+
+        Parameters:
+            nobalc: Mass-energy balancing in cascade setting.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if nobalc is not None:
+            if isinstance(nobalc, types.Integer):
+                nobalc = nobalc
+            elif isinstance(nobalc, int):
+                nobalc = types.Integer(nobalc)
+            elif isinstance(nobalc, str):
+                nobalc = types.Integer.from_mcnp(nobalc)
+            else:
+                raise TypeError
+
         if nobalc is not None and not (isinstance(nobalc.value, types.Jump) or nobalc in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nobalc)
+
+        self._nobalc: types.Integer = nobalc
+
+    @property
+    def nobale(self) -> types.Integer:
+        """
+        Gets ``nobale``.
+
+        Returns:
+            ``nobale``.
+        """
+
+        return self._nobale
+
+    @nobale.setter
+    def nobale(self, nobale: str | int | types.Integer) -> None:
+        """
+        Sets ``nobale``.
+
+        Parameters:
+            nobale: Mass-energy balancing in evaporation setting.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if nobale is not None:
+            if isinstance(nobale, types.Integer):
+                nobale = nobale
+            elif isinstance(nobale, int):
+                nobale = types.Integer(nobale)
+            elif isinstance(nobale, str):
+                nobale = types.Integer.from_mcnp(nobale)
+            else:
+                raise TypeError
+
         if nobale is not None and not (isinstance(nobale.value, types.Jump) or nobale in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nobale)
+
+        self._nobale: types.Integer = nobale
+
+    @property
+    def ifbrk(self) -> types.Integer:
+        """
+        Gets ``ifbrk``.
+
+        Returns:
+            ``ifbrk``.
+        """
+
+        return self._ifbrk
+
+    @ifbrk.setter
+    def ifbrk(self, ifbrk: str | int | types.Integer) -> None:
+        """
+        Sets ``ifbrk``.
+
+        Parameters:
+            ifbrk: Mass-energy balancing in Fermi-breakup setting.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ifbrk is not None:
+            if isinstance(ifbrk, types.Integer):
+                ifbrk = ifbrk
+            elif isinstance(ifbrk, int):
+                ifbrk = types.Integer(ifbrk)
+            elif isinstance(ifbrk, str):
+                ifbrk = types.Integer.from_mcnp(ifbrk)
+            else:
+                raise TypeError
+
         if ifbrk is not None and not (isinstance(ifbrk.value, types.Jump) or ifbrk in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ifbrk)
+
+        self._ifbrk: types.Integer = ifbrk
+
+    @property
+    def ilvden(self) -> types.Integer:
+        """
+        Gets ``ilvden``.
+
+        Returns:
+            ``ilvden``.
+        """
+
+        return self._ilvden
+
+    @ilvden.setter
+    def ilvden(self, ilvden: str | int | types.Integer) -> None:
+        """
+        Sets ``ilvden``.
+
+        Parameters:
+            ilvden: Level-density model setting.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ilvden is not None:
+            if isinstance(ilvden, types.Integer):
+                ilvden = ilvden
+            elif isinstance(ilvden, int):
+                ilvden = types.Integer(ilvden)
+            elif isinstance(ilvden, str):
+                ilvden = types.Integer.from_mcnp(ilvden)
+            else:
+                raise TypeError
+
         if ilvden is not None and not (isinstance(ilvden.value, types.Jump) or ilvden in {0, 1, -1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ilvden)
+
+        self._ilvden: types.Integer = ilvden
+
+    @property
+    def ievap(self) -> types.Integer:
+        """
+        Gets ``ievap``.
+
+        Returns:
+            ``ievap``.
+        """
+
+        return self._ievap
+
+    @ievap.setter
+    def ievap(self, ievap: str | int | types.Integer) -> None:
+        """
+        Sets ``ievap``.
+
+        Parameters:
+            ievap: Evaporation and fission model setting.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ievap is not None:
+            if isinstance(ievap, types.Integer):
+                ievap = ievap
+            elif isinstance(ievap, int):
+                ievap = types.Integer(ievap)
+            elif isinstance(ievap, str):
+                ievap = types.Integer.from_mcnp(ievap)
+            else:
+                raise TypeError
+
         if ievap is not None and not (isinstance(ievap.value, types.Jump) or ievap in {0, 1, -1, 2}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ievap)
+
+        self._ievap: types.Integer = ievap
+
+    @property
+    def nofis(self) -> types.Integer:
+        """
+        Gets ``nofis``.
+
+        Returns:
+            ``nofis``.
+        """
+
+        return self._nofis
+
+    @nofis.setter
+    def nofis(self, nofis: str | int | types.Integer) -> None:
+        """
+        Sets ``nofis``.
+
+        Parameters:
+            nofis: Fission setting.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if nofis is not None:
+            if isinstance(nofis, types.Integer):
+                nofis = nofis
+            elif isinstance(nofis, int):
+                nofis = types.Integer(nofis)
+            elif isinstance(nofis, str):
+                nofis = types.Integer.from_mcnp(nofis)
+            else:
+                raise TypeError
+
         if nofis is not None and not (isinstance(nofis.value, types.Jump) or nofis in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nofis)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                ipht,
-                icc,
-                nobalc,
-                nobale,
-                ifbrk,
-                ilvden,
-                ievap,
-                nofis,
-            ]
-        )
-
-        self.ipht: typing.Final[types.Integer] = ipht
-        self.icc: typing.Final[types.Integer] = icc
-        self.nobalc: typing.Final[types.Integer] = nobalc
-        self.nobale: typing.Final[types.Integer] = nobale
-        self.ifbrk: typing.Final[types.Integer] = ifbrk
-        self.ilvden: typing.Final[types.Integer] = ilvden
-        self.ievap: typing.Final[types.Integer] = ievap
-        self.nofis: typing.Final[types.Integer] = nofis
-
-
-@dataclasses.dataclass
-class LeaBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Lea``.
-
-    Attributes:
-        ipht: Generation of de-excitation photons setting.
-        icc: Level of physics for PHT physics setting.
-        nobalc: Mass-energy balancing in cascade setting.
-        nobale: Mass-energy balancing in evaporation setting.
-        ifbrk: Mass-energy balancing in Fermi-breakup setting.
-        ilvden: Level-density model setting.
-        ievap: Evaporation and fission model setting.
-        nofis: Fission setting.
-    """
-
-    ipht: str | int | types.Integer = None
-    icc: str | int | types.Integer = None
-    nobalc: str | int | types.Integer = None
-    nobale: str | int | types.Integer = None
-    ifbrk: str | int | types.Integer = None
-    ilvden: str | int | types.Integer = None
-    ievap: str | int | types.Integer = None
-    nofis: str | int | types.Integer = None
-
-    def build(self):
-        """
-        Builds ``LeaBuilder`` into ``Lea``.
-
-        Returns:
-            ``Lea`` for ``LeaBuilder``.
-        """
-
-        ipht = self.ipht
-        if isinstance(self.ipht, types.Integer):
-            ipht = self.ipht
-        elif isinstance(self.ipht, int):
-            ipht = types.Integer(self.ipht)
-        elif isinstance(self.ipht, str):
-            ipht = types.Integer.from_mcnp(self.ipht)
-
-        icc = self.icc
-        if isinstance(self.icc, types.Integer):
-            icc = self.icc
-        elif isinstance(self.icc, int):
-            icc = types.Integer(self.icc)
-        elif isinstance(self.icc, str):
-            icc = types.Integer.from_mcnp(self.icc)
-
-        nobalc = self.nobalc
-        if isinstance(self.nobalc, types.Integer):
-            nobalc = self.nobalc
-        elif isinstance(self.nobalc, int):
-            nobalc = types.Integer(self.nobalc)
-        elif isinstance(self.nobalc, str):
-            nobalc = types.Integer.from_mcnp(self.nobalc)
-
-        nobale = self.nobale
-        if isinstance(self.nobale, types.Integer):
-            nobale = self.nobale
-        elif isinstance(self.nobale, int):
-            nobale = types.Integer(self.nobale)
-        elif isinstance(self.nobale, str):
-            nobale = types.Integer.from_mcnp(self.nobale)
-
-        ifbrk = self.ifbrk
-        if isinstance(self.ifbrk, types.Integer):
-            ifbrk = self.ifbrk
-        elif isinstance(self.ifbrk, int):
-            ifbrk = types.Integer(self.ifbrk)
-        elif isinstance(self.ifbrk, str):
-            ifbrk = types.Integer.from_mcnp(self.ifbrk)
-
-        ilvden = self.ilvden
-        if isinstance(self.ilvden, types.Integer):
-            ilvden = self.ilvden
-        elif isinstance(self.ilvden, int):
-            ilvden = types.Integer(self.ilvden)
-        elif isinstance(self.ilvden, str):
-            ilvden = types.Integer.from_mcnp(self.ilvden)
-
-        ievap = self.ievap
-        if isinstance(self.ievap, types.Integer):
-            ievap = self.ievap
-        elif isinstance(self.ievap, int):
-            ievap = types.Integer(self.ievap)
-        elif isinstance(self.ievap, str):
-            ievap = types.Integer.from_mcnp(self.ievap)
-
-        nofis = self.nofis
-        if isinstance(self.nofis, types.Integer):
-            nofis = self.nofis
-        elif isinstance(self.nofis, int):
-            nofis = types.Integer(self.nofis)
-        elif isinstance(self.nofis, str):
-            nofis = types.Integer.from_mcnp(self.nofis)
-
-        return Lea(
-            ipht=ipht,
-            icc=icc,
-            nobalc=nobalc,
-            nobale=nobale,
-            ifbrk=ifbrk,
-            ilvden=ilvden,
-            ievap=ievap,
-            nofis=nofis,
-        )
-
-    @staticmethod
-    def unbuild(ast: Lea):
-        """
-        Unbuilds ``Lea`` into ``LeaBuilder``
-
-        Returns:
-            ``LeaBuilder`` for ``Lea``.
-        """
-
-        return LeaBuilder(
-            ipht=copy.deepcopy(ast.ipht),
-            icc=copy.deepcopy(ast.icc),
-            nobalc=copy.deepcopy(ast.nobalc),
-            nobale=copy.deepcopy(ast.nobale),
-            ifbrk=copy.deepcopy(ast.ifbrk),
-            ilvden=copy.deepcopy(ast.ilvden),
-            ievap=copy.deepcopy(ast.ievap),
-            nofis=copy.deepcopy(ast.nofis),
-        )
+        self._nofis: types.Integer = nofis

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Meshgeo(_option.EmbedOption):
 
     _REGEX = re.compile(rf'\Ameshgeo( {types.String._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, form: types.String):
+    def __init__(self, form: str | types.String):
         """
         Initializes ``Meshgeo``.
 
@@ -36,56 +32,41 @@ class Meshgeo(_option.EmbedOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.form: types.String = form
+
+    @property
+    def form(self) -> types.String:
+        """
+        Gets ``form``.
+
+        Returns:
+            ``form``.
+        """
+
+        return self._form
+
+    @form.setter
+    def form(self, form: str | types.String) -> None:
+        """
+        Sets ``form``.
+
+        Parameters:
+            form: Format specification of the embedded mesh input file.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if form is not None:
+            if isinstance(form, types.String):
+                form = form
+            elif isinstance(form, str):
+                form = types.String.from_mcnp(form)
+            else:
+                raise TypeError
+
         if form is None or form not in {'lnk3dnt', 'abaqus', 'mcnpum'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, form)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                form,
-            ]
-        )
-
-        self.form: typing.Final[types.String] = form
-
-
-@dataclasses.dataclass
-class MeshgeoBuilder(_option.EmbedOptionBuilder):
-    """
-    Builds ``Meshgeo``.
-
-    Attributes:
-        form: Format specification of the embedded mesh input file.
-    """
-
-    form: str | types.String
-
-    def build(self):
-        """
-        Builds ``MeshgeoBuilder`` into ``Meshgeo``.
-
-        Returns:
-            ``Meshgeo`` for ``MeshgeoBuilder``.
-        """
-
-        form = self.form
-        if isinstance(self.form, types.String):
-            form = self.form
-        elif isinstance(self.form, str):
-            form = types.String.from_mcnp(self.form)
-
-        return Meshgeo(
-            form=form,
-        )
-
-    @staticmethod
-    def unbuild(ast: Meshgeo):
-        """
-        Unbuilds ``Meshgeo`` into ``MeshgeoBuilder``
-
-        Returns:
-            ``MeshgeoBuilder`` for ``Meshgeo``.
-        """
-
-        return MeshgeoBuilder(
-            form=copy.deepcopy(ast.form),
-        )
+        self._form: types.String = form

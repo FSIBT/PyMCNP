@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import tropt
 from . import _option
@@ -25,7 +21,7 @@ class Tropt(_option.DataOption):
 
     _REGEX = re.compile(rf'\Atropt((?: (?:{tropt.TroptOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
-    def __init__(self, options: types.Tuple[tropt.TroptOption] = None):
+    def __init__(self, options: list[str] | list[tropt.TroptOption] = None):
         """
         Initializes ``Tropt``.
 
@@ -36,60 +32,41 @@ class Tropt(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                options,
-            ]
-        )
+        self.options: types.Tuple[tropt.TroptOption] = options
 
-        self.options: typing.Final[types.Tuple[tropt.TroptOption]] = options
-
-
-@dataclasses.dataclass
-class TroptBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Tropt``.
-
-    Attributes:
-        options: Dictionary of options.
-    """
-
-    options: list[str] | list[tropt.TroptOption] = None
-
-    def build(self):
+    @property
+    def options(self) -> types.Tuple[tropt.TroptOption]:
         """
-        Builds ``TroptBuilder`` into ``Tropt``.
+        Gets ``options``.
 
         Returns:
-            ``Tropt`` for ``TroptBuilder``.
+            ``options``.
         """
 
-        if self.options:
-            options = []
-            for item in self.options:
+        return self._options
+
+    @options.setter
+    def options(self, options: list[str] | list[tropt.TroptOption]) -> None:
+        """
+        Sets ``options``.
+
+        Parameters:
+            options: Dictionary of options.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if options is not None:
+            array = []
+            for item in options:
                 if isinstance(item, tropt.TroptOption):
-                    options.append(item)
+                    array.append(item)
                 elif isinstance(item, str):
-                    options.append(tropt.TroptOption.from_mcnp(item))
-                elif isinstance(item, tropt.TroptOptionBuilder):
-                    options.append(item.build())
-            options = types.Tuple(options)
-        else:
-            options = None
+                    array.append(tropt.TroptOption.from_mcnp(item))
+                else:
+                    raise TypeError
+            options = types.Tuple(array)
 
-        return Tropt(
-            options=options,
-        )
-
-    @staticmethod
-    def unbuild(ast: Tropt):
-        """
-        Unbuilds ``Tropt`` into ``TroptBuilder``
-
-        Returns:
-            ``TroptBuilder`` for ``Tropt``.
-        """
-
-        return TroptBuilder(
-            options=copy.deepcopy(ast.options),
-        )
+        self._options: types.Tuple[tropt.TroptOption] = options

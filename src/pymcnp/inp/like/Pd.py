@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -14,8 +10,8 @@ class Pd(_option.LikeOption):
     Represents INP pd elements.
 
     Attributes:
-        suffix: Like option suffix.
-        probability: Like probability of DXTRAN contribution.
+        suffix: Cell option suffix.
+        probability: Cell probability of DXTRAN contribution.
     """
 
     _KEYWORD = 'pd'
@@ -27,85 +23,97 @@ class Pd(_option.LikeOption):
 
     _REGEX = re.compile(rf'\Apd(\d+)( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, suffix: types.Integer, probability: types.Real):
+    def __init__(self, suffix: str | int | types.Integer, probability: str | int | float | types.Real):
         """
         Initializes ``Pd``.
 
         Parameters:
-            suffix: Like option suffix.
-            probability: Like probability of DXTRAN contribution.
+            suffix: Cell option suffix.
+            probability: Cell probability of DXTRAN contribution.
 
         Raises:
             InpError: SEMANTICS_OPTION.
         """
 
+        self.suffix: types.Integer = suffix
+        self.probability: types.Real = probability
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Cell option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def probability(self) -> types.Real:
+        """
+        Gets ``probability``.
+
+        Returns:
+            ``probability``.
+        """
+
+        return self._probability
+
+    @probability.setter
+    def probability(self, probability: str | int | float | types.Real) -> None:
+        """
+        Sets ``probability``.
+
+        Parameters:
+            probability: Cell probability of DXTRAN contribution.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if probability is not None:
+            if isinstance(probability, types.Real):
+                probability = probability
+            elif isinstance(probability, int):
+                probability = types.Real(probability)
+            elif isinstance(probability, float):
+                probability = types.Real(probability)
+            elif isinstance(probability, str):
+                probability = types.Real.from_mcnp(probability)
+            else:
+                raise TypeError
+
         if probability is None or not (probability >= 0 and probability <= 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, probability)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                probability,
-            ]
-        )
-
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.probability: typing.Final[types.Real] = probability
-
-
-@dataclasses.dataclass
-class PdBuilder(_option.LikeOptionBuilder):
-    """
-    Builds ``Pd``.
-
-    Attributes:
-        suffix: Like option suffix.
-        probability: Like probability of DXTRAN contribution.
-    """
-
-    suffix: str | int | types.Integer
-    probability: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``PdBuilder`` into ``Pd``.
-
-        Returns:
-            ``Pd`` for ``PdBuilder``.
-        """
-
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
-
-        probability = self.probability
-        if isinstance(self.probability, types.Real):
-            probability = self.probability
-        elif isinstance(self.probability, float) or isinstance(self.probability, int):
-            probability = types.Real(self.probability)
-        elif isinstance(self.probability, str):
-            probability = types.Real.from_mcnp(self.probability)
-
-        return Pd(
-            suffix=suffix,
-            probability=probability,
-        )
-
-    @staticmethod
-    def unbuild(ast: Pd):
-        """
-        Unbuilds ``Pd`` into ``PdBuilder``
-
-        Returns:
-            ``PdBuilder`` for ``Pd``.
-        """
-
-        return PdBuilder(
-            suffix=copy.deepcopy(ast.suffix),
-            probability=copy.deepcopy(ast.probability),
-        )
+        self._probability: types.Real = probability

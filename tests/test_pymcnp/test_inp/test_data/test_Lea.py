@@ -8,109 +8,6 @@ class Test_Lea:
         element = pymcnp.inp.data.Lea
         EXAMPLES_VALID = [
             {
-                'ipht': consts.ast.type.INTEGER,
-                'icc': consts.ast.type.INTEGER,
-                'nobalc': consts.ast.type.INTEGER,
-                'nobale': consts.ast.type.INTEGER,
-                'ifbrk': consts.ast.type.INTEGER,
-                'ilvden': consts.ast.type.INTEGER,
-                'ievap': consts.ast.type.INTEGER,
-                'nofis': consts.ast.type.INTEGER,
-            },
-            {
-                'ipht': None,
-                'icc': consts.ast.type.INTEGER,
-                'nobalc': consts.ast.type.INTEGER,
-                'nobale': consts.ast.type.INTEGER,
-                'ifbrk': consts.ast.type.INTEGER,
-                'ilvden': consts.ast.type.INTEGER,
-                'ievap': consts.ast.type.INTEGER,
-                'nofis': consts.ast.type.INTEGER,
-            },
-            {
-                'ipht': consts.ast.type.INTEGER,
-                'icc': None,
-                'nobalc': consts.ast.type.INTEGER,
-                'nobale': consts.ast.type.INTEGER,
-                'ifbrk': consts.ast.type.INTEGER,
-                'ilvden': consts.ast.type.INTEGER,
-                'ievap': consts.ast.type.INTEGER,
-                'nofis': consts.ast.type.INTEGER,
-            },
-            {
-                'ipht': consts.ast.type.INTEGER,
-                'icc': consts.ast.type.INTEGER,
-                'nobalc': None,
-                'nobale': consts.ast.type.INTEGER,
-                'ifbrk': consts.ast.type.INTEGER,
-                'ilvden': consts.ast.type.INTEGER,
-                'ievap': consts.ast.type.INTEGER,
-                'nofis': consts.ast.type.INTEGER,
-            },
-            {
-                'ipht': consts.ast.type.INTEGER,
-                'icc': consts.ast.type.INTEGER,
-                'nobalc': consts.ast.type.INTEGER,
-                'nobale': None,
-                'ifbrk': consts.ast.type.INTEGER,
-                'ilvden': consts.ast.type.INTEGER,
-                'ievap': consts.ast.type.INTEGER,
-                'nofis': consts.ast.type.INTEGER,
-            },
-            {
-                'ipht': consts.ast.type.INTEGER,
-                'icc': consts.ast.type.INTEGER,
-                'nobalc': consts.ast.type.INTEGER,
-                'nobale': consts.ast.type.INTEGER,
-                'ifbrk': None,
-                'ilvden': consts.ast.type.INTEGER,
-                'ievap': consts.ast.type.INTEGER,
-                'nofis': consts.ast.type.INTEGER,
-            },
-            {
-                'ipht': consts.ast.type.INTEGER,
-                'icc': consts.ast.type.INTEGER,
-                'nobalc': consts.ast.type.INTEGER,
-                'nobale': consts.ast.type.INTEGER,
-                'ifbrk': consts.ast.type.INTEGER,
-                'ilvden': None,
-                'ievap': consts.ast.type.INTEGER,
-                'nofis': consts.ast.type.INTEGER,
-            },
-            {
-                'ipht': consts.ast.type.INTEGER,
-                'icc': consts.ast.type.INTEGER,
-                'nobalc': consts.ast.type.INTEGER,
-                'nobale': consts.ast.type.INTEGER,
-                'ifbrk': consts.ast.type.INTEGER,
-                'ilvden': consts.ast.type.INTEGER,
-                'ievap': None,
-                'nofis': consts.ast.type.INTEGER,
-            },
-            {
-                'ipht': consts.ast.type.INTEGER,
-                'icc': consts.ast.type.INTEGER,
-                'nobalc': consts.ast.type.INTEGER,
-                'nobale': consts.ast.type.INTEGER,
-                'ifbrk': consts.ast.type.INTEGER,
-                'ilvden': consts.ast.type.INTEGER,
-                'ievap': consts.ast.type.INTEGER,
-                'nofis': None,
-            },
-        ]
-        EXAMPLES_INVALID = []
-
-    class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.data.Lea
-        EXAMPLES_VALID = [consts.string.inp.data.LEA]
-        EXAMPLES_INVALID = ['hello']
-
-
-class Test_LeaBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.LeaBuilder
-        EXAMPLES_VALID = [
-            {
                 'ipht': consts.string.type.INTEGER,
                 'icc': consts.string.type.INTEGER,
                 'nobalc': consts.string.type.INTEGER,
@@ -294,3 +191,8 @@ class Test_LeaBuilder:
                 'nofis': -9999,
             },
         ]
+
+    class Test_Mcnp(classes.Test_Mcnp):
+        element = pymcnp.inp.data.Lea
+        EXAMPLES_VALID = [consts.string.inp.data.LEA]
+        EXAMPLES_INVALID = ['hello']

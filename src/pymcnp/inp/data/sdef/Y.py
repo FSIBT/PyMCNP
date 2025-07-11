@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Y(_option.SdefOption):
 
     _REGEX = re.compile(rf'\Ay( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, y_coordinate: types.Real):
+    def __init__(self, y_coordinate: str | int | float | types.Real):
         """
         Initializes ``Y``.
 
@@ -36,58 +32,45 @@ class Y(_option.SdefOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.y_coordinate: types.Real = y_coordinate
+
+    @property
+    def y_coordinate(self) -> types.Real:
+        """
+        Gets ``y_coordinate``.
+
+        Returns:
+            ``y_coordinate``.
+        """
+
+        return self._y_coordinate
+
+    @y_coordinate.setter
+    def y_coordinate(self, y_coordinate: str | int | float | types.Real) -> None:
+        """
+        Sets ``y_coordinate``.
+
+        Parameters:
+            y_coordinate: Y-cordinate of position.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if y_coordinate is not None:
+            if isinstance(y_coordinate, types.Real):
+                y_coordinate = y_coordinate
+            elif isinstance(y_coordinate, int):
+                y_coordinate = types.Real(y_coordinate)
+            elif isinstance(y_coordinate, float):
+                y_coordinate = types.Real(y_coordinate)
+            elif isinstance(y_coordinate, str):
+                y_coordinate = types.Real.from_mcnp(y_coordinate)
+            else:
+                raise TypeError
+
         if y_coordinate is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y_coordinate)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                y_coordinate,
-            ]
-        )
-
-        self.y_coordinate: typing.Final[types.Real] = y_coordinate
-
-
-@dataclasses.dataclass
-class YBuilder(_option.SdefOptionBuilder):
-    """
-    Builds ``Y``.
-
-    Attributes:
-        y_coordinate: Y-cordinate of position.
-    """
-
-    y_coordinate: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``YBuilder`` into ``Y``.
-
-        Returns:
-            ``Y`` for ``YBuilder``.
-        """
-
-        y_coordinate = self.y_coordinate
-        if isinstance(self.y_coordinate, types.Real):
-            y_coordinate = self.y_coordinate
-        elif isinstance(self.y_coordinate, float) or isinstance(self.y_coordinate, int):
-            y_coordinate = types.Real(self.y_coordinate)
-        elif isinstance(self.y_coordinate, str):
-            y_coordinate = types.Real.from_mcnp(self.y_coordinate)
-
-        return Y(
-            y_coordinate=y_coordinate,
-        )
-
-    @staticmethod
-    def unbuild(ast: Y):
-        """
-        Unbuilds ``Y`` into ``YBuilder``
-
-        Returns:
-            ``YBuilder`` for ``Y``.
-        """
-
-        return YBuilder(
-            y_coordinate=copy.deepcopy(ast.y_coordinate),
-        )
+        self._y_coordinate: types.Real = y_coordinate

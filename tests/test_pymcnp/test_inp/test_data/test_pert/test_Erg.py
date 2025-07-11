@@ -6,21 +6,14 @@ from ..... import classes
 class Test_Erg:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.pert.Erg
-        EXAMPLES_VALID = [{'energy_lower_bound': consts.ast.type.REAL, 'energy_upper_bound': consts.ast.type.REAL}]
-        EXAMPLES_INVALID = [{'energy_lower_bound': None, 'energy_upper_bound': consts.ast.type.REAL}, {'energy_lower_bound': consts.ast.type.REAL, 'energy_upper_bound': None}]
-
-    class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.data.pert.Erg
-        EXAMPLES_VALID = [consts.string.inp.data.pert.ERG]
-        EXAMPLES_INVALID = ['hello']
-
-
-class Test_ErgBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.pert.ErgBuilder
         EXAMPLES_VALID = [
             {'energy_lower_bound': consts.string.type.REAL, 'energy_upper_bound': consts.string.type.REAL},
             {'energy_lower_bound': 3.1, 'energy_upper_bound': 3.1},
             {'energy_lower_bound': consts.ast.type.REAL, 'energy_upper_bound': consts.ast.type.REAL},
         ]
         EXAMPLES_INVALID = [{'energy_lower_bound': None, 'energy_upper_bound': consts.string.type.REAL}, {'energy_lower_bound': consts.string.type.REAL, 'energy_upper_bound': None}]
+
+    class Test_Mcnp(classes.Test_Mcnp):
+        element = pymcnp.inp.data.pert.Erg
+        EXAMPLES_VALID = [consts.string.inp.data.pert.ERG]
+        EXAMPLES_INVALID = ['hello']

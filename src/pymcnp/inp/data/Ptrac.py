@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import ptrac
 from . import _option
@@ -25,7 +21,7 @@ class Ptrac(_option.DataOption):
 
     _REGEX = re.compile(rf'\Aptrac((?: (?:{ptrac.PtracOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
-    def __init__(self, options: types.Tuple[ptrac.PtracOption] = None):
+    def __init__(self, options: list[str] | list[ptrac.PtracOption] = None):
         """
         Initializes ``Ptrac``.
 
@@ -36,60 +32,41 @@ class Ptrac(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                options,
-            ]
-        )
+        self.options: types.Tuple[ptrac.PtracOption] = options
 
-        self.options: typing.Final[types.Tuple[ptrac.PtracOption]] = options
-
-
-@dataclasses.dataclass
-class PtracBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Ptrac``.
-
-    Attributes:
-        options: Dictionary of options.
-    """
-
-    options: list[str] | list[ptrac.PtracOption] = None
-
-    def build(self):
+    @property
+    def options(self) -> types.Tuple[ptrac.PtracOption]:
         """
-        Builds ``PtracBuilder`` into ``Ptrac``.
+        Gets ``options``.
 
         Returns:
-            ``Ptrac`` for ``PtracBuilder``.
+            ``options``.
         """
 
-        if self.options:
-            options = []
-            for item in self.options:
+        return self._options
+
+    @options.setter
+    def options(self, options: list[str] | list[ptrac.PtracOption]) -> None:
+        """
+        Sets ``options``.
+
+        Parameters:
+            options: Dictionary of options.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if options is not None:
+            array = []
+            for item in options:
                 if isinstance(item, ptrac.PtracOption):
-                    options.append(item)
+                    array.append(item)
                 elif isinstance(item, str):
-                    options.append(ptrac.PtracOption.from_mcnp(item))
-                elif isinstance(item, ptrac.PtracOptionBuilder):
-                    options.append(item.build())
-            options = types.Tuple(options)
-        else:
-            options = None
+                    array.append(ptrac.PtracOption.from_mcnp(item))
+                else:
+                    raise TypeError
+            options = types.Tuple(array)
 
-        return Ptrac(
-            options=options,
-        )
-
-    @staticmethod
-    def unbuild(ast: Ptrac):
-        """
-        Unbuilds ``Ptrac`` into ``PtracBuilder``
-
-        Returns:
-            ``PtracBuilder`` for ``Ptrac``.
-        """
-
-        return PtracBuilder(
-            options=copy.deepcopy(ast.options),
-        )
+        self._options: types.Tuple[ptrac.PtracOption] = options

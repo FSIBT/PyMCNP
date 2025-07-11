@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -27,7 +23,7 @@ class Unc(_option.CellOption):
 
     _REGEX = re.compile(rf'\Aunc:(\S+)( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, designator: types.Designator, setting: types.Integer):
+    def __init__(self, designator: str | types.Designator, setting: str | int | types.Integer):
         """
         Initializes ``Unc``.
 
@@ -39,71 +35,81 @@ class Unc(_option.CellOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.designator: types.Designator = designator
+        self.setting: types.Integer = setting
+
+    @property
+    def designator(self) -> types.Designator:
+        """
+        Gets ``designator``.
+
+        Returns:
+            ``designator``.
+        """
+
+        return self._designator
+
+    @designator.setter
+    def designator(self, designator: str | types.Designator) -> None:
+        """
+        Sets ``designator``.
+
+        Parameters:
+            designator: Cell particle designator.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if designator is not None:
+            if isinstance(designator, types.Designator):
+                designator = designator
+            elif isinstance(designator, str):
+                designator = types.Designator.from_mcnp(designator)
+            else:
+                raise TypeError
+
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
+
+        self._designator: types.Designator = designator
+
+    @property
+    def setting(self) -> types.Integer:
+        """
+        Gets ``setting``.
+
+        Returns:
+            ``setting``.
+        """
+
+        return self._setting
+
+    @setting.setter
+    def setting(self, setting: str | int | types.Integer) -> None:
+        """
+        Sets ``setting``.
+
+        Parameters:
+            setting: Cell uncollided secondaries setting.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if setting is not None:
+            if isinstance(setting, types.Integer):
+                setting = setting
+            elif isinstance(setting, int):
+                setting = types.Integer(setting)
+            elif isinstance(setting, str):
+                setting = types.Integer.from_mcnp(setting)
+            else:
+                raise TypeError
+
         if setting is None or setting not in {0, 1}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                setting,
-            ]
-        )
-
-        self.designator: typing.Final[types.Designator] = designator
-        self.setting: typing.Final[types.Integer] = setting
-
-
-@dataclasses.dataclass
-class UncBuilder(_option.CellOptionBuilder):
-    """
-    Builds ``Unc``.
-
-    Attributes:
-        designator: Cell particle designator.
-        setting: Cell uncollided secondaries setting.
-    """
-
-    designator: str | types.Designator
-    setting: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``UncBuilder`` into ``Unc``.
-
-        Returns:
-            ``Unc`` for ``UncBuilder``.
-        """
-
-        designator = self.designator
-        if isinstance(self.designator, types.Designator):
-            designator = self.designator
-        elif isinstance(self.designator, str):
-            designator = types.Designator.from_mcnp(self.designator)
-
-        setting = self.setting
-        if isinstance(self.setting, types.Integer):
-            setting = self.setting
-        elif isinstance(self.setting, int):
-            setting = types.Integer(self.setting)
-        elif isinstance(self.setting, str):
-            setting = types.Integer.from_mcnp(self.setting)
-
-        return Unc(
-            designator=designator,
-            setting=setting,
-        )
-
-    @staticmethod
-    def unbuild(ast: Unc):
-        """
-        Unbuilds ``Unc`` into ``UncBuilder``
-
-        Returns:
-            ``UncBuilder`` for ``Unc``.
-        """
-
-        return UncBuilder(
-            designator=copy.deepcopy(ast.designator),
-            setting=copy.deepcopy(ast.setting),
-        )
+        self._setting: types.Integer = setting

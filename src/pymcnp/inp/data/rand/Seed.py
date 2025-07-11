@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Seed(_option.RandOption):
 
     _REGEX = re.compile(rf'\Aseed( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, seed: types.Integer):
+    def __init__(self, seed: str | int | types.Integer):
         """
         Initializes ``Seed``.
 
@@ -36,58 +32,43 @@ class Seed(_option.RandOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.seed: types.Integer = seed
+
+    @property
+    def seed(self) -> types.Integer:
+        """
+        Gets ``seed``.
+
+        Returns:
+            ``seed``.
+        """
+
+        return self._seed
+
+    @seed.setter
+    def seed(self, seed: str | int | types.Integer) -> None:
+        """
+        Sets ``seed``.
+
+        Parameters:
+            seed: Random number generator seed.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if seed is not None:
+            if isinstance(seed, types.Integer):
+                seed = seed
+            elif isinstance(seed, int):
+                seed = types.Integer(seed)
+            elif isinstance(seed, str):
+                seed = types.Integer.from_mcnp(seed)
+            else:
+                raise TypeError
+
         if seed is None or not (seed % 2 == 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, seed)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                seed,
-            ]
-        )
-
-        self.seed: typing.Final[types.Integer] = seed
-
-
-@dataclasses.dataclass
-class SeedBuilder(_option.RandOptionBuilder):
-    """
-    Builds ``Seed``.
-
-    Attributes:
-        seed: Random number generator seed.
-    """
-
-    seed: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``SeedBuilder`` into ``Seed``.
-
-        Returns:
-            ``Seed`` for ``SeedBuilder``.
-        """
-
-        seed = self.seed
-        if isinstance(self.seed, types.Integer):
-            seed = self.seed
-        elif isinstance(self.seed, int):
-            seed = types.Integer(self.seed)
-        elif isinstance(self.seed, str):
-            seed = types.Integer.from_mcnp(self.seed)
-
-        return Seed(
-            seed=seed,
-        )
-
-    @staticmethod
-    def unbuild(ast: Seed):
-        """
-        Unbuilds ``Seed`` into ``SeedBuilder``
-
-        Returns:
-            ``SeedBuilder`` for ``Seed``.
-        """
-
-        return SeedBuilder(
-            seed=copy.deepcopy(ast.seed),
-        )
+        self._seed: types.Integer = seed

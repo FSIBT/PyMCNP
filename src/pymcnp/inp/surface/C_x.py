@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -30,7 +26,7 @@ class C_x(_option.SurfaceOption):
 
     _REGEX = re.compile(rf'\Ac/x( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, y: types.Real, z: types.Real, r: types.Real):
+    def __init__(self, y: str | int | float | types.Real, z: str | int | float | types.Real, r: str | int | float | types.Real):
         """
         Initializes ``C_x``.
 
@@ -43,24 +39,132 @@ class C_x(_option.SurfaceOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.y: types.Real = y
+        self.z: types.Real = z
+        self.r: types.Real = r
+
+    @property
+    def y(self) -> types.Real:
+        """
+        Gets ``y``.
+
+        Returns:
+            ``y``.
+        """
+
+        return self._y
+
+    @y.setter
+    def y(self, y: str | int | float | types.Real) -> None:
+        """
+        Sets ``y``.
+
+        Parameters:
+            y: Parallel-to-x-axis cylinder center y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if y is not None:
+            if isinstance(y, types.Real):
+                y = y
+            elif isinstance(y, int):
+                y = types.Real(y)
+            elif isinstance(y, float):
+                y = types.Real(y)
+            elif isinstance(y, str):
+                y = types.Real.from_mcnp(y)
+            else:
+                raise TypeError
+
         if y is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y)
+
+        self._y: types.Real = y
+
+    @property
+    def z(self) -> types.Real:
+        """
+        Gets ``z``.
+
+        Returns:
+            ``z``.
+        """
+
+        return self._z
+
+    @z.setter
+    def z(self, z: str | int | float | types.Real) -> None:
+        """
+        Sets ``z``.
+
+        Parameters:
+            z: Parallel-to-x-axis cylinder center z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if z is not None:
+            if isinstance(z, types.Real):
+                z = z
+            elif isinstance(z, int):
+                z = types.Real(z)
+            elif isinstance(z, float):
+                z = types.Real(z)
+            elif isinstance(z, str):
+                z = types.Real.from_mcnp(z)
+            else:
+                raise TypeError
+
         if z is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z)
+
+        self._z: types.Real = z
+
+    @property
+    def r(self) -> types.Real:
+        """
+        Gets ``r``.
+
+        Returns:
+            ``r``.
+        """
+
+        return self._r
+
+    @r.setter
+    def r(self, r: str | int | float | types.Real) -> None:
+        """
+        Sets ``r``.
+
+        Parameters:
+            r: Parallel-to-x-axis cylinder radius.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if r is not None:
+            if isinstance(r, types.Real):
+                r = r
+            elif isinstance(r, int):
+                r = types.Real(r)
+            elif isinstance(r, float):
+                r = types.Real(r)
+            elif isinstance(r, str):
+                r = types.Real.from_mcnp(r)
+            else:
+                raise TypeError
+
         if r is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                y,
-                z,
-                r,
-            ]
-        )
-
-        self.y: typing.Final[types.Real] = y
-        self.z: typing.Final[types.Real] = z
-        self.r: typing.Final[types.Real] = r
+        self._r: types.Real = r
 
     def draw(self):
         """
@@ -75,72 +179,3 @@ class C_x(_option.SurfaceOption):
         vis = vis.add_translation(_visualization.Vector(0, self.y, self.z))
 
         return vis
-
-
-@dataclasses.dataclass
-class C_xBuilder(_option.SurfaceOptionBuilder):
-    """
-    Builds ``C_x``.
-
-    Attributes:
-        y: Parallel-to-x-axis cylinder center y component.
-        z: Parallel-to-x-axis cylinder center z component.
-        r: Parallel-to-x-axis cylinder radius.
-    """
-
-    y: str | float | types.Real
-    z: str | float | types.Real
-    r: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``C_xBuilder`` into ``C_x``.
-
-        Returns:
-            ``C_x`` for ``C_xBuilder``.
-        """
-
-        y = self.y
-        if isinstance(self.y, types.Real):
-            y = self.y
-        elif isinstance(self.y, float) or isinstance(self.y, int):
-            y = types.Real(self.y)
-        elif isinstance(self.y, str):
-            y = types.Real.from_mcnp(self.y)
-
-        z = self.z
-        if isinstance(self.z, types.Real):
-            z = self.z
-        elif isinstance(self.z, float) or isinstance(self.z, int):
-            z = types.Real(self.z)
-        elif isinstance(self.z, str):
-            z = types.Real.from_mcnp(self.z)
-
-        r = self.r
-        if isinstance(self.r, types.Real):
-            r = self.r
-        elif isinstance(self.r, float) or isinstance(self.r, int):
-            r = types.Real(self.r)
-        elif isinstance(self.r, str):
-            r = types.Real.from_mcnp(self.r)
-
-        return C_x(
-            y=y,
-            z=z,
-            r=r,
-        )
-
-    @staticmethod
-    def unbuild(ast: C_x):
-        """
-        Unbuilds ``C_x`` into ``C_xBuilder``
-
-        Returns:
-            ``C_xBuilder`` for ``C_x``.
-        """
-
-        return C_xBuilder(
-            y=copy.deepcopy(ast.y),
-            z=copy.deepcopy(ast.z),
-            r=copy.deepcopy(ast.r),
-        )

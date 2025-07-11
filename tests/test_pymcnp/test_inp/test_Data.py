@@ -408,9 +408,7 @@ class Test_Data:
             'hello',
         ]
 
-
-class Test_DataBuilder:
-    class Test_Build(classes.Test_Build):
-        element = pymcnp.inp.DataBuilder
-        EXAMPLES_VALID = [{'option': consts.string.inp.data.VOL}, {'option': consts.builder.inp.data.VOL}, {'option': consts.ast.inp.data.VOL}]
+    class Test_Init(classes.Test_Init):
+        element = pymcnp.inp.Data
+        EXAMPLES_VALID = [{'option': consts.string.inp.data.VOL}, {'option': consts.ast.inp.data.VOL}]
         EXAMPLES_INVALID = [{'option': None}]

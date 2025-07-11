@@ -8,130 +8,6 @@ class Test_Tr_3:
         element = pymcnp.inp.data.Tr_3
         EXAMPLES_VALID = [
             {
-                'prefix': pymcnp.types.String('*'),
-                'suffix': consts.ast.type.INTEGER,
-                'x': consts.ast.type.REAL,
-                'y': consts.ast.type.REAL,
-                'z': consts.ast.type.REAL,
-                'xx': consts.ast.type.REAL,
-                'xy': consts.ast.type.REAL,
-                'xz': consts.ast.type.REAL,
-                'system': consts.ast.type.INTEGER,
-            },
-            {
-                'prefix': None,
-                'suffix': consts.ast.type.INTEGER,
-                'x': consts.ast.type.REAL,
-                'y': consts.ast.type.REAL,
-                'z': consts.ast.type.REAL,
-                'xx': consts.ast.type.REAL,
-                'xy': consts.ast.type.REAL,
-                'xz': consts.ast.type.REAL,
-                'system': consts.ast.type.INTEGER,
-            },
-            {
-                'prefix': pymcnp.types.String('*'),
-                'suffix': consts.ast.type.INTEGER,
-                'x': consts.ast.type.REAL,
-                'y': consts.ast.type.REAL,
-                'z': consts.ast.type.REAL,
-                'xx': consts.ast.type.REAL,
-                'xy': consts.ast.type.REAL,
-                'xz': consts.ast.type.REAL,
-                'system': None,
-            },
-        ]
-        EXAMPLES_INVALID = [
-            {
-                'prefix': pymcnp.types.String('*'),
-                'suffix': None,
-                'x': consts.ast.type.REAL,
-                'y': consts.ast.type.REAL,
-                'z': consts.ast.type.REAL,
-                'xx': consts.ast.type.REAL,
-                'xy': consts.ast.type.REAL,
-                'xz': consts.ast.type.REAL,
-                'system': consts.ast.type.INTEGER,
-            },
-            {
-                'prefix': pymcnp.types.String('*'),
-                'suffix': consts.ast.type.INTEGER,
-                'x': None,
-                'y': consts.ast.type.REAL,
-                'z': consts.ast.type.REAL,
-                'xx': consts.ast.type.REAL,
-                'xy': consts.ast.type.REAL,
-                'xz': consts.ast.type.REAL,
-                'system': consts.ast.type.INTEGER,
-            },
-            {
-                'prefix': pymcnp.types.String('*'),
-                'suffix': consts.ast.type.INTEGER,
-                'x': consts.ast.type.REAL,
-                'y': None,
-                'z': consts.ast.type.REAL,
-                'xx': consts.ast.type.REAL,
-                'xy': consts.ast.type.REAL,
-                'xz': consts.ast.type.REAL,
-                'system': consts.ast.type.INTEGER,
-            },
-            {
-                'prefix': pymcnp.types.String('*'),
-                'suffix': consts.ast.type.INTEGER,
-                'x': consts.ast.type.REAL,
-                'y': consts.ast.type.REAL,
-                'z': None,
-                'xx': consts.ast.type.REAL,
-                'xy': consts.ast.type.REAL,
-                'xz': consts.ast.type.REAL,
-                'system': consts.ast.type.INTEGER,
-            },
-            {
-                'prefix': pymcnp.types.String('*'),
-                'suffix': consts.ast.type.INTEGER,
-                'x': consts.ast.type.REAL,
-                'y': consts.ast.type.REAL,
-                'z': consts.ast.type.REAL,
-                'xx': None,
-                'xy': consts.ast.type.REAL,
-                'xz': consts.ast.type.REAL,
-                'system': consts.ast.type.INTEGER,
-            },
-            {
-                'prefix': pymcnp.types.String('*'),
-                'suffix': consts.ast.type.INTEGER,
-                'x': consts.ast.type.REAL,
-                'y': consts.ast.type.REAL,
-                'z': consts.ast.type.REAL,
-                'xx': consts.ast.type.REAL,
-                'xy': None,
-                'xz': consts.ast.type.REAL,
-                'system': consts.ast.type.INTEGER,
-            },
-            {
-                'prefix': pymcnp.types.String('*'),
-                'suffix': consts.ast.type.INTEGER,
-                'x': consts.ast.type.REAL,
-                'y': consts.ast.type.REAL,
-                'z': consts.ast.type.REAL,
-                'xx': consts.ast.type.REAL,
-                'xy': consts.ast.type.REAL,
-                'xz': None,
-                'system': consts.ast.type.INTEGER,
-            },
-        ]
-
-    class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.data.Tr_3
-        EXAMPLES_VALID = [consts.string.inp.data.TR_3]
-        EXAMPLES_INVALID = ['hello']
-
-
-class Test_TrBuilder_3:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.TrBuilder_3
-        EXAMPLES_VALID = [
-            {
                 'prefix': '*',
                 'suffix': consts.string.type.INTEGER,
                 'x': consts.string.type.REAL,
@@ -278,3 +154,8 @@ class Test_TrBuilder_3:
                 'system': -9999,
             },
         ]
+
+    class Test_Mcnp(classes.Test_Mcnp):
+        element = pymcnp.inp.data.Tr_3
+        EXAMPLES_VALID = [consts.string.inp.data.TR_3]
+        EXAMPLES_INVALID = ['hello']

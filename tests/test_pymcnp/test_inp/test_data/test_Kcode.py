@@ -8,109 +8,6 @@ class Test_Kcode:
         element = pymcnp.inp.data.Kcode
         EXAMPLES_VALID = [
             {
-                'nsrck': consts.ast.type.INTEGER,
-                'rkk': consts.ast.type.REAL,
-                'ikz': consts.ast.type.INTEGER,
-                'kct': consts.ast.type.INTEGER,
-                'msrk': consts.ast.type.INTEGER,
-                'knrm': consts.ast.type.INTEGER,
-                'mrkp': consts.ast.type.INTEGER,
-                'kc8': consts.ast.type.INTEGER,
-            },
-            {
-                'nsrck': None,
-                'rkk': consts.ast.type.REAL,
-                'ikz': consts.ast.type.INTEGER,
-                'kct': consts.ast.type.INTEGER,
-                'msrk': consts.ast.type.INTEGER,
-                'knrm': consts.ast.type.INTEGER,
-                'mrkp': consts.ast.type.INTEGER,
-                'kc8': consts.ast.type.INTEGER,
-            },
-            {
-                'nsrck': consts.ast.type.INTEGER,
-                'rkk': None,
-                'ikz': consts.ast.type.INTEGER,
-                'kct': consts.ast.type.INTEGER,
-                'msrk': consts.ast.type.INTEGER,
-                'knrm': consts.ast.type.INTEGER,
-                'mrkp': consts.ast.type.INTEGER,
-                'kc8': consts.ast.type.INTEGER,
-            },
-            {
-                'nsrck': consts.ast.type.INTEGER,
-                'rkk': consts.ast.type.REAL,
-                'ikz': None,
-                'kct': consts.ast.type.INTEGER,
-                'msrk': consts.ast.type.INTEGER,
-                'knrm': consts.ast.type.INTEGER,
-                'mrkp': consts.ast.type.INTEGER,
-                'kc8': consts.ast.type.INTEGER,
-            },
-            {
-                'nsrck': consts.ast.type.INTEGER,
-                'rkk': consts.ast.type.REAL,
-                'ikz': consts.ast.type.INTEGER,
-                'kct': None,
-                'msrk': consts.ast.type.INTEGER,
-                'knrm': consts.ast.type.INTEGER,
-                'mrkp': consts.ast.type.INTEGER,
-                'kc8': consts.ast.type.INTEGER,
-            },
-            {
-                'nsrck': consts.ast.type.INTEGER,
-                'rkk': consts.ast.type.REAL,
-                'ikz': consts.ast.type.INTEGER,
-                'kct': consts.ast.type.INTEGER,
-                'msrk': None,
-                'knrm': consts.ast.type.INTEGER,
-                'mrkp': consts.ast.type.INTEGER,
-                'kc8': consts.ast.type.INTEGER,
-            },
-            {
-                'nsrck': consts.ast.type.INTEGER,
-                'rkk': consts.ast.type.REAL,
-                'ikz': consts.ast.type.INTEGER,
-                'kct': consts.ast.type.INTEGER,
-                'msrk': consts.ast.type.INTEGER,
-                'knrm': None,
-                'mrkp': consts.ast.type.INTEGER,
-                'kc8': consts.ast.type.INTEGER,
-            },
-            {
-                'nsrck': consts.ast.type.INTEGER,
-                'rkk': consts.ast.type.REAL,
-                'ikz': consts.ast.type.INTEGER,
-                'kct': consts.ast.type.INTEGER,
-                'msrk': consts.ast.type.INTEGER,
-                'knrm': consts.ast.type.INTEGER,
-                'mrkp': None,
-                'kc8': consts.ast.type.INTEGER,
-            },
-            {
-                'nsrck': consts.ast.type.INTEGER,
-                'rkk': consts.ast.type.REAL,
-                'ikz': consts.ast.type.INTEGER,
-                'kct': consts.ast.type.INTEGER,
-                'msrk': consts.ast.type.INTEGER,
-                'knrm': consts.ast.type.INTEGER,
-                'mrkp': consts.ast.type.INTEGER,
-                'kc8': None,
-            },
-        ]
-        EXAMPLES_INVALID = []
-
-    class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.data.Kcode
-        EXAMPLES_VALID = [consts.string.inp.data.KCODE]
-        EXAMPLES_INVALID = ['hello']
-
-
-class Test_KcodeBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.KcodeBuilder
-        EXAMPLES_VALID = [
-            {
                 'nsrck': consts.string.type.INTEGER,
                 'rkk': consts.string.type.REAL,
                 'ikz': consts.string.type.INTEGER,
@@ -274,3 +171,8 @@ class Test_KcodeBuilder:
                 'kc8': -9999,
             },
         ]
+
+    class Test_Mcnp(classes.Test_Mcnp):
+        element = pymcnp.inp.data.Kcode
+        EXAMPLES_VALID = [consts.string.inp.data.KCODE]
+        EXAMPLES_INVALID = ['hello']

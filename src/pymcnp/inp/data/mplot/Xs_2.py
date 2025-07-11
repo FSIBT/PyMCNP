@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Xs_2(_option.MplotOption):
 
     _REGEX = re.compile(rf'\Axs( {types.String._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, m: types.String):
+    def __init__(self, m: str | types.String):
         """
         Initializes ``Xs_2``.
 
@@ -36,56 +32,41 @@ class Xs_2(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.m: types.String = m
+
+    @property
+    def m(self) -> types.String:
+        """
+        Gets ``m``.
+
+        Returns:
+            ``m``.
+        """
+
+        return self._m
+
+    @m.setter
+    def m(self, m: str | types.String) -> None:
+        """
+        Sets ``m``.
+
+        Parameters:
+            m: Material question mark.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if m is not None:
+            if isinstance(m, types.String):
+                m = m
+            elif isinstance(m, str):
+                m = types.String.from_mcnp(m)
+            else:
+                raise TypeError
+
         if m is None or not (m == '?'):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, m)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                m,
-            ]
-        )
-
-        self.m: typing.Final[types.String] = m
-
-
-@dataclasses.dataclass
-class XsBuilder_2(_option.MplotOptionBuilder):
-    """
-    Builds ``Xs_2``.
-
-    Attributes:
-        m: Material question mark.
-    """
-
-    m: str | types.String
-
-    def build(self):
-        """
-        Builds ``XsBuilder_2`` into ``Xs_2``.
-
-        Returns:
-            ``Xs_2`` for ``XsBuilder_2``.
-        """
-
-        m = self.m
-        if isinstance(self.m, types.String):
-            m = self.m
-        elif isinstance(self.m, str):
-            m = types.String.from_mcnp(self.m)
-
-        return Xs_2(
-            m=m,
-        )
-
-    @staticmethod
-    def unbuild(ast: Xs_2):
-        """
-        Unbuilds ``Xs_2`` into ``XsBuilder_2``
-
-        Returns:
-            ``XsBuilder_2`` for ``Xs_2``.
-        """
-
-        return XsBuilder_2(
-            m=copy.deepcopy(ast.m),
-        )
+        self._m: types.String = m

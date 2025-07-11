@@ -7,129 +7,6 @@ class Test_Fq:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.Fq
         EXAMPLES_VALID = [
-            {
-                'suffix': consts.ast.type.INTEGER,
-                'a1': pymcnp.types.String('t'),
-                'a2': pymcnp.types.String('t'),
-                'a3': pymcnp.types.String('t'),
-                'a4': pymcnp.types.String('t'),
-                'a5': pymcnp.types.String('t'),
-                'a6': pymcnp.types.String('t'),
-                'a7': pymcnp.types.String('t'),
-                'a8': pymcnp.types.String('t'),
-            },
-            {
-                'suffix': None,
-                'a1': pymcnp.types.String('t'),
-                'a2': pymcnp.types.String('t'),
-                'a3': pymcnp.types.String('t'),
-                'a4': pymcnp.types.String('t'),
-                'a5': pymcnp.types.String('t'),
-                'a6': pymcnp.types.String('t'),
-                'a7': pymcnp.types.String('t'),
-                'a8': pymcnp.types.String('t'),
-            },
-            {
-                'suffix': consts.ast.type.INTEGER,
-                'a1': None,
-                'a2': pymcnp.types.String('t'),
-                'a3': pymcnp.types.String('t'),
-                'a4': pymcnp.types.String('t'),
-                'a5': pymcnp.types.String('t'),
-                'a6': pymcnp.types.String('t'),
-                'a7': pymcnp.types.String('t'),
-                'a8': pymcnp.types.String('t'),
-            },
-            {
-                'suffix': consts.ast.type.INTEGER,
-                'a1': pymcnp.types.String('t'),
-                'a2': None,
-                'a3': pymcnp.types.String('t'),
-                'a4': pymcnp.types.String('t'),
-                'a5': pymcnp.types.String('t'),
-                'a6': pymcnp.types.String('t'),
-                'a7': pymcnp.types.String('t'),
-                'a8': pymcnp.types.String('t'),
-            },
-            {
-                'suffix': consts.ast.type.INTEGER,
-                'a1': pymcnp.types.String('t'),
-                'a2': pymcnp.types.String('t'),
-                'a3': None,
-                'a4': pymcnp.types.String('t'),
-                'a5': pymcnp.types.String('t'),
-                'a6': pymcnp.types.String('t'),
-                'a7': pymcnp.types.String('t'),
-                'a8': pymcnp.types.String('t'),
-            },
-            {
-                'suffix': consts.ast.type.INTEGER,
-                'a1': pymcnp.types.String('t'),
-                'a2': pymcnp.types.String('t'),
-                'a3': pymcnp.types.String('t'),
-                'a4': None,
-                'a5': pymcnp.types.String('t'),
-                'a6': pymcnp.types.String('t'),
-                'a7': pymcnp.types.String('t'),
-                'a8': pymcnp.types.String('t'),
-            },
-            {
-                'suffix': consts.ast.type.INTEGER,
-                'a1': pymcnp.types.String('t'),
-                'a2': pymcnp.types.String('t'),
-                'a3': pymcnp.types.String('t'),
-                'a4': pymcnp.types.String('t'),
-                'a5': None,
-                'a6': pymcnp.types.String('t'),
-                'a7': pymcnp.types.String('t'),
-                'a8': pymcnp.types.String('t'),
-            },
-            {
-                'suffix': consts.ast.type.INTEGER,
-                'a1': pymcnp.types.String('t'),
-                'a2': pymcnp.types.String('t'),
-                'a3': pymcnp.types.String('t'),
-                'a4': pymcnp.types.String('t'),
-                'a5': pymcnp.types.String('t'),
-                'a6': None,
-                'a7': pymcnp.types.String('t'),
-                'a8': pymcnp.types.String('t'),
-            },
-            {
-                'suffix': consts.ast.type.INTEGER,
-                'a1': pymcnp.types.String('t'),
-                'a2': pymcnp.types.String('t'),
-                'a3': pymcnp.types.String('t'),
-                'a4': pymcnp.types.String('t'),
-                'a5': pymcnp.types.String('t'),
-                'a6': pymcnp.types.String('t'),
-                'a7': None,
-                'a8': pymcnp.types.String('t'),
-            },
-            {
-                'suffix': consts.ast.type.INTEGER,
-                'a1': pymcnp.types.String('t'),
-                'a2': pymcnp.types.String('t'),
-                'a3': pymcnp.types.String('t'),
-                'a4': pymcnp.types.String('t'),
-                'a5': pymcnp.types.String('t'),
-                'a6': pymcnp.types.String('t'),
-                'a7': pymcnp.types.String('t'),
-                'a8': None,
-            },
-        ]
-        EXAMPLES_INVALID = []
-
-    class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.data.Fq
-        EXAMPLES_VALID = [consts.string.inp.data.FQ]
-        EXAMPLES_INVALID = ['hello']
-
-
-class Test_FqBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.FqBuilder
-        EXAMPLES_VALID = [
             {'suffix': consts.string.type.INTEGER, 'a1': 't', 'a2': 't', 'a3': 't', 'a4': 't', 'a5': 't', 'a6': 't', 'a7': 't', 'a8': 't'},
             {'suffix': 1, 'a1': 't', 'a2': 't', 'a3': 't', 'a4': 't', 'a5': 't', 'a6': 't', 'a7': 't', 'a8': 't'},
             {
@@ -164,3 +41,8 @@ class Test_FqBuilder:
             {'suffix': consts.string.type.INTEGER, 'a1': 't', 'a2': 't', 'a3': 't', 'a4': 't', 'a5': 't', 'a6': 't', 'a7': 'hello', 'a8': 't'},
             {'suffix': consts.string.type.INTEGER, 'a1': 't', 'a2': 't', 'a3': 't', 'a4': 't', 'a5': 't', 'a6': 't', 'a7': 't', 'a8': 'hello'},
         ]
+
+    class Test_Mcnp(classes.Test_Mcnp):
+        element = pymcnp.inp.data.Fq
+        EXAMPLES_VALID = [consts.string.inp.data.FQ]
+        EXAMPLES_INVALID = ['hello']

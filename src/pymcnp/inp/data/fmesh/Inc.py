@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -27,7 +23,7 @@ class Inc(_option.FmeshOption):
 
     _REGEX = re.compile(rf'\Ainc( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(self, lower: types.Real, upper: types.Real = None):
+    def __init__(self, lower: str | int | float | types.Real, upper: str | int | float | types.Real = None):
         """
         Initializes ``Inc``.
 
@@ -39,72 +35,84 @@ class Inc(_option.FmeshOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.lower: types.Real = lower
+        self.upper: types.Real = upper
+
+    @property
+    def lower(self) -> types.Real:
+        """
+        Gets ``lower``.
+
+        Returns:
+            ``lower``.
+        """
+
+        return self._lower
+
+    @lower.setter
+    def lower(self, lower: str | int | float | types.Real) -> None:
+        """
+        Sets ``lower``.
+
+        Parameters:
+            lower: Collision for FMESH tally lower bound.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if lower is not None:
+            if isinstance(lower, types.Real):
+                lower = lower
+            elif isinstance(lower, int):
+                lower = types.Real(lower)
+            elif isinstance(lower, float):
+                lower = types.Real(lower)
+            elif isinstance(lower, str):
+                lower = types.Real.from_mcnp(lower)
+            else:
+                raise TypeError
+
         if lower is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lower)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                lower,
-                upper,
-            ]
-        )
+        self._lower: types.Real = lower
 
-        self.lower: typing.Final[types.Real] = lower
-        self.upper: typing.Final[types.Real] = upper
-
-
-@dataclasses.dataclass
-class IncBuilder(_option.FmeshOptionBuilder):
-    """
-    Builds ``Inc``.
-
-    Attributes:
-        lower: Collision for FMESH tally lower bound.
-        upper: Collision for FMESH tally upper bound.
-    """
-
-    lower: str | float | types.Real
-    upper: str | float | types.Real = None
-
-    def build(self):
+    @property
+    def upper(self) -> types.Real:
         """
-        Builds ``IncBuilder`` into ``Inc``.
+        Gets ``upper``.
 
         Returns:
-            ``Inc`` for ``IncBuilder``.
+            ``upper``.
         """
 
-        lower = self.lower
-        if isinstance(self.lower, types.Real):
-            lower = self.lower
-        elif isinstance(self.lower, float) or isinstance(self.lower, int):
-            lower = types.Real(self.lower)
-        elif isinstance(self.lower, str):
-            lower = types.Real.from_mcnp(self.lower)
+        return self._upper
 
-        upper = self.upper
-        if isinstance(self.upper, types.Real):
-            upper = self.upper
-        elif isinstance(self.upper, float) or isinstance(self.upper, int):
-            upper = types.Real(self.upper)
-        elif isinstance(self.upper, str):
-            upper = types.Real.from_mcnp(self.upper)
-
-        return Inc(
-            lower=lower,
-            upper=upper,
-        )
-
-    @staticmethod
-    def unbuild(ast: Inc):
+    @upper.setter
+    def upper(self, upper: str | int | float | types.Real) -> None:
         """
-        Unbuilds ``Inc`` into ``IncBuilder``
+        Sets ``upper``.
 
-        Returns:
-            ``IncBuilder`` for ``Inc``.
+        Parameters:
+            upper: Collision for FMESH tally upper bound.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
-        return IncBuilder(
-            lower=copy.deepcopy(ast.lower),
-            upper=copy.deepcopy(ast.upper),
-        )
+        if upper is not None:
+            if isinstance(upper, types.Real):
+                upper = upper
+            elif isinstance(upper, int):
+                upper = types.Real(upper)
+            elif isinstance(upper, float):
+                upper = types.Real(upper)
+            elif isinstance(upper, str):
+                upper = types.Real.from_mcnp(upper)
+            else:
+                raise TypeError
+
+        self._upper: types.Real = upper

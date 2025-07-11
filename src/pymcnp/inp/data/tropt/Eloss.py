@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Eloss(_option.TroptOption):
 
     _REGEX = re.compile(rf'\Aeloss( {types.String._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, setting: types.String):
+    def __init__(self, setting: str | types.String):
         """
         Initializes ``Eloss``.
 
@@ -36,56 +32,41 @@ class Eloss(_option.TroptOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.setting: types.String = setting
+
+    @property
+    def setting(self) -> types.String:
+        """
+        Gets ``setting``.
+
+        Returns:
+            ``setting``.
+        """
+
+        return self._setting
+
+    @setting.setter
+    def setting(self, setting: str | types.String) -> None:
+        """
+        Sets ``setting``.
+
+        Parameters:
+            setting: Slowing down energy losses setting.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if setting is not None:
+            if isinstance(setting, types.String):
+                setting = setting
+            elif isinstance(setting, str):
+                setting = types.String.from_mcnp(setting)
+            else:
+                raise TypeError
+
         if setting is None or setting not in {'off', 'strag1', 'csda'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                setting,
-            ]
-        )
-
-        self.setting: typing.Final[types.String] = setting
-
-
-@dataclasses.dataclass
-class ElossBuilder(_option.TroptOptionBuilder):
-    """
-    Builds ``Eloss``.
-
-    Attributes:
-        setting: Slowing down energy losses setting.
-    """
-
-    setting: str | types.String
-
-    def build(self):
-        """
-        Builds ``ElossBuilder`` into ``Eloss``.
-
-        Returns:
-            ``Eloss`` for ``ElossBuilder``.
-        """
-
-        setting = self.setting
-        if isinstance(self.setting, types.String):
-            setting = self.setting
-        elif isinstance(self.setting, str):
-            setting = types.String.from_mcnp(self.setting)
-
-        return Eloss(
-            setting=setting,
-        )
-
-    @staticmethod
-    def unbuild(ast: Eloss):
-        """
-        Unbuilds ``Eloss`` into ``ElossBuilder``
-
-        Returns:
-            ``ElossBuilder`` for ``Eloss``.
-        """
-
-        return ElossBuilder(
-            setting=copy.deepcopy(ast.setting),
-        )
+        self._setting: types.String = setting

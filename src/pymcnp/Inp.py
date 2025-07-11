@@ -1,7 +1,5 @@
 import re
-import copy
 import typing
-import dataclasses
 
 
 from . import inp
@@ -227,6 +225,7 @@ class Inp(_object.McnpFile):
         return vis
 
 
+'''
 @dataclasses.dataclass
 class InpBuilder:
     """
@@ -387,3 +386,4 @@ class InpBuilder:
             message=copy.deepcopy(ast.message),
             other=copy.deepcopy(ast.other),
         )
+'''

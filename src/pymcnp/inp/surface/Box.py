@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -52,18 +48,18 @@ class Box(_option.SurfaceOption):
 
     def __init__(
         self,
-        vx: types.Real,
-        vy: types.Real,
-        vz: types.Real,
-        a1x: types.Real,
-        a1y: types.Real,
-        a1z: types.Real,
-        a2x: types.Real,
-        a2y: types.Real,
-        a2z: types.Real,
-        a3x: types.Real,
-        a3y: types.Real,
-        a3z: types.Real,
+        vx: str | int | float | types.Real,
+        vy: str | int | float | types.Real,
+        vz: str | int | float | types.Real,
+        a1x: str | int | float | types.Real,
+        a1y: str | int | float | types.Real,
+        a1z: str | int | float | types.Real,
+        a2x: str | int | float | types.Real,
+        a2y: str | int | float | types.Real,
+        a2z: str | int | float | types.Real,
+        a3x: str | int | float | types.Real,
+        a3y: str | int | float | types.Real,
+        a3z: str | int | float | types.Real,
     ):
         """
         Initializes ``Box``.
@@ -86,60 +82,510 @@ class Box(_option.SurfaceOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.vx: types.Real = vx
+        self.vy: types.Real = vy
+        self.vz: types.Real = vz
+        self.a1x: types.Real = a1x
+        self.a1y: types.Real = a1y
+        self.a1z: types.Real = a1z
+        self.a2x: types.Real = a2x
+        self.a2y: types.Real = a2y
+        self.a2z: types.Real = a2z
+        self.a3x: types.Real = a3x
+        self.a3y: types.Real = a3y
+        self.a3z: types.Real = a3z
+
+    @property
+    def vx(self) -> types.Real:
+        """
+        Gets ``vx``.
+
+        Returns:
+            ``vx``.
+        """
+
+        return self._vx
+
+    @vx.setter
+    def vx(self, vx: str | int | float | types.Real) -> None:
+        """
+        Sets ``vx``.
+
+        Parameters:
+            vx: Box macrobody position vector x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if vx is not None:
+            if isinstance(vx, types.Real):
+                vx = vx
+            elif isinstance(vx, int):
+                vx = types.Real(vx)
+            elif isinstance(vx, float):
+                vx = types.Real(vx)
+            elif isinstance(vx, str):
+                vx = types.Real.from_mcnp(vx)
+            else:
+                raise TypeError
+
         if vx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vx)
+
+        self._vx: types.Real = vx
+
+    @property
+    def vy(self) -> types.Real:
+        """
+        Gets ``vy``.
+
+        Returns:
+            ``vy``.
+        """
+
+        return self._vy
+
+    @vy.setter
+    def vy(self, vy: str | int | float | types.Real) -> None:
+        """
+        Sets ``vy``.
+
+        Parameters:
+            vy: Box macrobody position vector y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if vy is not None:
+            if isinstance(vy, types.Real):
+                vy = vy
+            elif isinstance(vy, int):
+                vy = types.Real(vy)
+            elif isinstance(vy, float):
+                vy = types.Real(vy)
+            elif isinstance(vy, str):
+                vy = types.Real.from_mcnp(vy)
+            else:
+                raise TypeError
+
         if vy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vy)
+
+        self._vy: types.Real = vy
+
+    @property
+    def vz(self) -> types.Real:
+        """
+        Gets ``vz``.
+
+        Returns:
+            ``vz``.
+        """
+
+        return self._vz
+
+    @vz.setter
+    def vz(self, vz: str | int | float | types.Real) -> None:
+        """
+        Sets ``vz``.
+
+        Parameters:
+            vz: Box macrobody position vector z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if vz is not None:
+            if isinstance(vz, types.Real):
+                vz = vz
+            elif isinstance(vz, int):
+                vz = types.Real(vz)
+            elif isinstance(vz, float):
+                vz = types.Real(vz)
+            elif isinstance(vz, str):
+                vz = types.Real.from_mcnp(vz)
+            else:
+                raise TypeError
+
         if vz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vz)
+
+        self._vz: types.Real = vz
+
+    @property
+    def a1x(self) -> types.Real:
+        """
+        Gets ``a1x``.
+
+        Returns:
+            ``a1x``.
+        """
+
+        return self._a1x
+
+    @a1x.setter
+    def a1x(self, a1x: str | int | float | types.Real) -> None:
+        """
+        Sets ``a1x``.
+
+        Parameters:
+            a1x: Box macrobody vector #1 x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if a1x is not None:
+            if isinstance(a1x, types.Real):
+                a1x = a1x
+            elif isinstance(a1x, int):
+                a1x = types.Real(a1x)
+            elif isinstance(a1x, float):
+                a1x = types.Real(a1x)
+            elif isinstance(a1x, str):
+                a1x = types.Real.from_mcnp(a1x)
+            else:
+                raise TypeError
+
         if a1x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a1x)
+
+        self._a1x: types.Real = a1x
+
+    @property
+    def a1y(self) -> types.Real:
+        """
+        Gets ``a1y``.
+
+        Returns:
+            ``a1y``.
+        """
+
+        return self._a1y
+
+    @a1y.setter
+    def a1y(self, a1y: str | int | float | types.Real) -> None:
+        """
+        Sets ``a1y``.
+
+        Parameters:
+            a1y: Box macrobody vector #1 y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if a1y is not None:
+            if isinstance(a1y, types.Real):
+                a1y = a1y
+            elif isinstance(a1y, int):
+                a1y = types.Real(a1y)
+            elif isinstance(a1y, float):
+                a1y = types.Real(a1y)
+            elif isinstance(a1y, str):
+                a1y = types.Real.from_mcnp(a1y)
+            else:
+                raise TypeError
+
         if a1y is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a1y)
+
+        self._a1y: types.Real = a1y
+
+    @property
+    def a1z(self) -> types.Real:
+        """
+        Gets ``a1z``.
+
+        Returns:
+            ``a1z``.
+        """
+
+        return self._a1z
+
+    @a1z.setter
+    def a1z(self, a1z: str | int | float | types.Real) -> None:
+        """
+        Sets ``a1z``.
+
+        Parameters:
+            a1z: Box macrobody vector #1 z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if a1z is not None:
+            if isinstance(a1z, types.Real):
+                a1z = a1z
+            elif isinstance(a1z, int):
+                a1z = types.Real(a1z)
+            elif isinstance(a1z, float):
+                a1z = types.Real(a1z)
+            elif isinstance(a1z, str):
+                a1z = types.Real.from_mcnp(a1z)
+            else:
+                raise TypeError
+
         if a1z is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a1z)
+
+        self._a1z: types.Real = a1z
+
+    @property
+    def a2x(self) -> types.Real:
+        """
+        Gets ``a2x``.
+
+        Returns:
+            ``a2x``.
+        """
+
+        return self._a2x
+
+    @a2x.setter
+    def a2x(self, a2x: str | int | float | types.Real) -> None:
+        """
+        Sets ``a2x``.
+
+        Parameters:
+            a2x: Box macrobody vector #2 x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if a2x is not None:
+            if isinstance(a2x, types.Real):
+                a2x = a2x
+            elif isinstance(a2x, int):
+                a2x = types.Real(a2x)
+            elif isinstance(a2x, float):
+                a2x = types.Real(a2x)
+            elif isinstance(a2x, str):
+                a2x = types.Real.from_mcnp(a2x)
+            else:
+                raise TypeError
+
         if a2x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a2x)
+
+        self._a2x: types.Real = a2x
+
+    @property
+    def a2y(self) -> types.Real:
+        """
+        Gets ``a2y``.
+
+        Returns:
+            ``a2y``.
+        """
+
+        return self._a2y
+
+    @a2y.setter
+    def a2y(self, a2y: str | int | float | types.Real) -> None:
+        """
+        Sets ``a2y``.
+
+        Parameters:
+            a2y: Box macrobody vector #2 y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if a2y is not None:
+            if isinstance(a2y, types.Real):
+                a2y = a2y
+            elif isinstance(a2y, int):
+                a2y = types.Real(a2y)
+            elif isinstance(a2y, float):
+                a2y = types.Real(a2y)
+            elif isinstance(a2y, str):
+                a2y = types.Real.from_mcnp(a2y)
+            else:
+                raise TypeError
+
         if a2y is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a2y)
+
+        self._a2y: types.Real = a2y
+
+    @property
+    def a2z(self) -> types.Real:
+        """
+        Gets ``a2z``.
+
+        Returns:
+            ``a2z``.
+        """
+
+        return self._a2z
+
+    @a2z.setter
+    def a2z(self, a2z: str | int | float | types.Real) -> None:
+        """
+        Sets ``a2z``.
+
+        Parameters:
+            a2z: Box macrobody vector #2 z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if a2z is not None:
+            if isinstance(a2z, types.Real):
+                a2z = a2z
+            elif isinstance(a2z, int):
+                a2z = types.Real(a2z)
+            elif isinstance(a2z, float):
+                a2z = types.Real(a2z)
+            elif isinstance(a2z, str):
+                a2z = types.Real.from_mcnp(a2z)
+            else:
+                raise TypeError
+
         if a2z is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a2z)
+
+        self._a2z: types.Real = a2z
+
+    @property
+    def a3x(self) -> types.Real:
+        """
+        Gets ``a3x``.
+
+        Returns:
+            ``a3x``.
+        """
+
+        return self._a3x
+
+    @a3x.setter
+    def a3x(self, a3x: str | int | float | types.Real) -> None:
+        """
+        Sets ``a3x``.
+
+        Parameters:
+            a3x: Box macrobody vector #3 x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if a3x is not None:
+            if isinstance(a3x, types.Real):
+                a3x = a3x
+            elif isinstance(a3x, int):
+                a3x = types.Real(a3x)
+            elif isinstance(a3x, float):
+                a3x = types.Real(a3x)
+            elif isinstance(a3x, str):
+                a3x = types.Real.from_mcnp(a3x)
+            else:
+                raise TypeError
+
         if a3x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a3x)
+
+        self._a3x: types.Real = a3x
+
+    @property
+    def a3y(self) -> types.Real:
+        """
+        Gets ``a3y``.
+
+        Returns:
+            ``a3y``.
+        """
+
+        return self._a3y
+
+    @a3y.setter
+    def a3y(self, a3y: str | int | float | types.Real) -> None:
+        """
+        Sets ``a3y``.
+
+        Parameters:
+            a3y: Box macrobody vector #3 y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if a3y is not None:
+            if isinstance(a3y, types.Real):
+                a3y = a3y
+            elif isinstance(a3y, int):
+                a3y = types.Real(a3y)
+            elif isinstance(a3y, float):
+                a3y = types.Real(a3y)
+            elif isinstance(a3y, str):
+                a3y = types.Real.from_mcnp(a3y)
+            else:
+                raise TypeError
+
         if a3y is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a3y)
+
+        self._a3y: types.Real = a3y
+
+    @property
+    def a3z(self) -> types.Real:
+        """
+        Gets ``a3z``.
+
+        Returns:
+            ``a3z``.
+        """
+
+        return self._a3z
+
+    @a3z.setter
+    def a3z(self, a3z: str | int | float | types.Real) -> None:
+        """
+        Sets ``a3z``.
+
+        Parameters:
+            a3z: Box macrobody vector #3 z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if a3z is not None:
+            if isinstance(a3z, types.Real):
+                a3z = a3z
+            elif isinstance(a3z, int):
+                a3z = types.Real(a3z)
+            elif isinstance(a3z, float):
+                a3z = types.Real(a3z)
+            elif isinstance(a3z, str):
+                a3z = types.Real.from_mcnp(a3z)
+            else:
+                raise TypeError
+
         if a3z is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a3z)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                vx,
-                vy,
-                vz,
-                a1x,
-                a1y,
-                a1z,
-                a2x,
-                a2y,
-                a2z,
-                a3x,
-                a3y,
-                a3z,
-            ]
-        )
-
-        self.vx: typing.Final[types.Real] = vx
-        self.vy: typing.Final[types.Real] = vy
-        self.vz: typing.Final[types.Real] = vz
-        self.a1x: typing.Final[types.Real] = a1x
-        self.a1y: typing.Final[types.Real] = a1y
-        self.a1z: typing.Final[types.Real] = a1z
-        self.a2x: typing.Final[types.Real] = a2x
-        self.a2y: typing.Final[types.Real] = a2y
-        self.a2z: typing.Final[types.Real] = a2z
-        self.a3x: typing.Final[types.Real] = a3x
-        self.a3y: typing.Final[types.Real] = a3y
-        self.a3z: typing.Final[types.Real] = a3z
+        self._a3z: types.Real = a3z
 
     def draw(self):
         """
@@ -161,180 +607,3 @@ class Box(_option.SurfaceOption):
         vis = vis.add_translation(v)
 
         return vis
-
-
-@dataclasses.dataclass
-class BoxBuilder(_option.SurfaceOptionBuilder):
-    """
-    Builds ``Box``.
-
-    Attributes:
-        vx: Box macrobody position vector x component.
-        vy: Box macrobody position vector y component.
-        vz: Box macrobody position vector z component.
-        a1x: Box macrobody vector #1 x component.
-        a1y: Box macrobody vector #1 y component.
-        a1z: Box macrobody vector #1 z component.
-        a2x: Box macrobody vector #2 x component.
-        a2y: Box macrobody vector #2 y component.
-        a2z: Box macrobody vector #2 z component.
-        a3x: Box macrobody vector #3 x component.
-        a3y: Box macrobody vector #3 y component.
-        a3z: Box macrobody vector #3 z component.
-    """
-
-    vx: str | float | types.Real
-    vy: str | float | types.Real
-    vz: str | float | types.Real
-    a1x: str | float | types.Real
-    a1y: str | float | types.Real
-    a1z: str | float | types.Real
-    a2x: str | float | types.Real
-    a2y: str | float | types.Real
-    a2z: str | float | types.Real
-    a3x: str | float | types.Real
-    a3y: str | float | types.Real
-    a3z: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``BoxBuilder`` into ``Box``.
-
-        Returns:
-            ``Box`` for ``BoxBuilder``.
-        """
-
-        vx = self.vx
-        if isinstance(self.vx, types.Real):
-            vx = self.vx
-        elif isinstance(self.vx, float) or isinstance(self.vx, int):
-            vx = types.Real(self.vx)
-        elif isinstance(self.vx, str):
-            vx = types.Real.from_mcnp(self.vx)
-
-        vy = self.vy
-        if isinstance(self.vy, types.Real):
-            vy = self.vy
-        elif isinstance(self.vy, float) or isinstance(self.vy, int):
-            vy = types.Real(self.vy)
-        elif isinstance(self.vy, str):
-            vy = types.Real.from_mcnp(self.vy)
-
-        vz = self.vz
-        if isinstance(self.vz, types.Real):
-            vz = self.vz
-        elif isinstance(self.vz, float) or isinstance(self.vz, int):
-            vz = types.Real(self.vz)
-        elif isinstance(self.vz, str):
-            vz = types.Real.from_mcnp(self.vz)
-
-        a1x = self.a1x
-        if isinstance(self.a1x, types.Real):
-            a1x = self.a1x
-        elif isinstance(self.a1x, float) or isinstance(self.a1x, int):
-            a1x = types.Real(self.a1x)
-        elif isinstance(self.a1x, str):
-            a1x = types.Real.from_mcnp(self.a1x)
-
-        a1y = self.a1y
-        if isinstance(self.a1y, types.Real):
-            a1y = self.a1y
-        elif isinstance(self.a1y, float) or isinstance(self.a1y, int):
-            a1y = types.Real(self.a1y)
-        elif isinstance(self.a1y, str):
-            a1y = types.Real.from_mcnp(self.a1y)
-
-        a1z = self.a1z
-        if isinstance(self.a1z, types.Real):
-            a1z = self.a1z
-        elif isinstance(self.a1z, float) or isinstance(self.a1z, int):
-            a1z = types.Real(self.a1z)
-        elif isinstance(self.a1z, str):
-            a1z = types.Real.from_mcnp(self.a1z)
-
-        a2x = self.a2x
-        if isinstance(self.a2x, types.Real):
-            a2x = self.a2x
-        elif isinstance(self.a2x, float) or isinstance(self.a2x, int):
-            a2x = types.Real(self.a2x)
-        elif isinstance(self.a2x, str):
-            a2x = types.Real.from_mcnp(self.a2x)
-
-        a2y = self.a2y
-        if isinstance(self.a2y, types.Real):
-            a2y = self.a2y
-        elif isinstance(self.a2y, float) or isinstance(self.a2y, int):
-            a2y = types.Real(self.a2y)
-        elif isinstance(self.a2y, str):
-            a2y = types.Real.from_mcnp(self.a2y)
-
-        a2z = self.a2z
-        if isinstance(self.a2z, types.Real):
-            a2z = self.a2z
-        elif isinstance(self.a2z, float) or isinstance(self.a2z, int):
-            a2z = types.Real(self.a2z)
-        elif isinstance(self.a2z, str):
-            a2z = types.Real.from_mcnp(self.a2z)
-
-        a3x = self.a3x
-        if isinstance(self.a3x, types.Real):
-            a3x = self.a3x
-        elif isinstance(self.a3x, float) or isinstance(self.a3x, int):
-            a3x = types.Real(self.a3x)
-        elif isinstance(self.a3x, str):
-            a3x = types.Real.from_mcnp(self.a3x)
-
-        a3y = self.a3y
-        if isinstance(self.a3y, types.Real):
-            a3y = self.a3y
-        elif isinstance(self.a3y, float) or isinstance(self.a3y, int):
-            a3y = types.Real(self.a3y)
-        elif isinstance(self.a3y, str):
-            a3y = types.Real.from_mcnp(self.a3y)
-
-        a3z = self.a3z
-        if isinstance(self.a3z, types.Real):
-            a3z = self.a3z
-        elif isinstance(self.a3z, float) or isinstance(self.a3z, int):
-            a3z = types.Real(self.a3z)
-        elif isinstance(self.a3z, str):
-            a3z = types.Real.from_mcnp(self.a3z)
-
-        return Box(
-            vx=vx,
-            vy=vy,
-            vz=vz,
-            a1x=a1x,
-            a1y=a1y,
-            a1z=a1z,
-            a2x=a2x,
-            a2y=a2y,
-            a2z=a2z,
-            a3x=a3x,
-            a3y=a3y,
-            a3z=a3z,
-        )
-
-    @staticmethod
-    def unbuild(ast: Box):
-        """
-        Unbuilds ``Box`` into ``BoxBuilder``
-
-        Returns:
-            ``BoxBuilder`` for ``Box``.
-        """
-
-        return BoxBuilder(
-            vx=copy.deepcopy(ast.vx),
-            vy=copy.deepcopy(ast.vy),
-            vz=copy.deepcopy(ast.vz),
-            a1x=copy.deepcopy(ast.a1x),
-            a1y=copy.deepcopy(ast.a1y),
-            a1z=copy.deepcopy(ast.a1z),
-            a2x=copy.deepcopy(ast.a2x),
-            a2y=copy.deepcopy(ast.a2y),
-            a2z=copy.deepcopy(ast.a2z),
-            a3x=copy.deepcopy(ast.a3x),
-            a3y=copy.deepcopy(ast.a3y),
-            a3z=copy.deepcopy(ast.a3z),
-        )

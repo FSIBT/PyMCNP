@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -29,7 +25,7 @@ class Subtitle(_option.MplotOption):
 
     _REGEX = re.compile(rf'\Asubtitle( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( \"{types.String._REGEX.pattern[2:-2]}\")\Z')
 
-    def __init__(self, x: types.Integer, y: types.Integer, aa: types.String):
+    def __init__(self, x: str | int | types.Integer, y: str | int | types.Integer, aa: str | types.String):
         """
         Initializes ``Subtitle``.
 
@@ -42,88 +38,121 @@ class Subtitle(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.x: types.Integer = x
+        self.y: types.Integer = y
+        self.aa: types.String = aa
+
+    @property
+    def x(self) -> types.Integer:
+        """
+        Gets ``x``.
+
+        Returns:
+            ``x``.
+        """
+
+        return self._x
+
+    @x.setter
+    def x(self, x: str | int | types.Integer) -> None:
+        """
+        Sets ``x``.
+
+        Parameters:
+            x: x-coordinate of location.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if x is not None:
+            if isinstance(x, types.Integer):
+                x = x
+            elif isinstance(x, int):
+                x = types.Integer(x)
+            elif isinstance(x, str):
+                x = types.Integer.from_mcnp(x)
+            else:
+                raise TypeError
+
         if x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
+
+        self._x: types.Integer = x
+
+    @property
+    def y(self) -> types.Integer:
+        """
+        Gets ``y``.
+
+        Returns:
+            ``y``.
+        """
+
+        return self._y
+
+    @y.setter
+    def y(self, y: str | int | types.Integer) -> None:
+        """
+        Sets ``y``.
+
+        Parameters:
+            y: y-coordinate of location.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if y is not None:
+            if isinstance(y, types.Integer):
+                y = y
+            elif isinstance(y, int):
+                y = types.Integer(y)
+            elif isinstance(y, str):
+                y = types.Integer.from_mcnp(y)
+            else:
+                raise TypeError
+
         if y is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y)
+
+        self._y: types.Integer = y
+
+    @property
+    def aa(self) -> types.String:
+        """
+        Gets ``aa``.
+
+        Returns:
+            ``aa``.
+        """
+
+        return self._aa
+
+    @aa.setter
+    def aa(self, aa: str | types.String) -> None:
+        """
+        Sets ``aa``.
+
+        Parameters:
+            aa: Line to substitute.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if aa is not None:
+            if isinstance(aa, types.String):
+                aa = aa
+            elif isinstance(aa, str):
+                aa = types.String.from_mcnp(aa)
+            else:
+                raise TypeError
+
         if aa is None or not (len(aa) <= 40):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, aa)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                x,
-                y,
-                aa,
-            ]
-        )
-
-        self.x: typing.Final[types.Integer] = x
-        self.y: typing.Final[types.Integer] = y
-        self.aa: typing.Final[types.String] = aa
-
-
-@dataclasses.dataclass
-class SubtitleBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``Subtitle``.
-
-    Attributes:
-        x: x-coordinate of location.
-        y: y-coordinate of location.
-        aa: Line to substitute.
-    """
-
-    x: str | int | types.Integer
-    y: str | int | types.Integer
-    aa: str | types.String
-
-    def build(self):
-        """
-        Builds ``SubtitleBuilder`` into ``Subtitle``.
-
-        Returns:
-            ``Subtitle`` for ``SubtitleBuilder``.
-        """
-
-        x = self.x
-        if isinstance(self.x, types.Integer):
-            x = self.x
-        elif isinstance(self.x, int):
-            x = types.Integer(self.x)
-        elif isinstance(self.x, str):
-            x = types.Integer.from_mcnp(self.x)
-
-        y = self.y
-        if isinstance(self.y, types.Integer):
-            y = self.y
-        elif isinstance(self.y, int):
-            y = types.Integer(self.y)
-        elif isinstance(self.y, str):
-            y = types.Integer.from_mcnp(self.y)
-
-        aa = self.aa
-        if isinstance(self.aa, types.String):
-            aa = self.aa
-        elif isinstance(self.aa, str):
-            aa = types.String.from_mcnp(self.aa)
-
-        return Subtitle(
-            x=x,
-            y=y,
-            aa=aa,
-        )
-
-    @staticmethod
-    def unbuild(ast: Subtitle):
-        """
-        Unbuilds ``Subtitle`` into ``SubtitleBuilder``
-
-        Returns:
-            ``SubtitleBuilder`` for ``Subtitle``.
-        """
-
-        return SubtitleBuilder(
-            x=copy.deepcopy(ast.x),
-            y=copy.deepcopy(ast.y),
-            aa=copy.deepcopy(ast.aa),
-        )
+        self._aa: types.String = aa

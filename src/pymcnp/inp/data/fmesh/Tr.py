@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Tr(_option.FmeshOption):
 
     _REGEX = re.compile(rf'\Atr( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, number: types.Integer):
+    def __init__(self, number: str | int | types.Integer):
         """
         Initializes ``Tr``.
 
@@ -36,58 +32,43 @@ class Tr(_option.FmeshOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.number: types.Integer = number
+
+    @property
+    def number(self) -> types.Integer:
+        """
+        Gets ``number``.
+
+        Returns:
+            ``number``.
+        """
+
+        return self._number
+
+    @number.setter
+    def number(self, number: str | int | types.Integer) -> None:
+        """
+        Sets ``number``.
+
+        Parameters:
+            number: Transformation applied to the mesh.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if number is not None:
+            if isinstance(number, types.Integer):
+                number = number
+            elif isinstance(number, int):
+                number = types.Integer(number)
+            elif isinstance(number, str):
+                number = types.Integer.from_mcnp(number)
+            else:
+                raise TypeError
+
         if number is None or not (number >= 1 and number <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                number,
-            ]
-        )
-
-        self.number: typing.Final[types.Integer] = number
-
-
-@dataclasses.dataclass
-class TrBuilder(_option.FmeshOptionBuilder):
-    """
-    Builds ``Tr``.
-
-    Attributes:
-        number: Transformation applied to the mesh.
-    """
-
-    number: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``TrBuilder`` into ``Tr``.
-
-        Returns:
-            ``Tr`` for ``TrBuilder``.
-        """
-
-        number = self.number
-        if isinstance(self.number, types.Integer):
-            number = self.number
-        elif isinstance(self.number, int):
-            number = types.Integer(self.number)
-        elif isinstance(self.number, str):
-            number = types.Integer.from_mcnp(self.number)
-
-        return Tr(
-            number=number,
-        )
-
-    @staticmethod
-    def unbuild(ast: Tr):
-        """
-        Unbuilds ``Tr`` into ``TrBuilder``
-
-        Returns:
-            ``TrBuilder`` for ``Tr``.
-        """
-
-        return TrBuilder(
-            number=copy.deepcopy(ast.number),
-        )
+        self._number: types.Integer = number

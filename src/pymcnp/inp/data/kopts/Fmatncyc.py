@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Fmatncyc(_option.KoptsOption):
 
     _REGEX = re.compile(rf'\Afmatncyc( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, fmat_ncyc: types.Real):
+    def __init__(self, fmat_ncyc: str | int | float | types.Real):
         """
         Initializes ``Fmatncyc``.
 
@@ -36,58 +32,45 @@ class Fmatncyc(_option.KoptsOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.fmat_ncyc: types.Real = fmat_ncyc
+
+    @property
+    def fmat_ncyc(self) -> types.Real:
+        """
+        Gets ``fmat_ncyc``.
+
+        Returns:
+            ``fmat_ncyc``.
+        """
+
+        return self._fmat_ncyc
+
+    @fmat_ncyc.setter
+    def fmat_ncyc(self, fmat_ncyc: str | int | float | types.Real) -> None:
+        """
+        Sets ``fmat_ncyc``.
+
+        Parameters:
+            fmat_ncyc: fmat_ncyc.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if fmat_ncyc is not None:
+            if isinstance(fmat_ncyc, types.Real):
+                fmat_ncyc = fmat_ncyc
+            elif isinstance(fmat_ncyc, int):
+                fmat_ncyc = types.Real(fmat_ncyc)
+            elif isinstance(fmat_ncyc, float):
+                fmat_ncyc = types.Real(fmat_ncyc)
+            elif isinstance(fmat_ncyc, str):
+                fmat_ncyc = types.Real.from_mcnp(fmat_ncyc)
+            else:
+                raise TypeError
+
         if fmat_ncyc is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fmat_ncyc)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                fmat_ncyc,
-            ]
-        )
-
-        self.fmat_ncyc: typing.Final[types.Real] = fmat_ncyc
-
-
-@dataclasses.dataclass
-class FmatncycBuilder(_option.KoptsOptionBuilder):
-    """
-    Builds ``Fmatncyc``.
-
-    Attributes:
-        fmat_ncyc: fmat_ncyc.
-    """
-
-    fmat_ncyc: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``FmatncycBuilder`` into ``Fmatncyc``.
-
-        Returns:
-            ``Fmatncyc`` for ``FmatncycBuilder``.
-        """
-
-        fmat_ncyc = self.fmat_ncyc
-        if isinstance(self.fmat_ncyc, types.Real):
-            fmat_ncyc = self.fmat_ncyc
-        elif isinstance(self.fmat_ncyc, float) or isinstance(self.fmat_ncyc, int):
-            fmat_ncyc = types.Real(self.fmat_ncyc)
-        elif isinstance(self.fmat_ncyc, str):
-            fmat_ncyc = types.Real.from_mcnp(self.fmat_ncyc)
-
-        return Fmatncyc(
-            fmat_ncyc=fmat_ncyc,
-        )
-
-    @staticmethod
-    def unbuild(ast: Fmatncyc):
-        """
-        Unbuilds ``Fmatncyc`` into ``FmatncycBuilder``
-
-        Returns:
-            ``FmatncycBuilder`` for ``Fmatncyc``.
-        """
-
-        return FmatncycBuilder(
-            fmat_ncyc=copy.deepcopy(ast.fmat_ncyc),
-        )
+        self._fmat_ncyc: types.Real = fmat_ncyc

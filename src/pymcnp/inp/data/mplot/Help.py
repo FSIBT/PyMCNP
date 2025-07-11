@@ -1,10 +1,6 @@
 import re
-import typing
-import dataclasses
-
 
 from . import _option
-from ....utils import types
 
 
 class Help(_option.MplotOption):
@@ -33,36 +29,3 @@ class Help(_option.MplotOption):
         Raises:
             InpError: SEMANTICS_OPTION.
         """
-
-        self.value: typing.Final[types.Tuple] = types.Tuple([])
-
-
-@dataclasses.dataclass
-class HelpBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``Help``.
-
-    Attributes:
-
-    """
-
-    def build(self):
-        """
-        Builds ``HelpBuilder`` into ``Help``.
-
-        Returns:
-            ``Help`` for ``HelpBuilder``.
-        """
-
-        return Help()
-
-    @staticmethod
-    def unbuild(ast: Help):
-        """
-        Unbuilds ``Help`` into ``HelpBuilder``
-
-        Returns:
-            ``HelpBuilder`` for ``Help``.
-        """
-
-        return HelpBuilder()

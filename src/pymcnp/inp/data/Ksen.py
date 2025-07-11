@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import ksen
 from . import _option
@@ -30,7 +26,7 @@ class Ksen(_option.DataOption):
 
     _REGEX = re.compile(rf'\Aksen(\d+)( {types.String._REGEX.pattern[2:-2]})((?: (?:{ksen.KsenOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
-    def __init__(self, suffix: types.Integer, sen: types.String, options: types.Tuple[ksen.KsenOption] = None):
+    def __init__(self, suffix: str | int | types.Integer, sen: str | types.String, options: list[str] | list[ksen.KsenOption] = None):
         """
         Initializes ``Ksen``.
 
@@ -43,90 +39,119 @@ class Ksen(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.suffix: types.Integer = suffix
+        self.sen: types.String = sen
+        self.options: types.Tuple[ksen.KsenOption] = options
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Data card option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
         if suffix is None or not (suffix > 0 and suffix <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def sen(self) -> types.String:
+        """
+        Gets ``sen``.
+
+        Returns:
+            ``sen``.
+        """
+
+        return self._sen
+
+    @sen.setter
+    def sen(self, sen: str | types.String) -> None:
+        """
+        Sets ``sen``.
+
+        Parameters:
+            sen: Type of sensitivity.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if sen is not None:
+            if isinstance(sen, types.String):
+                sen = sen
+            elif isinstance(sen, str):
+                sen = types.String.from_mcnp(sen)
+            else:
+                raise TypeError
+
         if sen is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, sen)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                sen,
-                options,
-            ]
-        )
+        self._sen: types.String = sen
 
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.sen: typing.Final[types.String] = sen
-        self.options: typing.Final[types.Tuple[ksen.KsenOption]] = options
-
-
-@dataclasses.dataclass
-class KsenBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Ksen``.
-
-    Attributes:
-        suffix: Data card option suffix.
-        sen: Type of sensitivity.
-        options: Dictionary of options.
-    """
-
-    suffix: str | int | types.Integer
-    sen: str | types.String
-    options: list[str] | list[ksen.KsenOption] = None
-
-    def build(self):
+    @property
+    def options(self) -> types.Tuple[ksen.KsenOption]:
         """
-        Builds ``KsenBuilder`` into ``Ksen``.
+        Gets ``options``.
 
         Returns:
-            ``Ksen`` for ``KsenBuilder``.
+            ``options``.
         """
 
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
+        return self._options
 
-        sen = self.sen
-        if isinstance(self.sen, types.String):
-            sen = self.sen
-        elif isinstance(self.sen, str):
-            sen = types.String.from_mcnp(self.sen)
+    @options.setter
+    def options(self, options: list[str] | list[ksen.KsenOption]) -> None:
+        """
+        Sets ``options``.
 
-        if self.options:
-            options = []
-            for item in self.options:
+        Parameters:
+            options: Dictionary of options.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if options is not None:
+            array = []
+            for item in options:
                 if isinstance(item, ksen.KsenOption):
-                    options.append(item)
+                    array.append(item)
                 elif isinstance(item, str):
-                    options.append(ksen.KsenOption.from_mcnp(item))
-                elif isinstance(item, ksen.KsenOptionBuilder):
-                    options.append(item.build())
-            options = types.Tuple(options)
-        else:
-            options = None
+                    array.append(ksen.KsenOption.from_mcnp(item))
+                else:
+                    raise TypeError
+            options = types.Tuple(array)
 
-        return Ksen(
-            suffix=suffix,
-            sen=sen,
-            options=options,
-        )
-
-    @staticmethod
-    def unbuild(ast: Ksen):
-        """
-        Unbuilds ``Ksen`` into ``KsenBuilder``
-
-        Returns:
-            ``KsenBuilder`` for ``Ksen``.
-        """
-
-        return KsenBuilder(
-            suffix=copy.deepcopy(ast.suffix),
-            sen=copy.deepcopy(ast.sen),
-            options=copy.deepcopy(ast.options),
-        )
+        self._options: types.Tuple[ksen.KsenOption] = options

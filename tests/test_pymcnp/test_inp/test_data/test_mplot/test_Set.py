@@ -8,110 +8,6 @@ class Test_Set:
         element = pymcnp.inp.data.mplot.Set
         EXAMPLES_VALID = [
             {
-                'f': consts.ast.type.INTEGER,
-                'd': consts.ast.type.INTEGER,
-                'u': consts.ast.type.INTEGER,
-                's': consts.ast.type.INTEGER,
-                'm': consts.ast.type.INTEGER,
-                'c': consts.ast.type.INTEGER,
-                'e': consts.ast.type.INTEGER,
-                't': consts.ast.type.INTEGER,
-            }
-        ]
-        EXAMPLES_INVALID = [
-            {
-                'f': None,
-                'd': consts.ast.type.INTEGER,
-                'u': consts.ast.type.INTEGER,
-                's': consts.ast.type.INTEGER,
-                'm': consts.ast.type.INTEGER,
-                'c': consts.ast.type.INTEGER,
-                'e': consts.ast.type.INTEGER,
-                't': consts.ast.type.INTEGER,
-            },
-            {
-                'f': consts.ast.type.INTEGER,
-                'd': None,
-                'u': consts.ast.type.INTEGER,
-                's': consts.ast.type.INTEGER,
-                'm': consts.ast.type.INTEGER,
-                'c': consts.ast.type.INTEGER,
-                'e': consts.ast.type.INTEGER,
-                't': consts.ast.type.INTEGER,
-            },
-            {
-                'f': consts.ast.type.INTEGER,
-                'd': consts.ast.type.INTEGER,
-                'u': None,
-                's': consts.ast.type.INTEGER,
-                'm': consts.ast.type.INTEGER,
-                'c': consts.ast.type.INTEGER,
-                'e': consts.ast.type.INTEGER,
-                't': consts.ast.type.INTEGER,
-            },
-            {
-                'f': consts.ast.type.INTEGER,
-                'd': consts.ast.type.INTEGER,
-                'u': consts.ast.type.INTEGER,
-                's': None,
-                'm': consts.ast.type.INTEGER,
-                'c': consts.ast.type.INTEGER,
-                'e': consts.ast.type.INTEGER,
-                't': consts.ast.type.INTEGER,
-            },
-            {
-                'f': consts.ast.type.INTEGER,
-                'd': consts.ast.type.INTEGER,
-                'u': consts.ast.type.INTEGER,
-                's': consts.ast.type.INTEGER,
-                'm': None,
-                'c': consts.ast.type.INTEGER,
-                'e': consts.ast.type.INTEGER,
-                't': consts.ast.type.INTEGER,
-            },
-            {
-                'f': consts.ast.type.INTEGER,
-                'd': consts.ast.type.INTEGER,
-                'u': consts.ast.type.INTEGER,
-                's': consts.ast.type.INTEGER,
-                'm': consts.ast.type.INTEGER,
-                'c': None,
-                'e': consts.ast.type.INTEGER,
-                't': consts.ast.type.INTEGER,
-            },
-            {
-                'f': consts.ast.type.INTEGER,
-                'd': consts.ast.type.INTEGER,
-                'u': consts.ast.type.INTEGER,
-                's': consts.ast.type.INTEGER,
-                'm': consts.ast.type.INTEGER,
-                'c': consts.ast.type.INTEGER,
-                'e': None,
-                't': consts.ast.type.INTEGER,
-            },
-            {
-                'f': consts.ast.type.INTEGER,
-                'd': consts.ast.type.INTEGER,
-                'u': consts.ast.type.INTEGER,
-                's': consts.ast.type.INTEGER,
-                'm': consts.ast.type.INTEGER,
-                'c': consts.ast.type.INTEGER,
-                'e': consts.ast.type.INTEGER,
-                't': None,
-            },
-        ]
-
-    class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.data.mplot.Set
-        EXAMPLES_VALID = [consts.string.inp.data.mplot.SET]
-        EXAMPLES_INVALID = ['hello']
-
-
-class Test_SetBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.mplot.SetBuilder
-        EXAMPLES_VALID = [
-            {
                 'f': consts.string.type.INTEGER,
                 'd': consts.string.type.INTEGER,
                 'u': consts.string.type.INTEGER,
@@ -215,3 +111,8 @@ class Test_SetBuilder:
                 't': None,
             },
         ]
+
+    class Test_Mcnp(classes.Test_Mcnp):
+        element = pymcnp.inp.data.mplot.Set
+        EXAMPLES_VALID = [consts.string.inp.data.mplot.SET]
+        EXAMPLES_INVALID = ['hello']

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -26,7 +22,7 @@ class Legend(_option.MplotOption):
 
     _REGEX = re.compile(rf'\Alegend( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(self, x: types.Real = None, y: types.Real = None):
+    def __init__(self, x: str | int | float | types.Real = None, y: str | int | float | types.Real = None):
         """
         Initializes ``Legend``.
 
@@ -38,69 +34,81 @@ class Legend(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                x,
-                y,
-            ]
-        )
+        self.x: types.Real = x
+        self.y: types.Real = y
 
-        self.x: typing.Final[types.Real] = x
-        self.y: typing.Final[types.Real] = y
-
-
-@dataclasses.dataclass
-class LegendBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``Legend``.
-
-    Attributes:
-        x: Label x-location.
-        y: Label x-location.
-    """
-
-    x: str | float | types.Real = None
-    y: str | float | types.Real = None
-
-    def build(self):
+    @property
+    def x(self) -> types.Real:
         """
-        Builds ``LegendBuilder`` into ``Legend``.
+        Gets ``x``.
 
         Returns:
-            ``Legend`` for ``LegendBuilder``.
+            ``x``.
         """
 
-        x = self.x
-        if isinstance(self.x, types.Real):
-            x = self.x
-        elif isinstance(self.x, float) or isinstance(self.x, int):
-            x = types.Real(self.x)
-        elif isinstance(self.x, str):
-            x = types.Real.from_mcnp(self.x)
+        return self._x
 
-        y = self.y
-        if isinstance(self.y, types.Real):
-            y = self.y
-        elif isinstance(self.y, float) or isinstance(self.y, int):
-            y = types.Real(self.y)
-        elif isinstance(self.y, str):
-            y = types.Real.from_mcnp(self.y)
-
-        return Legend(
-            x=x,
-            y=y,
-        )
-
-    @staticmethod
-    def unbuild(ast: Legend):
+    @x.setter
+    def x(self, x: str | int | float | types.Real) -> None:
         """
-        Unbuilds ``Legend`` into ``LegendBuilder``
+        Sets ``x``.
+
+        Parameters:
+            x: Label x-location.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if x is not None:
+            if isinstance(x, types.Real):
+                x = x
+            elif isinstance(x, int):
+                x = types.Real(x)
+            elif isinstance(x, float):
+                x = types.Real(x)
+            elif isinstance(x, str):
+                x = types.Real.from_mcnp(x)
+            else:
+                raise TypeError
+
+        self._x: types.Real = x
+
+    @property
+    def y(self) -> types.Real:
+        """
+        Gets ``y``.
 
         Returns:
-            ``LegendBuilder`` for ``Legend``.
+            ``y``.
         """
 
-        return LegendBuilder(
-            x=copy.deepcopy(ast.x),
-            y=copy.deepcopy(ast.y),
-        )
+        return self._y
+
+    @y.setter
+    def y(self, y: str | int | float | types.Real) -> None:
+        """
+        Sets ``y``.
+
+        Parameters:
+            y: Label x-location.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if y is not None:
+            if isinstance(y, types.Real):
+                y = y
+            elif isinstance(y, int):
+                y = types.Real(y)
+            elif isinstance(y, float):
+                y = types.Real(y)
+            elif isinstance(y, str):
+                y = types.Real.from_mcnp(y)
+            else:
+                raise TypeError
+
+        self._y: types.Real = y

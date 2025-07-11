@@ -4,6 +4,22 @@ from ... import classes
 
 
 class Test_Surface:
+    class Test_Init(classes.Test_Init):
+        element = pymcnp.inp.Surface
+        EXAMPLES_VALID = [
+            {'prefix': '*', 'number': consts.string.type.INTEGER, 'transform': consts.string.type.INTEGER, 'option': consts.string.inp.surface.SO},
+            {'prefix': '*', 'number': 1, 'transform': 1, 'option': consts.ast.inp.surface.SO},
+            {'prefix': pymcnp.utils.types.String('*'), 'number': consts.ast.type.INTEGER, 'transform': consts.ast.type.INTEGER, 'option': consts.ast.inp.surface.SO},
+            {'prefix': None, 'number': consts.string.type.INTEGER, 'transform': consts.string.type.INTEGER, 'option': consts.string.inp.surface.SO},
+            {'prefix': '*', 'number': consts.string.type.INTEGER, 'transform': None, 'option': consts.string.inp.surface.SO},
+        ]
+        EXAMPLES_INVALID = [
+            {'prefix': 'a', 'number': consts.string.type.INTEGER, 'transform': consts.string.type.INTEGER, 'option': consts.string.inp.surface.SO},
+            {'prefix': '*', 'number': consts.string.type.INTEGER, 'transform': '1000', 'option': consts.string.inp.surface.SO},
+            {'prefix': '*', 'number': None, 'transform': consts.string.type.INTEGER, 'option': consts.string.inp.surface.SO},
+            {'prefix': '*', 'number': consts.string.type.INTEGER, 'transform': consts.string.type.INTEGER, 'option': None},
+        ]
+
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.Surface
         EXAMPLES_VALID = [
@@ -84,27 +100,9 @@ class Test_Surface:
         ]
         EXAMPLES_INVALID = ['hello']
 
-
-class Test_SurfaceBuilder:
-    class Test_Build(classes.Test_Build):
-        element = pymcnp.inp.SurfaceBuilder
-        EXAMPLES_VALID = [
-            {'prefix': '*', 'number': consts.string.type.INTEGER, 'transform': consts.string.type.INTEGER, 'option': consts.string.inp.surface.SO},
-            {'prefix': '*', 'number': 1, 'transform': 1, 'option': consts.builder.inp.surface.SO},
-            {'prefix': pymcnp.utils.types.String('*'), 'number': consts.ast.type.INTEGER, 'transform': consts.ast.type.INTEGER, 'option': consts.ast.inp.surface.SO},
-            {'prefix': None, 'number': consts.string.type.INTEGER, 'transform': consts.string.type.INTEGER, 'option': consts.string.inp.surface.SO},
-            {'prefix': '*', 'number': consts.string.type.INTEGER, 'transform': None, 'option': consts.string.inp.surface.SO},
-        ]
-        EXAMPLES_INVALID = [
-            {'prefix': 'a', 'number': consts.string.type.INTEGER, 'transform': consts.string.type.INTEGER, 'option': consts.string.inp.surface.SO},
-            {'prefix': '*', 'number': consts.string.type.INTEGER, 'transform': '1000', 'option': consts.string.inp.surface.SO},
-            {'prefix': '*', 'number': None, 'transform': consts.string.type.INTEGER, 'option': consts.string.inp.surface.SO},
-            {'prefix': '*', 'number': consts.string.type.INTEGER, 'transform': consts.string.type.INTEGER, 'option': None},
-        ]
-
     class Test_Operations:
         EXAMPLES = [
-            (consts.builder.inp.SURFACE, consts.builder.inp.SURFACE),
+            (consts.ast.inp.SURFACE, consts.ast.inp.SURFACE),
         ]
 
         def test_and(self):

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -27,7 +23,7 @@ class Nps(_option.StopOption):
 
     _REGEX = re.compile(rf'\Anps( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(self, npp: types.Integer, npsmg: types.Integer = None):
+    def __init__(self, npp: str | int | types.Integer, npsmg: str | int | types.Integer = None):
         """
         Initializes ``Nps``.
 
@@ -39,72 +35,80 @@ class Nps(_option.StopOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.npp: types.Integer = npp
+        self.npsmg: types.Integer = npsmg
+
+    @property
+    def npp(self) -> types.Integer:
+        """
+        Gets ``npp``.
+
+        Returns:
+            ``npp``.
+        """
+
+        return self._npp
+
+    @npp.setter
+    def npp(self, npp: str | int | types.Integer) -> None:
+        """
+        Sets ``npp``.
+
+        Parameters:
+            npp: Total number of histories before stop.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if npp is not None:
+            if isinstance(npp, types.Integer):
+                npp = npp
+            elif isinstance(npp, int):
+                npp = types.Integer(npp)
+            elif isinstance(npp, str):
+                npp = types.Integer.from_mcnp(npp)
+            else:
+                raise TypeError
+
         if npp is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, npp)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                npp,
-                npsmg,
-            ]
-        )
+        self._npp: types.Integer = npp
 
-        self.npp: typing.Final[types.Integer] = npp
-        self.npsmg: typing.Final[types.Integer] = npsmg
-
-
-@dataclasses.dataclass
-class NpsBuilder(_option.StopOptionBuilder):
-    """
-    Builds ``Nps``.
-
-    Attributes:
-        npp: Total number of histories before stop.
-        npsmg: Number of histories before stop.
-    """
-
-    npp: str | int | types.Integer
-    npsmg: str | int | types.Integer = None
-
-    def build(self):
+    @property
+    def npsmg(self) -> types.Integer:
         """
-        Builds ``NpsBuilder`` into ``Nps``.
+        Gets ``npsmg``.
 
         Returns:
-            ``Nps`` for ``NpsBuilder``.
+            ``npsmg``.
         """
 
-        npp = self.npp
-        if isinstance(self.npp, types.Integer):
-            npp = self.npp
-        elif isinstance(self.npp, int):
-            npp = types.Integer(self.npp)
-        elif isinstance(self.npp, str):
-            npp = types.Integer.from_mcnp(self.npp)
+        return self._npsmg
 
-        npsmg = self.npsmg
-        if isinstance(self.npsmg, types.Integer):
-            npsmg = self.npsmg
-        elif isinstance(self.npsmg, int):
-            npsmg = types.Integer(self.npsmg)
-        elif isinstance(self.npsmg, str):
-            npsmg = types.Integer.from_mcnp(self.npsmg)
-
-        return Nps(
-            npp=npp,
-            npsmg=npsmg,
-        )
-
-    @staticmethod
-    def unbuild(ast: Nps):
+    @npsmg.setter
+    def npsmg(self, npsmg: str | int | types.Integer) -> None:
         """
-        Unbuilds ``Nps`` into ``NpsBuilder``
+        Sets ``npsmg``.
 
-        Returns:
-            ``NpsBuilder`` for ``Nps``.
+        Parameters:
+            npsmg: Number of histories before stop.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
-        return NpsBuilder(
-            npp=copy.deepcopy(ast.npp),
-            npsmg=copy.deepcopy(ast.npsmg),
-        )
+        if npsmg is not None:
+            if isinstance(npsmg, types.Integer):
+                npsmg = npsmg
+            elif isinstance(npsmg, int):
+                npsmg = types.Integer(npsmg)
+            elif isinstance(npsmg, str):
+                npsmg = types.Integer.from_mcnp(npsmg)
+            else:
+                raise TypeError
+
+        self._npsmg: types.Integer = npsmg

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -58,21 +54,21 @@ class Rhp(_option.SurfaceOption):
 
     def __init__(
         self,
-        vx: types.Real,
-        vy: types.Real,
-        vz: types.Real,
-        hx: types.Real,
-        hy: types.Real,
-        hz: types.Real,
-        r1: types.Real,
-        r2: types.Real,
-        r3: types.Real,
-        s1: types.Real = None,
-        s2: types.Real = None,
-        s3: types.Real = None,
-        t1: types.Real = None,
-        t2: types.Real = None,
-        t3: types.Real = None,
+        vx: str | int | float | types.Real,
+        vy: str | int | float | types.Real,
+        vz: str | int | float | types.Real,
+        hx: str | int | float | types.Real,
+        hy: str | int | float | types.Real,
+        hz: str | int | float | types.Real,
+        r1: str | int | float | types.Real,
+        r2: str | int | float | types.Real,
+        r3: str | int | float | types.Real,
+        s1: str | int | float | types.Real = None,
+        s2: str | int | float | types.Real = None,
+        s3: str | int | float | types.Real = None,
+        t1: str | int | float | types.Real = None,
+        t2: str | int | float | types.Real = None,
+        t3: str | int | float | types.Real = None,
     ):
         """
         Initializes ``Rhp``.
@@ -98,60 +94,618 @@ class Rhp(_option.SurfaceOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.vx: types.Real = vx
+        self.vy: types.Real = vy
+        self.vz: types.Real = vz
+        self.hx: types.Real = hx
+        self.hy: types.Real = hy
+        self.hz: types.Real = hz
+        self.r1: types.Real = r1
+        self.r2: types.Real = r2
+        self.r3: types.Real = r3
+        self.s1: types.Real = s1
+        self.s2: types.Real = s2
+        self.s3: types.Real = s3
+        self.t1: types.Real = t1
+        self.t2: types.Real = t2
+        self.t3: types.Real = t3
+
+    @property
+    def vx(self) -> types.Real:
+        """
+        Gets ``vx``.
+
+        Returns:
+            ``vx``.
+        """
+
+        return self._vx
+
+    @vx.setter
+    def vx(self, vx: str | int | float | types.Real) -> None:
+        """
+        Sets ``vx``.
+
+        Parameters:
+            vx: Hexagonal prism position vector x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if vx is not None:
+            if isinstance(vx, types.Real):
+                vx = vx
+            elif isinstance(vx, int):
+                vx = types.Real(vx)
+            elif isinstance(vx, float):
+                vx = types.Real(vx)
+            elif isinstance(vx, str):
+                vx = types.Real.from_mcnp(vx)
+            else:
+                raise TypeError
+
         if vx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vx)
+
+        self._vx: types.Real = vx
+
+    @property
+    def vy(self) -> types.Real:
+        """
+        Gets ``vy``.
+
+        Returns:
+            ``vy``.
+        """
+
+        return self._vy
+
+    @vy.setter
+    def vy(self, vy: str | int | float | types.Real) -> None:
+        """
+        Sets ``vy``.
+
+        Parameters:
+            vy: Hexagonal prism position vector y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if vy is not None:
+            if isinstance(vy, types.Real):
+                vy = vy
+            elif isinstance(vy, int):
+                vy = types.Real(vy)
+            elif isinstance(vy, float):
+                vy = types.Real(vy)
+            elif isinstance(vy, str):
+                vy = types.Real.from_mcnp(vy)
+            else:
+                raise TypeError
+
         if vy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vy)
+
+        self._vy: types.Real = vy
+
+    @property
+    def vz(self) -> types.Real:
+        """
+        Gets ``vz``.
+
+        Returns:
+            ``vz``.
+        """
+
+        return self._vz
+
+    @vz.setter
+    def vz(self, vz: str | int | float | types.Real) -> None:
+        """
+        Sets ``vz``.
+
+        Parameters:
+            vz: Hexagonal prism position vector z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if vz is not None:
+            if isinstance(vz, types.Real):
+                vz = vz
+            elif isinstance(vz, int):
+                vz = types.Real(vz)
+            elif isinstance(vz, float):
+                vz = types.Real(vz)
+            elif isinstance(vz, str):
+                vz = types.Real.from_mcnp(vz)
+            else:
+                raise TypeError
+
         if vz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vz)
+
+        self._vz: types.Real = vz
+
+    @property
+    def hx(self) -> types.Real:
+        """
+        Gets ``hx``.
+
+        Returns:
+            ``hx``.
+        """
+
+        return self._hx
+
+    @hx.setter
+    def hx(self, hx: str | int | float | types.Real) -> None:
+        """
+        Sets ``hx``.
+
+        Parameters:
+            hx: Hexagonal prism height vector x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if hx is not None:
+            if isinstance(hx, types.Real):
+                hx = hx
+            elif isinstance(hx, int):
+                hx = types.Real(hx)
+            elif isinstance(hx, float):
+                hx = types.Real(hx)
+            elif isinstance(hx, str):
+                hx = types.Real.from_mcnp(hx)
+            else:
+                raise TypeError
+
         if hx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hx)
+
+        self._hx: types.Real = hx
+
+    @property
+    def hy(self) -> types.Real:
+        """
+        Gets ``hy``.
+
+        Returns:
+            ``hy``.
+        """
+
+        return self._hy
+
+    @hy.setter
+    def hy(self, hy: str | int | float | types.Real) -> None:
+        """
+        Sets ``hy``.
+
+        Parameters:
+            hy: Hexagonal prism height vector y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if hy is not None:
+            if isinstance(hy, types.Real):
+                hy = hy
+            elif isinstance(hy, int):
+                hy = types.Real(hy)
+            elif isinstance(hy, float):
+                hy = types.Real(hy)
+            elif isinstance(hy, str):
+                hy = types.Real.from_mcnp(hy)
+            else:
+                raise TypeError
+
         if hy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hy)
+
+        self._hy: types.Real = hy
+
+    @property
+    def hz(self) -> types.Real:
+        """
+        Gets ``hz``.
+
+        Returns:
+            ``hz``.
+        """
+
+        return self._hz
+
+    @hz.setter
+    def hz(self, hz: str | int | float | types.Real) -> None:
+        """
+        Sets ``hz``.
+
+        Parameters:
+            hz: Hexagonal prism height vector z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if hz is not None:
+            if isinstance(hz, types.Real):
+                hz = hz
+            elif isinstance(hz, int):
+                hz = types.Real(hz)
+            elif isinstance(hz, float):
+                hz = types.Real(hz)
+            elif isinstance(hz, str):
+                hz = types.Real.from_mcnp(hz)
+            else:
+                raise TypeError
+
         if hz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hz)
+
+        self._hz: types.Real = hz
+
+    @property
+    def r1(self) -> types.Real:
+        """
+        Gets ``r1``.
+
+        Returns:
+            ``r1``.
+        """
+
+        return self._r1
+
+    @r1.setter
+    def r1(self, r1: str | int | float | types.Real) -> None:
+        """
+        Sets ``r1``.
+
+        Parameters:
+            r1: Hexagonal prism facet #1 vector x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if r1 is not None:
+            if isinstance(r1, types.Real):
+                r1 = r1
+            elif isinstance(r1, int):
+                r1 = types.Real(r1)
+            elif isinstance(r1, float):
+                r1 = types.Real(r1)
+            elif isinstance(r1, str):
+                r1 = types.Real.from_mcnp(r1)
+            else:
+                raise TypeError
+
         if r1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r1)
+
+        self._r1: types.Real = r1
+
+    @property
+    def r2(self) -> types.Real:
+        """
+        Gets ``r2``.
+
+        Returns:
+            ``r2``.
+        """
+
+        return self._r2
+
+    @r2.setter
+    def r2(self, r2: str | int | float | types.Real) -> None:
+        """
+        Sets ``r2``.
+
+        Parameters:
+            r2: Hexagonal prism facet #1 vector y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if r2 is not None:
+            if isinstance(r2, types.Real):
+                r2 = r2
+            elif isinstance(r2, int):
+                r2 = types.Real(r2)
+            elif isinstance(r2, float):
+                r2 = types.Real(r2)
+            elif isinstance(r2, str):
+                r2 = types.Real.from_mcnp(r2)
+            else:
+                raise TypeError
+
         if r2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r2)
+
+        self._r2: types.Real = r2
+
+    @property
+    def r3(self) -> types.Real:
+        """
+        Gets ``r3``.
+
+        Returns:
+            ``r3``.
+        """
+
+        return self._r3
+
+    @r3.setter
+    def r3(self, r3: str | int | float | types.Real) -> None:
+        """
+        Sets ``r3``.
+
+        Parameters:
+            r3: Hexagonal prism facet #1 vector z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if r3 is not None:
+            if isinstance(r3, types.Real):
+                r3 = r3
+            elif isinstance(r3, int):
+                r3 = types.Real(r3)
+            elif isinstance(r3, float):
+                r3 = types.Real(r3)
+            elif isinstance(r3, str):
+                r3 = types.Real.from_mcnp(r3)
+            else:
+                raise TypeError
+
         if r3 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r3)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                vx,
-                vy,
-                vz,
-                hx,
-                hy,
-                hz,
-                r1,
-                r2,
-                r3,
-                s1,
-                s2,
-                s3,
-                t1,
-                t2,
-                t3,
-            ]
-        )
+        self._r3: types.Real = r3
 
-        self.vx: typing.Final[types.Real] = vx
-        self.vy: typing.Final[types.Real] = vy
-        self.vz: typing.Final[types.Real] = vz
-        self.hx: typing.Final[types.Real] = hx
-        self.hy: typing.Final[types.Real] = hy
-        self.hz: typing.Final[types.Real] = hz
-        self.r1: typing.Final[types.Real] = r1
-        self.r2: typing.Final[types.Real] = r2
-        self.r3: typing.Final[types.Real] = r3
-        self.s1: typing.Final[types.Real] = s1
-        self.s2: typing.Final[types.Real] = s2
-        self.s3: typing.Final[types.Real] = s3
-        self.t1: typing.Final[types.Real] = t1
-        self.t2: typing.Final[types.Real] = t2
-        self.t3: typing.Final[types.Real] = t3
+    @property
+    def s1(self) -> types.Real:
+        """
+        Gets ``s1``.
+
+        Returns:
+            ``s1``.
+        """
+
+        return self._s1
+
+    @s1.setter
+    def s1(self, s1: str | int | float | types.Real) -> None:
+        """
+        Sets ``s1``.
+
+        Parameters:
+            s1: Hexagonal prism facet #2 vector x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if s1 is not None:
+            if isinstance(s1, types.Real):
+                s1 = s1
+            elif isinstance(s1, int):
+                s1 = types.Real(s1)
+            elif isinstance(s1, float):
+                s1 = types.Real(s1)
+            elif isinstance(s1, str):
+                s1 = types.Real.from_mcnp(s1)
+            else:
+                raise TypeError
+
+        self._s1: types.Real = s1
+
+    @property
+    def s2(self) -> types.Real:
+        """
+        Gets ``s2``.
+
+        Returns:
+            ``s2``.
+        """
+
+        return self._s2
+
+    @s2.setter
+    def s2(self, s2: str | int | float | types.Real) -> None:
+        """
+        Sets ``s2``.
+
+        Parameters:
+            s2: Hexagonal prism facet #2 vector y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if s2 is not None:
+            if isinstance(s2, types.Real):
+                s2 = s2
+            elif isinstance(s2, int):
+                s2 = types.Real(s2)
+            elif isinstance(s2, float):
+                s2 = types.Real(s2)
+            elif isinstance(s2, str):
+                s2 = types.Real.from_mcnp(s2)
+            else:
+                raise TypeError
+
+        self._s2: types.Real = s2
+
+    @property
+    def s3(self) -> types.Real:
+        """
+        Gets ``s3``.
+
+        Returns:
+            ``s3``.
+        """
+
+        return self._s3
+
+    @s3.setter
+    def s3(self, s3: str | int | float | types.Real) -> None:
+        """
+        Sets ``s3``.
+
+        Parameters:
+            s3: Hexagonal prism facet #2 vector z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if s3 is not None:
+            if isinstance(s3, types.Real):
+                s3 = s3
+            elif isinstance(s3, int):
+                s3 = types.Real(s3)
+            elif isinstance(s3, float):
+                s3 = types.Real(s3)
+            elif isinstance(s3, str):
+                s3 = types.Real.from_mcnp(s3)
+            else:
+                raise TypeError
+
+        self._s3: types.Real = s3
+
+    @property
+    def t1(self) -> types.Real:
+        """
+        Gets ``t1``.
+
+        Returns:
+            ``t1``.
+        """
+
+        return self._t1
+
+    @t1.setter
+    def t1(self, t1: str | int | float | types.Real) -> None:
+        """
+        Sets ``t1``.
+
+        Parameters:
+            t1: Hexagonal prism facet #3 vector x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if t1 is not None:
+            if isinstance(t1, types.Real):
+                t1 = t1
+            elif isinstance(t1, int):
+                t1 = types.Real(t1)
+            elif isinstance(t1, float):
+                t1 = types.Real(t1)
+            elif isinstance(t1, str):
+                t1 = types.Real.from_mcnp(t1)
+            else:
+                raise TypeError
+
+        self._t1: types.Real = t1
+
+    @property
+    def t2(self) -> types.Real:
+        """
+        Gets ``t2``.
+
+        Returns:
+            ``t2``.
+        """
+
+        return self._t2
+
+    @t2.setter
+    def t2(self, t2: str | int | float | types.Real) -> None:
+        """
+        Sets ``t2``.
+
+        Parameters:
+            t2: Hexagonal prism facet #3 vector y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if t2 is not None:
+            if isinstance(t2, types.Real):
+                t2 = t2
+            elif isinstance(t2, int):
+                t2 = types.Real(t2)
+            elif isinstance(t2, float):
+                t2 = types.Real(t2)
+            elif isinstance(t2, str):
+                t2 = types.Real.from_mcnp(t2)
+            else:
+                raise TypeError
+
+        self._t2: types.Real = t2
+
+    @property
+    def t3(self) -> types.Real:
+        """
+        Gets ``t3``.
+
+        Returns:
+            ``t3``.
+        """
+
+        return self._t3
+
+    @t3.setter
+    def t3(self, t3: str | int | float | types.Real) -> None:
+        """
+        Sets ``t3``.
+
+        Parameters:
+            t3: Hexagonal prism facet #3 vector z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if t3 is not None:
+            if isinstance(t3, types.Real):
+                t3 = t3
+            elif isinstance(t3, int):
+                t3 = types.Real(t3)
+            elif isinstance(t3, float):
+                t3 = types.Real(t3)
+            elif isinstance(t3, str):
+                t3 = types.Real.from_mcnp(t3)
+            else:
+                raise TypeError
+
+        self._t3: types.Real = t3
 
     def draw(self):
         """
@@ -175,216 +729,3 @@ class Rhp(_option.SurfaceOption):
         vis = vis.add_translation(v)
 
         return vis
-
-
-@dataclasses.dataclass
-class RhpBuilder(_option.SurfaceOptionBuilder):
-    """
-    Builds ``Rhp``.
-
-    Attributes:
-        vx: Hexagonal prism position vector x component.
-        vy: Hexagonal prism position vector y component.
-        vz: Hexagonal prism position vector z component.
-        hx: Hexagonal prism height vector x component.
-        hy: Hexagonal prism height vector y component.
-        hz: Hexagonal prism height vector z component.
-        r1: Hexagonal prism facet #1 vector x component.
-        r2: Hexagonal prism facet #1 vector y component.
-        r3: Hexagonal prism facet #1 vector z component.
-        s1: Hexagonal prism facet #2 vector x component.
-        s2: Hexagonal prism facet #2 vector y component.
-        s3: Hexagonal prism facet #2 vector z component.
-        t1: Hexagonal prism facet #3 vector x component.
-        t2: Hexagonal prism facet #3 vector y component.
-        t3: Hexagonal prism facet #3 vector z component.
-    """
-
-    vx: str | float | types.Real
-    vy: str | float | types.Real
-    vz: str | float | types.Real
-    hx: str | float | types.Real
-    hy: str | float | types.Real
-    hz: str | float | types.Real
-    r1: str | float | types.Real
-    r2: str | float | types.Real
-    r3: str | float | types.Real
-    s1: str | float | types.Real = None
-    s2: str | float | types.Real = None
-    s3: str | float | types.Real = None
-    t1: str | float | types.Real = None
-    t2: str | float | types.Real = None
-    t3: str | float | types.Real = None
-
-    def build(self):
-        """
-        Builds ``RhpBuilder`` into ``Rhp``.
-
-        Returns:
-            ``Rhp`` for ``RhpBuilder``.
-        """
-
-        vx = self.vx
-        if isinstance(self.vx, types.Real):
-            vx = self.vx
-        elif isinstance(self.vx, float) or isinstance(self.vx, int):
-            vx = types.Real(self.vx)
-        elif isinstance(self.vx, str):
-            vx = types.Real.from_mcnp(self.vx)
-
-        vy = self.vy
-        if isinstance(self.vy, types.Real):
-            vy = self.vy
-        elif isinstance(self.vy, float) or isinstance(self.vy, int):
-            vy = types.Real(self.vy)
-        elif isinstance(self.vy, str):
-            vy = types.Real.from_mcnp(self.vy)
-
-        vz = self.vz
-        if isinstance(self.vz, types.Real):
-            vz = self.vz
-        elif isinstance(self.vz, float) or isinstance(self.vz, int):
-            vz = types.Real(self.vz)
-        elif isinstance(self.vz, str):
-            vz = types.Real.from_mcnp(self.vz)
-
-        hx = self.hx
-        if isinstance(self.hx, types.Real):
-            hx = self.hx
-        elif isinstance(self.hx, float) or isinstance(self.hx, int):
-            hx = types.Real(self.hx)
-        elif isinstance(self.hx, str):
-            hx = types.Real.from_mcnp(self.hx)
-
-        hy = self.hy
-        if isinstance(self.hy, types.Real):
-            hy = self.hy
-        elif isinstance(self.hy, float) or isinstance(self.hy, int):
-            hy = types.Real(self.hy)
-        elif isinstance(self.hy, str):
-            hy = types.Real.from_mcnp(self.hy)
-
-        hz = self.hz
-        if isinstance(self.hz, types.Real):
-            hz = self.hz
-        elif isinstance(self.hz, float) or isinstance(self.hz, int):
-            hz = types.Real(self.hz)
-        elif isinstance(self.hz, str):
-            hz = types.Real.from_mcnp(self.hz)
-
-        r1 = self.r1
-        if isinstance(self.r1, types.Real):
-            r1 = self.r1
-        elif isinstance(self.r1, float) or isinstance(self.r1, int):
-            r1 = types.Real(self.r1)
-        elif isinstance(self.r1, str):
-            r1 = types.Real.from_mcnp(self.r1)
-
-        r2 = self.r2
-        if isinstance(self.r2, types.Real):
-            r2 = self.r2
-        elif isinstance(self.r2, float) or isinstance(self.r2, int):
-            r2 = types.Real(self.r2)
-        elif isinstance(self.r2, str):
-            r2 = types.Real.from_mcnp(self.r2)
-
-        r3 = self.r3
-        if isinstance(self.r3, types.Real):
-            r3 = self.r3
-        elif isinstance(self.r3, float) or isinstance(self.r3, int):
-            r3 = types.Real(self.r3)
-        elif isinstance(self.r3, str):
-            r3 = types.Real.from_mcnp(self.r3)
-
-        s1 = self.s1
-        if isinstance(self.s1, types.Real):
-            s1 = self.s1
-        elif isinstance(self.s1, float) or isinstance(self.s1, int):
-            s1 = types.Real(self.s1)
-        elif isinstance(self.s1, str):
-            s1 = types.Real.from_mcnp(self.s1)
-
-        s2 = self.s2
-        if isinstance(self.s2, types.Real):
-            s2 = self.s2
-        elif isinstance(self.s2, float) or isinstance(self.s2, int):
-            s2 = types.Real(self.s2)
-        elif isinstance(self.s2, str):
-            s2 = types.Real.from_mcnp(self.s2)
-
-        s3 = self.s3
-        if isinstance(self.s3, types.Real):
-            s3 = self.s3
-        elif isinstance(self.s3, float) or isinstance(self.s3, int):
-            s3 = types.Real(self.s3)
-        elif isinstance(self.s3, str):
-            s3 = types.Real.from_mcnp(self.s3)
-
-        t1 = self.t1
-        if isinstance(self.t1, types.Real):
-            t1 = self.t1
-        elif isinstance(self.t1, float) or isinstance(self.t1, int):
-            t1 = types.Real(self.t1)
-        elif isinstance(self.t1, str):
-            t1 = types.Real.from_mcnp(self.t1)
-
-        t2 = self.t2
-        if isinstance(self.t2, types.Real):
-            t2 = self.t2
-        elif isinstance(self.t2, float) or isinstance(self.t2, int):
-            t2 = types.Real(self.t2)
-        elif isinstance(self.t2, str):
-            t2 = types.Real.from_mcnp(self.t2)
-
-        t3 = self.t3
-        if isinstance(self.t3, types.Real):
-            t3 = self.t3
-        elif isinstance(self.t3, float) or isinstance(self.t3, int):
-            t3 = types.Real(self.t3)
-        elif isinstance(self.t3, str):
-            t3 = types.Real.from_mcnp(self.t3)
-
-        return Rhp(
-            vx=vx,
-            vy=vy,
-            vz=vz,
-            hx=hx,
-            hy=hy,
-            hz=hz,
-            r1=r1,
-            r2=r2,
-            r3=r3,
-            s1=s1,
-            s2=s2,
-            s3=s3,
-            t1=t1,
-            t2=t2,
-            t3=t3,
-        )
-
-    @staticmethod
-    def unbuild(ast: Rhp):
-        """
-        Unbuilds ``Rhp`` into ``RhpBuilder``
-
-        Returns:
-            ``RhpBuilder`` for ``Rhp``.
-        """
-
-        return RhpBuilder(
-            vx=copy.deepcopy(ast.vx),
-            vy=copy.deepcopy(ast.vy),
-            vz=copy.deepcopy(ast.vz),
-            hx=copy.deepcopy(ast.hx),
-            hy=copy.deepcopy(ast.hy),
-            hz=copy.deepcopy(ast.hz),
-            r1=copy.deepcopy(ast.r1),
-            r2=copy.deepcopy(ast.r2),
-            r3=copy.deepcopy(ast.r3),
-            s1=copy.deepcopy(ast.s1),
-            s2=copy.deepcopy(ast.s2),
-            s3=copy.deepcopy(ast.s3),
-            t1=copy.deepcopy(ast.t1),
-            t2=copy.deepcopy(ast.t2),
-            t3=copy.deepcopy(ast.t3),
-        )

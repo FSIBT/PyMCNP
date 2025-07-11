@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Type(_option.PtracOption):
 
     _REGEX = re.compile(rf'\Atype((?: {types.Designator._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, particles: types.Tuple[types.Designator]):
+    def __init__(self, particles: list[str] | list[types.Designator]):
         """
         Initializes ``Type``.
 
@@ -36,61 +32,44 @@ class Type(_option.PtracOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.particles: types.Tuple[types.Designator] = particles
+
+    @property
+    def particles(self) -> types.Tuple[types.Designator]:
+        """
+        Gets ``particles``.
+
+        Returns:
+            ``particles``.
+        """
+
+        return self._particles
+
+    @particles.setter
+    def particles(self, particles: list[str] | list[types.Designator]) -> None:
+        """
+        Sets ``particles``.
+
+        Parameters:
+            particles: Filters events based on one or more particle types.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if particles is not None:
+            array = []
+            for item in particles:
+                if isinstance(item, types.Designator):
+                    array.append(item)
+                elif isinstance(item, str):
+                    array.append(types.Designator.from_mcnp(item))
+                else:
+                    raise TypeError
+            particles = types.Tuple(array)
+
         if particles is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, particles)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                particles,
-            ]
-        )
-
-        self.particles: typing.Final[types.Tuple[types.Designator]] = particles
-
-
-@dataclasses.dataclass
-class TypeBuilder(_option.PtracOptionBuilder):
-    """
-    Builds ``Type``.
-
-    Attributes:
-        particles: Filters events based on one or more particle types.
-    """
-
-    particles: list[str] | list[types.Designator]
-
-    def build(self):
-        """
-        Builds ``TypeBuilder`` into ``Type``.
-
-        Returns:
-            ``Type`` for ``TypeBuilder``.
-        """
-
-        if self.particles:
-            particles = []
-            for item in self.particles:
-                if isinstance(item, types.Designator):
-                    particles.append(item)
-                elif isinstance(item, str):
-                    particles.append(types.Designator.from_mcnp(item))
-            particles = types.Tuple(particles)
-        else:
-            particles = None
-
-        return Type(
-            particles=particles,
-        )
-
-    @staticmethod
-    def unbuild(ast: Type):
-        """
-        Unbuilds ``Type`` into ``TypeBuilder``
-
-        Returns:
-            ``TypeBuilder`` for ``Type``.
-        """
-
-        return TypeBuilder(
-            particles=copy.deepcopy(ast.particles),
-        )
+        self._particles: types.Tuple[types.Designator] = particles

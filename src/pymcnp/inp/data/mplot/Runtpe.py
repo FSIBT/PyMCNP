@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -27,7 +23,7 @@ class Runtpe(_option.MplotOption):
 
     _REGEX = re.compile(rf'\Aruntpe( {types.String._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(self, filename: types.String, n: types.Integer = None):
+    def __init__(self, filename: str | types.String, n: str | int | types.Integer = None):
         """
         Initializes ``Runtpe``.
 
@@ -39,70 +35,78 @@ class Runtpe(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.filename: types.String = filename
+        self.n: types.Integer = n
+
+    @property
+    def filename(self) -> types.String:
+        """
+        Gets ``filename``.
+
+        Returns:
+            ``filename``.
+        """
+
+        return self._filename
+
+    @filename.setter
+    def filename(self, filename: str | types.String) -> None:
+        """
+        Sets ``filename``.
+
+        Parameters:
+            filename: RUNTPE file to read dump.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if filename is not None:
+            if isinstance(filename, types.String):
+                filename = filename
+            elif isinstance(filename, str):
+                filename = types.String.from_mcnp(filename)
+            else:
+                raise TypeError
+
         if filename is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, filename)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                filename,
-                n,
-            ]
-        )
+        self._filename: types.String = filename
 
-        self.filename: typing.Final[types.String] = filename
-        self.n: typing.Final[types.Integer] = n
-
-
-@dataclasses.dataclass
-class RuntpeBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``Runtpe``.
-
-    Attributes:
-        filename: RUNTPE file to read dump.
-        n: RUNTPE read dump number.
-    """
-
-    filename: str | types.String
-    n: str | int | types.Integer = None
-
-    def build(self):
+    @property
+    def n(self) -> types.Integer:
         """
-        Builds ``RuntpeBuilder`` into ``Runtpe``.
+        Gets ``n``.
 
         Returns:
-            ``Runtpe`` for ``RuntpeBuilder``.
+            ``n``.
         """
 
-        filename = self.filename
-        if isinstance(self.filename, types.String):
-            filename = self.filename
-        elif isinstance(self.filename, str):
-            filename = types.String.from_mcnp(self.filename)
+        return self._n
 
-        n = self.n
-        if isinstance(self.n, types.Integer):
-            n = self.n
-        elif isinstance(self.n, int):
-            n = types.Integer(self.n)
-        elif isinstance(self.n, str):
-            n = types.Integer.from_mcnp(self.n)
-
-        return Runtpe(
-            filename=filename,
-            n=n,
-        )
-
-    @staticmethod
-    def unbuild(ast: Runtpe):
+    @n.setter
+    def n(self, n: str | int | types.Integer) -> None:
         """
-        Unbuilds ``Runtpe`` into ``RuntpeBuilder``
+        Sets ``n``.
 
-        Returns:
-            ``RuntpeBuilder`` for ``Runtpe``.
+        Parameters:
+            n: RUNTPE read dump number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
-        return RuntpeBuilder(
-            filename=copy.deepcopy(ast.filename),
-            n=copy.deepcopy(ast.n),
-        )
+        if n is not None:
+            if isinstance(n, types.Integer):
+                n = n
+            elif isinstance(n, int):
+                n = types.Integer(n)
+            elif isinstance(n, str):
+                n = types.Integer.from_mcnp(n)
+            else:
+                raise TypeError
+
+        self._n: types.Integer = n

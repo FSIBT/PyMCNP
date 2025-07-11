@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Ara(_option.SdefOption):
 
     _REGEX = re.compile(rf'\Aara( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, area: types.Real):
+    def __init__(self, area: str | int | float | types.Real):
         """
         Initializes ``Ara``.
 
@@ -36,58 +32,45 @@ class Ara(_option.SdefOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.area: types.Real = area
+
+    @property
+    def area(self) -> types.Real:
+        """
+        Gets ``area``.
+
+        Returns:
+            ``area``.
+        """
+
+        return self._area
+
+    @area.setter
+    def area(self, area: str | int | float | types.Real) -> None:
+        """
+        Sets ``area``.
+
+        Parameters:
+            area: Area of surface.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if area is not None:
+            if isinstance(area, types.Real):
+                area = area
+            elif isinstance(area, int):
+                area = types.Real(area)
+            elif isinstance(area, float):
+                area = types.Real(area)
+            elif isinstance(area, str):
+                area = types.Real.from_mcnp(area)
+            else:
+                raise TypeError
+
         if area is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, area)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                area,
-            ]
-        )
-
-        self.area: typing.Final[types.Real] = area
-
-
-@dataclasses.dataclass
-class AraBuilder(_option.SdefOptionBuilder):
-    """
-    Builds ``Ara``.
-
-    Attributes:
-        area: Area of surface.
-    """
-
-    area: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``AraBuilder`` into ``Ara``.
-
-        Returns:
-            ``Ara`` for ``AraBuilder``.
-        """
-
-        area = self.area
-        if isinstance(self.area, types.Real):
-            area = self.area
-        elif isinstance(self.area, float) or isinstance(self.area, int):
-            area = types.Real(self.area)
-        elif isinstance(self.area, str):
-            area = types.Real.from_mcnp(self.area)
-
-        return Ara(
-            area=area,
-        )
-
-    @staticmethod
-    def unbuild(ast: Ara):
-        """
-        Unbuilds ``Ara`` into ``AraBuilder``
-
-        Returns:
-            ``AraBuilder`` for ``Ara``.
-        """
-
-        return AraBuilder(
-            area=copy.deepcopy(ast.area),
-        )
+        self._area: types.Real = area

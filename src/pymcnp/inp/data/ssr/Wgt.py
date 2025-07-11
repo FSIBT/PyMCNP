@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Wgt(_option.SsrOption):
 
     _REGEX = re.compile(rf'\Awgt( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, constant: types.Real):
+    def __init__(self, constant: str | int | float | types.Real):
         """
         Initializes ``Wgt``.
 
@@ -36,58 +32,45 @@ class Wgt(_option.SsrOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.constant: types.Real = constant
+
+    @property
+    def constant(self) -> types.Real:
+        """
+        Gets ``constant``.
+
+        Returns:
+            ``constant``.
+        """
+
+        return self._constant
+
+    @constant.setter
+    def constant(self, constant: str | int | float | types.Real) -> None:
+        """
+        Sets ``constant``.
+
+        Parameters:
+            constant: Particle weight multiplier.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if constant is not None:
+            if isinstance(constant, types.Real):
+                constant = constant
+            elif isinstance(constant, int):
+                constant = types.Real(constant)
+            elif isinstance(constant, float):
+                constant = types.Real(constant)
+            elif isinstance(constant, str):
+                constant = types.Real.from_mcnp(constant)
+            else:
+                raise TypeError
+
         if constant is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, constant)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                constant,
-            ]
-        )
-
-        self.constant: typing.Final[types.Real] = constant
-
-
-@dataclasses.dataclass
-class WgtBuilder(_option.SsrOptionBuilder):
-    """
-    Builds ``Wgt``.
-
-    Attributes:
-        constant: Particle weight multiplier.
-    """
-
-    constant: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``WgtBuilder`` into ``Wgt``.
-
-        Returns:
-            ``Wgt`` for ``WgtBuilder``.
-        """
-
-        constant = self.constant
-        if isinstance(self.constant, types.Real):
-            constant = self.constant
-        elif isinstance(self.constant, float) or isinstance(self.constant, int):
-            constant = types.Real(self.constant)
-        elif isinstance(self.constant, str):
-            constant = types.Real.from_mcnp(self.constant)
-
-        return Wgt(
-            constant=constant,
-        )
-
-    @staticmethod
-    def unbuild(ast: Wgt):
-        """
-        Unbuilds ``Wgt`` into ``WgtBuilder``
-
-        Returns:
-            ``WgtBuilder`` for ``Wgt``.
-        """
-
-        return WgtBuilder(
-            constant=copy.deepcopy(ast.constant),
-        )
+        self._constant: types.Real = constant

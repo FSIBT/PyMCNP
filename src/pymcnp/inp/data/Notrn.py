@@ -1,10 +1,6 @@
 import re
-import typing
-import dataclasses
-
 
 from . import _option
-from ...utils import types
 
 
 class Notrn(_option.DataOption):
@@ -33,36 +29,3 @@ class Notrn(_option.DataOption):
         Raises:
             InpError: SEMANTICS_OPTION.
         """
-
-        self.value: typing.Final[types.Tuple] = types.Tuple([])
-
-
-@dataclasses.dataclass
-class NotrnBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Notrn``.
-
-    Attributes:
-
-    """
-
-    def build(self):
-        """
-        Builds ``NotrnBuilder`` into ``Notrn``.
-
-        Returns:
-            ``Notrn`` for ``NotrnBuilder``.
-        """
-
-        return Notrn()
-
-    @staticmethod
-    def unbuild(ast: Notrn):
-        """
-        Unbuilds ``Notrn`` into ``NotrnBuilder``
-
-        Returns:
-            ``NotrnBuilder`` for ``Notrn``.
-        """
-
-        return NotrnBuilder()

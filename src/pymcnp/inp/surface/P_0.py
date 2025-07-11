@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -32,7 +28,7 @@ class P_0(_option.SurfaceOption):
 
     _REGEX = re.compile(rf'\Ap( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, a: types.Real, b: types.Real, c: types.Real, d: types.Real):
+    def __init__(self, a: str | int | float | types.Real, b: str | int | float | types.Real, c: str | int | float | types.Real, d: str | int | float | types.Real):
         """
         Initializes ``P_0``.
 
@@ -46,28 +42,174 @@ class P_0(_option.SurfaceOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.a: types.Real = a
+        self.b: types.Real = b
+        self.c: types.Real = c
+        self.d: types.Real = d
+
+    @property
+    def a(self) -> types.Real:
+        """
+        Gets ``a``.
+
+        Returns:
+            ``a``.
+        """
+
+        return self._a
+
+    @a.setter
+    def a(self, a: str | int | float | types.Real) -> None:
+        """
+        Sets ``a``.
+
+        Parameters:
+            a: Equation-defined general plane A coefficent.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if a is not None:
+            if isinstance(a, types.Real):
+                a = a
+            elif isinstance(a, int):
+                a = types.Real(a)
+            elif isinstance(a, float):
+                a = types.Real(a)
+            elif isinstance(a, str):
+                a = types.Real.from_mcnp(a)
+            else:
+                raise TypeError
+
         if a is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
+
+        self._a: types.Real = a
+
+    @property
+    def b(self) -> types.Real:
+        """
+        Gets ``b``.
+
+        Returns:
+            ``b``.
+        """
+
+        return self._b
+
+    @b.setter
+    def b(self, b: str | int | float | types.Real) -> None:
+        """
+        Sets ``b``.
+
+        Parameters:
+            b: Equation-defined general plane B coefficent.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if b is not None:
+            if isinstance(b, types.Real):
+                b = b
+            elif isinstance(b, int):
+                b = types.Real(b)
+            elif isinstance(b, float):
+                b = types.Real(b)
+            elif isinstance(b, str):
+                b = types.Real.from_mcnp(b)
+            else:
+                raise TypeError
+
         if b is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, b)
+
+        self._b: types.Real = b
+
+    @property
+    def c(self) -> types.Real:
+        """
+        Gets ``c``.
+
+        Returns:
+            ``c``.
+        """
+
+        return self._c
+
+    @c.setter
+    def c(self, c: str | int | float | types.Real) -> None:
+        """
+        Sets ``c``.
+
+        Parameters:
+            c: Equation-defined general plane C coefficent.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if c is not None:
+            if isinstance(c, types.Real):
+                c = c
+            elif isinstance(c, int):
+                c = types.Real(c)
+            elif isinstance(c, float):
+                c = types.Real(c)
+            elif isinstance(c, str):
+                c = types.Real.from_mcnp(c)
+            else:
+                raise TypeError
+
         if c is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, c)
+
+        self._c: types.Real = c
+
+    @property
+    def d(self) -> types.Real:
+        """
+        Gets ``d``.
+
+        Returns:
+            ``d``.
+        """
+
+        return self._d
+
+    @d.setter
+    def d(self, d: str | int | float | types.Real) -> None:
+        """
+        Sets ``d``.
+
+        Parameters:
+            d: Equation-defined general plane D coefficent.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if d is not None:
+            if isinstance(d, types.Real):
+                d = d
+            elif isinstance(d, int):
+                d = types.Real(d)
+            elif isinstance(d, float):
+                d = types.Real(d)
+            elif isinstance(d, str):
+                d = types.Real.from_mcnp(d)
+            else:
+                raise TypeError
+
         if d is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, d)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                a,
-                b,
-                c,
-                d,
-            ]
-        )
-
-        self.a: typing.Final[types.Real] = a
-        self.b: typing.Final[types.Real] = b
-        self.c: typing.Final[types.Real] = c
-        self.d: typing.Final[types.Real] = d
+        self._d: types.Real = d
 
     def draw(self):
         """
@@ -80,84 +222,3 @@ class P_0(_option.SurfaceOption):
         vis = _visualization.Visualization.get_plane(float(self.a), float(self.b), float(self.c), float(self.d))
 
         return vis
-
-
-@dataclasses.dataclass
-class PBuilder_0(_option.SurfaceOptionBuilder):
-    """
-    Builds ``P_0``.
-
-    Attributes:
-        a: Equation-defined general plane A coefficent.
-        b: Equation-defined general plane B coefficent.
-        c: Equation-defined general plane C coefficent.
-        d: Equation-defined general plane D coefficent.
-    """
-
-    a: str | float | types.Real
-    b: str | float | types.Real
-    c: str | float | types.Real
-    d: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``PBuilder_0`` into ``P_0``.
-
-        Returns:
-            ``P_0`` for ``PBuilder_0``.
-        """
-
-        a = self.a
-        if isinstance(self.a, types.Real):
-            a = self.a
-        elif isinstance(self.a, float) or isinstance(self.a, int):
-            a = types.Real(self.a)
-        elif isinstance(self.a, str):
-            a = types.Real.from_mcnp(self.a)
-
-        b = self.b
-        if isinstance(self.b, types.Real):
-            b = self.b
-        elif isinstance(self.b, float) or isinstance(self.b, int):
-            b = types.Real(self.b)
-        elif isinstance(self.b, str):
-            b = types.Real.from_mcnp(self.b)
-
-        c = self.c
-        if isinstance(self.c, types.Real):
-            c = self.c
-        elif isinstance(self.c, float) or isinstance(self.c, int):
-            c = types.Real(self.c)
-        elif isinstance(self.c, str):
-            c = types.Real.from_mcnp(self.c)
-
-        d = self.d
-        if isinstance(self.d, types.Real):
-            d = self.d
-        elif isinstance(self.d, float) or isinstance(self.d, int):
-            d = types.Real(self.d)
-        elif isinstance(self.d, str):
-            d = types.Real.from_mcnp(self.d)
-
-        return P_0(
-            a=a,
-            b=b,
-            c=c,
-            d=d,
-        )
-
-    @staticmethod
-    def unbuild(ast: P_0):
-        """
-        Unbuilds ``P_0`` into ``PBuilder_0``
-
-        Returns:
-            ``PBuilder_0`` for ``P_0``.
-        """
-
-        return PBuilder_0(
-            a=copy.deepcopy(ast.a),
-            b=copy.deepcopy(ast.b),
-            c=copy.deepcopy(ast.c),
-            d=copy.deepcopy(ast.d),
-        )

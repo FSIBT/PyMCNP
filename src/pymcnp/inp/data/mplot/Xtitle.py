@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Xtitle(_option.MplotOption):
 
     _REGEX = re.compile(rf'\Axtitle( \"{types.String._REGEX.pattern[2:-2]}\")\Z')
 
-    def __init__(self, aa: types.String):
+    def __init__(self, aa: str | types.String):
         """
         Initializes ``Xtitle``.
 
@@ -36,56 +32,41 @@ class Xtitle(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.aa: types.String = aa
+
+    @property
+    def aa(self) -> types.String:
+        """
+        Gets ``aa``.
+
+        Returns:
+            ``aa``.
+        """
+
+        return self._aa
+
+    @aa.setter
+    def aa(self, aa: str | types.String) -> None:
+        """
+        Sets ``aa``.
+
+        Parameters:
+            aa: Line to substitute.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if aa is not None:
+            if isinstance(aa, types.String):
+                aa = aa
+            elif isinstance(aa, str):
+                aa = types.String.from_mcnp(aa)
+            else:
+                raise TypeError
+
         if aa is None or not (len(aa) <= 40):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, aa)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                aa,
-            ]
-        )
-
-        self.aa: typing.Final[types.String] = aa
-
-
-@dataclasses.dataclass
-class XtitleBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``Xtitle``.
-
-    Attributes:
-        aa: Line to substitute.
-    """
-
-    aa: str | types.String
-
-    def build(self):
-        """
-        Builds ``XtitleBuilder`` into ``Xtitle``.
-
-        Returns:
-            ``Xtitle`` for ``XtitleBuilder``.
-        """
-
-        aa = self.aa
-        if isinstance(self.aa, types.String):
-            aa = self.aa
-        elif isinstance(self.aa, str):
-            aa = types.String.from_mcnp(self.aa)
-
-        return Xtitle(
-            aa=aa,
-        )
-
-    @staticmethod
-    def unbuild(ast: Xtitle):
-        """
-        Unbuilds ``Xtitle`` into ``XtitleBuilder``
-
-        Returns:
-            ``XtitleBuilder`` for ``Xtitle``.
-        """
-
-        return XtitleBuilder(
-            aa=copy.deepcopy(ast.aa),
-        )
+        self._aa: types.String = aa

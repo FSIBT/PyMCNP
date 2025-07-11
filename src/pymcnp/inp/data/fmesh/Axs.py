@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -29,7 +25,7 @@ class Axs(_option.FmeshOption):
 
     _REGEX = re.compile(rf'\Aaxs( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, x: types.Real, y: types.Real, z: types.Real):
+    def __init__(self, x: str | int | float | types.Real, y: str | int | float | types.Real, z: str | int | float | types.Real):
         """
         Initializes ``Axs``.
 
@@ -42,90 +38,129 @@ class Axs(_option.FmeshOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.x: types.Real = x
+        self.y: types.Real = y
+        self.z: types.Real = z
+
+    @property
+    def x(self) -> types.Real:
+        """
+        Gets ``x``.
+
+        Returns:
+            ``x``.
+        """
+
+        return self._x
+
+    @x.setter
+    def x(self, x: str | int | float | types.Real) -> None:
+        """
+        Sets ``x``.
+
+        Parameters:
+            x: Cylindrical mesh axis vector x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if x is not None:
+            if isinstance(x, types.Real):
+                x = x
+            elif isinstance(x, int):
+                x = types.Real(x)
+            elif isinstance(x, float):
+                x = types.Real(x)
+            elif isinstance(x, str):
+                x = types.Real.from_mcnp(x)
+            else:
+                raise TypeError
+
         if x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
+
+        self._x: types.Real = x
+
+    @property
+    def y(self) -> types.Real:
+        """
+        Gets ``y``.
+
+        Returns:
+            ``y``.
+        """
+
+        return self._y
+
+    @y.setter
+    def y(self, y: str | int | float | types.Real) -> None:
+        """
+        Sets ``y``.
+
+        Parameters:
+            y: Cylindrical mesh axis vector y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if y is not None:
+            if isinstance(y, types.Real):
+                y = y
+            elif isinstance(y, int):
+                y = types.Real(y)
+            elif isinstance(y, float):
+                y = types.Real(y)
+            elif isinstance(y, str):
+                y = types.Real.from_mcnp(y)
+            else:
+                raise TypeError
+
         if y is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y)
+
+        self._y: types.Real = y
+
+    @property
+    def z(self) -> types.Real:
+        """
+        Gets ``z``.
+
+        Returns:
+            ``z``.
+        """
+
+        return self._z
+
+    @z.setter
+    def z(self, z: str | int | float | types.Real) -> None:
+        """
+        Sets ``z``.
+
+        Parameters:
+            z: Cylindrical mesh axis vector z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if z is not None:
+            if isinstance(z, types.Real):
+                z = z
+            elif isinstance(z, int):
+                z = types.Real(z)
+            elif isinstance(z, float):
+                z = types.Real(z)
+            elif isinstance(z, str):
+                z = types.Real.from_mcnp(z)
+            else:
+                raise TypeError
+
         if z is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                x,
-                y,
-                z,
-            ]
-        )
-
-        self.x: typing.Final[types.Real] = x
-        self.y: typing.Final[types.Real] = y
-        self.z: typing.Final[types.Real] = z
-
-
-@dataclasses.dataclass
-class AxsBuilder(_option.FmeshOptionBuilder):
-    """
-    Builds ``Axs``.
-
-    Attributes:
-        x: Cylindrical mesh axis vector x component.
-        y: Cylindrical mesh axis vector y component.
-        z: Cylindrical mesh axis vector z component.
-    """
-
-    x: str | float | types.Real
-    y: str | float | types.Real
-    z: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``AxsBuilder`` into ``Axs``.
-
-        Returns:
-            ``Axs`` for ``AxsBuilder``.
-        """
-
-        x = self.x
-        if isinstance(self.x, types.Real):
-            x = self.x
-        elif isinstance(self.x, float) or isinstance(self.x, int):
-            x = types.Real(self.x)
-        elif isinstance(self.x, str):
-            x = types.Real.from_mcnp(self.x)
-
-        y = self.y
-        if isinstance(self.y, types.Real):
-            y = self.y
-        elif isinstance(self.y, float) or isinstance(self.y, int):
-            y = types.Real(self.y)
-        elif isinstance(self.y, str):
-            y = types.Real.from_mcnp(self.y)
-
-        z = self.z
-        if isinstance(self.z, types.Real):
-            z = self.z
-        elif isinstance(self.z, float) or isinstance(self.z, int):
-            z = types.Real(self.z)
-        elif isinstance(self.z, str):
-            z = types.Real.from_mcnp(self.z)
-
-        return Axs(
-            x=x,
-            y=y,
-            z=z,
-        )
-
-    @staticmethod
-    def unbuild(ast: Axs):
-        """
-        Unbuilds ``Axs`` into ``AxsBuilder``
-
-        Returns:
-            ``AxsBuilder`` for ``Axs``.
-        """
-
-        return AxsBuilder(
-            x=copy.deepcopy(ast.x),
-            y=copy.deepcopy(ast.y),
-            z=copy.deepcopy(ast.z),
-        )
+        self._z: types.Real = z

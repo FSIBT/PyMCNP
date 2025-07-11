@@ -1,7 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
 
 from . import surface
 from ._card import Card
@@ -15,10 +12,10 @@ class Surface(Card):
     Represents INP surface cards.
 
     Attributes:
-        number: INP surface number.
-        transform: INP surface transformation.
-        option: INP surface option.
-        prefix: INP surface kind setting.
+        number: surface number.
+        transform: surface transformation.
+        option: surface option.
+        prefix: surface whitebody flag.
     """
 
     _ATTRS = {
@@ -41,10 +38,10 @@ class Surface(Card):
         Initializes ``Surface``.
 
         Parameters:
-            number: INP surface number.
-            transform: INP surface transformation.
-            option: INP surface option.
-            prefix: INP surface kind setting.
+            number: surface number.
+            transform: surface transformation.
+            option: surface option.
+            prefix: surface whitebody flag.
 
         Returns:
             ``Surface``.
@@ -53,19 +50,10 @@ class Surface(Card):
             InpError: SEMANTICS_CARD.
         """
 
-        if number is None or not (1 <= number <= 99_999_999 if not transform else 999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, number)
-        if transform is not None and not (0 <= transform <= 999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, transform)
-        if option is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, option)
-        if prefix is not None and prefix not in {'*', '+'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, prefix)
-
-        self.number: typing.Final[types.Integer] = number
-        self.transform: typing.Final[types.Integer] = transform
-        self.option: typing.Final[surface.SurfaceOption] = option
-        self.prefix: typing.Final[str] = prefix
+        self.transform: types.Integer = transform
+        self.number: types.Integer = number
+        self.option: surface.SurfaceOption = option
+        self.prefix: str = prefix
 
     def to_mcnp(self):
         """
@@ -91,67 +79,157 @@ class Surface(Card):
 
         return self.option.draw()
 
+    @property
+    def number(self) -> types.Integer:
+        """
+        Gets ``number``.
 
-@dataclasses.dataclass
-class SurfaceBuilder:
-    """
-    Builds ``Surface``.
+        Returns:
+            ``number``.
+        """
 
-    Attributes:
-        number: INP surface number.
-        transform: INP surface transformation.
-        option: INP surface option.
-        prefix: INP surface kind setting.
-    """
+        return self._number
 
-    number: str | int | types.Integer
-    option: (
-        str
-        | surface.SurfaceOption
-        | surface.PBuilder_0
-        | surface.PBuilder_1
-        | surface.PxBuilder
-        | surface.PyBuilder
-        | surface.PzBuilder
-        | surface.SoBuilder
-        | surface.SBuilder
-        | surface.SxBuilder
-        | surface.SyBuilder
-        | surface.SzBuilder
-        | surface.C_xBuilder
-        | surface.C_yBuilder
-        | surface.C_zBuilder
-        | surface.CxBuilder
-        | surface.CyBuilder
-        | surface.CzBuilder
-        | surface.K_xBuilder
-        | surface.K_yBuilder
-        | surface.K_zBuilder
-        | surface.KxBuilder
-        | surface.KyBuilder
-        | surface.KzBuilder
-        | surface.SqBuilder
-        | surface.GqBuilder
-        | surface.TxBuilder
-        | surface.TyBuilder
-        | surface.TzBuilder
-        | surface.XBuilder
-        | surface.YBuilder
-        | surface.ZBuilder
-        | surface.BoxBuilder
-        | surface.RppBuilder
-        | surface.SphBuilder
-        | surface.RccBuilder
-        | surface.RhpBuilder
-        | surface.RecBuilder
-        | surface.TrcBuilder
-        | surface.EllBuilder
-        | surface.WedBuilder
-        | surface.ArbBuilder
-    )
+    @number.setter
+    def number(self, number: str | int | types.Integer) -> None:
+        """
+        Sets ``number``.
 
-    transform: str | int | types.Integer = None
-    prefix: str = None
+        Parameters:
+            number: surface number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if number is not None:
+            if isinstance(number, types.Integer):
+                number = number
+            elif isinstance(number, int):
+                number = types.Integer(number)
+            elif isinstance(number, str):
+                number = types.Integer.from_mcnp(number)
+            else:
+                raise TypeError
+
+        if number is None or not (1 <= number <= 99_999_999 if not self.transform else 999):
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, number)
+
+        self._number: types.Integer = number
+
+    @property
+    def transform(self) -> types.Integer:
+        """
+        Gets ``transform``.
+
+        Returns:
+            ``transform``.
+        """
+
+        return self._transform
+
+    @transform.setter
+    def transform(self, transform: str | int | types.Integer = None) -> None:
+        """
+        Sets ``transform``.
+
+        Parameters:
+            transform: surface transform.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if transform is not None:
+            if isinstance(transform, types.Integer):
+                transform = transform
+            elif isinstance(transform, int):
+                transform = types.Integer(transform)
+            elif isinstance(transform, str):
+                transform = types.Integer.from_mcnp(transform)
+            else:
+                raise TypeError
+
+        if transform is not None and not (0 <= transform <= 999):
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, transform)
+
+        self._transform: types.Integer = transform
+
+    @property
+    def option(self) -> surface.SurfaceOption:
+        """
+        Gets ``option``.
+
+        Returns:
+            ``option``.
+        """
+
+        return self._option
+
+    @option.setter
+    def option(self, option: str | surface.SurfaceOption) -> None:
+        """
+        Sets ``option``.
+
+        Parameters:
+            option: surface option.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if option is not None:
+            if isinstance(option, surface.SurfaceOption):
+                option = option
+            elif isinstance(option, str):
+                option = surface.SurfaceOption.from_mcnp(option)
+            else:
+                raise TypeError
+
+        if option is None:
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, option)
+
+        self._option: surface.SurfaceOption = option
+
+    @property
+    def prefix(self) -> types.String:
+        """
+        Gets ``prefix``.
+
+        Returns:
+            ``prefix``.
+        """
+
+        return self._prefix
+
+    @prefix.setter
+    def prefix(self, prefix: str | types.String) -> None:
+        """
+        Sets ``prefix``.
+
+        Parameters:
+            prefix: surface whitebody flag.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if prefix is not None:
+            if isinstance(prefix, types.String):
+                prefix = prefix
+            elif isinstance(prefix, str):
+                prefix = types.String.from_mcnp(prefix)
+            else:
+                raise TypeError
+
+        if prefix is not None and prefix not in {'*', '+'}:
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, prefix)
+
+        self._prefix: types.String = prefix
 
     def __and__(a, b):
         """
@@ -165,7 +243,7 @@ class SurfaceBuilder:
             ``SurfaceBuilder`` union.
         """
 
-        return types.GeometryBuilder(infix=f'{a.number}:{b.number}')
+        return types.Geometry(infix=f'{a.number}:{b.number}')
 
     def __or__(a, b):
         """
@@ -179,7 +257,7 @@ class SurfaceBuilder:
             ``SurfaceBuilder`` intersection.
         """
 
-        return types.GeometryBuilder(infix=f'{a.number} {b.number}')
+        return types.Geometry(infix=f'{a.number} {b.number}')
 
     def __neg__(self):
         """
@@ -189,7 +267,7 @@ class SurfaceBuilder:
             ``SurfaceBuilder`` negative.
         """
 
-        return types.GeometryBuilder(infix=f'-{self.number}')
+        return types.Geometry(infix=f'-{self.number}')
 
     def __pos__(self):
         """
@@ -199,7 +277,7 @@ class SurfaceBuilder:
             ``SurfaceBuilder`` positive.
         """
 
-        return types.GeometryBuilder(infix=f'+{self.number}')
+        return types.Geometry(infix=f'+{self.number}')
 
     def __invert__(self):
         """
@@ -209,65 +287,4 @@ class SurfaceBuilder:
             ``SurfaceBuilder`` complement.
         """
 
-        return types.GeometryBuilder(infix=f'#{self.number}')
-
-    def build(self):
-        """
-        Builds ``SurfaceBuilder`` into ``Surface``.
-
-        Returns:
-            ``Surface`` for ``SurfaceBuilder``.
-        """
-
-        number = self.number
-        if isinstance(self.number, types.Integer):
-            number = self.number
-        elif isinstance(self.number, int):
-            number = types.Integer(self.number)
-        elif isinstance(self.number, str):
-            number = types.Integer.from_mcnp(self.number)
-
-        transform = self.transform
-        if isinstance(self.transform, types.Integer):
-            transform = self.transform
-        elif isinstance(self.transform, int):
-            transform = types.Integer(self.transform)
-        elif isinstance(self.transform, str):
-            transform = types.Integer.from_mcnp(self.transform)
-
-        prefix = self.prefix
-        if isinstance(self.prefix, types.String):
-            prefix = self.prefix
-        elif isinstance(self.prefix, str):
-            prefix = types.String(self.prefix)
-
-        option = self.option
-        if isinstance(self.option, surface.SurfaceOption):
-            option = self.option
-        elif isinstance(self.option, str):
-            option = surface.SurfaceOption.from_mcnp(self.option)
-        elif isinstance(self.option, surface.SurfaceOptionBuilder):
-            option = self.option.build()
-
-        return Surface(
-            number=number,
-            option=option,
-            transform=transform,
-            prefix=prefix,
-        )
-
-    @staticmethod
-    def unbuild(ast: Surface):
-        """
-        Unbuilds ``Surface`` into ``SurfaceBuilder``
-
-        Returns:
-            ``SurfaceBuilder`` for ``Surface``.
-        """
-
-        return SurfaceBuilder(
-            number=copy.deepcopy(ast.number),
-            option=copy.deepcopy(ast.option),
-            transform=copy.deepcopy(ast.transform),
-            prefix=copy.deepcopy(ast.prefix),
-        )
+        return types.Geometry(infix=f'#{self.number}')

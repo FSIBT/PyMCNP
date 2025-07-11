@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -27,7 +23,7 @@ class Imp(_option.DataOption):
 
     _REGEX = re.compile(rf'\Aimp:(\S+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, designator: types.Designator, importances: types.Tuple[types.Real]):
+    def __init__(self, designator: str | types.Designator, importances: list[str] | list[float] | list[types.Real]):
         """
         Initializes ``Imp``.
 
@@ -39,76 +35,86 @@ class Imp(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.designator: types.Designator = designator
+        self.importances: types.Tuple[types.Real] = importances
+
+    @property
+    def designator(self) -> types.Designator:
+        """
+        Gets ``designator``.
+
+        Returns:
+            ``designator``.
+        """
+
+        return self._designator
+
+    @designator.setter
+    def designator(self, designator: str | types.Designator) -> None:
+        """
+        Sets ``designator``.
+
+        Parameters:
+            designator: Data card particle designator.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if designator is not None:
+            if isinstance(designator, types.Designator):
+                designator = designator
+            elif isinstance(designator, str):
+                designator = types.Designator.from_mcnp(designator)
+            else:
+                raise TypeError
+
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
+
+        self._designator: types.Designator = designator
+
+    @property
+    def importances(self) -> types.Tuple[types.Real]:
+        """
+        Gets ``importances``.
+
+        Returns:
+            ``importances``.
+        """
+
+        return self._importances
+
+    @importances.setter
+    def importances(self, importances: list[str] | list[float] | list[types.Real]) -> None:
+        """
+        Sets ``importances``.
+
+        Parameters:
+            importances: Cell importance.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if importances is not None:
+            array = []
+            for item in importances:
+                if isinstance(item, types.Real):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Real(item))
+                elif isinstance(item, float):
+                    array.append(types.Real(item))
+                elif isinstance(item, str):
+                    array.append(types.Real.from_mcnp(item))
+                else:
+                    raise TypeError
+            importances = types.Tuple(array)
+
         if importances is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, importances)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                importances,
-            ]
-        )
-
-        self.designator: typing.Final[types.Designator] = designator
-        self.importances: typing.Final[types.Tuple[types.Real]] = importances
-
-
-@dataclasses.dataclass
-class ImpBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Imp``.
-
-    Attributes:
-        designator: Data card particle designator.
-        importances: Cell importance.
-    """
-
-    designator: str | types.Designator
-    importances: list[str] | list[float] | list[types.Real]
-
-    def build(self):
-        """
-        Builds ``ImpBuilder`` into ``Imp``.
-
-        Returns:
-            ``Imp`` for ``ImpBuilder``.
-        """
-
-        designator = self.designator
-        if isinstance(self.designator, types.Designator):
-            designator = self.designator
-        elif isinstance(self.designator, str):
-            designator = types.Designator.from_mcnp(self.designator)
-
-        if self.importances:
-            importances = []
-            for item in self.importances:
-                if isinstance(item, types.Real):
-                    importances.append(item)
-                elif isinstance(item, float) or isinstance(item, int):
-                    importances.append(types.Real(item))
-                elif isinstance(item, str):
-                    importances.append(types.Real.from_mcnp(item))
-            importances = types.Tuple(importances)
-        else:
-            importances = None
-
-        return Imp(
-            designator=designator,
-            importances=importances,
-        )
-
-    @staticmethod
-    def unbuild(ast: Imp):
-        """
-        Unbuilds ``Imp`` into ``ImpBuilder``
-
-        Returns:
-            ``ImpBuilder`` for ``Imp``.
-        """
-
-        return ImpBuilder(
-            designator=copy.deepcopy(ast.designator),
-            importances=copy.deepcopy(ast.importances),
-        )
+        self._importances: types.Tuple[types.Real] = importances

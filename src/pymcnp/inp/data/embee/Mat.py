@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Mat(_option.EmbeeOption):
 
     _REGEX = re.compile(rf'\Amat( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, number: types.Integer):
+    def __init__(self, number: str | int | types.Integer):
         """
         Initializes ``Mat``.
 
@@ -36,58 +32,43 @@ class Mat(_option.EmbeeOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.number: types.Integer = number
+
+    @property
+    def number(self) -> types.Integer:
+        """
+        Gets ``number``.
+
+        Returns:
+            ``number``.
+        """
+
+        return self._number
+
+    @number.setter
+    def number(self, number: str | int | types.Integer) -> None:
+        """
+        Sets ``number``.
+
+        Parameters:
+            number: Material number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if number is not None:
+            if isinstance(number, types.Integer):
+                number = number
+            elif isinstance(number, int):
+                number = types.Integer(number)
+            elif isinstance(number, str):
+                number = types.Integer.from_mcnp(number)
+            else:
+                raise TypeError
+
         if number is None or not (number >= 0 and number <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                number,
-            ]
-        )
-
-        self.number: typing.Final[types.Integer] = number
-
-
-@dataclasses.dataclass
-class MatBuilder(_option.EmbeeOptionBuilder):
-    """
-    Builds ``Mat``.
-
-    Attributes:
-        number: Material number.
-    """
-
-    number: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``MatBuilder`` into ``Mat``.
-
-        Returns:
-            ``Mat`` for ``MatBuilder``.
-        """
-
-        number = self.number
-        if isinstance(self.number, types.Integer):
-            number = self.number
-        elif isinstance(self.number, int):
-            number = types.Integer(self.number)
-        elif isinstance(self.number, str):
-            number = types.Integer.from_mcnp(self.number)
-
-        return Mat(
-            number=number,
-        )
-
-    @staticmethod
-    def unbuild(ast: Mat):
-        """
-        Unbuilds ``Mat`` into ``MatBuilder``
-
-        Returns:
-            ``MatBuilder`` for ``Mat``.
-        """
-
-        return MatBuilder(
-            number=copy.deepcopy(ast.number),
-        )
+        self._number: types.Integer = number

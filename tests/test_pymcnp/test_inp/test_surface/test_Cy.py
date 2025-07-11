@@ -6,7 +6,7 @@ from .... import classes
 class Test_Cy:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.surface.Cy
-        EXAMPLES_VALID = [{'r': consts.ast.type.REAL}]
+        EXAMPLES_VALID = [{'r': consts.string.type.REAL}, {'r': 3.1}, {'r': consts.ast.type.REAL}]
         EXAMPLES_INVALID = [{'r': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
@@ -17,10 +17,3 @@ class Test_Cy:
     class Test_Draw(classes.Test_Draw):
         element = pymcnp.inp.surface.Cy
         EXAMPLES = [consts.string.inp.surface.CY]
-
-
-class Test_CyBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.surface.CyBuilder
-        EXAMPLES_VALID = [{'r': consts.string.type.REAL}, {'r': 3.1}, {'r': consts.ast.type.REAL}]
-        EXAMPLES_INVALID = [{'r': None}]

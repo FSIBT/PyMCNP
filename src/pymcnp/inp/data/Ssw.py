@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import ssw
 from . import _option
@@ -30,7 +26,7 @@ class Ssw(_option.DataOption):
 
     _REGEX = re.compile(rf'\Assw((?: {types.Integer._REGEX.pattern[2:-2]})+?)((?: {types.Integer._REGEX.pattern[2:-2]})+?)?((?: (?:{ssw.SswOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
-    def __init__(self, surfaces: types.Tuple[types.Integer], cells: types.Tuple[types.Integer] = None, options: types.Tuple[ssw.SswOption] = None):
+    def __init__(self, surfaces: list[str] | list[int] | list[types.Integer], cells: list[str] | list[int] | list[types.Integer] = None, options: list[str] | list[ssw.SswOption] = None):
         """
         Initializes ``Ssw``.
 
@@ -43,101 +39,124 @@ class Ssw(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.surfaces: types.Tuple[types.Integer] = surfaces
+        self.cells: types.Tuple[types.Integer] = cells
+        self.options: types.Tuple[ssw.SswOption] = options
+
+    @property
+    def surfaces(self) -> types.Tuple[types.Integer]:
+        """
+        Gets ``surfaces``.
+
+        Returns:
+            ``surfaces``.
+        """
+
+        return self._surfaces
+
+    @surfaces.setter
+    def surfaces(self, surfaces: list[str] | list[int] | list[types.Integer]) -> None:
+        """
+        Sets ``surfaces``.
+
+        Parameters:
+            surfaces: Problem surfaces.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if surfaces is not None:
+            array = []
+            for item in surfaces:
+                if isinstance(item, types.Integer):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Integer(item))
+                elif isinstance(item, str):
+                    array.append(types.Integer.from_mcnp(item))
+                else:
+                    raise TypeError
+            surfaces = types.Tuple(array)
+
         if surfaces is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, surfaces)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                surfaces,
-                cells,
-                options,
-            ]
-        )
+        self._surfaces: types.Tuple[types.Integer] = surfaces
 
-        self.surfaces: typing.Final[types.Tuple[types.Integer]] = surfaces
-        self.cells: typing.Final[types.Tuple[types.Integer]] = cells
-        self.options: typing.Final[types.Tuple[ssw.SswOption]] = options
-
-
-@dataclasses.dataclass
-class SswBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Ssw``.
-
-    Attributes:
-        surfaces: Problem surfaces.
-        cells: Problem cells.
-        options: Dictionary of options.
-    """
-
-    surfaces: list[str] | list[int] | list[types.Integer]
-    cells: list[str] | list[int] | list[types.Integer] = None
-    options: list[str] | list[ssw.SswOption] = None
-
-    def build(self):
+    @property
+    def cells(self) -> types.Tuple[types.Integer]:
         """
-        Builds ``SswBuilder`` into ``Ssw``.
+        Gets ``cells``.
 
         Returns:
-            ``Ssw`` for ``SswBuilder``.
+            ``cells``.
         """
 
-        if self.surfaces:
-            surfaces = []
-            for item in self.surfaces:
-                if isinstance(item, types.Integer):
-                    surfaces.append(item)
-                elif isinstance(item, int):
-                    surfaces.append(types.Integer(item))
-                elif isinstance(item, str):
-                    surfaces.append(types.Integer.from_mcnp(item))
-            surfaces = types.Tuple(surfaces)
-        else:
-            surfaces = None
+        return self._cells
 
-        if self.cells:
-            cells = []
-            for item in self.cells:
-                if isinstance(item, types.Integer):
-                    cells.append(item)
-                elif isinstance(item, int):
-                    cells.append(types.Integer(item))
-                elif isinstance(item, str):
-                    cells.append(types.Integer.from_mcnp(item))
-            cells = types.Tuple(cells)
-        else:
-            cells = None
+    @cells.setter
+    def cells(self, cells: list[str] | list[int] | list[types.Integer]) -> None:
+        """
+        Sets ``cells``.
 
-        if self.options:
-            options = []
-            for item in self.options:
+        Parameters:
+            cells: Problem cells.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if cells is not None:
+            array = []
+            for item in cells:
+                if isinstance(item, types.Integer):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Integer(item))
+                elif isinstance(item, str):
+                    array.append(types.Integer.from_mcnp(item))
+                else:
+                    raise TypeError
+            cells = types.Tuple(array)
+
+        self._cells: types.Tuple[types.Integer] = cells
+
+    @property
+    def options(self) -> types.Tuple[ssw.SswOption]:
+        """
+        Gets ``options``.
+
+        Returns:
+            ``options``.
+        """
+
+        return self._options
+
+    @options.setter
+    def options(self, options: list[str] | list[ssw.SswOption]) -> None:
+        """
+        Sets ``options``.
+
+        Parameters:
+            options: Dictionary of options.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if options is not None:
+            array = []
+            for item in options:
                 if isinstance(item, ssw.SswOption):
-                    options.append(item)
+                    array.append(item)
                 elif isinstance(item, str):
-                    options.append(ssw.SswOption.from_mcnp(item))
-                elif isinstance(item, ssw.SswOptionBuilder):
-                    options.append(item.build())
-            options = types.Tuple(options)
-        else:
-            options = None
+                    array.append(ssw.SswOption.from_mcnp(item))
+                else:
+                    raise TypeError
+            options = types.Tuple(array)
 
-        return Ssw(
-            surfaces=surfaces,
-            cells=cells,
-            options=options,
-        )
-
-    @staticmethod
-    def unbuild(ast: Ssw):
-        """
-        Unbuilds ``Ssw`` into ``SswBuilder``
-
-        Returns:
-            ``SswBuilder`` for ``Ssw``.
-        """
-
-        return SswBuilder(
-            surfaces=copy.deepcopy(ast.surfaces),
-            cells=copy.deepcopy(ast.cells),
-            options=copy.deepcopy(ast.options),
-        )
+        self._options: types.Tuple[ssw.SswOption] = options

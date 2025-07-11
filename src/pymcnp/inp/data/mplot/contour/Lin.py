@@ -1,10 +1,6 @@
 import re
-import typing
-import dataclasses
-
 
 from . import _option
-from .....utils import types
 
 
 class Lin(_option.ContourOption):
@@ -33,36 +29,3 @@ class Lin(_option.ContourOption):
         Raises:
             InpError: SEMANTICS_OPTION.
         """
-
-        self.value: typing.Final[types.Tuple] = types.Tuple([])
-
-
-@dataclasses.dataclass
-class LinBuilder(_option.ContourOptionBuilder):
-    """
-    Builds ``Lin``.
-
-    Attributes:
-
-    """
-
-    def build(self):
-        """
-        Builds ``LinBuilder`` into ``Lin``.
-
-        Returns:
-            ``Lin`` for ``LinBuilder``.
-        """
-
-        return Lin()
-
-    @staticmethod
-    def unbuild(ast: Lin):
-        """
-        Unbuilds ``Lin`` into ``LinBuilder``
-
-        Returns:
-            ``LinBuilder`` for ``Lin``.
-        """
-
-        return LinBuilder()

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import mplot
 from . import _option
@@ -25,7 +21,7 @@ class Mplot(_option.DataOption):
 
     _REGEX = re.compile(rf'\Amplot((?: (?:{mplot.MplotOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
-    def __init__(self, options: types.Tuple[mplot.MplotOption] = None):
+    def __init__(self, options: list[str] | list[mplot.MplotOption] = None):
         """
         Initializes ``Mplot``.
 
@@ -36,60 +32,41 @@ class Mplot(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                options,
-            ]
-        )
+        self.options: types.Tuple[mplot.MplotOption] = options
 
-        self.options: typing.Final[types.Tuple[mplot.MplotOption]] = options
-
-
-@dataclasses.dataclass
-class MplotBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Mplot``.
-
-    Attributes:
-        options: Dictionary of options.
-    """
-
-    options: list[str] | list[mplot.MplotOption] = None
-
-    def build(self):
+    @property
+    def options(self) -> types.Tuple[mplot.MplotOption]:
         """
-        Builds ``MplotBuilder`` into ``Mplot``.
+        Gets ``options``.
 
         Returns:
-            ``Mplot`` for ``MplotBuilder``.
+            ``options``.
         """
 
-        if self.options:
-            options = []
-            for item in self.options:
+        return self._options
+
+    @options.setter
+    def options(self, options: list[str] | list[mplot.MplotOption]) -> None:
+        """
+        Sets ``options``.
+
+        Parameters:
+            options: Dictionary of options.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if options is not None:
+            array = []
+            for item in options:
                 if isinstance(item, mplot.MplotOption):
-                    options.append(item)
+                    array.append(item)
                 elif isinstance(item, str):
-                    options.append(mplot.MplotOption.from_mcnp(item))
-                elif isinstance(item, mplot.MplotOptionBuilder):
-                    options.append(item.build())
-            options = types.Tuple(options)
-        else:
-            options = None
+                    array.append(mplot.MplotOption.from_mcnp(item))
+                else:
+                    raise TypeError
+            options = types.Tuple(array)
 
-        return Mplot(
-            options=options,
-        )
-
-    @staticmethod
-    def unbuild(ast: Mplot):
-        """
-        Unbuilds ``Mplot`` into ``MplotBuilder``
-
-        Returns:
-            ``MplotBuilder`` for ``Mplot``.
-        """
-
-        return MplotBuilder(
-            options=copy.deepcopy(ast.options),
-        )
+        self._options: types.Tuple[mplot.MplotOption] = options

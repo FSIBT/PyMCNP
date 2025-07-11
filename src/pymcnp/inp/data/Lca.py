@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -49,17 +45,17 @@ class Lca(_option.DataOption):
 
     def __init__(
         self,
-        ielas: types.Integer = None,
-        ipreg: types.Integer = None,
-        iexisa: types.Integer = None,
-        ichoic: types.Integer = None,
-        jcoul: types.Integer = None,
-        nexite: types.Integer = None,
-        npidk: types.Integer = None,
-        noact: types.Integer = None,
-        icem: types.Integer = None,
-        ilaq: types.Integer = None,
-        nevtype: types.Integer = None,
+        ielas: str | int | types.Integer = None,
+        ipreg: str | int | types.Integer = None,
+        iexisa: str | int | types.Integer = None,
+        ichoic: str | int | types.Integer = None,
+        jcoul: str | int | types.Integer = None,
+        nexite: str | int | types.Integer = None,
+        npidk: str | int | types.Integer = None,
+        noact: str | int | types.Integer = None,
+        icem: str | int | types.Integer = None,
+        ilaq: str | int | types.Integer = None,
+        nevtype: str | int | types.Integer = None,
     ):
         """
         Initializes ``Lca``.
@@ -81,214 +77,437 @@ class Lca(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.ielas: types.Integer = ielas
+        self.ipreg: types.Integer = ipreg
+        self.iexisa: types.Integer = iexisa
+        self.ichoic: types.Integer = ichoic
+        self.jcoul: types.Integer = jcoul
+        self.nexite: types.Integer = nexite
+        self.npidk: types.Integer = npidk
+        self.noact: types.Integer = noact
+        self.icem: types.Integer = icem
+        self.ilaq: types.Integer = ilaq
+        self.nevtype: types.Integer = nevtype
+
+    @property
+    def ielas(self) -> types.Integer:
+        """
+        Gets ``ielas``.
+
+        Returns:
+            ``ielas``.
+        """
+
+        return self._ielas
+
+    @ielas.setter
+    def ielas(self, ielas: str | int | types.Integer) -> None:
+        """
+        Sets ``ielas``.
+
+        Parameters:
+            ielas: Elastic scattering controls.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ielas is not None:
+            if isinstance(ielas, types.Integer):
+                ielas = ielas
+            elif isinstance(ielas, int):
+                ielas = types.Integer(ielas)
+            elif isinstance(ielas, str):
+                ielas = types.Integer.from_mcnp(ielas)
+            else:
+                raise TypeError
+
         if ielas is not None and not (isinstance(ielas.value, types.Jump) or ielas == 0 or ielas == 1 or ielas == 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ielas)
+
+        self._ielas: types.Integer = ielas
+
+    @property
+    def ipreg(self) -> types.Integer:
+        """
+        Gets ``ipreg``.
+
+        Returns:
+            ``ipreg``.
+        """
+
+        return self._ipreg
+
+    @ipreg.setter
+    def ipreg(self, ipreg: str | int | types.Integer) -> None:
+        """
+        Sets ``ipreg``.
+
+        Parameters:
+            ipreg: pre-equilibrium model.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ipreg is not None:
+            if isinstance(ipreg, types.Integer):
+                ipreg = ipreg
+            elif isinstance(ipreg, int):
+                ipreg = types.Integer(ipreg)
+            elif isinstance(ipreg, str):
+                ipreg = types.Integer.from_mcnp(ipreg)
+            else:
+                raise TypeError
+
         if ipreg is not None and not (isinstance(ipreg.value, types.Jump) or ipreg == 0 or ipreg == 1 or ipreg == 2 or ipreg == 3):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ipreg)
+
+        self._ipreg: types.Integer = ipreg
+
+    @property
+    def iexisa(self) -> types.Integer:
+        """
+        Gets ``iexisa``.
+
+        Returns:
+            ``iexisa``.
+        """
+
+        return self._iexisa
+
+    @iexisa.setter
+    def iexisa(self, iexisa: str | int | types.Integer) -> None:
+        """
+        Sets ``iexisa``.
+
+        Parameters:
+            iexisa: Model choice controls.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if iexisa is not None:
+            if isinstance(iexisa, types.Integer):
+                iexisa = iexisa
+            elif isinstance(iexisa, int):
+                iexisa = types.Integer(iexisa)
+            elif isinstance(iexisa, str):
+                iexisa = types.Integer.from_mcnp(iexisa)
+            else:
+                raise TypeError
+
         if iexisa is not None and not (isinstance(iexisa.value, types.Jump) or iexisa == 0 or iexisa == 1 or iexisa == 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iexisa)
+
+        self._iexisa: types.Integer = iexisa
+
+    @property
+    def ichoic(self) -> types.Integer:
+        """
+        Gets ``ichoic``.
+
+        Returns:
+            ``ichoic``.
+        """
+
+        return self._ichoic
+
+    @ichoic.setter
+    def ichoic(self, ichoic: str | int | types.Integer) -> None:
+        """
+        Sets ``ichoic``.
+
+        Parameters:
+            ichoic: ISABEL intranuclear cascade model control.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ichoic is not None:
+            if isinstance(ichoic, types.Integer):
+                ichoic = ichoic
+            elif isinstance(ichoic, int):
+                ichoic = types.Integer(ichoic)
+            elif isinstance(ichoic, str):
+                ichoic = types.Integer.from_mcnp(ichoic)
+            else:
+                raise TypeError
+
+        self._ichoic: types.Integer = ichoic
+
+    @property
+    def jcoul(self) -> types.Integer:
+        """
+        Gets ``jcoul``.
+
+        Returns:
+            ``jcoul``.
+        """
+
+        return self._jcoul
+
+    @jcoul.setter
+    def jcoul(self, jcoul: str | int | types.Integer) -> None:
+        """
+        Sets ``jcoul``.
+
+        Parameters:
+            jcoul: Coulomb barrier for incident charged particle controls.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if jcoul is not None:
+            if isinstance(jcoul, types.Integer):
+                jcoul = jcoul
+            elif isinstance(jcoul, int):
+                jcoul = types.Integer(jcoul)
+            elif isinstance(jcoul, str):
+                jcoul = types.Integer.from_mcnp(jcoul)
+            else:
+                raise TypeError
+
         if jcoul is not None and not (isinstance(jcoul.value, types.Jump) or jcoul == 0 or jcoul == 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, jcoul)
+
+        self._jcoul: types.Integer = jcoul
+
+    @property
+    def nexite(self) -> types.Integer:
+        """
+        Gets ``nexite``.
+
+        Returns:
+            ``nexite``.
+        """
+
+        return self._nexite
+
+    @nexite.setter
+    def nexite(self, nexite: str | int | types.Integer) -> None:
+        """
+        Sets ``nexite``.
+
+        Parameters:
+            nexite: Subtract nuclear recoil energy to get excitation energy.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if nexite is not None:
+            if isinstance(nexite, types.Integer):
+                nexite = nexite
+            elif isinstance(nexite, int):
+                nexite = types.Integer(nexite)
+            elif isinstance(nexite, str):
+                nexite = types.Integer.from_mcnp(nexite)
+            else:
+                raise TypeError
+
         if nexite is not None and not (isinstance(nexite.value, types.Jump) or nexite == 0 or nexite == 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nexite)
+
+        self._nexite: types.Integer = nexite
+
+    @property
+    def npidk(self) -> types.Integer:
+        """
+        Gets ``npidk``.
+
+        Returns:
+            ``npidk``.
+        """
+
+        return self._npidk
+
+    @npidk.setter
+    def npidk(self, npidk: str | int | types.Integer) -> None:
+        """
+        Sets ``npidk``.
+
+        Parameters:
+            npidk: Cutoff interact/terminate control.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if npidk is not None:
+            if isinstance(npidk, types.Integer):
+                npidk = npidk
+            elif isinstance(npidk, int):
+                npidk = types.Integer(npidk)
+            elif isinstance(npidk, str):
+                npidk = types.Integer.from_mcnp(npidk)
+            else:
+                raise TypeError
+
         if npidk is not None and not (isinstance(npidk.value, types.Jump) or npidk == 0 or npidk == 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, npidk)
+
+        self._npidk: types.Integer = npidk
+
+    @property
+    def noact(self) -> types.Integer:
+        """
+        Gets ``noact``.
+
+        Returns:
+            ``noact``.
+        """
+
+        return self._noact
+
+    @noact.setter
+    def noact(self, noact: str | int | types.Integer) -> None:
+        """
+        Sets ``noact``.
+
+        Parameters:
+            noact: Particle transport settings.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if noact is not None:
+            if isinstance(noact, types.Integer):
+                noact = noact
+            elif isinstance(noact, int):
+                noact = types.Integer(noact)
+            elif isinstance(noact, str):
+                noact = types.Integer.from_mcnp(noact)
+            else:
+                raise TypeError
+
         if noact is not None and not (isinstance(noact.value, types.Jump) or noact == -2 or noact == -1 or noact == 0 or noact == 1 or noact == 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, noact)
+
+        self._noact: types.Integer = noact
+
+    @property
+    def icem(self) -> types.Integer:
+        """
+        Gets ``icem``.
+
+        Returns:
+            ``icem``.
+        """
+
+        return self._icem
+
+    @icem.setter
+    def icem(self, icem: str | int | types.Integer) -> None:
+        """
+        Sets ``icem``.
+
+        Parameters:
+            icem: Choose alternative physics model.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if icem is not None:
+            if isinstance(icem, types.Integer):
+                icem = icem
+            elif isinstance(icem, int):
+                icem = types.Integer(icem)
+            elif isinstance(icem, str):
+                icem = types.Integer.from_mcnp(icem)
+            else:
+                raise TypeError
+
         if icem is not None and not (isinstance(icem.value, types.Jump) or icem == 0 or icem == 1 or icem == 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, icem)
+
+        self._icem: types.Integer = icem
+
+    @property
+    def ilaq(self) -> types.Integer:
+        """
+        Gets ``ilaq``.
+
+        Returns:
+            ``ilaq``.
+        """
+
+        return self._ilaq
+
+    @ilaq.setter
+    def ilaq(self, ilaq: str | int | types.Integer) -> None:
+        """
+        Sets ``ilaq``.
+
+        Parameters:
+            ilaq: Choose light ion and nucleon physics modules.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ilaq is not None:
+            if isinstance(ilaq, types.Integer):
+                ilaq = ilaq
+            elif isinstance(ilaq, int):
+                ilaq = types.Integer(ilaq)
+            elif isinstance(ilaq, str):
+                ilaq = types.Integer.from_mcnp(ilaq)
+            else:
+                raise TypeError
+
         if ilaq is not None and not (isinstance(ilaq.value, types.Jump) or ilaq == 0 or ilaq == 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ilaq)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                ielas,
-                ipreg,
-                iexisa,
-                ichoic,
-                jcoul,
-                nexite,
-                npidk,
-                noact,
-                icem,
-                ilaq,
-                nevtype,
-            ]
-        )
+        self._ilaq: types.Integer = ilaq
 
-        self.ielas: typing.Final[types.Integer] = ielas
-        self.ipreg: typing.Final[types.Integer] = ipreg
-        self.iexisa: typing.Final[types.Integer] = iexisa
-        self.ichoic: typing.Final[types.Integer] = ichoic
-        self.jcoul: typing.Final[types.Integer] = jcoul
-        self.nexite: typing.Final[types.Integer] = nexite
-        self.npidk: typing.Final[types.Integer] = npidk
-        self.noact: typing.Final[types.Integer] = noact
-        self.icem: typing.Final[types.Integer] = icem
-        self.ilaq: typing.Final[types.Integer] = ilaq
-        self.nevtype: typing.Final[types.Integer] = nevtype
-
-
-@dataclasses.dataclass
-class LcaBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Lca``.
-
-    Attributes:
-        ielas: Elastic scattering controls.
-        ipreg: pre-equilibrium model.
-        iexisa: Model choice controls.
-        ichoic: ISABEL intranuclear cascade model control.
-        jcoul: Coulomb barrier for incident charged particle controls.
-        nexite: Subtract nuclear recoil energy to get excitation energy.
-        npidk: Cutoff interact/terminate control.
-        noact: Particle transport settings.
-        icem: Choose alternative physics model.
-        ilaq: Choose light ion and nucleon physics modules.
-        nevtype: Choose number of evaporation particles for GEM2.
-    """
-
-    ielas: str | int | types.Integer = None
-    ipreg: str | int | types.Integer = None
-    iexisa: str | int | types.Integer = None
-    ichoic: str | int | types.Integer = None
-    jcoul: str | int | types.Integer = None
-    nexite: str | int | types.Integer = None
-    npidk: str | int | types.Integer = None
-    noact: str | int | types.Integer = None
-    icem: str | int | types.Integer = None
-    ilaq: str | int | types.Integer = None
-    nevtype: str | int | types.Integer = None
-
-    def build(self):
+    @property
+    def nevtype(self) -> types.Integer:
         """
-        Builds ``LcaBuilder`` into ``Lca``.
+        Gets ``nevtype``.
 
         Returns:
-            ``Lca`` for ``LcaBuilder``.
+            ``nevtype``.
         """
 
-        ielas = self.ielas
-        if isinstance(self.ielas, types.Integer):
-            ielas = self.ielas
-        elif isinstance(self.ielas, int):
-            ielas = types.Integer(self.ielas)
-        elif isinstance(self.ielas, str):
-            ielas = types.Integer.from_mcnp(self.ielas)
+        return self._nevtype
 
-        ipreg = self.ipreg
-        if isinstance(self.ipreg, types.Integer):
-            ipreg = self.ipreg
-        elif isinstance(self.ipreg, int):
-            ipreg = types.Integer(self.ipreg)
-        elif isinstance(self.ipreg, str):
-            ipreg = types.Integer.from_mcnp(self.ipreg)
-
-        iexisa = self.iexisa
-        if isinstance(self.iexisa, types.Integer):
-            iexisa = self.iexisa
-        elif isinstance(self.iexisa, int):
-            iexisa = types.Integer(self.iexisa)
-        elif isinstance(self.iexisa, str):
-            iexisa = types.Integer.from_mcnp(self.iexisa)
-
-        ichoic = self.ichoic
-        if isinstance(self.ichoic, types.Integer):
-            ichoic = self.ichoic
-        elif isinstance(self.ichoic, int):
-            ichoic = types.Integer(self.ichoic)
-        elif isinstance(self.ichoic, str):
-            ichoic = types.Integer.from_mcnp(self.ichoic)
-
-        jcoul = self.jcoul
-        if isinstance(self.jcoul, types.Integer):
-            jcoul = self.jcoul
-        elif isinstance(self.jcoul, int):
-            jcoul = types.Integer(self.jcoul)
-        elif isinstance(self.jcoul, str):
-            jcoul = types.Integer.from_mcnp(self.jcoul)
-
-        nexite = self.nexite
-        if isinstance(self.nexite, types.Integer):
-            nexite = self.nexite
-        elif isinstance(self.nexite, int):
-            nexite = types.Integer(self.nexite)
-        elif isinstance(self.nexite, str):
-            nexite = types.Integer.from_mcnp(self.nexite)
-
-        npidk = self.npidk
-        if isinstance(self.npidk, types.Integer):
-            npidk = self.npidk
-        elif isinstance(self.npidk, int):
-            npidk = types.Integer(self.npidk)
-        elif isinstance(self.npidk, str):
-            npidk = types.Integer.from_mcnp(self.npidk)
-
-        noact = self.noact
-        if isinstance(self.noact, types.Integer):
-            noact = self.noact
-        elif isinstance(self.noact, int):
-            noact = types.Integer(self.noact)
-        elif isinstance(self.noact, str):
-            noact = types.Integer.from_mcnp(self.noact)
-
-        icem = self.icem
-        if isinstance(self.icem, types.Integer):
-            icem = self.icem
-        elif isinstance(self.icem, int):
-            icem = types.Integer(self.icem)
-        elif isinstance(self.icem, str):
-            icem = types.Integer.from_mcnp(self.icem)
-
-        ilaq = self.ilaq
-        if isinstance(self.ilaq, types.Integer):
-            ilaq = self.ilaq
-        elif isinstance(self.ilaq, int):
-            ilaq = types.Integer(self.ilaq)
-        elif isinstance(self.ilaq, str):
-            ilaq = types.Integer.from_mcnp(self.ilaq)
-
-        nevtype = self.nevtype
-        if isinstance(self.nevtype, types.Integer):
-            nevtype = self.nevtype
-        elif isinstance(self.nevtype, int):
-            nevtype = types.Integer(self.nevtype)
-        elif isinstance(self.nevtype, str):
-            nevtype = types.Integer.from_mcnp(self.nevtype)
-
-        return Lca(
-            ielas=ielas,
-            ipreg=ipreg,
-            iexisa=iexisa,
-            ichoic=ichoic,
-            jcoul=jcoul,
-            nexite=nexite,
-            npidk=npidk,
-            noact=noact,
-            icem=icem,
-            ilaq=ilaq,
-            nevtype=nevtype,
-        )
-
-    @staticmethod
-    def unbuild(ast: Lca):
+    @nevtype.setter
+    def nevtype(self, nevtype: str | int | types.Integer) -> None:
         """
-        Unbuilds ``Lca`` into ``LcaBuilder``
+        Sets ``nevtype``.
 
-        Returns:
-            ``LcaBuilder`` for ``Lca``.
+        Parameters:
+            nevtype: Choose number of evaporation particles for GEM2.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
-        return LcaBuilder(
-            ielas=copy.deepcopy(ast.ielas),
-            ipreg=copy.deepcopy(ast.ipreg),
-            iexisa=copy.deepcopy(ast.iexisa),
-            ichoic=copy.deepcopy(ast.ichoic),
-            jcoul=copy.deepcopy(ast.jcoul),
-            nexite=copy.deepcopy(ast.nexite),
-            npidk=copy.deepcopy(ast.npidk),
-            noact=copy.deepcopy(ast.noact),
-            icem=copy.deepcopy(ast.icem),
-            ilaq=copy.deepcopy(ast.ilaq),
-            nevtype=copy.deepcopy(ast.nevtype),
-        )
+        if nevtype is not None:
+            if isinstance(nevtype, types.Integer):
+                nevtype = nevtype
+            elif isinstance(nevtype, int):
+                nevtype = types.Integer(nevtype)
+            elif isinstance(nevtype, str):
+                nevtype = types.Integer.from_mcnp(nevtype)
+            else:
+                raise TypeError
+
+        self._nevtype: types.Integer = nevtype

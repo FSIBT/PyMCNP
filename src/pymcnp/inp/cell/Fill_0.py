@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -35,7 +31,15 @@ class Fill_0(_option.CellOption):
 
     _REGEX = re.compile(rf'\A([*])?fill (\S+:\S+) (\S+:\S+) (\S+:\S+)((?: {types.Integer._REGEX.pattern[2:-2]})+?)(?: [(]({types.Integer._REGEX.pattern[2:-2]})[)])?\Z')
 
-    def __init__(self, i: types.Index, j: types.Index, k: types.Index, universes: types.Tuple[types.Integer], prefix: types.String = None, m: types.Integer = None):
+    def __init__(
+        self,
+        i: str | types.Index,
+        j: str | types.Index,
+        k: str | types.Index,
+        universes: list[str] | list[int] | list[types.Integer],
+        prefix: str | types.String = None,
+        m: str | int | types.Integer = None,
+    ):
         """
         Initializes ``Fill_0``.
 
@@ -51,132 +55,235 @@ class Fill_0(_option.CellOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.prefix: types.String = prefix
+        self.i: types.Index = i
+        self.j: types.Index = j
+        self.k: types.Index = k
+        self.universes: types.Tuple[types.Integer] = universes
+        self.m: types.Integer = m
+
+    @property
+    def prefix(self) -> types.String:
+        """
+        Gets ``prefix``.
+
+        Returns:
+            ``prefix``.
+        """
+
+        return self._prefix
+
+    @prefix.setter
+    def prefix(self, prefix: str | types.String) -> None:
+        """
+        Sets ``prefix``.
+
+        Parameters:
+            prefix: Star prefix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if prefix is not None:
+            if isinstance(prefix, types.String):
+                prefix = prefix
+            elif isinstance(prefix, str):
+                prefix = types.String.from_mcnp(prefix)
+            else:
+                raise TypeError
+
         if prefix is not None and prefix not in {'*'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
+
+        self._prefix: types.String = prefix
+
+    @property
+    def i(self) -> types.Index:
+        """
+        Gets ``i``.
+
+        Returns:
+            ``i``.
+        """
+
+        return self._i
+
+    @i.setter
+    def i(self, i: str | types.Index) -> None:
+        """
+        Sets ``i``.
+
+        Parameters:
+            i: Lattice parameter #1.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if i is not None:
+            if isinstance(i, types.Index):
+                i = i
+            elif isinstance(i, str):
+                i = types.Index.from_mcnp(i)
+            else:
+                raise TypeError
+
         if i is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i)
+
+        self._i: types.Index = i
+
+    @property
+    def j(self) -> types.Index:
+        """
+        Gets ``j``.
+
+        Returns:
+            ``j``.
+        """
+
+        return self._j
+
+    @j.setter
+    def j(self, j: str | types.Index) -> None:
+        """
+        Sets ``j``.
+
+        Parameters:
+            j: Lattice parameter #2.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if j is not None:
+            if isinstance(j, types.Index):
+                j = j
+            elif isinstance(j, str):
+                j = types.Index.from_mcnp(j)
+            else:
+                raise TypeError
+
         if j is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, j)
+
+        self._j: types.Index = j
+
+    @property
+    def k(self) -> types.Index:
+        """
+        Gets ``k``.
+
+        Returns:
+            ``k``.
+        """
+
+        return self._k
+
+    @k.setter
+    def k(self, k: str | types.Index) -> None:
+        """
+        Sets ``k``.
+
+        Parameters:
+            k: Lattice parameter #3.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if k is not None:
+            if isinstance(k, types.Index):
+                k = k
+            elif isinstance(k, str):
+                k = types.Index.from_mcnp(k)
+            else:
+                raise TypeError
+
         if k is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, k)
+
+        self._k: types.Index = k
+
+    @property
+    def universes(self) -> types.Tuple[types.Integer]:
+        """
+        Gets ``universes``.
+
+        Returns:
+            ``universes``.
+        """
+
+        return self._universes
+
+    @universes.setter
+    def universes(self, universes: list[str] | list[int] | list[types.Integer]) -> None:
+        """
+        Sets ``universes``.
+
+        Parameters:
+            universes: Fill universe numbers.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if universes is not None:
+            array = []
+            for item in universes:
+                if isinstance(item, types.Integer):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Integer(item))
+                elif isinstance(item, str):
+                    array.append(types.Integer.from_mcnp(item))
+                else:
+                    raise TypeError
+            universes = types.Tuple(array)
+
         if universes is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, universes)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                i,
-                j,
-                k,
-                universes,
-                m,
-            ]
-        )
+        self._universes: types.Tuple[types.Integer] = universes
 
-        self.prefix: typing.Final[types.String] = prefix
-        self.i: typing.Final[types.Index] = i
-        self.j: typing.Final[types.Index] = j
-        self.k: typing.Final[types.Index] = k
-        self.universes: typing.Final[types.Tuple[types.Integer]] = universes
-        self.m: typing.Final[types.Integer] = m
-
-
-@dataclasses.dataclass
-class FillBuilder_0(_option.CellOptionBuilder):
-    """
-    Builds ``Fill_0``.
-
-    Attributes:
-        prefix: Star prefix.
-        i: Lattice parameter #1.
-        j: Lattice parameter #2.
-        k: Lattice parameter #3.
-        universes: Fill universe numbers.
-        m: Displacement vector origin.
-    """
-
-    i: str | types.Index
-    j: str | types.Index
-    k: str | types.Index
-    universes: list[str] | list[int] | list[types.Integer]
-    prefix: str | types.String = None
-    m: str | int | types.Integer = None
-
-    def build(self):
+    @property
+    def m(self) -> types.Integer:
         """
-        Builds ``FillBuilder_0`` into ``Fill_0``.
+        Gets ``m``.
 
         Returns:
-            ``Fill_0`` for ``FillBuilder_0``.
+            ``m``.
         """
 
-        prefix = self.prefix
-        if isinstance(self.prefix, types.String):
-            prefix = self.prefix
-        elif isinstance(self.prefix, str):
-            prefix = types.String.from_mcnp(self.prefix)
+        return self._m
 
-        i = self.i
-        if isinstance(self.i, types.Index):
-            i = self.i
-        elif isinstance(self.i, str):
-            i = types.Index.from_mcnp(self.i)
-
-        j = self.j
-        if isinstance(self.j, types.Index):
-            j = self.j
-        elif isinstance(self.j, str):
-            j = types.Index.from_mcnp(self.j)
-
-        k = self.k
-        if isinstance(self.k, types.Index):
-            k = self.k
-        elif isinstance(self.k, str):
-            k = types.Index.from_mcnp(self.k)
-
-        if self.universes:
-            universes = []
-            for item in self.universes:
-                if isinstance(item, types.Integer):
-                    universes.append(item)
-                elif isinstance(item, int):
-                    universes.append(types.Integer(item))
-                elif isinstance(item, str):
-                    universes.append(types.Integer.from_mcnp(item))
-            universes = types.Tuple(universes)
-        else:
-            universes = None
-
-        m = self.m
-        if isinstance(self.m, types.Integer):
-            m = self.m
-        elif isinstance(self.m, int):
-            m = types.Integer(self.m)
-        elif isinstance(self.m, str):
-            m = types.Integer.from_mcnp(self.m)
-
-        return Fill_0(
-            prefix=prefix,
-            i=i,
-            j=j,
-            k=k,
-            universes=universes,
-            m=m,
-        )
-
-    @staticmethod
-    def unbuild(ast: Fill_0):
+    @m.setter
+    def m(self, m: str | int | types.Integer) -> None:
         """
-        Unbuilds ``Fill_0`` into ``FillBuilder_0``
+        Sets ``m``.
 
-        Returns:
-            ``FillBuilder_0`` for ``Fill_0``.
+        Parameters:
+            m: Displacement vector origin.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
-        return FillBuilder_0(
-            prefix=copy.deepcopy(ast.prefix),
-            i=copy.deepcopy(ast.i),
-            j=copy.deepcopy(ast.j),
-            k=copy.deepcopy(ast.k),
-            universes=copy.deepcopy(ast.universes),
-            m=copy.deepcopy(ast.m),
-        )
+        if m is not None:
+            if isinstance(m, types.Integer):
+                m = m
+            elif isinstance(m, int):
+                m = types.Integer(m)
+            elif isinstance(m, str):
+                m = types.Integer.from_mcnp(m)
+            else:
+                raise TypeError
+
+        self._m: types.Integer = m

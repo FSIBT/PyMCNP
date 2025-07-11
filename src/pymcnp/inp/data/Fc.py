@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -27,7 +23,7 @@ class Fc(_option.DataOption):
 
     _REGEX = re.compile(r'\Afc(\d+)( [\S\s]+)\Z')
 
-    def __init__(self, suffix: types.Integer, info: types.String):
+    def __init__(self, suffix: str | int | types.Integer, info: str | types.String):
         """
         Initializes ``Fc``.
 
@@ -39,71 +35,81 @@ class Fc(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.suffix: types.Integer = suffix
+        self.info: types.String = info
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Data card option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
         if suffix is None or not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def info(self) -> types.String:
+        """
+        Gets ``info``.
+
+        Returns:
+            ``info``.
+        """
+
+        return self._info
+
+    @info.setter
+    def info(self, info: str | types.String) -> None:
+        """
+        Sets ``info``.
+
+        Parameters:
+            info: Title for tally in output and MCTAL file.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if info is not None:
+            if isinstance(info, types.String):
+                info = info
+            elif isinstance(info, str):
+                info = types.String.from_mcnp(info)
+            else:
+                raise TypeError
+
         if info is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, info)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                info,
-            ]
-        )
-
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.info: typing.Final[types.String] = info
-
-
-@dataclasses.dataclass
-class FcBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Fc``.
-
-    Attributes:
-        suffix: Data card option suffix.
-        info: Title for tally in output and MCTAL file.
-    """
-
-    suffix: str | int | types.Integer
-    info: str | types.String
-
-    def build(self):
-        """
-        Builds ``FcBuilder`` into ``Fc``.
-
-        Returns:
-            ``Fc`` for ``FcBuilder``.
-        """
-
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
-
-        info = self.info
-        if isinstance(self.info, types.String):
-            info = self.info
-        elif isinstance(self.info, str):
-            info = types.String.from_mcnp(self.info)
-
-        return Fc(
-            suffix=suffix,
-            info=info,
-        )
-
-    @staticmethod
-    def unbuild(ast: Fc):
-        """
-        Unbuilds ``Fc`` into ``FcBuilder``
-
-        Returns:
-            ``FcBuilder`` for ``Fc``.
-        """
-
-        return FcBuilder(
-            suffix=copy.deepcopy(ast.suffix),
-            info=copy.deepcopy(ast.info),
-        )
+        self._info: types.String = info

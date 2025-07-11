@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Sfyield(_option.FmultOption):
 
     _REGEX = re.compile(rf'\Asfyield( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, fission_yield: types.Real):
+    def __init__(self, fission_yield: str | int | float | types.Real):
         """
         Initializes ``Sfyield``.
 
@@ -36,58 +32,45 @@ class Sfyield(_option.FmultOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.fission_yield: types.Real = fission_yield
+
+    @property
+    def fission_yield(self) -> types.Real:
+        """
+        Gets ``fission_yield``.
+
+        Returns:
+            ``fission_yield``.
+        """
+
+        return self._fission_yield
+
+    @fission_yield.setter
+    def fission_yield(self, fission_yield: str | int | float | types.Real) -> None:
+        """
+        Sets ``fission_yield``.
+
+        Parameters:
+            fission_yield: Spontaneous fission yield.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if fission_yield is not None:
+            if isinstance(fission_yield, types.Real):
+                fission_yield = fission_yield
+            elif isinstance(fission_yield, int):
+                fission_yield = types.Real(fission_yield)
+            elif isinstance(fission_yield, float):
+                fission_yield = types.Real(fission_yield)
+            elif isinstance(fission_yield, str):
+                fission_yield = types.Real.from_mcnp(fission_yield)
+            else:
+                raise TypeError
+
         if fission_yield is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fission_yield)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                fission_yield,
-            ]
-        )
-
-        self.fission_yield: typing.Final[types.Real] = fission_yield
-
-
-@dataclasses.dataclass
-class SfyieldBuilder(_option.FmultOptionBuilder):
-    """
-    Builds ``Sfyield``.
-
-    Attributes:
-        fission_yield: Spontaneous fission yield.
-    """
-
-    fission_yield: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``SfyieldBuilder`` into ``Sfyield``.
-
-        Returns:
-            ``Sfyield`` for ``SfyieldBuilder``.
-        """
-
-        fission_yield = self.fission_yield
-        if isinstance(self.fission_yield, types.Real):
-            fission_yield = self.fission_yield
-        elif isinstance(self.fission_yield, float) or isinstance(self.fission_yield, int):
-            fission_yield = types.Real(self.fission_yield)
-        elif isinstance(self.fission_yield, str):
-            fission_yield = types.Real.from_mcnp(self.fission_yield)
-
-        return Sfyield(
-            fission_yield=fission_yield,
-        )
-
-    @staticmethod
-    def unbuild(ast: Sfyield):
-        """
-        Unbuilds ``Sfyield`` into ``SfyieldBuilder``
-
-        Returns:
-            ``SfyieldBuilder`` for ``Sfyield``.
-        """
-
-        return SfyieldBuilder(
-            fission_yield=copy.deepcopy(ast.fission_yield),
-        )
+        self._fission_yield: types.Real = fission_yield

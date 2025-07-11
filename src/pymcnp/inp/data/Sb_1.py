@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -29,7 +25,7 @@ class Sb_1(_option.DataOption):
 
     _REGEX = re.compile(rf'\Asb( {types.Integer._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(self, function: types.Integer, a: types.Real, b: types.Real = None):
+    def __init__(self, function: str | int | types.Integer, a: str | int | float | types.Real, b: str | int | float | types.Real = None):
         """
         Initializes ``Sb_1``.
 
@@ -42,88 +38,124 @@ class Sb_1(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.function: types.Integer = function
+        self.a: types.Real = a
+        self.b: types.Real = b
+
+    @property
+    def function(self) -> types.Integer:
+        """
+        Gets ``function``.
+
+        Returns:
+            ``function``.
+        """
+
+        return self._function
+
+    @function.setter
+    def function(self, function: str | int | types.Integer) -> None:
+        """
+        Sets ``function``.
+
+        Parameters:
+            function: Built-in function designator.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if function is not None:
+            if isinstance(function, types.Integer):
+                function = function
+            elif isinstance(function, int):
+                function = types.Integer(function)
+            elif isinstance(function, str):
+                function = types.Integer.from_mcnp(function)
+            else:
+                raise TypeError
+
         if function is None or function not in {-2, -3, -4, -5, -6, -7, -21, -31, -41}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, function)
+
+        self._function: types.Integer = function
+
+    @property
+    def a(self) -> types.Real:
+        """
+        Gets ``a``.
+
+        Returns:
+            ``a``.
+        """
+
+        return self._a
+
+    @a.setter
+    def a(self, a: str | int | float | types.Real) -> None:
+        """
+        Sets ``a``.
+
+        Parameters:
+            a: Built-in function parameter #1.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if a is not None:
+            if isinstance(a, types.Real):
+                a = a
+            elif isinstance(a, int):
+                a = types.Real(a)
+            elif isinstance(a, float):
+                a = types.Real(a)
+            elif isinstance(a, str):
+                a = types.Real.from_mcnp(a)
+            else:
+                raise TypeError
+
         if a is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                function,
-                a,
-                b,
-            ]
-        )
+        self._a: types.Real = a
 
-        self.function: typing.Final[types.Integer] = function
-        self.a: typing.Final[types.Real] = a
-        self.b: typing.Final[types.Real] = b
-
-
-@dataclasses.dataclass
-class SbBuilder_1(_option.DataOptionBuilder):
-    """
-    Builds ``Sb_1``.
-
-    Attributes:
-        function: Built-in function designator.
-        a: Built-in function parameter #1.
-        b: Built-in function parameter #2.
-    """
-
-    function: str | int | types.Integer
-    a: str | float | types.Real
-    b: str | float | types.Real = None
-
-    def build(self):
+    @property
+    def b(self) -> types.Real:
         """
-        Builds ``SbBuilder_1`` into ``Sb_1``.
+        Gets ``b``.
 
         Returns:
-            ``Sb_1`` for ``SbBuilder_1``.
+            ``b``.
         """
 
-        function = self.function
-        if isinstance(self.function, types.Integer):
-            function = self.function
-        elif isinstance(self.function, int):
-            function = types.Integer(self.function)
-        elif isinstance(self.function, str):
-            function = types.Integer.from_mcnp(self.function)
+        return self._b
 
-        a = self.a
-        if isinstance(self.a, types.Real):
-            a = self.a
-        elif isinstance(self.a, float) or isinstance(self.a, int):
-            a = types.Real(self.a)
-        elif isinstance(self.a, str):
-            a = types.Real.from_mcnp(self.a)
-
-        b = self.b
-        if isinstance(self.b, types.Real):
-            b = self.b
-        elif isinstance(self.b, float) or isinstance(self.b, int):
-            b = types.Real(self.b)
-        elif isinstance(self.b, str):
-            b = types.Real.from_mcnp(self.b)
-
-        return Sb_1(
-            function=function,
-            a=a,
-            b=b,
-        )
-
-    @staticmethod
-    def unbuild(ast: Sb_1):
+    @b.setter
+    def b(self, b: str | int | float | types.Real) -> None:
         """
-        Unbuilds ``Sb_1`` into ``SbBuilder_1``
+        Sets ``b``.
 
-        Returns:
-            ``SbBuilder_1`` for ``Sb_1``.
+        Parameters:
+            b: Built-in function parameter #2.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
-        return SbBuilder_1(
-            function=copy.deepcopy(ast.function),
-            a=copy.deepcopy(ast.a),
-            b=copy.deepcopy(ast.b),
-        )
+        if b is not None:
+            if isinstance(b, types.Real):
+                b = b
+            elif isinstance(b, int):
+                b = types.Real(b)
+            elif isinstance(b, float):
+                b = types.Real(b)
+            elif isinstance(b, str):
+                b = types.Real.from_mcnp(b)
+            else:
+                raise TypeError
+
+        self._b: types.Real = b
