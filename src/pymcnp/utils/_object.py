@@ -123,8 +123,6 @@ class McnpFile(metaclass=McnpFileMeta):
 
         filename.write_text(self.to_mcnp())
 
-        assert False
-
     def __str__(self):
         return self.to_mcnp()
 

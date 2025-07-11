@@ -19,9 +19,6 @@ from ..Inp import Inp
 from ..utils import errors
 
 
-PLOT = pyvista.Plotter()
-
-
 class Visualize:
     """
     Visualizes INP files.
