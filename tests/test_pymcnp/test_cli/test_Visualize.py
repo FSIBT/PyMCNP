@@ -34,6 +34,10 @@ class Test_Main:
         def test_valid(self):
             subprocess.run(['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_A.i'), '--cells'])
             subprocess.run(['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_A.i'), '--surfaces'])
+            subprocess.run(['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_A.i'), '--cells', '--pdf'])
+            subprocess.run(['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_A.i'), '--surfaces', '--pdf'])
+            subprocess.run(['rm', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_A-cells.pdf')])
+            subprocess.run(['rm', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_A-surfaces.pdf')])
 
         def test_invalid(self):
             subprocess.run(['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'invalid_A.i')])
