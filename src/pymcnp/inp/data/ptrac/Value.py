@@ -8,9 +8,6 @@ from ....utils import errors
 class Value(_option.PtracOption):
     """
     Represents INP value elements.
-
-    Attributes:
-        cutoff: Specifies tally cutoff above which history events will be written..
     """
 
     _KEYWORD = 'value'
@@ -37,10 +34,11 @@ class Value(_option.PtracOption):
     @property
     def cutoff(self) -> types.Real:
         """
-        Gets ``cutoff``.
+        Specifies tally cutoff above which history events will be written.
 
-        Returns:
-            ``cutoff``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._cutoff
@@ -61,14 +59,10 @@ class Value(_option.PtracOption):
         if cutoff is not None:
             if isinstance(cutoff, types.Real):
                 cutoff = cutoff
-            elif isinstance(cutoff, int):
-                cutoff = types.Real(cutoff)
-            elif isinstance(cutoff, float):
+            elif isinstance(cutoff, int) or isinstance(cutoff, float):
                 cutoff = types.Real(cutoff)
             elif isinstance(cutoff, str):
                 cutoff = types.Real.from_mcnp(cutoff)
-            else:
-                raise TypeError
 
         if cutoff is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cutoff)

@@ -6,9 +6,6 @@ from . import _option
 class Plinear(_option.MplotOption):
     """
     Represents INP plinear elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'plinear'

@@ -10,13 +10,6 @@ from ..utils import _parser
 class Cell(Card):
     """
     Represents INP cell cards.
-
-    Attributes:
-        number: cell number.
-        material: cell material.
-        density: cell density.
-        geometry: cell geometry.
-        options: cell options.
     """
 
     _ATTRS = {
@@ -41,11 +34,11 @@ class Cell(Card):
         Initializes ``Cell``.
 
         Parameters:
-            number: cell number.
-            material: cell material.
-            density: cell density.
-            geometry: cell geometry.
-            options: cell options.
+            number: Cell number.
+            material: Cell material.
+            density: Cell density.
+            geometry: Cell geometry.
+            options: Cell options.
 
         Raises:
             InpError: SEMANTICS_CARD.
@@ -74,10 +67,11 @@ class Cell(Card):
     @property
     def number(self) -> types.Integer:
         """
-        Gets ``number``.
+        Cell number.
 
-        Returns:
-            ``number``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._number
@@ -88,7 +82,7 @@ class Cell(Card):
         Sets ``number``.
 
         Parameters:
-            number: cell number.
+            number: Cell number.
 
         Raises:
             InpError: SEMANTICS_OPTION.
@@ -102,8 +96,6 @@ class Cell(Card):
                 number = types.Integer(number)
             elif isinstance(number, str):
                 number = types.Integer.from_mcnp(number)
-            else:
-                raise TypeError
 
         if number is None or not (1 <= number <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_CARD, number)
@@ -113,10 +105,11 @@ class Cell(Card):
     @property
     def material(self) -> types.Integer:
         """
-        Gets ``material``.
+        Cell material.
 
-        Returns:
-            ``material``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._material
@@ -127,7 +120,7 @@ class Cell(Card):
         Sets ``material``.
 
         Parameters:
-            material: cell material.
+            material: Cell material.
 
         Raises:
             InpError: SEMANTICS_OPTION.
@@ -141,8 +134,6 @@ class Cell(Card):
                 material = types.Integer(material)
             elif isinstance(material, str):
                 material = types.Integer.from_mcnp(material)
-            else:
-                raise TypeError
 
         if material is None or not (0 <= material <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_CARD, material)
@@ -152,10 +143,11 @@ class Cell(Card):
     @property
     def density(self) -> types.Real:
         """
-        Gets ``density``.
+        Cell density.
 
-        Returns:
-            ``density``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._density
@@ -166,7 +158,7 @@ class Cell(Card):
         Sets ``density``.
 
         Parameters:
-            density: cell density.
+            density: Cell density.
 
         Raises:
             InpError: SEMANTICS_OPTION.
@@ -176,14 +168,10 @@ class Cell(Card):
         if density is not None:
             if isinstance(density, types.Real):
                 density = density
-            elif isinstance(density, float):
-                density = types.Real(density)
-            elif isinstance(density, int):
+            elif isinstance(density, float) or isinstance(density, int):
                 density = types.Real(density)
             elif isinstance(density, str):
                 density = types.Real.from_mcnp(density)
-            else:
-                raise TypeError
 
         if (density is not None and self.material == 0) or (density is None and self.material != 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_CARD, density)
@@ -193,10 +181,11 @@ class Cell(Card):
     @property
     def geometry(self) -> types.Geometry:
         """
-        Gets ``geometry``.
+        Cell geometry.
 
-        Returns:
-            ``geometry``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._geometry
@@ -207,7 +196,7 @@ class Cell(Card):
         Sets ``geometry``.
 
         Parameters:
-            geometry: Cell geometry..
+            geometry: Cell geometry.
 
         Raises:
             InpError: SEMANTICS_OPTION.
@@ -219,8 +208,6 @@ class Cell(Card):
                 geometry = geometry
             elif isinstance(geometry, str):
                 geometry = types.Geometry.from_mcnp(geometry)
-            else:
-                raise TypeError
 
         if geometry is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, geometry)
@@ -230,10 +217,11 @@ class Cell(Card):
     @property
     def options(self) -> types.Tuple[cell.CellOption]:
         """
-        Gets ``options``.
+        Cell options.
 
-        Returns:
-            ``options``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._options
@@ -244,7 +232,7 @@ class Cell(Card):
         Sets ``options``.
 
         Parameters:
-            options: Dictionary of options.
+            options: Cell options.
 
         Raises:
             InpError: SEMANTICS_OPTION.
@@ -258,8 +246,7 @@ class Cell(Card):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(cell.CellOption.from_mcnp(item))
-                else:
-                    raise TypeError
+
             options = types.Tuple(array)
 
         self._options: types.Tuple[cell.CellOption] = options

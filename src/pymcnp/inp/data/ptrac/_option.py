@@ -7,11 +7,3 @@ class PtracOption(_option.Option):
     """
 
     pass
-
-
-class PtracOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP ptrac option builders.
-    """
-
-    pass

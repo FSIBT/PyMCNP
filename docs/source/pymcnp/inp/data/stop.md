@@ -7,6 +7,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.stop.Ctme
    :members:
+   :inherited-members:
 ```
 
 ### ``F`` Class
@@ -14,6 +15,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.stop.F
    :members:
+   :inherited-members:
 ```
 
 ### ``Nps`` Class
@@ -21,27 +23,5 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.stop.Nps
    :members:
-```
-
-## Builder Classes
-
-### ``CtmeBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.stop.CtmeBuilder
-   :members:
-```
-
-### ``FBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.stop.FBuilder
-   :members:
-```
-
-### ``NpsBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.stop.NpsBuilder
-   :members:
+   :inherited-members:
 ```

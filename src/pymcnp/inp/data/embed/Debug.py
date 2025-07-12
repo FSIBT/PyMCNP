@@ -8,9 +8,6 @@ from ....utils import errors
 class Debug(_option.EmbedOption):
     """
     Represents INP debug elements.
-
-    Attributes:
-        parameter: Debug parameter.
     """
 
     _KEYWORD = 'debug'
@@ -37,10 +34,11 @@ class Debug(_option.EmbedOption):
     @property
     def parameter(self) -> types.String:
         """
-        Gets ``parameter``.
+        Debug parameter
 
-        Returns:
-            ``parameter``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._parameter
@@ -63,8 +61,6 @@ class Debug(_option.EmbedOption):
                 parameter = parameter
             elif isinstance(parameter, str):
                 parameter = types.String.from_mcnp(parameter)
-            else:
-                raise TypeError
 
         if parameter is None or parameter not in {'echomesh'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, parameter)

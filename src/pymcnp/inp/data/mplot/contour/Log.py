@@ -6,9 +6,6 @@ from . import _option
 class Log(_option.ContourOption):
     """
     Represents INP log elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'log'

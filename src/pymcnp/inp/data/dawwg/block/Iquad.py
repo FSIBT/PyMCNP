@@ -8,9 +8,6 @@ from .....utils import errors
 class Iquad(_option.BlockOption):
     """
     Represents INP iquad elements.
-
-    Attributes:
-        setting: Quadrature.
     """
 
     _KEYWORD = 'iquad'
@@ -37,10 +34,11 @@ class Iquad(_option.BlockOption):
     @property
     def setting(self) -> types.Integer:
         """
-        Gets ``setting``.
+        Quadrature
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -65,8 +63,6 @@ class Iquad(_option.BlockOption):
                 setting = types.Integer(setting)
             elif isinstance(setting, str):
                 setting = types.Integer.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {1, 2, 3, 4, 5, 6, 7, 8, 9}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

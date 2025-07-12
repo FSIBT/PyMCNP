@@ -8,9 +8,6 @@ from ....utils import errors
 class Mcnpumfile(_option.EmbedOption):
     """
     Represents INP mcnpumfile elements.
-
-    Attributes:
-        filename: Name of the MCNPUM output file.
     """
 
     _KEYWORD = 'mcnpumfile'
@@ -37,10 +34,11 @@ class Mcnpumfile(_option.EmbedOption):
     @property
     def filename(self) -> types.String:
         """
-        Gets ``filename``.
+        Name of the MCNPUM output file
 
-        Returns:
-            ``filename``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._filename
@@ -63,8 +61,6 @@ class Mcnpumfile(_option.EmbedOption):
                 filename = filename
             elif isinstance(filename, str):
                 filename = types.String.from_mcnp(filename)
-            else:
-                raise TypeError
 
         if filename is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, filename)

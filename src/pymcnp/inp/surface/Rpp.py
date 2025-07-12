@@ -9,14 +9,6 @@ from ...utils import _visualization
 class Rpp(_option.SurfaceOption):
     """
     Represents INP rpp elements.
-
-    Attributes:
-        xmin: Parallelepiped x termini minimum.
-        xmax: Parallelepiped x termini maximum.
-        ymin: Parallelepiped y termini minimum.
-        ymax: Parallelepiped y termini maximum.
-        zmin: Parallelepiped z termini minimum.
-        zmax: Parallelepiped z termini maximum.
     """
 
     _KEYWORD = 'rpp'
@@ -68,10 +60,11 @@ class Rpp(_option.SurfaceOption):
     @property
     def xmin(self) -> types.Real:
         """
-        Gets ``xmin``.
+        Parallelepiped x termini minimum
 
-        Returns:
-            ``xmin``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._xmin
@@ -92,14 +85,10 @@ class Rpp(_option.SurfaceOption):
         if xmin is not None:
             if isinstance(xmin, types.Real):
                 xmin = xmin
-            elif isinstance(xmin, int):
-                xmin = types.Real(xmin)
-            elif isinstance(xmin, float):
+            elif isinstance(xmin, int) or isinstance(xmin, float):
                 xmin = types.Real(xmin)
             elif isinstance(xmin, str):
                 xmin = types.Real.from_mcnp(xmin)
-            else:
-                raise TypeError
 
         if xmin is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, xmin)
@@ -109,10 +98,11 @@ class Rpp(_option.SurfaceOption):
     @property
     def xmax(self) -> types.Real:
         """
-        Gets ``xmax``.
+        Parallelepiped x termini maximum
 
-        Returns:
-            ``xmax``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._xmax
@@ -133,14 +123,10 @@ class Rpp(_option.SurfaceOption):
         if xmax is not None:
             if isinstance(xmax, types.Real):
                 xmax = xmax
-            elif isinstance(xmax, int):
-                xmax = types.Real(xmax)
-            elif isinstance(xmax, float):
+            elif isinstance(xmax, int) or isinstance(xmax, float):
                 xmax = types.Real(xmax)
             elif isinstance(xmax, str):
                 xmax = types.Real.from_mcnp(xmax)
-            else:
-                raise TypeError
 
         if xmax is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, xmax)
@@ -150,10 +136,11 @@ class Rpp(_option.SurfaceOption):
     @property
     def ymin(self) -> types.Real:
         """
-        Gets ``ymin``.
+        Parallelepiped y termini minimum
 
-        Returns:
-            ``ymin``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ymin
@@ -174,14 +161,10 @@ class Rpp(_option.SurfaceOption):
         if ymin is not None:
             if isinstance(ymin, types.Real):
                 ymin = ymin
-            elif isinstance(ymin, int):
-                ymin = types.Real(ymin)
-            elif isinstance(ymin, float):
+            elif isinstance(ymin, int) or isinstance(ymin, float):
                 ymin = types.Real(ymin)
             elif isinstance(ymin, str):
                 ymin = types.Real.from_mcnp(ymin)
-            else:
-                raise TypeError
 
         if ymin is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ymin)
@@ -191,10 +174,11 @@ class Rpp(_option.SurfaceOption):
     @property
     def ymax(self) -> types.Real:
         """
-        Gets ``ymax``.
+        Parallelepiped y termini maximum
 
-        Returns:
-            ``ymax``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ymax
@@ -215,14 +199,10 @@ class Rpp(_option.SurfaceOption):
         if ymax is not None:
             if isinstance(ymax, types.Real):
                 ymax = ymax
-            elif isinstance(ymax, int):
-                ymax = types.Real(ymax)
-            elif isinstance(ymax, float):
+            elif isinstance(ymax, int) or isinstance(ymax, float):
                 ymax = types.Real(ymax)
             elif isinstance(ymax, str):
                 ymax = types.Real.from_mcnp(ymax)
-            else:
-                raise TypeError
 
         if ymax is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ymax)
@@ -232,10 +212,11 @@ class Rpp(_option.SurfaceOption):
     @property
     def zmin(self) -> types.Real:
         """
-        Gets ``zmin``.
+        Parallelepiped z termini minimum
 
-        Returns:
-            ``zmin``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._zmin
@@ -256,24 +237,21 @@ class Rpp(_option.SurfaceOption):
         if zmin is not None:
             if isinstance(zmin, types.Real):
                 zmin = zmin
-            elif isinstance(zmin, int):
-                zmin = types.Real(zmin)
-            elif isinstance(zmin, float):
+            elif isinstance(zmin, int) or isinstance(zmin, float):
                 zmin = types.Real(zmin)
             elif isinstance(zmin, str):
                 zmin = types.Real.from_mcnp(zmin)
-            else:
-                raise TypeError
 
         self._zmin: types.Real = zmin
 
     @property
     def zmax(self) -> types.Real:
         """
-        Gets ``zmax``.
+        Parallelepiped z termini maximum
 
-        Returns:
-            ``zmax``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._zmax
@@ -294,14 +272,10 @@ class Rpp(_option.SurfaceOption):
         if zmax is not None:
             if isinstance(zmax, types.Real):
                 zmax = zmax
-            elif isinstance(zmax, int):
-                zmax = types.Real(zmax)
-            elif isinstance(zmax, float):
+            elif isinstance(zmax, int) or isinstance(zmax, float):
                 zmax = types.Real(zmax)
             elif isinstance(zmax, str):
                 zmax = types.Real.from_mcnp(zmax)
-            else:
-                raise TypeError
 
         self._zmax: types.Real = zmax
 

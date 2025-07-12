@@ -8,9 +8,6 @@ from ....utils import errors
 class Ffedges(_option.BfldOption):
     """
     Represents INP ffedges elements.
-
-    Attributes:
-        numbers: Surface numbers to apply field fringe edges.
     """
 
     _KEYWORD = 'ffedges'
@@ -37,10 +34,11 @@ class Ffedges(_option.BfldOption):
     @property
     def numbers(self) -> types.Tuple[types.Real]:
         """
-        Gets ``numbers``.
+        Surface numbers to apply field fringe edges
 
-        Returns:
-            ``numbers``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._numbers
@@ -63,14 +61,11 @@ class Ffedges(_option.BfldOption):
             for item in numbers:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             numbers = types.Tuple(array)
 
         if numbers is None:

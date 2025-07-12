@@ -7,11 +7,3 @@ class RandOption(_option.Option):
     """
 
     pass
-
-
-class RandOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP rand option builders.
-    """
-
-    pass

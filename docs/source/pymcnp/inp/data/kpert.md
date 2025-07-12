@@ -7,6 +7,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.kpert.Cell
    :members:
+   :inherited-members:
 ```
 
 ### ``Erg`` Class
@@ -14,6 +15,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.kpert.Erg
    :members:
+   :inherited-members:
 ```
 
 ### ``Iso`` Class
@@ -21,6 +23,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.kpert.Iso
    :members:
+   :inherited-members:
 ```
 
 ### ``Linear`` Class
@@ -28,6 +31,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.kpert.Linear
    :members:
+   :inherited-members:
 ```
 
 ### ``Mat`` Class
@@ -35,6 +39,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.kpert.Mat
    :members:
+   :inherited-members:
 ```
 
 ### ``Rho`` Class
@@ -42,6 +47,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.kpert.Rho
    :members:
+   :inherited-members:
 ```
 
 ### ``Rxn`` Class
@@ -49,55 +55,5 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.kpert.Rxn
    :members:
-```
-
-## Builder Classes
-
-### ``CellBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.kpert.CellBuilder
-   :members:
-```
-
-### ``ErgBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.kpert.ErgBuilder
-   :members:
-```
-
-### ``IsoBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.kpert.IsoBuilder
-   :members:
-```
-
-### ``LinearBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.kpert.LinearBuilder
-   :members:
-```
-
-### ``MatBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.kpert.MatBuilder
-   :members:
-```
-
-### ``RhoBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.kpert.RhoBuilder
-   :members:
-```
-
-### ``RxnBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.kpert.RxnBuilder
-   :members:
+   :inherited-members:
 ```

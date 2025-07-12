@@ -8,9 +8,6 @@ from ...utils import errors
 class Files(_option.DataOption):
     """
     Represents INP files elements.
-
-    Attributes:
-        creations: Files to create.
     """
 
     _KEYWORD = 'files'
@@ -37,10 +34,11 @@ class Files(_option.DataOption):
     @property
     def creations(self) -> types.Tuple[types.File]:
         """
-        Gets ``creations``.
+        Files to create
 
-        Returns:
-            ``creations``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._creations
@@ -65,8 +63,7 @@ class Files(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.File.from_mcnp(item))
-                else:
-                    raise TypeError
+
             creations = types.Tuple(array)
 
         if creations is None:

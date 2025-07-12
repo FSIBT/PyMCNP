@@ -8,9 +8,6 @@ from ....utils import errors
 class Rxn(_option.PertOption):
     """
     Represents INP rxn elements.
-
-    Attributes:
-        numbers: ENDF/B reaction number.
     """
 
     _KEYWORD = 'rxn'
@@ -37,10 +34,11 @@ class Rxn(_option.PertOption):
     @property
     def numbers(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``numbers``.
+        ENDF/B reaction number
 
-        Returns:
-            ``numbers``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._numbers
@@ -67,8 +65,7 @@ class Rxn(_option.PertOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             numbers = types.Tuple(array)
 
         if numbers is None:

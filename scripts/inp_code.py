@@ -229,13 +229,6 @@ class {CAMEL(element.name, "Option")}(_option.Option):
     """
 
     pass
-
-class {CAMEL(element.name, "OptionBuilder")}(_option.OptionBuilder):
-    """
-    Represents generic INP {element.name} option builders.
-    """
-
-    pass
 '''[1:]
 
 
@@ -245,10 +238,11 @@ def ATTRS_PROPS(element, parent_name):
     @property
     def {attribute.name}(self) -> {attribute.type}:
         """
-        Gets ``{attribute.name}``.
+        {attribute.description[0].upper() + attribute.description[1:]}
 
-        Returns:
-            ``{attribute.name}``.
+        Raises:
+            InpError: {element.error}.
+            TypeError:
         """
 
         return self._{attribute.name}
@@ -297,9 +291,6 @@ from {"." * depth}utils import _visualization
 class {CAMEL(element.name)}(_option.{CAMEL(parent_name, 'Option')}):
     """
     Represents INP {element.name.split('_')[0]}{f" variation #{element.name.split('_')[1]}"if len(element.name.split('_')) - 1 else ""} elements.
-
-    Attributes:
-        {ATTRS_COMMENT(element, 2)}
     """
 
     _KEYWORD = "{element.mnemonic}"

@@ -8,10 +8,6 @@ from ....utils import errors
 class Nps(_option.StopOption):
     """
     Represents INP nps elements.
-
-    Attributes:
-        npp: Total number of histories before stop.
-        npsmg: Number of histories before stop.
     """
 
     _KEYWORD = 'nps'
@@ -41,10 +37,11 @@ class Nps(_option.StopOption):
     @property
     def npp(self) -> types.Integer:
         """
-        Gets ``npp``.
+        Total number of histories before stop
 
-        Returns:
-            ``npp``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._npp
@@ -69,8 +66,6 @@ class Nps(_option.StopOption):
                 npp = types.Integer(npp)
             elif isinstance(npp, str):
                 npp = types.Integer.from_mcnp(npp)
-            else:
-                raise TypeError
 
         if npp is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, npp)
@@ -80,10 +75,11 @@ class Nps(_option.StopOption):
     @property
     def npsmg(self) -> types.Integer:
         """
-        Gets ``npsmg``.
+        Number of histories before stop
 
-        Returns:
-            ``npsmg``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._npsmg
@@ -108,7 +104,5 @@ class Nps(_option.StopOption):
                 npsmg = types.Integer(npsmg)
             elif isinstance(npsmg, str):
                 npsmg = types.Integer.from_mcnp(npsmg)
-            else:
-                raise TypeError
 
         self._npsmg: types.Integer = npsmg

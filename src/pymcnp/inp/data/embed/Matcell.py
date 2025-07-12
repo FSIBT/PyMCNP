@@ -8,9 +8,6 @@ from ....utils import errors
 class Matcell(_option.EmbedOption):
     """
     Represents INP matcell elements.
-
-    Attributes:
-        pairs: Tuple of material-cell paris.
     """
 
     _KEYWORD = 'matcell'
@@ -37,10 +34,11 @@ class Matcell(_option.EmbedOption):
     @property
     def pairs(self) -> types.Tuple[types.Matcell]:
         """
-        Gets ``pairs``.
+        Tuple of material-cell paris
 
-        Returns:
-            ``pairs``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._pairs
@@ -65,8 +63,7 @@ class Matcell(_option.EmbedOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Matcell.from_mcnp(item))
-                else:
-                    raise TypeError
+
             pairs = types.Tuple(array)
 
         if pairs is None:

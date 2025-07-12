@@ -8,51 +8,54 @@
 * ``pymcnp run``
 * ``pymcnp visualize``
 
-## Modules
+## CLI Classes
 
-Each module contains corresponding classes which enapsulate the subcommands' functionality,
-enabiling programmatic access to the CLI:
+### ``Check`` Class
 
-* ``Check``
-* ``Convert``
-* ``Plot``
-* ``Run``
-
-### ``check.Check`` Class
-
-``check`` contains the ``Check`` class which compares MCNP files using ``difflib`` and
-formats them.
+``Check`` compares and fixes MCNP files, using ``difflib``,
 
 ```{eval-rst}
-.. autoclass:: pymcnp.cli.check.Check
+.. autoclass:: pymcnp.cli.Check
    :members:
+   :inherited-members:
 ```
 
-### ``convert.Convert`` Class
+### ``Convert`` Class
 
-``convert`` contains the ``Convert`` class which converts OUTP files, using ``pandas``, to
-CSV or parquet files.
+``Convert`` converts OUTP files to csv or parquet files, using ``pandas``.
 
 ```{eval-rst}
-.. autoclass:: pymcnp.cli.convert.Convert
+.. autoclass:: pymcnp.cli.Convert
    :members:
+   :inherited-members:
 ```
 
-### ``plot.Plot`` Class
+### ``Plot`` Class
 
-``plot`` contains the ``Plot`` class which plots OUTP files, using ``matplotlib``.
+``Plot`` plots OUTP files, using ``matplotlib``.
 
 ```{eval-rst}
-.. autoclass:: pymcnp.cli.plot.Plot
+.. autoclass:: pymcnp.cli.Plot
    :members:
+   :inherited-members:
 ```
 
-### ``run.Run`` Class
+### ``Run`` Class
 
-``run`` contains the ``Run`` class which runs MCNP simulations, in series or parallel,
-on given INP.
+``Run`` runs MCNP simulations in parallel, using ``subprocess``.
 
 ```{eval-rst}
-.. autoclass:: pymcnp.cli.run.Run
+.. autoclass:: pymcnp.cli.Run
    :members:
+   :inherited-members:
+```
+
+### ``Visualize`` Class
+
+``Visualize`` visualizes INP surfaces and cell geometries, using ``pyvista``.
+
+```{eval-rst}
+.. autoclass:: pymcnp.cli.Visualize
+   :members:
+   :inherited-members:
 ```

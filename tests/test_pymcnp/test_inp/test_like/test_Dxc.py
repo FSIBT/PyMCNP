@@ -5,7 +5,7 @@ from .... import classes
 
 class Test_Dxc:
     class Test_Init(classes.Test_Init):
-        element = pymcnp.inp.cell.Dxc
+        element = pymcnp.inp.like.Dxc
         EXAMPLES_VALID = [
             {'suffix': consts.string.type.INTEGER, 'designator': consts.string.type.DESIGNATOR, 'probability': '0.8'},
             {'suffix': 1, 'designator': consts.string.type.DESIGNATOR, 'probability': 0.8},
@@ -19,6 +19,6 @@ class Test_Dxc:
         ]
 
     class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.cell.Dxc
-        EXAMPLES_VALID = [consts.string.inp.cell.DXC]
+        element = pymcnp.inp.like.Dxc
+        EXAMPLES_VALID = [consts.string.inp.like.DXC]
         EXAMPLES_INVALID = ['hello']

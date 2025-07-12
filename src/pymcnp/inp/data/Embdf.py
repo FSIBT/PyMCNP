@@ -8,10 +8,6 @@ from ...utils import errors
 class Embdf(_option.DataOption):
     """
     Represents INP embdf elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        multipliers: Tuple of dose energy multipliers.
     """
 
     _KEYWORD = 'embdf'
@@ -41,10 +37,11 @@ class Embdf(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -69,8 +66,6 @@ class Embdf(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -80,10 +75,11 @@ class Embdf(_option.DataOption):
     @property
     def multipliers(self) -> types.Tuple[types.Real]:
         """
-        Gets ``multipliers``.
+        Tuple of dose energy multipliers
 
-        Returns:
-            ``multipliers``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._multipliers
@@ -106,14 +102,11 @@ class Embdf(_option.DataOption):
             for item in multipliers:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             multipliers = types.Tuple(array)
 
         if multipliers is None:

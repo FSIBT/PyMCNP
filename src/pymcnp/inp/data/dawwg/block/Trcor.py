@@ -8,9 +8,6 @@ from .....utils import errors
 class Trcor(_option.BlockOption):
     """
     Represents INP trcor elements.
-
-    Attributes:
-        setting: Trcor.
     """
 
     _KEYWORD = 'trcor'
@@ -37,10 +34,11 @@ class Trcor(_option.BlockOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Trcor
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Trcor(_option.BlockOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {'diag'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

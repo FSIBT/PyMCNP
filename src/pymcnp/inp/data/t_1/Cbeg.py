@@ -8,9 +8,6 @@ from ....utils import errors
 class Cbeg(_option.TOption_1):
     """
     Represents INP cbeg elements.
-
-    Attributes:
-        time: Reference starting time.
     """
 
     _KEYWORD = 'cbeg'
@@ -37,10 +34,11 @@ class Cbeg(_option.TOption_1):
     @property
     def time(self) -> types.Real:
         """
-        Gets ``time``.
+        Reference starting time
 
-        Returns:
-            ``time``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time
@@ -61,14 +59,10 @@ class Cbeg(_option.TOption_1):
         if time is not None:
             if isinstance(time, types.Real):
                 time = time
-            elif isinstance(time, int):
-                time = types.Real(time)
-            elif isinstance(time, float):
+            elif isinstance(time, int) or isinstance(time, float):
                 time = types.Real(time)
             elif isinstance(time, str):
                 time = types.Real.from_mcnp(time)
-            else:
-                raise TypeError
 
         if time is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time)

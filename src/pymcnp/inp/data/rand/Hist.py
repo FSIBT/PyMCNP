@@ -8,9 +8,6 @@ from ....utils import errors
 class Hist(_option.RandOption):
     """
     Represents INP hist elements.
-
-    Attributes:
-        hist: Starting pseudorandom number.
     """
 
     _KEYWORD = 'hist'
@@ -37,10 +34,11 @@ class Hist(_option.RandOption):
     @property
     def hist(self) -> types.Integer:
         """
-        Gets ``hist``.
+        Starting pseudorandom number
 
-        Returns:
-            ``hist``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._hist
@@ -65,8 +63,6 @@ class Hist(_option.RandOption):
                 hist = types.Integer(hist)
             elif isinstance(hist, str):
                 hist = types.Integer.from_mcnp(hist)
-            else:
-                raise TypeError
 
         if hist is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hist)

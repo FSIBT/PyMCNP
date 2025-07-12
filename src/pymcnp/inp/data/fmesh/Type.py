@@ -8,9 +8,6 @@ from ....utils import errors
 class Type(_option.FmeshOption):
     """
     Represents INP type elements.
-
-    Attributes:
-        setting: Tally quantity.
     """
 
     _KEYWORD = 'type'
@@ -37,10 +34,11 @@ class Type(_option.FmeshOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Tally quantity
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Type(_option.FmeshOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {'flux', 'source'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

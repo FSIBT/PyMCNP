@@ -8,9 +8,6 @@ from ....utils import errors
 class Calcvols(_option.EmbedOption):
     """
     Represents INP calcvols elements.
-
-    Attributes:
-        setting: Yes/no calculate the inferred geometry cell information.
     """
 
     _KEYWORD = 'calcvols'
@@ -37,10 +34,11 @@ class Calcvols(_option.EmbedOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Yes/no calculate the inferred geometry cell information
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Calcvols(_option.EmbedOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {'yes', 'no'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

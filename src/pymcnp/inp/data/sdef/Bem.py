@@ -8,11 +8,6 @@ from ....utils import errors
 class Bem(_option.SdefOption):
     """
     Represents INP bem elements.
-
-    Attributes:
-        exn: Normalized beam emittance parameter for x coordinates.
-        eyn: Normalized beam emittance parameter for x coordinates.
-        bml: Distance from the aperture to the spot.
     """
 
     _KEYWORD = 'bem'
@@ -45,10 +40,11 @@ class Bem(_option.SdefOption):
     @property
     def exn(self) -> types.Real:
         """
-        Gets ``exn``.
+        Normalized beam emittance parameter for x coordinates
 
-        Returns:
-            ``exn``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._exn
@@ -69,14 +65,10 @@ class Bem(_option.SdefOption):
         if exn is not None:
             if isinstance(exn, types.Real):
                 exn = exn
-            elif isinstance(exn, int):
-                exn = types.Real(exn)
-            elif isinstance(exn, float):
+            elif isinstance(exn, int) or isinstance(exn, float):
                 exn = types.Real(exn)
             elif isinstance(exn, str):
                 exn = types.Real.from_mcnp(exn)
-            else:
-                raise TypeError
 
         if exn is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, exn)
@@ -86,10 +78,11 @@ class Bem(_option.SdefOption):
     @property
     def eyn(self) -> types.Real:
         """
-        Gets ``eyn``.
+        Normalized beam emittance parameter for x coordinates
 
-        Returns:
-            ``eyn``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._eyn
@@ -110,14 +103,10 @@ class Bem(_option.SdefOption):
         if eyn is not None:
             if isinstance(eyn, types.Real):
                 eyn = eyn
-            elif isinstance(eyn, int):
-                eyn = types.Real(eyn)
-            elif isinstance(eyn, float):
+            elif isinstance(eyn, int) or isinstance(eyn, float):
                 eyn = types.Real(eyn)
             elif isinstance(eyn, str):
                 eyn = types.Real.from_mcnp(eyn)
-            else:
-                raise TypeError
 
         if eyn is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, eyn)
@@ -127,10 +116,11 @@ class Bem(_option.SdefOption):
     @property
     def bml(self) -> types.Real:
         """
-        Gets ``bml``.
+        Distance from the aperture to the spot
 
-        Returns:
-            ``bml``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bml
@@ -151,14 +141,10 @@ class Bem(_option.SdefOption):
         if bml is not None:
             if isinstance(bml, types.Real):
                 bml = bml
-            elif isinstance(bml, int):
-                bml = types.Real(bml)
-            elif isinstance(bml, float):
+            elif isinstance(bml, int) or isinstance(bml, float):
                 bml = types.Real(bml)
             elif isinstance(bml, str):
                 bml = types.Real.from_mcnp(bml)
-            else:
-                raise TypeError
 
         if bml is None or not (bml >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bml)

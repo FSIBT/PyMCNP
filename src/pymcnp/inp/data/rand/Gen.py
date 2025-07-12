@@ -8,9 +8,6 @@ from ....utils import errors
 class Gen(_option.RandOption):
     """
     Represents INP gen elements.
-
-    Attributes:
-        setting: Type of pseudorandom number generator.
     """
 
     _KEYWORD = 'gen'
@@ -37,10 +34,11 @@ class Gen(_option.RandOption):
     @property
     def setting(self) -> types.Integer:
         """
-        Gets ``setting``.
+        Type of pseudorandom number generator
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -65,8 +63,6 @@ class Gen(_option.RandOption):
                 setting = types.Integer(setting)
             elif isinstance(setting, str):
                 setting = types.Integer.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {1, 2, 3, 4}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

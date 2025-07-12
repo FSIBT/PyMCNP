@@ -10,11 +10,6 @@ from ..utils import _parser
 class Like(Card):
     """
     Represents INP cell cards.
-
-    Attributes:
-        number: cell number.
-        cell: cell similar.
-        options: cell options.
     """
 
     _ATTRS = {
@@ -35,9 +30,9 @@ class Like(Card):
         Initializes ``Like``.
 
         Parameters:
-            number: cell number.
-            cell: cell similar.
-            options: cell options.
+            number: Cell number.
+            cell: Cell similar.
+            options: Cell options.
 
         Raises:
             InpError: SEMANTICS_CARD.
@@ -64,10 +59,11 @@ class Like(Card):
     @property
     def number(self) -> types.Integer:
         """
-        Gets ``number``.
+        Cell number.
 
-        Returns:
-            ``number``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._number
@@ -78,7 +74,7 @@ class Like(Card):
         Sets ``number``.
 
         Parameters:
-            number: cell number.
+            number: Cell number.
 
         Raises:
             InpError: SEMANTICS_OPTION.
@@ -92,8 +88,6 @@ class Like(Card):
                 number = types.Integer(number)
             elif isinstance(number, str):
                 number = types.Integer.from_mcnp(number)
-            else:
-                raise TypeError
 
         if number is None or not (1 <= number <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_CARD, number)
@@ -103,10 +97,11 @@ class Like(Card):
     @property
     def cell(self) -> types.Integer:
         """
-        Gets ``cell``.
+        Base cell number.
 
-        Returns:
-            ``cell``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._cell
@@ -117,7 +112,7 @@ class Like(Card):
         Sets ``cell``.
 
         Parameters:
-            cell: base cell number.
+            cell: Base cell number.
 
         Raises:
             InpError: SEMANTICS_OPTION.
@@ -131,8 +126,6 @@ class Like(Card):
                 cell = types.Integer(cell)
             elif isinstance(cell, str):
                 cell = types.Integer.from_mcnp(cell)
-            else:
-                raise TypeError
 
         if cell is None or not (1 <= cell <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_CARD, cell)
@@ -142,10 +135,11 @@ class Like(Card):
     @property
     def options(self) -> types.Tuple[like.LikeOption]:
         """
-        Gets ``options``.
+        Cell options.
 
-        Returns:
-            ``options``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._options
@@ -156,7 +150,7 @@ class Like(Card):
         Sets ``options``.
 
         Parameters:
-            options: Dictionary of options.
+            options: Cell options.
 
         Raises:
             InpError: SEMANTICS_OPTION.
@@ -170,8 +164,7 @@ class Like(Card):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(like.LikeOption.from_mcnp(item))
-                else:
-                    raise TypeError
+
             options = types.Tuple(array)
 
         self._options: types.Tuple[like.LikeOption] = options

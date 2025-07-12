@@ -7,11 +7,3 @@ class ContourOption(_option.Option):
     """
 
     pass
-
-
-class ContourOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP contour option builders.
-    """
-
-    pass

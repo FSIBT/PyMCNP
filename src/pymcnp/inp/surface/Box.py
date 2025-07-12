@@ -9,20 +9,6 @@ from ...utils import _visualization
 class Box(_option.SurfaceOption):
     """
     Represents INP box elements.
-
-    Attributes:
-        vx: Box macrobody position vector x component.
-        vy: Box macrobody position vector y component.
-        vz: Box macrobody position vector z component.
-        a1x: Box macrobody vector #1 x component.
-        a1y: Box macrobody vector #1 y component.
-        a1z: Box macrobody vector #1 z component.
-        a2x: Box macrobody vector #2 x component.
-        a2y: Box macrobody vector #2 y component.
-        a2z: Box macrobody vector #2 z component.
-        a3x: Box macrobody vector #3 x component.
-        a3y: Box macrobody vector #3 y component.
-        a3z: Box macrobody vector #3 z component.
     """
 
     _KEYWORD = 'box'
@@ -98,10 +84,11 @@ class Box(_option.SurfaceOption):
     @property
     def vx(self) -> types.Real:
         """
-        Gets ``vx``.
+        Box macrobody position vector x component
 
-        Returns:
-            ``vx``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._vx
@@ -122,14 +109,10 @@ class Box(_option.SurfaceOption):
         if vx is not None:
             if isinstance(vx, types.Real):
                 vx = vx
-            elif isinstance(vx, int):
-                vx = types.Real(vx)
-            elif isinstance(vx, float):
+            elif isinstance(vx, int) or isinstance(vx, float):
                 vx = types.Real(vx)
             elif isinstance(vx, str):
                 vx = types.Real.from_mcnp(vx)
-            else:
-                raise TypeError
 
         if vx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vx)
@@ -139,10 +122,11 @@ class Box(_option.SurfaceOption):
     @property
     def vy(self) -> types.Real:
         """
-        Gets ``vy``.
+        Box macrobody position vector y component
 
-        Returns:
-            ``vy``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._vy
@@ -163,14 +147,10 @@ class Box(_option.SurfaceOption):
         if vy is not None:
             if isinstance(vy, types.Real):
                 vy = vy
-            elif isinstance(vy, int):
-                vy = types.Real(vy)
-            elif isinstance(vy, float):
+            elif isinstance(vy, int) or isinstance(vy, float):
                 vy = types.Real(vy)
             elif isinstance(vy, str):
                 vy = types.Real.from_mcnp(vy)
-            else:
-                raise TypeError
 
         if vy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vy)
@@ -180,10 +160,11 @@ class Box(_option.SurfaceOption):
     @property
     def vz(self) -> types.Real:
         """
-        Gets ``vz``.
+        Box macrobody position vector z component
 
-        Returns:
-            ``vz``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._vz
@@ -204,14 +185,10 @@ class Box(_option.SurfaceOption):
         if vz is not None:
             if isinstance(vz, types.Real):
                 vz = vz
-            elif isinstance(vz, int):
-                vz = types.Real(vz)
-            elif isinstance(vz, float):
+            elif isinstance(vz, int) or isinstance(vz, float):
                 vz = types.Real(vz)
             elif isinstance(vz, str):
                 vz = types.Real.from_mcnp(vz)
-            else:
-                raise TypeError
 
         if vz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vz)
@@ -221,10 +198,11 @@ class Box(_option.SurfaceOption):
     @property
     def a1x(self) -> types.Real:
         """
-        Gets ``a1x``.
+        Box macrobody vector #1 x component
 
-        Returns:
-            ``a1x``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a1x
@@ -245,14 +223,10 @@ class Box(_option.SurfaceOption):
         if a1x is not None:
             if isinstance(a1x, types.Real):
                 a1x = a1x
-            elif isinstance(a1x, int):
-                a1x = types.Real(a1x)
-            elif isinstance(a1x, float):
+            elif isinstance(a1x, int) or isinstance(a1x, float):
                 a1x = types.Real(a1x)
             elif isinstance(a1x, str):
                 a1x = types.Real.from_mcnp(a1x)
-            else:
-                raise TypeError
 
         if a1x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a1x)
@@ -262,10 +236,11 @@ class Box(_option.SurfaceOption):
     @property
     def a1y(self) -> types.Real:
         """
-        Gets ``a1y``.
+        Box macrobody vector #1 y component
 
-        Returns:
-            ``a1y``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a1y
@@ -286,14 +261,10 @@ class Box(_option.SurfaceOption):
         if a1y is not None:
             if isinstance(a1y, types.Real):
                 a1y = a1y
-            elif isinstance(a1y, int):
-                a1y = types.Real(a1y)
-            elif isinstance(a1y, float):
+            elif isinstance(a1y, int) or isinstance(a1y, float):
                 a1y = types.Real(a1y)
             elif isinstance(a1y, str):
                 a1y = types.Real.from_mcnp(a1y)
-            else:
-                raise TypeError
 
         if a1y is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a1y)
@@ -303,10 +274,11 @@ class Box(_option.SurfaceOption):
     @property
     def a1z(self) -> types.Real:
         """
-        Gets ``a1z``.
+        Box macrobody vector #1 z component
 
-        Returns:
-            ``a1z``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a1z
@@ -327,14 +299,10 @@ class Box(_option.SurfaceOption):
         if a1z is not None:
             if isinstance(a1z, types.Real):
                 a1z = a1z
-            elif isinstance(a1z, int):
-                a1z = types.Real(a1z)
-            elif isinstance(a1z, float):
+            elif isinstance(a1z, int) or isinstance(a1z, float):
                 a1z = types.Real(a1z)
             elif isinstance(a1z, str):
                 a1z = types.Real.from_mcnp(a1z)
-            else:
-                raise TypeError
 
         if a1z is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a1z)
@@ -344,10 +312,11 @@ class Box(_option.SurfaceOption):
     @property
     def a2x(self) -> types.Real:
         """
-        Gets ``a2x``.
+        Box macrobody vector #2 x component
 
-        Returns:
-            ``a2x``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a2x
@@ -368,14 +337,10 @@ class Box(_option.SurfaceOption):
         if a2x is not None:
             if isinstance(a2x, types.Real):
                 a2x = a2x
-            elif isinstance(a2x, int):
-                a2x = types.Real(a2x)
-            elif isinstance(a2x, float):
+            elif isinstance(a2x, int) or isinstance(a2x, float):
                 a2x = types.Real(a2x)
             elif isinstance(a2x, str):
                 a2x = types.Real.from_mcnp(a2x)
-            else:
-                raise TypeError
 
         if a2x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a2x)
@@ -385,10 +350,11 @@ class Box(_option.SurfaceOption):
     @property
     def a2y(self) -> types.Real:
         """
-        Gets ``a2y``.
+        Box macrobody vector #2 y component
 
-        Returns:
-            ``a2y``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a2y
@@ -409,14 +375,10 @@ class Box(_option.SurfaceOption):
         if a2y is not None:
             if isinstance(a2y, types.Real):
                 a2y = a2y
-            elif isinstance(a2y, int):
-                a2y = types.Real(a2y)
-            elif isinstance(a2y, float):
+            elif isinstance(a2y, int) or isinstance(a2y, float):
                 a2y = types.Real(a2y)
             elif isinstance(a2y, str):
                 a2y = types.Real.from_mcnp(a2y)
-            else:
-                raise TypeError
 
         if a2y is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a2y)
@@ -426,10 +388,11 @@ class Box(_option.SurfaceOption):
     @property
     def a2z(self) -> types.Real:
         """
-        Gets ``a2z``.
+        Box macrobody vector #2 z component
 
-        Returns:
-            ``a2z``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a2z
@@ -450,14 +413,10 @@ class Box(_option.SurfaceOption):
         if a2z is not None:
             if isinstance(a2z, types.Real):
                 a2z = a2z
-            elif isinstance(a2z, int):
-                a2z = types.Real(a2z)
-            elif isinstance(a2z, float):
+            elif isinstance(a2z, int) or isinstance(a2z, float):
                 a2z = types.Real(a2z)
             elif isinstance(a2z, str):
                 a2z = types.Real.from_mcnp(a2z)
-            else:
-                raise TypeError
 
         if a2z is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a2z)
@@ -467,10 +426,11 @@ class Box(_option.SurfaceOption):
     @property
     def a3x(self) -> types.Real:
         """
-        Gets ``a3x``.
+        Box macrobody vector #3 x component
 
-        Returns:
-            ``a3x``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a3x
@@ -491,14 +451,10 @@ class Box(_option.SurfaceOption):
         if a3x is not None:
             if isinstance(a3x, types.Real):
                 a3x = a3x
-            elif isinstance(a3x, int):
-                a3x = types.Real(a3x)
-            elif isinstance(a3x, float):
+            elif isinstance(a3x, int) or isinstance(a3x, float):
                 a3x = types.Real(a3x)
             elif isinstance(a3x, str):
                 a3x = types.Real.from_mcnp(a3x)
-            else:
-                raise TypeError
 
         if a3x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a3x)
@@ -508,10 +464,11 @@ class Box(_option.SurfaceOption):
     @property
     def a3y(self) -> types.Real:
         """
-        Gets ``a3y``.
+        Box macrobody vector #3 y component
 
-        Returns:
-            ``a3y``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a3y
@@ -532,14 +489,10 @@ class Box(_option.SurfaceOption):
         if a3y is not None:
             if isinstance(a3y, types.Real):
                 a3y = a3y
-            elif isinstance(a3y, int):
-                a3y = types.Real(a3y)
-            elif isinstance(a3y, float):
+            elif isinstance(a3y, int) or isinstance(a3y, float):
                 a3y = types.Real(a3y)
             elif isinstance(a3y, str):
                 a3y = types.Real.from_mcnp(a3y)
-            else:
-                raise TypeError
 
         if a3y is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a3y)
@@ -549,10 +502,11 @@ class Box(_option.SurfaceOption):
     @property
     def a3z(self) -> types.Real:
         """
-        Gets ``a3z``.
+        Box macrobody vector #3 z component
 
-        Returns:
-            ``a3z``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a3z
@@ -573,14 +527,10 @@ class Box(_option.SurfaceOption):
         if a3z is not None:
             if isinstance(a3z, types.Real):
                 a3z = a3z
-            elif isinstance(a3z, int):
-                a3z = types.Real(a3z)
-            elif isinstance(a3z, float):
+            elif isinstance(a3z, int) or isinstance(a3z, float):
                 a3z = types.Real(a3z)
             elif isinstance(a3z, str):
                 a3z = types.Real.from_mcnp(a3z)
-            else:
-                raise TypeError
 
         if a3z is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a3z)

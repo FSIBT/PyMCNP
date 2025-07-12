@@ -8,9 +8,6 @@ from ....utils import errors
 class X(_option.SdefOption):
     """
     Represents INP x elements.
-
-    Attributes:
-        x_coordinate: X-cordinate of position.
     """
 
     _KEYWORD = 'x'
@@ -37,10 +34,11 @@ class X(_option.SdefOption):
     @property
     def x_coordinate(self) -> types.Real:
         """
-        Gets ``x_coordinate``.
+        X-cordinate of position
 
-        Returns:
-            ``x_coordinate``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x_coordinate
@@ -61,14 +59,10 @@ class X(_option.SdefOption):
         if x_coordinate is not None:
             if isinstance(x_coordinate, types.Real):
                 x_coordinate = x_coordinate
-            elif isinstance(x_coordinate, int):
-                x_coordinate = types.Real(x_coordinate)
-            elif isinstance(x_coordinate, float):
+            elif isinstance(x_coordinate, int) or isinstance(x_coordinate, float):
                 x_coordinate = types.Real(x_coordinate)
             elif isinstance(x_coordinate, str):
                 x_coordinate = types.Real.from_mcnp(x_coordinate)
-            else:
-                raise TypeError
 
         if x_coordinate is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x_coordinate)

@@ -8,10 +8,6 @@ from ...utils import errors
 class Imp(_option.DataOption):
     """
     Represents INP imp elements.
-
-    Attributes:
-        designator: Data card particle designator.
-        importances: Cell importance.
     """
 
     _KEYWORD = 'imp'
@@ -41,10 +37,11 @@ class Imp(_option.DataOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Data card particle designator
 
-        Returns:
-            ``designator``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._designator
@@ -67,8 +64,6 @@ class Imp(_option.DataOption):
                 designator = designator
             elif isinstance(designator, str):
                 designator = types.Designator.from_mcnp(designator)
-            else:
-                raise TypeError
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
@@ -78,10 +73,11 @@ class Imp(_option.DataOption):
     @property
     def importances(self) -> types.Tuple[types.Real]:
         """
-        Gets ``importances``.
+        Cell importance
 
-        Returns:
-            ``importances``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._importances
@@ -104,14 +100,11 @@ class Imp(_option.DataOption):
             for item in importances:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             importances = types.Tuple(array)
 
         if importances is None:

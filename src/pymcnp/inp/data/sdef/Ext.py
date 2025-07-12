@@ -8,9 +8,6 @@ from ....utils import errors
 class Ext(_option.SdefOption):
     """
     Represents INP ext elements.
-
-    Attributes:
-        distance_cosine: Distance for POS along AXS or Cosine of angle from AXS.
     """
 
     _KEYWORD = 'ext'
@@ -37,10 +34,11 @@ class Ext(_option.SdefOption):
     @property
     def distance_cosine(self) -> types.Real:
         """
-        Gets ``distance_cosine``.
+        Distance for POS along AXS or Cosine of angle from AXS
 
-        Returns:
-            ``distance_cosine``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._distance_cosine
@@ -61,14 +59,10 @@ class Ext(_option.SdefOption):
         if distance_cosine is not None:
             if isinstance(distance_cosine, types.Real):
                 distance_cosine = distance_cosine
-            elif isinstance(distance_cosine, int):
-                distance_cosine = types.Real(distance_cosine)
-            elif isinstance(distance_cosine, float):
+            elif isinstance(distance_cosine, int) or isinstance(distance_cosine, float):
                 distance_cosine = types.Real(distance_cosine)
             elif isinstance(distance_cosine, str):
                 distance_cosine = types.Real.from_mcnp(distance_cosine)
-            else:
-                raise TypeError
 
         if distance_cosine is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, distance_cosine)

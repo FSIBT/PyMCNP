@@ -8,10 +8,6 @@ from ...utils import errors
 class Unc(_option.DataOption):
     """
     Represents INP unc elements.
-
-    Attributes:
-        designator: Data option particle designator.
-        settings: Tuple of uncollided secondary settings.
     """
 
     _KEYWORD = 'unc'
@@ -41,10 +37,11 @@ class Unc(_option.DataOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Data option particle designator
 
-        Returns:
-            ``designator``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._designator
@@ -67,8 +64,6 @@ class Unc(_option.DataOption):
                 designator = designator
             elif isinstance(designator, str):
                 designator = types.Designator.from_mcnp(designator)
-            else:
-                raise TypeError
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
@@ -78,10 +73,11 @@ class Unc(_option.DataOption):
     @property
     def settings(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``settings``.
+        Tuple of uncollided secondary settings
 
-        Returns:
-            ``settings``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._settings
@@ -108,8 +104,7 @@ class Unc(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             settings = types.Tuple(array)
 
         if settings is None:

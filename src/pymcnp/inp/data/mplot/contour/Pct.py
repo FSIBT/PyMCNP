@@ -6,9 +6,6 @@ from . import _option
 class Pct(_option.ContourOption):
     """
     Represents INP pct elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'pct'

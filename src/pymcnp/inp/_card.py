@@ -43,11 +43,3 @@ class Card(_object.McnpNonterminal):
         card = cls(**attrs)
         card.comments = comments
         return card
-
-
-class CardBuilder(_object.McnpNonterminalBuilder):
-    """
-    Represents generic INP card builders.
-    """
-
-    pass

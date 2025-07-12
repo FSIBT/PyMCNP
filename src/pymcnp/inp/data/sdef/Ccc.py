@@ -8,9 +8,6 @@ from ....utils import errors
 class Ccc(_option.SdefOption):
     """
     Represents INP ccc elements.
-
-    Attributes:
-        number: Cookie-cutter cell number.
     """
 
     _KEYWORD = 'ccc'
@@ -37,10 +34,11 @@ class Ccc(_option.SdefOption):
     @property
     def number(self) -> types.Integer:
         """
-        Gets ``number``.
+        Cookie-cutter cell number
 
-        Returns:
-            ``number``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._number
@@ -65,8 +63,6 @@ class Ccc(_option.SdefOption):
                 number = types.Integer(number)
             elif isinstance(number, str):
                 number = types.Integer.from_mcnp(number)
-            else:
-                raise TypeError
 
         if number is None or not (number >= 0 and number <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)

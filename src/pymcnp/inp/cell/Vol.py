@@ -8,9 +8,6 @@ from ...utils import errors
 class Vol(_option.CellOption):
     """
     Represents INP vol elements.
-
-    Attributes:
-        volume: Cell volume.
     """
 
     _KEYWORD = 'vol'
@@ -37,10 +34,11 @@ class Vol(_option.CellOption):
     @property
     def volume(self) -> types.Real:
         """
-        Gets ``volume``.
+        Cell volume
 
-        Returns:
-            ``volume``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._volume
@@ -61,14 +59,10 @@ class Vol(_option.CellOption):
         if volume is not None:
             if isinstance(volume, types.Real):
                 volume = volume
-            elif isinstance(volume, int):
-                volume = types.Real(volume)
-            elif isinstance(volume, float):
+            elif isinstance(volume, int) or isinstance(volume, float):
                 volume = types.Real(volume)
             elif isinstance(volume, str):
                 volume = types.Real.from_mcnp(volume)
-            else:
-                raise TypeError
 
         if volume is None or not (volume >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, volume)

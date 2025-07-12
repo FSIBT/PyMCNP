@@ -7,11 +7,3 @@ class CellOption(_option.Option):
     """
 
     pass
-
-
-class CellOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP cell option builders.
-    """
-
-    pass

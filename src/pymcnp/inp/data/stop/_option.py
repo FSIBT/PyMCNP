@@ -7,11 +7,3 @@ class StopOption(_option.Option):
     """
 
     pass
-
-
-class StopOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP stop option builders.
-    """
-
-    pass

@@ -8,9 +8,6 @@ from ....utils import errors
 class Pnlib(_option.MOption_0):
     """
     Represents INP pnlib elements.
-
-    Attributes:
-        abx: Default photonuclear table identifier.
     """
 
     _KEYWORD = 'pnlib'
@@ -37,10 +34,11 @@ class Pnlib(_option.MOption_0):
     @property
     def abx(self) -> types.String:
         """
-        Gets ``abx``.
+        Default photonuclear table identifier
 
-        Returns:
-            ``abx``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._abx
@@ -63,8 +61,6 @@ class Pnlib(_option.MOption_0):
                 abx = abx
             elif isinstance(abx, str):
                 abx = types.String.from_mcnp(abx)
-            else:
-                raise TypeError
 
         if abx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, abx)

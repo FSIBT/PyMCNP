@@ -7,11 +7,3 @@ class ActOption(_option.Option):
     """
 
     pass
-
-
-class ActOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP act option builders.
-    """
-
-    pass

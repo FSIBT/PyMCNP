@@ -8,9 +8,6 @@ from ....utils import errors
 class Max(_option.PtracOption):
     """
     Represents INP max elements.
-
-    Attributes:
-        events: Maximum number of events to write.
     """
 
     _KEYWORD = 'max'
@@ -37,10 +34,11 @@ class Max(_option.PtracOption):
     @property
     def events(self) -> types.Integer:
         """
-        Gets ``events``.
+        Maximum number of events to write
 
-        Returns:
-            ``events``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._events
@@ -65,8 +63,6 @@ class Max(_option.PtracOption):
                 events = types.Integer(events)
             elif isinstance(events, str):
                 events = types.Integer.from_mcnp(events)
-            else:
-                raise TypeError
 
         if events is None or not (events != 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, events)

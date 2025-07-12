@@ -7,11 +7,3 @@ class FmultOption(_option.Option):
     """
 
     pass
-
-
-class FmultOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP fmult option builders.
-    """
-
-    pass

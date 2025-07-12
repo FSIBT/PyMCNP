@@ -9,12 +9,6 @@ from ...utils import _visualization
 class P_0(_option.SurfaceOption):
     """
     Represents INP p variation #0 elements.
-
-    Attributes:
-        a: Equation-defined general plane A coefficent.
-        b: Equation-defined general plane B coefficent.
-        c: Equation-defined general plane C coefficent.
-        d: Equation-defined general plane D coefficent.
     """
 
     _KEYWORD = 'p'
@@ -50,10 +44,11 @@ class P_0(_option.SurfaceOption):
     @property
     def a(self) -> types.Real:
         """
-        Gets ``a``.
+        Equation-defined general plane A coefficent
 
-        Returns:
-            ``a``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a
@@ -74,14 +69,10 @@ class P_0(_option.SurfaceOption):
         if a is not None:
             if isinstance(a, types.Real):
                 a = a
-            elif isinstance(a, int):
-                a = types.Real(a)
-            elif isinstance(a, float):
+            elif isinstance(a, int) or isinstance(a, float):
                 a = types.Real(a)
             elif isinstance(a, str):
                 a = types.Real.from_mcnp(a)
-            else:
-                raise TypeError
 
         if a is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
@@ -91,10 +82,11 @@ class P_0(_option.SurfaceOption):
     @property
     def b(self) -> types.Real:
         """
-        Gets ``b``.
+        Equation-defined general plane B coefficent
 
-        Returns:
-            ``b``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._b
@@ -115,14 +107,10 @@ class P_0(_option.SurfaceOption):
         if b is not None:
             if isinstance(b, types.Real):
                 b = b
-            elif isinstance(b, int):
-                b = types.Real(b)
-            elif isinstance(b, float):
+            elif isinstance(b, int) or isinstance(b, float):
                 b = types.Real(b)
             elif isinstance(b, str):
                 b = types.Real.from_mcnp(b)
-            else:
-                raise TypeError
 
         if b is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, b)
@@ -132,10 +120,11 @@ class P_0(_option.SurfaceOption):
     @property
     def c(self) -> types.Real:
         """
-        Gets ``c``.
+        Equation-defined general plane C coefficent
 
-        Returns:
-            ``c``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._c
@@ -156,14 +145,10 @@ class P_0(_option.SurfaceOption):
         if c is not None:
             if isinstance(c, types.Real):
                 c = c
-            elif isinstance(c, int):
-                c = types.Real(c)
-            elif isinstance(c, float):
+            elif isinstance(c, int) or isinstance(c, float):
                 c = types.Real(c)
             elif isinstance(c, str):
                 c = types.Real.from_mcnp(c)
-            else:
-                raise TypeError
 
         if c is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, c)
@@ -173,10 +158,11 @@ class P_0(_option.SurfaceOption):
     @property
     def d(self) -> types.Real:
         """
-        Gets ``d``.
+        Equation-defined general plane D coefficent
 
-        Returns:
-            ``d``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._d
@@ -197,14 +183,10 @@ class P_0(_option.SurfaceOption):
         if d is not None:
             if isinstance(d, types.Real):
                 d = d
-            elif isinstance(d, int):
-                d = types.Real(d)
-            elif isinstance(d, float):
+            elif isinstance(d, int) or isinstance(d, float):
                 d = types.Real(d)
             elif isinstance(d, str):
                 d = types.Real.from_mcnp(d)
-            else:
-                raise TypeError
 
         if d is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, d)

@@ -8,10 +8,6 @@ from ....utils import errors
 class Inc(_option.FmeshOption):
     """
     Represents INP inc elements.
-
-    Attributes:
-        lower: Collision for FMESH tally lower bound.
-        upper: Collision for FMESH tally upper bound.
     """
 
     _KEYWORD = 'inc'
@@ -41,10 +37,11 @@ class Inc(_option.FmeshOption):
     @property
     def lower(self) -> types.Real:
         """
-        Gets ``lower``.
+        Collision for FMESH tally lower bound
 
-        Returns:
-            ``lower``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._lower
@@ -65,14 +62,10 @@ class Inc(_option.FmeshOption):
         if lower is not None:
             if isinstance(lower, types.Real):
                 lower = lower
-            elif isinstance(lower, int):
-                lower = types.Real(lower)
-            elif isinstance(lower, float):
+            elif isinstance(lower, int) or isinstance(lower, float):
                 lower = types.Real(lower)
             elif isinstance(lower, str):
                 lower = types.Real.from_mcnp(lower)
-            else:
-                raise TypeError
 
         if lower is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lower)
@@ -82,10 +75,11 @@ class Inc(_option.FmeshOption):
     @property
     def upper(self) -> types.Real:
         """
-        Gets ``upper``.
+        Collision for FMESH tally upper bound
 
-        Returns:
-            ``upper``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._upper
@@ -106,13 +100,9 @@ class Inc(_option.FmeshOption):
         if upper is not None:
             if isinstance(upper, types.Real):
                 upper = upper
-            elif isinstance(upper, int):
-                upper = types.Real(upper)
-            elif isinstance(upper, float):
+            elif isinstance(upper, int) or isinstance(upper, float):
                 upper = types.Real(upper)
             elif isinstance(upper, str):
                 upper = types.Real.from_mcnp(upper)
-            else:
-                raise TypeError
 
         self._upper: types.Real = upper

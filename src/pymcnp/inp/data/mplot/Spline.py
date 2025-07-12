@@ -7,9 +7,6 @@ from ....utils import types
 class Spline(_option.MplotOption):
     """
     Represents INP spline elements.
-
-    Attributes:
-        x: Tension of rational splines.
     """
 
     _KEYWORD = 'spline'
@@ -36,10 +33,11 @@ class Spline(_option.MplotOption):
     @property
     def x(self) -> types.Real:
         """
-        Gets ``x``.
+        Tension of rational splines
 
-        Returns:
-            ``x``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x
@@ -60,13 +58,9 @@ class Spline(_option.MplotOption):
         if x is not None:
             if isinstance(x, types.Real):
                 x = x
-            elif isinstance(x, int):
-                x = types.Real(x)
-            elif isinstance(x, float):
+            elif isinstance(x, int) or isinstance(x, float):
                 x = types.Real(x)
             elif isinstance(x, str):
                 x = types.Real.from_mcnp(x)
-            else:
-                raise TypeError
 
         self._x: types.Real = x

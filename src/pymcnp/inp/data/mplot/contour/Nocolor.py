@@ -6,9 +6,6 @@ from . import _option
 class Nocolor(_option.ContourOption):
     """
     Represents INP nocolor elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'nocolor'

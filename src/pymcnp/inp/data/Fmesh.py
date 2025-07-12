@@ -9,11 +9,6 @@ from ...utils import errors
 class Fmesh(_option.DataOption):
     """
     Represents INP fmesh elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        designator: Data card particle designator.
-        options: Dictionary of options.
     """
 
     _KEYWORD = 'fmesh'
@@ -46,10 +41,11 @@ class Fmesh(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -74,8 +70,6 @@ class Fmesh(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None or not (suffix > 0 and suffix <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -85,10 +79,11 @@ class Fmesh(_option.DataOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Data card particle designator
 
-        Returns:
-            ``designator``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._designator
@@ -111,8 +106,6 @@ class Fmesh(_option.DataOption):
                 designator = designator
             elif isinstance(designator, str):
                 designator = types.Designator.from_mcnp(designator)
-            else:
-                raise TypeError
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
@@ -122,10 +115,11 @@ class Fmesh(_option.DataOption):
     @property
     def options(self) -> types.Tuple[fmesh.FmeshOption]:
         """
-        Gets ``options``.
+        Dictionary of options
 
-        Returns:
-            ``options``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._options
@@ -150,8 +144,7 @@ class Fmesh(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(fmesh.FmeshOption.from_mcnp(item))
-                else:
-                    raise TypeError
+
             options = types.Tuple(array)
 
         self._options: types.Tuple[fmesh.FmeshOption] = options

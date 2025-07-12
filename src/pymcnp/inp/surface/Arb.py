@@ -8,38 +8,6 @@ from ...utils import errors
 class Arb(_option.SurfaceOption):
     """
     Represents INP arb elements.
-
-    Attributes:
-        ax: Polyhedron corner #1 x component.
-        ay: Polyhedron corner #1 y component.
-        az: Polyhedron corner #1 z component.
-        bx: Polyhedron corner #2 x component.
-        by: Polyhedron corner #2 y component.
-        bz: Polyhedron corner #2 z component.
-        cx: Polyhedron corner #3 x component.
-        cy: Polyhedron corner #3 y component.
-        cz: Polyhedron corner #3 z component.
-        dx: Polyhedron corner #4 x component.
-        dy: Polyhedron corner #4 y component.
-        dz: Polyhedron corner #4 z component.
-        ex: Polyhedron corner #5 x component.
-        ey: Polyhedron corner #5 y component.
-        ez: Polyhedron corner #5 z component.
-        fx: Polyhedron corner #6 x component.
-        fy: Polyhedron corner #6 y component.
-        fz: Polyhedron corner #6 z component.
-        gx: Polyhedron corner #7 x component.
-        gy: Polyhedron corner #7 y component.
-        gz: Polyhedron corner #7 z component.
-        hx: Polyhedron corner #8 x component.
-        hy: Polyhedron corner #8 y component.
-        hz: Polyhedron corner #8 z component.
-        n1: Polyhedron four-digit side specificer #1.
-        n2: Polyhedron four-digit side specificer #2.
-        n3: Polyhedron four-digit side specificer #3.
-        n4: Polyhedron four-digit side specificer #4.
-        n5: Polyhedron four-digit side specificer #5.
-        n6: Polyhedron four-digit side specificer #6.
     """
 
     _KEYWORD = 'arb'
@@ -187,10 +155,11 @@ class Arb(_option.SurfaceOption):
     @property
     def ax(self) -> types.Real:
         """
-        Gets ``ax``.
+        Polyhedron corner #1 x component
 
-        Returns:
-            ``ax``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ax
@@ -211,14 +180,10 @@ class Arb(_option.SurfaceOption):
         if ax is not None:
             if isinstance(ax, types.Real):
                 ax = ax
-            elif isinstance(ax, int):
-                ax = types.Real(ax)
-            elif isinstance(ax, float):
+            elif isinstance(ax, int) or isinstance(ax, float):
                 ax = types.Real(ax)
             elif isinstance(ax, str):
                 ax = types.Real.from_mcnp(ax)
-            else:
-                raise TypeError
 
         if ax is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ax)
@@ -228,10 +193,11 @@ class Arb(_option.SurfaceOption):
     @property
     def ay(self) -> types.Real:
         """
-        Gets ``ay``.
+        Polyhedron corner #1 y component
 
-        Returns:
-            ``ay``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ay
@@ -252,14 +218,10 @@ class Arb(_option.SurfaceOption):
         if ay is not None:
             if isinstance(ay, types.Real):
                 ay = ay
-            elif isinstance(ay, int):
-                ay = types.Real(ay)
-            elif isinstance(ay, float):
+            elif isinstance(ay, int) or isinstance(ay, float):
                 ay = types.Real(ay)
             elif isinstance(ay, str):
                 ay = types.Real.from_mcnp(ay)
-            else:
-                raise TypeError
 
         if ay is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ay)
@@ -269,10 +231,11 @@ class Arb(_option.SurfaceOption):
     @property
     def az(self) -> types.Real:
         """
-        Gets ``az``.
+        Polyhedron corner #1 z component
 
-        Returns:
-            ``az``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._az
@@ -293,14 +256,10 @@ class Arb(_option.SurfaceOption):
         if az is not None:
             if isinstance(az, types.Real):
                 az = az
-            elif isinstance(az, int):
-                az = types.Real(az)
-            elif isinstance(az, float):
+            elif isinstance(az, int) or isinstance(az, float):
                 az = types.Real(az)
             elif isinstance(az, str):
                 az = types.Real.from_mcnp(az)
-            else:
-                raise TypeError
 
         if az is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, az)
@@ -310,10 +269,11 @@ class Arb(_option.SurfaceOption):
     @property
     def bx(self) -> types.Real:
         """
-        Gets ``bx``.
+        Polyhedron corner #2 x component
 
-        Returns:
-            ``bx``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bx
@@ -334,14 +294,10 @@ class Arb(_option.SurfaceOption):
         if bx is not None:
             if isinstance(bx, types.Real):
                 bx = bx
-            elif isinstance(bx, int):
-                bx = types.Real(bx)
-            elif isinstance(bx, float):
+            elif isinstance(bx, int) or isinstance(bx, float):
                 bx = types.Real(bx)
             elif isinstance(bx, str):
                 bx = types.Real.from_mcnp(bx)
-            else:
-                raise TypeError
 
         if bx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bx)
@@ -351,10 +307,11 @@ class Arb(_option.SurfaceOption):
     @property
     def by(self) -> types.Real:
         """
-        Gets ``by``.
+        Polyhedron corner #2 y component
 
-        Returns:
-            ``by``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._by
@@ -375,14 +332,10 @@ class Arb(_option.SurfaceOption):
         if by is not None:
             if isinstance(by, types.Real):
                 by = by
-            elif isinstance(by, int):
-                by = types.Real(by)
-            elif isinstance(by, float):
+            elif isinstance(by, int) or isinstance(by, float):
                 by = types.Real(by)
             elif isinstance(by, str):
                 by = types.Real.from_mcnp(by)
-            else:
-                raise TypeError
 
         if by is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, by)
@@ -392,10 +345,11 @@ class Arb(_option.SurfaceOption):
     @property
     def bz(self) -> types.Real:
         """
-        Gets ``bz``.
+        Polyhedron corner #2 z component
 
-        Returns:
-            ``bz``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bz
@@ -416,14 +370,10 @@ class Arb(_option.SurfaceOption):
         if bz is not None:
             if isinstance(bz, types.Real):
                 bz = bz
-            elif isinstance(bz, int):
-                bz = types.Real(bz)
-            elif isinstance(bz, float):
+            elif isinstance(bz, int) or isinstance(bz, float):
                 bz = types.Real(bz)
             elif isinstance(bz, str):
                 bz = types.Real.from_mcnp(bz)
-            else:
-                raise TypeError
 
         if bz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bz)
@@ -433,10 +383,11 @@ class Arb(_option.SurfaceOption):
     @property
     def cx(self) -> types.Real:
         """
-        Gets ``cx``.
+        Polyhedron corner #3 x component
 
-        Returns:
-            ``cx``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._cx
@@ -457,14 +408,10 @@ class Arb(_option.SurfaceOption):
         if cx is not None:
             if isinstance(cx, types.Real):
                 cx = cx
-            elif isinstance(cx, int):
-                cx = types.Real(cx)
-            elif isinstance(cx, float):
+            elif isinstance(cx, int) or isinstance(cx, float):
                 cx = types.Real(cx)
             elif isinstance(cx, str):
                 cx = types.Real.from_mcnp(cx)
-            else:
-                raise TypeError
 
         if cx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cx)
@@ -474,10 +421,11 @@ class Arb(_option.SurfaceOption):
     @property
     def cy(self) -> types.Real:
         """
-        Gets ``cy``.
+        Polyhedron corner #3 y component
 
-        Returns:
-            ``cy``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._cy
@@ -498,14 +446,10 @@ class Arb(_option.SurfaceOption):
         if cy is not None:
             if isinstance(cy, types.Real):
                 cy = cy
-            elif isinstance(cy, int):
-                cy = types.Real(cy)
-            elif isinstance(cy, float):
+            elif isinstance(cy, int) or isinstance(cy, float):
                 cy = types.Real(cy)
             elif isinstance(cy, str):
                 cy = types.Real.from_mcnp(cy)
-            else:
-                raise TypeError
 
         if cy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cy)
@@ -515,10 +459,11 @@ class Arb(_option.SurfaceOption):
     @property
     def cz(self) -> types.Real:
         """
-        Gets ``cz``.
+        Polyhedron corner #3 z component
 
-        Returns:
-            ``cz``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._cz
@@ -539,14 +484,10 @@ class Arb(_option.SurfaceOption):
         if cz is not None:
             if isinstance(cz, types.Real):
                 cz = cz
-            elif isinstance(cz, int):
-                cz = types.Real(cz)
-            elif isinstance(cz, float):
+            elif isinstance(cz, int) or isinstance(cz, float):
                 cz = types.Real(cz)
             elif isinstance(cz, str):
                 cz = types.Real.from_mcnp(cz)
-            else:
-                raise TypeError
 
         if cz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cz)
@@ -556,10 +497,11 @@ class Arb(_option.SurfaceOption):
     @property
     def dx(self) -> types.Real:
         """
-        Gets ``dx``.
+        Polyhedron corner #4 x component
 
-        Returns:
-            ``dx``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._dx
@@ -580,14 +522,10 @@ class Arb(_option.SurfaceOption):
         if dx is not None:
             if isinstance(dx, types.Real):
                 dx = dx
-            elif isinstance(dx, int):
-                dx = types.Real(dx)
-            elif isinstance(dx, float):
+            elif isinstance(dx, int) or isinstance(dx, float):
                 dx = types.Real(dx)
             elif isinstance(dx, str):
                 dx = types.Real.from_mcnp(dx)
-            else:
-                raise TypeError
 
         if dx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, dx)
@@ -597,10 +535,11 @@ class Arb(_option.SurfaceOption):
     @property
     def dy(self) -> types.Real:
         """
-        Gets ``dy``.
+        Polyhedron corner #4 y component
 
-        Returns:
-            ``dy``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._dy
@@ -621,14 +560,10 @@ class Arb(_option.SurfaceOption):
         if dy is not None:
             if isinstance(dy, types.Real):
                 dy = dy
-            elif isinstance(dy, int):
-                dy = types.Real(dy)
-            elif isinstance(dy, float):
+            elif isinstance(dy, int) or isinstance(dy, float):
                 dy = types.Real(dy)
             elif isinstance(dy, str):
                 dy = types.Real.from_mcnp(dy)
-            else:
-                raise TypeError
 
         if dy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, dy)
@@ -638,10 +573,11 @@ class Arb(_option.SurfaceOption):
     @property
     def dz(self) -> types.Real:
         """
-        Gets ``dz``.
+        Polyhedron corner #4 z component
 
-        Returns:
-            ``dz``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._dz
@@ -662,14 +598,10 @@ class Arb(_option.SurfaceOption):
         if dz is not None:
             if isinstance(dz, types.Real):
                 dz = dz
-            elif isinstance(dz, int):
-                dz = types.Real(dz)
-            elif isinstance(dz, float):
+            elif isinstance(dz, int) or isinstance(dz, float):
                 dz = types.Real(dz)
             elif isinstance(dz, str):
                 dz = types.Real.from_mcnp(dz)
-            else:
-                raise TypeError
 
         if dz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, dz)
@@ -679,10 +611,11 @@ class Arb(_option.SurfaceOption):
     @property
     def ex(self) -> types.Real:
         """
-        Gets ``ex``.
+        Polyhedron corner #5 x component
 
-        Returns:
-            ``ex``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ex
@@ -703,14 +636,10 @@ class Arb(_option.SurfaceOption):
         if ex is not None:
             if isinstance(ex, types.Real):
                 ex = ex
-            elif isinstance(ex, int):
-                ex = types.Real(ex)
-            elif isinstance(ex, float):
+            elif isinstance(ex, int) or isinstance(ex, float):
                 ex = types.Real(ex)
             elif isinstance(ex, str):
                 ex = types.Real.from_mcnp(ex)
-            else:
-                raise TypeError
 
         if ex is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ex)
@@ -720,10 +649,11 @@ class Arb(_option.SurfaceOption):
     @property
     def ey(self) -> types.Real:
         """
-        Gets ``ey``.
+        Polyhedron corner #5 y component
 
-        Returns:
-            ``ey``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ey
@@ -744,14 +674,10 @@ class Arb(_option.SurfaceOption):
         if ey is not None:
             if isinstance(ey, types.Real):
                 ey = ey
-            elif isinstance(ey, int):
-                ey = types.Real(ey)
-            elif isinstance(ey, float):
+            elif isinstance(ey, int) or isinstance(ey, float):
                 ey = types.Real(ey)
             elif isinstance(ey, str):
                 ey = types.Real.from_mcnp(ey)
-            else:
-                raise TypeError
 
         if ey is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ey)
@@ -761,10 +687,11 @@ class Arb(_option.SurfaceOption):
     @property
     def ez(self) -> types.Real:
         """
-        Gets ``ez``.
+        Polyhedron corner #5 z component
 
-        Returns:
-            ``ez``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ez
@@ -785,14 +712,10 @@ class Arb(_option.SurfaceOption):
         if ez is not None:
             if isinstance(ez, types.Real):
                 ez = ez
-            elif isinstance(ez, int):
-                ez = types.Real(ez)
-            elif isinstance(ez, float):
+            elif isinstance(ez, int) or isinstance(ez, float):
                 ez = types.Real(ez)
             elif isinstance(ez, str):
                 ez = types.Real.from_mcnp(ez)
-            else:
-                raise TypeError
 
         if ez is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ez)
@@ -802,10 +725,11 @@ class Arb(_option.SurfaceOption):
     @property
     def fx(self) -> types.Real:
         """
-        Gets ``fx``.
+        Polyhedron corner #6 x component
 
-        Returns:
-            ``fx``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._fx
@@ -826,14 +750,10 @@ class Arb(_option.SurfaceOption):
         if fx is not None:
             if isinstance(fx, types.Real):
                 fx = fx
-            elif isinstance(fx, int):
-                fx = types.Real(fx)
-            elif isinstance(fx, float):
+            elif isinstance(fx, int) or isinstance(fx, float):
                 fx = types.Real(fx)
             elif isinstance(fx, str):
                 fx = types.Real.from_mcnp(fx)
-            else:
-                raise TypeError
 
         if fx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fx)
@@ -843,10 +763,11 @@ class Arb(_option.SurfaceOption):
     @property
     def fy(self) -> types.Real:
         """
-        Gets ``fy``.
+        Polyhedron corner #6 y component
 
-        Returns:
-            ``fy``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._fy
@@ -867,14 +788,10 @@ class Arb(_option.SurfaceOption):
         if fy is not None:
             if isinstance(fy, types.Real):
                 fy = fy
-            elif isinstance(fy, int):
-                fy = types.Real(fy)
-            elif isinstance(fy, float):
+            elif isinstance(fy, int) or isinstance(fy, float):
                 fy = types.Real(fy)
             elif isinstance(fy, str):
                 fy = types.Real.from_mcnp(fy)
-            else:
-                raise TypeError
 
         if fy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fy)
@@ -884,10 +801,11 @@ class Arb(_option.SurfaceOption):
     @property
     def fz(self) -> types.Real:
         """
-        Gets ``fz``.
+        Polyhedron corner #6 z component
 
-        Returns:
-            ``fz``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._fz
@@ -908,14 +826,10 @@ class Arb(_option.SurfaceOption):
         if fz is not None:
             if isinstance(fz, types.Real):
                 fz = fz
-            elif isinstance(fz, int):
-                fz = types.Real(fz)
-            elif isinstance(fz, float):
+            elif isinstance(fz, int) or isinstance(fz, float):
                 fz = types.Real(fz)
             elif isinstance(fz, str):
                 fz = types.Real.from_mcnp(fz)
-            else:
-                raise TypeError
 
         if fz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fz)
@@ -925,10 +839,11 @@ class Arb(_option.SurfaceOption):
     @property
     def gx(self) -> types.Real:
         """
-        Gets ``gx``.
+        Polyhedron corner #7 x component
 
-        Returns:
-            ``gx``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._gx
@@ -949,14 +864,10 @@ class Arb(_option.SurfaceOption):
         if gx is not None:
             if isinstance(gx, types.Real):
                 gx = gx
-            elif isinstance(gx, int):
-                gx = types.Real(gx)
-            elif isinstance(gx, float):
+            elif isinstance(gx, int) or isinstance(gx, float):
                 gx = types.Real(gx)
             elif isinstance(gx, str):
                 gx = types.Real.from_mcnp(gx)
-            else:
-                raise TypeError
 
         if gx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, gx)
@@ -966,10 +877,11 @@ class Arb(_option.SurfaceOption):
     @property
     def gy(self) -> types.Real:
         """
-        Gets ``gy``.
+        Polyhedron corner #7 y component
 
-        Returns:
-            ``gy``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._gy
@@ -990,14 +902,10 @@ class Arb(_option.SurfaceOption):
         if gy is not None:
             if isinstance(gy, types.Real):
                 gy = gy
-            elif isinstance(gy, int):
-                gy = types.Real(gy)
-            elif isinstance(gy, float):
+            elif isinstance(gy, int) or isinstance(gy, float):
                 gy = types.Real(gy)
             elif isinstance(gy, str):
                 gy = types.Real.from_mcnp(gy)
-            else:
-                raise TypeError
 
         if gy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, gy)
@@ -1007,10 +915,11 @@ class Arb(_option.SurfaceOption):
     @property
     def gz(self) -> types.Real:
         """
-        Gets ``gz``.
+        Polyhedron corner #7 z component
 
-        Returns:
-            ``gz``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._gz
@@ -1031,14 +940,10 @@ class Arb(_option.SurfaceOption):
         if gz is not None:
             if isinstance(gz, types.Real):
                 gz = gz
-            elif isinstance(gz, int):
-                gz = types.Real(gz)
-            elif isinstance(gz, float):
+            elif isinstance(gz, int) or isinstance(gz, float):
                 gz = types.Real(gz)
             elif isinstance(gz, str):
                 gz = types.Real.from_mcnp(gz)
-            else:
-                raise TypeError
 
         if gz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, gz)
@@ -1048,10 +953,11 @@ class Arb(_option.SurfaceOption):
     @property
     def hx(self) -> types.Real:
         """
-        Gets ``hx``.
+        Polyhedron corner #8 x component
 
-        Returns:
-            ``hx``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._hx
@@ -1072,14 +978,10 @@ class Arb(_option.SurfaceOption):
         if hx is not None:
             if isinstance(hx, types.Real):
                 hx = hx
-            elif isinstance(hx, int):
-                hx = types.Real(hx)
-            elif isinstance(hx, float):
+            elif isinstance(hx, int) or isinstance(hx, float):
                 hx = types.Real(hx)
             elif isinstance(hx, str):
                 hx = types.Real.from_mcnp(hx)
-            else:
-                raise TypeError
 
         if hx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hx)
@@ -1089,10 +991,11 @@ class Arb(_option.SurfaceOption):
     @property
     def hy(self) -> types.Real:
         """
-        Gets ``hy``.
+        Polyhedron corner #8 y component
 
-        Returns:
-            ``hy``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._hy
@@ -1113,14 +1016,10 @@ class Arb(_option.SurfaceOption):
         if hy is not None:
             if isinstance(hy, types.Real):
                 hy = hy
-            elif isinstance(hy, int):
-                hy = types.Real(hy)
-            elif isinstance(hy, float):
+            elif isinstance(hy, int) or isinstance(hy, float):
                 hy = types.Real(hy)
             elif isinstance(hy, str):
                 hy = types.Real.from_mcnp(hy)
-            else:
-                raise TypeError
 
         if hy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hy)
@@ -1130,10 +1029,11 @@ class Arb(_option.SurfaceOption):
     @property
     def hz(self) -> types.Real:
         """
-        Gets ``hz``.
+        Polyhedron corner #8 z component
 
-        Returns:
-            ``hz``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._hz
@@ -1154,14 +1054,10 @@ class Arb(_option.SurfaceOption):
         if hz is not None:
             if isinstance(hz, types.Real):
                 hz = hz
-            elif isinstance(hz, int):
-                hz = types.Real(hz)
-            elif isinstance(hz, float):
+            elif isinstance(hz, int) or isinstance(hz, float):
                 hz = types.Real(hz)
             elif isinstance(hz, str):
                 hz = types.Real.from_mcnp(hz)
-            else:
-                raise TypeError
 
         if hz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hz)
@@ -1171,10 +1067,11 @@ class Arb(_option.SurfaceOption):
     @property
     def n1(self) -> types.Real:
         """
-        Gets ``n1``.
+        Polyhedron four-digit side specificer #1
 
-        Returns:
-            ``n1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._n1
@@ -1195,14 +1092,10 @@ class Arb(_option.SurfaceOption):
         if n1 is not None:
             if isinstance(n1, types.Real):
                 n1 = n1
-            elif isinstance(n1, int):
-                n1 = types.Real(n1)
-            elif isinstance(n1, float):
+            elif isinstance(n1, int) or isinstance(n1, float):
                 n1 = types.Real(n1)
             elif isinstance(n1, str):
                 n1 = types.Real.from_mcnp(n1)
-            else:
-                raise TypeError
 
         if n1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n1)
@@ -1212,10 +1105,11 @@ class Arb(_option.SurfaceOption):
     @property
     def n2(self) -> types.Real:
         """
-        Gets ``n2``.
+        Polyhedron four-digit side specificer #2
 
-        Returns:
-            ``n2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._n2
@@ -1236,14 +1130,10 @@ class Arb(_option.SurfaceOption):
         if n2 is not None:
             if isinstance(n2, types.Real):
                 n2 = n2
-            elif isinstance(n2, int):
-                n2 = types.Real(n2)
-            elif isinstance(n2, float):
+            elif isinstance(n2, int) or isinstance(n2, float):
                 n2 = types.Real(n2)
             elif isinstance(n2, str):
                 n2 = types.Real.from_mcnp(n2)
-            else:
-                raise TypeError
 
         if n2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n2)
@@ -1253,10 +1143,11 @@ class Arb(_option.SurfaceOption):
     @property
     def n3(self) -> types.Real:
         """
-        Gets ``n3``.
+        Polyhedron four-digit side specificer #3
 
-        Returns:
-            ``n3``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._n3
@@ -1277,14 +1168,10 @@ class Arb(_option.SurfaceOption):
         if n3 is not None:
             if isinstance(n3, types.Real):
                 n3 = n3
-            elif isinstance(n3, int):
-                n3 = types.Real(n3)
-            elif isinstance(n3, float):
+            elif isinstance(n3, int) or isinstance(n3, float):
                 n3 = types.Real(n3)
             elif isinstance(n3, str):
                 n3 = types.Real.from_mcnp(n3)
-            else:
-                raise TypeError
 
         if n3 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n3)
@@ -1294,10 +1181,11 @@ class Arb(_option.SurfaceOption):
     @property
     def n4(self) -> types.Real:
         """
-        Gets ``n4``.
+        Polyhedron four-digit side specificer #4
 
-        Returns:
-            ``n4``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._n4
@@ -1318,14 +1206,10 @@ class Arb(_option.SurfaceOption):
         if n4 is not None:
             if isinstance(n4, types.Real):
                 n4 = n4
-            elif isinstance(n4, int):
-                n4 = types.Real(n4)
-            elif isinstance(n4, float):
+            elif isinstance(n4, int) or isinstance(n4, float):
                 n4 = types.Real(n4)
             elif isinstance(n4, str):
                 n4 = types.Real.from_mcnp(n4)
-            else:
-                raise TypeError
 
         if n4 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n4)
@@ -1335,10 +1219,11 @@ class Arb(_option.SurfaceOption):
     @property
     def n5(self) -> types.Real:
         """
-        Gets ``n5``.
+        Polyhedron four-digit side specificer #5
 
-        Returns:
-            ``n5``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._n5
@@ -1359,14 +1244,10 @@ class Arb(_option.SurfaceOption):
         if n5 is not None:
             if isinstance(n5, types.Real):
                 n5 = n5
-            elif isinstance(n5, int):
-                n5 = types.Real(n5)
-            elif isinstance(n5, float):
+            elif isinstance(n5, int) or isinstance(n5, float):
                 n5 = types.Real(n5)
             elif isinstance(n5, str):
                 n5 = types.Real.from_mcnp(n5)
-            else:
-                raise TypeError
 
         if n5 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n5)
@@ -1376,10 +1257,11 @@ class Arb(_option.SurfaceOption):
     @property
     def n6(self) -> types.Real:
         """
-        Gets ``n6``.
+        Polyhedron four-digit side specificer #6
 
-        Returns:
-            ``n6``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._n6
@@ -1400,14 +1282,10 @@ class Arb(_option.SurfaceOption):
         if n6 is not None:
             if isinstance(n6, types.Real):
                 n6 = n6
-            elif isinstance(n6, int):
-                n6 = types.Real(n6)
-            elif isinstance(n6, float):
+            elif isinstance(n6, int) or isinstance(n6, float):
                 n6 = types.Real(n6)
             elif isinstance(n6, str):
                 n6 = types.Real.from_mcnp(n6)
-            else:
-                raise TypeError
 
         if n6 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n6)

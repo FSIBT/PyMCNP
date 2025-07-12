@@ -1,6 +1,4 @@
 import re
-import typing
-
 
 from . import inp
 from .utils import types
@@ -13,17 +11,6 @@ from .utils import _visualization
 class Inp(_object.McnpFile):
     """
     Represents INP files.
-
-    Attributes:
-        message: INP message.
-        title: INP title.
-        cells: INP cell card block.
-        cells_comments: INP cell card block comments.
-        surfaces: INP surface card block.
-        surfaces_comments: INP surface card block comments.
-        data: INP data card block.
-        data_comments: INP data card block comments.
-        other: INP other block.
     """
 
     _REGEX = re.compile(r'\A((?:message:).+\n)?(.+(?:\n))([\s\S]+?(?:\n\n))([\s\S]+?(?:\n\n))([\s\S]+?(?:\n\n|\Z))([\S\s]+)?\Z')
@@ -34,9 +21,6 @@ class Inp(_object.McnpFile):
         cells: types.Tuple[inp.Cell | inp.Like],
         surfaces: types.Tuple[inp.Surface],
         data: types.Tuple[inp.Data],
-        cells_comments: types.Tuple[inp.Comment] = None,
-        surfaces_comments: types.Tuple[inp.Comment] = None,
-        data_comments: types.Tuple[inp.Comment] = None,
         message: types.String = None,
         other: types.String = None,
     ):
@@ -44,15 +28,12 @@ class Inp(_object.McnpFile):
         Initializes ``Inp``.
 
         Parameters:
-            message: INP message.
-            title: INP title.
-            cells: INP cell card block.
-            cells_comments: INP cell card block comments.
-            surfaces: INP surface card block.
-            surfaces_comments: INP surface card block comments.
-            data: INP data card block.
-            data_comments: INP data card block comments.
-            other: INP other block.
+            title: File title.
+            cells: File cell card block.
+            surfaces: File surface card block.
+            data: File data card block.
+            message: File message.
+            other: File other block.
 
         Returns:
             ``Inp``.
@@ -61,36 +42,12 @@ class Inp(_object.McnpFile):
             InpError: SEMATNICS_INP.
         """
 
-        if title is None or not len(title) < 80:
-            raise errors.InpError(errors.InpCode.SEMANTICS_INP, title)
-
-        if cells is None or None in cells:
-            raise errors.InpError(errors.InpCode.SEMANTICS_INP, cells)
-
-        if cells_comments is not None and None in cells_comments:
-            raise errors.InpError(errors.InpCode.SEMANTICS_INP, cells_comments)
-
-        if surfaces is None or None in surfaces:
-            raise errors.InpError(errors.InpCode.SEMANTICS_INP, surfaces)
-
-        if surfaces_comments is not None and None in surfaces_comments:
-            raise errors.InpError(errors.InpCode.SEMANTICS_INP, surfaces_comments)
-
-        if data is None or None in data:
-            raise errors.InpError(errors.InpCode.SEMANTICS_INP, data)
-
-        if data_comments is not None and None in data_comments:
-            raise errors.InpError(errors.InpCode.SEMANTICS_INP, data_comments)
-
-        self.message: typing.Final[types.String] = message
-        self.title: typing.Final[types.String] = title
-        self.cells: typing.Final[types.Tuple[inp.Cell]] = cells
-        self.cells_comments: typing.Final[types.Tuple[inp.Comment]] = cells_comments
-        self.surfaces: typing.Final[types.Tuple[inp.Surface]] = surfaces
-        self.surfaces_comments: typing.Final[types.Tuple[inp.Comment]] = surfaces_comments
-        self.data: typing.Final[types.Tuple[inp.Data]] = data
-        self.data_comments: typing.Final[types.Tuple[inp.Comment]] = data_comments
-        self.other: typing.Final[types.String] = other
+        self.title: types.String = title
+        self.cells: types.Tuple[inp.Cell | inp.Like | inp.Comment] = cells
+        self.surfaces: types.Tuple[inp.Surface | inp.Comment] = surfaces
+        self.data: types.Tuple[inp.Data | inp.Comment] = data
+        self.message: types.String = message
+        self.other: types.String = other
 
     @staticmethod
     def from_mcnp(source: str):
@@ -103,7 +60,7 @@ class Inp(_object.McnpFile):
         Returns:
             ``Inp``.
 
-        Raisees:
+        Raises:
             InpError: SYNTAX_INP.
         """
 
@@ -117,27 +74,22 @@ class Inp(_object.McnpFile):
         title = types.String.from_mcnp(tokens[2])
 
         cells = []
-        cells_comments = []
         for line in tokens[3].strip().split('\n'):
             try:
-                cells_comments.append(inp.Comment.from_mcnp(line))
+                cells.append(inp.Comment.from_mcnp(line))
                 continue
             except errors.InpError:
                 pass
 
-            try:
+            if 'like' in line:
                 cells.append(inp.Like.from_mcnp(line))
-                continue
-            except errors.InpError:
-                pass
-
-            cells.append(inp.Cell.from_mcnp(line))
+            else:
+                cells.append(inp.Cell.from_mcnp(line))
 
         surfaces = []
-        surfaces_comments = []
         for line in tokens[4].strip().split('\n'):
             try:
-                surfaces_comments.append(inp.Comment.from_mcnp(line))
+                surfaces.append(inp.Comment.from_mcnp(line))
                 continue
             except errors.InpError:
                 pass
@@ -145,10 +97,9 @@ class Inp(_object.McnpFile):
             surfaces.append(inp.Surface.from_mcnp(line))
 
         data = []
-        data_comments = []
         for line in tokens[5].strip().split('\n'):
             try:
-                data_comments.append(inp.Comment.from_mcnp(line))
+                data.append(inp.Comment.from_mcnp(line))
                 continue
             except errors.InpError:
                 pass
@@ -162,9 +113,6 @@ class Inp(_object.McnpFile):
             cells,
             surfaces,
             data,
-            cells_comments=cells_comments,
-            surfaces_comments=surfaces_comments,
-            data_comments=data_comments,
             message=message,
             other=other,
         )
@@ -177,37 +125,21 @@ class Inp(_object.McnpFile):
             INP for ``Inp``.
         """
 
-        # Appending Message
-        source = self.message + '\n' if self.message else ''
+        # DELIMITER = 'c ' + '=' * 76 + '\n'
+        # source += DELIMITER
+        # source += f'c {"cells":^76.76}\n'
+        # source += DELIMITER
 
-        # Appending Title
-        source += self.title
+        return f"""
+{self.message or ""}
+{self.title}
+{'\n'.join(map(str, self.cells))}
 
-        # Appending Blocks
-        DELIMITER = 'c ' + '=' * 76 + '\n'
+{'\n'.join(map(str, self.surfaces))}
 
-        source += DELIMITER
-        source += f'c {"cells":^76.76}\n'
-        source += DELIMITER
-        source += '\n'.join(card.to_mcnp() for card in self.cells)
-        source += '\n\n'
-
-        source += DELIMITER
-        source += f'c {"surfaces":^76.76}\n'
-        source += DELIMITER
-        source += '\n'.join(card.to_mcnp() for card in self.surfaces)
-        source += '\n\n'
-
-        source += DELIMITER
-        source += f'c {"data":^76.76}\n'
-        source += DELIMITER
-        source += '\n'.join(card.to_mcnp() for card in self.data)
-        source += '\n'
-
-        # Appending Extra
-        source += self.other if self.other else ''
-
-        return source
+{'\n'.join(map(str, self.data))}
+{self.other or ""}
+"""[1:-1]
 
     def draw(self) -> _visualization.Visualization:
         """
@@ -217,173 +149,263 @@ class Inp(_object.McnpFile):
             ``Visualization`` for ``Inp``.
         """
 
-        vis = self.surfaces[0].draw()
+        surfaces = list(filter(lambda surface: isinstance(surface, inp.Surface), self.surfaces))
 
-        for surface in self.surfaces[0:]:
-            vis += surface.draw()
+        if surfaces:
+            vis = surfaces[0].draw()
+            for surface in surfaces[1:]:
+                if isinstance(surface, inp.Surface):
+                    vis += surface.draw()
+            return vis
 
-        return vis
+        return _visualization.Visualization()
 
-
-'''
-@dataclasses.dataclass
-class InpBuilder:
-    """
-    Builds ``Inp``.
-
-    Attributes:
-        message: INP message.
-        title: INP title.
-        cells: INP cell card block.
-        surfaces: INP surface card block.
-        data: INP data card block.
-        other: INP other block.
-    """
-
-    title: str | types.String
-    cells: list[str | inp.Cell | inp.CellBuilder]
-    surfaces: list[str | inp.Surface | inp.SurfaceBuilder]
-    data: list[str | inp.Data | inp.DataBuilder]
-    cells_comments: list[str | inp.Comment | inp.CommentBuilder] = None
-    surfaces_comments: list[str | inp.Comment | inp.CommentBuilder] = None
-    data_comments: list[str | inp.Comment | inp.CommentBuilder] = None
-    message: str | types.String = None
-    other: str | types.String = None
-
-    def build(self):
+    @property
+    def title(self) -> types.Integer:
         """
-        Builds ``InpBuilder`` into ``Inp``.
+        File title.
 
-        Returns:
-            ``Inp`` for ``InpBuilder``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
-        title = self.title
-        if isinstance(self.title, types.String):
-            title = self.title
-        elif isinstance(self.title, str):
-            title = types.String(self.title)
+        return self._title
 
-        if self.cells:
-            cells = []
-            for item in self.cells:
+    @title.setter
+    def title(self, title: str | types.String) -> None:
+        """
+        Sets ``title``.
+
+        Parameters:
+            title: File title.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if title is not None:
+            if isinstance(title, types.String):
+                title = title
+            elif isinstance(title, str):
+                title = types.String.from_mcnp(title)
+
+        if title is None or not len(title) < 80:
+            raise errors.InpError(errors.InpCode.SEMANTICS_INP, title)
+
+        self._title: types.Integer = title
+
+    @property
+    def cells(self) -> types.Integer:
+        """
+        File cells card block.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        return self._cells
+
+    @cells.setter
+    def cells(self, cells: list[str] | list[inp.Cell | inp.Like | inp.Comment]) -> None:
+        """
+        Sets ``cells``.
+
+        Parameters:
+            cells: File cells.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if cells is not None:
+            array = []
+            for item in cells:
                 if isinstance(item, inp.Cell):
-                    cells.append(item)
+                    array.append(item)
+                elif isinstance(item, inp.Like):
+                    array.append(item)
+                elif isinstance(item, inp.Comment):
+                    array.append(item)
                 elif isinstance(item, str):
-                    cells.append(inp.Cell.from_mcnp(item))
-                elif isinstance(item, inp.CellBuilder):
-                    cells.append(item.build())
-            cells = types.Tuple(cells)
-        else:
-            cells = None
+                    try:
+                        array.append(inp.Comment.from_mcnp(item))
+                        continue
+                    except errors.InpError:
+                        pass
 
-        if self.cells_comments:
-            cells_comments = []
-            for item in self.cells_comments:
-                if isinstance(item, inp.Comment):
-                    cells_comments.append(item)
-                elif isinstance(item, str):
-                    cells_comments.append(inp.Comment.from_mcnp(item))
-                elif isinstance(item, inp.CommentBuilder):
-                    cells_comments.append(item.build())
-            cells_comments = types.Tuple(cells_comments)
-        else:
-            cells_comments = None
+                    if 'like' in item:
+                        array.append(inp.Like.from_mcnp(item))
+                    else:
+                        array.append(inp.Cell.from_mcnp(item))
 
-        if self.surfaces:
-            surfaces = []
-            for item in self.surfaces:
+            cells = types.Tuple(array)
+
+        if cells is None or None in cells:
+            raise errors.InpError(errors.InpCode.SEMANTICS_INP, cells)
+
+        self._cells: types.Integer = cells
+
+    @property
+    def surfaces(self) -> types.Integer:
+        """
+        File surfaces card block.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        return self._surfaces
+
+    @surfaces.setter
+    def surfaces(self, surfaces: list[str] | list[inp.Surface | inp.Comment]) -> None:
+        """
+        Sets ``surfaces``.
+
+        Parameters:
+            surfaces: File surfaces.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if surfaces is not None:
+            array = []
+            for item in surfaces:
                 if isinstance(item, inp.Surface):
-                    surfaces.append(item)
+                    array.append(item)
+                elif isinstance(item, inp.Comment):
+                    array.append(item)
                 elif isinstance(item, str):
-                    surfaces.append(inp.Surface.from_mcnp(item))
-                elif isinstance(item, inp.SurfaceBuilder):
-                    surfaces.append(item.build())
-            surfaces = types.Tuple(surfaces)
-        else:
-            surfaces = None
+                    try:
+                        array.append(inp.Comment.from_mcnp(item))
+                        continue
+                    except errors.InpError:
+                        pass
+                    array.append(inp.Surface.from_mcnp(item))
 
-        if self.surfaces_comments:
-            surfaces_comments = []
-            for item in self.surfaces_comments:
-                if isinstance(item, inp.Comment):
-                    surfaces_comments.append(item)
-                elif isinstance(item, str):
-                    surfaces_comments.append(inp.Comment.from_mcnp(item))
-                elif isinstance(item, inp.CommentBuilder):
-                    surfaces_comments.append(item.build())
-            surfaces_comments = types.Tuple(surfaces_comments)
-        else:
-            surfaces_comments = None
+            surfaces = types.Tuple(array)
 
-        if self.data:
-            data = []
-            for item in self.data:
+        if surfaces is None or None in surfaces:
+            raise errors.InpError(errors.InpCode.SEMANTICS_INP, surfaces)
+
+        self._surfaces: types.Integer = surfaces
+
+    @property
+    def data(self) -> types.Integer:
+        """
+        File data card block.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        return self._data
+
+    @data.setter
+    def data(self, data: list[str] | list[inp.Data | inp.Comment]) -> None:
+        """
+        Sets ``data``.
+
+        Parameters:
+            data: File data.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if data is not None:
+            array = []
+            for item in data:
                 if isinstance(item, inp.Data):
-                    data.append(item)
+                    array.append(item)
+                elif isinstance(item, inp.Comment):
+                    array.append(item)
                 elif isinstance(item, str):
-                    data.append(inp.Data.from_mcnp(item))
-                elif isinstance(item, inp.DataBuilder):
-                    data.append(item.build())
-            data = types.Tuple(data)
-        else:
-            data = None
+                    try:
+                        array.append(inp.Comment.from_mcnp(item))
+                        continue
+                    except errors.InpError:
+                        pass
 
-        if self.data_comments:
-            data_comments = []
-            for item in self.data_comments:
-                if isinstance(item, inp.Comment):
-                    data_comments.append(item)
-                elif isinstance(item, str):
-                    data_comments.append(inp.Comment.from_mcnp(item))
-                elif isinstance(item, inp.CommentBuilder):
-                    data_comments.append(item.build())
-            data_comments = types.Tuple(data_comments)
-        else:
-            data_comments = None
+                    array.append(inp.Data.from_mcnp(item))
 
-        message = self.message
-        if isinstance(self.message, types.String):
-            message = self.message
-        elif isinstance(self.message, str):
-            message = types.String(self.message)
+            data = types.Tuple(array)
 
-        other = self.other
-        if isinstance(self.other, types.String):
-            other = self.other
-        elif isinstance(self.other, str):
-            other = types.String(self.other)
+        if data is None or None in data:
+            raise errors.InpError(errors.InpCode.SEMANTICS_INP, data)
 
-        return Inp(
-            title=title,
-            message=message,
-            other=other,
-            cells=cells,
-            cells_comments=cells_comments,
-            surfaces=surfaces,
-            surfaces_comments=surfaces_comments,
-            data=data,
-            data_comments=data_comments,
-        )
+        self._data: types.Integer = data
 
-    @staticmethod
-    def unbuild(ast: Inp):
+    @property
+    def message(self) -> types.Integer:
         """
-        Unbuilds ``Inp`` into ``InpBuilder``
+        File message.
 
-        Returns:
-            ``InpBuilder`` for ``Inp``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
-        return InpBuilder(
-            title=copy.deepcopy(ast.title),
-            cells=copy.deepcopy(ast.cells),
-            cells_comments=copy.deepcopy(ast.cells_comments),
-            surfaces=copy.deepcopy(ast.surfaces),
-            surfaces_comments=copy.deepcopy(ast.surfaces_comments),
-            data=copy.deepcopy(ast.data),
-            data_comments=copy.deepcopy(ast.data_comments),
-            message=copy.deepcopy(ast.message),
-            other=copy.deepcopy(ast.other),
-        )
-'''
+        return self._message
+
+    @message.setter
+    def message(self, message: str | types.String) -> None:
+        """
+        Sets ``message``.
+
+        Parameters:
+            message: File message.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if message is not None:
+            if isinstance(message, types.String):
+                message = message
+            elif isinstance(message, str):
+                message = types.String.from_mcnp(message)
+
+        self._message: types.Integer = message
+
+    @property
+    def other(self) -> types.Integer:
+        """
+        File other.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        return self._other
+
+    @other.setter
+    def other(self, other: str | types.String) -> None:
+        """
+        Sets ``other``.
+
+        Parameters:
+            other: File other.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if other is not None:
+            if isinstance(other, types.String):
+                other = other
+            elif isinstance(other, str):
+                other = types.String.from_mcnp(other)
+
+        self._other: types.Integer = other

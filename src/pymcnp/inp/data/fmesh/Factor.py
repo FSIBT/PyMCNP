@@ -8,9 +8,6 @@ from ....utils import errors
 class Factor(_option.FmeshOption):
     """
     Represents INP factor elements.
-
-    Attributes:
-        multiple: Multiplicative factor for each mesh.
     """
 
     _KEYWORD = 'factor'
@@ -37,10 +34,11 @@ class Factor(_option.FmeshOption):
     @property
     def multiple(self) -> types.Real:
         """
-        Gets ``multiple``.
+        Multiplicative factor for each mesh
 
-        Returns:
-            ``multiple``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._multiple
@@ -61,14 +59,10 @@ class Factor(_option.FmeshOption):
         if multiple is not None:
             if isinstance(multiple, types.Real):
                 multiple = multiple
-            elif isinstance(multiple, int):
-                multiple = types.Real(multiple)
-            elif isinstance(multiple, float):
+            elif isinstance(multiple, int) or isinstance(multiple, float):
                 multiple = types.Real(multiple)
             elif isinstance(multiple, str):
                 multiple = types.Real.from_mcnp(multiple)
-            else:
-                raise TypeError
 
         if multiple is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, multiple)

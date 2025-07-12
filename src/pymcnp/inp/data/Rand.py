@@ -8,9 +8,6 @@ from ...utils import types
 class Rand(_option.DataOption):
     """
     Represents INP rand elements.
-
-    Attributes:
-        options: Dictionary of options.
     """
 
     _KEYWORD = 'rand'
@@ -37,10 +34,11 @@ class Rand(_option.DataOption):
     @property
     def options(self) -> types.Tuple[rand.RandOption]:
         """
-        Gets ``options``.
+        Dictionary of options
 
-        Returns:
-            ``options``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._options
@@ -65,8 +63,7 @@ class Rand(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(rand.RandOption.from_mcnp(item))
-                else:
-                    raise TypeError
+
             options = types.Tuple(array)
 
         self._options: types.Tuple[rand.RandOption] = options

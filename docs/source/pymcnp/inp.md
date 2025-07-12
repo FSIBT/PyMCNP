@@ -1,6 +1,6 @@
 # ``pymcnp.inp`` Subpackage
 
-> [!CAUTION]
+> [!WARNING]
 > The following non-terminals are not currently supported:
 > * data.Field (3.3.3.12)
 > * data.Mplot (3.3.7.2.5)
@@ -12,11 +12,8 @@
 > * data.Fm (3.3.5.7)
 > * data.Ft (3.3.5.18)
 
-> [!WARNING]
-> Warning: PyMCNP is in active development! Please, double check eveything works. Reports error on [GitHub](https://github.com/FSIBT/PyMCNP).
-
 ``pymcnp.inp`` contains the INP parser. PyMCNP implements an object-oriented recursive
-descent parser, modeling INP as the following context-free-grammar described in modified Bakus-Naur form:
+descent parser, approximates INP as the following context-free-grammar described in modified Bakus-Naur form:
 
 ```
 <CellOption> = ...;
@@ -33,7 +30,10 @@ descent parser, modeling INP as the following context-free-grammar described in 
 
 ```{eval-rst}
 .. toctree::
+   :maxdepth: 1
+
    inp/cell
+   inp/like
    inp/surface
    inp/data
 ```
@@ -44,7 +44,6 @@ PyMCNP represents INP non-terminals with AST classes and stores them in nested s
 These AST class have methods for translating PyMCNP and INP:
 
 * ``from_mcnp``. Parses INP source, checking for syntax and semantic errors.
-
 * ``to_mcnp``. Generates INP source from PyMCNP objects, reformatting.
 
 ### ``Comment`` Class
@@ -52,6 +51,7 @@ These AST class have methods for translating PyMCNP and INP:
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.Comment
    :members:
+   :inherited-members:
 ```
 
 ### ``Cell`` Class
@@ -59,15 +59,27 @@ These AST class have methods for translating PyMCNP and INP:
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.Cell
    :members:
+   :inherited-members:
 ```
 
 [cell subpackage](inp/cell)
+
+### ``Like`` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.Like
+   :members:
+   :inherited-members:
+```
+
+[like subpackage](inp/like)
 
 ### ``Surface`` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.Surface
    :members:
+   :inherited-members:
 ```
 
 [surface subpackage](inp/surface)
@@ -77,47 +89,7 @@ These AST class have methods for translating PyMCNP and INP:
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.Data
    :members:
-```
-
-[data subpackage](inp/data)
-
-## Builder Classes
-
-AST classes are immutable, but they have corresponding builder classes. These builder classes are mutable
-wrappers without input validation, and they have a method for constructing AST classes:
-
-* ``build``. Attempts to build corresponding AST class using the builder classes' fields.
-
-### ``CommentBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.CommentBuilder
-   :members:
-```
-
-### ``CellBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.CellBuilder
-   :members:
-```
-
-[cell subpackage](inp/cell)
-
-### ``SurfaceBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.SurfaceBuilder
-   :members:
-```
-
-[surface subpackage](inp/surface)
-
-### ``DataBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.DataBuilder
-   :members:
+   :inherited-members:
 ```
 
 [data subpackage](inp/data)

@@ -8,9 +8,6 @@ from ....utils import errors
 class Fmatncyc(_option.KoptsOption):
     """
     Represents INP fmatncyc elements.
-
-    Attributes:
-        fmat_ncyc: fmat_ncyc.
     """
 
     _KEYWORD = 'fmatncyc'
@@ -37,10 +34,11 @@ class Fmatncyc(_option.KoptsOption):
     @property
     def fmat_ncyc(self) -> types.Real:
         """
-        Gets ``fmat_ncyc``.
+        Fmat_ncyc
 
-        Returns:
-            ``fmat_ncyc``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._fmat_ncyc
@@ -61,14 +59,10 @@ class Fmatncyc(_option.KoptsOption):
         if fmat_ncyc is not None:
             if isinstance(fmat_ncyc, types.Real):
                 fmat_ncyc = fmat_ncyc
-            elif isinstance(fmat_ncyc, int):
-                fmat_ncyc = types.Real(fmat_ncyc)
-            elif isinstance(fmat_ncyc, float):
+            elif isinstance(fmat_ncyc, int) or isinstance(fmat_ncyc, float):
                 fmat_ncyc = types.Real(fmat_ncyc)
             elif isinstance(fmat_ncyc, str):
                 fmat_ncyc = types.Real.from_mcnp(fmat_ncyc)
-            else:
-                raise TypeError
 
         if fmat_ncyc is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fmat_ncyc)

@@ -8,10 +8,6 @@ from ....utils import errors
 class Watt(_option.FmultOption):
     """
     Represents INP watt elements.
-
-    Attributes:
-        a: Watt energy spectrum parameters a.
-        b: Watt energy spectrum parameters b.
     """
 
     _KEYWORD = 'watt'
@@ -41,10 +37,11 @@ class Watt(_option.FmultOption):
     @property
     def a(self) -> types.Real:
         """
-        Gets ``a``.
+        Watt energy spectrum parameters a
 
-        Returns:
-            ``a``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a
@@ -65,14 +62,10 @@ class Watt(_option.FmultOption):
         if a is not None:
             if isinstance(a, types.Real):
                 a = a
-            elif isinstance(a, int):
-                a = types.Real(a)
-            elif isinstance(a, float):
+            elif isinstance(a, int) or isinstance(a, float):
                 a = types.Real(a)
             elif isinstance(a, str):
                 a = types.Real.from_mcnp(a)
-            else:
-                raise TypeError
 
         if a is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
@@ -82,10 +75,11 @@ class Watt(_option.FmultOption):
     @property
     def b(self) -> types.Real:
         """
-        Gets ``b``.
+        Watt energy spectrum parameters b
 
-        Returns:
-            ``b``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._b
@@ -106,14 +100,10 @@ class Watt(_option.FmultOption):
         if b is not None:
             if isinstance(b, types.Real):
                 b = b
-            elif isinstance(b, int):
-                b = types.Real(b)
-            elif isinstance(b, float):
+            elif isinstance(b, int) or isinstance(b, float):
                 b = types.Real(b)
             elif isinstance(b, str):
                 b = types.Real.from_mcnp(b)
-            else:
-                raise TypeError
 
         if b is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, b)

@@ -7,9 +7,6 @@ from ....utils import types
 class Dir_1(_option.SdefOption):
     """
     Represents INP dir variation #1 elements.
-
-    Attributes:
-        cosine: Cosine of the angle between VEC and particle.
     """
 
     _KEYWORD = 'dir'
@@ -36,10 +33,11 @@ class Dir_1(_option.SdefOption):
     @property
     def cosine(self) -> types.DistributionNumber:
         """
-        Gets ``cosine``.
+        Cosine of the angle between VEC and particle
 
-        Returns:
-            ``cosine``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._cosine
@@ -62,7 +60,5 @@ class Dir_1(_option.SdefOption):
                 cosine = cosine
             elif isinstance(cosine, str):
                 cosine = types.DistributionNumber.from_mcnp(cosine)
-            else:
-                raise TypeError
 
         self._cosine: types.DistributionNumber = cosine

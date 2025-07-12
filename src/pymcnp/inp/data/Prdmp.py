@@ -7,13 +7,6 @@ from ...utils import types
 class Prdmp(_option.DataOption):
     """
     Represents INP prdmp elements.
-
-    Attributes:
-        ndp: Increment for printing tallies.
-        ndm: Increment for dumping to RUNTPE file.
-        mct: Controls printing of MCTAL file.
-        ndmp: Maximum number of dumps on RUNTPE file.
-        dmmp: Controls frequently of tally fluctuation chart.
     """
 
     _KEYWORD = 'prdmp'
@@ -61,10 +54,11 @@ class Prdmp(_option.DataOption):
     @property
     def ndp(self) -> types.Integer:
         """
-        Gets ``ndp``.
+        Increment for printing tallies
 
-        Returns:
-            ``ndp``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ndp
@@ -89,18 +83,17 @@ class Prdmp(_option.DataOption):
                 ndp = types.Integer(ndp)
             elif isinstance(ndp, str):
                 ndp = types.Integer.from_mcnp(ndp)
-            else:
-                raise TypeError
 
         self._ndp: types.Integer = ndp
 
     @property
     def ndm(self) -> types.Integer:
         """
-        Gets ``ndm``.
+        Increment for dumping to RUNTPE file
 
-        Returns:
-            ``ndm``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ndm
@@ -125,18 +118,17 @@ class Prdmp(_option.DataOption):
                 ndm = types.Integer(ndm)
             elif isinstance(ndm, str):
                 ndm = types.Integer.from_mcnp(ndm)
-            else:
-                raise TypeError
 
         self._ndm: types.Integer = ndm
 
     @property
     def mct(self) -> types.Integer:
         """
-        Gets ``mct``.
+        Controls printing of MCTAL file
 
-        Returns:
-            ``mct``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._mct
@@ -161,18 +153,17 @@ class Prdmp(_option.DataOption):
                 mct = types.Integer(mct)
             elif isinstance(mct, str):
                 mct = types.Integer.from_mcnp(mct)
-            else:
-                raise TypeError
 
         self._mct: types.Integer = mct
 
     @property
     def ndmp(self) -> types.Integer:
         """
-        Gets ``ndmp``.
+        Maximum number of dumps on RUNTPE file
 
-        Returns:
-            ``ndmp``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ndmp
@@ -197,18 +188,17 @@ class Prdmp(_option.DataOption):
                 ndmp = types.Integer(ndmp)
             elif isinstance(ndmp, str):
                 ndmp = types.Integer.from_mcnp(ndmp)
-            else:
-                raise TypeError
 
         self._ndmp: types.Integer = ndmp
 
     @property
     def dmmp(self) -> types.Integer:
         """
-        Gets ``dmmp``.
+        Controls frequently of tally fluctuation chart
 
-        Returns:
-            ``dmmp``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._dmmp
@@ -233,7 +223,5 @@ class Prdmp(_option.DataOption):
                 dmmp = types.Integer(dmmp)
             elif isinstance(dmmp, str):
                 dmmp = types.Integer.from_mcnp(dmmp)
-            else:
-                raise TypeError
 
         self._dmmp: types.Integer = dmmp

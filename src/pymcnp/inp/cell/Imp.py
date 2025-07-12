@@ -8,10 +8,6 @@ from ...utils import errors
 class Imp(_option.CellOption):
     """
     Represents INP imp elements.
-
-    Attributes:
-        designator: Data option particle designator.
-        importance: Cell particle importance.
     """
 
     _KEYWORD = 'imp'
@@ -41,10 +37,11 @@ class Imp(_option.CellOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Data option particle designator
 
-        Returns:
-            ``designator``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._designator
@@ -67,8 +64,6 @@ class Imp(_option.CellOption):
                 designator = designator
             elif isinstance(designator, str):
                 designator = types.Designator.from_mcnp(designator)
-            else:
-                raise TypeError
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
@@ -78,10 +73,11 @@ class Imp(_option.CellOption):
     @property
     def importance(self) -> types.Real:
         """
-        Gets ``importance``.
+        Cell particle importance
 
-        Returns:
-            ``importance``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._importance
@@ -102,14 +98,10 @@ class Imp(_option.CellOption):
         if importance is not None:
             if isinstance(importance, types.Real):
                 importance = importance
-            elif isinstance(importance, int):
-                importance = types.Real(importance)
-            elif isinstance(importance, float):
+            elif isinstance(importance, int) or isinstance(importance, float):
                 importance = types.Real(importance)
             elif isinstance(importance, str):
                 importance = types.Real.from_mcnp(importance)
-            else:
-                raise TypeError
 
         if importance is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, importance)

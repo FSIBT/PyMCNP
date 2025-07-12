@@ -8,22 +8,6 @@ from ...utils import errors
 class Dxt(_option.DataOption):
     """
     Represents INP dxt elements.
-
-    Attributes:
-        designator: Data card particle designator.
-        spheres_1: DXTRAN spheres #1.
-        spheres_2: DXTRAN spheres #2.
-        spheres_3: DXTRAN spheres #3.
-        spheres_4: DXTRAN spheres #4.
-        spheres_5: DXTRAN spheres #5.
-        spheres_6: DXTRAN spheres #6.
-        spheres_7: DXTRAN spheres #7.
-        spheres_8: DXTRAN spheres #8.
-        spheres_9: DXTRAN spheres #9.
-        spheres_10: DXTRAN spheres #10.
-        cutoff_1: Upper weight cutoff in the spheres.
-        cutoff_2: Lower weight cutoff in the spheres.
-        weight: Minimum photon weight.
     """
 
     _KEYWORD = 'dxt'
@@ -107,10 +91,11 @@ class Dxt(_option.DataOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Data card particle designator
 
-        Returns:
-            ``designator``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._designator
@@ -133,8 +118,6 @@ class Dxt(_option.DataOption):
                 designator = designator
             elif isinstance(designator, str):
                 designator = types.Designator.from_mcnp(designator)
-            else:
-                raise TypeError
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
@@ -144,10 +127,11 @@ class Dxt(_option.DataOption):
     @property
     def spheres_1(self) -> types.Shell:
         """
-        Gets ``spheres_1``.
+        DXTRAN spheres #1
 
-        Returns:
-            ``spheres_1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._spheres_1
@@ -170,8 +154,6 @@ class Dxt(_option.DataOption):
                 spheres_1 = spheres_1
             elif isinstance(spheres_1, str):
                 spheres_1 = types.Shell.from_mcnp(spheres_1)
-            else:
-                raise TypeError
 
         if spheres_1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_1)
@@ -181,10 +163,11 @@ class Dxt(_option.DataOption):
     @property
     def spheres_2(self) -> types.Shell:
         """
-        Gets ``spheres_2``.
+        DXTRAN spheres #2
 
-        Returns:
-            ``spheres_2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._spheres_2
@@ -207,8 +190,6 @@ class Dxt(_option.DataOption):
                 spheres_2 = spheres_2
             elif isinstance(spheres_2, str):
                 spheres_2 = types.Shell.from_mcnp(spheres_2)
-            else:
-                raise TypeError
 
         if spheres_2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_2)
@@ -218,10 +199,11 @@ class Dxt(_option.DataOption):
     @property
     def spheres_3(self) -> types.Shell:
         """
-        Gets ``spheres_3``.
+        DXTRAN spheres #3
 
-        Returns:
-            ``spheres_3``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._spheres_3
@@ -244,8 +226,6 @@ class Dxt(_option.DataOption):
                 spheres_3 = spheres_3
             elif isinstance(spheres_3, str):
                 spheres_3 = types.Shell.from_mcnp(spheres_3)
-            else:
-                raise TypeError
 
         if spheres_3 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_3)
@@ -255,10 +235,11 @@ class Dxt(_option.DataOption):
     @property
     def spheres_4(self) -> types.Shell:
         """
-        Gets ``spheres_4``.
+        DXTRAN spheres #4
 
-        Returns:
-            ``spheres_4``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._spheres_4
@@ -281,8 +262,6 @@ class Dxt(_option.DataOption):
                 spheres_4 = spheres_4
             elif isinstance(spheres_4, str):
                 spheres_4 = types.Shell.from_mcnp(spheres_4)
-            else:
-                raise TypeError
 
         if spheres_4 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_4)
@@ -292,10 +271,11 @@ class Dxt(_option.DataOption):
     @property
     def spheres_5(self) -> types.Shell:
         """
-        Gets ``spheres_5``.
+        DXTRAN spheres #5
 
-        Returns:
-            ``spheres_5``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._spheres_5
@@ -318,8 +298,6 @@ class Dxt(_option.DataOption):
                 spheres_5 = spheres_5
             elif isinstance(spheres_5, str):
                 spheres_5 = types.Shell.from_mcnp(spheres_5)
-            else:
-                raise TypeError
 
         if spheres_5 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_5)
@@ -329,10 +307,11 @@ class Dxt(_option.DataOption):
     @property
     def spheres_6(self) -> types.Shell:
         """
-        Gets ``spheres_6``.
+        DXTRAN spheres #6
 
-        Returns:
-            ``spheres_6``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._spheres_6
@@ -355,8 +334,6 @@ class Dxt(_option.DataOption):
                 spheres_6 = spheres_6
             elif isinstance(spheres_6, str):
                 spheres_6 = types.Shell.from_mcnp(spheres_6)
-            else:
-                raise TypeError
 
         if spheres_6 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_6)
@@ -366,10 +343,11 @@ class Dxt(_option.DataOption):
     @property
     def spheres_7(self) -> types.Shell:
         """
-        Gets ``spheres_7``.
+        DXTRAN spheres #7
 
-        Returns:
-            ``spheres_7``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._spheres_7
@@ -392,8 +370,6 @@ class Dxt(_option.DataOption):
                 spheres_7 = spheres_7
             elif isinstance(spheres_7, str):
                 spheres_7 = types.Shell.from_mcnp(spheres_7)
-            else:
-                raise TypeError
 
         if spheres_7 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_7)
@@ -403,10 +379,11 @@ class Dxt(_option.DataOption):
     @property
     def spheres_8(self) -> types.Shell:
         """
-        Gets ``spheres_8``.
+        DXTRAN spheres #8
 
-        Returns:
-            ``spheres_8``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._spheres_8
@@ -429,8 +406,6 @@ class Dxt(_option.DataOption):
                 spheres_8 = spheres_8
             elif isinstance(spheres_8, str):
                 spheres_8 = types.Shell.from_mcnp(spheres_8)
-            else:
-                raise TypeError
 
         if spheres_8 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_8)
@@ -440,10 +415,11 @@ class Dxt(_option.DataOption):
     @property
     def spheres_9(self) -> types.Shell:
         """
-        Gets ``spheres_9``.
+        DXTRAN spheres #9
 
-        Returns:
-            ``spheres_9``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._spheres_9
@@ -466,8 +442,6 @@ class Dxt(_option.DataOption):
                 spheres_9 = spheres_9
             elif isinstance(spheres_9, str):
                 spheres_9 = types.Shell.from_mcnp(spheres_9)
-            else:
-                raise TypeError
 
         if spheres_9 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_9)
@@ -477,10 +451,11 @@ class Dxt(_option.DataOption):
     @property
     def spheres_10(self) -> types.Shell:
         """
-        Gets ``spheres_10``.
+        DXTRAN spheres #10
 
-        Returns:
-            ``spheres_10``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._spheres_10
@@ -503,8 +478,6 @@ class Dxt(_option.DataOption):
                 spheres_10 = spheres_10
             elif isinstance(spheres_10, str):
                 spheres_10 = types.Shell.from_mcnp(spheres_10)
-            else:
-                raise TypeError
 
         if spheres_10 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_10)
@@ -514,10 +487,11 @@ class Dxt(_option.DataOption):
     @property
     def cutoff_1(self) -> types.Real:
         """
-        Gets ``cutoff_1``.
+        Upper weight cutoff in the spheres
 
-        Returns:
-            ``cutoff_1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._cutoff_1
@@ -538,14 +512,10 @@ class Dxt(_option.DataOption):
         if cutoff_1 is not None:
             if isinstance(cutoff_1, types.Real):
                 cutoff_1 = cutoff_1
-            elif isinstance(cutoff_1, int):
-                cutoff_1 = types.Real(cutoff_1)
-            elif isinstance(cutoff_1, float):
+            elif isinstance(cutoff_1, int) or isinstance(cutoff_1, float):
                 cutoff_1 = types.Real(cutoff_1)
             elif isinstance(cutoff_1, str):
                 cutoff_1 = types.Real.from_mcnp(cutoff_1)
-            else:
-                raise TypeError
 
         if cutoff_1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cutoff_1)
@@ -555,10 +525,11 @@ class Dxt(_option.DataOption):
     @property
     def cutoff_2(self) -> types.Real:
         """
-        Gets ``cutoff_2``.
+        Lower weight cutoff in the spheres
 
-        Returns:
-            ``cutoff_2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._cutoff_2
@@ -579,14 +550,10 @@ class Dxt(_option.DataOption):
         if cutoff_2 is not None:
             if isinstance(cutoff_2, types.Real):
                 cutoff_2 = cutoff_2
-            elif isinstance(cutoff_2, int):
-                cutoff_2 = types.Real(cutoff_2)
-            elif isinstance(cutoff_2, float):
+            elif isinstance(cutoff_2, int) or isinstance(cutoff_2, float):
                 cutoff_2 = types.Real(cutoff_2)
             elif isinstance(cutoff_2, str):
                 cutoff_2 = types.Real.from_mcnp(cutoff_2)
-            else:
-                raise TypeError
 
         if cutoff_2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cutoff_2)
@@ -596,10 +563,11 @@ class Dxt(_option.DataOption):
     @property
     def weight(self) -> types.Real:
         """
-        Gets ``weight``.
+        Minimum photon weight
 
-        Returns:
-            ``weight``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._weight
@@ -620,14 +588,10 @@ class Dxt(_option.DataOption):
         if weight is not None:
             if isinstance(weight, types.Real):
                 weight = weight
-            elif isinstance(weight, int):
-                weight = types.Real(weight)
-            elif isinstance(weight, float):
+            elif isinstance(weight, int) or isinstance(weight, float):
                 weight = types.Real(weight)
             elif isinstance(weight, str):
                 weight = types.Real.from_mcnp(weight)
-            else:
-                raise TypeError
 
         if weight is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, weight)

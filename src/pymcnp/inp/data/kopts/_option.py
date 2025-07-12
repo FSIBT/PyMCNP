@@ -7,11 +7,3 @@ class KoptsOption(_option.Option):
     """
 
     pass
-
-
-class KoptsOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP kopts option builders.
-    """
-
-    pass

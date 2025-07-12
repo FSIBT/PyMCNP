@@ -9,11 +9,6 @@ from ...utils import errors
 class Ssw(_option.DataOption):
     """
     Represents INP ssw elements.
-
-    Attributes:
-        surfaces: Problem surfaces.
-        cells: Problem cells.
-        options: Dictionary of options.
     """
 
     _KEYWORD = 'ssw'
@@ -46,10 +41,11 @@ class Ssw(_option.DataOption):
     @property
     def surfaces(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``surfaces``.
+        Problem surfaces
 
-        Returns:
-            ``surfaces``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._surfaces
@@ -76,8 +72,7 @@ class Ssw(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             surfaces = types.Tuple(array)
 
         if surfaces is None:
@@ -88,10 +83,11 @@ class Ssw(_option.DataOption):
     @property
     def cells(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``cells``.
+        Problem cells
 
-        Returns:
-            ``cells``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._cells
@@ -118,8 +114,7 @@ class Ssw(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             cells = types.Tuple(array)
 
         self._cells: types.Tuple[types.Integer] = cells
@@ -127,10 +122,11 @@ class Ssw(_option.DataOption):
     @property
     def options(self) -> types.Tuple[ssw.SswOption]:
         """
-        Gets ``options``.
+        Dictionary of options
 
-        Returns:
-            ``options``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._options
@@ -155,8 +151,7 @@ class Ssw(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(ssw.SswOption.from_mcnp(item))
-                else:
-                    raise TypeError
+
             options = types.Tuple(array)
 
         self._options: types.Tuple[ssw.SswOption] = options

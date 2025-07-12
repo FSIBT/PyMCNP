@@ -9,12 +9,6 @@ from ....utils import errors
 class Contour(_option.MplotOption):
     """
     Represents INP contour elements.
-
-    Attributes:
-        cmin: Contour lower limit.
-        cmax: Contour upper limit.
-        cstep: Contour interval.
-        options: Dictionary of options.
     """
 
     _KEYWORD = 'contour'
@@ -52,10 +46,11 @@ class Contour(_option.MplotOption):
     @property
     def cmin(self) -> types.Real:
         """
-        Gets ``cmin``.
+        Contour lower limit
 
-        Returns:
-            ``cmin``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._cmin
@@ -76,14 +71,10 @@ class Contour(_option.MplotOption):
         if cmin is not None:
             if isinstance(cmin, types.Real):
                 cmin = cmin
-            elif isinstance(cmin, int):
-                cmin = types.Real(cmin)
-            elif isinstance(cmin, float):
+            elif isinstance(cmin, int) or isinstance(cmin, float):
                 cmin = types.Real(cmin)
             elif isinstance(cmin, str):
                 cmin = types.Real.from_mcnp(cmin)
-            else:
-                raise TypeError
 
         if cmin is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cmin)
@@ -93,10 +84,11 @@ class Contour(_option.MplotOption):
     @property
     def cmax(self) -> types.Real:
         """
-        Gets ``cmax``.
+        Contour upper limit
 
-        Returns:
-            ``cmax``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._cmax
@@ -117,14 +109,10 @@ class Contour(_option.MplotOption):
         if cmax is not None:
             if isinstance(cmax, types.Real):
                 cmax = cmax
-            elif isinstance(cmax, int):
-                cmax = types.Real(cmax)
-            elif isinstance(cmax, float):
+            elif isinstance(cmax, int) or isinstance(cmax, float):
                 cmax = types.Real(cmax)
             elif isinstance(cmax, str):
                 cmax = types.Real.from_mcnp(cmax)
-            else:
-                raise TypeError
 
         if cmax is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cmax)
@@ -134,10 +122,11 @@ class Contour(_option.MplotOption):
     @property
     def cstep(self) -> types.Real:
         """
-        Gets ``cstep``.
+        Contour interval
 
-        Returns:
-            ``cstep``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._cstep
@@ -158,14 +147,10 @@ class Contour(_option.MplotOption):
         if cstep is not None:
             if isinstance(cstep, types.Real):
                 cstep = cstep
-            elif isinstance(cstep, int):
-                cstep = types.Real(cstep)
-            elif isinstance(cstep, float):
+            elif isinstance(cstep, int) or isinstance(cstep, float):
                 cstep = types.Real(cstep)
             elif isinstance(cstep, str):
                 cstep = types.Real.from_mcnp(cstep)
-            else:
-                raise TypeError
 
         if cstep is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cstep)
@@ -175,10 +160,11 @@ class Contour(_option.MplotOption):
     @property
     def options(self) -> types.Tuple[contour.ContourOption]:
         """
-        Gets ``options``.
+        Dictionary of options
 
-        Returns:
-            ``options``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._options
@@ -203,8 +189,7 @@ class Contour(_option.MplotOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(contour.ContourOption.from_mcnp(item))
-                else:
-                    raise TypeError
+
             options = types.Tuple(array)
 
         self._options: types.Tuple[contour.ContourOption] = options

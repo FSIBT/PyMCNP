@@ -5,7 +5,7 @@ from .... import classes
 
 class Test_Tmp:
     class Test_Init(classes.Test_Init):
-        element = pymcnp.inp.cell.Tmp
+        element = pymcnp.inp.like.Tmp
         EXAMPLES_VALID = [
             {'suffix': consts.string.type.INTEGER, 'temperature': [consts.string.type.REAL]},
             {'suffix': 1, 'temperature': [3.1]},
@@ -15,6 +15,6 @@ class Test_Tmp:
         EXAMPLES_INVALID = [{'suffix': consts.string.type.INTEGER, 'temperature': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.cell.Tmp
-        EXAMPLES_VALID = [consts.string.inp.cell.TMP]
+        element = pymcnp.inp.like.Tmp
+        EXAMPLES_VALID = [consts.string.inp.like.TMP]
         EXAMPLES_INVALID = ['hello']

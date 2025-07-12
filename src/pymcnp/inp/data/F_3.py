@@ -8,13 +8,6 @@ from ...utils import errors
 class F_3(_option.DataOption):
     """
     Represents INP f variation #3 elements.
-
-    Attributes:
-        prefix: Star prefix.
-        suffix: Data card option suffix.
-        designator: Data card particle designator.
-        problems: Problem numbers of cell.
-        t: Average tallies option.
     """
 
     _KEYWORD = 'f'
@@ -60,10 +53,11 @@ class F_3(_option.DataOption):
     @property
     def prefix(self) -> types.String:
         """
-        Gets ``prefix``.
+        Star prefix
 
-        Returns:
-            ``prefix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._prefix
@@ -86,8 +80,6 @@ class F_3(_option.DataOption):
                 prefix = prefix
             elif isinstance(prefix, str):
                 prefix = types.String.from_mcnp(prefix)
-            else:
-                raise TypeError
 
         if prefix is not None and prefix not in {'*', '+'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
@@ -97,10 +89,11 @@ class F_3(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -125,8 +118,6 @@ class F_3(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None or not (suffix <= 99_999_999 and suffix % 10 == 8):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -136,10 +127,11 @@ class F_3(_option.DataOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Data card particle designator
 
-        Returns:
-            ``designator``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._designator
@@ -162,18 +154,17 @@ class F_3(_option.DataOption):
                 designator = designator
             elif isinstance(designator, str):
                 designator = types.Designator.from_mcnp(designator)
-            else:
-                raise TypeError
 
         self._designator: types.Designator = designator
 
     @property
     def problems(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``problems``.
+        Problem numbers of cell
 
-        Returns:
-            ``problems``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._problems
@@ -200,8 +191,7 @@ class F_3(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             problems = types.Tuple(array)
 
         if problems is None:
@@ -212,10 +202,11 @@ class F_3(_option.DataOption):
     @property
     def t(self) -> types.String:
         """
-        Gets ``t``.
+        Average tallies option
 
-        Returns:
-            ``t``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._t
@@ -238,7 +229,5 @@ class F_3(_option.DataOption):
                 t = t
             elif isinstance(t, str):
                 t = types.String.from_mcnp(t)
-            else:
-                raise TypeError
 
         self._t: types.String = t

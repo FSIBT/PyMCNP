@@ -8,10 +8,6 @@ from ...utils import errors
 class Trcl_0(_option.CellOption):
     """
     Represents INP trcl variation #0 elements.
-
-    Attributes:
-        prefix: Star prefix.
-        transformation: Cell transformation number.
     """
 
     _KEYWORD = 'trcl'
@@ -41,10 +37,11 @@ class Trcl_0(_option.CellOption):
     @property
     def prefix(self) -> types.String:
         """
-        Gets ``prefix``.
+        Star prefix
 
-        Returns:
-            ``prefix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._prefix
@@ -67,8 +64,6 @@ class Trcl_0(_option.CellOption):
                 prefix = prefix
             elif isinstance(prefix, str):
                 prefix = types.String.from_mcnp(prefix)
-            else:
-                raise TypeError
 
         if prefix is not None and prefix not in {'*'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
@@ -78,10 +73,11 @@ class Trcl_0(_option.CellOption):
     @property
     def transformation(self) -> types.Integer:
         """
-        Gets ``transformation``.
+        Cell transformation number
 
-        Returns:
-            ``transformation``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._transformation
@@ -106,8 +102,6 @@ class Trcl_0(_option.CellOption):
                 transformation = types.Integer(transformation)
             elif isinstance(transformation, str):
                 transformation = types.Integer.from_mcnp(transformation)
-            else:
-                raise TypeError
 
         if transformation is None or not (transformation >= 0 and transformation <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, transformation)

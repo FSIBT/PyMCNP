@@ -8,9 +8,6 @@ from ....utils import errors
 class Fmatnz(_option.KoptsOption):
     """
     Represents INP fmatnz elements.
-
-    Attributes:
-        fmat_nz: fmat_nz.
     """
 
     _KEYWORD = 'fmatnz'
@@ -37,10 +34,11 @@ class Fmatnz(_option.KoptsOption):
     @property
     def fmat_nz(self) -> types.Real:
         """
-        Gets ``fmat_nz``.
+        Fmat_nz
 
-        Returns:
-            ``fmat_nz``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._fmat_nz
@@ -61,14 +59,10 @@ class Fmatnz(_option.KoptsOption):
         if fmat_nz is not None:
             if isinstance(fmat_nz, types.Real):
                 fmat_nz = fmat_nz
-            elif isinstance(fmat_nz, int):
-                fmat_nz = types.Real(fmat_nz)
-            elif isinstance(fmat_nz, float):
+            elif isinstance(fmat_nz, int) or isinstance(fmat_nz, float):
                 fmat_nz = types.Real(fmat_nz)
             elif isinstance(fmat_nz, str):
                 fmat_nz = types.Real.from_mcnp(fmat_nz)
-            else:
-                raise TypeError
 
         if fmat_nz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fmat_nz)

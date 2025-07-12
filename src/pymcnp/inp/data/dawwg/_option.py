@@ -7,11 +7,3 @@ class DawwgOption(_option.Option):
     """
 
     pass
-
-
-class DawwgOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP dawwg option builders.
-    """
-
-    pass

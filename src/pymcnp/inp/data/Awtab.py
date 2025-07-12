@@ -8,9 +8,6 @@ from ...utils import errors
 class Awtab(_option.DataOption):
     """
     Represents INP awtab elements.
-
-    Attributes:
-        weight_ratios: Tuple of atomic weight ratios.
     """
 
     _KEYWORD = 'awtab'
@@ -37,10 +34,11 @@ class Awtab(_option.DataOption):
     @property
     def weight_ratios(self) -> types.Tuple[types.Substance]:
         """
-        Gets ``weight_ratios``.
+        Tuple of atomic weight ratios
 
-        Returns:
-            ``weight_ratios``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._weight_ratios
@@ -65,8 +63,7 @@ class Awtab(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Substance.from_mcnp(item))
-                else:
-                    raise TypeError
+
             weight_ratios = types.Tuple(array)
 
         if weight_ratios is None:

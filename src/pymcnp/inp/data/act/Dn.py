@@ -8,9 +8,6 @@ from ....utils import errors
 class Dn(_option.ActOption):
     """
     Represents INP dn elements.
-
-    Attributes:
-        source: Delayed neutron data source.
     """
 
     _KEYWORD = 'dn'
@@ -37,10 +34,11 @@ class Dn(_option.ActOption):
     @property
     def source(self) -> types.String:
         """
-        Gets ``source``.
+        Delayed neutron data source
 
-        Returns:
-            ``source``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._source
@@ -63,8 +61,6 @@ class Dn(_option.ActOption):
                 source = source
             elif isinstance(source, str):
                 source = types.String.from_mcnp(source)
-            else:
-                raise TypeError
 
         if source is None or source not in {'model', 'library', 'both', 'prompt'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, source)

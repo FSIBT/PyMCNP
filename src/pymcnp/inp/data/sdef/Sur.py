@@ -8,9 +8,6 @@ from ....utils import errors
 class Sur(_option.SdefOption):
     """
     Represents INP sur elements.
-
-    Attributes:
-        number: Surface number.
     """
 
     _KEYWORD = 'sur'
@@ -37,10 +34,11 @@ class Sur(_option.SdefOption):
     @property
     def number(self) -> types.Integer:
         """
-        Gets ``number``.
+        Surface number
 
-        Returns:
-            ``number``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._number
@@ -65,8 +63,6 @@ class Sur(_option.SdefOption):
                 number = types.Integer(number)
             elif isinstance(number, str):
                 number = types.Integer.from_mcnp(number)
-            else:
-                raise TypeError
 
         if number is None or not (isinstance(number.value, types.Jump) or (number >= 0 and number <= 99_999_999)):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)

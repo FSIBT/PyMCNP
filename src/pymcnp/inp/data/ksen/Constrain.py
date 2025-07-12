@@ -8,9 +8,6 @@ from ....utils import errors
 class Constrain(_option.KsenOption):
     """
     Represents INP constrain elements.
-
-    Attributes:
-        setting: Renormalize sensitivity distribution on/off.
     """
 
     _KEYWORD = 'constrain'
@@ -37,10 +34,11 @@ class Constrain(_option.KsenOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Renormalize sensitivity distribution on/off
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Constrain(_option.KsenOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {'yes', 'no'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

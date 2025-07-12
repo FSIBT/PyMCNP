@@ -8,10 +8,6 @@ from ...utils import errors
 class Mt(_option.DataOption):
     """
     Represents INP mt elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        identifiers: Corresponding S(α,β) identifier.
     """
 
     _KEYWORD = 'mt'
@@ -41,10 +37,11 @@ class Mt(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -69,8 +66,6 @@ class Mt(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -80,10 +75,11 @@ class Mt(_option.DataOption):
     @property
     def identifiers(self) -> types.Tuple[types.String]:
         """
-        Gets ``identifiers``.
+        Corresponding S(α,β) identifier
 
-        Returns:
-            ``identifiers``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._identifiers
@@ -108,8 +104,7 @@ class Mt(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.String.from_mcnp(item))
-                else:
-                    raise TypeError
+
             identifiers = types.Tuple(array)
 
         if identifiers is None:

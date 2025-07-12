@@ -8,9 +8,6 @@ from ....utils import errors
 class Zlev(_option.MplotOption):
     """
     Represents INP zlev elements.
-
-    Attributes:
-        n: Scales of tally plots.
     """
 
     _KEYWORD = 'zlev'
@@ -37,10 +34,11 @@ class Zlev(_option.MplotOption):
     @property
     def n(self) -> types.Tuple[types.String]:
         """
-        Gets ``n``.
+        Scales of tally plots
 
-        Returns:
-            ``n``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._n
@@ -65,8 +63,7 @@ class Zlev(_option.MplotOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.String.from_mcnp(item))
-                else:
-                    raise TypeError
+
             n = types.Tuple(array)
 
         if n is None:

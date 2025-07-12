@@ -16,6 +16,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.dawwg.Block
    :members:
+   :inherited-members:
 ```
 
 [block subpackage](dawwg/block)
@@ -25,6 +26,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.dawwg.Points
    :members:
+   :inherited-members:
 ```
 
 ### ``Xsec`` Class
@@ -32,29 +34,5 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.dawwg.Xsec
    :members:
-```
-
-## Builder Classes
-
-### ``BlockBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.dawwg.BlockBuilder
-   :members:
-```
-
-[block subpackage](dawwg/block)
-
-### ``PointsBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.dawwg.PointsBuilder
-   :members:
-```
-
-### ``XsecBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.dawwg.XsecBuilder
-   :members:
+   :inherited-members:
 ```

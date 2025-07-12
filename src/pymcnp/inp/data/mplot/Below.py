@@ -6,9 +6,6 @@ from . import _option
 class Below(_option.MplotOption):
     """
     Represents INP below elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'below'

@@ -1,6 +1,4 @@
 import re
-import typing
-
 
 from ._card import Card
 from ..utils import types
@@ -10,9 +8,6 @@ from ..utils import _parser
 class Comment(Card):
     """
     Represents INP comment elements.
-
-    Attributes:
-        text: comment text.
     """
 
     _ATTRS = {'text': types.String}
@@ -24,13 +19,13 @@ class Comment(Card):
         Initializes ``Comment``.
 
         Parameters:
-            text: comment text.
+            text: Comment text.
 
         Raises:
             InpError: SEMANTICS_CARD.
         """
 
-        self.text: typing.Final[types.String] = text
+        self.text: types.String = text
 
     def to_mcnp(self):
         """
@@ -46,45 +41,35 @@ class Comment(Card):
 
         return source
 
-
-'''
-@dataclasses.dataclass
-class CommentBuilder:
-    """
-    Builds ``Comment``.
-
-    Attributes:
-        text: comment text.
-    """
-
-    text: str | types.String
-
-    def build(self):
+    @property
+    def text(self) -> types.String:
         """
-        Builds ``CommentBuilder`` into ``Comment``.
+        Comment text.
 
-        Returns:
-            ``Comment`` for ``CommentBuilder``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
-        text = self.text
-        if isinstance(self.text, types.String):
-            text = self.text
-        elif isinstance(self.text, str):
-            text = types.String(self.text)
+        return self._text
 
-        return Comment(text=text)
-
-    @staticmethod
-    def unbuild(ast: Comment):
+    @text.setter
+    def text(self, text: str | types.String) -> None:
         """
-        Unbuilds ``Comment`` into ``CommentBuilder``
+        Sets ``text``.
 
-        Returns:
-            ``CommentBuilder`` for ``Comment``.
+        Parameters:
+            text: Comment text.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
-        return CommentBuilder(
-            text=copy.deepcopy(ast.text),
-        )
-'''
+        if text is not None:
+            if isinstance(text, types.String):
+                text = text
+            elif isinstance(text, str):
+                text = types.String.from_mcnp(text)
+
+        self._text: types.String = text

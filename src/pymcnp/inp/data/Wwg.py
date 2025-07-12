@@ -8,12 +8,6 @@ from ...utils import errors
 class Wwg(_option.DataOption):
     """
     Represents INP wwg elements.
-
-    Attributes:
-        tally: Problem tally number.
-        cell: Cell-based or mesh-based weight window generator.
-        lower: Value of the generated lower weight-window bound for cell.
-        setting: Energy- or time-dependent weight window toggle.
     """
 
     _KEYWORD = 'wwg'
@@ -49,10 +43,11 @@ class Wwg(_option.DataOption):
     @property
     def tally(self) -> types.Integer:
         """
-        Gets ``tally``.
+        Problem tally number
 
-        Returns:
-            ``tally``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._tally
@@ -77,8 +72,6 @@ class Wwg(_option.DataOption):
                 tally = types.Integer(tally)
             elif isinstance(tally, str):
                 tally = types.Integer.from_mcnp(tally)
-            else:
-                raise TypeError
 
         if tally is None or not (tally <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tally)
@@ -88,10 +81,11 @@ class Wwg(_option.DataOption):
     @property
     def cell(self) -> types.Integer:
         """
-        Gets ``cell``.
+        Cell-based or mesh-based weight window generator
 
-        Returns:
-            ``cell``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._cell
@@ -116,8 +110,6 @@ class Wwg(_option.DataOption):
                 cell = types.Integer(cell)
             elif isinstance(cell, str):
                 cell = types.Integer.from_mcnp(cell)
-            else:
-                raise TypeError
 
         if cell is None or not (cell <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cell)
@@ -127,10 +119,11 @@ class Wwg(_option.DataOption):
     @property
     def lower(self) -> types.Real:
         """
-        Gets ``lower``.
+        Value of the generated lower weight-window bound for cell
 
-        Returns:
-            ``lower``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._lower
@@ -151,14 +144,10 @@ class Wwg(_option.DataOption):
         if lower is not None:
             if isinstance(lower, types.Real):
                 lower = lower
-            elif isinstance(lower, int):
-                lower = types.Real(lower)
-            elif isinstance(lower, float):
+            elif isinstance(lower, int) or isinstance(lower, float):
                 lower = types.Real(lower)
             elif isinstance(lower, str):
                 lower = types.Real.from_mcnp(lower)
-            else:
-                raise TypeError
 
         if lower is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lower)
@@ -168,10 +157,11 @@ class Wwg(_option.DataOption):
     @property
     def setting(self) -> types.Integer:
         """
-        Gets ``setting``.
+        Energy- or time-dependent weight window toggle
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -196,7 +186,5 @@ class Wwg(_option.DataOption):
                 setting = types.Integer(setting)
             elif isinstance(setting, str):
                 setting = types.Integer.from_mcnp(setting)
-            else:
-                raise TypeError
 
         self._setting: types.Integer = setting

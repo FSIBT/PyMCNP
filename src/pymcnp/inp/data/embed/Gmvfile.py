@@ -8,9 +8,6 @@ from ....utils import errors
 class Gmvfile(_option.EmbedOption):
     """
     Represents INP gmvfile elements.
-
-    Attributes:
-        filename: Name of the GMV output file.
     """
 
     _KEYWORD = 'gmvfile'
@@ -37,10 +34,11 @@ class Gmvfile(_option.EmbedOption):
     @property
     def filename(self) -> types.String:
         """
-        Gets ``filename``.
+        Name of the GMV output file
 
-        Returns:
-            ``filename``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._filename
@@ -63,8 +61,6 @@ class Gmvfile(_option.EmbedOption):
                 filename = filename
             elif isinstance(filename, str):
                 filename = types.String.from_mcnp(filename)
-            else:
-                raise TypeError
 
         if filename is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, filename)

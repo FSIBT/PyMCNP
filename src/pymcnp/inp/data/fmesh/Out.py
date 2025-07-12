@@ -8,9 +8,6 @@ from ....utils import errors
 class Out(_option.FmeshOption):
     """
     Represents INP out elements.
-
-    Attributes:
-        setting: Output format.
     """
 
     _KEYWORD = 'out'
@@ -37,10 +34,11 @@ class Out(_option.FmeshOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Output format
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Out(_option.FmeshOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {'col', 'cf', 'ij', 'ik', 'jk', 'none'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

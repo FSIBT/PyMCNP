@@ -8,9 +8,6 @@ from ...utils import errors
 class Area(_option.DataOption):
     """
     Represents INP area elements.
-
-    Attributes:
-        areas: Tuple of surface areas.
     """
 
     _KEYWORD = 'area'
@@ -37,10 +34,11 @@ class Area(_option.DataOption):
     @property
     def areas(self) -> types.Tuple[types.Real]:
         """
-        Gets ``areas``.
+        Tuple of surface areas
 
-        Returns:
-            ``areas``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._areas
@@ -63,14 +61,11 @@ class Area(_option.DataOption):
             for item in areas:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             areas = types.Tuple(array)
 
         if areas is None:

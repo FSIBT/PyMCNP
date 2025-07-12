@@ -9,7 +9,7 @@ visualizes simulation geometries, and runs MCNP simulations in parallel.
 ```{eval-rst}
 .. toctree::
    :maxdepth: 1
-
+   
    cli
    pymcnp
    installation

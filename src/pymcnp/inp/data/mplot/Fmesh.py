@@ -8,9 +8,6 @@ from ....utils import errors
 class Fmesh(_option.MplotOption):
     """
     Represents INP fmesh elements.
-
-    Attributes:
-        n: Tally to plot.
     """
 
     _KEYWORD = 'fmesh'
@@ -37,10 +34,11 @@ class Fmesh(_option.MplotOption):
     @property
     def n(self) -> types.Integer:
         """
-        Gets ``n``.
+        Tally to plot
 
-        Returns:
-            ``n``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._n
@@ -65,8 +63,6 @@ class Fmesh(_option.MplotOption):
                 n = types.Integer(n)
             elif isinstance(n, str):
                 n = types.Integer.from_mcnp(n)
-            else:
-                raise TypeError
 
         if n is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n)

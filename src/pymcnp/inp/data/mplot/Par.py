@@ -8,9 +8,6 @@ from ....utils import errors
 class Par(_option.MplotOption):
     """
     Represents INP par elements.
-
-    Attributes:
-        particle: Particle type to plot.
     """
 
     _KEYWORD = 'par'
@@ -37,10 +34,11 @@ class Par(_option.MplotOption):
     @property
     def particle(self) -> types.Designator:
         """
-        Gets ``particle``.
+        Particle type to plot
 
-        Returns:
-            ``particle``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._particle
@@ -63,8 +61,6 @@ class Par(_option.MplotOption):
                 particle = particle
             elif isinstance(particle, str):
                 particle = types.Designator.from_mcnp(particle)
-            else:
-                raise TypeError
 
         if particle is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, particle)

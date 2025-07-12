@@ -8,12 +8,6 @@ from ...utils import errors
 class Cosyp(_option.DataOption):
     """
     Represents INP cosyp elements.
-
-    Attributes:
-        pre: Prefix number of the COSY map files.
-        axsh: Horiztonal axis orientation.
-        axsv: Vertical axis orientation.
-        emaps: Tuple of operating beam energies.
     """
 
     _KEYWORD = 'cosyp'
@@ -49,10 +43,11 @@ class Cosyp(_option.DataOption):
     @property
     def pre(self) -> types.Integer:
         """
-        Gets ``pre``.
+        Prefix number of the COSY map files
 
-        Returns:
-            ``pre``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._pre
@@ -77,8 +72,6 @@ class Cosyp(_option.DataOption):
                 pre = types.Integer(pre)
             elif isinstance(pre, str):
                 pre = types.Integer.from_mcnp(pre)
-            else:
-                raise TypeError
 
         if pre is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, pre)
@@ -88,10 +81,11 @@ class Cosyp(_option.DataOption):
     @property
     def axsh(self) -> types.Integer:
         """
-        Gets ``axsh``.
+        Horiztonal axis orientation
 
-        Returns:
-            ``axsh``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._axsh
@@ -116,8 +110,6 @@ class Cosyp(_option.DataOption):
                 axsh = types.Integer(axsh)
             elif isinstance(axsh, str):
                 axsh = types.Integer.from_mcnp(axsh)
-            else:
-                raise TypeError
 
         if axsh is None or axsh not in {1, 2, 3}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, axsh)
@@ -127,10 +119,11 @@ class Cosyp(_option.DataOption):
     @property
     def axsv(self) -> types.Integer:
         """
-        Gets ``axsv``.
+        Vertical axis orientation
 
-        Returns:
-            ``axsv``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._axsv
@@ -155,8 +148,6 @@ class Cosyp(_option.DataOption):
                 axsv = types.Integer(axsv)
             elif isinstance(axsv, str):
                 axsv = types.Integer.from_mcnp(axsv)
-            else:
-                raise TypeError
 
         if axsv is None or axsv not in {1, 2, 3}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, axsv)
@@ -166,10 +157,11 @@ class Cosyp(_option.DataOption):
     @property
     def emaps(self) -> types.Tuple[types.Real]:
         """
-        Gets ``emaps``.
+        Tuple of operating beam energies
 
-        Returns:
-            ``emaps``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._emaps
@@ -192,14 +184,11 @@ class Cosyp(_option.DataOption):
             for item in emaps:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             emaps = types.Tuple(array)
 
         if emaps is None:

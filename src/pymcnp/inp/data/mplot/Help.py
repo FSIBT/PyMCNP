@@ -6,9 +6,6 @@ from . import _option
 class Help(_option.MplotOption):
     """
     Represents INP help elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'help'

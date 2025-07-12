@@ -8,9 +8,6 @@ from .....utils import errors
 class Tsaepsi(_option.BlockOption):
     """
     Represents INP tsaepsi elements.
-
-    Attributes:
-        setting: Convergence criteria for TSA sweeps.
     """
 
     _KEYWORD = 'tsaepsi'
@@ -37,10 +34,11 @@ class Tsaepsi(_option.BlockOption):
     @property
     def setting(self) -> types.Real:
         """
-        Gets ``setting``.
+        Convergence criteria for TSA sweeps
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -61,14 +59,10 @@ class Tsaepsi(_option.BlockOption):
         if setting is not None:
             if isinstance(setting, types.Real):
                 setting = setting
-            elif isinstance(setting, int):
-                setting = types.Real(setting)
-            elif isinstance(setting, float):
+            elif isinstance(setting, int) or isinstance(setting, float):
                 setting = types.Real(setting)
             elif isinstance(setting, str):
                 setting = types.Real.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

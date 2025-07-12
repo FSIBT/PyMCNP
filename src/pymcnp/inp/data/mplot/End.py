@@ -6,9 +6,6 @@ from . import _option
 class End(_option.MplotOption):
     """
     Represents INP end elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'end'

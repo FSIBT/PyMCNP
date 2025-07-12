@@ -8,9 +8,6 @@ from ...utils import errors
 class Idum(_option.DataOption):
     """
     Represents INP idum elements.
-
-    Attributes:
-        intergers: Integer array.
     """
 
     _KEYWORD = 'idum'
@@ -37,10 +34,11 @@ class Idum(_option.DataOption):
     @property
     def intergers(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``intergers``.
+        Integer array
 
-        Returns:
-            ``intergers``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._intergers
@@ -67,8 +65,7 @@ class Idum(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             intergers = types.Tuple(array)
 
         if intergers is None:

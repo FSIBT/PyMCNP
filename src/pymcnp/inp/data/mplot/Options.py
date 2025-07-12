@@ -6,9 +6,6 @@ from . import _option
 class Options(_option.MplotOption):
     """
     Represents INP options elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'options'

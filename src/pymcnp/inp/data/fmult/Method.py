@@ -8,9 +8,6 @@ from ....utils import errors
 class Method(_option.FmultOption):
     """
     Represents INP method elements.
-
-    Attributes:
-        setting: Gaussian sampling algorithm setting.
     """
 
     _KEYWORD = 'method'
@@ -37,10 +34,11 @@ class Method(_option.FmultOption):
     @property
     def setting(self) -> types.Integer:
         """
-        Gets ``setting``.
+        Gaussian sampling algorithm setting
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -65,8 +63,6 @@ class Method(_option.FmultOption):
                 setting = types.Integer(setting)
             elif isinstance(setting, str):
                 setting = types.Integer.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {0, 1, 3, 5, 6, 7}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

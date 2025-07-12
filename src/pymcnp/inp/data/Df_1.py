@@ -9,10 +9,6 @@ from ...utils import errors
 class Df_1(_option.DataOption):
     """
     Represents INP df variation #1 elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        options: Dictionary of options.
     """
 
     _KEYWORD = 'df'
@@ -42,10 +38,11 @@ class Df_1(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -70,8 +67,6 @@ class Df_1(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None or not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -81,10 +76,11 @@ class Df_1(_option.DataOption):
     @property
     def options(self) -> types.Tuple[df_1.DfOption_1]:
         """
-        Gets ``options``.
+        Dictionary of options
 
-        Returns:
-            ``options``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._options
@@ -109,8 +105,7 @@ class Df_1(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(df_1.DfOption_1.from_mcnp(item))
-                else:
-                    raise TypeError
+
             options = types.Tuple(array)
 
         if options is None:

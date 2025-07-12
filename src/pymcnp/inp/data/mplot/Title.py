@@ -8,10 +8,6 @@ from ....utils import errors
 class Title(_option.MplotOption):
     """
     Represents INP title elements.
-
-    Attributes:
-        n: Line number.
-        aa: Line to substitute.
     """
 
     _KEYWORD = 'title'
@@ -41,10 +37,11 @@ class Title(_option.MplotOption):
     @property
     def n(self) -> types.Integer:
         """
-        Gets ``n``.
+        Line number
 
-        Returns:
-            ``n``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._n
@@ -69,8 +66,6 @@ class Title(_option.MplotOption):
                 n = types.Integer(n)
             elif isinstance(n, str):
                 n = types.Integer.from_mcnp(n)
-            else:
-                raise TypeError
 
         if n is None or not (n > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n)
@@ -80,10 +75,11 @@ class Title(_option.MplotOption):
     @property
     def aa(self) -> types.String:
         """
-        Gets ``aa``.
+        Line to substitute
 
-        Returns:
-            ``aa``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._aa
@@ -106,8 +102,6 @@ class Title(_option.MplotOption):
                 aa = aa
             elif isinstance(aa, str):
                 aa = types.String.from_mcnp(aa)
-            else:
-                raise TypeError
 
         if aa is None or not (len(aa) <= 40):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, aa)

@@ -144,3 +144,9 @@ class Test_Surface:
 
             for a, b in self.EXAMPLES:
                 ~a
+
+    class Test_Draw(classes.Test_Draw):
+        element = pymcnp.inp.Surface
+        EXAMPLES = [
+            consts.string.inp.SURFACE,
+        ]

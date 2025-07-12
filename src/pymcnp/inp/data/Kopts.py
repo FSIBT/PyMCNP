@@ -8,9 +8,6 @@ from ...utils import types
 class Kopts(_option.DataOption):
     """
     Represents INP kopts elements.
-
-    Attributes:
-        options: Dictionary of options.
     """
 
     _KEYWORD = 'kopts'
@@ -37,10 +34,11 @@ class Kopts(_option.DataOption):
     @property
     def options(self) -> types.Tuple[kopts.KoptsOption]:
         """
-        Gets ``options``.
+        Dictionary of options
 
-        Returns:
-            ``options``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._options
@@ -65,8 +63,7 @@ class Kopts(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(kopts.KoptsOption.from_mcnp(item))
-                else:
-                    raise TypeError
+
             options = types.Tuple(array)
 
         self._options: types.Tuple[kopts.KoptsOption] = options

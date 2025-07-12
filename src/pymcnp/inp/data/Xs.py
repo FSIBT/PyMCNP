@@ -8,10 +8,6 @@ from ...utils import errors
 class Xs(_option.DataOption):
     """
     Represents INP xs elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        weight_ratios: Tuple of atomic weight ratios.
     """
 
     _KEYWORD = 'xs'
@@ -41,10 +37,11 @@ class Xs(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -69,8 +66,6 @@ class Xs(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -80,10 +75,11 @@ class Xs(_option.DataOption):
     @property
     def weight_ratios(self) -> types.Tuple[types.Substance]:
         """
-        Gets ``weight_ratios``.
+        Tuple of atomic weight ratios
 
-        Returns:
-            ``weight_ratios``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._weight_ratios
@@ -108,8 +104,7 @@ class Xs(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Substance.from_mcnp(item))
-                else:
-                    raise TypeError
+
             weight_ratios = types.Tuple(array)
 
         if weight_ratios is None:

@@ -8,11 +8,6 @@ from ....utils import errors
 class Ylims(_option.MplotOption):
     """
     Represents INP ylims elements.
-
-    Attributes:
-        lower: y-axis lower limit.
-        upper: y-axis upper limit.
-        nsteps: y-axis interval.
     """
 
     _KEYWORD = 'ylims'
@@ -45,10 +40,11 @@ class Ylims(_option.MplotOption):
     @property
     def lower(self) -> types.Real:
         """
-        Gets ``lower``.
+        Y-axis lower limit
 
-        Returns:
-            ``lower``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._lower
@@ -69,14 +65,10 @@ class Ylims(_option.MplotOption):
         if lower is not None:
             if isinstance(lower, types.Real):
                 lower = lower
-            elif isinstance(lower, int):
-                lower = types.Real(lower)
-            elif isinstance(lower, float):
+            elif isinstance(lower, int) or isinstance(lower, float):
                 lower = types.Real(lower)
             elif isinstance(lower, str):
                 lower = types.Real.from_mcnp(lower)
-            else:
-                raise TypeError
 
         if lower is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lower)
@@ -86,10 +78,11 @@ class Ylims(_option.MplotOption):
     @property
     def upper(self) -> types.Real:
         """
-        Gets ``upper``.
+        Y-axis upper limit
 
-        Returns:
-            ``upper``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._upper
@@ -110,14 +103,10 @@ class Ylims(_option.MplotOption):
         if upper is not None:
             if isinstance(upper, types.Real):
                 upper = upper
-            elif isinstance(upper, int):
-                upper = types.Real(upper)
-            elif isinstance(upper, float):
+            elif isinstance(upper, int) or isinstance(upper, float):
                 upper = types.Real(upper)
             elif isinstance(upper, str):
                 upper = types.Real.from_mcnp(upper)
-            else:
-                raise TypeError
 
         if upper is None or not (self.lower < upper):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, upper)
@@ -127,10 +116,11 @@ class Ylims(_option.MplotOption):
     @property
     def nsteps(self) -> types.Real:
         """
-        Gets ``nsteps``.
+        Y-axis interval
 
-        Returns:
-            ``nsteps``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._nsteps
@@ -151,14 +141,10 @@ class Ylims(_option.MplotOption):
         if nsteps is not None:
             if isinstance(nsteps, types.Real):
                 nsteps = nsteps
-            elif isinstance(nsteps, int):
-                nsteps = types.Real(nsteps)
-            elif isinstance(nsteps, float):
+            elif isinstance(nsteps, int) or isinstance(nsteps, float):
                 nsteps = types.Real(nsteps)
             elif isinstance(nsteps, str):
                 nsteps = types.Real.from_mcnp(nsteps)
-            else:
-                raise TypeError
 
         if nsteps is not None and not (nsteps >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nsteps)

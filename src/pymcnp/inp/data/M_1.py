@@ -8,10 +8,6 @@ from ...utils import errors
 class M_1(_option.DataOption):
     """
     Represents INP m variation #1 elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        abx: Material library.
     """
 
     _KEYWORD = 'm'
@@ -41,10 +37,11 @@ class M_1(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -69,8 +66,6 @@ class M_1(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -80,10 +75,11 @@ class M_1(_option.DataOption):
     @property
     def abx(self) -> types.String:
         """
-        Gets ``abx``.
+        Material library
 
-        Returns:
-            ``abx``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._abx
@@ -106,8 +102,6 @@ class M_1(_option.DataOption):
                 abx = abx
             elif isinstance(abx, str):
                 abx = types.String.from_mcnp(abx)
-            else:
-                raise TypeError
 
         if abx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, abx)

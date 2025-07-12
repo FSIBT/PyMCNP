@@ -8,9 +8,6 @@ from ....utils import errors
 class Mcscat(_option.TroptOption):
     """
     Represents INP mcscat elements.
-
-    Attributes:
-        setting: Multiple coulomb scattering setting.
     """
 
     _KEYWORD = 'mcscat'
@@ -37,10 +34,11 @@ class Mcscat(_option.TroptOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Multiple coulomb scattering setting
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Mcscat(_option.TroptOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {'off', 'fnal1', 'gaussian', 'fnal2'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

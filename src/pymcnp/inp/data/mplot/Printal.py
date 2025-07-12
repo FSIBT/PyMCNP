@@ -6,9 +6,6 @@ from . import _option
 class Printal(_option.MplotOption):
     """
     Represents INP printal elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'printal'

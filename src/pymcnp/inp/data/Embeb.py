@@ -8,10 +8,6 @@ from ...utils import errors
 class Embeb(_option.DataOption):
     """
     Represents INP embeb elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        bounds: Tuple of upper energy bounds.
     """
 
     _KEYWORD = 'embeb'
@@ -41,10 +37,11 @@ class Embeb(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -69,8 +66,6 @@ class Embeb(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -80,10 +75,11 @@ class Embeb(_option.DataOption):
     @property
     def bounds(self) -> types.Tuple[types.Real]:
         """
-        Gets ``bounds``.
+        Tuple of upper energy bounds
 
-        Returns:
-            ``bounds``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bounds
@@ -106,14 +102,11 @@ class Embeb(_option.DataOption):
             for item in bounds:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             bounds = types.Tuple(array)
 
         if bounds is None:

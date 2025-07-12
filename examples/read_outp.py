@@ -1,10 +1,18 @@
 """
-Examples for reading OUTP files using ``from_mcnp``.
+Examples for reading OUTP files using ``from_file``.
 """
+
+import pathlib
 
 import pymcnp
 
-# Reading OUTP.
+# Reading OUTP using ``from_file`.
+path = pathlib.Path(__file__).parent / 'files' / 'outp' / 'F1F8.o'
+inp = pymcnp.Outp.from_file(path)
+
+print(inp)
+
+# Reading OUTP using ``from_mcnp``.
 outp = pymcnp.Outp.from_mcnp("""          Code Name & Version = MCNP_6.20, 6.2.0
   
      _/      _/        _/_/_/       _/      _/       _/_/_/         _/_/_/ 

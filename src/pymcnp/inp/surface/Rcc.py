@@ -9,15 +9,6 @@ from ...utils import _visualization
 class Rcc(_option.SurfaceOption):
     """
     Represents INP rcc elements.
-
-    Attributes:
-        vx: Circular cylinder macrobody position vector x component.
-        vy: Circular cylinder macrobody position vector y component.
-        vz: Circular cylinder macrobody position vector z component.
-        hx: Circular cylinder macrobody height vector x component.
-        hy: Circular cylinder macrobody height vector y component.
-        hz: Circular cylinder macrobody height vector z component.
-        r: Circular cylinder macrobody radius.
     """
 
     _KEYWORD = 'rcc'
@@ -73,10 +64,11 @@ class Rcc(_option.SurfaceOption):
     @property
     def vx(self) -> types.Real:
         """
-        Gets ``vx``.
+        Circular cylinder macrobody position vector x component
 
-        Returns:
-            ``vx``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._vx
@@ -97,14 +89,10 @@ class Rcc(_option.SurfaceOption):
         if vx is not None:
             if isinstance(vx, types.Real):
                 vx = vx
-            elif isinstance(vx, int):
-                vx = types.Real(vx)
-            elif isinstance(vx, float):
+            elif isinstance(vx, int) or isinstance(vx, float):
                 vx = types.Real(vx)
             elif isinstance(vx, str):
                 vx = types.Real.from_mcnp(vx)
-            else:
-                raise TypeError
 
         if vx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vx)
@@ -114,10 +102,11 @@ class Rcc(_option.SurfaceOption):
     @property
     def vy(self) -> types.Real:
         """
-        Gets ``vy``.
+        Circular cylinder macrobody position vector y component
 
-        Returns:
-            ``vy``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._vy
@@ -138,14 +127,10 @@ class Rcc(_option.SurfaceOption):
         if vy is not None:
             if isinstance(vy, types.Real):
                 vy = vy
-            elif isinstance(vy, int):
-                vy = types.Real(vy)
-            elif isinstance(vy, float):
+            elif isinstance(vy, int) or isinstance(vy, float):
                 vy = types.Real(vy)
             elif isinstance(vy, str):
                 vy = types.Real.from_mcnp(vy)
-            else:
-                raise TypeError
 
         if vy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vy)
@@ -155,10 +140,11 @@ class Rcc(_option.SurfaceOption):
     @property
     def vz(self) -> types.Real:
         """
-        Gets ``vz``.
+        Circular cylinder macrobody position vector z component
 
-        Returns:
-            ``vz``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._vz
@@ -179,14 +165,10 @@ class Rcc(_option.SurfaceOption):
         if vz is not None:
             if isinstance(vz, types.Real):
                 vz = vz
-            elif isinstance(vz, int):
-                vz = types.Real(vz)
-            elif isinstance(vz, float):
+            elif isinstance(vz, int) or isinstance(vz, float):
                 vz = types.Real(vz)
             elif isinstance(vz, str):
                 vz = types.Real.from_mcnp(vz)
-            else:
-                raise TypeError
 
         if vz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vz)
@@ -196,10 +178,11 @@ class Rcc(_option.SurfaceOption):
     @property
     def hx(self) -> types.Real:
         """
-        Gets ``hx``.
+        Circular cylinder macrobody height vector x component
 
-        Returns:
-            ``hx``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._hx
@@ -220,14 +203,10 @@ class Rcc(_option.SurfaceOption):
         if hx is not None:
             if isinstance(hx, types.Real):
                 hx = hx
-            elif isinstance(hx, int):
-                hx = types.Real(hx)
-            elif isinstance(hx, float):
+            elif isinstance(hx, int) or isinstance(hx, float):
                 hx = types.Real(hx)
             elif isinstance(hx, str):
                 hx = types.Real.from_mcnp(hx)
-            else:
-                raise TypeError
 
         if hx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hx)
@@ -237,10 +216,11 @@ class Rcc(_option.SurfaceOption):
     @property
     def hy(self) -> types.Real:
         """
-        Gets ``hy``.
+        Circular cylinder macrobody height vector y component
 
-        Returns:
-            ``hy``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._hy
@@ -261,14 +241,10 @@ class Rcc(_option.SurfaceOption):
         if hy is not None:
             if isinstance(hy, types.Real):
                 hy = hy
-            elif isinstance(hy, int):
-                hy = types.Real(hy)
-            elif isinstance(hy, float):
+            elif isinstance(hy, int) or isinstance(hy, float):
                 hy = types.Real(hy)
             elif isinstance(hy, str):
                 hy = types.Real.from_mcnp(hy)
-            else:
-                raise TypeError
 
         if hy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hy)
@@ -278,10 +254,11 @@ class Rcc(_option.SurfaceOption):
     @property
     def hz(self) -> types.Real:
         """
-        Gets ``hz``.
+        Circular cylinder macrobody height vector z component
 
-        Returns:
-            ``hz``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._hz
@@ -302,14 +279,10 @@ class Rcc(_option.SurfaceOption):
         if hz is not None:
             if isinstance(hz, types.Real):
                 hz = hz
-            elif isinstance(hz, int):
-                hz = types.Real(hz)
-            elif isinstance(hz, float):
+            elif isinstance(hz, int) or isinstance(hz, float):
                 hz = types.Real(hz)
             elif isinstance(hz, str):
                 hz = types.Real.from_mcnp(hz)
-            else:
-                raise TypeError
 
         if hz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hz)
@@ -319,10 +292,11 @@ class Rcc(_option.SurfaceOption):
     @property
     def r(self) -> types.Real:
         """
-        Gets ``r``.
+        Circular cylinder macrobody radius
 
-        Returns:
-            ``r``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._r
@@ -343,14 +317,10 @@ class Rcc(_option.SurfaceOption):
         if r is not None:
             if isinstance(r, types.Real):
                 r = r
-            elif isinstance(r, int):
-                r = types.Real(r)
-            elif isinstance(r, float):
+            elif isinstance(r, int) or isinstance(r, float):
                 r = types.Real(r)
             elif isinstance(r, str):
                 r = types.Real.from_mcnp(r)
-            else:
-                raise TypeError
 
         if r is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r)

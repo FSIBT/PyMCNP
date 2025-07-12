@@ -8,9 +8,6 @@ from .....utils import errors
 class Tsasn(_option.BlockOption):
     """
     Represents INP tsasn elements.
-
-    Attributes:
-        setting: Sn order for lower order TSA sweeps.
     """
 
     _KEYWORD = 'tsasn'
@@ -37,10 +34,11 @@ class Tsasn(_option.BlockOption):
     @property
     def setting(self) -> types.Integer:
         """
-        Gets ``setting``.
+        Sn order for lower order TSA sweeps
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -65,8 +63,6 @@ class Tsasn(_option.BlockOption):
                 setting = types.Integer(setting)
             elif isinstance(setting, str):
                 setting = types.Integer.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

@@ -8,9 +8,6 @@ from ....utils import errors
 class Mat(_option.EmbeeOption):
     """
     Represents INP mat elements.
-
-    Attributes:
-        number: Material number.
     """
 
     _KEYWORD = 'mat'
@@ -37,10 +34,11 @@ class Mat(_option.EmbeeOption):
     @property
     def number(self) -> types.Integer:
         """
-        Gets ``number``.
+        Material number
 
-        Returns:
-            ``number``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._number
@@ -65,8 +63,6 @@ class Mat(_option.EmbeeOption):
                 number = types.Integer(number)
             elif isinstance(number, str):
                 number = types.Integer.from_mcnp(number)
-            else:
-                raise TypeError
 
         if number is None or not (number >= 0 and number <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)

@@ -8,11 +8,6 @@ from ...utils import errors
 class Fill_4(_option.CellOption):
     """
     Represents INP fill variation #4 elements.
-
-    Attributes:
-        prefix: Star prefix.
-        universe: Cell fill universe number.
-        transformation: Cell fill transformation.
     """
 
     _KEYWORD = 'fill'
@@ -45,10 +40,11 @@ class Fill_4(_option.CellOption):
     @property
     def prefix(self) -> types.String:
         """
-        Gets ``prefix``.
+        Star prefix
 
-        Returns:
-            ``prefix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._prefix
@@ -71,8 +67,6 @@ class Fill_4(_option.CellOption):
                 prefix = prefix
             elif isinstance(prefix, str):
                 prefix = types.String.from_mcnp(prefix)
-            else:
-                raise TypeError
 
         if prefix is not None and prefix not in {'*'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
@@ -82,10 +76,11 @@ class Fill_4(_option.CellOption):
     @property
     def universe(self) -> types.Integer:
         """
-        Gets ``universe``.
+        Cell fill universe number
 
-        Returns:
-            ``universe``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._universe
@@ -110,8 +105,6 @@ class Fill_4(_option.CellOption):
                 universe = types.Integer(universe)
             elif isinstance(universe, str):
                 universe = types.Integer.from_mcnp(universe)
-            else:
-                raise TypeError
 
         if universe is None or not (universe == 10000000000 or (universe >= 0 and universe <= 99_999_999)):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, universe)
@@ -121,10 +114,11 @@ class Fill_4(_option.CellOption):
     @property
     def transformation(self) -> types.Transformation_3:
         """
-        Gets ``transformation``.
+        Cell fill transformation
 
-        Returns:
-            ``transformation``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._transformation
@@ -147,7 +141,5 @@ class Fill_4(_option.CellOption):
                 transformation = transformation
             elif isinstance(transformation, str):
                 transformation = types.Transformation_3.from_mcnp(transformation)
-            else:
-                raise TypeError
 
         self._transformation: types.Transformation_3 = transformation

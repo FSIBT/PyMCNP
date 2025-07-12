@@ -8,9 +8,6 @@ from ...utils import errors
 class Otfdb(_option.DataOption):
     """
     Represents INP otfdb elements.
-
-    Attributes:
-        zaids: Identifiers for the broadening tables.
     """
 
     _KEYWORD = 'otfdb'
@@ -37,10 +34,11 @@ class Otfdb(_option.DataOption):
     @property
     def zaids(self) -> types.Tuple[types.Zaid]:
         """
-        Gets ``zaids``.
+        Identifiers for the broadening tables
 
-        Returns:
-            ``zaids``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._zaids
@@ -65,8 +63,7 @@ class Otfdb(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Zaid.from_mcnp(item))
-                else:
-                    raise TypeError
+
             zaids = types.Tuple(array)
 
         if zaids is None:

@@ -5,7 +5,7 @@ from .... import classes
 
 class Test_Trcl_1:
     class Test_Init(classes.Test_Init):
-        element = pymcnp.inp.cell.Trcl_1
+        element = pymcnp.inp.like.Trcl_1
         EXAMPLES_VALID = [
             {'prefix': '*', 'transformation': consts.string.type.TRANSFORMATION_0},
             {'prefix': pymcnp.types.String('*'), 'transformation': consts.ast.type.TRANSFORMATION_0},
@@ -14,6 +14,6 @@ class Test_Trcl_1:
         EXAMPLES_INVALID = [{'prefix': '*', 'transformation': None}, {'prefix': 'hello', 'transformation': consts.string.type.TRANSFORMATION_0}]
 
     class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.cell.Trcl_1
-        EXAMPLES_VALID = [consts.string.inp.cell.TRCL_1]
+        element = pymcnp.inp.like.Trcl_1
+        EXAMPLES_VALID = [consts.string.inp.like.TRCL_1]
         EXAMPLES_INVALID = ['hello']

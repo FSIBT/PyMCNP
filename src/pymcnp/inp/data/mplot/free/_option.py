@@ -7,11 +7,3 @@ class FreeOption(_option.Option):
     """
 
     pass
-
-
-class FreeOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP free option builders.
-    """
-
-    pass

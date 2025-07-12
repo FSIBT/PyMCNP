@@ -8,11 +8,6 @@ from ...utils import errors
 class Dxc(_option.CellOption):
     """
     Represents INP dxc elements.
-
-    Attributes:
-        suffix: Cell option suffix.
-        designator: Cell particle designator.
-        probability: Cell probability of DXTRAN contribution.
     """
 
     _KEYWORD = 'dxc'
@@ -45,10 +40,11 @@ class Dxc(_option.CellOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Cell option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -73,8 +69,6 @@ class Dxc(_option.CellOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -84,10 +78,11 @@ class Dxc(_option.CellOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Cell particle designator
 
-        Returns:
-            ``designator``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._designator
@@ -110,8 +105,6 @@ class Dxc(_option.CellOption):
                 designator = designator
             elif isinstance(designator, str):
                 designator = types.Designator.from_mcnp(designator)
-            else:
-                raise TypeError
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
@@ -121,10 +114,11 @@ class Dxc(_option.CellOption):
     @property
     def probability(self) -> types.Real:
         """
-        Gets ``probability``.
+        Cell probability of DXTRAN contribution
 
-        Returns:
-            ``probability``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._probability
@@ -145,14 +139,10 @@ class Dxc(_option.CellOption):
         if probability is not None:
             if isinstance(probability, types.Real):
                 probability = probability
-            elif isinstance(probability, int):
-                probability = types.Real(probability)
-            elif isinstance(probability, float):
+            elif isinstance(probability, int) or isinstance(probability, float):
                 probability = types.Real(probability)
             elif isinstance(probability, str):
                 probability = types.Real.from_mcnp(probability)
-            else:
-                raise TypeError
 
         if probability is None or not (probability >= 0 and probability <= 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, probability)

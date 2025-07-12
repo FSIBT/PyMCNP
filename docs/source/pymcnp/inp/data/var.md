@@ -7,13 +7,5 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.var.Rr
    :members:
-```
-
-## Builder Classes
-
-### ``RrBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.var.RrBuilder
-   :members:
+   :inherited-members:
 ```

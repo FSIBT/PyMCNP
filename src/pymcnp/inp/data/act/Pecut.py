@@ -8,9 +8,6 @@ from ....utils import errors
 class Pecut(_option.ActOption):
     """
     Represents INP pecut elements.
-
-    Attributes:
-        cutoff: Delayed-gamma energy cutoff.
     """
 
     _KEYWORD = 'pecut'
@@ -37,10 +34,11 @@ class Pecut(_option.ActOption):
     @property
     def cutoff(self) -> types.Real:
         """
-        Gets ``cutoff``.
+        Delayed-gamma energy cutoff
 
-        Returns:
-            ``cutoff``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._cutoff
@@ -61,14 +59,10 @@ class Pecut(_option.ActOption):
         if cutoff is not None:
             if isinstance(cutoff, types.Real):
                 cutoff = cutoff
-            elif isinstance(cutoff, int):
-                cutoff = types.Real(cutoff)
-            elif isinstance(cutoff, float):
+            elif isinstance(cutoff, int) or isinstance(cutoff, float):
                 cutoff = types.Real(cutoff)
             elif isinstance(cutoff, str):
                 cutoff = types.Real.from_mcnp(cutoff)
-            else:
-                raise TypeError
 
         if cutoff is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cutoff)

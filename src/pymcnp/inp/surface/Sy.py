@@ -9,10 +9,6 @@ from ...utils import _visualization
 class Sy(_option.SurfaceOption):
     """
     Represents INP sy elements.
-
-    Attributes:
-        y: On-y-axis sphere center y component.
-        r: On-y-axis sphere radius.
     """
 
     _KEYWORD = 'sy'
@@ -42,10 +38,11 @@ class Sy(_option.SurfaceOption):
     @property
     def y(self) -> types.Real:
         """
-        Gets ``y``.
+        On-y-axis sphere center y component
 
-        Returns:
-            ``y``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._y
@@ -66,14 +63,10 @@ class Sy(_option.SurfaceOption):
         if y is not None:
             if isinstance(y, types.Real):
                 y = y
-            elif isinstance(y, int):
-                y = types.Real(y)
-            elif isinstance(y, float):
+            elif isinstance(y, int) or isinstance(y, float):
                 y = types.Real(y)
             elif isinstance(y, str):
                 y = types.Real.from_mcnp(y)
-            else:
-                raise TypeError
 
         if y is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y)
@@ -83,10 +76,11 @@ class Sy(_option.SurfaceOption):
     @property
     def r(self) -> types.Real:
         """
-        Gets ``r``.
+        On-y-axis sphere radius
 
-        Returns:
-            ``r``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._r
@@ -107,14 +101,10 @@ class Sy(_option.SurfaceOption):
         if r is not None:
             if isinstance(r, types.Real):
                 r = r
-            elif isinstance(r, int):
-                r = types.Real(r)
-            elif isinstance(r, float):
+            elif isinstance(r, int) or isinstance(r, float):
                 r = types.Real(r)
             elif isinstance(r, str):
                 r = types.Real.from_mcnp(r)
-            else:
-                raise TypeError
 
         if r is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r)

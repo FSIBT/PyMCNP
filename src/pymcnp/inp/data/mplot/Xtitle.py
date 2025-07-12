@@ -8,9 +8,6 @@ from ....utils import errors
 class Xtitle(_option.MplotOption):
     """
     Represents INP xtitle elements.
-
-    Attributes:
-        aa: Line to substitute.
     """
 
     _KEYWORD = 'xtitle'
@@ -37,10 +34,11 @@ class Xtitle(_option.MplotOption):
     @property
     def aa(self) -> types.String:
         """
-        Gets ``aa``.
+        Line to substitute
 
-        Returns:
-            ``aa``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._aa
@@ -63,8 +61,6 @@ class Xtitle(_option.MplotOption):
                 aa = aa
             elif isinstance(aa, str):
                 aa = types.String.from_mcnp(aa)
-            else:
-                raise TypeError
 
         if aa is None or not (len(aa) <= 40):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, aa)

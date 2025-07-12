@@ -7,9 +7,6 @@ from ...utils import types
 class Drxs(_option.DataOption):
     """
     Represents INP drxs elements.
-
-    Attributes:
-        zaids: Tuple of ZAID aliases.
     """
 
     _KEYWORD = 'drxs'
@@ -36,10 +33,11 @@ class Drxs(_option.DataOption):
     @property
     def zaids(self) -> types.Tuple[types.Zaid]:
         """
-        Gets ``zaids``.
+        Tuple of ZAID aliases
 
-        Returns:
-            ``zaids``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._zaids
@@ -64,8 +62,7 @@ class Drxs(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Zaid.from_mcnp(item))
-                else:
-                    raise TypeError
+
             zaids = types.Tuple(array)
 
         self._zaids: types.Tuple[types.Zaid] = zaids

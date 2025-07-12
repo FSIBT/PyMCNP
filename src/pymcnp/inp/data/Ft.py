@@ -8,10 +8,6 @@ from ...utils import errors
 class Ft(_option.DataOption):
     """
     Represents INP ft elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        treatments: Tally special treatments.
     """
 
     _KEYWORD = 'ft'
@@ -41,10 +37,11 @@ class Ft(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -69,8 +66,6 @@ class Ft(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None or not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -80,10 +75,11 @@ class Ft(_option.DataOption):
     @property
     def treatments(self) -> types.String:
         """
-        Gets ``treatments``.
+        Tally special treatments
 
-        Returns:
-            ``treatments``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._treatments
@@ -106,8 +102,6 @@ class Ft(_option.DataOption):
                 treatments = treatments
             elif isinstance(treatments, str):
                 treatments = types.String.from_mcnp(treatments)
-            else:
-                raise TypeError
 
         if treatments is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, treatments)

@@ -7,6 +7,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.rand.Gen
    :members:
+   :inherited-members:
 ```
 
 ### ``Hist`` Class
@@ -14,6 +15,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.rand.Hist
    :members:
+   :inherited-members:
 ```
 
 ### ``Seed`` Class
@@ -21,6 +23,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.rand.Seed
    :members:
+   :inherited-members:
 ```
 
 ### ``Stride`` Class
@@ -28,34 +31,5 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.rand.Stride
    :members:
-```
-
-## Builder Classes
-
-### ``GenBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.rand.GenBuilder
-   :members:
-```
-
-### ``HistBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.rand.HistBuilder
-   :members:
-```
-
-### ``SeedBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.rand.SeedBuilder
-   :members:
-```
-
-### ``StrideBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.rand.StrideBuilder
-   :members:
+   :inherited-members:
 ```

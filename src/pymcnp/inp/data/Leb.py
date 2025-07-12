@@ -8,12 +8,6 @@ from ...utils import errors
 class Leb(_option.DataOption):
     """
     Represents INP leb elements.
-
-    Attributes:
-        yzere: Y0 parameter in level-density formula for Z≤70.
-        bzere: B0 parameter in level-density formula for Z≤70.
-        yzero: Y0 parameter in level-density formula for Z≥71.
-        bzero: B0 parameter in level-density formula for Z≥70.
     """
 
     _KEYWORD = 'leb'
@@ -51,10 +45,11 @@ class Leb(_option.DataOption):
     @property
     def yzere(self) -> types.Real:
         """
-        Gets ``yzere``.
+        Y0 parameter in level-density formula for Z≤70
 
-        Returns:
-            ``yzere``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._yzere
@@ -75,14 +70,10 @@ class Leb(_option.DataOption):
         if yzere is not None:
             if isinstance(yzere, types.Real):
                 yzere = yzere
-            elif isinstance(yzere, int):
-                yzere = types.Real(yzere)
-            elif isinstance(yzere, float):
+            elif isinstance(yzere, int) or isinstance(yzere, float):
                 yzere = types.Real(yzere)
             elif isinstance(yzere, str):
                 yzere = types.Real.from_mcnp(yzere)
-            else:
-                raise TypeError
 
         if yzere is not None and not (isinstance(yzere.value, types.Jump) or yzere > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, yzere)
@@ -92,10 +83,11 @@ class Leb(_option.DataOption):
     @property
     def bzere(self) -> types.Real:
         """
-        Gets ``bzere``.
+        B0 parameter in level-density formula for Z≤70
 
-        Returns:
-            ``bzere``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bzere
@@ -116,14 +108,10 @@ class Leb(_option.DataOption):
         if bzere is not None:
             if isinstance(bzere, types.Real):
                 bzere = bzere
-            elif isinstance(bzere, int):
-                bzere = types.Real(bzere)
-            elif isinstance(bzere, float):
+            elif isinstance(bzere, int) or isinstance(bzere, float):
                 bzere = types.Real(bzere)
             elif isinstance(bzere, str):
                 bzere = types.Real.from_mcnp(bzere)
-            else:
-                raise TypeError
 
         if bzere is not None and not (isinstance(bzere.value, types.Jump) or bzere > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bzere)
@@ -133,10 +121,11 @@ class Leb(_option.DataOption):
     @property
     def yzero(self) -> types.Real:
         """
-        Gets ``yzero``.
+        Y0 parameter in level-density formula for Z≥71
 
-        Returns:
-            ``yzero``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._yzero
@@ -157,14 +146,10 @@ class Leb(_option.DataOption):
         if yzero is not None:
             if isinstance(yzero, types.Real):
                 yzero = yzero
-            elif isinstance(yzero, int):
-                yzero = types.Real(yzero)
-            elif isinstance(yzero, float):
+            elif isinstance(yzero, int) or isinstance(yzero, float):
                 yzero = types.Real(yzero)
             elif isinstance(yzero, str):
                 yzero = types.Real.from_mcnp(yzero)
-            else:
-                raise TypeError
 
         if yzero is not None and not (isinstance(yzero.value, types.Jump) or yzero > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, yzero)
@@ -174,10 +159,11 @@ class Leb(_option.DataOption):
     @property
     def bzero(self) -> types.Real:
         """
-        Gets ``bzero``.
+        B0 parameter in level-density formula for Z≥70
 
-        Returns:
-            ``bzero``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bzero
@@ -198,14 +184,10 @@ class Leb(_option.DataOption):
         if bzero is not None:
             if isinstance(bzero, types.Real):
                 bzero = bzero
-            elif isinstance(bzero, int):
-                bzero = types.Real(bzero)
-            elif isinstance(bzero, float):
+            elif isinstance(bzero, int) or isinstance(bzero, float):
                 bzero = types.Real(bzero)
             elif isinstance(bzero, str):
                 bzero = types.Real.from_mcnp(bzero)
-            else:
-                raise TypeError
 
         if bzero is not None and not (isinstance(bzero.value, types.Jump) or bzero > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bzero)

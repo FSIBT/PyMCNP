@@ -9,11 +9,6 @@ from ...utils import errors
 class Bfld(_option.DataOption):
     """
     Represents INP bfld elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        kind: Magnetic field type.
-        options: Dictionary of options.
     """
 
     _KEYWORD = 'bfld'
@@ -46,10 +41,11 @@ class Bfld(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -74,8 +70,6 @@ class Bfld(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -85,10 +79,11 @@ class Bfld(_option.DataOption):
     @property
     def kind(self) -> types.String:
         """
-        Gets ``kind``.
+        Magnetic field type
 
-        Returns:
-            ``kind``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._kind
@@ -111,8 +106,6 @@ class Bfld(_option.DataOption):
                 kind = kind
             elif isinstance(kind, str):
                 kind = types.String.from_mcnp(kind)
-            else:
-                raise TypeError
 
         if kind is None or kind not in {'const', 'quad', 'quadff'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kind)
@@ -122,10 +115,11 @@ class Bfld(_option.DataOption):
     @property
     def options(self) -> types.Tuple[bfld.BfldOption]:
         """
-        Gets ``options``.
+        Dictionary of options
 
-        Returns:
-            ``options``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._options
@@ -150,8 +144,7 @@ class Bfld(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(bfld.BfldOption.from_mcnp(item))
-                else:
-                    raise TypeError
+
             options = types.Tuple(array)
 
         self._options: types.Tuple[bfld.BfldOption] = options

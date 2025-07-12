@@ -8,11 +8,6 @@ from ....utils import errors
 class Factor(_option.MplotOption):
     """
     Represents INP factor elements.
-
-    Attributes:
-        a: Multiplication axis.
-        f: Multiplication factor.
-        s: Addative term.
     """
 
     _KEYWORD = 'factor'
@@ -45,10 +40,11 @@ class Factor(_option.MplotOption):
     @property
     def a(self) -> types.String:
         """
-        Gets ``a``.
+        Multiplication axis
 
-        Returns:
-            ``a``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a
@@ -71,8 +67,6 @@ class Factor(_option.MplotOption):
                 a = a
             elif isinstance(a, str):
                 a = types.String.from_mcnp(a)
-            else:
-                raise TypeError
 
         if a is None or a not in {'x', 'y', 'z'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
@@ -82,10 +76,11 @@ class Factor(_option.MplotOption):
     @property
     def f(self) -> types.Real:
         """
-        Gets ``f``.
+        Multiplication factor
 
-        Returns:
-            ``f``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._f
@@ -106,14 +101,10 @@ class Factor(_option.MplotOption):
         if f is not None:
             if isinstance(f, types.Real):
                 f = f
-            elif isinstance(f, int):
-                f = types.Real(f)
-            elif isinstance(f, float):
+            elif isinstance(f, int) or isinstance(f, float):
                 f = types.Real(f)
             elif isinstance(f, str):
                 f = types.Real.from_mcnp(f)
-            else:
-                raise TypeError
 
         if f is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f)
@@ -123,10 +114,11 @@ class Factor(_option.MplotOption):
     @property
     def s(self) -> types.Real:
         """
-        Gets ``s``.
+        Addative term
 
-        Returns:
-            ``s``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._s
@@ -147,13 +139,9 @@ class Factor(_option.MplotOption):
         if s is not None:
             if isinstance(s, types.Real):
                 s = s
-            elif isinstance(s, int):
-                s = types.Real(s)
-            elif isinstance(s, float):
+            elif isinstance(s, int) or isinstance(s, float):
                 s = types.Real(s)
             elif isinstance(s, str):
                 s = types.Real.from_mcnp(s)
-            else:
-                raise TypeError
 
         self._s: types.Real = s

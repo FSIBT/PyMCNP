@@ -8,9 +8,6 @@ from ....utils import errors
 class Geom(_option.MeshOption):
     """
     Represents INP geom elements.
-
-    Attributes:
-        geometry: Controls mesh geometry type.
     """
 
     _KEYWORD = 'geom'
@@ -37,10 +34,11 @@ class Geom(_option.MeshOption):
     @property
     def geometry(self) -> types.String:
         """
-        Gets ``geometry``.
+        Controls mesh geometry type
 
-        Returns:
-            ``geometry``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._geometry
@@ -63,8 +61,6 @@ class Geom(_option.MeshOption):
                 geometry = geometry
             elif isinstance(geometry, str):
                 geometry = types.String.from_mcnp(geometry)
-            else:
-                raise TypeError
 
         if geometry is None or geometry not in {'xyz', 'rzt', 'rpt', 'cyl', 'rec', 'sph'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, geometry)

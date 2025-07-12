@@ -7,9 +7,6 @@ from ....utils import types
 class Genxs(_option.TroptOption):
     """
     Represents INP genxs elements.
-
-    Attributes:
-        filename: Cross section generation setting.
     """
 
     _KEYWORD = 'genxs'
@@ -36,10 +33,11 @@ class Genxs(_option.TroptOption):
     @property
     def filename(self) -> types.String:
         """
-        Gets ``filename``.
+        Cross section generation setting
 
-        Returns:
-            ``filename``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._filename
@@ -62,7 +60,5 @@ class Genxs(_option.TroptOption):
                 filename = filename
             elif isinstance(filename, str):
                 filename = types.String.from_mcnp(filename)
-            else:
-                raise TypeError
 
         self._filename: types.String = filename

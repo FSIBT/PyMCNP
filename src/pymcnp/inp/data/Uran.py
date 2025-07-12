@@ -8,9 +8,6 @@ from ...utils import errors
 class Uran(_option.DataOption):
     """
     Represents INP uran elements.
-
-    Attributes:
-        transformations: Tuple of stochastic transformations.
     """
 
     _KEYWORD = 'uran'
@@ -37,10 +34,11 @@ class Uran(_option.DataOption):
     @property
     def transformations(self) -> types.Tuple[types.Stochastic]:
         """
-        Gets ``transformations``.
+        Tuple of stochastic transformations
 
-        Returns:
-            ``transformations``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._transformations
@@ -65,8 +63,7 @@ class Uran(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Stochastic.from_mcnp(item))
-                else:
-                    raise TypeError
+
             transformations = types.Tuple(array)
 
         if transformations is None:

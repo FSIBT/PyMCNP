@@ -8,9 +8,6 @@ from .....utils import errors
 class Ngroup(_option.BlockOption):
     """
     Represents INP ngroup elements.
-
-    Attributes:
-        value: Number of energy groups.
     """
 
     _KEYWORD = 'ngroup'
@@ -37,10 +34,11 @@ class Ngroup(_option.BlockOption):
     @property
     def value(self) -> types.Integer:
         """
-        Gets ``value``.
+        Number of energy groups
 
-        Returns:
-            ``value``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._value
@@ -65,8 +63,6 @@ class Ngroup(_option.BlockOption):
                 value = types.Integer(value)
             elif isinstance(value, str):
                 value = types.Integer.from_mcnp(value)
-            else:
-                raise TypeError
 
         if value is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, value)

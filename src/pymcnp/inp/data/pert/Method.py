@@ -8,9 +8,6 @@ from ....utils import errors
 class Method(_option.PertOption):
     """
     Represents INP method elements.
-
-    Attributes:
-        setting: Printing and specifies setting.
     """
 
     _KEYWORD = 'method'
@@ -37,10 +34,11 @@ class Method(_option.PertOption):
     @property
     def setting(self) -> types.Integer:
         """
-        Gets ``setting``.
+        Printing and specifies setting
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -65,8 +63,6 @@ class Method(_option.PertOption):
                 setting = types.Integer(setting)
             elif isinstance(setting, str):
                 setting = types.Integer.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {1, -1, 2, -2, 3, -3}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

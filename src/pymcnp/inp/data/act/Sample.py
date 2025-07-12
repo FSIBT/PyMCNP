@@ -8,9 +8,6 @@ from ....utils import errors
 class Sample(_option.ActOption):
     """
     Represents INP sample elements.
-
-    Attributes:
-        setting: Flag for correlated or uncorrelated.
     """
 
     _KEYWORD = 'sample'
@@ -37,10 +34,11 @@ class Sample(_option.ActOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Flag for correlated or uncorrelated
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Sample(_option.ActOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {'correlate', 'nonfiss_cor'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

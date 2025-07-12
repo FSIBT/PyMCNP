@@ -8,11 +8,6 @@ from ...utils import errors
 class Fill_6(_option.LikeOption):
     """
     Represents INP fill variation #6 elements.
-
-    Attributes:
-        prefix: Star prefix.
-        universe: Cell fill universe number.
-        transformation: Cell fill transformation number.
     """
 
     _KEYWORD = 'fill'
@@ -71,8 +66,6 @@ class Fill_6(_option.LikeOption):
                 prefix = prefix
             elif isinstance(prefix, str):
                 prefix = types.String.from_mcnp(prefix)
-            else:
-                raise TypeError
 
         if prefix is not None and prefix not in {'*'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
@@ -110,8 +103,6 @@ class Fill_6(_option.LikeOption):
                 universe = types.Integer(universe)
             elif isinstance(universe, str):
                 universe = types.Integer.from_mcnp(universe)
-            else:
-                raise TypeError
 
         if universe is None or not (universe == 10000000000 or (universe >= 0 and universe <= 99_999_999)):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, universe)
@@ -149,8 +140,6 @@ class Fill_6(_option.LikeOption):
                 transformation = types.Integer(transformation)
             elif isinstance(transformation, str):
                 transformation = types.Integer.from_mcnp(transformation)
-            else:
-                raise TypeError
 
         if transformation is not None and not (transformation >= 0 and transformation <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, transformation)

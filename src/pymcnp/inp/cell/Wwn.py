@@ -8,11 +8,6 @@ from ...utils import errors
 class Wwn(_option.CellOption):
     """
     Represents INP wwn elements.
-
-    Attributes:
-        suffix: Cell option suffix.
-        designator: Cell particle designator.
-        bound: Cell weight-window space, time, or energy lower bound.
     """
 
     _KEYWORD = 'wwn'
@@ -45,10 +40,11 @@ class Wwn(_option.CellOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Cell option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -73,8 +69,6 @@ class Wwn(_option.CellOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -84,10 +78,11 @@ class Wwn(_option.CellOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Cell particle designator
 
-        Returns:
-            ``designator``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._designator
@@ -110,8 +105,6 @@ class Wwn(_option.CellOption):
                 designator = designator
             elif isinstance(designator, str):
                 designator = types.Designator.from_mcnp(designator)
-            else:
-                raise TypeError
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
@@ -121,10 +114,11 @@ class Wwn(_option.CellOption):
     @property
     def bound(self) -> types.Real:
         """
-        Gets ``bound``.
+        Cell weight-window space, time, or energy lower bound
 
-        Returns:
-            ``bound``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bound
@@ -145,14 +139,10 @@ class Wwn(_option.CellOption):
         if bound is not None:
             if isinstance(bound, types.Real):
                 bound = bound
-            elif isinstance(bound, int):
-                bound = types.Real(bound)
-            elif isinstance(bound, float):
+            elif isinstance(bound, int) or isinstance(bound, float):
                 bound = types.Real(bound)
             elif isinstance(bound, str):
                 bound = types.Real.from_mcnp(bound)
-            else:
-                raise TypeError
 
         if bound is None or not (bound == -1 or bound >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bound)

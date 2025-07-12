@@ -8,9 +8,6 @@ from ....utils import errors
 class List(_option.EmbeeOption):
     """
     Represents INP list elements.
-
-    Attributes:
-        reactions: List of reactions.
     """
 
     _KEYWORD = 'list'
@@ -37,10 +34,11 @@ class List(_option.EmbeeOption):
     @property
     def reactions(self) -> types.Real:
         """
-        Gets ``reactions``.
+        List of reactions
 
-        Returns:
-            ``reactions``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._reactions
@@ -61,14 +59,10 @@ class List(_option.EmbeeOption):
         if reactions is not None:
             if isinstance(reactions, types.Real):
                 reactions = reactions
-            elif isinstance(reactions, int):
-                reactions = types.Real(reactions)
-            elif isinstance(reactions, float):
+            elif isinstance(reactions, int) or isinstance(reactions, float):
                 reactions = types.Real(reactions)
             elif isinstance(reactions, str):
                 reactions = types.Real.from_mcnp(reactions)
-            else:
-                raise TypeError
 
         if reactions is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, reactions)

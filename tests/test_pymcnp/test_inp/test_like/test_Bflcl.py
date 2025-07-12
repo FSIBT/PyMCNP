@@ -5,11 +5,11 @@ from .... import classes
 
 class Test_Bflcl:
     class Test_Init(classes.Test_Init):
-        element = pymcnp.inp.cell.Bflcl
+        element = pymcnp.inp.like.Bflcl
         EXAMPLES_VALID = [{'number': consts.string.type.INTEGER}, {'number': 1}, {'number': consts.ast.type.INTEGER}]
         EXAMPLES_INVALID = [{'number': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.cell.Bflcl
-        EXAMPLES_VALID = [consts.string.inp.cell.BFLCL]
+        element = pymcnp.inp.like.Bflcl
+        EXAMPLES_VALID = [consts.string.inp.like.BFLCL]
         EXAMPLES_INVALID = ['hello']

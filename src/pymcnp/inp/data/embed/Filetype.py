@@ -8,9 +8,6 @@ from ....utils import errors
 class Filetype(_option.EmbedOption):
     """
     Represents INP filetype elements.
-
-    Attributes:
-        kind: File type for the elemental edit output file.
     """
 
     _KEYWORD = 'filetype'
@@ -37,10 +34,11 @@ class Filetype(_option.EmbedOption):
     @property
     def kind(self) -> types.String:
         """
-        Gets ``kind``.
+        File type for the elemental edit output file
 
-        Returns:
-            ``kind``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._kind
@@ -63,8 +61,6 @@ class Filetype(_option.EmbedOption):
                 kind = kind
             elif isinstance(kind, str):
                 kind = types.String.from_mcnp(kind)
-            else:
-                raise TypeError
 
         if kind is None or kind not in {'ascii', 'binary'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kind)

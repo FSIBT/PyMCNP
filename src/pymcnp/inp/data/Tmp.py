@@ -8,10 +8,6 @@ from ...utils import errors
 class Tmp(_option.DataOption):
     """
     Represents INP tmp elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        temperatures: Cell temperatrues.
     """
 
     _KEYWORD = 'tmp'
@@ -41,10 +37,11 @@ class Tmp(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -69,18 +66,17 @@ class Tmp(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         self._suffix: types.Integer = suffix
 
     @property
     def temperatures(self) -> types.Tuple[types.Real]:
         """
-        Gets ``temperatures``.
+        Cell temperatrues
 
-        Returns:
-            ``temperatures``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._temperatures
@@ -103,14 +99,11 @@ class Tmp(_option.DataOption):
             for item in temperatures:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             temperatures = types.Tuple(array)
 
         if temperatures is None:

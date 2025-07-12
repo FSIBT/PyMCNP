@@ -8,9 +8,6 @@ from ....utils import errors
 class Mtype(_option.EmbeeOption):
     """
     Represents INP mtype elements.
-
-    Attributes:
-        kind: Multiplier type.
     """
 
     _KEYWORD = 'mtype'
@@ -37,10 +34,11 @@ class Mtype(_option.EmbeeOption):
     @property
     def kind(self) -> types.String:
         """
-        Gets ``kind``.
+        Multiplier type
 
-        Returns:
-            ``kind``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._kind
@@ -63,8 +61,6 @@ class Mtype(_option.EmbeeOption):
                 kind = kind
             elif isinstance(kind, str):
                 kind = types.String.from_mcnp(kind)
-            else:
-                raise TypeError
 
         if kind is None or kind not in {'flux', 'isotropic', 'population', 'reaction', 'source', 'track'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kind)

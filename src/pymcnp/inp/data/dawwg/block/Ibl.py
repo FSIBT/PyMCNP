@@ -8,9 +8,6 @@ from .....utils import errors
 class Ibl(_option.BlockOption):
     """
     Represents INP ibl elements.
-
-    Attributes:
-        setting: Left boundary condition.
     """
 
     _KEYWORD = 'ibl'
@@ -37,10 +34,11 @@ class Ibl(_option.BlockOption):
     @property
     def setting(self) -> types.Integer:
         """
-        Gets ``setting``.
+        Left boundary condition
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -65,8 +63,6 @@ class Ibl(_option.BlockOption):
                 setting = types.Integer(setting)
             elif isinstance(setting, str):
                 setting = types.Integer.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

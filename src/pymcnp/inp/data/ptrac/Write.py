@@ -8,9 +8,6 @@ from ....utils import errors
 class Write(_option.PtracOption):
     """
     Represents INP write elements.
-
-    Attributes:
-        setting: Controls what particle parameters are written.
     """
 
     _KEYWORD = 'write'
@@ -37,10 +34,11 @@ class Write(_option.PtracOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Controls what particle parameters are written
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Write(_option.PtracOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {'pos', 'all'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

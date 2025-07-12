@@ -7,11 +7,3 @@ class TOption_1(_option.Option):
     """
 
     pass
-
-
-class TOptionBuilder_1(_option.OptionBuilder):
-    """
-    Represents generic INP t_1 option builders.
-    """
-
-    pass

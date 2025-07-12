@@ -8,13 +8,6 @@ from ...utils import errors
 class C(_option.DataOption):
     """
     Represents INP c elements.
-
-    Attributes:
-        prefix: Star prefix.
-        suffix: Data card option suffix.
-        bounds: Upper cosine bounds for bin.
-        t: Notation to provide totals.
-        c: Notation to make bin values cumulative.
     """
 
     _KEYWORD = 'c'
@@ -55,10 +48,11 @@ class C(_option.DataOption):
     @property
     def prefix(self) -> types.String:
         """
-        Gets ``prefix``.
+        Star prefix
 
-        Returns:
-            ``prefix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._prefix
@@ -81,8 +75,6 @@ class C(_option.DataOption):
                 prefix = prefix
             elif isinstance(prefix, str):
                 prefix = types.String.from_mcnp(prefix)
-            else:
-                raise TypeError
 
         if prefix is not None and prefix not in {'*', '+'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
@@ -92,10 +84,11 @@ class C(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -120,8 +113,6 @@ class C(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -131,10 +122,11 @@ class C(_option.DataOption):
     @property
     def bounds(self) -> types.Tuple[types.Real]:
         """
-        Gets ``bounds``.
+        Upper cosine bounds for bin
 
-        Returns:
-            ``bounds``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bounds
@@ -157,14 +149,11 @@ class C(_option.DataOption):
             for item in bounds:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             bounds = types.Tuple(array)
 
         if bounds is None:
@@ -175,10 +164,11 @@ class C(_option.DataOption):
     @property
     def t(self) -> types.String:
         """
-        Gets ``t``.
+        Notation to provide totals
 
-        Returns:
-            ``t``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._t
@@ -201,18 +191,17 @@ class C(_option.DataOption):
                 t = t
             elif isinstance(t, str):
                 t = types.String.from_mcnp(t)
-            else:
-                raise TypeError
 
         self._t: types.String = t
 
     @property
     def c(self) -> types.String:
         """
-        Gets ``c``.
+        Notation to make bin values cumulative
 
-        Returns:
-            ``c``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._c
@@ -235,7 +224,5 @@ class C(_option.DataOption):
                 c = c
             elif isinstance(c, str):
                 c = types.String.from_mcnp(c)
-            else:
-                raise TypeError
 
         self._c: types.String = c

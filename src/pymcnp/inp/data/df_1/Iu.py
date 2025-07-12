@@ -8,9 +8,6 @@ from ....utils import errors
 class Iu(_option.DfOption_1):
     """
     Represents INP iu elements.
-
-    Attributes:
-        units: Control units.
     """
 
     _KEYWORD = 'iu'
@@ -37,10 +34,11 @@ class Iu(_option.DfOption_1):
     @property
     def units(self) -> types.Integer:
         """
-        Gets ``units``.
+        Control units
 
-        Returns:
-            ``units``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._units
@@ -65,8 +63,6 @@ class Iu(_option.DfOption_1):
                 units = types.Integer(units)
             elif isinstance(units, str):
                 units = types.Integer.from_mcnp(units)
-            else:
-                raise TypeError
 
         if units is None or not (isinstance(units.value, types.Jump) or units in {1, 2}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, units)

@@ -6,9 +6,6 @@ from . import _option
 class Loglin(_option.MplotOption):
     """
     Represents INP loglin elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'loglin'

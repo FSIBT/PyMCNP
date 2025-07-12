@@ -8,9 +8,6 @@ from ....utils import errors
 class Pty(_option.SswOption):
     """
     Represents INP pty elements.
-
-    Attributes:
-        tracks: Tracks to record.
     """
 
     _KEYWORD = 'pty'
@@ -37,10 +34,11 @@ class Pty(_option.SswOption):
     @property
     def tracks(self) -> types.Tuple[types.Designator]:
         """
-        Gets ``tracks``.
+        Tracks to record
 
-        Returns:
-            ``tracks``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._tracks
@@ -65,8 +63,7 @@ class Pty(_option.SswOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Designator.from_mcnp(item))
-                else:
-                    raise TypeError
+
             tracks = types.Tuple(array)
 
         if tracks is None:

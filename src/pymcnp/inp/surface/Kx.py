@@ -9,11 +9,6 @@ from ...utils import _visualization
 class Kx(_option.SurfaceOption):
     """
     Represents INP kx elements.
-
-    Attributes:
-        x: On-x-axis cone center x component.
-        t_squared: On-x-axis cone t^2 coefficent.
-        plusminus_1: On-x-axis cone sheet selector.
     """
 
     _KEYWORD = 'kx'
@@ -46,10 +41,11 @@ class Kx(_option.SurfaceOption):
     @property
     def x(self) -> types.Real:
         """
-        Gets ``x``.
+        On-x-axis cone center x component
 
-        Returns:
-            ``x``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x
@@ -70,14 +66,10 @@ class Kx(_option.SurfaceOption):
         if x is not None:
             if isinstance(x, types.Real):
                 x = x
-            elif isinstance(x, int):
-                x = types.Real(x)
-            elif isinstance(x, float):
+            elif isinstance(x, int) or isinstance(x, float):
                 x = types.Real(x)
             elif isinstance(x, str):
                 x = types.Real.from_mcnp(x)
-            else:
-                raise TypeError
 
         if x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
@@ -87,10 +79,11 @@ class Kx(_option.SurfaceOption):
     @property
     def t_squared(self) -> types.Real:
         """
-        Gets ``t_squared``.
+        On-x-axis cone t^2 coefficent
 
-        Returns:
-            ``t_squared``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._t_squared
@@ -111,14 +104,10 @@ class Kx(_option.SurfaceOption):
         if t_squared is not None:
             if isinstance(t_squared, types.Real):
                 t_squared = t_squared
-            elif isinstance(t_squared, int):
-                t_squared = types.Real(t_squared)
-            elif isinstance(t_squared, float):
+            elif isinstance(t_squared, int) or isinstance(t_squared, float):
                 t_squared = types.Real(t_squared)
             elif isinstance(t_squared, str):
                 t_squared = types.Real.from_mcnp(t_squared)
-            else:
-                raise TypeError
 
         if t_squared is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, t_squared)
@@ -128,10 +117,11 @@ class Kx(_option.SurfaceOption):
     @property
     def plusminus_1(self) -> types.Real:
         """
-        Gets ``plusminus_1``.
+        On-x-axis cone sheet selector
 
-        Returns:
-            ``plusminus_1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._plusminus_1
@@ -152,14 +142,10 @@ class Kx(_option.SurfaceOption):
         if plusminus_1 is not None:
             if isinstance(plusminus_1, types.Real):
                 plusminus_1 = plusminus_1
-            elif isinstance(plusminus_1, int):
-                plusminus_1 = types.Real(plusminus_1)
-            elif isinstance(plusminus_1, float):
+            elif isinstance(plusminus_1, int) or isinstance(plusminus_1, float):
                 plusminus_1 = types.Real(plusminus_1)
             elif isinstance(plusminus_1, str):
                 plusminus_1 = types.Real.from_mcnp(plusminus_1)
-            else:
-                raise TypeError
 
         if plusminus_1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, plusminus_1)

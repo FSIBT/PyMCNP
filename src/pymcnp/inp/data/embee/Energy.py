@@ -8,9 +8,6 @@ from ....utils import errors
 class Energy(_option.EmbeeOption):
     """
     Represents INP energy elements.
-
-    Attributes:
-        factor: Multiplicative conversion factor for energy-related output.
     """
 
     _KEYWORD = 'energy'
@@ -37,10 +34,11 @@ class Energy(_option.EmbeeOption):
     @property
     def factor(self) -> types.Real:
         """
-        Gets ``factor``.
+        Multiplicative conversion factor for energy-related output
 
-        Returns:
-            ``factor``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._factor
@@ -61,14 +59,10 @@ class Energy(_option.EmbeeOption):
         if factor is not None:
             if isinstance(factor, types.Real):
                 factor = factor
-            elif isinstance(factor, int):
-                factor = types.Real(factor)
-            elif isinstance(factor, float):
+            elif isinstance(factor, int) or isinstance(factor, float):
                 factor = types.Real(factor)
             elif isinstance(factor, str):
                 factor = types.Real.from_mcnp(factor)
-            else:
-                raise TypeError
 
         if factor is None or not (factor > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, factor)

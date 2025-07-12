@@ -8,9 +8,6 @@ from ....utils import errors
 class Cell(_option.PertOption):
     """
     Represents INP cell elements.
-
-    Attributes:
-        numbers: List of cells.
     """
 
     _KEYWORD = 'cell'
@@ -37,10 +34,11 @@ class Cell(_option.PertOption):
     @property
     def numbers(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``numbers``.
+        List of cells
 
-        Returns:
-            ``numbers``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._numbers
@@ -67,8 +65,7 @@ class Cell(_option.PertOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             numbers = types.Tuple(array)
 
         if numbers is None:
