@@ -8,10 +8,6 @@ from ...utils import errors
 class Lost(_option.DataOption):
     """
     Represents INP lost elements.
-
-    Attributes:
-        lost1: Number of particles which can be lost before job termination.
-        lost2: Maximum number of debug prints for lost particles..
     """
 
     _KEYWORD = 'lost'
@@ -41,10 +37,11 @@ class Lost(_option.DataOption):
     @property
     def lost1(self) -> types.Integer:
         """
-        Gets ``lost1``.
+        Number of particles which can be lost before job termination
 
-        Returns:
-            ``lost1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._lost1
@@ -69,8 +66,6 @@ class Lost(_option.DataOption):
                 lost1 = types.Integer(lost1)
             elif isinstance(lost1, str):
                 lost1 = types.Integer.from_mcnp(lost1)
-            else:
-                raise TypeError
 
         if lost1 is None or not (lost1 >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lost1)
@@ -80,10 +75,11 @@ class Lost(_option.DataOption):
     @property
     def lost2(self) -> types.Integer:
         """
-        Gets ``lost2``.
+        Maximum number of debug prints for lost particles.
 
-        Returns:
-            ``lost2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._lost2
@@ -108,8 +104,6 @@ class Lost(_option.DataOption):
                 lost2 = types.Integer(lost2)
             elif isinstance(lost2, str):
                 lost2 = types.Integer.from_mcnp(lost2)
-            else:
-                raise TypeError
 
         if lost2 is None or not (lost2 >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lost2)

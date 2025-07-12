@@ -8,49 +8,6 @@ from ...utils import errors
 class Tsplt(_option.DataOption):
     """
     Represents INP tsplt elements.
-
-    Attributes:
-        designator: Data card particle designator.
-        ratio_1: Splitting/roulette ratio #1.
-        time_1: Splitting/roulette time #1.
-        ratio_2: Splitting/roulette ratio #2.
-        time_2: Splitting/roulette time #2.
-        ratio_3: Splitting/roulette ratio #3.
-        time_3: Splitting/roulette time #3.
-        ratio_4: Splitting/roulette ratio #4.
-        time_4: Splitting/roulette time #4.
-        ratio_5: Splitting/roulette ratio #5.
-        time_5: Splitting/roulette time #5.
-        ratio_6: Splitting/roulette ratio #6.
-        time_6: Splitting/roulette time #6.
-        ratio_7: Splitting/roulette ratio #7.
-        time_7: Splitting/roulette time #7.
-        ratio_8: Splitting/roulette ratio #8.
-        time_8: Splitting/roulette time #8.
-        ratio_9: Splitting/roulette ratio #9.
-        time_9: Splitting/roulette time #9.
-        ratio_10: Splitting/roulette ratio #10.
-        time_10: Splitting/roulette time #10.
-        ratio_11: Splitting/roulette ratio #11.
-        time_11: Splitting/roulette time #11.
-        ratio_12: Splitting/roulette ratio #12.
-        time_12: Splitting/roulette time #12.
-        ratio_13: Splitting/roulette ratio #13.
-        time_13: Splitting/roulette time #13.
-        ratio_14: Splitting/roulette ratio #14.
-        time_14: Splitting/roulette time #14.
-        ratio_15: Splitting/roulette ratio #15.
-        time_15: Splitting/roulette time #15.
-        ratio_16: Splitting/roulette ratio #16.
-        time_16: Splitting/roulette time #16.
-        ratio_17: Splitting/roulette ratio #17.
-        time_17: Splitting/roulette time #17.
-        ratio_18: Splitting/roulette ratio #18.
-        time_18: Splitting/roulette time #18.
-        ratio_19: Splitting/roulette ratio #19.
-        time_19: Splitting/roulette time #19.
-        ratio_20: Splitting/roulette ratio #20.
-        time_20: Splitting/roulette time #20.
     """
 
     _KEYWORD = 'tsplt'
@@ -242,10 +199,11 @@ class Tsplt(_option.DataOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Data card particle designator
 
-        Returns:
-            ``designator``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._designator
@@ -268,8 +226,6 @@ class Tsplt(_option.DataOption):
                 designator = designator
             elif isinstance(designator, str):
                 designator = types.Designator.from_mcnp(designator)
-            else:
-                raise TypeError
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
@@ -279,10 +235,11 @@ class Tsplt(_option.DataOption):
     @property
     def ratio_1(self) -> types.Real:
         """
-        Gets ``ratio_1``.
+        Splitting/roulette ratio #1
 
-        Returns:
-            ``ratio_1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ratio_1
@@ -303,24 +260,21 @@ class Tsplt(_option.DataOption):
         if ratio_1 is not None:
             if isinstance(ratio_1, types.Real):
                 ratio_1 = ratio_1
-            elif isinstance(ratio_1, int):
-                ratio_1 = types.Real(ratio_1)
-            elif isinstance(ratio_1, float):
+            elif isinstance(ratio_1, int) or isinstance(ratio_1, float):
                 ratio_1 = types.Real(ratio_1)
             elif isinstance(ratio_1, str):
                 ratio_1 = types.Real.from_mcnp(ratio_1)
-            else:
-                raise TypeError
 
         self._ratio_1: types.Real = ratio_1
 
     @property
     def time_1(self) -> types.Real:
         """
-        Gets ``time_1``.
+        Splitting/roulette time #1
 
-        Returns:
-            ``time_1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time_1
@@ -341,24 +295,21 @@ class Tsplt(_option.DataOption):
         if time_1 is not None:
             if isinstance(time_1, types.Real):
                 time_1 = time_1
-            elif isinstance(time_1, int):
-                time_1 = types.Real(time_1)
-            elif isinstance(time_1, float):
+            elif isinstance(time_1, int) or isinstance(time_1, float):
                 time_1 = types.Real(time_1)
             elif isinstance(time_1, str):
                 time_1 = types.Real.from_mcnp(time_1)
-            else:
-                raise TypeError
 
         self._time_1: types.Real = time_1
 
     @property
     def ratio_2(self) -> types.Real:
         """
-        Gets ``ratio_2``.
+        Splitting/roulette ratio #2
 
-        Returns:
-            ``ratio_2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ratio_2
@@ -379,24 +330,21 @@ class Tsplt(_option.DataOption):
         if ratio_2 is not None:
             if isinstance(ratio_2, types.Real):
                 ratio_2 = ratio_2
-            elif isinstance(ratio_2, int):
-                ratio_2 = types.Real(ratio_2)
-            elif isinstance(ratio_2, float):
+            elif isinstance(ratio_2, int) or isinstance(ratio_2, float):
                 ratio_2 = types.Real(ratio_2)
             elif isinstance(ratio_2, str):
                 ratio_2 = types.Real.from_mcnp(ratio_2)
-            else:
-                raise TypeError
 
         self._ratio_2: types.Real = ratio_2
 
     @property
     def time_2(self) -> types.Real:
         """
-        Gets ``time_2``.
+        Splitting/roulette time #2
 
-        Returns:
-            ``time_2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time_2
@@ -417,24 +365,21 @@ class Tsplt(_option.DataOption):
         if time_2 is not None:
             if isinstance(time_2, types.Real):
                 time_2 = time_2
-            elif isinstance(time_2, int):
-                time_2 = types.Real(time_2)
-            elif isinstance(time_2, float):
+            elif isinstance(time_2, int) or isinstance(time_2, float):
                 time_2 = types.Real(time_2)
             elif isinstance(time_2, str):
                 time_2 = types.Real.from_mcnp(time_2)
-            else:
-                raise TypeError
 
         self._time_2: types.Real = time_2
 
     @property
     def ratio_3(self) -> types.Real:
         """
-        Gets ``ratio_3``.
+        Splitting/roulette ratio #3
 
-        Returns:
-            ``ratio_3``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ratio_3
@@ -455,24 +400,21 @@ class Tsplt(_option.DataOption):
         if ratio_3 is not None:
             if isinstance(ratio_3, types.Real):
                 ratio_3 = ratio_3
-            elif isinstance(ratio_3, int):
-                ratio_3 = types.Real(ratio_3)
-            elif isinstance(ratio_3, float):
+            elif isinstance(ratio_3, int) or isinstance(ratio_3, float):
                 ratio_3 = types.Real(ratio_3)
             elif isinstance(ratio_3, str):
                 ratio_3 = types.Real.from_mcnp(ratio_3)
-            else:
-                raise TypeError
 
         self._ratio_3: types.Real = ratio_3
 
     @property
     def time_3(self) -> types.Real:
         """
-        Gets ``time_3``.
+        Splitting/roulette time #3
 
-        Returns:
-            ``time_3``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time_3
@@ -493,24 +435,21 @@ class Tsplt(_option.DataOption):
         if time_3 is not None:
             if isinstance(time_3, types.Real):
                 time_3 = time_3
-            elif isinstance(time_3, int):
-                time_3 = types.Real(time_3)
-            elif isinstance(time_3, float):
+            elif isinstance(time_3, int) or isinstance(time_3, float):
                 time_3 = types.Real(time_3)
             elif isinstance(time_3, str):
                 time_3 = types.Real.from_mcnp(time_3)
-            else:
-                raise TypeError
 
         self._time_3: types.Real = time_3
 
     @property
     def ratio_4(self) -> types.Real:
         """
-        Gets ``ratio_4``.
+        Splitting/roulette ratio #4
 
-        Returns:
-            ``ratio_4``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ratio_4
@@ -531,24 +470,21 @@ class Tsplt(_option.DataOption):
         if ratio_4 is not None:
             if isinstance(ratio_4, types.Real):
                 ratio_4 = ratio_4
-            elif isinstance(ratio_4, int):
-                ratio_4 = types.Real(ratio_4)
-            elif isinstance(ratio_4, float):
+            elif isinstance(ratio_4, int) or isinstance(ratio_4, float):
                 ratio_4 = types.Real(ratio_4)
             elif isinstance(ratio_4, str):
                 ratio_4 = types.Real.from_mcnp(ratio_4)
-            else:
-                raise TypeError
 
         self._ratio_4: types.Real = ratio_4
 
     @property
     def time_4(self) -> types.Real:
         """
-        Gets ``time_4``.
+        Splitting/roulette time #4
 
-        Returns:
-            ``time_4``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time_4
@@ -569,24 +505,21 @@ class Tsplt(_option.DataOption):
         if time_4 is not None:
             if isinstance(time_4, types.Real):
                 time_4 = time_4
-            elif isinstance(time_4, int):
-                time_4 = types.Real(time_4)
-            elif isinstance(time_4, float):
+            elif isinstance(time_4, int) or isinstance(time_4, float):
                 time_4 = types.Real(time_4)
             elif isinstance(time_4, str):
                 time_4 = types.Real.from_mcnp(time_4)
-            else:
-                raise TypeError
 
         self._time_4: types.Real = time_4
 
     @property
     def ratio_5(self) -> types.Real:
         """
-        Gets ``ratio_5``.
+        Splitting/roulette ratio #5
 
-        Returns:
-            ``ratio_5``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ratio_5
@@ -607,24 +540,21 @@ class Tsplt(_option.DataOption):
         if ratio_5 is not None:
             if isinstance(ratio_5, types.Real):
                 ratio_5 = ratio_5
-            elif isinstance(ratio_5, int):
-                ratio_5 = types.Real(ratio_5)
-            elif isinstance(ratio_5, float):
+            elif isinstance(ratio_5, int) or isinstance(ratio_5, float):
                 ratio_5 = types.Real(ratio_5)
             elif isinstance(ratio_5, str):
                 ratio_5 = types.Real.from_mcnp(ratio_5)
-            else:
-                raise TypeError
 
         self._ratio_5: types.Real = ratio_5
 
     @property
     def time_5(self) -> types.Real:
         """
-        Gets ``time_5``.
+        Splitting/roulette time #5
 
-        Returns:
-            ``time_5``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time_5
@@ -645,24 +575,21 @@ class Tsplt(_option.DataOption):
         if time_5 is not None:
             if isinstance(time_5, types.Real):
                 time_5 = time_5
-            elif isinstance(time_5, int):
-                time_5 = types.Real(time_5)
-            elif isinstance(time_5, float):
+            elif isinstance(time_5, int) or isinstance(time_5, float):
                 time_5 = types.Real(time_5)
             elif isinstance(time_5, str):
                 time_5 = types.Real.from_mcnp(time_5)
-            else:
-                raise TypeError
 
         self._time_5: types.Real = time_5
 
     @property
     def ratio_6(self) -> types.Real:
         """
-        Gets ``ratio_6``.
+        Splitting/roulette ratio #6
 
-        Returns:
-            ``ratio_6``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ratio_6
@@ -683,24 +610,21 @@ class Tsplt(_option.DataOption):
         if ratio_6 is not None:
             if isinstance(ratio_6, types.Real):
                 ratio_6 = ratio_6
-            elif isinstance(ratio_6, int):
-                ratio_6 = types.Real(ratio_6)
-            elif isinstance(ratio_6, float):
+            elif isinstance(ratio_6, int) or isinstance(ratio_6, float):
                 ratio_6 = types.Real(ratio_6)
             elif isinstance(ratio_6, str):
                 ratio_6 = types.Real.from_mcnp(ratio_6)
-            else:
-                raise TypeError
 
         self._ratio_6: types.Real = ratio_6
 
     @property
     def time_6(self) -> types.Real:
         """
-        Gets ``time_6``.
+        Splitting/roulette time #6
 
-        Returns:
-            ``time_6``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time_6
@@ -721,24 +645,21 @@ class Tsplt(_option.DataOption):
         if time_6 is not None:
             if isinstance(time_6, types.Real):
                 time_6 = time_6
-            elif isinstance(time_6, int):
-                time_6 = types.Real(time_6)
-            elif isinstance(time_6, float):
+            elif isinstance(time_6, int) or isinstance(time_6, float):
                 time_6 = types.Real(time_6)
             elif isinstance(time_6, str):
                 time_6 = types.Real.from_mcnp(time_6)
-            else:
-                raise TypeError
 
         self._time_6: types.Real = time_6
 
     @property
     def ratio_7(self) -> types.Real:
         """
-        Gets ``ratio_7``.
+        Splitting/roulette ratio #7
 
-        Returns:
-            ``ratio_7``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ratio_7
@@ -759,24 +680,21 @@ class Tsplt(_option.DataOption):
         if ratio_7 is not None:
             if isinstance(ratio_7, types.Real):
                 ratio_7 = ratio_7
-            elif isinstance(ratio_7, int):
-                ratio_7 = types.Real(ratio_7)
-            elif isinstance(ratio_7, float):
+            elif isinstance(ratio_7, int) or isinstance(ratio_7, float):
                 ratio_7 = types.Real(ratio_7)
             elif isinstance(ratio_7, str):
                 ratio_7 = types.Real.from_mcnp(ratio_7)
-            else:
-                raise TypeError
 
         self._ratio_7: types.Real = ratio_7
 
     @property
     def time_7(self) -> types.Real:
         """
-        Gets ``time_7``.
+        Splitting/roulette time #7
 
-        Returns:
-            ``time_7``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time_7
@@ -797,24 +715,21 @@ class Tsplt(_option.DataOption):
         if time_7 is not None:
             if isinstance(time_7, types.Real):
                 time_7 = time_7
-            elif isinstance(time_7, int):
-                time_7 = types.Real(time_7)
-            elif isinstance(time_7, float):
+            elif isinstance(time_7, int) or isinstance(time_7, float):
                 time_7 = types.Real(time_7)
             elif isinstance(time_7, str):
                 time_7 = types.Real.from_mcnp(time_7)
-            else:
-                raise TypeError
 
         self._time_7: types.Real = time_7
 
     @property
     def ratio_8(self) -> types.Real:
         """
-        Gets ``ratio_8``.
+        Splitting/roulette ratio #8
 
-        Returns:
-            ``ratio_8``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ratio_8
@@ -835,24 +750,21 @@ class Tsplt(_option.DataOption):
         if ratio_8 is not None:
             if isinstance(ratio_8, types.Real):
                 ratio_8 = ratio_8
-            elif isinstance(ratio_8, int):
-                ratio_8 = types.Real(ratio_8)
-            elif isinstance(ratio_8, float):
+            elif isinstance(ratio_8, int) or isinstance(ratio_8, float):
                 ratio_8 = types.Real(ratio_8)
             elif isinstance(ratio_8, str):
                 ratio_8 = types.Real.from_mcnp(ratio_8)
-            else:
-                raise TypeError
 
         self._ratio_8: types.Real = ratio_8
 
     @property
     def time_8(self) -> types.Real:
         """
-        Gets ``time_8``.
+        Splitting/roulette time #8
 
-        Returns:
-            ``time_8``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time_8
@@ -873,24 +785,21 @@ class Tsplt(_option.DataOption):
         if time_8 is not None:
             if isinstance(time_8, types.Real):
                 time_8 = time_8
-            elif isinstance(time_8, int):
-                time_8 = types.Real(time_8)
-            elif isinstance(time_8, float):
+            elif isinstance(time_8, int) or isinstance(time_8, float):
                 time_8 = types.Real(time_8)
             elif isinstance(time_8, str):
                 time_8 = types.Real.from_mcnp(time_8)
-            else:
-                raise TypeError
 
         self._time_8: types.Real = time_8
 
     @property
     def ratio_9(self) -> types.Real:
         """
-        Gets ``ratio_9``.
+        Splitting/roulette ratio #9
 
-        Returns:
-            ``ratio_9``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ratio_9
@@ -911,24 +820,21 @@ class Tsplt(_option.DataOption):
         if ratio_9 is not None:
             if isinstance(ratio_9, types.Real):
                 ratio_9 = ratio_9
-            elif isinstance(ratio_9, int):
-                ratio_9 = types.Real(ratio_9)
-            elif isinstance(ratio_9, float):
+            elif isinstance(ratio_9, int) or isinstance(ratio_9, float):
                 ratio_9 = types.Real(ratio_9)
             elif isinstance(ratio_9, str):
                 ratio_9 = types.Real.from_mcnp(ratio_9)
-            else:
-                raise TypeError
 
         self._ratio_9: types.Real = ratio_9
 
     @property
     def time_9(self) -> types.Real:
         """
-        Gets ``time_9``.
+        Splitting/roulette time #9
 
-        Returns:
-            ``time_9``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time_9
@@ -949,24 +855,21 @@ class Tsplt(_option.DataOption):
         if time_9 is not None:
             if isinstance(time_9, types.Real):
                 time_9 = time_9
-            elif isinstance(time_9, int):
-                time_9 = types.Real(time_9)
-            elif isinstance(time_9, float):
+            elif isinstance(time_9, int) or isinstance(time_9, float):
                 time_9 = types.Real(time_9)
             elif isinstance(time_9, str):
                 time_9 = types.Real.from_mcnp(time_9)
-            else:
-                raise TypeError
 
         self._time_9: types.Real = time_9
 
     @property
     def ratio_10(self) -> types.Real:
         """
-        Gets ``ratio_10``.
+        Splitting/roulette ratio #10
 
-        Returns:
-            ``ratio_10``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ratio_10
@@ -987,24 +890,21 @@ class Tsplt(_option.DataOption):
         if ratio_10 is not None:
             if isinstance(ratio_10, types.Real):
                 ratio_10 = ratio_10
-            elif isinstance(ratio_10, int):
-                ratio_10 = types.Real(ratio_10)
-            elif isinstance(ratio_10, float):
+            elif isinstance(ratio_10, int) or isinstance(ratio_10, float):
                 ratio_10 = types.Real(ratio_10)
             elif isinstance(ratio_10, str):
                 ratio_10 = types.Real.from_mcnp(ratio_10)
-            else:
-                raise TypeError
 
         self._ratio_10: types.Real = ratio_10
 
     @property
     def time_10(self) -> types.Real:
         """
-        Gets ``time_10``.
+        Splitting/roulette time #10
 
-        Returns:
-            ``time_10``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time_10
@@ -1025,24 +925,21 @@ class Tsplt(_option.DataOption):
         if time_10 is not None:
             if isinstance(time_10, types.Real):
                 time_10 = time_10
-            elif isinstance(time_10, int):
-                time_10 = types.Real(time_10)
-            elif isinstance(time_10, float):
+            elif isinstance(time_10, int) or isinstance(time_10, float):
                 time_10 = types.Real(time_10)
             elif isinstance(time_10, str):
                 time_10 = types.Real.from_mcnp(time_10)
-            else:
-                raise TypeError
 
         self._time_10: types.Real = time_10
 
     @property
     def ratio_11(self) -> types.Real:
         """
-        Gets ``ratio_11``.
+        Splitting/roulette ratio #11
 
-        Returns:
-            ``ratio_11``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ratio_11
@@ -1063,24 +960,21 @@ class Tsplt(_option.DataOption):
         if ratio_11 is not None:
             if isinstance(ratio_11, types.Real):
                 ratio_11 = ratio_11
-            elif isinstance(ratio_11, int):
-                ratio_11 = types.Real(ratio_11)
-            elif isinstance(ratio_11, float):
+            elif isinstance(ratio_11, int) or isinstance(ratio_11, float):
                 ratio_11 = types.Real(ratio_11)
             elif isinstance(ratio_11, str):
                 ratio_11 = types.Real.from_mcnp(ratio_11)
-            else:
-                raise TypeError
 
         self._ratio_11: types.Real = ratio_11
 
     @property
     def time_11(self) -> types.Real:
         """
-        Gets ``time_11``.
+        Splitting/roulette time #11
 
-        Returns:
-            ``time_11``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time_11
@@ -1101,24 +995,21 @@ class Tsplt(_option.DataOption):
         if time_11 is not None:
             if isinstance(time_11, types.Real):
                 time_11 = time_11
-            elif isinstance(time_11, int):
-                time_11 = types.Real(time_11)
-            elif isinstance(time_11, float):
+            elif isinstance(time_11, int) or isinstance(time_11, float):
                 time_11 = types.Real(time_11)
             elif isinstance(time_11, str):
                 time_11 = types.Real.from_mcnp(time_11)
-            else:
-                raise TypeError
 
         self._time_11: types.Real = time_11
 
     @property
     def ratio_12(self) -> types.Real:
         """
-        Gets ``ratio_12``.
+        Splitting/roulette ratio #12
 
-        Returns:
-            ``ratio_12``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ratio_12
@@ -1139,24 +1030,21 @@ class Tsplt(_option.DataOption):
         if ratio_12 is not None:
             if isinstance(ratio_12, types.Real):
                 ratio_12 = ratio_12
-            elif isinstance(ratio_12, int):
-                ratio_12 = types.Real(ratio_12)
-            elif isinstance(ratio_12, float):
+            elif isinstance(ratio_12, int) or isinstance(ratio_12, float):
                 ratio_12 = types.Real(ratio_12)
             elif isinstance(ratio_12, str):
                 ratio_12 = types.Real.from_mcnp(ratio_12)
-            else:
-                raise TypeError
 
         self._ratio_12: types.Real = ratio_12
 
     @property
     def time_12(self) -> types.Real:
         """
-        Gets ``time_12``.
+        Splitting/roulette time #12
 
-        Returns:
-            ``time_12``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time_12
@@ -1177,24 +1065,21 @@ class Tsplt(_option.DataOption):
         if time_12 is not None:
             if isinstance(time_12, types.Real):
                 time_12 = time_12
-            elif isinstance(time_12, int):
-                time_12 = types.Real(time_12)
-            elif isinstance(time_12, float):
+            elif isinstance(time_12, int) or isinstance(time_12, float):
                 time_12 = types.Real(time_12)
             elif isinstance(time_12, str):
                 time_12 = types.Real.from_mcnp(time_12)
-            else:
-                raise TypeError
 
         self._time_12: types.Real = time_12
 
     @property
     def ratio_13(self) -> types.Real:
         """
-        Gets ``ratio_13``.
+        Splitting/roulette ratio #13
 
-        Returns:
-            ``ratio_13``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ratio_13
@@ -1215,24 +1100,21 @@ class Tsplt(_option.DataOption):
         if ratio_13 is not None:
             if isinstance(ratio_13, types.Real):
                 ratio_13 = ratio_13
-            elif isinstance(ratio_13, int):
-                ratio_13 = types.Real(ratio_13)
-            elif isinstance(ratio_13, float):
+            elif isinstance(ratio_13, int) or isinstance(ratio_13, float):
                 ratio_13 = types.Real(ratio_13)
             elif isinstance(ratio_13, str):
                 ratio_13 = types.Real.from_mcnp(ratio_13)
-            else:
-                raise TypeError
 
         self._ratio_13: types.Real = ratio_13
 
     @property
     def time_13(self) -> types.Real:
         """
-        Gets ``time_13``.
+        Splitting/roulette time #13
 
-        Returns:
-            ``time_13``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time_13
@@ -1253,24 +1135,21 @@ class Tsplt(_option.DataOption):
         if time_13 is not None:
             if isinstance(time_13, types.Real):
                 time_13 = time_13
-            elif isinstance(time_13, int):
-                time_13 = types.Real(time_13)
-            elif isinstance(time_13, float):
+            elif isinstance(time_13, int) or isinstance(time_13, float):
                 time_13 = types.Real(time_13)
             elif isinstance(time_13, str):
                 time_13 = types.Real.from_mcnp(time_13)
-            else:
-                raise TypeError
 
         self._time_13: types.Real = time_13
 
     @property
     def ratio_14(self) -> types.Real:
         """
-        Gets ``ratio_14``.
+        Splitting/roulette ratio #14
 
-        Returns:
-            ``ratio_14``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ratio_14
@@ -1291,24 +1170,21 @@ class Tsplt(_option.DataOption):
         if ratio_14 is not None:
             if isinstance(ratio_14, types.Real):
                 ratio_14 = ratio_14
-            elif isinstance(ratio_14, int):
-                ratio_14 = types.Real(ratio_14)
-            elif isinstance(ratio_14, float):
+            elif isinstance(ratio_14, int) or isinstance(ratio_14, float):
                 ratio_14 = types.Real(ratio_14)
             elif isinstance(ratio_14, str):
                 ratio_14 = types.Real.from_mcnp(ratio_14)
-            else:
-                raise TypeError
 
         self._ratio_14: types.Real = ratio_14
 
     @property
     def time_14(self) -> types.Real:
         """
-        Gets ``time_14``.
+        Splitting/roulette time #14
 
-        Returns:
-            ``time_14``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time_14
@@ -1329,24 +1205,21 @@ class Tsplt(_option.DataOption):
         if time_14 is not None:
             if isinstance(time_14, types.Real):
                 time_14 = time_14
-            elif isinstance(time_14, int):
-                time_14 = types.Real(time_14)
-            elif isinstance(time_14, float):
+            elif isinstance(time_14, int) or isinstance(time_14, float):
                 time_14 = types.Real(time_14)
             elif isinstance(time_14, str):
                 time_14 = types.Real.from_mcnp(time_14)
-            else:
-                raise TypeError
 
         self._time_14: types.Real = time_14
 
     @property
     def ratio_15(self) -> types.Real:
         """
-        Gets ``ratio_15``.
+        Splitting/roulette ratio #15
 
-        Returns:
-            ``ratio_15``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ratio_15
@@ -1367,24 +1240,21 @@ class Tsplt(_option.DataOption):
         if ratio_15 is not None:
             if isinstance(ratio_15, types.Real):
                 ratio_15 = ratio_15
-            elif isinstance(ratio_15, int):
-                ratio_15 = types.Real(ratio_15)
-            elif isinstance(ratio_15, float):
+            elif isinstance(ratio_15, int) or isinstance(ratio_15, float):
                 ratio_15 = types.Real(ratio_15)
             elif isinstance(ratio_15, str):
                 ratio_15 = types.Real.from_mcnp(ratio_15)
-            else:
-                raise TypeError
 
         self._ratio_15: types.Real = ratio_15
 
     @property
     def time_15(self) -> types.Real:
         """
-        Gets ``time_15``.
+        Splitting/roulette time #15
 
-        Returns:
-            ``time_15``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time_15
@@ -1405,24 +1275,21 @@ class Tsplt(_option.DataOption):
         if time_15 is not None:
             if isinstance(time_15, types.Real):
                 time_15 = time_15
-            elif isinstance(time_15, int):
-                time_15 = types.Real(time_15)
-            elif isinstance(time_15, float):
+            elif isinstance(time_15, int) or isinstance(time_15, float):
                 time_15 = types.Real(time_15)
             elif isinstance(time_15, str):
                 time_15 = types.Real.from_mcnp(time_15)
-            else:
-                raise TypeError
 
         self._time_15: types.Real = time_15
 
     @property
     def ratio_16(self) -> types.Real:
         """
-        Gets ``ratio_16``.
+        Splitting/roulette ratio #16
 
-        Returns:
-            ``ratio_16``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ratio_16
@@ -1443,24 +1310,21 @@ class Tsplt(_option.DataOption):
         if ratio_16 is not None:
             if isinstance(ratio_16, types.Real):
                 ratio_16 = ratio_16
-            elif isinstance(ratio_16, int):
-                ratio_16 = types.Real(ratio_16)
-            elif isinstance(ratio_16, float):
+            elif isinstance(ratio_16, int) or isinstance(ratio_16, float):
                 ratio_16 = types.Real(ratio_16)
             elif isinstance(ratio_16, str):
                 ratio_16 = types.Real.from_mcnp(ratio_16)
-            else:
-                raise TypeError
 
         self._ratio_16: types.Real = ratio_16
 
     @property
     def time_16(self) -> types.Real:
         """
-        Gets ``time_16``.
+        Splitting/roulette time #16
 
-        Returns:
-            ``time_16``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time_16
@@ -1481,24 +1345,21 @@ class Tsplt(_option.DataOption):
         if time_16 is not None:
             if isinstance(time_16, types.Real):
                 time_16 = time_16
-            elif isinstance(time_16, int):
-                time_16 = types.Real(time_16)
-            elif isinstance(time_16, float):
+            elif isinstance(time_16, int) or isinstance(time_16, float):
                 time_16 = types.Real(time_16)
             elif isinstance(time_16, str):
                 time_16 = types.Real.from_mcnp(time_16)
-            else:
-                raise TypeError
 
         self._time_16: types.Real = time_16
 
     @property
     def ratio_17(self) -> types.Real:
         """
-        Gets ``ratio_17``.
+        Splitting/roulette ratio #17
 
-        Returns:
-            ``ratio_17``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ratio_17
@@ -1519,24 +1380,21 @@ class Tsplt(_option.DataOption):
         if ratio_17 is not None:
             if isinstance(ratio_17, types.Real):
                 ratio_17 = ratio_17
-            elif isinstance(ratio_17, int):
-                ratio_17 = types.Real(ratio_17)
-            elif isinstance(ratio_17, float):
+            elif isinstance(ratio_17, int) or isinstance(ratio_17, float):
                 ratio_17 = types.Real(ratio_17)
             elif isinstance(ratio_17, str):
                 ratio_17 = types.Real.from_mcnp(ratio_17)
-            else:
-                raise TypeError
 
         self._ratio_17: types.Real = ratio_17
 
     @property
     def time_17(self) -> types.Real:
         """
-        Gets ``time_17``.
+        Splitting/roulette time #17
 
-        Returns:
-            ``time_17``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time_17
@@ -1557,24 +1415,21 @@ class Tsplt(_option.DataOption):
         if time_17 is not None:
             if isinstance(time_17, types.Real):
                 time_17 = time_17
-            elif isinstance(time_17, int):
-                time_17 = types.Real(time_17)
-            elif isinstance(time_17, float):
+            elif isinstance(time_17, int) or isinstance(time_17, float):
                 time_17 = types.Real(time_17)
             elif isinstance(time_17, str):
                 time_17 = types.Real.from_mcnp(time_17)
-            else:
-                raise TypeError
 
         self._time_17: types.Real = time_17
 
     @property
     def ratio_18(self) -> types.Real:
         """
-        Gets ``ratio_18``.
+        Splitting/roulette ratio #18
 
-        Returns:
-            ``ratio_18``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ratio_18
@@ -1595,24 +1450,21 @@ class Tsplt(_option.DataOption):
         if ratio_18 is not None:
             if isinstance(ratio_18, types.Real):
                 ratio_18 = ratio_18
-            elif isinstance(ratio_18, int):
-                ratio_18 = types.Real(ratio_18)
-            elif isinstance(ratio_18, float):
+            elif isinstance(ratio_18, int) or isinstance(ratio_18, float):
                 ratio_18 = types.Real(ratio_18)
             elif isinstance(ratio_18, str):
                 ratio_18 = types.Real.from_mcnp(ratio_18)
-            else:
-                raise TypeError
 
         self._ratio_18: types.Real = ratio_18
 
     @property
     def time_18(self) -> types.Real:
         """
-        Gets ``time_18``.
+        Splitting/roulette time #18
 
-        Returns:
-            ``time_18``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time_18
@@ -1633,24 +1485,21 @@ class Tsplt(_option.DataOption):
         if time_18 is not None:
             if isinstance(time_18, types.Real):
                 time_18 = time_18
-            elif isinstance(time_18, int):
-                time_18 = types.Real(time_18)
-            elif isinstance(time_18, float):
+            elif isinstance(time_18, int) or isinstance(time_18, float):
                 time_18 = types.Real(time_18)
             elif isinstance(time_18, str):
                 time_18 = types.Real.from_mcnp(time_18)
-            else:
-                raise TypeError
 
         self._time_18: types.Real = time_18
 
     @property
     def ratio_19(self) -> types.Real:
         """
-        Gets ``ratio_19``.
+        Splitting/roulette ratio #19
 
-        Returns:
-            ``ratio_19``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ratio_19
@@ -1671,24 +1520,21 @@ class Tsplt(_option.DataOption):
         if ratio_19 is not None:
             if isinstance(ratio_19, types.Real):
                 ratio_19 = ratio_19
-            elif isinstance(ratio_19, int):
-                ratio_19 = types.Real(ratio_19)
-            elif isinstance(ratio_19, float):
+            elif isinstance(ratio_19, int) or isinstance(ratio_19, float):
                 ratio_19 = types.Real(ratio_19)
             elif isinstance(ratio_19, str):
                 ratio_19 = types.Real.from_mcnp(ratio_19)
-            else:
-                raise TypeError
 
         self._ratio_19: types.Real = ratio_19
 
     @property
     def time_19(self) -> types.Real:
         """
-        Gets ``time_19``.
+        Splitting/roulette time #19
 
-        Returns:
-            ``time_19``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time_19
@@ -1709,24 +1555,21 @@ class Tsplt(_option.DataOption):
         if time_19 is not None:
             if isinstance(time_19, types.Real):
                 time_19 = time_19
-            elif isinstance(time_19, int):
-                time_19 = types.Real(time_19)
-            elif isinstance(time_19, float):
+            elif isinstance(time_19, int) or isinstance(time_19, float):
                 time_19 = types.Real(time_19)
             elif isinstance(time_19, str):
                 time_19 = types.Real.from_mcnp(time_19)
-            else:
-                raise TypeError
 
         self._time_19: types.Real = time_19
 
     @property
     def ratio_20(self) -> types.Real:
         """
-        Gets ``ratio_20``.
+        Splitting/roulette ratio #20
 
-        Returns:
-            ``ratio_20``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ratio_20
@@ -1747,24 +1590,21 @@ class Tsplt(_option.DataOption):
         if ratio_20 is not None:
             if isinstance(ratio_20, types.Real):
                 ratio_20 = ratio_20
-            elif isinstance(ratio_20, int):
-                ratio_20 = types.Real(ratio_20)
-            elif isinstance(ratio_20, float):
+            elif isinstance(ratio_20, int) or isinstance(ratio_20, float):
                 ratio_20 = types.Real(ratio_20)
             elif isinstance(ratio_20, str):
                 ratio_20 = types.Real.from_mcnp(ratio_20)
-            else:
-                raise TypeError
 
         self._ratio_20: types.Real = ratio_20
 
     @property
     def time_20(self) -> types.Real:
         """
-        Gets ``time_20``.
+        Splitting/roulette time #20
 
-        Returns:
-            ``time_20``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time_20
@@ -1785,13 +1625,9 @@ class Tsplt(_option.DataOption):
         if time_20 is not None:
             if isinstance(time_20, types.Real):
                 time_20 = time_20
-            elif isinstance(time_20, int):
-                time_20 = types.Real(time_20)
-            elif isinstance(time_20, float):
+            elif isinstance(time_20, int) or isinstance(time_20, float):
                 time_20 = types.Real(time_20)
             elif isinstance(time_20, str):
                 time_20 = types.Real.from_mcnp(time_20)
-            else:
-                raise TypeError
 
         self._time_20: types.Real = time_20

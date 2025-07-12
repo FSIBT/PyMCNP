@@ -8,11 +8,6 @@ from ....utils import errors
 class Dat(_option.SdefOption):
     """
     Represents INP dat elements.
-
-    Attributes:
-        month: Month for cosmic-ray & background sources.
-        day: Day for cosmic-ray & background sources.
-        year: Year for cosmic-ray & background sources.
     """
 
     _KEYWORD = 'dat'
@@ -45,10 +40,11 @@ class Dat(_option.SdefOption):
     @property
     def month(self) -> types.Integer:
         """
-        Gets ``month``.
+        Month for cosmic-ray & background sources
 
-        Returns:
-            ``month``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._month
@@ -73,8 +69,6 @@ class Dat(_option.SdefOption):
                 month = types.Integer(month)
             elif isinstance(month, str):
                 month = types.Integer.from_mcnp(month)
-            else:
-                raise TypeError
 
         if month is None or not (month >= 1 and month <= 12):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, month)
@@ -84,10 +78,11 @@ class Dat(_option.SdefOption):
     @property
     def day(self) -> types.Integer:
         """
-        Gets ``day``.
+        Day for cosmic-ray & background sources
 
-        Returns:
-            ``day``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._day
@@ -112,8 +107,6 @@ class Dat(_option.SdefOption):
                 day = types.Integer(day)
             elif isinstance(day, str):
                 day = types.Integer.from_mcnp(day)
-            else:
-                raise TypeError
 
         if day is None or not (day >= 1 and day <= 31):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, day)
@@ -123,10 +116,11 @@ class Dat(_option.SdefOption):
     @property
     def year(self) -> types.Integer:
         """
-        Gets ``year``.
+        Year for cosmic-ray & background sources
 
-        Returns:
-            ``year``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._year
@@ -151,8 +145,6 @@ class Dat(_option.SdefOption):
                 year = types.Integer(year)
             elif isinstance(year, str):
                 year = types.Integer.from_mcnp(year)
-            else:
-                raise TypeError
 
         if year is None or not (year >= 1 and year <= 9999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, year)

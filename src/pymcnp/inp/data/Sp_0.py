@@ -8,11 +8,6 @@ from ...utils import errors
 class Sp_0(_option.DataOption):
     """
     Represents INP sp variation #0 elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        option: Probability kind setting.
-        probabilities: Particle source probabilities.
     """
 
     _KEYWORD = 'sp'
@@ -45,10 +40,11 @@ class Sp_0(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -73,8 +69,6 @@ class Sp_0(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None or not (suffix >= 1 and suffix <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -84,10 +78,11 @@ class Sp_0(_option.DataOption):
     @property
     def option(self) -> types.String:
         """
-        Gets ``option``.
+        Probability kind setting
 
-        Returns:
-            ``option``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._option
@@ -110,8 +105,6 @@ class Sp_0(_option.DataOption):
                 option = option
             elif isinstance(option, str):
                 option = types.String.from_mcnp(option)
-            else:
-                raise TypeError
 
         if option is not None and option not in {'d', 'c', 'v', 'w'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, option)
@@ -121,10 +114,11 @@ class Sp_0(_option.DataOption):
     @property
     def probabilities(self) -> types.Tuple[types.Real]:
         """
-        Gets ``probabilities``.
+        Particle source probabilities
 
-        Returns:
-            ``probabilities``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._probabilities
@@ -147,14 +141,11 @@ class Sp_0(_option.DataOption):
             for item in probabilities:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             probabilities = types.Tuple(array)
 
         if probabilities is None:

@@ -8,9 +8,6 @@ from ....utils import errors
 class Fac(_option.DfOption_1):
     """
     Represents INP fac elements.
-
-    Attributes:
-        normalization: Normalization factor for dose.
     """
 
     _KEYWORD = 'fac'
@@ -37,10 +34,11 @@ class Fac(_option.DfOption_1):
     @property
     def normalization(self) -> types.Integer:
         """
-        Gets ``normalization``.
+        Normalization factor for dose
 
-        Returns:
-            ``normalization``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._normalization
@@ -65,8 +63,6 @@ class Fac(_option.DfOption_1):
                 normalization = types.Integer(normalization)
             elif isinstance(normalization, str):
                 normalization = types.Integer.from_mcnp(normalization)
-            else:
-                raise TypeError
 
         if normalization is None or not (isinstance(normalization.value, types.Jump) or normalization >= -3):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, normalization)

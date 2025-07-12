@@ -7,9 +7,6 @@ from ....utils import types
 class Tally(_option.MplotOption):
     """
     Represents INP tally elements.
-
-    Attributes:
-        n: Number of current tally.
     """
 
     _KEYWORD = 'tally'
@@ -36,10 +33,11 @@ class Tally(_option.MplotOption):
     @property
     def n(self) -> types.Integer:
         """
-        Gets ``n``.
+        Number of current tally
 
-        Returns:
-            ``n``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._n
@@ -64,7 +62,5 @@ class Tally(_option.MplotOption):
                 n = types.Integer(n)
             elif isinstance(n, str):
                 n = types.Integer.from_mcnp(n)
-            else:
-                raise TypeError
 
         self._n: types.Integer = n

@@ -7,11 +7,3 @@ class MOption_0(_option.Option):
     """
 
     pass
-
-
-class MOptionBuilder_0(_option.OptionBuilder):
-    """
-    Represents generic INP m_0 option builders.
-    """
-
-    pass

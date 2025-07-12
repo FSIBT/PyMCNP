@@ -8,9 +8,6 @@ from ....utils import errors
 class Mat(_option.KpertOption):
     """
     Represents INP mat elements.
-
-    Attributes:
-        numbers: List of materials.
     """
 
     _KEYWORD = 'mat'
@@ -37,10 +34,11 @@ class Mat(_option.KpertOption):
     @property
     def numbers(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``numbers``.
+        List of materials
 
-        Returns:
-            ``numbers``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._numbers
@@ -67,8 +65,7 @@ class Mat(_option.KpertOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             numbers = types.Tuple(array)
 
         if numbers is None:

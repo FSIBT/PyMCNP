@@ -8,9 +8,6 @@ from ....utils import errors
 class Xs_2(_option.MplotOption):
     """
     Represents INP xs variation #2 elements.
-
-    Attributes:
-        m: Material question mark.
     """
 
     _KEYWORD = 'xs'
@@ -37,10 +34,11 @@ class Xs_2(_option.MplotOption):
     @property
     def m(self) -> types.String:
         """
-        Gets ``m``.
+        Material question mark
 
-        Returns:
-            ``m``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._m
@@ -63,8 +61,6 @@ class Xs_2(_option.MplotOption):
                 m = m
             elif isinstance(m, str):
                 m = types.String.from_mcnp(m)
-            else:
-                raise TypeError
 
         if m is None or not (m == '?'):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, m)

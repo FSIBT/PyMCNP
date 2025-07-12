@@ -8,9 +8,6 @@ from ....utils import errors
 class Tfc(_option.MplotOption):
     """
     Represents INP tfc elements.
-
-    Attributes:
-        x: Independent variable selector.
     """
 
     _KEYWORD = 'tfc'
@@ -37,10 +34,11 @@ class Tfc(_option.MplotOption):
     @property
     def x(self) -> types.String:
         """
-        Gets ``x``.
+        Independent variable selector
 
-        Returns:
-            ``x``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x
@@ -63,8 +61,6 @@ class Tfc(_option.MplotOption):
                 x = x
             elif isinstance(x, str):
                 x = types.String.from_mcnp(x)
-            else:
-                raise TypeError
 
         if x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)

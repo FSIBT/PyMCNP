@@ -8,9 +8,6 @@ from ....utils import errors
 class Freq(_option.MplotOption):
     """
     Represents INP freq elements.
-
-    Attributes:
-        n: Number of histories between plotting calls.
     """
 
     _KEYWORD = 'freq'
@@ -37,10 +34,11 @@ class Freq(_option.MplotOption):
     @property
     def n(self) -> types.Integer:
         """
-        Gets ``n``.
+        Number of histories between plotting calls
 
-        Returns:
-            ``n``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._n
@@ -65,8 +63,6 @@ class Freq(_option.MplotOption):
                 n = types.Integer(n)
             elif isinstance(n, str):
                 n = types.Integer.from_mcnp(n)
-            else:
-                raise TypeError
 
         if n is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n)

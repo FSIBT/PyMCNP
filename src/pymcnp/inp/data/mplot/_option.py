@@ -7,11 +7,3 @@ class MplotOption(_option.Option):
     """
 
     pass
-
-
-class MplotOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP mplot option builders.
-    """
-
-    pass

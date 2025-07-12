@@ -8,9 +8,6 @@ from ....utils import errors
 class Wmctal(_option.MplotOption):
     """
     Represents INP wmctal elements.
-
-    Attributes:
-        filename: MCTAL file to write.
     """
 
     _KEYWORD = 'wmctal'
@@ -37,10 +34,11 @@ class Wmctal(_option.MplotOption):
     @property
     def filename(self) -> types.String:
         """
-        Gets ``filename``.
+        MCTAL file to write
 
-        Returns:
-            ``filename``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._filename
@@ -63,8 +61,6 @@ class Wmctal(_option.MplotOption):
                 filename = filename
             elif isinstance(filename, str):
                 filename = types.String.from_mcnp(filename)
-            else:
-                raise TypeError
 
         if filename is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, filename)

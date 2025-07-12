@@ -9,10 +9,6 @@ from ...utils import errors
 class Embed(_option.DataOption):
     """
     Represents INP embed elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        options: Dictionary of options.
     """
 
     _KEYWORD = 'embed'
@@ -42,10 +38,11 @@ class Embed(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -70,8 +67,6 @@ class Embed(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -81,10 +76,11 @@ class Embed(_option.DataOption):
     @property
     def options(self) -> types.Tuple[embed.EmbedOption]:
         """
-        Gets ``options``.
+        Dictionary of options
 
-        Returns:
-            ``options``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._options
@@ -109,8 +105,7 @@ class Embed(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(embed.EmbedOption.from_mcnp(item))
-                else:
-                    raise TypeError
+
             options = types.Tuple(array)
 
         self._options: types.Tuple[embed.EmbedOption] = options

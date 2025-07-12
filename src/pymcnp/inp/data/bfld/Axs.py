@@ -8,9 +8,6 @@ from ....utils import errors
 class Axs(_option.BfldOption):
     """
     Represents INP axs elements.
-
-    Attributes:
-        vector: Direction of the cosines of the quadropole beam axis.
     """
 
     _KEYWORD = 'axs'
@@ -37,10 +34,11 @@ class Axs(_option.BfldOption):
     @property
     def vector(self) -> types.Tuple[types.Real]:
         """
-        Gets ``vector``.
+        Direction of the cosines of the quadropole beam axis
 
-        Returns:
-            ``vector``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._vector
@@ -63,14 +61,11 @@ class Axs(_option.BfldOption):
             for item in vector:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             vector = types.Tuple(array)
 
         if vector is None:

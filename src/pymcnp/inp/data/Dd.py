@@ -8,10 +8,6 @@ from ...utils import errors
 class Dd(_option.DataOption):
     """
     Represents INP dd elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        diagnostics: Detector diagnostic entries.
     """
 
     _KEYWORD = 'dd'
@@ -41,10 +37,11 @@ class Dd(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -69,18 +66,17 @@ class Dd(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         self._suffix: types.Integer = suffix
 
     @property
     def diagnostics(self) -> types.Tuple[types.Diagnostic]:
         """
-        Gets ``diagnostics``.
+        Detector diagnostic entries
 
-        Returns:
-            ``diagnostics``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._diagnostics
@@ -105,8 +101,7 @@ class Dd(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Diagnostic.from_mcnp(item))
-                else:
-                    raise TypeError
+
             diagnostics = types.Tuple(array)
 
         if diagnostics is None:

@@ -6,9 +6,6 @@ from . import _option
 class Loglog(_option.MplotOption):
     """
     Represents INP loglog elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'loglog'

@@ -8,9 +8,6 @@ from ....utils import errors
 class Hstep(_option.MOption_0):
     """
     Represents INP hstep elements.
-
-    Attributes:
-        step: Number of proton sub-step per energy step.
     """
 
     _KEYWORD = 'hstep'
@@ -37,10 +34,11 @@ class Hstep(_option.MOption_0):
     @property
     def step(self) -> types.Integer:
         """
-        Gets ``step``.
+        Number of proton sub-step per energy step
 
-        Returns:
-            ``step``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._step
@@ -65,8 +63,6 @@ class Hstep(_option.MOption_0):
                 step = types.Integer(step)
             elif isinstance(step, str):
                 step = types.Integer.from_mcnp(step)
-            else:
-                raise TypeError
 
         if step is None or not (step >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, step)

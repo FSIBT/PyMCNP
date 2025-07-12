@@ -8,9 +8,6 @@ from ....utils import errors
 class Atom(_option.EmbeeOption):
     """
     Represents INP atom elements.
-
-    Attributes:
-        setting: Flag to multiply by atom density.
     """
 
     _KEYWORD = 'atom'
@@ -37,10 +34,11 @@ class Atom(_option.EmbeeOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Flag to multiply by atom density
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Atom(_option.EmbeeOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {'yes', 'no'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

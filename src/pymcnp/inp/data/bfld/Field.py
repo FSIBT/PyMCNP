@@ -8,9 +8,6 @@ from ....utils import errors
 class Field(_option.BfldOption):
     """
     Represents INP field elements.
-
-    Attributes:
-        strength_gradient: Magnetic field strength/gradient.
     """
 
     _KEYWORD = 'field'
@@ -37,10 +34,11 @@ class Field(_option.BfldOption):
     @property
     def strength_gradient(self) -> types.Real:
         """
-        Gets ``strength_gradient``.
+        Magnetic field strength/gradient
 
-        Returns:
-            ``strength_gradient``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._strength_gradient
@@ -61,14 +59,10 @@ class Field(_option.BfldOption):
         if strength_gradient is not None:
             if isinstance(strength_gradient, types.Real):
                 strength_gradient = strength_gradient
-            elif isinstance(strength_gradient, int):
-                strength_gradient = types.Real(strength_gradient)
-            elif isinstance(strength_gradient, float):
+            elif isinstance(strength_gradient, int) or isinstance(strength_gradient, float):
                 strength_gradient = types.Real(strength_gradient)
             elif isinstance(strength_gradient, str):
                 strength_gradient = types.Real.from_mcnp(strength_gradient)
-            else:
-                raise TypeError
 
         if strength_gradient is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, strength_gradient)

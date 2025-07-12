@@ -7,11 +7,3 @@ class TroptOption(_option.Option):
     """
 
     pass
-
-
-class TroptOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP tropt option builders.
-    """
-
-    pass

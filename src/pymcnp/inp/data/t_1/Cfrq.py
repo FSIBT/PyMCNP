@@ -8,9 +8,6 @@ from ....utils import errors
 class Cfrq(_option.TOption_1):
     """
     Represents INP cfrq elements.
-
-    Attributes:
-        frequency: Frequency of cycling.
     """
 
     _KEYWORD = 'cfrq'
@@ -37,10 +34,11 @@ class Cfrq(_option.TOption_1):
     @property
     def frequency(self) -> types.Real:
         """
-        Gets ``frequency``.
+        Frequency of cycling
 
-        Returns:
-            ``frequency``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._frequency
@@ -61,14 +59,10 @@ class Cfrq(_option.TOption_1):
         if frequency is not None:
             if isinstance(frequency, types.Real):
                 frequency = frequency
-            elif isinstance(frequency, int):
-                frequency = types.Real(frequency)
-            elif isinstance(frequency, float):
+            elif isinstance(frequency, int) or isinstance(frequency, float):
                 frequency = types.Real(frequency)
             elif isinstance(frequency, str):
                 frequency = types.Real.from_mcnp(frequency)
-            else:
-                raise TypeError
 
         if frequency is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, frequency)

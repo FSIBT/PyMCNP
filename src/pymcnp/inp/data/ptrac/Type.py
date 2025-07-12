@@ -8,9 +8,6 @@ from ....utils import errors
 class Type(_option.PtracOption):
     """
     Represents INP type elements.
-
-    Attributes:
-        particles: Filters events based on one or more particle types.
     """
 
     _KEYWORD = 'type'
@@ -37,10 +34,11 @@ class Type(_option.PtracOption):
     @property
     def particles(self) -> types.Tuple[types.Designator]:
         """
-        Gets ``particles``.
+        Filters events based on one or more particle types
 
-        Returns:
-            ``particles``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._particles
@@ -65,8 +63,7 @@ class Type(_option.PtracOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Designator.from_mcnp(item))
-                else:
-                    raise TypeError
+
             particles = types.Tuple(array)
 
         if particles is None:

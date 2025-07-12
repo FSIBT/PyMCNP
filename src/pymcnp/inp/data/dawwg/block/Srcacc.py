@@ -8,9 +8,6 @@ from .....utils import errors
 class Srcacc(_option.BlockOption):
     """
     Represents INP srcacc elements.
-
-    Attributes:
-        setting: Transport accelerations.
     """
 
     _KEYWORD = 'srcacc'
@@ -37,10 +34,11 @@ class Srcacc(_option.BlockOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Transport accelerations
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Srcacc(_option.BlockOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {'dsa', 'tsa', 'no'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

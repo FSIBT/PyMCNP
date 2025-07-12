@@ -6,9 +6,6 @@ from . import _option
 class Coplot(_option.MplotOption):
     """
     Represents INP coplot elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'coplot'

@@ -8,9 +8,6 @@ from ....utils import errors
 class Iints(_option.MeshOption):
     """
     Represents INP iints elements.
-
-    Attributes:
-        number: Number of fine meshes within corresponding coarse meshes in the x/r directions.
     """
 
     _KEYWORD = 'iints'
@@ -37,10 +34,11 @@ class Iints(_option.MeshOption):
     @property
     def number(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``number``.
+        Number of fine meshes within corresponding coarse meshes in the x/r directions
 
-        Returns:
-            ``number``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._number
@@ -67,8 +65,7 @@ class Iints(_option.MeshOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             number = types.Tuple(array)
 
         if number is None:

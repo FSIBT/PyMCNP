@@ -8,9 +8,6 @@ from ...utils import errors
 class Pikmt(_option.DataOption):
     """
     Represents INP pikmt elements.
-
-    Attributes:
-        biases: Biases for proton production.
     """
 
     _KEYWORD = 'pikmt'
@@ -37,10 +34,11 @@ class Pikmt(_option.DataOption):
     @property
     def biases(self) -> types.Tuple[types.PhotonBias]:
         """
-        Gets ``biases``.
+        Biases for proton production
 
-        Returns:
-            ``biases``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._biases
@@ -65,8 +63,7 @@ class Pikmt(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.PhotonBias.from_mcnp(item))
-                else:
-                    raise TypeError
+
             biases = types.Tuple(array)
 
         if biases is None:

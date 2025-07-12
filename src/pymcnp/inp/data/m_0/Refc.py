@@ -8,9 +8,6 @@ from ....utils import errors
 class Refc(_option.MOption_0):
     """
     Represents INP refc elements.
-
-    Attributes:
-        coefficents: Cauchy coefficents.
     """
 
     _KEYWORD = 'refc'
@@ -37,10 +34,11 @@ class Refc(_option.MOption_0):
     @property
     def coefficents(self) -> types.Tuple[types.Real]:
         """
-        Gets ``coefficents``.
+        Cauchy coefficents
 
-        Returns:
-            ``coefficents``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._coefficents
@@ -63,14 +61,11 @@ class Refc(_option.MOption_0):
             for item in coefficents:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             coefficents = types.Tuple(array)
 
         if coefficents is None:

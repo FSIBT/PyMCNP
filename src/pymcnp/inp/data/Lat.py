@@ -8,9 +8,6 @@ from ...utils import errors
 class Lat(_option.DataOption):
     """
     Represents INP lat elements.
-
-    Attributes:
-        type: Tuple of lattice types.
     """
 
     _KEYWORD = 'lat'
@@ -37,10 +34,11 @@ class Lat(_option.DataOption):
     @property
     def type(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``type``.
+        Tuple of lattice types
 
-        Returns:
-            ``type``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._type
@@ -67,8 +65,7 @@ class Lat(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             type = types.Tuple(array)
 
         if type is None:

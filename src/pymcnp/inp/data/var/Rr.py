@@ -8,9 +8,6 @@ from ....utils import errors
 class Rr(_option.VarOption):
     """
     Represents INP rr elements.
-
-    Attributes:
-        setting: Roulette game for weight windows and cell/energy/time importance off/no.
     """
 
     _KEYWORD = 'rr'
@@ -37,10 +34,11 @@ class Rr(_option.VarOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Roulette game for weight windows and cell/energy/time importance off/no
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Rr(_option.VarOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {'no', 'off'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

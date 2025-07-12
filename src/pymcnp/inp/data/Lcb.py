@@ -7,16 +7,6 @@ from ...utils import types
 class Lcb(_option.DataOption):
     """
     Represents INP lcb elements.
-
-    Attributes:
-        flenb1: Kinetic energy for nucleons CEM/Bertini/INCL.
-        flenb2: Kinetic energy for nucleons LAQGSM03.03.
-        flenb3: Kinetic energy for pions CEM/Bertini/INCL.
-        flenb4: Kinetic energy for pions LAQGSM03.03.
-        flenb5: Kinetic energy for nucleons ISABEL.
-        flenb6: Kinetic energy for appropriate model.
-        cotfe: Cutoff kinetic energy for particle escape.
-        film0: Maximum correction allowed for masss-energy balancing.
     """
 
     _KEYWORD = 'lcb'
@@ -76,10 +66,11 @@ class Lcb(_option.DataOption):
     @property
     def flenb1(self) -> types.Real:
         """
-        Gets ``flenb1``.
+        Kinetic energy for nucleons CEM/Bertini/INCL
 
-        Returns:
-            ``flenb1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._flenb1
@@ -100,24 +91,21 @@ class Lcb(_option.DataOption):
         if flenb1 is not None:
             if isinstance(flenb1, types.Real):
                 flenb1 = flenb1
-            elif isinstance(flenb1, int):
-                flenb1 = types.Real(flenb1)
-            elif isinstance(flenb1, float):
+            elif isinstance(flenb1, int) or isinstance(flenb1, float):
                 flenb1 = types.Real(flenb1)
             elif isinstance(flenb1, str):
                 flenb1 = types.Real.from_mcnp(flenb1)
-            else:
-                raise TypeError
 
         self._flenb1: types.Real = flenb1
 
     @property
     def flenb2(self) -> types.Real:
         """
-        Gets ``flenb2``.
+        Kinetic energy for nucleons LAQGSM03.03
 
-        Returns:
-            ``flenb2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._flenb2
@@ -138,24 +126,21 @@ class Lcb(_option.DataOption):
         if flenb2 is not None:
             if isinstance(flenb2, types.Real):
                 flenb2 = flenb2
-            elif isinstance(flenb2, int):
-                flenb2 = types.Real(flenb2)
-            elif isinstance(flenb2, float):
+            elif isinstance(flenb2, int) or isinstance(flenb2, float):
                 flenb2 = types.Real(flenb2)
             elif isinstance(flenb2, str):
                 flenb2 = types.Real.from_mcnp(flenb2)
-            else:
-                raise TypeError
 
         self._flenb2: types.Real = flenb2
 
     @property
     def flenb3(self) -> types.Real:
         """
-        Gets ``flenb3``.
+        Kinetic energy for pions CEM/Bertini/INCL
 
-        Returns:
-            ``flenb3``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._flenb3
@@ -176,24 +161,21 @@ class Lcb(_option.DataOption):
         if flenb3 is not None:
             if isinstance(flenb3, types.Real):
                 flenb3 = flenb3
-            elif isinstance(flenb3, int):
-                flenb3 = types.Real(flenb3)
-            elif isinstance(flenb3, float):
+            elif isinstance(flenb3, int) or isinstance(flenb3, float):
                 flenb3 = types.Real(flenb3)
             elif isinstance(flenb3, str):
                 flenb3 = types.Real.from_mcnp(flenb3)
-            else:
-                raise TypeError
 
         self._flenb3: types.Real = flenb3
 
     @property
     def flenb4(self) -> types.Real:
         """
-        Gets ``flenb4``.
+        Kinetic energy for pions LAQGSM03.03
 
-        Returns:
-            ``flenb4``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._flenb4
@@ -214,24 +196,21 @@ class Lcb(_option.DataOption):
         if flenb4 is not None:
             if isinstance(flenb4, types.Real):
                 flenb4 = flenb4
-            elif isinstance(flenb4, int):
-                flenb4 = types.Real(flenb4)
-            elif isinstance(flenb4, float):
+            elif isinstance(flenb4, int) or isinstance(flenb4, float):
                 flenb4 = types.Real(flenb4)
             elif isinstance(flenb4, str):
                 flenb4 = types.Real.from_mcnp(flenb4)
-            else:
-                raise TypeError
 
         self._flenb4: types.Real = flenb4
 
     @property
     def flenb5(self) -> types.Real:
         """
-        Gets ``flenb5``.
+        Kinetic energy for nucleons ISABEL
 
-        Returns:
-            ``flenb5``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._flenb5
@@ -252,24 +231,21 @@ class Lcb(_option.DataOption):
         if flenb5 is not None:
             if isinstance(flenb5, types.Real):
                 flenb5 = flenb5
-            elif isinstance(flenb5, int):
-                flenb5 = types.Real(flenb5)
-            elif isinstance(flenb5, float):
+            elif isinstance(flenb5, int) or isinstance(flenb5, float):
                 flenb5 = types.Real(flenb5)
             elif isinstance(flenb5, str):
                 flenb5 = types.Real.from_mcnp(flenb5)
-            else:
-                raise TypeError
 
         self._flenb5: types.Real = flenb5
 
     @property
     def flenb6(self) -> types.Real:
         """
-        Gets ``flenb6``.
+        Kinetic energy for appropriate model
 
-        Returns:
-            ``flenb6``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._flenb6
@@ -290,24 +266,21 @@ class Lcb(_option.DataOption):
         if flenb6 is not None:
             if isinstance(flenb6, types.Real):
                 flenb6 = flenb6
-            elif isinstance(flenb6, int):
-                flenb6 = types.Real(flenb6)
-            elif isinstance(flenb6, float):
+            elif isinstance(flenb6, int) or isinstance(flenb6, float):
                 flenb6 = types.Real(flenb6)
             elif isinstance(flenb6, str):
                 flenb6 = types.Real.from_mcnp(flenb6)
-            else:
-                raise TypeError
 
         self._flenb6: types.Real = flenb6
 
     @property
     def cotfe(self) -> types.Real:
         """
-        Gets ``cotfe``.
+        Cutoff kinetic energy for particle escape
 
-        Returns:
-            ``cotfe``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._cotfe
@@ -328,24 +301,21 @@ class Lcb(_option.DataOption):
         if cotfe is not None:
             if isinstance(cotfe, types.Real):
                 cotfe = cotfe
-            elif isinstance(cotfe, int):
-                cotfe = types.Real(cotfe)
-            elif isinstance(cotfe, float):
+            elif isinstance(cotfe, int) or isinstance(cotfe, float):
                 cotfe = types.Real(cotfe)
             elif isinstance(cotfe, str):
                 cotfe = types.Real.from_mcnp(cotfe)
-            else:
-                raise TypeError
 
         self._cotfe: types.Real = cotfe
 
     @property
     def film0(self) -> types.Real:
         """
-        Gets ``film0``.
+        Maximum correction allowed for masss-energy balancing
 
-        Returns:
-            ``film0``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._film0
@@ -366,13 +336,9 @@ class Lcb(_option.DataOption):
         if film0 is not None:
             if isinstance(film0, types.Real):
                 film0 = film0
-            elif isinstance(film0, int):
-                film0 = types.Real(film0)
-            elif isinstance(film0, float):
+            elif isinstance(film0, int) or isinstance(film0, float):
                 film0 = types.Real(film0)
             elif isinstance(film0, str):
                 film0 = types.Real.from_mcnp(film0)
-            else:
-                raise TypeError
 
         self._film0: types.Real = film0

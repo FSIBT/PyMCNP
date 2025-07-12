@@ -8,9 +8,6 @@ from ....utils import errors
 class Eloss(_option.TroptOption):
     """
     Represents INP eloss elements.
-
-    Attributes:
-        setting: Slowing down energy losses setting.
     """
 
     _KEYWORD = 'eloss'
@@ -37,10 +34,11 @@ class Eloss(_option.TroptOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Slowing down energy losses setting
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Eloss(_option.TroptOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {'off', 'strag1', 'csda'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

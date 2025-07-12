@@ -9,20 +9,6 @@ from ...utils import _visualization
 class Wed(_option.SurfaceOption):
     """
     Represents INP wed elements.
-
-    Attributes:
-        vx: Wedge position vector x component.
-        vy: Wedge position vector y component.
-        vz: Wedge position vector z component.
-        v1x: Wedge side vector #1 x component.
-        v1y: Wedge side vector #1 y component.
-        v1z: Wedge side vector #1 z component.
-        v2x: Wedge side vector #2 x component.
-        v2y: Wedge side vector #2 y component.
-        v2z: Wedge side vector #2 z component.
-        v3x: Wedge height vector x component.
-        v3y: Wedge height vector y component.
-        v3z: Wedge height vector z component.
     """
 
     _KEYWORD = 'wed'
@@ -98,10 +84,11 @@ class Wed(_option.SurfaceOption):
     @property
     def vx(self) -> types.Real:
         """
-        Gets ``vx``.
+        Wedge position vector x component
 
-        Returns:
-            ``vx``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._vx
@@ -122,14 +109,10 @@ class Wed(_option.SurfaceOption):
         if vx is not None:
             if isinstance(vx, types.Real):
                 vx = vx
-            elif isinstance(vx, int):
-                vx = types.Real(vx)
-            elif isinstance(vx, float):
+            elif isinstance(vx, int) or isinstance(vx, float):
                 vx = types.Real(vx)
             elif isinstance(vx, str):
                 vx = types.Real.from_mcnp(vx)
-            else:
-                raise TypeError
 
         if vx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vx)
@@ -139,10 +122,11 @@ class Wed(_option.SurfaceOption):
     @property
     def vy(self) -> types.Real:
         """
-        Gets ``vy``.
+        Wedge position vector y component
 
-        Returns:
-            ``vy``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._vy
@@ -163,14 +147,10 @@ class Wed(_option.SurfaceOption):
         if vy is not None:
             if isinstance(vy, types.Real):
                 vy = vy
-            elif isinstance(vy, int):
-                vy = types.Real(vy)
-            elif isinstance(vy, float):
+            elif isinstance(vy, int) or isinstance(vy, float):
                 vy = types.Real(vy)
             elif isinstance(vy, str):
                 vy = types.Real.from_mcnp(vy)
-            else:
-                raise TypeError
 
         if vy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vy)
@@ -180,10 +160,11 @@ class Wed(_option.SurfaceOption):
     @property
     def vz(self) -> types.Real:
         """
-        Gets ``vz``.
+        Wedge position vector z component
 
-        Returns:
-            ``vz``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._vz
@@ -204,14 +185,10 @@ class Wed(_option.SurfaceOption):
         if vz is not None:
             if isinstance(vz, types.Real):
                 vz = vz
-            elif isinstance(vz, int):
-                vz = types.Real(vz)
-            elif isinstance(vz, float):
+            elif isinstance(vz, int) or isinstance(vz, float):
                 vz = types.Real(vz)
             elif isinstance(vz, str):
                 vz = types.Real.from_mcnp(vz)
-            else:
-                raise TypeError
 
         if vz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vz)
@@ -221,10 +198,11 @@ class Wed(_option.SurfaceOption):
     @property
     def v1x(self) -> types.Real:
         """
-        Gets ``v1x``.
+        Wedge side vector #1 x component
 
-        Returns:
-            ``v1x``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._v1x
@@ -245,14 +223,10 @@ class Wed(_option.SurfaceOption):
         if v1x is not None:
             if isinstance(v1x, types.Real):
                 v1x = v1x
-            elif isinstance(v1x, int):
-                v1x = types.Real(v1x)
-            elif isinstance(v1x, float):
+            elif isinstance(v1x, int) or isinstance(v1x, float):
                 v1x = types.Real(v1x)
             elif isinstance(v1x, str):
                 v1x = types.Real.from_mcnp(v1x)
-            else:
-                raise TypeError
 
         if v1x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v1x)
@@ -262,10 +236,11 @@ class Wed(_option.SurfaceOption):
     @property
     def v1y(self) -> types.Real:
         """
-        Gets ``v1y``.
+        Wedge side vector #1 y component
 
-        Returns:
-            ``v1y``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._v1y
@@ -286,14 +261,10 @@ class Wed(_option.SurfaceOption):
         if v1y is not None:
             if isinstance(v1y, types.Real):
                 v1y = v1y
-            elif isinstance(v1y, int):
-                v1y = types.Real(v1y)
-            elif isinstance(v1y, float):
+            elif isinstance(v1y, int) or isinstance(v1y, float):
                 v1y = types.Real(v1y)
             elif isinstance(v1y, str):
                 v1y = types.Real.from_mcnp(v1y)
-            else:
-                raise TypeError
 
         if v1y is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v1y)
@@ -303,10 +274,11 @@ class Wed(_option.SurfaceOption):
     @property
     def v1z(self) -> types.Real:
         """
-        Gets ``v1z``.
+        Wedge side vector #1 z component
 
-        Returns:
-            ``v1z``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._v1z
@@ -327,14 +299,10 @@ class Wed(_option.SurfaceOption):
         if v1z is not None:
             if isinstance(v1z, types.Real):
                 v1z = v1z
-            elif isinstance(v1z, int):
-                v1z = types.Real(v1z)
-            elif isinstance(v1z, float):
+            elif isinstance(v1z, int) or isinstance(v1z, float):
                 v1z = types.Real(v1z)
             elif isinstance(v1z, str):
                 v1z = types.Real.from_mcnp(v1z)
-            else:
-                raise TypeError
 
         if v1z is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v1z)
@@ -344,10 +312,11 @@ class Wed(_option.SurfaceOption):
     @property
     def v2x(self) -> types.Real:
         """
-        Gets ``v2x``.
+        Wedge side vector #2 x component
 
-        Returns:
-            ``v2x``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._v2x
@@ -368,14 +337,10 @@ class Wed(_option.SurfaceOption):
         if v2x is not None:
             if isinstance(v2x, types.Real):
                 v2x = v2x
-            elif isinstance(v2x, int):
-                v2x = types.Real(v2x)
-            elif isinstance(v2x, float):
+            elif isinstance(v2x, int) or isinstance(v2x, float):
                 v2x = types.Real(v2x)
             elif isinstance(v2x, str):
                 v2x = types.Real.from_mcnp(v2x)
-            else:
-                raise TypeError
 
         if v2x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v2x)
@@ -385,10 +350,11 @@ class Wed(_option.SurfaceOption):
     @property
     def v2y(self) -> types.Real:
         """
-        Gets ``v2y``.
+        Wedge side vector #2 y component
 
-        Returns:
-            ``v2y``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._v2y
@@ -409,14 +375,10 @@ class Wed(_option.SurfaceOption):
         if v2y is not None:
             if isinstance(v2y, types.Real):
                 v2y = v2y
-            elif isinstance(v2y, int):
-                v2y = types.Real(v2y)
-            elif isinstance(v2y, float):
+            elif isinstance(v2y, int) or isinstance(v2y, float):
                 v2y = types.Real(v2y)
             elif isinstance(v2y, str):
                 v2y = types.Real.from_mcnp(v2y)
-            else:
-                raise TypeError
 
         if v2y is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v2y)
@@ -426,10 +388,11 @@ class Wed(_option.SurfaceOption):
     @property
     def v2z(self) -> types.Real:
         """
-        Gets ``v2z``.
+        Wedge side vector #2 z component
 
-        Returns:
-            ``v2z``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._v2z
@@ -450,14 +413,10 @@ class Wed(_option.SurfaceOption):
         if v2z is not None:
             if isinstance(v2z, types.Real):
                 v2z = v2z
-            elif isinstance(v2z, int):
-                v2z = types.Real(v2z)
-            elif isinstance(v2z, float):
+            elif isinstance(v2z, int) or isinstance(v2z, float):
                 v2z = types.Real(v2z)
             elif isinstance(v2z, str):
                 v2z = types.Real.from_mcnp(v2z)
-            else:
-                raise TypeError
 
         if v2z is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v2z)
@@ -467,10 +426,11 @@ class Wed(_option.SurfaceOption):
     @property
     def v3x(self) -> types.Real:
         """
-        Gets ``v3x``.
+        Wedge height vector x component
 
-        Returns:
-            ``v3x``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._v3x
@@ -491,14 +451,10 @@ class Wed(_option.SurfaceOption):
         if v3x is not None:
             if isinstance(v3x, types.Real):
                 v3x = v3x
-            elif isinstance(v3x, int):
-                v3x = types.Real(v3x)
-            elif isinstance(v3x, float):
+            elif isinstance(v3x, int) or isinstance(v3x, float):
                 v3x = types.Real(v3x)
             elif isinstance(v3x, str):
                 v3x = types.Real.from_mcnp(v3x)
-            else:
-                raise TypeError
 
         if v3x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v3x)
@@ -508,10 +464,11 @@ class Wed(_option.SurfaceOption):
     @property
     def v3y(self) -> types.Real:
         """
-        Gets ``v3y``.
+        Wedge height vector y component
 
-        Returns:
-            ``v3y``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._v3y
@@ -532,14 +489,10 @@ class Wed(_option.SurfaceOption):
         if v3y is not None:
             if isinstance(v3y, types.Real):
                 v3y = v3y
-            elif isinstance(v3y, int):
-                v3y = types.Real(v3y)
-            elif isinstance(v3y, float):
+            elif isinstance(v3y, int) or isinstance(v3y, float):
                 v3y = types.Real(v3y)
             elif isinstance(v3y, str):
                 v3y = types.Real.from_mcnp(v3y)
-            else:
-                raise TypeError
 
         if v3y is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v3y)
@@ -549,10 +502,11 @@ class Wed(_option.SurfaceOption):
     @property
     def v3z(self) -> types.Real:
         """
-        Gets ``v3z``.
+        Wedge height vector z component
 
-        Returns:
-            ``v3z``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._v3z
@@ -573,14 +527,10 @@ class Wed(_option.SurfaceOption):
         if v3z is not None:
             if isinstance(v3z, types.Real):
                 v3z = v3z
-            elif isinstance(v3z, int):
-                v3z = types.Real(v3z)
-            elif isinstance(v3z, float):
+            elif isinstance(v3z, int) or isinstance(v3z, float):
                 v3z = types.Real(v3z)
             elif isinstance(v3z, str):
                 v3z = types.Real.from_mcnp(v3z)
-            else:
-                raise TypeError
 
         if v3z is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v3z)

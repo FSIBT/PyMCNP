@@ -8,10 +8,6 @@ from ...utils import errors
 class Sd(_option.DataOption):
     """
     Represents INP sd elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        information: Area, volume, or mass by segmented, surface/cell.
     """
 
     _KEYWORD = 'sd'
@@ -41,10 +37,11 @@ class Sd(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -69,8 +66,6 @@ class Sd(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None or not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -80,10 +75,11 @@ class Sd(_option.DataOption):
     @property
     def information(self) -> types.Tuple[types.Real]:
         """
-        Gets ``information``.
+        Area, volume, or mass by segmented, surface/cell
 
-        Returns:
-            ``information``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._information
@@ -106,14 +102,11 @@ class Sd(_option.DataOption):
             for item in information:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             information = types.Tuple(array)
 
         if information is None:

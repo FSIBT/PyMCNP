@@ -8,10 +8,6 @@ from ....utils import errors
 class Fixed(_option.MplotOption):
     """
     Represents INP fixed elements.
-
-    Attributes:
-        q: Fixed variable.
-        n: Bin number.
     """
 
     _KEYWORD = 'fixed'
@@ -41,10 +37,11 @@ class Fixed(_option.MplotOption):
     @property
     def q(self) -> types.String:
         """
-        Gets ``q``.
+        Fixed variable
 
-        Returns:
-            ``q``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._q
@@ -67,8 +64,6 @@ class Fixed(_option.MplotOption):
                 q = q
             elif isinstance(q, str):
                 q = types.String.from_mcnp(q)
-            else:
-                raise TypeError
 
         if q is None or q not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't', 'i', 'j', 'k'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, q)
@@ -78,10 +73,11 @@ class Fixed(_option.MplotOption):
     @property
     def n(self) -> types.Integer:
         """
-        Gets ``n``.
+        Bin number
 
-        Returns:
-            ``n``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._n
@@ -106,8 +102,6 @@ class Fixed(_option.MplotOption):
                 n = types.Integer(n)
             elif isinstance(n, str):
                 n = types.Integer.from_mcnp(n)
-            else:
-                raise TypeError
 
         if n is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n)

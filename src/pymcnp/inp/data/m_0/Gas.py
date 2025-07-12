@@ -8,9 +8,6 @@ from ....utils import errors
 class Gas(_option.MOption_0):
     """
     Represents INP gas elements.
-
-    Attributes:
-        setting: Flag for density-effect correction to electron stopping power.
     """
 
     _KEYWORD = 'gas'
@@ -37,10 +34,11 @@ class Gas(_option.MOption_0):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Flag for density-effect correction to electron stopping power
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Gas(_option.MOption_0):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {'yes', 'no'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

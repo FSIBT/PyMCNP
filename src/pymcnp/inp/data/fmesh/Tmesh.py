@@ -8,9 +8,6 @@ from ....utils import errors
 class Tmesh(_option.FmeshOption):
     """
     Represents INP tmesh elements.
-
-    Attributes:
-        time: Values of mesh points in time.
     """
 
     _KEYWORD = 'tmesh'
@@ -37,10 +34,11 @@ class Tmesh(_option.FmeshOption):
     @property
     def time(self) -> types.Real:
         """
-        Gets ``time``.
+        Values of mesh points in time
 
-        Returns:
-            ``time``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time
@@ -61,14 +59,10 @@ class Tmesh(_option.FmeshOption):
         if time is not None:
             if isinstance(time, types.Real):
                 time = time
-            elif isinstance(time, int):
-                time = types.Real(time)
-            elif isinstance(time, float):
+            elif isinstance(time, int) or isinstance(time, float):
                 time = types.Real(time)
             elif isinstance(time, str):
                 time = types.Real.from_mcnp(time)
-            else:
-                raise TypeError
 
         if time is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time)

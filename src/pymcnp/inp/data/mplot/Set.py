@@ -8,16 +8,6 @@ from ....utils import errors
 class Set(_option.MplotOption):
     """
     Represents INP set elements.
-
-    Attributes:
-        f: F bin number.
-        d: D bin number.
-        u: U bin number.
-        s: S bin number.
-        m: M bin number.
-        c: C bin number.
-        e: E bin number.
-        t: T bin number.
     """
 
     _KEYWORD = 'set'
@@ -77,10 +67,11 @@ class Set(_option.MplotOption):
     @property
     def f(self) -> types.Integer:
         """
-        Gets ``f``.
+        F bin number
 
-        Returns:
-            ``f``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._f
@@ -105,8 +96,6 @@ class Set(_option.MplotOption):
                 f = types.Integer(f)
             elif isinstance(f, str):
                 f = types.Integer.from_mcnp(f)
-            else:
-                raise TypeError
 
         if f is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f)
@@ -116,10 +105,11 @@ class Set(_option.MplotOption):
     @property
     def d(self) -> types.Integer:
         """
-        Gets ``d``.
+        D bin number
 
-        Returns:
-            ``d``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._d
@@ -144,8 +134,6 @@ class Set(_option.MplotOption):
                 d = types.Integer(d)
             elif isinstance(d, str):
                 d = types.Integer.from_mcnp(d)
-            else:
-                raise TypeError
 
         if d is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, d)
@@ -155,10 +143,11 @@ class Set(_option.MplotOption):
     @property
     def u(self) -> types.Integer:
         """
-        Gets ``u``.
+        U bin number
 
-        Returns:
-            ``u``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._u
@@ -183,8 +172,6 @@ class Set(_option.MplotOption):
                 u = types.Integer(u)
             elif isinstance(u, str):
                 u = types.Integer.from_mcnp(u)
-            else:
-                raise TypeError
 
         if u is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, u)
@@ -194,10 +181,11 @@ class Set(_option.MplotOption):
     @property
     def s(self) -> types.Integer:
         """
-        Gets ``s``.
+        S bin number
 
-        Returns:
-            ``s``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._s
@@ -222,8 +210,6 @@ class Set(_option.MplotOption):
                 s = types.Integer(s)
             elif isinstance(s, str):
                 s = types.Integer.from_mcnp(s)
-            else:
-                raise TypeError
 
         if s is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, s)
@@ -233,10 +219,11 @@ class Set(_option.MplotOption):
     @property
     def m(self) -> types.Integer:
         """
-        Gets ``m``.
+        M bin number
 
-        Returns:
-            ``m``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._m
@@ -261,8 +248,6 @@ class Set(_option.MplotOption):
                 m = types.Integer(m)
             elif isinstance(m, str):
                 m = types.Integer.from_mcnp(m)
-            else:
-                raise TypeError
 
         if m is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, m)
@@ -272,10 +257,11 @@ class Set(_option.MplotOption):
     @property
     def c(self) -> types.Integer:
         """
-        Gets ``c``.
+        C bin number
 
-        Returns:
-            ``c``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._c
@@ -300,8 +286,6 @@ class Set(_option.MplotOption):
                 c = types.Integer(c)
             elif isinstance(c, str):
                 c = types.Integer.from_mcnp(c)
-            else:
-                raise TypeError
 
         if c is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, c)
@@ -311,10 +295,11 @@ class Set(_option.MplotOption):
     @property
     def e(self) -> types.Integer:
         """
-        Gets ``e``.
+        E bin number
 
-        Returns:
-            ``e``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._e
@@ -339,8 +324,6 @@ class Set(_option.MplotOption):
                 e = types.Integer(e)
             elif isinstance(e, str):
                 e = types.Integer.from_mcnp(e)
-            else:
-                raise TypeError
 
         if e is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, e)
@@ -350,10 +333,11 @@ class Set(_option.MplotOption):
     @property
     def t(self) -> types.Integer:
         """
-        Gets ``t``.
+        T bin number
 
-        Returns:
-            ``t``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._t
@@ -378,8 +362,6 @@ class Set(_option.MplotOption):
                 t = types.Integer(t)
             elif isinstance(t, str):
                 t = types.Integer.from_mcnp(t)
-            else:
-                raise TypeError
 
         if t is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, t)

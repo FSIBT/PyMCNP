@@ -8,9 +8,6 @@ from ....utils import errors
 class Ext(_option.SsrOption):
     """
     Represents INP ext elements.
-
-    Attributes:
-        number: Distribution number for baising sampling.
     """
 
     _KEYWORD = 'ext'
@@ -37,10 +34,11 @@ class Ext(_option.SsrOption):
     @property
     def number(self) -> types.DistributionNumber:
         """
-        Gets ``number``.
+        Distribution number for baising sampling
 
-        Returns:
-            ``number``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._number
@@ -63,8 +61,6 @@ class Ext(_option.SsrOption):
                 number = number
             elif isinstance(number, str):
                 number = types.DistributionNumber.from_mcnp(number)
-            else:
-                raise TypeError
 
         if number is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)

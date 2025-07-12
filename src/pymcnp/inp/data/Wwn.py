@@ -8,11 +8,6 @@ from ...utils import errors
 class Wwn(_option.DataOption):
     """
     Represents INP wwn elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        designator: Data card particle designator.
-        bounds: Lower weight bound.
     """
 
     _KEYWORD = 'wwn'
@@ -45,10 +40,11 @@ class Wwn(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -73,8 +69,6 @@ class Wwn(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None or not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -84,10 +78,11 @@ class Wwn(_option.DataOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Data card particle designator
 
-        Returns:
-            ``designator``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._designator
@@ -110,8 +105,6 @@ class Wwn(_option.DataOption):
                 designator = designator
             elif isinstance(designator, str):
                 designator = types.Designator.from_mcnp(designator)
-            else:
-                raise TypeError
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
@@ -121,10 +114,11 @@ class Wwn(_option.DataOption):
     @property
     def bounds(self) -> types.Tuple[types.Real]:
         """
-        Gets ``bounds``.
+        Lower weight bound
 
-        Returns:
-            ``bounds``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bounds
@@ -147,14 +141,11 @@ class Wwn(_option.DataOption):
             for item in bounds:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             bounds = types.Tuple(array)
 
         if bounds is None:

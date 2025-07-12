@@ -8,9 +8,6 @@ from .....utils import errors
 class Oitm(_option.BlockOption):
     """
     Represents INP oitm elements.
-
-    Attributes:
-        setting: Maximum outer iteration count.
     """
 
     _KEYWORD = 'oitm'
@@ -37,10 +34,11 @@ class Oitm(_option.BlockOption):
     @property
     def setting(self) -> types.Integer:
         """
-        Gets ``setting``.
+        Maximum outer iteration count
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -65,8 +63,6 @@ class Oitm(_option.BlockOption):
                 setting = types.Integer(setting)
             elif isinstance(setting, str):
                 setting = types.Integer.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

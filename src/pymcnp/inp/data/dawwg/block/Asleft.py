@@ -8,9 +8,6 @@ from .....utils import errors
 class Asleft(_option.BlockOption):
     """
     Represents INP asleft elements.
-
-    Attributes:
-        setting: Right-going flux at plane i.
     """
 
     _KEYWORD = 'asleft'
@@ -37,10 +34,11 @@ class Asleft(_option.BlockOption):
     @property
     def setting(self) -> types.Integer:
         """
-        Gets ``setting``.
+        Right-going flux at plane i
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -65,8 +63,6 @@ class Asleft(_option.BlockOption):
                 setting = types.Integer(setting)
             elif isinstance(setting, str):
                 setting = types.Integer.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

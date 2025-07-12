@@ -2,7 +2,6 @@ import re
 import abc
 import enum
 import pathlib
-import dataclasses
 
 from ..utils import errors
 
@@ -69,20 +68,7 @@ class McnpNonterminal(metaclass=McnpNonterminalMeta):
         return (a.__dict__ if a else None) == (b.__dict__ if b else None)
 
 
-class McnpNonterminalBuilderMeta(abc.ABCMeta):
-    pass
-
-
-@dataclasses.dataclass
-class McnpNonterminalBuilder(abc.ABC):
-    pass
-
-
-class McnpFileMeta(abc.ABCMeta, McnpNonterminal):
-    pass
-
-
-class McnpFile(metaclass=McnpFileMeta):
+class McnpFile(McnpNonterminal, metaclass=abc.ABCMeta):
     """
     Represents generic MCNP files.
     """

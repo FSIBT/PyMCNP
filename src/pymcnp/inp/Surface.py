@@ -10,12 +10,6 @@ from ..utils import _parser
 class Surface(Card):
     """
     Represents INP surface cards.
-
-    Attributes:
-        number: surface number.
-        transform: surface transformation.
-        option: surface option.
-        prefix: surface whitebody flag.
     """
 
     _ATTRS = {
@@ -53,7 +47,7 @@ class Surface(Card):
         self.transform: types.Integer = transform
         self.number: types.Integer = number
         self.option: surface.SurfaceOption = option
-        self.prefix: str = prefix
+        self.prefix: types.String = prefix
 
     def to_mcnp(self):
         """
@@ -82,10 +76,11 @@ class Surface(Card):
     @property
     def number(self) -> types.Integer:
         """
-        Gets ``number``.
+        Surface number.
 
-        Returns:
-            ``number``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._number
@@ -96,7 +91,7 @@ class Surface(Card):
         Sets ``number``.
 
         Parameters:
-            number: surface number.
+            number: Surface number.
 
         Raises:
             InpError: SEMANTICS_OPTION.
@@ -110,8 +105,6 @@ class Surface(Card):
                 number = types.Integer(number)
             elif isinstance(number, str):
                 number = types.Integer.from_mcnp(number)
-            else:
-                raise TypeError
 
         if number is None or not (1 <= number <= 99_999_999 if not self.transform else 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_CARD, number)
@@ -121,10 +114,11 @@ class Surface(Card):
     @property
     def transform(self) -> types.Integer:
         """
-        Gets ``transform``.
+        Surface transform.
 
-        Returns:
-            ``transform``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._transform
@@ -135,7 +129,7 @@ class Surface(Card):
         Sets ``transform``.
 
         Parameters:
-            transform: surface transform.
+            transform: Surface transform.
 
         Raises:
             InpError: SEMANTICS_OPTION.
@@ -149,8 +143,6 @@ class Surface(Card):
                 transform = types.Integer(transform)
             elif isinstance(transform, str):
                 transform = types.Integer.from_mcnp(transform)
-            else:
-                raise TypeError
 
         if transform is not None and not (0 <= transform <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_CARD, transform)
@@ -160,10 +152,11 @@ class Surface(Card):
     @property
     def option(self) -> surface.SurfaceOption:
         """
-        Gets ``option``.
+        Surface option.
 
-        Returns:
-            ``option``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._option
@@ -174,7 +167,7 @@ class Surface(Card):
         Sets ``option``.
 
         Parameters:
-            option: surface option.
+            option: Surface option.
 
         Raises:
             InpError: SEMANTICS_OPTION.
@@ -186,8 +179,6 @@ class Surface(Card):
                 option = option
             elif isinstance(option, str):
                 option = surface.SurfaceOption.from_mcnp(option)
-            else:
-                raise TypeError
 
         if option is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_CARD, option)
@@ -197,10 +188,11 @@ class Surface(Card):
     @property
     def prefix(self) -> types.String:
         """
-        Gets ``prefix``.
+        Surface whitebody/reflecting flag.
 
-        Returns:
-            ``prefix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._prefix
@@ -211,7 +203,7 @@ class Surface(Card):
         Sets ``prefix``.
 
         Parameters:
-            prefix: surface whitebody flag.
+            prefix: Surface whitebody/reflecting flag.
 
         Raises:
             InpError: SEMANTICS_OPTION.
@@ -223,8 +215,6 @@ class Surface(Card):
                 prefix = prefix
             elif isinstance(prefix, str):
                 prefix = types.String.from_mcnp(prefix)
-            else:
-                raise TypeError
 
         if prefix is not None and prefix not in {'*', '+'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_CARD, prefix)
@@ -233,58 +223,58 @@ class Surface(Card):
 
     def __and__(a, b):
         """
-        Unites ``SurfaceBuilder``.
+        Unites ``Surface``.
 
         Parameters:
             a: Operand #1.
             b: Operand #2.
 
         Returns:
-            ``SurfaceBuilder`` union.
+            ``Surface`` union.
         """
 
         return types.Geometry(infix=f'{a.number}:{b.number}')
 
     def __or__(a, b):
         """
-        Intersects ``SurfaceBuilder``.
+        Intersects ``Surface``.
 
         Parameters:
             a: Operand #1.
             b: Operand #2.
 
         Returns:
-            ``SurfaceBuilder`` intersection.
+            ``Surface`` intersection.
         """
 
         return types.Geometry(infix=f'{a.number} {b.number}')
 
     def __neg__(self):
         """
-        Negatives ``SurfaceBuilder``.
+        Negatives ``Surface``.
 
         Returns:
-            ``SurfaceBuilder`` negative.
+            ``Surface`` negative.
         """
 
         return types.Geometry(infix=f'-{self.number}')
 
     def __pos__(self):
         """
-        Positives ``SurfaceBuilder``.
+        Positives ``Surface``.
 
         Returns:
-            ``SurfaceBuilder`` positive.
+            ``Surface`` positive.
         """
 
         return types.Geometry(infix=f'+{self.number}')
 
     def __invert__(self):
         """
-        Inverts ``SurfaceBuilder``.
+        Inverts ``Surface``.
 
         Returns:
-            ``SurfaceBuilder`` complement.
+            ``Surface`` complement.
         """
 
         return types.Geometry(infix=f'#{self.number}')

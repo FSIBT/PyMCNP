@@ -6,9 +6,6 @@ from . import _option
 class Color(_option.ContourOption):
     """
     Represents INP color elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'color'

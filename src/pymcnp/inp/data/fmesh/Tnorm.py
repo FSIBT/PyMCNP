@@ -8,9 +8,6 @@ from ....utils import errors
 class Tnorm(_option.FmeshOption):
     """
     Represents INP tnorm elements.
-
-    Attributes:
-        setting: Tally results divided by time yes/no.
     """
 
     _KEYWORD = 'tnorm'
@@ -37,10 +34,11 @@ class Tnorm(_option.FmeshOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Tally results divided by time yes/no
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Tnorm(_option.FmeshOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {'yes', 'no'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

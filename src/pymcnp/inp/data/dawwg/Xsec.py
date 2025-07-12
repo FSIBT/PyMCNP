@@ -8,9 +8,6 @@ from ....utils import errors
 class Xsec(_option.DawwgOption):
     """
     Represents INP xsec elements.
-
-    Attributes:
-        count: Number of sample points for each direction in each mesh.
     """
 
     _KEYWORD = 'xsec'
@@ -37,10 +34,11 @@ class Xsec(_option.DawwgOption):
     @property
     def count(self) -> types.Integer:
         """
-        Gets ``count``.
+        Number of sample points for each direction in each mesh
 
-        Returns:
-            ``count``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._count
@@ -65,8 +63,6 @@ class Xsec(_option.DawwgOption):
                 count = types.Integer(count)
             elif isinstance(count, str):
                 count = types.Integer.from_mcnp(count)
-            else:
-                raise TypeError
 
         if count is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, count)

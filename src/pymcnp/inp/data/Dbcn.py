@@ -8,108 +8,6 @@ from ...utils import errors
 class Dbcn(_option.DataOption):
     """
     Represents INP dbcn elements.
-
-    Attributes:
-        x1: Obsolete; pseudorandom number for the first particle history.
-        x2: Debug print interval.
-        x3: Lower history number inclusive limit for logging.
-        x4: Upper history number inclusive limit for logging.
-        x5: Maximnum number of events per history for logging.
-        x6: Detector/DXTRAN underflow limit.
-        x7: Volume and sufrace area printing on/off.
-        x8: Obsolete; starting history offset.
-        x9: Distance allowed between cpincident repeated-structures.
-        x10: Half-life threshold for stable nuclides.
-        x11: Collision event lost particle logging on/off.
-        x12: Expected number of random numbers.
-        x13: Obsolete; random number stride.
-        x14: Obsolete; random number multiplier.
-        x15: Usual selection of statistics quantities printing on/off.
-        x16: History score grid accumulation scaling.
-        x17: Angular treatment for secondary particles setting.
-        x18: Energy-indexing alogrithm for election transport settings.
-        x19: Developer; Quadratic polynomical interpolation parameter.
-        x20: Unused.
-        x21: Unused.
-        x22: Unsued.
-        x23: Pulse-height tally variance reducation tress setting.
-        x24: Grazing contribution cutoff for surface fluxx tallies settings.
-        x25: Unused.
-        x26: Unused.
-        x27: Antiparticle promotion settings.
-        x28: Bank size.
-        x29: Unused.
-        x30: Unused.
-        x31: Unused.
-        x32: GENXS behavior setting.
-        x33: Additional interpolation/smoothing method for heavy ions on/off.
-        x34: Developer; Muon-induced gammas bug parameter.
-        x35: Slight spreading of nuclear exitation on/off.
-        x36: User-provided data for muon-induced gamma rays on/off.
-        x37: Mimumum of internal bremsstrahlung spectrum.
-        x38: Barashenkov/Polanski data file on/off.
-        x39: Default S(α,β) smoothing behavior on/off.
-        x40: Developer; MCPLIB and XSDIR lines writing setting.
-        x41: Developer; Phonton/election data printing setting.
-        x42: Model cross section setting.
-        x43: Developer; Photo form-factor interpolation setting.
-        x44: Developer; Coherent scattering in isolation setting.
-        x45: MCNP6/MCNPX elastic scattering method selector.
-        x46: CEM-to_LAQGSM photonuclear energy boundary setting.
-        x47: Cosmic-rasy spectra setting.
-        x48: MCNP6 threading on/off.
-        x49: Normal input checking on/off.
-        x50: TFC priting setting.
-        x51: Developer; Photon-induced fluoresence on/off.
-        x52: Developer; Compton-induced relaxation on/off.
-        x53: Photoelectric relazation data setting.
-        x54: Sampling method for ENDF Law 9 setting.
-        x55: Spontaneous decay integration time.
-        x56: Unused.
-        x57: Unused.
-        x58: Unused.
-        x59: Unused.
-        x60: Print number of calls to each high-energy model.
-        x61: Developer; models of knock-on electron angles.
-        x62: Developer; single-event electrons excitation energy loss debugger.
-        x63: Unused.
-        x64: Developer; single-event electrons angular deflaction debugger.
-        x65: Developer; single-event ionization and treat deflection dubgger.
-        x66: Developer; single-event bremsstrahlung photon angles setting.
-        x67: Particle histories setting for detectors and DXTRAN.
-        x68: Unused.
-        x69: LJA array size setting.
-        x70: Developer; interaction models setting.
-        x71: Model photonuclear capability on/off.
-        x72: Log-log/linear interpolation in ELXS_MOD setting.
-        x73: Unused.
-        x74: Unused.
-        x75: Print extra info for F-matrix calculation on/off.
-        x76: Print array storage info after setup on/off.
-        x77: Has-based cross-section serach bin number.
-        x78: Developer; S(A,B) method old/new setting.
-        x79: MT for absorption and fission setting.
-        x80: Unused.
-        x81: Developer; interpolation for electron elastic scatter setting.
-        x82: Developer; interpolation for electron elastic scatter setting.
-        x83: Developer; interpolation for electron partial x-s setting.
-        x84: Developer; interpolation for electron bremsstrahlung energy setting.
-        x85: Developer; interpolation for electron bremsstrahlung energy setting.
-        x86: Developer; interpolation for electron excitation setting.
-        x87: Developer; interpolation for electron knock-on energy setting.
-        x88: Developer; interpolation for electron knock-on energy setting.
-        x89: Developer; interpolation for electron ionization x-s setting.
-        x90: Mximum number of terms for Goudsmit-Saunderson distribution.
-        x91: Minimum ROC curve count value.
-        x92: Maximum ROC curve count value.
-        x93: Unused.
-        x94: Unused.
-        x95: Unused.
-        x96: Unused.
-        x97: Unused.
-        x98: Unused.
-        x99: Unused.
-        x100: Coincident-surface method old/new setting.
     """
 
     _KEYWORD = 'dbcn'
@@ -537,10 +435,11 @@ class Dbcn(_option.DataOption):
     @property
     def x1(self) -> types.Integer:
         """
-        Gets ``x1``.
+        Obsolete; pseudorandom number for the first particle history
 
-        Returns:
-            ``x1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x1
@@ -565,8 +464,6 @@ class Dbcn(_option.DataOption):
                 x1 = types.Integer(x1)
             elif isinstance(x1, str):
                 x1 = types.Integer.from_mcnp(x1)
-            else:
-                raise TypeError
 
         if x1 is not None and not (x1 >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x1)
@@ -576,10 +473,11 @@ class Dbcn(_option.DataOption):
     @property
     def x2(self) -> types.Integer:
         """
-        Gets ``x2``.
+        Debug print interval
 
-        Returns:
-            ``x2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x2
@@ -604,18 +502,17 @@ class Dbcn(_option.DataOption):
                 x2 = types.Integer(x2)
             elif isinstance(x2, str):
                 x2 = types.Integer.from_mcnp(x2)
-            else:
-                raise TypeError
 
         self._x2: types.Integer = x2
 
     @property
     def x3(self) -> types.Integer:
         """
-        Gets ``x3``.
+        Lower history number inclusive limit for logging
 
-        Returns:
-            ``x3``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x3
@@ -640,18 +537,17 @@ class Dbcn(_option.DataOption):
                 x3 = types.Integer(x3)
             elif isinstance(x3, str):
                 x3 = types.Integer.from_mcnp(x3)
-            else:
-                raise TypeError
 
         self._x3: types.Integer = x3
 
     @property
     def x4(self) -> types.Integer:
         """
-        Gets ``x4``.
+        Upper history number inclusive limit for logging
 
-        Returns:
-            ``x4``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x4
@@ -676,18 +572,17 @@ class Dbcn(_option.DataOption):
                 x4 = types.Integer(x4)
             elif isinstance(x4, str):
                 x4 = types.Integer.from_mcnp(x4)
-            else:
-                raise TypeError
 
         self._x4: types.Integer = x4
 
     @property
     def x5(self) -> types.Integer:
         """
-        Gets ``x5``.
+        Maximnum number of events per history for logging
 
-        Returns:
-            ``x5``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x5
@@ -712,18 +607,17 @@ class Dbcn(_option.DataOption):
                 x5 = types.Integer(x5)
             elif isinstance(x5, str):
                 x5 = types.Integer.from_mcnp(x5)
-            else:
-                raise TypeError
 
         self._x5: types.Integer = x5
 
     @property
     def x6(self) -> types.Integer:
         """
-        Gets ``x6``.
+        Detector/DXTRAN underflow limit
 
-        Returns:
-            ``x6``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x6
@@ -748,8 +642,6 @@ class Dbcn(_option.DataOption):
                 x6 = types.Integer(x6)
             elif isinstance(x6, str):
                 x6 = types.Integer.from_mcnp(x6)
-            else:
-                raise TypeError
 
         if x6 is not None and not (x6 >= 50 and x6 <= 200):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x6)
@@ -759,10 +651,11 @@ class Dbcn(_option.DataOption):
     @property
     def x7(self) -> types.Integer:
         """
-        Gets ``x7``.
+        Volume and sufrace area printing on/off
 
-        Returns:
-            ``x7``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x7
@@ -787,18 +680,17 @@ class Dbcn(_option.DataOption):
                 x7 = types.Integer(x7)
             elif isinstance(x7, str):
                 x7 = types.Integer.from_mcnp(x7)
-            else:
-                raise TypeError
 
         self._x7: types.Integer = x7
 
     @property
     def x8(self) -> types.Integer:
         """
-        Gets ``x8``.
+        Obsolete; starting history offset
 
-        Returns:
-            ``x8``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x8
@@ -823,18 +715,17 @@ class Dbcn(_option.DataOption):
                 x8 = types.Integer(x8)
             elif isinstance(x8, str):
                 x8 = types.Integer.from_mcnp(x8)
-            else:
-                raise TypeError
 
         self._x8: types.Integer = x8
 
     @property
     def x9(self) -> types.Integer:
         """
-        Gets ``x9``.
+        Distance allowed between cpincident repeated-structures
 
-        Returns:
-            ``x9``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x9
@@ -859,18 +750,17 @@ class Dbcn(_option.DataOption):
                 x9 = types.Integer(x9)
             elif isinstance(x9, str):
                 x9 = types.Integer.from_mcnp(x9)
-            else:
-                raise TypeError
 
         self._x9: types.Integer = x9
 
     @property
     def x10(self) -> types.Integer:
         """
-        Gets ``x10``.
+        Half-life threshold for stable nuclides
 
-        Returns:
-            ``x10``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x10
@@ -895,18 +785,17 @@ class Dbcn(_option.DataOption):
                 x10 = types.Integer(x10)
             elif isinstance(x10, str):
                 x10 = types.Integer.from_mcnp(x10)
-            else:
-                raise TypeError
 
         self._x10: types.Integer = x10
 
     @property
     def x11(self) -> types.Integer:
         """
-        Gets ``x11``.
+        Collision event lost particle logging on/off
 
-        Returns:
-            ``x11``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x11
@@ -931,18 +820,17 @@ class Dbcn(_option.DataOption):
                 x11 = types.Integer(x11)
             elif isinstance(x11, str):
                 x11 = types.Integer.from_mcnp(x11)
-            else:
-                raise TypeError
 
         self._x11: types.Integer = x11
 
     @property
     def x12(self) -> types.Integer:
         """
-        Gets ``x12``.
+        Expected number of random numbers
 
-        Returns:
-            ``x12``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x12
@@ -967,18 +855,17 @@ class Dbcn(_option.DataOption):
                 x12 = types.Integer(x12)
             elif isinstance(x12, str):
                 x12 = types.Integer.from_mcnp(x12)
-            else:
-                raise TypeError
 
         self._x12: types.Integer = x12
 
     @property
     def x13(self) -> types.Integer:
         """
-        Gets ``x13``.
+        Obsolete; random number stride
 
-        Returns:
-            ``x13``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x13
@@ -1003,18 +890,17 @@ class Dbcn(_option.DataOption):
                 x13 = types.Integer(x13)
             elif isinstance(x13, str):
                 x13 = types.Integer.from_mcnp(x13)
-            else:
-                raise TypeError
 
         self._x13: types.Integer = x13
 
     @property
     def x14(self) -> types.Integer:
         """
-        Gets ``x14``.
+        Obsolete; random number multiplier
 
-        Returns:
-            ``x14``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x14
@@ -1039,18 +925,17 @@ class Dbcn(_option.DataOption):
                 x14 = types.Integer(x14)
             elif isinstance(x14, str):
                 x14 = types.Integer.from_mcnp(x14)
-            else:
-                raise TypeError
 
         self._x14: types.Integer = x14
 
     @property
     def x15(self) -> types.Integer:
         """
-        Gets ``x15``.
+        Usual selection of statistics quantities printing on/off
 
-        Returns:
-            ``x15``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x15
@@ -1075,18 +960,17 @@ class Dbcn(_option.DataOption):
                 x15 = types.Integer(x15)
             elif isinstance(x15, str):
                 x15 = types.Integer.from_mcnp(x15)
-            else:
-                raise TypeError
 
         self._x15: types.Integer = x15
 
     @property
     def x16(self) -> types.Integer:
         """
-        Gets ``x16``.
+        History score grid accumulation scaling
 
-        Returns:
-            ``x16``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x16
@@ -1111,18 +995,17 @@ class Dbcn(_option.DataOption):
                 x16 = types.Integer(x16)
             elif isinstance(x16, str):
                 x16 = types.Integer.from_mcnp(x16)
-            else:
-                raise TypeError
 
         self._x16: types.Integer = x16
 
     @property
     def x17(self) -> types.Integer:
         """
-        Gets ``x17``.
+        Angular treatment for secondary particles setting
 
-        Returns:
-            ``x17``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x17
@@ -1147,18 +1030,17 @@ class Dbcn(_option.DataOption):
                 x17 = types.Integer(x17)
             elif isinstance(x17, str):
                 x17 = types.Integer.from_mcnp(x17)
-            else:
-                raise TypeError
 
         self._x17: types.Integer = x17
 
     @property
     def x18(self) -> types.Integer:
         """
-        Gets ``x18``.
+        Energy-indexing alogrithm for election transport settings
 
-        Returns:
-            ``x18``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x18
@@ -1183,18 +1065,17 @@ class Dbcn(_option.DataOption):
                 x18 = types.Integer(x18)
             elif isinstance(x18, str):
                 x18 = types.Integer.from_mcnp(x18)
-            else:
-                raise TypeError
 
         self._x18: types.Integer = x18
 
     @property
     def x19(self) -> types.Integer:
         """
-        Gets ``x19``.
+        Developer; Quadratic polynomical interpolation parameter
 
-        Returns:
-            ``x19``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x19
@@ -1219,18 +1100,17 @@ class Dbcn(_option.DataOption):
                 x19 = types.Integer(x19)
             elif isinstance(x19, str):
                 x19 = types.Integer.from_mcnp(x19)
-            else:
-                raise TypeError
 
         self._x19: types.Integer = x19
 
     @property
     def x20(self) -> types.Integer:
         """
-        Gets ``x20``.
+        Unused
 
-        Returns:
-            ``x20``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x20
@@ -1255,18 +1135,17 @@ class Dbcn(_option.DataOption):
                 x20 = types.Integer(x20)
             elif isinstance(x20, str):
                 x20 = types.Integer.from_mcnp(x20)
-            else:
-                raise TypeError
 
         self._x20: types.Integer = x20
 
     @property
     def x21(self) -> types.Integer:
         """
-        Gets ``x21``.
+        Unused
 
-        Returns:
-            ``x21``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x21
@@ -1291,18 +1170,17 @@ class Dbcn(_option.DataOption):
                 x21 = types.Integer(x21)
             elif isinstance(x21, str):
                 x21 = types.Integer.from_mcnp(x21)
-            else:
-                raise TypeError
 
         self._x21: types.Integer = x21
 
     @property
     def x22(self) -> types.Integer:
         """
-        Gets ``x22``.
+        Unsued
 
-        Returns:
-            ``x22``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x22
@@ -1327,18 +1205,17 @@ class Dbcn(_option.DataOption):
                 x22 = types.Integer(x22)
             elif isinstance(x22, str):
                 x22 = types.Integer.from_mcnp(x22)
-            else:
-                raise TypeError
 
         self._x22: types.Integer = x22
 
     @property
     def x23(self) -> types.Integer:
         """
-        Gets ``x23``.
+        Pulse-height tally variance reducation tress setting
 
-        Returns:
-            ``x23``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x23
@@ -1363,18 +1240,17 @@ class Dbcn(_option.DataOption):
                 x23 = types.Integer(x23)
             elif isinstance(x23, str):
                 x23 = types.Integer.from_mcnp(x23)
-            else:
-                raise TypeError
 
         self._x23: types.Integer = x23
 
     @property
     def x24(self) -> types.Integer:
         """
-        Gets ``x24``.
+        Grazing contribution cutoff for surface fluxx tallies settings
 
-        Returns:
-            ``x24``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x24
@@ -1399,18 +1275,17 @@ class Dbcn(_option.DataOption):
                 x24 = types.Integer(x24)
             elif isinstance(x24, str):
                 x24 = types.Integer.from_mcnp(x24)
-            else:
-                raise TypeError
 
         self._x24: types.Integer = x24
 
     @property
     def x25(self) -> types.Integer:
         """
-        Gets ``x25``.
+        Unused
 
-        Returns:
-            ``x25``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x25
@@ -1435,18 +1310,17 @@ class Dbcn(_option.DataOption):
                 x25 = types.Integer(x25)
             elif isinstance(x25, str):
                 x25 = types.Integer.from_mcnp(x25)
-            else:
-                raise TypeError
 
         self._x25: types.Integer = x25
 
     @property
     def x26(self) -> types.Integer:
         """
-        Gets ``x26``.
+        Unused
 
-        Returns:
-            ``x26``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x26
@@ -1471,18 +1345,17 @@ class Dbcn(_option.DataOption):
                 x26 = types.Integer(x26)
             elif isinstance(x26, str):
                 x26 = types.Integer.from_mcnp(x26)
-            else:
-                raise TypeError
 
         self._x26: types.Integer = x26
 
     @property
     def x27(self) -> types.Integer:
         """
-        Gets ``x27``.
+        Antiparticle promotion settings
 
-        Returns:
-            ``x27``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x27
@@ -1507,18 +1380,17 @@ class Dbcn(_option.DataOption):
                 x27 = types.Integer(x27)
             elif isinstance(x27, str):
                 x27 = types.Integer.from_mcnp(x27)
-            else:
-                raise TypeError
 
         self._x27: types.Integer = x27
 
     @property
     def x28(self) -> types.Integer:
         """
-        Gets ``x28``.
+        Bank size
 
-        Returns:
-            ``x28``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x28
@@ -1543,18 +1415,17 @@ class Dbcn(_option.DataOption):
                 x28 = types.Integer(x28)
             elif isinstance(x28, str):
                 x28 = types.Integer.from_mcnp(x28)
-            else:
-                raise TypeError
 
         self._x28: types.Integer = x28
 
     @property
     def x29(self) -> types.Integer:
         """
-        Gets ``x29``.
+        Unused
 
-        Returns:
-            ``x29``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x29
@@ -1579,18 +1450,17 @@ class Dbcn(_option.DataOption):
                 x29 = types.Integer(x29)
             elif isinstance(x29, str):
                 x29 = types.Integer.from_mcnp(x29)
-            else:
-                raise TypeError
 
         self._x29: types.Integer = x29
 
     @property
     def x30(self) -> types.Integer:
         """
-        Gets ``x30``.
+        Unused
 
-        Returns:
-            ``x30``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x30
@@ -1615,18 +1485,17 @@ class Dbcn(_option.DataOption):
                 x30 = types.Integer(x30)
             elif isinstance(x30, str):
                 x30 = types.Integer.from_mcnp(x30)
-            else:
-                raise TypeError
 
         self._x30: types.Integer = x30
 
     @property
     def x31(self) -> types.Integer:
         """
-        Gets ``x31``.
+        Unused
 
-        Returns:
-            ``x31``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x31
@@ -1651,18 +1520,17 @@ class Dbcn(_option.DataOption):
                 x31 = types.Integer(x31)
             elif isinstance(x31, str):
                 x31 = types.Integer.from_mcnp(x31)
-            else:
-                raise TypeError
 
         self._x31: types.Integer = x31
 
     @property
     def x32(self) -> types.Integer:
         """
-        Gets ``x32``.
+        GENXS behavior setting
 
-        Returns:
-            ``x32``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x32
@@ -1687,18 +1555,17 @@ class Dbcn(_option.DataOption):
                 x32 = types.Integer(x32)
             elif isinstance(x32, str):
                 x32 = types.Integer.from_mcnp(x32)
-            else:
-                raise TypeError
 
         self._x32: types.Integer = x32
 
     @property
     def x33(self) -> types.Integer:
         """
-        Gets ``x33``.
+        Additional interpolation/smoothing method for heavy ions on/off
 
-        Returns:
-            ``x33``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x33
@@ -1723,18 +1590,17 @@ class Dbcn(_option.DataOption):
                 x33 = types.Integer(x33)
             elif isinstance(x33, str):
                 x33 = types.Integer.from_mcnp(x33)
-            else:
-                raise TypeError
 
         self._x33: types.Integer = x33
 
     @property
     def x34(self) -> types.Integer:
         """
-        Gets ``x34``.
+        Developer; Muon-induced gammas bug parameter
 
-        Returns:
-            ``x34``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x34
@@ -1759,18 +1625,17 @@ class Dbcn(_option.DataOption):
                 x34 = types.Integer(x34)
             elif isinstance(x34, str):
                 x34 = types.Integer.from_mcnp(x34)
-            else:
-                raise TypeError
 
         self._x34: types.Integer = x34
 
     @property
     def x35(self) -> types.Integer:
         """
-        Gets ``x35``.
+        Slight spreading of nuclear exitation on/off
 
-        Returns:
-            ``x35``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x35
@@ -1795,18 +1660,17 @@ class Dbcn(_option.DataOption):
                 x35 = types.Integer(x35)
             elif isinstance(x35, str):
                 x35 = types.Integer.from_mcnp(x35)
-            else:
-                raise TypeError
 
         self._x35: types.Integer = x35
 
     @property
     def x36(self) -> types.Integer:
         """
-        Gets ``x36``.
+        User-provided data for muon-induced gamma rays on/off
 
-        Returns:
-            ``x36``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x36
@@ -1831,18 +1695,17 @@ class Dbcn(_option.DataOption):
                 x36 = types.Integer(x36)
             elif isinstance(x36, str):
                 x36 = types.Integer.from_mcnp(x36)
-            else:
-                raise TypeError
 
         self._x36: types.Integer = x36
 
     @property
     def x37(self) -> types.Integer:
         """
-        Gets ``x37``.
+        Mimumum of internal bremsstrahlung spectrum
 
-        Returns:
-            ``x37``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x37
@@ -1867,18 +1730,17 @@ class Dbcn(_option.DataOption):
                 x37 = types.Integer(x37)
             elif isinstance(x37, str):
                 x37 = types.Integer.from_mcnp(x37)
-            else:
-                raise TypeError
 
         self._x37: types.Integer = x37
 
     @property
     def x38(self) -> types.Integer:
         """
-        Gets ``x38``.
+        Barashenkov/Polanski data file on/off
 
-        Returns:
-            ``x38``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x38
@@ -1903,18 +1765,17 @@ class Dbcn(_option.DataOption):
                 x38 = types.Integer(x38)
             elif isinstance(x38, str):
                 x38 = types.Integer.from_mcnp(x38)
-            else:
-                raise TypeError
 
         self._x38: types.Integer = x38
 
     @property
     def x39(self) -> types.Integer:
         """
-        Gets ``x39``.
+        Default S(α,β) smoothing behavior on/off
 
-        Returns:
-            ``x39``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x39
@@ -1939,18 +1800,17 @@ class Dbcn(_option.DataOption):
                 x39 = types.Integer(x39)
             elif isinstance(x39, str):
                 x39 = types.Integer.from_mcnp(x39)
-            else:
-                raise TypeError
 
         self._x39: types.Integer = x39
 
     @property
     def x40(self) -> types.Integer:
         """
-        Gets ``x40``.
+        Developer; MCPLIB and XSDIR lines writing setting
 
-        Returns:
-            ``x40``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x40
@@ -1975,18 +1835,17 @@ class Dbcn(_option.DataOption):
                 x40 = types.Integer(x40)
             elif isinstance(x40, str):
                 x40 = types.Integer.from_mcnp(x40)
-            else:
-                raise TypeError
 
         self._x40: types.Integer = x40
 
     @property
     def x41(self) -> types.Integer:
         """
-        Gets ``x41``.
+        Developer; Phonton/election data printing setting
 
-        Returns:
-            ``x41``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x41
@@ -2011,18 +1870,17 @@ class Dbcn(_option.DataOption):
                 x41 = types.Integer(x41)
             elif isinstance(x41, str):
                 x41 = types.Integer.from_mcnp(x41)
-            else:
-                raise TypeError
 
         self._x41: types.Integer = x41
 
     @property
     def x42(self) -> types.Integer:
         """
-        Gets ``x42``.
+        Model cross section setting
 
-        Returns:
-            ``x42``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x42
@@ -2047,18 +1905,17 @@ class Dbcn(_option.DataOption):
                 x42 = types.Integer(x42)
             elif isinstance(x42, str):
                 x42 = types.Integer.from_mcnp(x42)
-            else:
-                raise TypeError
 
         self._x42: types.Integer = x42
 
     @property
     def x43(self) -> types.Integer:
         """
-        Gets ``x43``.
+        Developer; Photo form-factor interpolation setting
 
-        Returns:
-            ``x43``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x43
@@ -2083,18 +1940,17 @@ class Dbcn(_option.DataOption):
                 x43 = types.Integer(x43)
             elif isinstance(x43, str):
                 x43 = types.Integer.from_mcnp(x43)
-            else:
-                raise TypeError
 
         self._x43: types.Integer = x43
 
     @property
     def x44(self) -> types.Integer:
         """
-        Gets ``x44``.
+        Developer; Coherent scattering in isolation setting
 
-        Returns:
-            ``x44``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x44
@@ -2119,18 +1975,17 @@ class Dbcn(_option.DataOption):
                 x44 = types.Integer(x44)
             elif isinstance(x44, str):
                 x44 = types.Integer.from_mcnp(x44)
-            else:
-                raise TypeError
 
         self._x44: types.Integer = x44
 
     @property
     def x45(self) -> types.Integer:
         """
-        Gets ``x45``.
+        MCNP6/MCNPX elastic scattering method selector
 
-        Returns:
-            ``x45``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x45
@@ -2155,18 +2010,17 @@ class Dbcn(_option.DataOption):
                 x45 = types.Integer(x45)
             elif isinstance(x45, str):
                 x45 = types.Integer.from_mcnp(x45)
-            else:
-                raise TypeError
 
         self._x45: types.Integer = x45
 
     @property
     def x46(self) -> types.Integer:
         """
-        Gets ``x46``.
+        CEM-to_LAQGSM photonuclear energy boundary setting
 
-        Returns:
-            ``x46``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x46
@@ -2191,18 +2045,17 @@ class Dbcn(_option.DataOption):
                 x46 = types.Integer(x46)
             elif isinstance(x46, str):
                 x46 = types.Integer.from_mcnp(x46)
-            else:
-                raise TypeError
 
         self._x46: types.Integer = x46
 
     @property
     def x47(self) -> types.Integer:
         """
-        Gets ``x47``.
+        Cosmic-rasy spectra setting
 
-        Returns:
-            ``x47``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x47
@@ -2227,18 +2080,17 @@ class Dbcn(_option.DataOption):
                 x47 = types.Integer(x47)
             elif isinstance(x47, str):
                 x47 = types.Integer.from_mcnp(x47)
-            else:
-                raise TypeError
 
         self._x47: types.Integer = x47
 
     @property
     def x48(self) -> types.Integer:
         """
-        Gets ``x48``.
+        MCNP6 threading on/off
 
-        Returns:
-            ``x48``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x48
@@ -2263,18 +2115,17 @@ class Dbcn(_option.DataOption):
                 x48 = types.Integer(x48)
             elif isinstance(x48, str):
                 x48 = types.Integer.from_mcnp(x48)
-            else:
-                raise TypeError
 
         self._x48: types.Integer = x48
 
     @property
     def x49(self) -> types.Integer:
         """
-        Gets ``x49``.
+        Normal input checking on/off
 
-        Returns:
-            ``x49``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x49
@@ -2299,18 +2150,17 @@ class Dbcn(_option.DataOption):
                 x49 = types.Integer(x49)
             elif isinstance(x49, str):
                 x49 = types.Integer.from_mcnp(x49)
-            else:
-                raise TypeError
 
         self._x49: types.Integer = x49
 
     @property
     def x50(self) -> types.Integer:
         """
-        Gets ``x50``.
+        TFC priting setting
 
-        Returns:
-            ``x50``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x50
@@ -2335,18 +2185,17 @@ class Dbcn(_option.DataOption):
                 x50 = types.Integer(x50)
             elif isinstance(x50, str):
                 x50 = types.Integer.from_mcnp(x50)
-            else:
-                raise TypeError
 
         self._x50: types.Integer = x50
 
     @property
     def x51(self) -> types.Integer:
         """
-        Gets ``x51``.
+        Developer; Photon-induced fluoresence on/off
 
-        Returns:
-            ``x51``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x51
@@ -2371,18 +2220,17 @@ class Dbcn(_option.DataOption):
                 x51 = types.Integer(x51)
             elif isinstance(x51, str):
                 x51 = types.Integer.from_mcnp(x51)
-            else:
-                raise TypeError
 
         self._x51: types.Integer = x51
 
     @property
     def x52(self) -> types.Integer:
         """
-        Gets ``x52``.
+        Developer; Compton-induced relaxation on/off
 
-        Returns:
-            ``x52``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x52
@@ -2407,18 +2255,17 @@ class Dbcn(_option.DataOption):
                 x52 = types.Integer(x52)
             elif isinstance(x52, str):
                 x52 = types.Integer.from_mcnp(x52)
-            else:
-                raise TypeError
 
         self._x52: types.Integer = x52
 
     @property
     def x53(self) -> types.Integer:
         """
-        Gets ``x53``.
+        Photoelectric relazation data setting
 
-        Returns:
-            ``x53``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x53
@@ -2443,18 +2290,17 @@ class Dbcn(_option.DataOption):
                 x53 = types.Integer(x53)
             elif isinstance(x53, str):
                 x53 = types.Integer.from_mcnp(x53)
-            else:
-                raise TypeError
 
         self._x53: types.Integer = x53
 
     @property
     def x54(self) -> types.Integer:
         """
-        Gets ``x54``.
+        Sampling method for ENDF Law 9 setting
 
-        Returns:
-            ``x54``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x54
@@ -2479,18 +2325,17 @@ class Dbcn(_option.DataOption):
                 x54 = types.Integer(x54)
             elif isinstance(x54, str):
                 x54 = types.Integer.from_mcnp(x54)
-            else:
-                raise TypeError
 
         self._x54: types.Integer = x54
 
     @property
     def x55(self) -> types.Integer:
         """
-        Gets ``x55``.
+        Spontaneous decay integration time
 
-        Returns:
-            ``x55``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x55
@@ -2515,18 +2360,17 @@ class Dbcn(_option.DataOption):
                 x55 = types.Integer(x55)
             elif isinstance(x55, str):
                 x55 = types.Integer.from_mcnp(x55)
-            else:
-                raise TypeError
 
         self._x55: types.Integer = x55
 
     @property
     def x56(self) -> types.Integer:
         """
-        Gets ``x56``.
+        Unused
 
-        Returns:
-            ``x56``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x56
@@ -2551,18 +2395,17 @@ class Dbcn(_option.DataOption):
                 x56 = types.Integer(x56)
             elif isinstance(x56, str):
                 x56 = types.Integer.from_mcnp(x56)
-            else:
-                raise TypeError
 
         self._x56: types.Integer = x56
 
     @property
     def x57(self) -> types.Integer:
         """
-        Gets ``x57``.
+        Unused
 
-        Returns:
-            ``x57``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x57
@@ -2587,18 +2430,17 @@ class Dbcn(_option.DataOption):
                 x57 = types.Integer(x57)
             elif isinstance(x57, str):
                 x57 = types.Integer.from_mcnp(x57)
-            else:
-                raise TypeError
 
         self._x57: types.Integer = x57
 
     @property
     def x58(self) -> types.Integer:
         """
-        Gets ``x58``.
+        Unused
 
-        Returns:
-            ``x58``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x58
@@ -2623,18 +2465,17 @@ class Dbcn(_option.DataOption):
                 x58 = types.Integer(x58)
             elif isinstance(x58, str):
                 x58 = types.Integer.from_mcnp(x58)
-            else:
-                raise TypeError
 
         self._x58: types.Integer = x58
 
     @property
     def x59(self) -> types.Integer:
         """
-        Gets ``x59``.
+        Unused
 
-        Returns:
-            ``x59``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x59
@@ -2659,18 +2500,17 @@ class Dbcn(_option.DataOption):
                 x59 = types.Integer(x59)
             elif isinstance(x59, str):
                 x59 = types.Integer.from_mcnp(x59)
-            else:
-                raise TypeError
 
         self._x59: types.Integer = x59
 
     @property
     def x60(self) -> types.Integer:
         """
-        Gets ``x60``.
+        Print number of calls to each high-energy model
 
-        Returns:
-            ``x60``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x60
@@ -2695,18 +2535,17 @@ class Dbcn(_option.DataOption):
                 x60 = types.Integer(x60)
             elif isinstance(x60, str):
                 x60 = types.Integer.from_mcnp(x60)
-            else:
-                raise TypeError
 
         self._x60: types.Integer = x60
 
     @property
     def x61(self) -> types.Integer:
         """
-        Gets ``x61``.
+        Developer; models of knock-on electron angles
 
-        Returns:
-            ``x61``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x61
@@ -2731,18 +2570,17 @@ class Dbcn(_option.DataOption):
                 x61 = types.Integer(x61)
             elif isinstance(x61, str):
                 x61 = types.Integer.from_mcnp(x61)
-            else:
-                raise TypeError
 
         self._x61: types.Integer = x61
 
     @property
     def x62(self) -> types.Integer:
         """
-        Gets ``x62``.
+        Developer; single-event electrons excitation energy loss debugger
 
-        Returns:
-            ``x62``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x62
@@ -2767,18 +2605,17 @@ class Dbcn(_option.DataOption):
                 x62 = types.Integer(x62)
             elif isinstance(x62, str):
                 x62 = types.Integer.from_mcnp(x62)
-            else:
-                raise TypeError
 
         self._x62: types.Integer = x62
 
     @property
     def x63(self) -> types.Integer:
         """
-        Gets ``x63``.
+        Unused
 
-        Returns:
-            ``x63``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x63
@@ -2803,18 +2640,17 @@ class Dbcn(_option.DataOption):
                 x63 = types.Integer(x63)
             elif isinstance(x63, str):
                 x63 = types.Integer.from_mcnp(x63)
-            else:
-                raise TypeError
 
         self._x63: types.Integer = x63
 
     @property
     def x64(self) -> types.Integer:
         """
-        Gets ``x64``.
+        Developer; single-event electrons angular deflaction debugger
 
-        Returns:
-            ``x64``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x64
@@ -2839,18 +2675,17 @@ class Dbcn(_option.DataOption):
                 x64 = types.Integer(x64)
             elif isinstance(x64, str):
                 x64 = types.Integer.from_mcnp(x64)
-            else:
-                raise TypeError
 
         self._x64: types.Integer = x64
 
     @property
     def x65(self) -> types.Integer:
         """
-        Gets ``x65``.
+        Developer; single-event ionization and treat deflection dubgger
 
-        Returns:
-            ``x65``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x65
@@ -2875,18 +2710,17 @@ class Dbcn(_option.DataOption):
                 x65 = types.Integer(x65)
             elif isinstance(x65, str):
                 x65 = types.Integer.from_mcnp(x65)
-            else:
-                raise TypeError
 
         self._x65: types.Integer = x65
 
     @property
     def x66(self) -> types.Integer:
         """
-        Gets ``x66``.
+        Developer; single-event bremsstrahlung photon angles setting
 
-        Returns:
-            ``x66``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x66
@@ -2911,18 +2745,17 @@ class Dbcn(_option.DataOption):
                 x66 = types.Integer(x66)
             elif isinstance(x66, str):
                 x66 = types.Integer.from_mcnp(x66)
-            else:
-                raise TypeError
 
         self._x66: types.Integer = x66
 
     @property
     def x67(self) -> types.Integer:
         """
-        Gets ``x67``.
+        Particle histories setting for detectors and DXTRAN
 
-        Returns:
-            ``x67``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x67
@@ -2947,18 +2780,17 @@ class Dbcn(_option.DataOption):
                 x67 = types.Integer(x67)
             elif isinstance(x67, str):
                 x67 = types.Integer.from_mcnp(x67)
-            else:
-                raise TypeError
 
         self._x67: types.Integer = x67
 
     @property
     def x68(self) -> types.Integer:
         """
-        Gets ``x68``.
+        Unused
 
-        Returns:
-            ``x68``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x68
@@ -2983,18 +2815,17 @@ class Dbcn(_option.DataOption):
                 x68 = types.Integer(x68)
             elif isinstance(x68, str):
                 x68 = types.Integer.from_mcnp(x68)
-            else:
-                raise TypeError
 
         self._x68: types.Integer = x68
 
     @property
     def x69(self) -> types.Integer:
         """
-        Gets ``x69``.
+        LJA array size setting
 
-        Returns:
-            ``x69``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x69
@@ -3019,18 +2850,17 @@ class Dbcn(_option.DataOption):
                 x69 = types.Integer(x69)
             elif isinstance(x69, str):
                 x69 = types.Integer.from_mcnp(x69)
-            else:
-                raise TypeError
 
         self._x69: types.Integer = x69
 
     @property
     def x70(self) -> types.Integer:
         """
-        Gets ``x70``.
+        Developer; interaction models setting
 
-        Returns:
-            ``x70``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x70
@@ -3055,18 +2885,17 @@ class Dbcn(_option.DataOption):
                 x70 = types.Integer(x70)
             elif isinstance(x70, str):
                 x70 = types.Integer.from_mcnp(x70)
-            else:
-                raise TypeError
 
         self._x70: types.Integer = x70
 
     @property
     def x71(self) -> types.Integer:
         """
-        Gets ``x71``.
+        Model photonuclear capability on/off
 
-        Returns:
-            ``x71``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x71
@@ -3091,18 +2920,17 @@ class Dbcn(_option.DataOption):
                 x71 = types.Integer(x71)
             elif isinstance(x71, str):
                 x71 = types.Integer.from_mcnp(x71)
-            else:
-                raise TypeError
 
         self._x71: types.Integer = x71
 
     @property
     def x72(self) -> types.Integer:
         """
-        Gets ``x72``.
+        Log-log/linear interpolation in ELXS_MOD setting
 
-        Returns:
-            ``x72``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x72
@@ -3127,18 +2955,17 @@ class Dbcn(_option.DataOption):
                 x72 = types.Integer(x72)
             elif isinstance(x72, str):
                 x72 = types.Integer.from_mcnp(x72)
-            else:
-                raise TypeError
 
         self._x72: types.Integer = x72
 
     @property
     def x73(self) -> types.Integer:
         """
-        Gets ``x73``.
+        Unused
 
-        Returns:
-            ``x73``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x73
@@ -3163,18 +2990,17 @@ class Dbcn(_option.DataOption):
                 x73 = types.Integer(x73)
             elif isinstance(x73, str):
                 x73 = types.Integer.from_mcnp(x73)
-            else:
-                raise TypeError
 
         self._x73: types.Integer = x73
 
     @property
     def x74(self) -> types.Integer:
         """
-        Gets ``x74``.
+        Unused
 
-        Returns:
-            ``x74``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x74
@@ -3199,18 +3025,17 @@ class Dbcn(_option.DataOption):
                 x74 = types.Integer(x74)
             elif isinstance(x74, str):
                 x74 = types.Integer.from_mcnp(x74)
-            else:
-                raise TypeError
 
         self._x74: types.Integer = x74
 
     @property
     def x75(self) -> types.Integer:
         """
-        Gets ``x75``.
+        Print extra info for F-matrix calculation on/off
 
-        Returns:
-            ``x75``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x75
@@ -3235,18 +3060,17 @@ class Dbcn(_option.DataOption):
                 x75 = types.Integer(x75)
             elif isinstance(x75, str):
                 x75 = types.Integer.from_mcnp(x75)
-            else:
-                raise TypeError
 
         self._x75: types.Integer = x75
 
     @property
     def x76(self) -> types.Integer:
         """
-        Gets ``x76``.
+        Print array storage info after setup on/off
 
-        Returns:
-            ``x76``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x76
@@ -3271,18 +3095,17 @@ class Dbcn(_option.DataOption):
                 x76 = types.Integer(x76)
             elif isinstance(x76, str):
                 x76 = types.Integer.from_mcnp(x76)
-            else:
-                raise TypeError
 
         self._x76: types.Integer = x76
 
     @property
     def x77(self) -> types.Integer:
         """
-        Gets ``x77``.
+        Has-based cross-section serach bin number
 
-        Returns:
-            ``x77``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x77
@@ -3307,18 +3130,17 @@ class Dbcn(_option.DataOption):
                 x77 = types.Integer(x77)
             elif isinstance(x77, str):
                 x77 = types.Integer.from_mcnp(x77)
-            else:
-                raise TypeError
 
         self._x77: types.Integer = x77
 
     @property
     def x78(self) -> types.Integer:
         """
-        Gets ``x78``.
+        Developer; S(A,B) method old/new setting
 
-        Returns:
-            ``x78``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x78
@@ -3343,18 +3165,17 @@ class Dbcn(_option.DataOption):
                 x78 = types.Integer(x78)
             elif isinstance(x78, str):
                 x78 = types.Integer.from_mcnp(x78)
-            else:
-                raise TypeError
 
         self._x78: types.Integer = x78
 
     @property
     def x79(self) -> types.Integer:
         """
-        Gets ``x79``.
+        MT for absorption and fission setting
 
-        Returns:
-            ``x79``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x79
@@ -3379,18 +3200,17 @@ class Dbcn(_option.DataOption):
                 x79 = types.Integer(x79)
             elif isinstance(x79, str):
                 x79 = types.Integer.from_mcnp(x79)
-            else:
-                raise TypeError
 
         self._x79: types.Integer = x79
 
     @property
     def x80(self) -> types.Integer:
         """
-        Gets ``x80``.
+        Unused
 
-        Returns:
-            ``x80``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x80
@@ -3415,18 +3235,17 @@ class Dbcn(_option.DataOption):
                 x80 = types.Integer(x80)
             elif isinstance(x80, str):
                 x80 = types.Integer.from_mcnp(x80)
-            else:
-                raise TypeError
 
         self._x80: types.Integer = x80
 
     @property
     def x81(self) -> types.Integer:
         """
-        Gets ``x81``.
+        Developer; interpolation for electron elastic scatter setting
 
-        Returns:
-            ``x81``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x81
@@ -3451,18 +3270,17 @@ class Dbcn(_option.DataOption):
                 x81 = types.Integer(x81)
             elif isinstance(x81, str):
                 x81 = types.Integer.from_mcnp(x81)
-            else:
-                raise TypeError
 
         self._x81: types.Integer = x81
 
     @property
     def x82(self) -> types.Integer:
         """
-        Gets ``x82``.
+        Developer; interpolation for electron elastic scatter setting
 
-        Returns:
-            ``x82``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x82
@@ -3487,18 +3305,17 @@ class Dbcn(_option.DataOption):
                 x82 = types.Integer(x82)
             elif isinstance(x82, str):
                 x82 = types.Integer.from_mcnp(x82)
-            else:
-                raise TypeError
 
         self._x82: types.Integer = x82
 
     @property
     def x83(self) -> types.Integer:
         """
-        Gets ``x83``.
+        Developer; interpolation for electron partial x-s setting
 
-        Returns:
-            ``x83``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x83
@@ -3523,18 +3340,17 @@ class Dbcn(_option.DataOption):
                 x83 = types.Integer(x83)
             elif isinstance(x83, str):
                 x83 = types.Integer.from_mcnp(x83)
-            else:
-                raise TypeError
 
         self._x83: types.Integer = x83
 
     @property
     def x84(self) -> types.Integer:
         """
-        Gets ``x84``.
+        Developer; interpolation for electron bremsstrahlung energy setting
 
-        Returns:
-            ``x84``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x84
@@ -3559,18 +3375,17 @@ class Dbcn(_option.DataOption):
                 x84 = types.Integer(x84)
             elif isinstance(x84, str):
                 x84 = types.Integer.from_mcnp(x84)
-            else:
-                raise TypeError
 
         self._x84: types.Integer = x84
 
     @property
     def x85(self) -> types.Integer:
         """
-        Gets ``x85``.
+        Developer; interpolation for electron bremsstrahlung energy setting
 
-        Returns:
-            ``x85``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x85
@@ -3595,18 +3410,17 @@ class Dbcn(_option.DataOption):
                 x85 = types.Integer(x85)
             elif isinstance(x85, str):
                 x85 = types.Integer.from_mcnp(x85)
-            else:
-                raise TypeError
 
         self._x85: types.Integer = x85
 
     @property
     def x86(self) -> types.Integer:
         """
-        Gets ``x86``.
+        Developer; interpolation for electron excitation setting
 
-        Returns:
-            ``x86``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x86
@@ -3631,18 +3445,17 @@ class Dbcn(_option.DataOption):
                 x86 = types.Integer(x86)
             elif isinstance(x86, str):
                 x86 = types.Integer.from_mcnp(x86)
-            else:
-                raise TypeError
 
         self._x86: types.Integer = x86
 
     @property
     def x87(self) -> types.Integer:
         """
-        Gets ``x87``.
+        Developer; interpolation for electron knock-on energy setting
 
-        Returns:
-            ``x87``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x87
@@ -3667,18 +3480,17 @@ class Dbcn(_option.DataOption):
                 x87 = types.Integer(x87)
             elif isinstance(x87, str):
                 x87 = types.Integer.from_mcnp(x87)
-            else:
-                raise TypeError
 
         self._x87: types.Integer = x87
 
     @property
     def x88(self) -> types.Integer:
         """
-        Gets ``x88``.
+        Developer; interpolation for electron knock-on energy setting
 
-        Returns:
-            ``x88``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x88
@@ -3703,18 +3515,17 @@ class Dbcn(_option.DataOption):
                 x88 = types.Integer(x88)
             elif isinstance(x88, str):
                 x88 = types.Integer.from_mcnp(x88)
-            else:
-                raise TypeError
 
         self._x88: types.Integer = x88
 
     @property
     def x89(self) -> types.Integer:
         """
-        Gets ``x89``.
+        Developer; interpolation for electron ionization x-s setting
 
-        Returns:
-            ``x89``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x89
@@ -3739,18 +3550,17 @@ class Dbcn(_option.DataOption):
                 x89 = types.Integer(x89)
             elif isinstance(x89, str):
                 x89 = types.Integer.from_mcnp(x89)
-            else:
-                raise TypeError
 
         self._x89: types.Integer = x89
 
     @property
     def x90(self) -> types.Integer:
         """
-        Gets ``x90``.
+        Mximum number of terms for Goudsmit-Saunderson distribution
 
-        Returns:
-            ``x90``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x90
@@ -3775,18 +3585,17 @@ class Dbcn(_option.DataOption):
                 x90 = types.Integer(x90)
             elif isinstance(x90, str):
                 x90 = types.Integer.from_mcnp(x90)
-            else:
-                raise TypeError
 
         self._x90: types.Integer = x90
 
     @property
     def x91(self) -> types.Integer:
         """
-        Gets ``x91``.
+        Minimum ROC curve count value
 
-        Returns:
-            ``x91``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x91
@@ -3811,18 +3620,17 @@ class Dbcn(_option.DataOption):
                 x91 = types.Integer(x91)
             elif isinstance(x91, str):
                 x91 = types.Integer.from_mcnp(x91)
-            else:
-                raise TypeError
 
         self._x91: types.Integer = x91
 
     @property
     def x92(self) -> types.Integer:
         """
-        Gets ``x92``.
+        Maximum ROC curve count value
 
-        Returns:
-            ``x92``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x92
@@ -3847,18 +3655,17 @@ class Dbcn(_option.DataOption):
                 x92 = types.Integer(x92)
             elif isinstance(x92, str):
                 x92 = types.Integer.from_mcnp(x92)
-            else:
-                raise TypeError
 
         self._x92: types.Integer = x92
 
     @property
     def x93(self) -> types.Integer:
         """
-        Gets ``x93``.
+        Unused
 
-        Returns:
-            ``x93``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x93
@@ -3883,18 +3690,17 @@ class Dbcn(_option.DataOption):
                 x93 = types.Integer(x93)
             elif isinstance(x93, str):
                 x93 = types.Integer.from_mcnp(x93)
-            else:
-                raise TypeError
 
         self._x93: types.Integer = x93
 
     @property
     def x94(self) -> types.Integer:
         """
-        Gets ``x94``.
+        Unused
 
-        Returns:
-            ``x94``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x94
@@ -3919,18 +3725,17 @@ class Dbcn(_option.DataOption):
                 x94 = types.Integer(x94)
             elif isinstance(x94, str):
                 x94 = types.Integer.from_mcnp(x94)
-            else:
-                raise TypeError
 
         self._x94: types.Integer = x94
 
     @property
     def x95(self) -> types.Integer:
         """
-        Gets ``x95``.
+        Unused
 
-        Returns:
-            ``x95``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x95
@@ -3955,18 +3760,17 @@ class Dbcn(_option.DataOption):
                 x95 = types.Integer(x95)
             elif isinstance(x95, str):
                 x95 = types.Integer.from_mcnp(x95)
-            else:
-                raise TypeError
 
         self._x95: types.Integer = x95
 
     @property
     def x96(self) -> types.Integer:
         """
-        Gets ``x96``.
+        Unused
 
-        Returns:
-            ``x96``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x96
@@ -3991,18 +3795,17 @@ class Dbcn(_option.DataOption):
                 x96 = types.Integer(x96)
             elif isinstance(x96, str):
                 x96 = types.Integer.from_mcnp(x96)
-            else:
-                raise TypeError
 
         self._x96: types.Integer = x96
 
     @property
     def x97(self) -> types.Integer:
         """
-        Gets ``x97``.
+        Unused
 
-        Returns:
-            ``x97``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x97
@@ -4027,18 +3830,17 @@ class Dbcn(_option.DataOption):
                 x97 = types.Integer(x97)
             elif isinstance(x97, str):
                 x97 = types.Integer.from_mcnp(x97)
-            else:
-                raise TypeError
 
         self._x97: types.Integer = x97
 
     @property
     def x98(self) -> types.Integer:
         """
-        Gets ``x98``.
+        Unused
 
-        Returns:
-            ``x98``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x98
@@ -4063,18 +3865,17 @@ class Dbcn(_option.DataOption):
                 x98 = types.Integer(x98)
             elif isinstance(x98, str):
                 x98 = types.Integer.from_mcnp(x98)
-            else:
-                raise TypeError
 
         self._x98: types.Integer = x98
 
     @property
     def x99(self) -> types.Integer:
         """
-        Gets ``x99``.
+        Unused
 
-        Returns:
-            ``x99``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x99
@@ -4099,18 +3900,17 @@ class Dbcn(_option.DataOption):
                 x99 = types.Integer(x99)
             elif isinstance(x99, str):
                 x99 = types.Integer.from_mcnp(x99)
-            else:
-                raise TypeError
 
         self._x99: types.Integer = x99
 
     @property
     def x100(self) -> types.Integer:
         """
-        Gets ``x100``.
+        Coincident-surface method old/new setting
 
-        Returns:
-            ``x100``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x100
@@ -4135,7 +3935,5 @@ class Dbcn(_option.DataOption):
                 x100 = types.Integer(x100)
             elif isinstance(x100, str):
                 x100 = types.Integer.from_mcnp(x100)
-            else:
-                raise TypeError
 
         self._x100: types.Integer = x100

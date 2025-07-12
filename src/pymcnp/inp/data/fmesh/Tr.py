@@ -8,9 +8,6 @@ from ....utils import errors
 class Tr(_option.FmeshOption):
     """
     Represents INP tr elements.
-
-    Attributes:
-        number: Transformation applied to the mesh.
     """
 
     _KEYWORD = 'tr'
@@ -37,10 +34,11 @@ class Tr(_option.FmeshOption):
     @property
     def number(self) -> types.Integer:
         """
-        Gets ``number``.
+        Transformation applied to the mesh
 
-        Returns:
-            ``number``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._number
@@ -65,8 +63,6 @@ class Tr(_option.FmeshOption):
                 number = types.Integer(number)
             elif isinstance(number, str):
                 number = types.Integer.from_mcnp(number)
-            else:
-                raise TypeError
 
         if number is None or not (number >= 1 and number <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)

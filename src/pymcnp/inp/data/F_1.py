@@ -8,13 +8,6 @@ from ...utils import errors
 class F_1(_option.DataOption):
     """
     Represents INP f variation #1 elements.
-
-    Attributes:
-        prefix: Star prefix.
-        suffix: Data card option suffix.
-        designator: Data card particle designator.
-        spheres: Detector points.
-        nd: Total/average specified surfaces/cells option.
     """
 
     _KEYWORD = 'f'
@@ -55,10 +48,11 @@ class F_1(_option.DataOption):
     @property
     def prefix(self) -> types.String:
         """
-        Gets ``prefix``.
+        Star prefix
 
-        Returns:
-            ``prefix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._prefix
@@ -81,8 +75,6 @@ class F_1(_option.DataOption):
                 prefix = prefix
             elif isinstance(prefix, str):
                 prefix = types.String.from_mcnp(prefix)
-            else:
-                raise TypeError
 
         if prefix is not None and prefix not in {'*', '+'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
@@ -92,10 +84,11 @@ class F_1(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -120,8 +113,6 @@ class F_1(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None or not (suffix <= 99_999_999 and suffix % 10 == 5):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -131,10 +122,11 @@ class F_1(_option.DataOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Data card particle designator
 
-        Returns:
-            ``designator``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._designator
@@ -157,18 +149,17 @@ class F_1(_option.DataOption):
                 designator = designator
             elif isinstance(designator, str):
                 designator = types.Designator.from_mcnp(designator)
-            else:
-                raise TypeError
 
         self._designator: types.Designator = designator
 
     @property
     def spheres(self) -> types.Tuple[types.Sphere]:
         """
-        Gets ``spheres``.
+        Detector points
 
-        Returns:
-            ``spheres``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._spheres
@@ -193,8 +184,7 @@ class F_1(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Sphere.from_mcnp(item))
-                else:
-                    raise TypeError
+
             spheres = types.Tuple(array)
 
         if spheres is None:
@@ -205,10 +195,11 @@ class F_1(_option.DataOption):
     @property
     def nd(self) -> types.String:
         """
-        Gets ``nd``.
+        Total/average specified surfaces/cells option
 
-        Returns:
-            ``nd``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._nd
@@ -231,8 +222,6 @@ class F_1(_option.DataOption):
                 nd = nd
             elif isinstance(nd, str):
                 nd = types.String.from_mcnp(nd)
-            else:
-                raise TypeError
 
         if nd is not None and not (nd == 'nd'):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nd)

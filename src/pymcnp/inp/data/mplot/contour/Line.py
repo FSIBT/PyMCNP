@@ -6,9 +6,6 @@ from . import _option
 class Line(_option.ContourOption):
     """
     Represents INP line elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'line'

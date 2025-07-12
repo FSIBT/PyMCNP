@@ -8,10 +8,6 @@ from ....utils import errors
 class Erg(_option.PertOption):
     """
     Represents INP erg elements.
-
-    Attributes:
-        energy_lower_bound: Lower bound for energy pertubation.
-        energy_upper_bound: Upper bound for energy pertubation.
     """
 
     _KEYWORD = 'erg'
@@ -41,10 +37,11 @@ class Erg(_option.PertOption):
     @property
     def energy_lower_bound(self) -> types.Real:
         """
-        Gets ``energy_lower_bound``.
+        Lower bound for energy pertubation
 
-        Returns:
-            ``energy_lower_bound``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._energy_lower_bound
@@ -65,14 +62,10 @@ class Erg(_option.PertOption):
         if energy_lower_bound is not None:
             if isinstance(energy_lower_bound, types.Real):
                 energy_lower_bound = energy_lower_bound
-            elif isinstance(energy_lower_bound, int):
-                energy_lower_bound = types.Real(energy_lower_bound)
-            elif isinstance(energy_lower_bound, float):
+            elif isinstance(energy_lower_bound, int) or isinstance(energy_lower_bound, float):
                 energy_lower_bound = types.Real(energy_lower_bound)
             elif isinstance(energy_lower_bound, str):
                 energy_lower_bound = types.Real.from_mcnp(energy_lower_bound)
-            else:
-                raise TypeError
 
         if energy_lower_bound is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_lower_bound)
@@ -82,10 +75,11 @@ class Erg(_option.PertOption):
     @property
     def energy_upper_bound(self) -> types.Real:
         """
-        Gets ``energy_upper_bound``.
+        Upper bound for energy pertubation
 
-        Returns:
-            ``energy_upper_bound``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._energy_upper_bound
@@ -106,14 +100,10 @@ class Erg(_option.PertOption):
         if energy_upper_bound is not None:
             if isinstance(energy_upper_bound, types.Real):
                 energy_upper_bound = energy_upper_bound
-            elif isinstance(energy_upper_bound, int):
-                energy_upper_bound = types.Real(energy_upper_bound)
-            elif isinstance(energy_upper_bound, float):
+            elif isinstance(energy_upper_bound, int) or isinstance(energy_upper_bound, float):
                 energy_upper_bound = types.Real(energy_upper_bound)
             elif isinstance(energy_upper_bound, str):
                 energy_upper_bound = types.Real.from_mcnp(energy_upper_bound)
-            else:
-                raise TypeError
 
         if energy_upper_bound is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_upper_bound)

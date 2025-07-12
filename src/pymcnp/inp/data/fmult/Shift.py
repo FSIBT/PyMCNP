@@ -8,9 +8,6 @@ from ....utils import errors
 class Shift(_option.FmultOption):
     """
     Represents INP shift elements.
-
-    Attributes:
-        setting: Shift method setting.
     """
 
     _KEYWORD = 'shift'
@@ -37,10 +34,11 @@ class Shift(_option.FmultOption):
     @property
     def setting(self) -> types.Integer:
         """
-        Gets ``setting``.
+        Shift method setting
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -65,8 +63,6 @@ class Shift(_option.FmultOption):
                 setting = types.Integer(setting)
             elif isinstance(setting, str):
                 setting = types.Integer.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {0, 1, 2, 3, 4}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

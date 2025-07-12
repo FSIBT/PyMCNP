@@ -6,9 +6,6 @@ from . import _option
 class Noall(_option.ContourOption):
     """
     Represents INP noall elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'noall'

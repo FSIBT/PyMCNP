@@ -8,23 +8,6 @@ from ...utils import errors
 class Tr_0(_option.DataOption):
     """
     Represents INP tr variation #0 elements.
-
-    Attributes:
-        prefix: Star prefix.
-        suffix: Data card option suffix.
-        x: Displacement vector x component.
-        y: Displacement vector y component.
-        z: Displacement vector z component.
-        xx: Rotation matrix xx' component.
-        xy: Rotation matrix xy' component.
-        xz: Rotation matrix xz' component.
-        yx: Rotation matrix yx' component.
-        yy: Rotation matrix yy' component.
-        yz: Rotation matrix yz' component.
-        zx: Rotation matrix zx' component.
-        zy: Rotation matrix zy' component.
-        zz: Rotation matrix zz' component.
-        system: Coordinate system setting.
     """
 
     _KEYWORD = 'tr'
@@ -112,10 +95,11 @@ class Tr_0(_option.DataOption):
     @property
     def prefix(self) -> types.String:
         """
-        Gets ``prefix``.
+        Star prefix
 
-        Returns:
-            ``prefix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._prefix
@@ -138,8 +122,6 @@ class Tr_0(_option.DataOption):
                 prefix = prefix
             elif isinstance(prefix, str):
                 prefix = types.String.from_mcnp(prefix)
-            else:
-                raise TypeError
 
         if prefix is not None and prefix not in {'*'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
@@ -149,10 +131,11 @@ class Tr_0(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -177,8 +160,6 @@ class Tr_0(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None or not (suffix >= 1 and suffix <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -188,10 +169,11 @@ class Tr_0(_option.DataOption):
     @property
     def x(self) -> types.Real:
         """
-        Gets ``x``.
+        Displacement vector x component
 
-        Returns:
-            ``x``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x
@@ -212,14 +194,10 @@ class Tr_0(_option.DataOption):
         if x is not None:
             if isinstance(x, types.Real):
                 x = x
-            elif isinstance(x, int):
-                x = types.Real(x)
-            elif isinstance(x, float):
+            elif isinstance(x, int) or isinstance(x, float):
                 x = types.Real(x)
             elif isinstance(x, str):
                 x = types.Real.from_mcnp(x)
-            else:
-                raise TypeError
 
         if x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
@@ -229,10 +207,11 @@ class Tr_0(_option.DataOption):
     @property
     def y(self) -> types.Real:
         """
-        Gets ``y``.
+        Displacement vector y component
 
-        Returns:
-            ``y``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._y
@@ -253,14 +232,10 @@ class Tr_0(_option.DataOption):
         if y is not None:
             if isinstance(y, types.Real):
                 y = y
-            elif isinstance(y, int):
-                y = types.Real(y)
-            elif isinstance(y, float):
+            elif isinstance(y, int) or isinstance(y, float):
                 y = types.Real(y)
             elif isinstance(y, str):
                 y = types.Real.from_mcnp(y)
-            else:
-                raise TypeError
 
         if y is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y)
@@ -270,10 +245,11 @@ class Tr_0(_option.DataOption):
     @property
     def z(self) -> types.Real:
         """
-        Gets ``z``.
+        Displacement vector z component
 
-        Returns:
-            ``z``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._z
@@ -294,14 +270,10 @@ class Tr_0(_option.DataOption):
         if z is not None:
             if isinstance(z, types.Real):
                 z = z
-            elif isinstance(z, int):
-                z = types.Real(z)
-            elif isinstance(z, float):
+            elif isinstance(z, int) or isinstance(z, float):
                 z = types.Real(z)
             elif isinstance(z, str):
                 z = types.Real.from_mcnp(z)
-            else:
-                raise TypeError
 
         if z is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z)
@@ -311,10 +283,11 @@ class Tr_0(_option.DataOption):
     @property
     def xx(self) -> types.Real:
         """
-        Gets ``xx``.
+        Rotation matrix xx' component
 
-        Returns:
-            ``xx``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._xx
@@ -335,14 +308,10 @@ class Tr_0(_option.DataOption):
         if xx is not None:
             if isinstance(xx, types.Real):
                 xx = xx
-            elif isinstance(xx, int):
-                xx = types.Real(xx)
-            elif isinstance(xx, float):
+            elif isinstance(xx, int) or isinstance(xx, float):
                 xx = types.Real(xx)
             elif isinstance(xx, str):
                 xx = types.Real.from_mcnp(xx)
-            else:
-                raise TypeError
 
         if xx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, xx)
@@ -352,10 +321,11 @@ class Tr_0(_option.DataOption):
     @property
     def xy(self) -> types.Real:
         """
-        Gets ``xy``.
+        Rotation matrix xy' component
 
-        Returns:
-            ``xy``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._xy
@@ -376,14 +346,10 @@ class Tr_0(_option.DataOption):
         if xy is not None:
             if isinstance(xy, types.Real):
                 xy = xy
-            elif isinstance(xy, int):
-                xy = types.Real(xy)
-            elif isinstance(xy, float):
+            elif isinstance(xy, int) or isinstance(xy, float):
                 xy = types.Real(xy)
             elif isinstance(xy, str):
                 xy = types.Real.from_mcnp(xy)
-            else:
-                raise TypeError
 
         if xy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, xy)
@@ -393,10 +359,11 @@ class Tr_0(_option.DataOption):
     @property
     def xz(self) -> types.Real:
         """
-        Gets ``xz``.
+        Rotation matrix xz' component
 
-        Returns:
-            ``xz``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._xz
@@ -417,14 +384,10 @@ class Tr_0(_option.DataOption):
         if xz is not None:
             if isinstance(xz, types.Real):
                 xz = xz
-            elif isinstance(xz, int):
-                xz = types.Real(xz)
-            elif isinstance(xz, float):
+            elif isinstance(xz, int) or isinstance(xz, float):
                 xz = types.Real(xz)
             elif isinstance(xz, str):
                 xz = types.Real.from_mcnp(xz)
-            else:
-                raise TypeError
 
         if xz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, xz)
@@ -434,10 +397,11 @@ class Tr_0(_option.DataOption):
     @property
     def yx(self) -> types.Real:
         """
-        Gets ``yx``.
+        Rotation matrix yx' component
 
-        Returns:
-            ``yx``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._yx
@@ -458,14 +422,10 @@ class Tr_0(_option.DataOption):
         if yx is not None:
             if isinstance(yx, types.Real):
                 yx = yx
-            elif isinstance(yx, int):
-                yx = types.Real(yx)
-            elif isinstance(yx, float):
+            elif isinstance(yx, int) or isinstance(yx, float):
                 yx = types.Real(yx)
             elif isinstance(yx, str):
                 yx = types.Real.from_mcnp(yx)
-            else:
-                raise TypeError
 
         if yx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, yx)
@@ -475,10 +435,11 @@ class Tr_0(_option.DataOption):
     @property
     def yy(self) -> types.Real:
         """
-        Gets ``yy``.
+        Rotation matrix yy' component
 
-        Returns:
-            ``yy``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._yy
@@ -499,14 +460,10 @@ class Tr_0(_option.DataOption):
         if yy is not None:
             if isinstance(yy, types.Real):
                 yy = yy
-            elif isinstance(yy, int):
-                yy = types.Real(yy)
-            elif isinstance(yy, float):
+            elif isinstance(yy, int) or isinstance(yy, float):
                 yy = types.Real(yy)
             elif isinstance(yy, str):
                 yy = types.Real.from_mcnp(yy)
-            else:
-                raise TypeError
 
         if yy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, yy)
@@ -516,10 +473,11 @@ class Tr_0(_option.DataOption):
     @property
     def yz(self) -> types.Real:
         """
-        Gets ``yz``.
+        Rotation matrix yz' component
 
-        Returns:
-            ``yz``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._yz
@@ -540,14 +498,10 @@ class Tr_0(_option.DataOption):
         if yz is not None:
             if isinstance(yz, types.Real):
                 yz = yz
-            elif isinstance(yz, int):
-                yz = types.Real(yz)
-            elif isinstance(yz, float):
+            elif isinstance(yz, int) or isinstance(yz, float):
                 yz = types.Real(yz)
             elif isinstance(yz, str):
                 yz = types.Real.from_mcnp(yz)
-            else:
-                raise TypeError
 
         if yz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, yz)
@@ -557,10 +511,11 @@ class Tr_0(_option.DataOption):
     @property
     def zx(self) -> types.Real:
         """
-        Gets ``zx``.
+        Rotation matrix zx' component
 
-        Returns:
-            ``zx``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._zx
@@ -581,14 +536,10 @@ class Tr_0(_option.DataOption):
         if zx is not None:
             if isinstance(zx, types.Real):
                 zx = zx
-            elif isinstance(zx, int):
-                zx = types.Real(zx)
-            elif isinstance(zx, float):
+            elif isinstance(zx, int) or isinstance(zx, float):
                 zx = types.Real(zx)
             elif isinstance(zx, str):
                 zx = types.Real.from_mcnp(zx)
-            else:
-                raise TypeError
 
         if zx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zx)
@@ -598,10 +549,11 @@ class Tr_0(_option.DataOption):
     @property
     def zy(self) -> types.Real:
         """
-        Gets ``zy``.
+        Rotation matrix zy' component
 
-        Returns:
-            ``zy``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._zy
@@ -622,14 +574,10 @@ class Tr_0(_option.DataOption):
         if zy is not None:
             if isinstance(zy, types.Real):
                 zy = zy
-            elif isinstance(zy, int):
-                zy = types.Real(zy)
-            elif isinstance(zy, float):
+            elif isinstance(zy, int) or isinstance(zy, float):
                 zy = types.Real(zy)
             elif isinstance(zy, str):
                 zy = types.Real.from_mcnp(zy)
-            else:
-                raise TypeError
 
         if zy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zy)
@@ -639,10 +587,11 @@ class Tr_0(_option.DataOption):
     @property
     def zz(self) -> types.Real:
         """
-        Gets ``zz``.
+        Rotation matrix zz' component
 
-        Returns:
-            ``zz``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._zz
@@ -663,14 +612,10 @@ class Tr_0(_option.DataOption):
         if zz is not None:
             if isinstance(zz, types.Real):
                 zz = zz
-            elif isinstance(zz, int):
-                zz = types.Real(zz)
-            elif isinstance(zz, float):
+            elif isinstance(zz, int) or isinstance(zz, float):
                 zz = types.Real(zz)
             elif isinstance(zz, str):
                 zz = types.Real.from_mcnp(zz)
-            else:
-                raise TypeError
 
         if zz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zz)
@@ -680,10 +625,11 @@ class Tr_0(_option.DataOption):
     @property
     def system(self) -> types.Integer:
         """
-        Gets ``system``.
+        Coordinate system setting
 
-        Returns:
-            ``system``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._system
@@ -708,8 +654,6 @@ class Tr_0(_option.DataOption):
                 system = types.Integer(system)
             elif isinstance(system, str):
                 system = types.Integer.from_mcnp(system)
-            else:
-                raise TypeError
 
         if system is not None and not (system == -1 or system == 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, system)

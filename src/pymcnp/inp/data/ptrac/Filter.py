@@ -8,9 +8,6 @@ from ....utils import errors
 class Filter(_option.PtracOption):
     """
     Represents INP filter elements.
-
-    Attributes:
-        variables: MCNP6 variables for filtering.
     """
 
     _KEYWORD = 'filter'
@@ -37,10 +34,11 @@ class Filter(_option.PtracOption):
     @property
     def variables(self) -> types.Tuple[types.PtracFilter]:
         """
-        Gets ``variables``.
+        MCNP6 variables for filtering
 
-        Returns:
-            ``variables``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._variables
@@ -65,8 +63,7 @@ class Filter(_option.PtracOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.PtracFilter.from_mcnp(item))
-                else:
-                    raise TypeError
+
             variables = types.Tuple(array)
 
         if variables is None:

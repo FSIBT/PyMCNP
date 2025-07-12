@@ -8,9 +8,6 @@ from ....utils import errors
 class Col(_option.SsrOption):
     """
     Represents INP col elements.
-
-    Attributes:
-        setting: Collision option setting.
     """
 
     _KEYWORD = 'col'
@@ -37,10 +34,11 @@ class Col(_option.SsrOption):
     @property
     def setting(self) -> types.Integer:
         """
-        Gets ``setting``.
+        Collision option setting
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -65,8 +63,6 @@ class Col(_option.SsrOption):
                 setting = types.Integer(setting)
             elif isinstance(setting, str):
                 setting = types.Integer.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {-1, 0, 1}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

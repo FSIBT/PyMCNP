@@ -6,9 +6,6 @@ from . import _option
 class Return(_option.MplotOption):
     """
     Represents INP return elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'return'

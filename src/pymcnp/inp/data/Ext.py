@@ -8,10 +8,6 @@ from ...utils import errors
 class Ext(_option.DataOption):
     """
     Represents INP ext elements.
-
-    Attributes:
-        designator: Data card particle designator.
-        stretching: Stretching direction for the cell.
     """
 
     _KEYWORD = 'ext'
@@ -41,10 +37,11 @@ class Ext(_option.DataOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Data card particle designator
 
-        Returns:
-            ``designator``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._designator
@@ -67,8 +64,6 @@ class Ext(_option.DataOption):
                 designator = designator
             elif isinstance(designator, str):
                 designator = types.Designator.from_mcnp(designator)
-            else:
-                raise TypeError
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
@@ -78,10 +73,11 @@ class Ext(_option.DataOption):
     @property
     def stretching(self) -> types.Tuple[types.String]:
         """
-        Gets ``stretching``.
+        Stretching direction for the cell
 
-        Returns:
-            ``stretching``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._stretching
@@ -106,8 +102,7 @@ class Ext(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.String.from_mcnp(item))
-                else:
-                    raise TypeError
+
             stretching = types.Tuple(array)
 
         if stretching is None:

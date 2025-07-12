@@ -8,9 +8,6 @@ from ....utils import errors
 class Rho(_option.PertOption):
     """
     Represents INP rho elements.
-
-    Attributes:
-        density: Perturbed density.
     """
 
     _KEYWORD = 'rho'
@@ -37,10 +34,11 @@ class Rho(_option.PertOption):
     @property
     def density(self) -> types.Real:
         """
-        Gets ``density``.
+        Perturbed density
 
-        Returns:
-            ``density``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._density
@@ -61,14 +59,10 @@ class Rho(_option.PertOption):
         if density is not None:
             if isinstance(density, types.Real):
                 density = density
-            elif isinstance(density, int):
-                density = types.Real(density)
-            elif isinstance(density, float):
+            elif isinstance(density, int) or isinstance(density, float):
                 density = types.Real(density)
             elif isinstance(density, str):
                 density = types.Real.from_mcnp(density)
-            else:
-                raise TypeError
 
         if density is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, density)

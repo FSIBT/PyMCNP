@@ -8,9 +8,6 @@ from ....utils import errors
 class Ara(_option.SdefOption):
     """
     Represents INP ara elements.
-
-    Attributes:
-        area: Area of surface.
     """
 
     _KEYWORD = 'ara'
@@ -37,10 +34,11 @@ class Ara(_option.SdefOption):
     @property
     def area(self) -> types.Real:
         """
-        Gets ``area``.
+        Area of surface
 
-        Returns:
-            ``area``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._area
@@ -61,14 +59,10 @@ class Ara(_option.SdefOption):
         if area is not None:
             if isinstance(area, types.Real):
                 area = area
-            elif isinstance(area, int):
-                area = types.Real(area)
-            elif isinstance(area, float):
+            elif isinstance(area, int) or isinstance(area, float):
                 area = types.Real(area)
             elif isinstance(area, str):
                 area = types.Real.from_mcnp(area)
-            else:
-                raise TypeError
 
         if area is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, area)

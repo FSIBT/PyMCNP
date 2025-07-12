@@ -9,12 +9,6 @@ from ...utils import _visualization
 class Sph(_option.SurfaceOption):
     """
     Represents INP sph elements.
-
-    Attributes:
-        vx: Sphere macrobody position vector x component.
-        vy: Sphere macrobody position vector y component.
-        vz: Sphere macrobody position vector z component.
-        r: Sphere macrobody radius.
     """
 
     _KEYWORD = 'sph'
@@ -50,10 +44,11 @@ class Sph(_option.SurfaceOption):
     @property
     def vx(self) -> types.Real:
         """
-        Gets ``vx``.
+        Sphere macrobody position vector x component
 
-        Returns:
-            ``vx``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._vx
@@ -74,14 +69,10 @@ class Sph(_option.SurfaceOption):
         if vx is not None:
             if isinstance(vx, types.Real):
                 vx = vx
-            elif isinstance(vx, int):
-                vx = types.Real(vx)
-            elif isinstance(vx, float):
+            elif isinstance(vx, int) or isinstance(vx, float):
                 vx = types.Real(vx)
             elif isinstance(vx, str):
                 vx = types.Real.from_mcnp(vx)
-            else:
-                raise TypeError
 
         if vx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vx)
@@ -91,10 +82,11 @@ class Sph(_option.SurfaceOption):
     @property
     def vy(self) -> types.Real:
         """
-        Gets ``vy``.
+        Sphere macrobody position vector y component
 
-        Returns:
-            ``vy``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._vy
@@ -115,14 +107,10 @@ class Sph(_option.SurfaceOption):
         if vy is not None:
             if isinstance(vy, types.Real):
                 vy = vy
-            elif isinstance(vy, int):
-                vy = types.Real(vy)
-            elif isinstance(vy, float):
+            elif isinstance(vy, int) or isinstance(vy, float):
                 vy = types.Real(vy)
             elif isinstance(vy, str):
                 vy = types.Real.from_mcnp(vy)
-            else:
-                raise TypeError
 
         if vy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vy)
@@ -132,10 +120,11 @@ class Sph(_option.SurfaceOption):
     @property
     def vz(self) -> types.Real:
         """
-        Gets ``vz``.
+        Sphere macrobody position vector z component
 
-        Returns:
-            ``vz``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._vz
@@ -156,14 +145,10 @@ class Sph(_option.SurfaceOption):
         if vz is not None:
             if isinstance(vz, types.Real):
                 vz = vz
-            elif isinstance(vz, int):
-                vz = types.Real(vz)
-            elif isinstance(vz, float):
+            elif isinstance(vz, int) or isinstance(vz, float):
                 vz = types.Real(vz)
             elif isinstance(vz, str):
                 vz = types.Real.from_mcnp(vz)
-            else:
-                raise TypeError
 
         if vz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vz)
@@ -173,10 +158,11 @@ class Sph(_option.SurfaceOption):
     @property
     def r(self) -> types.Real:
         """
-        Gets ``r``.
+        Sphere macrobody radius
 
-        Returns:
-            ``r``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._r
@@ -197,14 +183,10 @@ class Sph(_option.SurfaceOption):
         if r is not None:
             if isinstance(r, types.Real):
                 r = r
-            elif isinstance(r, int):
-                r = types.Real(r)
-            elif isinstance(r, float):
+            elif isinstance(r, int) or isinstance(r, float):
                 r = types.Real(r)
             elif isinstance(r, str):
                 r = types.Real.from_mcnp(r)
-            else:
-                raise TypeError
 
         if r is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r)

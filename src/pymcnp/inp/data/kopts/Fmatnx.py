@@ -8,9 +8,6 @@ from ....utils import errors
 class Fmatnx(_option.KoptsOption):
     """
     Represents INP fmatnx elements.
-
-    Attributes:
-        fmat_nx: fmat_nx.
     """
 
     _KEYWORD = 'fmatnx'
@@ -37,10 +34,11 @@ class Fmatnx(_option.KoptsOption):
     @property
     def fmat_nx(self) -> types.Real:
         """
-        Gets ``fmat_nx``.
+        Fmat_nx
 
-        Returns:
-            ``fmat_nx``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._fmat_nx
@@ -61,14 +59,10 @@ class Fmatnx(_option.KoptsOption):
         if fmat_nx is not None:
             if isinstance(fmat_nx, types.Real):
                 fmat_nx = fmat_nx
-            elif isinstance(fmat_nx, int):
-                fmat_nx = types.Real(fmat_nx)
-            elif isinstance(fmat_nx, float):
+            elif isinstance(fmat_nx, int) or isinstance(fmat_nx, float):
                 fmat_nx = types.Real(fmat_nx)
             elif isinstance(fmat_nx, str):
                 fmat_nx = types.Real.from_mcnp(fmat_nx)
-            else:
-                raise TypeError
 
         if fmat_nx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fmat_nx)

@@ -8,9 +8,6 @@ from ....utils import errors
 class Tints(_option.FmeshOption):
     """
     Represents INP tints elements.
-
-    Attributes:
-        count: Number of mesh points for each mesh time.
     """
 
     _KEYWORD = 'tints'
@@ -37,10 +34,11 @@ class Tints(_option.FmeshOption):
     @property
     def count(self) -> types.Integer:
         """
-        Gets ``count``.
+        Number of mesh points for each mesh time
 
-        Returns:
-            ``count``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._count
@@ -65,8 +63,6 @@ class Tints(_option.FmeshOption):
                 count = types.Integer(count)
             elif isinstance(count, str):
                 count = types.Integer.from_mcnp(count)
-            else:
-                raise TypeError
 
         if count is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, count)

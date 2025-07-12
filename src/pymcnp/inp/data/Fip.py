@@ -8,20 +8,6 @@ from ...utils import errors
 class Fip(_option.DataOption):
     """
     Represents INP fip elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        designator: Data card particle designator.
-        x1: Pinhole center x-coordinate.
-        y1: Pinhole center y-coordinate.
-        z1: Pinhole center z-coordinate.
-        ro: Pinhole exclusion radius.
-        x2: Reference direction x-coordinate.
-        y2: Reference direction y-coordinate.
-        z2: Reference direction z-coordinate.
-        f1: Cylindrical collimator radius.
-        f2: Pinhole radius in the direction perpendiuclar to the reference direction.
-        f3: Distance between pinhole and and detector grid.
     """
 
     _KEYWORD = 'fip'
@@ -97,10 +83,11 @@ class Fip(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -125,8 +112,6 @@ class Fip(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None or not (suffix <= 99_999_999 and suffix % 10 == 5):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -136,10 +121,11 @@ class Fip(_option.DataOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Data card particle designator
 
-        Returns:
-            ``designator``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._designator
@@ -162,8 +148,6 @@ class Fip(_option.DataOption):
                 designator = designator
             elif isinstance(designator, str):
                 designator = types.Designator.from_mcnp(designator)
-            else:
-                raise TypeError
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
@@ -173,10 +157,11 @@ class Fip(_option.DataOption):
     @property
     def x1(self) -> types.Real:
         """
-        Gets ``x1``.
+        Pinhole center x-coordinate
 
-        Returns:
-            ``x1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x1
@@ -197,14 +182,10 @@ class Fip(_option.DataOption):
         if x1 is not None:
             if isinstance(x1, types.Real):
                 x1 = x1
-            elif isinstance(x1, int):
-                x1 = types.Real(x1)
-            elif isinstance(x1, float):
+            elif isinstance(x1, int) or isinstance(x1, float):
                 x1 = types.Real(x1)
             elif isinstance(x1, str):
                 x1 = types.Real.from_mcnp(x1)
-            else:
-                raise TypeError
 
         if x1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x1)
@@ -214,10 +195,11 @@ class Fip(_option.DataOption):
     @property
     def y1(self) -> types.Real:
         """
-        Gets ``y1``.
+        Pinhole center y-coordinate
 
-        Returns:
-            ``y1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._y1
@@ -238,14 +220,10 @@ class Fip(_option.DataOption):
         if y1 is not None:
             if isinstance(y1, types.Real):
                 y1 = y1
-            elif isinstance(y1, int):
-                y1 = types.Real(y1)
-            elif isinstance(y1, float):
+            elif isinstance(y1, int) or isinstance(y1, float):
                 y1 = types.Real(y1)
             elif isinstance(y1, str):
                 y1 = types.Real.from_mcnp(y1)
-            else:
-                raise TypeError
 
         if y1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y1)
@@ -255,10 +233,11 @@ class Fip(_option.DataOption):
     @property
     def z1(self) -> types.Real:
         """
-        Gets ``z1``.
+        Pinhole center z-coordinate
 
-        Returns:
-            ``z1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._z1
@@ -279,14 +258,10 @@ class Fip(_option.DataOption):
         if z1 is not None:
             if isinstance(z1, types.Real):
                 z1 = z1
-            elif isinstance(z1, int):
-                z1 = types.Real(z1)
-            elif isinstance(z1, float):
+            elif isinstance(z1, int) or isinstance(z1, float):
                 z1 = types.Real(z1)
             elif isinstance(z1, str):
                 z1 = types.Real.from_mcnp(z1)
-            else:
-                raise TypeError
 
         if z1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z1)
@@ -296,10 +271,11 @@ class Fip(_option.DataOption):
     @property
     def ro(self) -> types.Real:
         """
-        Gets ``ro``.
+        Pinhole exclusion radius
 
-        Returns:
-            ``ro``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ro
@@ -320,14 +296,10 @@ class Fip(_option.DataOption):
         if ro is not None:
             if isinstance(ro, types.Real):
                 ro = ro
-            elif isinstance(ro, int):
-                ro = types.Real(ro)
-            elif isinstance(ro, float):
+            elif isinstance(ro, int) or isinstance(ro, float):
                 ro = types.Real(ro)
             elif isinstance(ro, str):
                 ro = types.Real.from_mcnp(ro)
-            else:
-                raise TypeError
 
         if ro is None or not (ro == 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ro)
@@ -337,10 +309,11 @@ class Fip(_option.DataOption):
     @property
     def x2(self) -> types.Real:
         """
-        Gets ``x2``.
+        Reference direction x-coordinate
 
-        Returns:
-            ``x2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x2
@@ -361,14 +334,10 @@ class Fip(_option.DataOption):
         if x2 is not None:
             if isinstance(x2, types.Real):
                 x2 = x2
-            elif isinstance(x2, int):
-                x2 = types.Real(x2)
-            elif isinstance(x2, float):
+            elif isinstance(x2, int) or isinstance(x2, float):
                 x2 = types.Real(x2)
             elif isinstance(x2, str):
                 x2 = types.Real.from_mcnp(x2)
-            else:
-                raise TypeError
 
         if x2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x2)
@@ -378,10 +347,11 @@ class Fip(_option.DataOption):
     @property
     def y2(self) -> types.Real:
         """
-        Gets ``y2``.
+        Reference direction y-coordinate
 
-        Returns:
-            ``y2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._y2
@@ -402,14 +372,10 @@ class Fip(_option.DataOption):
         if y2 is not None:
             if isinstance(y2, types.Real):
                 y2 = y2
-            elif isinstance(y2, int):
-                y2 = types.Real(y2)
-            elif isinstance(y2, float):
+            elif isinstance(y2, int) or isinstance(y2, float):
                 y2 = types.Real(y2)
             elif isinstance(y2, str):
                 y2 = types.Real.from_mcnp(y2)
-            else:
-                raise TypeError
 
         if y2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y2)
@@ -419,10 +385,11 @@ class Fip(_option.DataOption):
     @property
     def z2(self) -> types.Real:
         """
-        Gets ``z2``.
+        Reference direction z-coordinate
 
-        Returns:
-            ``z2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._z2
@@ -443,14 +410,10 @@ class Fip(_option.DataOption):
         if z2 is not None:
             if isinstance(z2, types.Real):
                 z2 = z2
-            elif isinstance(z2, int):
-                z2 = types.Real(z2)
-            elif isinstance(z2, float):
+            elif isinstance(z2, int) or isinstance(z2, float):
                 z2 = types.Real(z2)
             elif isinstance(z2, str):
                 z2 = types.Real.from_mcnp(z2)
-            else:
-                raise TypeError
 
         if z2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z2)
@@ -460,10 +423,11 @@ class Fip(_option.DataOption):
     @property
     def f1(self) -> types.Real:
         """
-        Gets ``f1``.
+        Cylindrical collimator radius
 
-        Returns:
-            ``f1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._f1
@@ -484,14 +448,10 @@ class Fip(_option.DataOption):
         if f1 is not None:
             if isinstance(f1, types.Real):
                 f1 = f1
-            elif isinstance(f1, int):
-                f1 = types.Real(f1)
-            elif isinstance(f1, float):
+            elif isinstance(f1, int) or isinstance(f1, float):
                 f1 = types.Real(f1)
             elif isinstance(f1, str):
                 f1 = types.Real.from_mcnp(f1)
-            else:
-                raise TypeError
 
         if f1 is None or not (f1 >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f1)
@@ -501,10 +461,11 @@ class Fip(_option.DataOption):
     @property
     def f2(self) -> types.Real:
         """
-        Gets ``f2``.
+        Pinhole radius in the direction perpendiuclar to the reference direction
 
-        Returns:
-            ``f2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._f2
@@ -525,14 +486,10 @@ class Fip(_option.DataOption):
         if f2 is not None:
             if isinstance(f2, types.Real):
                 f2 = f2
-            elif isinstance(f2, int):
-                f2 = types.Real(f2)
-            elif isinstance(f2, float):
+            elif isinstance(f2, int) or isinstance(f2, float):
                 f2 = types.Real(f2)
             elif isinstance(f2, str):
                 f2 = types.Real.from_mcnp(f2)
-            else:
-                raise TypeError
 
         if f2 is None or not (f2 >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f2)
@@ -542,10 +499,11 @@ class Fip(_option.DataOption):
     @property
     def f3(self) -> types.Real:
         """
-        Gets ``f3``.
+        Distance between pinhole and and detector grid
 
-        Returns:
-            ``f3``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._f3
@@ -566,14 +524,10 @@ class Fip(_option.DataOption):
         if f3 is not None:
             if isinstance(f3, types.Real):
                 f3 = f3
-            elif isinstance(f3, int):
-                f3 = types.Real(f3)
-            elif isinstance(f3, float):
+            elif isinstance(f3, int) or isinstance(f3, float):
                 f3 = types.Real(f3)
             elif isinstance(f3, str):
                 f3 = types.Real.from_mcnp(f3)
-            else:
-                raise TypeError
 
         if f3 is None or not (f3 >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f3)

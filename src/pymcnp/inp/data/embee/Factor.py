@@ -8,9 +8,6 @@ from ....utils import errors
 class Factor(_option.EmbeeOption):
     """
     Represents INP factor elements.
-
-    Attributes:
-        constant: Multiplicative constant.
     """
 
     _KEYWORD = 'factor'
@@ -37,10 +34,11 @@ class Factor(_option.EmbeeOption):
     @property
     def constant(self) -> types.Real:
         """
-        Gets ``constant``.
+        Multiplicative constant
 
-        Returns:
-            ``constant``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._constant
@@ -61,14 +59,10 @@ class Factor(_option.EmbeeOption):
         if constant is not None:
             if isinstance(constant, types.Real):
                 constant = constant
-            elif isinstance(constant, int):
-                constant = types.Real(constant)
-            elif isinstance(constant, float):
+            elif isinstance(constant, int) or isinstance(constant, float):
                 constant = types.Real(constant)
             elif isinstance(constant, str):
                 constant = types.Real.from_mcnp(constant)
-            else:
-                raise TypeError
 
         if constant is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, constant)

@@ -8,9 +8,6 @@ from ....utils import errors
 class Ic(_option.DfOption_1):
     """
     Represents INP ic elements.
-
-    Attributes:
-        function: Standard dose function.
     """
 
     _KEYWORD = 'ic'
@@ -37,10 +34,11 @@ class Ic(_option.DfOption_1):
     @property
     def function(self) -> types.Integer:
         """
-        Gets ``function``.
+        Standard dose function
 
-        Returns:
-            ``function``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._function
@@ -65,8 +63,6 @@ class Ic(_option.DfOption_1):
                 function = types.Integer(function)
             elif isinstance(function, str):
                 function = types.Integer.from_mcnp(function)
-            else:
-                raise TypeError
 
         if function is None or not (isinstance(function.value, types.Jump) or function in {10, 20, 31, 32, 33, 34, 35, 40, 99}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, function)

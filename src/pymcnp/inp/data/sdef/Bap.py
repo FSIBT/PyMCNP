@@ -8,11 +8,6 @@ from ....utils import errors
 class Bap(_option.SdefOption):
     """
     Represents INP bap elements.
-
-    Attributes:
-        ba1: Beam aperture half-width in the x transverse direction.
-        ba2: Beam aperture half-width in the y transverse direction.
-        u: Unused, arrbirary value.
     """
 
     _KEYWORD = 'bap'
@@ -45,10 +40,11 @@ class Bap(_option.SdefOption):
     @property
     def ba1(self) -> types.Real:
         """
-        Gets ``ba1``.
+        Beam aperture half-width in the x transverse direction
 
-        Returns:
-            ``ba1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ba1
@@ -69,14 +65,10 @@ class Bap(_option.SdefOption):
         if ba1 is not None:
             if isinstance(ba1, types.Real):
                 ba1 = ba1
-            elif isinstance(ba1, int):
-                ba1 = types.Real(ba1)
-            elif isinstance(ba1, float):
+            elif isinstance(ba1, int) or isinstance(ba1, float):
                 ba1 = types.Real(ba1)
             elif isinstance(ba1, str):
                 ba1 = types.Real.from_mcnp(ba1)
-            else:
-                raise TypeError
 
         if ba1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ba1)
@@ -86,10 +78,11 @@ class Bap(_option.SdefOption):
     @property
     def ba2(self) -> types.Real:
         """
-        Gets ``ba2``.
+        Beam aperture half-width in the y transverse direction
 
-        Returns:
-            ``ba2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ba2
@@ -110,14 +103,10 @@ class Bap(_option.SdefOption):
         if ba2 is not None:
             if isinstance(ba2, types.Real):
                 ba2 = ba2
-            elif isinstance(ba2, int):
-                ba2 = types.Real(ba2)
-            elif isinstance(ba2, float):
+            elif isinstance(ba2, int) or isinstance(ba2, float):
                 ba2 = types.Real(ba2)
             elif isinstance(ba2, str):
                 ba2 = types.Real.from_mcnp(ba2)
-            else:
-                raise TypeError
 
         if ba2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ba2)
@@ -127,10 +116,11 @@ class Bap(_option.SdefOption):
     @property
     def u(self) -> types.Real:
         """
-        Gets ``u``.
+        Unused, arrbirary value
 
-        Returns:
-            ``u``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._u
@@ -151,14 +141,10 @@ class Bap(_option.SdefOption):
         if u is not None:
             if isinstance(u, types.Real):
                 u = u
-            elif isinstance(u, int):
-                u = types.Real(u)
-            elif isinstance(u, float):
+            elif isinstance(u, int) or isinstance(u, float):
                 u = types.Real(u)
             elif isinstance(u, str):
                 u = types.Real.from_mcnp(u)
-            else:
-                raise TypeError
 
         if u is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, u)

@@ -8,9 +8,6 @@ from ....utils import errors
 class Reset(_option.MplotOption):
     """
     Represents INP reset elements.
-
-    Attributes:
-        aa: Command parameter reset.
     """
 
     _KEYWORD = 'reset'
@@ -37,10 +34,11 @@ class Reset(_option.MplotOption):
     @property
     def aa(self) -> types.String:
         """
-        Gets ``aa``.
+        Command parameter reset
 
-        Returns:
-            ``aa``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._aa
@@ -63,8 +61,6 @@ class Reset(_option.MplotOption):
                 aa = aa
             elif isinstance(aa, str):
                 aa = types.String.from_mcnp(aa)
-            else:
-                raise TypeError
 
         if aa is not None and aa not in {'all', 'coplot'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, aa)

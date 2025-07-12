@@ -6,9 +6,6 @@ from . import _option
 class Bar(_option.MplotOption):
     """
     Represents INP bar elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'bar'

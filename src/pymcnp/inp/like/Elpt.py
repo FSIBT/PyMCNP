@@ -8,10 +8,6 @@ from ...utils import errors
 class Elpt(_option.LikeOption):
     """
     Represents INP elpt elements.
-
-    Attributes:
-        designator: Cell particle designator.
-        cutoff: Cell energy cutoff.
     """
 
     _KEYWORD = 'elpt'
@@ -67,8 +63,6 @@ class Elpt(_option.LikeOption):
                 designator = designator
             elif isinstance(designator, str):
                 designator = types.Designator.from_mcnp(designator)
-            else:
-                raise TypeError
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
@@ -102,14 +96,10 @@ class Elpt(_option.LikeOption):
         if cutoff is not None:
             if isinstance(cutoff, types.Real):
                 cutoff = cutoff
-            elif isinstance(cutoff, int):
-                cutoff = types.Real(cutoff)
-            elif isinstance(cutoff, float):
+            elif isinstance(cutoff, int) or isinstance(cutoff, float):
                 cutoff = types.Real(cutoff)
             elif isinstance(cutoff, str):
                 cutoff = types.Real.from_mcnp(cutoff)
-            else:
-                raise TypeError
 
         if cutoff is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cutoff)

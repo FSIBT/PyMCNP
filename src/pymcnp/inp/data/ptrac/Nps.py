@@ -8,9 +8,6 @@ from ....utils import errors
 class Nps(_option.PtracOption):
     """
     Represents INP nps elements.
-
-    Attributes:
-        particles: Sets the range of particle histories for which events will be output.
     """
 
     _KEYWORD = 'nps'
@@ -37,10 +34,11 @@ class Nps(_option.PtracOption):
     @property
     def particles(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``particles``.
+        Sets the range of particle histories for which events will be output
 
-        Returns:
-            ``particles``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._particles
@@ -67,8 +65,7 @@ class Nps(_option.PtracOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             particles = types.Tuple(array)
 
         if particles is None:

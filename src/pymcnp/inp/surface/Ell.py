@@ -9,15 +9,6 @@ from ...utils import _visualization
 class Ell(_option.SurfaceOption):
     """
     Represents INP ell elements.
-
-    Attributes:
-        v1x: Ellipsoid focus #1 or center x component.
-        v1y: Ellipsoid focus #1 or center y component.
-        v1z: Ellipsoid focus #1 or center z component.
-        v2x: Ellipsoid focus #2 or major axis x component.
-        v2y: Ellipsoid focus #2 or major axis y component.
-        v2z: Ellipsoid focus #2 or major axis z component.
-        rm: Ellipsoid major/minor axis radius length.
     """
 
     _KEYWORD = 'ell'
@@ -73,10 +64,11 @@ class Ell(_option.SurfaceOption):
     @property
     def v1x(self) -> types.Real:
         """
-        Gets ``v1x``.
+        Ellipsoid focus #1 or center x component
 
-        Returns:
-            ``v1x``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._v1x
@@ -97,14 +89,10 @@ class Ell(_option.SurfaceOption):
         if v1x is not None:
             if isinstance(v1x, types.Real):
                 v1x = v1x
-            elif isinstance(v1x, int):
-                v1x = types.Real(v1x)
-            elif isinstance(v1x, float):
+            elif isinstance(v1x, int) or isinstance(v1x, float):
                 v1x = types.Real(v1x)
             elif isinstance(v1x, str):
                 v1x = types.Real.from_mcnp(v1x)
-            else:
-                raise TypeError
 
         if v1x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v1x)
@@ -114,10 +102,11 @@ class Ell(_option.SurfaceOption):
     @property
     def v1y(self) -> types.Real:
         """
-        Gets ``v1y``.
+        Ellipsoid focus #1 or center y component
 
-        Returns:
-            ``v1y``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._v1y
@@ -138,14 +127,10 @@ class Ell(_option.SurfaceOption):
         if v1y is not None:
             if isinstance(v1y, types.Real):
                 v1y = v1y
-            elif isinstance(v1y, int):
-                v1y = types.Real(v1y)
-            elif isinstance(v1y, float):
+            elif isinstance(v1y, int) or isinstance(v1y, float):
                 v1y = types.Real(v1y)
             elif isinstance(v1y, str):
                 v1y = types.Real.from_mcnp(v1y)
-            else:
-                raise TypeError
 
         if v1y is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v1y)
@@ -155,10 +140,11 @@ class Ell(_option.SurfaceOption):
     @property
     def v1z(self) -> types.Real:
         """
-        Gets ``v1z``.
+        Ellipsoid focus #1 or center z component
 
-        Returns:
-            ``v1z``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._v1z
@@ -179,14 +165,10 @@ class Ell(_option.SurfaceOption):
         if v1z is not None:
             if isinstance(v1z, types.Real):
                 v1z = v1z
-            elif isinstance(v1z, int):
-                v1z = types.Real(v1z)
-            elif isinstance(v1z, float):
+            elif isinstance(v1z, int) or isinstance(v1z, float):
                 v1z = types.Real(v1z)
             elif isinstance(v1z, str):
                 v1z = types.Real.from_mcnp(v1z)
-            else:
-                raise TypeError
 
         if v1z is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v1z)
@@ -196,10 +178,11 @@ class Ell(_option.SurfaceOption):
     @property
     def v2x(self) -> types.Real:
         """
-        Gets ``v2x``.
+        Ellipsoid focus #2 or major axis x component
 
-        Returns:
-            ``v2x``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._v2x
@@ -220,14 +203,10 @@ class Ell(_option.SurfaceOption):
         if v2x is not None:
             if isinstance(v2x, types.Real):
                 v2x = v2x
-            elif isinstance(v2x, int):
-                v2x = types.Real(v2x)
-            elif isinstance(v2x, float):
+            elif isinstance(v2x, int) or isinstance(v2x, float):
                 v2x = types.Real(v2x)
             elif isinstance(v2x, str):
                 v2x = types.Real.from_mcnp(v2x)
-            else:
-                raise TypeError
 
         if v2x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v2x)
@@ -237,10 +216,11 @@ class Ell(_option.SurfaceOption):
     @property
     def v2y(self) -> types.Real:
         """
-        Gets ``v2y``.
+        Ellipsoid focus #2 or major axis y component
 
-        Returns:
-            ``v2y``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._v2y
@@ -261,14 +241,10 @@ class Ell(_option.SurfaceOption):
         if v2y is not None:
             if isinstance(v2y, types.Real):
                 v2y = v2y
-            elif isinstance(v2y, int):
-                v2y = types.Real(v2y)
-            elif isinstance(v2y, float):
+            elif isinstance(v2y, int) or isinstance(v2y, float):
                 v2y = types.Real(v2y)
             elif isinstance(v2y, str):
                 v2y = types.Real.from_mcnp(v2y)
-            else:
-                raise TypeError
 
         if v2y is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v2y)
@@ -278,10 +254,11 @@ class Ell(_option.SurfaceOption):
     @property
     def v2z(self) -> types.Real:
         """
-        Gets ``v2z``.
+        Ellipsoid focus #2 or major axis z component
 
-        Returns:
-            ``v2z``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._v2z
@@ -302,14 +279,10 @@ class Ell(_option.SurfaceOption):
         if v2z is not None:
             if isinstance(v2z, types.Real):
                 v2z = v2z
-            elif isinstance(v2z, int):
-                v2z = types.Real(v2z)
-            elif isinstance(v2z, float):
+            elif isinstance(v2z, int) or isinstance(v2z, float):
                 v2z = types.Real(v2z)
             elif isinstance(v2z, str):
                 v2z = types.Real.from_mcnp(v2z)
-            else:
-                raise TypeError
 
         if v2z is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v2z)
@@ -319,10 +292,11 @@ class Ell(_option.SurfaceOption):
     @property
     def rm(self) -> types.Real:
         """
-        Gets ``rm``.
+        Ellipsoid major/minor axis radius length
 
-        Returns:
-            ``rm``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._rm
@@ -343,14 +317,10 @@ class Ell(_option.SurfaceOption):
         if rm is not None:
             if isinstance(rm, types.Real):
                 rm = rm
-            elif isinstance(rm, int):
-                rm = types.Real(rm)
-            elif isinstance(rm, float):
+            elif isinstance(rm, int) or isinstance(rm, float):
                 rm = types.Real(rm)
             elif isinstance(rm, str):
                 rm = types.Real.from_mcnp(rm)
-            else:
-                raise TypeError
 
         if rm is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, rm)

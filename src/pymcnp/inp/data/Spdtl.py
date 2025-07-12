@@ -8,9 +8,6 @@ from ...utils import errors
 class Spdtl(_option.DataOption):
     """
     Represents INP spdtl elements.
-
-    Attributes:
-        keyword: keyword in {"force", "off"}.
     """
 
     _KEYWORD = 'spdtl'
@@ -37,10 +34,11 @@ class Spdtl(_option.DataOption):
     @property
     def keyword(self) -> types.String:
         """
-        Gets ``keyword``.
+        Keyword in {"force", "off"}
 
-        Returns:
-            ``keyword``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._keyword
@@ -63,8 +61,6 @@ class Spdtl(_option.DataOption):
                 keyword = keyword
             elif isinstance(keyword, str):
                 keyword = types.String.from_mcnp(keyword)
-            else:
-                raise TypeError
 
         if keyword is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, keyword)

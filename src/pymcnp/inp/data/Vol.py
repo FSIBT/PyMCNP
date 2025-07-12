@@ -8,10 +8,6 @@ from ...utils import errors
 class Vol(_option.DataOption):
     """
     Represents INP vol elements.
-
-    Attributes:
-        no: Volume calculation on/off.
-        volumes: Tuple of cell volumes.
     """
 
     _KEYWORD = 'vol'
@@ -41,10 +37,11 @@ class Vol(_option.DataOption):
     @property
     def no(self) -> types.String:
         """
-        Gets ``no``.
+        Volume calculation on/off
 
-        Returns:
-            ``no``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._no
@@ -67,8 +64,6 @@ class Vol(_option.DataOption):
                 no = no
             elif isinstance(no, str):
                 no = types.String.from_mcnp(no)
-            else:
-                raise TypeError
 
         if no is not None and no not in {'no'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, no)
@@ -78,10 +73,11 @@ class Vol(_option.DataOption):
     @property
     def volumes(self) -> types.Tuple[types.Real]:
         """
-        Gets ``volumes``.
+        Tuple of cell volumes
 
-        Returns:
-            ``volumes``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._volumes
@@ -104,14 +100,11 @@ class Vol(_option.DataOption):
             for item in volumes:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             volumes = types.Tuple(array)
 
         if volumes is None:

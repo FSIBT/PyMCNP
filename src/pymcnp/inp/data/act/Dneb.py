@@ -8,9 +8,6 @@ from ....utils import errors
 class Dneb(_option.ActOption):
     """
     Represents INP dneb elements.
-
-    Attributes:
-        biases: Delayed neutron energy biases.
     """
 
     _KEYWORD = 'dneb'
@@ -37,10 +34,11 @@ class Dneb(_option.ActOption):
     @property
     def biases(self) -> types.Tuple[types.Bias]:
         """
-        Gets ``biases``.
+        Delayed neutron energy biases
 
-        Returns:
-            ``biases``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._biases
@@ -65,8 +63,7 @@ class Dneb(_option.ActOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Bias.from_mcnp(item))
-                else:
-                    raise TypeError
+
             biases = types.Tuple(array)
 
         if biases is None:

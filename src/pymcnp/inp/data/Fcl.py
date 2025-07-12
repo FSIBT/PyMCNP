@@ -8,10 +8,6 @@ from ...utils import errors
 class Fcl(_option.DataOption):
     """
     Represents INP fcl elements.
-
-    Attributes:
-        designator: Data card particle designator.
-        control: Forced-collision control for cell.
     """
 
     _KEYWORD = 'fcl'
@@ -41,10 +37,11 @@ class Fcl(_option.DataOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Data card particle designator
 
-        Returns:
-            ``designator``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._designator
@@ -67,8 +64,6 @@ class Fcl(_option.DataOption):
                 designator = designator
             elif isinstance(designator, str):
                 designator = types.Designator.from_mcnp(designator)
-            else:
-                raise TypeError
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
@@ -78,10 +73,11 @@ class Fcl(_option.DataOption):
     @property
     def control(self) -> types.Tuple[types.Real]:
         """
-        Gets ``control``.
+        Forced-collision control for cell
 
-        Returns:
-            ``control``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._control
@@ -104,14 +100,11 @@ class Fcl(_option.DataOption):
             for item in control:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             control = types.Tuple(array)
 
         if control is None:

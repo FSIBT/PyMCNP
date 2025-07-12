@@ -8,9 +8,6 @@ from .....utils import errors
 class Diffsol(_option.BlockOption):
     """
     Represents INP diffsol elements.
-
-    Attributes:
-        setting: Diffusion operator solver.
     """
 
     _KEYWORD = 'diffsol'
@@ -37,10 +34,11 @@ class Diffsol(_option.BlockOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Diffusion operator solver
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Diffsol(_option.BlockOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

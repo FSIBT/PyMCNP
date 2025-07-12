@@ -8,10 +8,6 @@ from ...utils import errors
 class Tmp(_option.CellOption):
     """
     Represents INP tmp elements.
-
-    Attributes:
-        suffix: Thermal time index.
-        temperature: Temperature at time index.
     """
 
     _KEYWORD = 'tmp'
@@ -41,10 +37,11 @@ class Tmp(_option.CellOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Thermal time index
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -69,18 +66,17 @@ class Tmp(_option.CellOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         self._suffix: types.Integer = suffix
 
     @property
     def temperature(self) -> types.Tuple[types.Real]:
         """
-        Gets ``temperature``.
+        Temperature at time index
 
-        Returns:
-            ``temperature``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._temperature
@@ -103,14 +99,11 @@ class Tmp(_option.CellOption):
             for item in temperature:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             temperature = types.Tuple(array)
 
         if temperature is None or not (min(map(lambda temp: temp, temperature)) > 0):

@@ -8,9 +8,6 @@ from ...utils import errors
 class Thtme(_option.DataOption):
     """
     Represents INP thtme elements.
-
-    Attributes:
-        times: Tuple of times when thermal temperatures are specified.
     """
 
     _KEYWORD = 'thtme'
@@ -37,10 +34,11 @@ class Thtme(_option.DataOption):
     @property
     def times(self) -> types.Tuple[types.Real]:
         """
-        Gets ``times``.
+        Tuple of times when thermal temperatures are specified
 
-        Returns:
-            ``times``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._times
@@ -63,14 +61,11 @@ class Thtme(_option.DataOption):
             for item in times:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             times = types.Tuple(array)
 
         if times is None:

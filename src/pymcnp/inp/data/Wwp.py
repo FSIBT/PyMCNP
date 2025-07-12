@@ -8,19 +8,6 @@ from ...utils import errors
 class Wwp(_option.DataOption):
     """
     Represents INP wwp elements.
-
-    Attributes:
-        designator: Data card particle designator.
-        wupn: Multiplier to define the weight window upper limit.
-        wsurvn: Multiplier to define the maximum Russian roulette survival weight within the window.
-        mxspln: Maximum number of integer splits.
-        mwhere: Controls where to check a particle’s weight.
-        switchn: Controls where to get the lower weight-window bounds.
-        mtime: Energy/time-dependent window setting.
-        wnrom: Weight-window normalization factor.
-        etsplt: ESLPT & TSPLT split/roulette on/off.
-        wu: Limits the maximum lower weight-window bound for any particle, energy, or time.
-        nmfp: Limits the maximum lower weight-window bound for any particle, energy, or time.
     """
 
     _KEYWORD = 'wwp'
@@ -92,10 +79,11 @@ class Wwp(_option.DataOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Data card particle designator
 
-        Returns:
-            ``designator``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._designator
@@ -118,8 +106,6 @@ class Wwp(_option.DataOption):
                 designator = designator
             elif isinstance(designator, str):
                 designator = types.Designator.from_mcnp(designator)
-            else:
-                raise TypeError
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
@@ -129,10 +115,11 @@ class Wwp(_option.DataOption):
     @property
     def wupn(self) -> types.Real:
         """
-        Gets ``wupn``.
+        Multiplier to define the weight window upper limit
 
-        Returns:
-            ``wupn``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._wupn
@@ -153,14 +140,10 @@ class Wwp(_option.DataOption):
         if wupn is not None:
             if isinstance(wupn, types.Real):
                 wupn = wupn
-            elif isinstance(wupn, int):
-                wupn = types.Real(wupn)
-            elif isinstance(wupn, float):
+            elif isinstance(wupn, int) or isinstance(wupn, float):
                 wupn = types.Real(wupn)
             elif isinstance(wupn, str):
                 wupn = types.Real.from_mcnp(wupn)
-            else:
-                raise TypeError
 
         if wupn is not None and not (isinstance(wupn.value, types.Jump) or wupn >= 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, wupn)
@@ -170,10 +153,11 @@ class Wwp(_option.DataOption):
     @property
     def wsurvn(self) -> types.Real:
         """
-        Gets ``wsurvn``.
+        Multiplier to define the maximum Russian roulette survival weight within the window
 
-        Returns:
-            ``wsurvn``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._wsurvn
@@ -194,14 +178,10 @@ class Wwp(_option.DataOption):
         if wsurvn is not None:
             if isinstance(wsurvn, types.Real):
                 wsurvn = wsurvn
-            elif isinstance(wsurvn, int):
-                wsurvn = types.Real(wsurvn)
-            elif isinstance(wsurvn, float):
+            elif isinstance(wsurvn, int) or isinstance(wsurvn, float):
                 wsurvn = types.Real(wsurvn)
             elif isinstance(wsurvn, str):
                 wsurvn = types.Real.from_mcnp(wsurvn)
-            else:
-                raise TypeError
 
         if wsurvn is not None and not (isinstance(wsurvn.value, types.Jump) or 1 < wsurvn):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, wsurvn)
@@ -211,10 +191,11 @@ class Wwp(_option.DataOption):
     @property
     def mxspln(self) -> types.Real:
         """
-        Gets ``mxspln``.
+        Maximum number of integer splits
 
-        Returns:
-            ``mxspln``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._mxspln
@@ -235,14 +216,10 @@ class Wwp(_option.DataOption):
         if mxspln is not None:
             if isinstance(mxspln, types.Real):
                 mxspln = mxspln
-            elif isinstance(mxspln, int):
-                mxspln = types.Real(mxspln)
-            elif isinstance(mxspln, float):
+            elif isinstance(mxspln, int) or isinstance(mxspln, float):
                 mxspln = types.Real(mxspln)
             elif isinstance(mxspln, str):
                 mxspln = types.Real.from_mcnp(mxspln)
-            else:
-                raise TypeError
 
         if mxspln is not None and not (isinstance(mxspln.value, types.Jump) or 1 < mxspln):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mxspln)
@@ -252,10 +229,11 @@ class Wwp(_option.DataOption):
     @property
     def mwhere(self) -> types.Integer:
         """
-        Gets ``mwhere``.
+        Controls where to check a particle’s weight
 
-        Returns:
-            ``mwhere``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._mwhere
@@ -280,8 +258,6 @@ class Wwp(_option.DataOption):
                 mwhere = types.Integer(mwhere)
             elif isinstance(mwhere, str):
                 mwhere = types.Integer.from_mcnp(mwhere)
-            else:
-                raise TypeError
 
         if mwhere is not None and not (isinstance(mwhere.value, types.Jump) or mwhere in {-1, 0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mwhere)
@@ -291,10 +267,11 @@ class Wwp(_option.DataOption):
     @property
     def switchn(self) -> types.Real:
         """
-        Gets ``switchn``.
+        Controls where to get the lower weight-window bounds
 
-        Returns:
-            ``switchn``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._switchn
@@ -315,24 +292,21 @@ class Wwp(_option.DataOption):
         if switchn is not None:
             if isinstance(switchn, types.Real):
                 switchn = switchn
-            elif isinstance(switchn, int):
-                switchn = types.Real(switchn)
-            elif isinstance(switchn, float):
+            elif isinstance(switchn, int) or isinstance(switchn, float):
                 switchn = types.Real(switchn)
             elif isinstance(switchn, str):
                 switchn = types.Real.from_mcnp(switchn)
-            else:
-                raise TypeError
 
         self._switchn: types.Real = switchn
 
     @property
     def mtime(self) -> types.Integer:
         """
-        Gets ``mtime``.
+        Energy/time-dependent window setting
 
-        Returns:
-            ``mtime``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._mtime
@@ -357,18 +331,17 @@ class Wwp(_option.DataOption):
                 mtime = types.Integer(mtime)
             elif isinstance(mtime, str):
                 mtime = types.Integer.from_mcnp(mtime)
-            else:
-                raise TypeError
 
         self._mtime: types.Integer = mtime
 
     @property
     def wnrom(self) -> types.Real:
         """
-        Gets ``wnrom``.
+        Weight-window normalization factor
 
-        Returns:
-            ``wnrom``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._wnrom
@@ -389,24 +362,21 @@ class Wwp(_option.DataOption):
         if wnrom is not None:
             if isinstance(wnrom, types.Real):
                 wnrom = wnrom
-            elif isinstance(wnrom, int):
-                wnrom = types.Real(wnrom)
-            elif isinstance(wnrom, float):
+            elif isinstance(wnrom, int) or isinstance(wnrom, float):
                 wnrom = types.Real(wnrom)
             elif isinstance(wnrom, str):
                 wnrom = types.Real.from_mcnp(wnrom)
-            else:
-                raise TypeError
 
         self._wnrom: types.Real = wnrom
 
     @property
     def etsplt(self) -> types.Integer:
         """
-        Gets ``etsplt``.
+        ESLPT & TSPLT split/roulette on/off
 
-        Returns:
-            ``etsplt``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._etsplt
@@ -431,8 +401,6 @@ class Wwp(_option.DataOption):
                 etsplt = types.Integer(etsplt)
             elif isinstance(etsplt, str):
                 etsplt = types.Integer.from_mcnp(etsplt)
-            else:
-                raise TypeError
 
         if etsplt is not None and not (isinstance(etsplt.value, types.Jump) or etsplt in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, etsplt)
@@ -442,10 +410,11 @@ class Wwp(_option.DataOption):
     @property
     def wu(self) -> types.Real:
         """
-        Gets ``wu``.
+        Limits the maximum lower weight-window bound for any particle, energy, or time
 
-        Returns:
-            ``wu``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._wu
@@ -466,24 +435,21 @@ class Wwp(_option.DataOption):
         if wu is not None:
             if isinstance(wu, types.Real):
                 wu = wu
-            elif isinstance(wu, int):
-                wu = types.Real(wu)
-            elif isinstance(wu, float):
+            elif isinstance(wu, int) or isinstance(wu, float):
                 wu = types.Real(wu)
             elif isinstance(wu, str):
                 wu = types.Real.from_mcnp(wu)
-            else:
-                raise TypeError
 
         self._wu: types.Real = wu
 
     @property
     def nmfp(self) -> types.Real:
         """
-        Gets ``nmfp``.
+        Limits the maximum lower weight-window bound for any particle, energy, or time
 
-        Returns:
-            ``nmfp``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._nmfp
@@ -504,13 +470,9 @@ class Wwp(_option.DataOption):
         if nmfp is not None:
             if isinstance(nmfp, types.Real):
                 nmfp = nmfp
-            elif isinstance(nmfp, int):
-                nmfp = types.Real(nmfp)
-            elif isinstance(nmfp, float):
+            elif isinstance(nmfp, int) or isinstance(nmfp, float):
                 nmfp = types.Real(nmfp)
             elif isinstance(nmfp, str):
                 nmfp = types.Real.from_mcnp(nmfp)
-            else:
-                raise TypeError
 
         self._nmfp: types.Real = nmfp

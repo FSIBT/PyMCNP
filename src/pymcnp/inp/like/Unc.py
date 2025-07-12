@@ -8,10 +8,6 @@ from ...utils import errors
 class Unc(_option.LikeOption):
     """
     Represents INP unc elements.
-
-    Attributes:
-        designator: Cell particle designator.
-        setting: Cell uncollided secondaries setting.
     """
 
     _KEYWORD = 'unc'
@@ -67,8 +63,6 @@ class Unc(_option.LikeOption):
                 designator = designator
             elif isinstance(designator, str):
                 designator = types.Designator.from_mcnp(designator)
-            else:
-                raise TypeError
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
@@ -106,8 +100,6 @@ class Unc(_option.LikeOption):
                 setting = types.Integer(setting)
             elif isinstance(setting, str):
                 setting = types.Integer.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {0, 1}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

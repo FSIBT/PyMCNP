@@ -8,9 +8,6 @@ from ....utils import errors
 class Term(_option.MplotOption):
     """
     Represents INP term elements.
-
-    Attributes:
-        n: Output decive specifier.
     """
 
     _KEYWORD = 'term'
@@ -37,10 +34,11 @@ class Term(_option.MplotOption):
     @property
     def n(self) -> types.Integer:
         """
-        Gets ``n``.
+        Output decive specifier
 
-        Returns:
-            ``n``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._n
@@ -65,8 +63,6 @@ class Term(_option.MplotOption):
                 n = types.Integer(n)
             elif isinstance(n, str):
                 n = types.Integer.from_mcnp(n)
-            else:
-                raise TypeError
 
         if n is None or n not in {0, 1}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n)

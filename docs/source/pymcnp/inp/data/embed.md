@@ -7,6 +7,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.embed.Background
    :members:
+   :inherited-members:
 ```
 
 ### ``Calcvols`` Class
@@ -14,6 +15,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.embed.Calcvols
    :members:
+   :inherited-members:
 ```
 
 ### ``Debug`` Class
@@ -21,6 +23,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.embed.Debug
    :members:
+   :inherited-members:
 ```
 
 ### ``Filetype`` Class
@@ -28,6 +31,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.embed.Filetype
    :members:
+   :inherited-members:
 ```
 
 ### ``Gmvfile`` Class
@@ -35,6 +39,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.embed.Gmvfile
    :members:
+   :inherited-members:
 ```
 
 ### ``Length`` Class
@@ -42,6 +47,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.embed.Length
    :members:
+   :inherited-members:
 ```
 
 ### ``Mcnpumfile`` Class
@@ -49,6 +55,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.embed.Mcnpumfile
    :members:
+   :inherited-members:
 ```
 
 ### ``Meein`` Class
@@ -56,6 +63,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.embed.Meein
    :members:
+   :inherited-members:
 ```
 
 ### ``Meeout`` Class
@@ -63,6 +71,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.embed.Meeout
    :members:
+   :inherited-members:
 ```
 
 ### ``Meshgeo`` Class
@@ -70,6 +79,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.embed.Meshgeo
    :members:
+   :inherited-members:
 ```
 
 ### ``Mgeoin`` Class
@@ -77,83 +87,5 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.embed.Mgeoin
    :members:
-```
-
-## Builder Classes
-
-### ``BackgroundBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.embed.BackgroundBuilder
-   :members:
-```
-
-### ``CalcvolsBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.embed.CalcvolsBuilder
-   :members:
-```
-
-### ``DebugBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.embed.DebugBuilder
-   :members:
-```
-
-### ``FiletypeBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.embed.FiletypeBuilder
-   :members:
-```
-
-### ``GmvfileBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.embed.GmvfileBuilder
-   :members:
-```
-
-### ``LengthBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.embed.LengthBuilder
-   :members:
-```
-
-### ``McnpumfileBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.embed.McnpumfileBuilder
-   :members:
-```
-
-### ``MeeinBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.embed.MeeinBuilder
-   :members:
-```
-
-### ``MeeoutBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.embed.MeeoutBuilder
-   :members:
-```
-
-### ``MeshgeoBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.embed.MeshgeoBuilder
-   :members:
-```
-
-### ``MgeoinBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.embed.MgeoinBuilder
-   :members:
+   :inherited-members:
 ```

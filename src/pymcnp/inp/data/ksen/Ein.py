@@ -8,9 +8,6 @@ from ....utils import errors
 class Ein(_option.KsenOption):
     """
     Represents INP ein elements.
-
-    Attributes:
-        energies: List of ranges for incident energies.
     """
 
     _KEYWORD = 'ein'
@@ -37,10 +34,11 @@ class Ein(_option.KsenOption):
     @property
     def energies(self) -> types.Tuple[types.Real]:
         """
-        Gets ``energies``.
+        List of ranges for incident energies
 
-        Returns:
-            ``energies``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._energies
@@ -63,14 +61,11 @@ class Ein(_option.KsenOption):
             for item in energies:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             energies = types.Tuple(array)
 
         if energies is None:

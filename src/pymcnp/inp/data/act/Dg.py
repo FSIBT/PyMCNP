@@ -8,9 +8,6 @@ from ....utils import errors
 class Dg(_option.ActOption):
     """
     Represents INP dg elements.
-
-    Attributes:
-        source: Delayed gamma data source.
     """
 
     _KEYWORD = 'dg'
@@ -37,10 +34,11 @@ class Dg(_option.ActOption):
     @property
     def source(self) -> types.String:
         """
-        Gets ``source``.
+        Delayed gamma data source
 
-        Returns:
-            ``source``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._source
@@ -63,8 +61,6 @@ class Dg(_option.ActOption):
                 source = source
             elif isinstance(source, str):
                 source = types.String.from_mcnp(source)
-            else:
-                raise TypeError
 
         if source is None or source not in {'line', 'mg', 'none'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, source)

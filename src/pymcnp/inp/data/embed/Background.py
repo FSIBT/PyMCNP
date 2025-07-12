@@ -8,9 +8,6 @@ from ....utils import errors
 class Background(_option.EmbedOption):
     """
     Represents INP background elements.
-
-    Attributes:
-        number: Background pseudo-cell number.
     """
 
     _KEYWORD = 'background'
@@ -37,10 +34,11 @@ class Background(_option.EmbedOption):
     @property
     def number(self) -> types.Integer:
         """
-        Gets ``number``.
+        Background pseudo-cell number
 
-        Returns:
-            ``number``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._number
@@ -65,8 +63,6 @@ class Background(_option.EmbedOption):
                 number = types.Integer(number)
             elif isinstance(number, str):
                 number = types.Integer.from_mcnp(number)
-            else:
-                raise TypeError
 
         if number is None or not (number >= 1 and number <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)

@@ -5,7 +5,7 @@ from .... import classes
 
 class Test_Fill_6:
     class Test_Init(classes.Test_Init):
-        element = pymcnp.inp.cell.Fill_6
+        element = pymcnp.inp.like.Fill_6
         EXAMPLES_VALID = [
             {'prefix': '*', 'universe': consts.string.type.INTEGER, 'transformation': consts.string.type.INTEGER},
             {'prefix': '*', 'universe': 1, 'transformation': 1},
@@ -20,6 +20,6 @@ class Test_Fill_6:
         ]
 
     class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.cell.Fill_6
-        EXAMPLES_VALID = [consts.string.inp.cell.FILL_6]
+        element = pymcnp.inp.like.Fill_6
+        EXAMPLES_VALID = [consts.string.inp.like.FILL_6]
         EXAMPLES_INVALID = ['hello']

@@ -8,9 +8,6 @@ from ....utils import errors
 class Alib(_option.MOption_0):
     """
     Represents INP alib elements.
-
-    Attributes:
-        abx: Default alpha table identifier.
     """
 
     _KEYWORD = 'alib'
@@ -37,10 +34,11 @@ class Alib(_option.MOption_0):
     @property
     def abx(self) -> types.String:
         """
-        Gets ``abx``.
+        Default alpha table identifier
 
-        Returns:
-            ``abx``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._abx
@@ -63,8 +61,6 @@ class Alib(_option.MOption_0):
                 abx = abx
             elif isinstance(abx, str):
                 abx = types.String.from_mcnp(abx)
-            else:
-                raise TypeError
 
         if abx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, abx)

@@ -8,10 +8,6 @@ from ...utils import errors
 class Nps(_option.DataOption):
     """
     Represents INP nps elements.
-
-    Attributes:
-        npp: Total number of histories to run.
-        npsmg: Number of history with direct source contributions.
     """
 
     _KEYWORD = 'nps'
@@ -41,10 +37,11 @@ class Nps(_option.DataOption):
     @property
     def npp(self) -> types.Integer:
         """
-        Gets ``npp``.
+        Total number of histories to run
 
-        Returns:
-            ``npp``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._npp
@@ -69,8 +66,6 @@ class Nps(_option.DataOption):
                 npp = types.Integer(npp)
             elif isinstance(npp, str):
                 npp = types.Integer.from_mcnp(npp)
-            else:
-                raise TypeError
 
         if npp is None or not (npp > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, npp)
@@ -80,10 +75,11 @@ class Nps(_option.DataOption):
     @property
     def npsmg(self) -> types.Integer:
         """
-        Gets ``npsmg``.
+        Number of history with direct source contributions
 
-        Returns:
-            ``npsmg``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._npsmg
@@ -108,8 +104,6 @@ class Nps(_option.DataOption):
                 npsmg = types.Integer(npsmg)
             elif isinstance(npsmg, str):
                 npsmg = types.Integer.from_mcnp(npsmg)
-            else:
-                raise TypeError
 
         if npsmg is not None and not (npsmg > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, npsmg)

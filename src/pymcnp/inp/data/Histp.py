@@ -7,10 +7,6 @@ from ...utils import types
 class Histp(_option.DataOption):
     """
     Represents INP histp elements.
-
-    Attributes:
-        lhist: Number of words written to a HISTP file.
-        cells: Cell numbers.
     """
 
     _KEYWORD = 'histp'
@@ -40,10 +36,11 @@ class Histp(_option.DataOption):
     @property
     def lhist(self) -> types.Integer:
         """
-        Gets ``lhist``.
+        Number of words written to a HISTP file
 
-        Returns:
-            ``lhist``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._lhist
@@ -68,18 +65,17 @@ class Histp(_option.DataOption):
                 lhist = types.Integer(lhist)
             elif isinstance(lhist, str):
                 lhist = types.Integer.from_mcnp(lhist)
-            else:
-                raise TypeError
 
         self._lhist: types.Integer = lhist
 
     @property
     def cells(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``cells``.
+        Cell numbers
 
-        Returns:
-            ``cells``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._cells
@@ -106,8 +102,7 @@ class Histp(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             cells = types.Tuple(array)
 
         self._cells: types.Tuple[types.Integer] = cells

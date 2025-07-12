@@ -8,11 +8,6 @@ from ....utils import errors
 class Bcw(_option.SsrOption):
     """
     Represents INP bcw elements.
-
-    Attributes:
-        radius: Radius of cylindrical window.
-        zb: Bottom of cylindrical window.
-        ze: Top of cylindrical window.
     """
 
     _KEYWORD = 'bcw'
@@ -45,10 +40,11 @@ class Bcw(_option.SsrOption):
     @property
     def radius(self) -> types.Real:
         """
-        Gets ``radius``.
+        Radius of cylindrical window
 
-        Returns:
-            ``radius``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._radius
@@ -69,14 +65,10 @@ class Bcw(_option.SsrOption):
         if radius is not None:
             if isinstance(radius, types.Real):
                 radius = radius
-            elif isinstance(radius, int):
-                radius = types.Real(radius)
-            elif isinstance(radius, float):
+            elif isinstance(radius, int) or isinstance(radius, float):
                 radius = types.Real(radius)
             elif isinstance(radius, str):
                 radius = types.Real.from_mcnp(radius)
-            else:
-                raise TypeError
 
         if radius is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, radius)
@@ -86,10 +78,11 @@ class Bcw(_option.SsrOption):
     @property
     def zb(self) -> types.Real:
         """
-        Gets ``zb``.
+        Bottom of cylindrical window
 
-        Returns:
-            ``zb``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._zb
@@ -110,14 +103,10 @@ class Bcw(_option.SsrOption):
         if zb is not None:
             if isinstance(zb, types.Real):
                 zb = zb
-            elif isinstance(zb, int):
-                zb = types.Real(zb)
-            elif isinstance(zb, float):
+            elif isinstance(zb, int) or isinstance(zb, float):
                 zb = types.Real(zb)
             elif isinstance(zb, str):
                 zb = types.Real.from_mcnp(zb)
-            else:
-                raise TypeError
 
         if zb is None or not (zb > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zb)
@@ -127,10 +116,11 @@ class Bcw(_option.SsrOption):
     @property
     def ze(self) -> types.Real:
         """
-        Gets ``ze``.
+        Top of cylindrical window
 
-        Returns:
-            ``ze``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ze
@@ -151,14 +141,10 @@ class Bcw(_option.SsrOption):
         if ze is not None:
             if isinstance(ze, types.Real):
                 ze = ze
-            elif isinstance(ze, int):
-                ze = types.Real(ze)
-            elif isinstance(ze, float):
+            elif isinstance(ze, int) or isinstance(ze, float):
                 ze = types.Real(ze)
             elif isinstance(ze, str):
                 ze = types.Real.from_mcnp(ze)
-            else:
-                raise TypeError
 
         if ze is None or not (self.zb > 0 and self.zb < ze):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ze)

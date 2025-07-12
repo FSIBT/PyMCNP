@@ -8,9 +8,6 @@ from ....utils import errors
 class Tr_1(_option.SsrOption):
     """
     Represents INP tr variation #1 elements.
-
-    Attributes:
-        number: Particle weight.
     """
 
     _KEYWORD = 'tr'
@@ -37,10 +34,11 @@ class Tr_1(_option.SsrOption):
     @property
     def number(self) -> types.Integer:
         """
-        Gets ``number``.
+        Particle weight
 
-        Returns:
-            ``number``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._number
@@ -65,8 +63,6 @@ class Tr_1(_option.SsrOption):
                 number = types.Integer(number)
             elif isinstance(number, str):
                 number = types.Integer.from_mcnp(number)
-            else:
-                raise TypeError
 
         if number is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)

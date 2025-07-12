@@ -8,9 +8,6 @@ from ....utils import errors
 class Points(_option.DawwgOption):
     """
     Represents INP points elements.
-
-    Attributes:
-        name: Cross section library.
     """
 
     _KEYWORD = 'points'
@@ -37,10 +34,11 @@ class Points(_option.DawwgOption):
     @property
     def name(self) -> types.String:
         """
-        Gets ``name``.
+        Cross section library
 
-        Returns:
-            ``name``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._name
@@ -63,8 +61,6 @@ class Points(_option.DawwgOption):
                 name = name
             elif isinstance(name, str):
                 name = types.String.from_mcnp(name)
-            else:
-                raise TypeError
 
         if name is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, name)

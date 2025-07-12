@@ -8,9 +8,6 @@ from ....utils import errors
 class Rho(_option.KpertOption):
     """
     Represents INP rho elements.
-
-    Attributes:
-        densities: List of densities.
     """
 
     _KEYWORD = 'rho'
@@ -37,10 +34,11 @@ class Rho(_option.KpertOption):
     @property
     def densities(self) -> types.Tuple[types.Real]:
         """
-        Gets ``densities``.
+        List of densities
 
-        Returns:
-            ``densities``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._densities
@@ -63,14 +61,11 @@ class Rho(_option.KpertOption):
             for item in densities:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             densities = types.Tuple(array)
 
         if densities is None:

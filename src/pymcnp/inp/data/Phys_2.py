@@ -8,22 +8,6 @@ from ...utils import errors
 class Phys_2(_option.DataOption):
     """
     Represents INP phys variation #2 elements.
-
-    Attributes:
-        emax: Upper limit for electron energy.
-        ides: Photon electron production controls.
-        iphot: Electron photon production controls.
-        ibad: Bremsstrahlung angular distribution method controls.
-        istrg: Electron continuous-energy straggling controls.
-        bnum: Bremsstrahlung photon production controls.
-        xnum: Sampling of electron-induced x-rays controls.
-        rnok: Knock-on electron creation controls.
-        enum: Photon-induced secondary electron creation controls.
-        numb: Bremsstrahlung electron creation controls.
-        i_mcs_model: Choice of Coulomb scattering model controls.
-        efac: Stopping power energy spacing controls.
-        electron_method_boundary: Single-event transport start sontrols.
-        ckvnum: Crenkov photon emission scalar.
     """
 
     _KEYWORD = 'phys:e'
@@ -107,10 +91,11 @@ class Phys_2(_option.DataOption):
     @property
     def emax(self) -> types.Real:
         """
-        Gets ``emax``.
+        Upper limit for electron energy
 
-        Returns:
-            ``emax``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._emax
@@ -131,24 +116,21 @@ class Phys_2(_option.DataOption):
         if emax is not None:
             if isinstance(emax, types.Real):
                 emax = emax
-            elif isinstance(emax, int):
-                emax = types.Real(emax)
-            elif isinstance(emax, float):
+            elif isinstance(emax, int) or isinstance(emax, float):
                 emax = types.Real(emax)
             elif isinstance(emax, str):
                 emax = types.Real.from_mcnp(emax)
-            else:
-                raise TypeError
 
         self._emax: types.Real = emax
 
     @property
     def ides(self) -> types.Integer:
         """
-        Gets ``ides``.
+        Photon electron production controls
 
-        Returns:
-            ``ides``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ides
@@ -173,8 +155,6 @@ class Phys_2(_option.DataOption):
                 ides = types.Integer(ides)
             elif isinstance(ides, str):
                 ides = types.Integer.from_mcnp(ides)
-            else:
-                raise TypeError
 
         if ides is not None and not (isinstance(ides.value, types.Jump) or ides in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ides)
@@ -184,10 +164,11 @@ class Phys_2(_option.DataOption):
     @property
     def iphot(self) -> types.Integer:
         """
-        Gets ``iphot``.
+        Electron photon production controls
 
-        Returns:
-            ``iphot``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._iphot
@@ -212,8 +193,6 @@ class Phys_2(_option.DataOption):
                 iphot = types.Integer(iphot)
             elif isinstance(iphot, str):
                 iphot = types.Integer.from_mcnp(iphot)
-            else:
-                raise TypeError
 
         if iphot is not None and not (isinstance(iphot.value, types.Jump) or iphot in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iphot)
@@ -223,10 +202,11 @@ class Phys_2(_option.DataOption):
     @property
     def ibad(self) -> types.Integer:
         """
-        Gets ``ibad``.
+        Bremsstrahlung angular distribution method controls
 
-        Returns:
-            ``ibad``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ibad
@@ -251,8 +231,6 @@ class Phys_2(_option.DataOption):
                 ibad = types.Integer(ibad)
             elif isinstance(ibad, str):
                 ibad = types.Integer.from_mcnp(ibad)
-            else:
-                raise TypeError
 
         if ibad is not None and not (isinstance(ibad.value, types.Jump) or ibad in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ibad)
@@ -262,10 +240,11 @@ class Phys_2(_option.DataOption):
     @property
     def istrg(self) -> types.Integer:
         """
-        Gets ``istrg``.
+        Electron continuous-energy straggling controls
 
-        Returns:
-            ``istrg``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._istrg
@@ -290,8 +269,6 @@ class Phys_2(_option.DataOption):
                 istrg = types.Integer(istrg)
             elif isinstance(istrg, str):
                 istrg = types.Integer.from_mcnp(istrg)
-            else:
-                raise TypeError
 
         if istrg is not None and not (isinstance(istrg.value, types.Jump) or istrg in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, istrg)
@@ -301,10 +278,11 @@ class Phys_2(_option.DataOption):
     @property
     def bnum(self) -> types.Real:
         """
-        Gets ``bnum``.
+        Bremsstrahlung photon production controls
 
-        Returns:
-            ``bnum``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bnum
@@ -325,24 +303,21 @@ class Phys_2(_option.DataOption):
         if bnum is not None:
             if isinstance(bnum, types.Real):
                 bnum = bnum
-            elif isinstance(bnum, int):
-                bnum = types.Real(bnum)
-            elif isinstance(bnum, float):
+            elif isinstance(bnum, int) or isinstance(bnum, float):
                 bnum = types.Real(bnum)
             elif isinstance(bnum, str):
                 bnum = types.Real.from_mcnp(bnum)
-            else:
-                raise TypeError
 
         self._bnum: types.Real = bnum
 
     @property
     def xnum(self) -> types.Real:
         """
-        Gets ``xnum``.
+        Sampling of electron-induced x-rays controls
 
-        Returns:
-            ``xnum``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._xnum
@@ -363,14 +338,10 @@ class Phys_2(_option.DataOption):
         if xnum is not None:
             if isinstance(xnum, types.Real):
                 xnum = xnum
-            elif isinstance(xnum, int):
-                xnum = types.Real(xnum)
-            elif isinstance(xnum, float):
+            elif isinstance(xnum, int) or isinstance(xnum, float):
                 xnum = types.Real(xnum)
             elif isinstance(xnum, str):
                 xnum = types.Real.from_mcnp(xnum)
-            else:
-                raise TypeError
 
         if xnum is not None and not (isinstance(xnum.value, types.Jump) or xnum >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, xnum)
@@ -380,10 +351,11 @@ class Phys_2(_option.DataOption):
     @property
     def rnok(self) -> types.Integer:
         """
-        Gets ``rnok``.
+        Knock-on electron creation controls
 
-        Returns:
-            ``rnok``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._rnok
@@ -408,8 +380,6 @@ class Phys_2(_option.DataOption):
                 rnok = types.Integer(rnok)
             elif isinstance(rnok, str):
                 rnok = types.Integer.from_mcnp(rnok)
-            else:
-                raise TypeError
 
         if rnok is not None and not (isinstance(rnok.value, types.Jump) or rnok >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, rnok)
@@ -419,10 +389,11 @@ class Phys_2(_option.DataOption):
     @property
     def enum(self) -> types.Integer:
         """
-        Gets ``enum``.
+        Photon-induced secondary electron creation controls
 
-        Returns:
-            ``enum``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._enum
@@ -447,8 +418,6 @@ class Phys_2(_option.DataOption):
                 enum = types.Integer(enum)
             elif isinstance(enum, str):
                 enum = types.Integer.from_mcnp(enum)
-            else:
-                raise TypeError
 
         if enum is not None and not (isinstance(enum.value, types.Jump) or enum >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, enum)
@@ -458,10 +427,11 @@ class Phys_2(_option.DataOption):
     @property
     def numb(self) -> types.Integer:
         """
-        Gets ``numb``.
+        Bremsstrahlung electron creation controls
 
-        Returns:
-            ``numb``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._numb
@@ -486,8 +456,6 @@ class Phys_2(_option.DataOption):
                 numb = types.Integer(numb)
             elif isinstance(numb, str):
                 numb = types.Integer.from_mcnp(numb)
-            else:
-                raise TypeError
 
         if numb is not None and not (isinstance(numb.value, types.Jump) or numb >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numb)
@@ -497,10 +465,11 @@ class Phys_2(_option.DataOption):
     @property
     def i_mcs_model(self) -> types.Integer:
         """
-        Gets ``i_mcs_model``.
+        Choice of Coulomb scattering model controls
 
-        Returns:
-            ``i_mcs_model``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._i_mcs_model
@@ -525,8 +494,6 @@ class Phys_2(_option.DataOption):
                 i_mcs_model = types.Integer(i_mcs_model)
             elif isinstance(i_mcs_model, str):
                 i_mcs_model = types.Integer.from_mcnp(i_mcs_model)
-            else:
-                raise TypeError
 
         if i_mcs_model is not None and not (isinstance(i_mcs_model.value, types.Jump) or i_mcs_model in {-1, 0}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_mcs_model)
@@ -536,10 +503,11 @@ class Phys_2(_option.DataOption):
     @property
     def efac(self) -> types.Real:
         """
-        Gets ``efac``.
+        Stopping power energy spacing controls
 
-        Returns:
-            ``efac``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._efac
@@ -560,14 +528,10 @@ class Phys_2(_option.DataOption):
         if efac is not None:
             if isinstance(efac, types.Real):
                 efac = efac
-            elif isinstance(efac, int):
-                efac = types.Real(efac)
-            elif isinstance(efac, float):
+            elif isinstance(efac, int) or isinstance(efac, float):
                 efac = types.Real(efac)
             elif isinstance(efac, str):
                 efac = types.Real.from_mcnp(efac)
-            else:
-                raise TypeError
 
         if efac is not None and not (isinstance(efac.value, types.Jump) or (efac >= 0.8 and efac <= 0.99)):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, efac)
@@ -577,10 +541,11 @@ class Phys_2(_option.DataOption):
     @property
     def electron_method_boundary(self) -> types.Real:
         """
-        Gets ``electron_method_boundary``.
+        Single-event transport start sontrols
 
-        Returns:
-            ``electron_method_boundary``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._electron_method_boundary
@@ -601,24 +566,21 @@ class Phys_2(_option.DataOption):
         if electron_method_boundary is not None:
             if isinstance(electron_method_boundary, types.Real):
                 electron_method_boundary = electron_method_boundary
-            elif isinstance(electron_method_boundary, int):
-                electron_method_boundary = types.Real(electron_method_boundary)
-            elif isinstance(electron_method_boundary, float):
+            elif isinstance(electron_method_boundary, int) or isinstance(electron_method_boundary, float):
                 electron_method_boundary = types.Real(electron_method_boundary)
             elif isinstance(electron_method_boundary, str):
                 electron_method_boundary = types.Real.from_mcnp(electron_method_boundary)
-            else:
-                raise TypeError
 
         self._electron_method_boundary: types.Real = electron_method_boundary
 
     @property
     def ckvnum(self) -> types.Real:
         """
-        Gets ``ckvnum``.
+        Crenkov photon emission scalar
 
-        Returns:
-            ``ckvnum``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ckvnum
@@ -639,14 +601,10 @@ class Phys_2(_option.DataOption):
         if ckvnum is not None:
             if isinstance(ckvnum, types.Real):
                 ckvnum = ckvnum
-            elif isinstance(ckvnum, int):
-                ckvnum = types.Real(ckvnum)
-            elif isinstance(ckvnum, float):
+            elif isinstance(ckvnum, int) or isinstance(ckvnum, float):
                 ckvnum = types.Real(ckvnum)
             elif isinstance(ckvnum, str):
                 ckvnum = types.Real.from_mcnp(ckvnum)
-            else:
-                raise TypeError
 
         if ckvnum is not None and not (isinstance(ckvnum.value, types.Jump) or ckvnum >= 0 and ckvnum < 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ckvnum)

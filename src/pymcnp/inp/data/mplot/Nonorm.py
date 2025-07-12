@@ -6,9 +6,6 @@ from . import _option
 class Nonorm(_option.MplotOption):
     """
     Represents INP nonorm elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'nonorm'

@@ -9,10 +9,6 @@ from ....utils import errors
 class Block(_option.DawwgOption):
     """
     Represents INP block elements.
-
-    Attributes:
-        setting: Destination of key-value pairs.
-        options: Dictionary of options.
     """
 
     _KEYWORD = 'block'
@@ -42,10 +38,11 @@ class Block(_option.DawwgOption):
     @property
     def setting(self) -> types.Integer:
         """
-        Gets ``setting``.
+        Destination of key-value pairs
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -70,8 +67,6 @@ class Block(_option.DawwgOption):
                 setting = types.Integer(setting)
             elif isinstance(setting, str):
                 setting = types.Integer.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {1, 3, 5, 6}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
@@ -81,10 +76,11 @@ class Block(_option.DawwgOption):
     @property
     def options(self) -> types.Tuple[block.BlockOption]:
         """
-        Gets ``options``.
+        Dictionary of options
 
-        Returns:
-            ``options``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._options
@@ -109,8 +105,7 @@ class Block(_option.DawwgOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(block.BlockOption.from_mcnp(item))
-                else:
-                    raise TypeError
+
             options = types.Tuple(array)
 
         self._options: types.Tuple[block.BlockOption] = options

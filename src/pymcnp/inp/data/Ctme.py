@@ -8,9 +8,6 @@ from ...utils import errors
 class Ctme(_option.DataOption):
     """
     Represents INP ctme elements.
-
-    Attributes:
-        tme: maximum amount of minutes for Monte Carlo calculation.
     """
 
     _KEYWORD = 'ctme'
@@ -37,10 +34,11 @@ class Ctme(_option.DataOption):
     @property
     def tme(self) -> types.Integer:
         """
-        Gets ``tme``.
+        Maximum amount of minutes for Monte Carlo calculation
 
-        Returns:
-            ``tme``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._tme
@@ -65,8 +63,6 @@ class Ctme(_option.DataOption):
                 tme = types.Integer(tme)
             elif isinstance(tme, str):
                 tme = types.Integer.from_mcnp(tme)
-            else:
-                raise TypeError
 
         if tme is None or not (tme >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tme)

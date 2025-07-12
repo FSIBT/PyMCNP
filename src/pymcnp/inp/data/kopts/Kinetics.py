@@ -8,9 +8,6 @@ from ....utils import errors
 class Kinetics(_option.KoptsOption):
     """
     Represents INP kinetics elements.
-
-    Attributes:
-        setting: Yes/No calculate point-kinetics parameters.
     """
 
     _KEYWORD = 'kinetics'
@@ -37,10 +34,11 @@ class Kinetics(_option.KoptsOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Yes/No calculate point-kinetics parameters
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Kinetics(_option.KoptsOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {'yes', 'no'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

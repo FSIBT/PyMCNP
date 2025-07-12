@@ -8,9 +8,6 @@ from ....utils import errors
 class Erg_0(_option.SdefOption):
     """
     Represents INP erg variation #0 elements.
-
-    Attributes:
-        energy: Kinetic energy.
     """
 
     _KEYWORD = 'erg'
@@ -37,10 +34,11 @@ class Erg_0(_option.SdefOption):
     @property
     def energy(self) -> types.Real:
         """
-        Gets ``energy``.
+        Kinetic energy
 
-        Returns:
-            ``energy``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._energy
@@ -61,14 +59,10 @@ class Erg_0(_option.SdefOption):
         if energy is not None:
             if isinstance(energy, types.Real):
                 energy = energy
-            elif isinstance(energy, int):
-                energy = types.Real(energy)
-            elif isinstance(energy, float):
+            elif isinstance(energy, int) or isinstance(energy, float):
                 energy = types.Real(energy)
             elif isinstance(energy, str):
                 energy = types.Real.from_mcnp(energy)
-            else:
-                raise TypeError
 
         if energy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy)

@@ -8,16 +8,6 @@ from ...utils import errors
 class Lcc(_option.DataOption):
     """
     Represents INP lcc elements.
-
-    Attributes:
-        stincl: Rescaling factor of the cascade duration.
-        v0incl: Potential depth.
-        xfoisaincl: Maximum impact parameter for Pauli blocking.
-        npaulincl: Pauli blocking parameter setting.
-        nosurfincl: Difuse nuclear surface based on Wood-Saxon density setting.
-        ecutincl: Bertini model energy below this energy.
-        ebankincl: INCL bank particles below this energy.
-        ebankabia: ABLA bank particles below this energy.
     """
 
     _KEYWORD = 'lcc'
@@ -77,10 +67,11 @@ class Lcc(_option.DataOption):
     @property
     def stincl(self) -> types.Real:
         """
-        Gets ``stincl``.
+        Rescaling factor of the cascade duration
 
-        Returns:
-            ``stincl``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._stincl
@@ -101,24 +92,21 @@ class Lcc(_option.DataOption):
         if stincl is not None:
             if isinstance(stincl, types.Real):
                 stincl = stincl
-            elif isinstance(stincl, int):
-                stincl = types.Real(stincl)
-            elif isinstance(stincl, float):
+            elif isinstance(stincl, int) or isinstance(stincl, float):
                 stincl = types.Real(stincl)
             elif isinstance(stincl, str):
                 stincl = types.Real.from_mcnp(stincl)
-            else:
-                raise TypeError
 
         self._stincl: types.Real = stincl
 
     @property
     def v0incl(self) -> types.Real:
         """
-        Gets ``v0incl``.
+        Potential depth
 
-        Returns:
-            ``v0incl``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._v0incl
@@ -139,24 +127,21 @@ class Lcc(_option.DataOption):
         if v0incl is not None:
             if isinstance(v0incl, types.Real):
                 v0incl = v0incl
-            elif isinstance(v0incl, int):
-                v0incl = types.Real(v0incl)
-            elif isinstance(v0incl, float):
+            elif isinstance(v0incl, int) or isinstance(v0incl, float):
                 v0incl = types.Real(v0incl)
             elif isinstance(v0incl, str):
                 v0incl = types.Real.from_mcnp(v0incl)
-            else:
-                raise TypeError
 
         self._v0incl: types.Real = v0incl
 
     @property
     def xfoisaincl(self) -> types.Real:
         """
-        Gets ``xfoisaincl``.
+        Maximum impact parameter for Pauli blocking
 
-        Returns:
-            ``xfoisaincl``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._xfoisaincl
@@ -177,24 +162,21 @@ class Lcc(_option.DataOption):
         if xfoisaincl is not None:
             if isinstance(xfoisaincl, types.Real):
                 xfoisaincl = xfoisaincl
-            elif isinstance(xfoisaincl, int):
-                xfoisaincl = types.Real(xfoisaincl)
-            elif isinstance(xfoisaincl, float):
+            elif isinstance(xfoisaincl, int) or isinstance(xfoisaincl, float):
                 xfoisaincl = types.Real(xfoisaincl)
             elif isinstance(xfoisaincl, str):
                 xfoisaincl = types.Real.from_mcnp(xfoisaincl)
-            else:
-                raise TypeError
 
         self._xfoisaincl: types.Real = xfoisaincl
 
     @property
     def npaulincl(self) -> types.Integer:
         """
-        Gets ``npaulincl``.
+        Pauli blocking parameter setting
 
-        Returns:
-            ``npaulincl``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._npaulincl
@@ -219,8 +201,6 @@ class Lcc(_option.DataOption):
                 npaulincl = types.Integer(npaulincl)
             elif isinstance(npaulincl, str):
                 npaulincl = types.Integer.from_mcnp(npaulincl)
-            else:
-                raise TypeError
 
         if npaulincl is not None and not (npaulincl == 0 or npaulincl == -1 or npaulincl == 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, npaulincl)
@@ -230,10 +210,11 @@ class Lcc(_option.DataOption):
     @property
     def nosurfincl(self) -> types.Integer:
         """
-        Gets ``nosurfincl``.
+        Difuse nuclear surface based on Wood-Saxon density setting
 
-        Returns:
-            ``nosurfincl``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._nosurfincl
@@ -258,8 +239,6 @@ class Lcc(_option.DataOption):
                 nosurfincl = types.Integer(nosurfincl)
             elif isinstance(nosurfincl, str):
                 nosurfincl = types.Integer.from_mcnp(nosurfincl)
-            else:
-                raise TypeError
 
         if nosurfincl is not None and nosurfincl not in {-2, -1, 0, 1}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nosurfincl)
@@ -269,10 +248,11 @@ class Lcc(_option.DataOption):
     @property
     def ecutincl(self) -> types.Real:
         """
-        Gets ``ecutincl``.
+        Bertini model energy below this energy
 
-        Returns:
-            ``ecutincl``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ecutincl
@@ -293,24 +273,21 @@ class Lcc(_option.DataOption):
         if ecutincl is not None:
             if isinstance(ecutincl, types.Real):
                 ecutincl = ecutincl
-            elif isinstance(ecutincl, int):
-                ecutincl = types.Real(ecutincl)
-            elif isinstance(ecutincl, float):
+            elif isinstance(ecutincl, int) or isinstance(ecutincl, float):
                 ecutincl = types.Real(ecutincl)
             elif isinstance(ecutincl, str):
                 ecutincl = types.Real.from_mcnp(ecutincl)
-            else:
-                raise TypeError
 
         self._ecutincl: types.Real = ecutincl
 
     @property
     def ebankincl(self) -> types.Real:
         """
-        Gets ``ebankincl``.
+        INCL bank particles below this energy
 
-        Returns:
-            ``ebankincl``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ebankincl
@@ -331,24 +308,21 @@ class Lcc(_option.DataOption):
         if ebankincl is not None:
             if isinstance(ebankincl, types.Real):
                 ebankincl = ebankincl
-            elif isinstance(ebankincl, int):
-                ebankincl = types.Real(ebankincl)
-            elif isinstance(ebankincl, float):
+            elif isinstance(ebankincl, int) or isinstance(ebankincl, float):
                 ebankincl = types.Real(ebankincl)
             elif isinstance(ebankincl, str):
                 ebankincl = types.Real.from_mcnp(ebankincl)
-            else:
-                raise TypeError
 
         self._ebankincl: types.Real = ebankincl
 
     @property
     def ebankabia(self) -> types.Real:
         """
-        Gets ``ebankabia``.
+        ABLA bank particles below this energy
 
-        Returns:
-            ``ebankabia``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ebankabia
@@ -369,13 +343,9 @@ class Lcc(_option.DataOption):
         if ebankabia is not None:
             if isinstance(ebankabia, types.Real):
                 ebankabia = ebankabia
-            elif isinstance(ebankabia, int):
-                ebankabia = types.Real(ebankabia)
-            elif isinstance(ebankabia, float):
+            elif isinstance(ebankabia, int) or isinstance(ebankabia, float):
                 ebankabia = types.Real(ebankabia)
             elif isinstance(ebankabia, str):
                 ebankabia = types.Real.from_mcnp(ebankabia)
-            else:
-                raise TypeError
 
         self._ebankabia: types.Real = ebankabia

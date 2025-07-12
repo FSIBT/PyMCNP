@@ -8,9 +8,6 @@ from ....utils import errors
 class Blocksize(_option.KoptsOption):
     """
     Represents INP blocksize elements.
-
-    Attributes:
-        ncy: Number of cycles in every outer iteration.
     """
 
     _KEYWORD = 'blocksize'
@@ -37,10 +34,11 @@ class Blocksize(_option.KoptsOption):
     @property
     def ncy(self) -> types.Integer:
         """
-        Gets ``ncy``.
+        Number of cycles in every outer iteration
 
-        Returns:
-            ``ncy``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ncy
@@ -65,8 +63,6 @@ class Blocksize(_option.KoptsOption):
                 ncy = types.Integer(ncy)
             elif isinstance(ncy, str):
                 ncy = types.Integer.from_mcnp(ncy)
-            else:
-                raise TypeError
 
         if ncy is None or not (ncy >= 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ncy)

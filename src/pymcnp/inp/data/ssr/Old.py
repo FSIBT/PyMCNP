@@ -8,9 +8,6 @@ from ....utils import errors
 class Old(_option.SsrOption):
     """
     Represents INP old elements.
-
-    Attributes:
-        numbers: Tuple of surface numbers from subset of surfaces on SSW card.
     """
 
     _KEYWORD = 'old'
@@ -37,10 +34,11 @@ class Old(_option.SsrOption):
     @property
     def numbers(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``numbers``.
+        Tuple of surface numbers from subset of surfaces on SSW card
 
-        Returns:
-            ``numbers``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._numbers
@@ -67,8 +65,7 @@ class Old(_option.SsrOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             numbers = types.Tuple(array)
 
         if numbers is None:

@@ -7,11 +7,3 @@ class SurfaceOption(_option.Option):
     """
 
     pass
-
-
-class SurfaceOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP surface option builders.
-    """
-
-    pass

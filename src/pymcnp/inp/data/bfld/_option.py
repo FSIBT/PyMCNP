@@ -7,11 +7,3 @@ class BfldOption(_option.Option):
     """
 
     pass
-
-
-class BfldOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP bfld option builders.
-    """
-
-    pass

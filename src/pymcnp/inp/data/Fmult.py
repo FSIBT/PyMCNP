@@ -9,10 +9,6 @@ from ...utils import errors
 class Fmult(_option.DataOption):
     """
     Represents INP fmult elements.
-
-    Attributes:
-        zaid: Nuclide for which data are entered.
-        options: Dictionary of options.
     """
 
     _KEYWORD = 'fmult'
@@ -42,10 +38,11 @@ class Fmult(_option.DataOption):
     @property
     def zaid(self) -> types.Zaid:
         """
-        Gets ``zaid``.
+        Nuclide for which data are entered
 
-        Returns:
-            ``zaid``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._zaid
@@ -68,8 +65,6 @@ class Fmult(_option.DataOption):
                 zaid = zaid
             elif isinstance(zaid, str):
                 zaid = types.Zaid.from_mcnp(zaid)
-            else:
-                raise TypeError
 
         if zaid is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zaid)
@@ -79,10 +74,11 @@ class Fmult(_option.DataOption):
     @property
     def options(self) -> types.Tuple[fmult.FmultOption]:
         """
-        Gets ``options``.
+        Dictionary of options
 
-        Returns:
-            ``options``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._options
@@ -107,8 +103,7 @@ class Fmult(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(fmult.FmultOption.from_mcnp(item))
-                else:
-                    raise TypeError
+
             options = types.Tuple(array)
 
         self._options: types.Tuple[fmult.FmultOption] = options

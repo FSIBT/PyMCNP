@@ -7,11 +7,3 @@ class PertOption(_option.Option):
     """
 
     pass
-
-
-class PertOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP pert option builders.
-    """
-
-    pass

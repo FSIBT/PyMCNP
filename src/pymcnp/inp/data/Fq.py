@@ -8,17 +8,6 @@ from ...utils import errors
 class Fq(_option.DataOption):
     """
     Represents INP fq elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        a1: Letters representing tally bin types.
-        a2: Letters representing tally bin types.
-        a3: Letters representing tally bin types.
-        a4: Letters representing tally bin types.
-        a5: Letters representing tally bin types.
-        a6: Letters representing tally bin types.
-        a7: Letters representing tally bin types.
-        a8: Letters representing tally bin types.
     """
 
     _KEYWORD = 'fq'
@@ -82,10 +71,11 @@ class Fq(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -110,8 +100,6 @@ class Fq(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is not None and not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -121,10 +109,11 @@ class Fq(_option.DataOption):
     @property
     def a1(self) -> types.String:
         """
-        Gets ``a1``.
+        Letters representing tally bin types
 
-        Returns:
-            ``a1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a1
@@ -147,8 +136,6 @@ class Fq(_option.DataOption):
                 a1 = a1
             elif isinstance(a1, str):
                 a1 = types.String.from_mcnp(a1)
-            else:
-                raise TypeError
 
         if a1 is not None and a1 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a1)
@@ -158,10 +145,11 @@ class Fq(_option.DataOption):
     @property
     def a2(self) -> types.String:
         """
-        Gets ``a2``.
+        Letters representing tally bin types
 
-        Returns:
-            ``a2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a2
@@ -184,8 +172,6 @@ class Fq(_option.DataOption):
                 a2 = a2
             elif isinstance(a2, str):
                 a2 = types.String.from_mcnp(a2)
-            else:
-                raise TypeError
 
         if a2 is not None and a2 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a2)
@@ -195,10 +181,11 @@ class Fq(_option.DataOption):
     @property
     def a3(self) -> types.String:
         """
-        Gets ``a3``.
+        Letters representing tally bin types
 
-        Returns:
-            ``a3``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a3
@@ -221,8 +208,6 @@ class Fq(_option.DataOption):
                 a3 = a3
             elif isinstance(a3, str):
                 a3 = types.String.from_mcnp(a3)
-            else:
-                raise TypeError
 
         if a3 is not None and a3 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a3)
@@ -232,10 +217,11 @@ class Fq(_option.DataOption):
     @property
     def a4(self) -> types.String:
         """
-        Gets ``a4``.
+        Letters representing tally bin types
 
-        Returns:
-            ``a4``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a4
@@ -258,8 +244,6 @@ class Fq(_option.DataOption):
                 a4 = a4
             elif isinstance(a4, str):
                 a4 = types.String.from_mcnp(a4)
-            else:
-                raise TypeError
 
         if a4 is not None and a4 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a4)
@@ -269,10 +253,11 @@ class Fq(_option.DataOption):
     @property
     def a5(self) -> types.String:
         """
-        Gets ``a5``.
+        Letters representing tally bin types
 
-        Returns:
-            ``a5``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a5
@@ -295,8 +280,6 @@ class Fq(_option.DataOption):
                 a5 = a5
             elif isinstance(a5, str):
                 a5 = types.String.from_mcnp(a5)
-            else:
-                raise TypeError
 
         if a5 is not None and a5 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a5)
@@ -306,10 +289,11 @@ class Fq(_option.DataOption):
     @property
     def a6(self) -> types.String:
         """
-        Gets ``a6``.
+        Letters representing tally bin types
 
-        Returns:
-            ``a6``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a6
@@ -332,8 +316,6 @@ class Fq(_option.DataOption):
                 a6 = a6
             elif isinstance(a6, str):
                 a6 = types.String.from_mcnp(a6)
-            else:
-                raise TypeError
 
         if a6 is not None and a6 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a6)
@@ -343,10 +325,11 @@ class Fq(_option.DataOption):
     @property
     def a7(self) -> types.String:
         """
-        Gets ``a7``.
+        Letters representing tally bin types
 
-        Returns:
-            ``a7``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a7
@@ -369,8 +352,6 @@ class Fq(_option.DataOption):
                 a7 = a7
             elif isinstance(a7, str):
                 a7 = types.String.from_mcnp(a7)
-            else:
-                raise TypeError
 
         if a7 is not None and a7 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a7)
@@ -380,10 +361,11 @@ class Fq(_option.DataOption):
     @property
     def a8(self) -> types.String:
         """
-        Gets ``a8``.
+        Letters representing tally bin types
 
-        Returns:
-            ``a8``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a8
@@ -406,8 +388,6 @@ class Fq(_option.DataOption):
                 a8 = a8
             elif isinstance(a8, str):
                 a8 = types.String.from_mcnp(a8)
-            else:
-                raise TypeError
 
         if a8 is not None and a8 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a8)

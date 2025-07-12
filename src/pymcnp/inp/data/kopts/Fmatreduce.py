@@ -8,9 +8,6 @@ from ....utils import errors
 class Fmatreduce(_option.KoptsOption):
     """
     Represents INP fmatreduce elements.
-
-    Attributes:
-        setting: fmatreduce.
     """
 
     _KEYWORD = 'fmatreduce'
@@ -37,10 +34,11 @@ class Fmatreduce(_option.KoptsOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Fmatreduce
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Fmatreduce(_option.KoptsOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {'yes', 'no'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

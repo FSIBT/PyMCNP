@@ -8,9 +8,6 @@ from ....utils import errors
 class Ctme(_option.StopOption):
     """
     Represents INP ctme elements.
-
-    Attributes:
-        tme: Computer time before stop.
     """
 
     _KEYWORD = 'ctme'
@@ -37,10 +34,11 @@ class Ctme(_option.StopOption):
     @property
     def tme(self) -> types.Real:
         """
-        Gets ``tme``.
+        Computer time before stop
 
-        Returns:
-            ``tme``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._tme
@@ -61,14 +59,10 @@ class Ctme(_option.StopOption):
         if tme is not None:
             if isinstance(tme, types.Real):
                 tme = tme
-            elif isinstance(tme, int):
-                tme = types.Real(tme)
-            elif isinstance(tme, float):
+            elif isinstance(tme, int) or isinstance(tme, float):
                 tme = types.Real(tme)
             elif isinstance(tme, str):
                 tme = types.Real.from_mcnp(tme)
-            else:
-                raise TypeError
 
         if tme is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tme)

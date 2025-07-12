@@ -8,9 +8,6 @@ from ...utils import errors
 class Lat(_option.CellOption):
     """
     Represents INP lat elements.
-
-    Attributes:
-        shape: Cell lattice shape.
     """
 
     _KEYWORD = 'lat'
@@ -37,10 +34,11 @@ class Lat(_option.CellOption):
     @property
     def shape(self) -> types.Integer:
         """
-        Gets ``shape``.
+        Cell lattice shape
 
-        Returns:
-            ``shape``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._shape
@@ -65,8 +63,6 @@ class Lat(_option.CellOption):
                 shape = types.Integer(shape)
             elif isinstance(shape, str):
                 shape = types.Integer.from_mcnp(shape)
-            else:
-                raise TypeError
 
         if shape is None or shape not in {1, 2}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, shape)

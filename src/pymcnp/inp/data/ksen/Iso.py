@@ -8,9 +8,6 @@ from ....utils import errors
 class Iso(_option.KsenOption):
     """
     Represents INP iso elements.
-
-    Attributes:
-        zaids: List of ZAIDs for pertubation.
     """
 
     _KEYWORD = 'iso'
@@ -37,10 +34,11 @@ class Iso(_option.KsenOption):
     @property
     def zaids(self) -> types.Tuple[types.Zaid]:
         """
-        Gets ``zaids``.
+        List of ZAIDs for pertubation
 
-        Returns:
-            ``zaids``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._zaids
@@ -65,8 +63,7 @@ class Iso(_option.KsenOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Zaid.from_mcnp(item))
-                else:
-                    raise TypeError
+
             zaids = types.Tuple(array)
 
         if zaids is None:

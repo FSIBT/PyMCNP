@@ -8,10 +8,6 @@ from ...utils import errors
 class Ds_2(_option.DataOption):
     """
     Represents INP ds variation #2 elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        vss: Dependent source independent & dependent variables.
     """
 
     _KEYWORD = 'ds'
@@ -50,10 +46,11 @@ class Ds_2(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -78,8 +75,6 @@ class Ds_2(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None or not (suffix >= 1 and suffix <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -89,10 +84,11 @@ class Ds_2(_option.DataOption):
     @property
     def vss(self) -> types.Tuple[types.IndependentDependent]:
         """
-        Gets ``vss``.
+        Dependent source independent & dependent variables
 
-        Returns:
-            ``vss``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._vss
@@ -117,8 +113,7 @@ class Ds_2(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.IndependentDependent.from_mcnp(item))
-                else:
-                    raise TypeError
+
             vss = types.Tuple(array)
 
         if vss is None:

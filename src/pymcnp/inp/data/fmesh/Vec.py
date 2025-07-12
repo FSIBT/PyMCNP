@@ -8,11 +8,6 @@ from ....utils import errors
 class Vec(_option.FmeshOption):
     """
     Represents INP vec elements.
-
-    Attributes:
-        x: Plane vector x component.
-        y: Plane vector y component.
-        z: Plane vector z component.
     """
 
     _KEYWORD = 'vec'
@@ -45,10 +40,11 @@ class Vec(_option.FmeshOption):
     @property
     def x(self) -> types.Real:
         """
-        Gets ``x``.
+        Plane vector x component
 
-        Returns:
-            ``x``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x
@@ -69,14 +65,10 @@ class Vec(_option.FmeshOption):
         if x is not None:
             if isinstance(x, types.Real):
                 x = x
-            elif isinstance(x, int):
-                x = types.Real(x)
-            elif isinstance(x, float):
+            elif isinstance(x, int) or isinstance(x, float):
                 x = types.Real(x)
             elif isinstance(x, str):
                 x = types.Real.from_mcnp(x)
-            else:
-                raise TypeError
 
         if x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
@@ -86,10 +78,11 @@ class Vec(_option.FmeshOption):
     @property
     def y(self) -> types.Real:
         """
-        Gets ``y``.
+        Plane vector y component
 
-        Returns:
-            ``y``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._y
@@ -110,14 +103,10 @@ class Vec(_option.FmeshOption):
         if y is not None:
             if isinstance(y, types.Real):
                 y = y
-            elif isinstance(y, int):
-                y = types.Real(y)
-            elif isinstance(y, float):
+            elif isinstance(y, int) or isinstance(y, float):
                 y = types.Real(y)
             elif isinstance(y, str):
                 y = types.Real.from_mcnp(y)
-            else:
-                raise TypeError
 
         if y is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y)
@@ -127,10 +116,11 @@ class Vec(_option.FmeshOption):
     @property
     def z(self) -> types.Real:
         """
-        Gets ``z``.
+        Plane vector z component
 
-        Returns:
-            ``z``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._z
@@ -151,14 +141,10 @@ class Vec(_option.FmeshOption):
         if z is not None:
             if isinstance(z, types.Real):
                 z = z
-            elif isinstance(z, int):
-                z = types.Real(z)
-            elif isinstance(z, float):
+            elif isinstance(z, int) or isinstance(z, float):
                 z = types.Real(z)
             elif isinstance(z, str):
                 z = types.Real.from_mcnp(z)
-            else:
-                raise TypeError
 
         if z is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z)

@@ -8,9 +8,6 @@ from ...utils import errors
 class Bflcl(_option.LikeOption):
     """
     Represents INP bflcl elements.
-
-    Attributes:
-        number: Cell magnetic field number.
     """
 
     _KEYWORD = 'bflcl'
@@ -65,8 +62,6 @@ class Bflcl(_option.LikeOption):
                 number = types.Integer(number)
             elif isinstance(number, str):
                 number = types.Integer.from_mcnp(number)
-            else:
-                raise TypeError
 
         if number is None or not (number >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)

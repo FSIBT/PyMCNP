@@ -8,9 +8,6 @@ from ...utils import errors
 class Mode(_option.DataOption):
     """
     Represents INP mode elements.
-
-    Attributes:
-        particles: Tuple of particle designators.
     """
 
     _KEYWORD = 'mode'
@@ -37,10 +34,11 @@ class Mode(_option.DataOption):
     @property
     def particles(self) -> types.Tuple[types.Designator]:
         """
-        Gets ``particles``.
+        Tuple of particle designators
 
-        Returns:
-            ``particles``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._particles
@@ -65,8 +63,7 @@ class Mode(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Designator.from_mcnp(item))
-                else:
-                    raise TypeError
+
             particles = types.Tuple(array)
 
         if particles is None:

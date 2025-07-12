@@ -8,9 +8,6 @@ from ....utils import errors
 class Nap(_option.ActOption):
     """
     Represents INP nap elements.
-
-    Attributes:
-        count: Number of activation products.
     """
 
     _KEYWORD = 'nap'
@@ -37,10 +34,11 @@ class Nap(_option.ActOption):
     @property
     def count(self) -> types.Integer:
         """
-        Gets ``count``.
+        Number of activation products
 
-        Returns:
-            ``count``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._count
@@ -65,8 +63,6 @@ class Nap(_option.ActOption):
                 count = types.Integer(count)
             elif isinstance(count, str):
                 count = types.Integer.from_mcnp(count)
-            else:
-                raise TypeError
 
         if count is None or not (count >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, count)

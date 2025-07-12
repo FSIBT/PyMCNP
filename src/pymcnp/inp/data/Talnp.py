@@ -7,9 +7,6 @@ from ...utils import types
 class Talnp(_option.DataOption):
     """
     Represents INP talnp elements.
-
-    Attributes:
-        tallies: Tallies to exclude from output.
     """
 
     _KEYWORD = 'talnp'
@@ -36,10 +33,11 @@ class Talnp(_option.DataOption):
     @property
     def tallies(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``tallies``.
+        Tallies to exclude from output
 
-        Returns:
-            ``tallies``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._tallies
@@ -66,8 +64,7 @@ class Talnp(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             tallies = types.Tuple(array)
 
         self._tallies: types.Tuple[types.Integer] = tallies

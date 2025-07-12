@@ -8,9 +8,6 @@ from ...utils import errors
 class Ksrc(_option.DataOption):
     """
     Represents INP ksrc elements.
-
-    Attributes:
-        locations: Tuple of inital source points.
     """
 
     _KEYWORD = 'ksrc'
@@ -37,10 +34,11 @@ class Ksrc(_option.DataOption):
     @property
     def locations(self) -> types.Tuple[types.Location]:
         """
-        Gets ``locations``.
+        Tuple of inital source points
 
-        Returns:
-            ``locations``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._locations
@@ -65,8 +63,7 @@ class Ksrc(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Location.from_mcnp(item))
-                else:
-                    raise TypeError
+
             locations = types.Tuple(array)
 
         if locations is None:

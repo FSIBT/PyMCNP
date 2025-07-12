@@ -9,16 +9,6 @@ from ...utils import _visualization
 class Trc(_option.SurfaceOption):
     """
     Represents INP trc elements.
-
-    Attributes:
-        vx: Truncated cone position vector x component.
-        vy: Truncated cone position vector y component.
-        vz: Truncated cone position vector z component.
-        hx: Truncated cone height vector x component.
-        hy: Truncated cone height vector y component.
-        hz: Truncated cone height vector z component.
-        r1: Truncated cone lower cone radius.
-        r2: Truncated cone upper cone radius.
     """
 
     _KEYWORD = 'trc'
@@ -78,10 +68,11 @@ class Trc(_option.SurfaceOption):
     @property
     def vx(self) -> types.Real:
         """
-        Gets ``vx``.
+        Truncated cone position vector x component
 
-        Returns:
-            ``vx``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._vx
@@ -102,14 +93,10 @@ class Trc(_option.SurfaceOption):
         if vx is not None:
             if isinstance(vx, types.Real):
                 vx = vx
-            elif isinstance(vx, int):
-                vx = types.Real(vx)
-            elif isinstance(vx, float):
+            elif isinstance(vx, int) or isinstance(vx, float):
                 vx = types.Real(vx)
             elif isinstance(vx, str):
                 vx = types.Real.from_mcnp(vx)
-            else:
-                raise TypeError
 
         if vx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vx)
@@ -119,10 +106,11 @@ class Trc(_option.SurfaceOption):
     @property
     def vy(self) -> types.Real:
         """
-        Gets ``vy``.
+        Truncated cone position vector y component
 
-        Returns:
-            ``vy``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._vy
@@ -143,14 +131,10 @@ class Trc(_option.SurfaceOption):
         if vy is not None:
             if isinstance(vy, types.Real):
                 vy = vy
-            elif isinstance(vy, int):
-                vy = types.Real(vy)
-            elif isinstance(vy, float):
+            elif isinstance(vy, int) or isinstance(vy, float):
                 vy = types.Real(vy)
             elif isinstance(vy, str):
                 vy = types.Real.from_mcnp(vy)
-            else:
-                raise TypeError
 
         if vy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vy)
@@ -160,10 +144,11 @@ class Trc(_option.SurfaceOption):
     @property
     def vz(self) -> types.Real:
         """
-        Gets ``vz``.
+        Truncated cone position vector z component
 
-        Returns:
-            ``vz``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._vz
@@ -184,14 +169,10 @@ class Trc(_option.SurfaceOption):
         if vz is not None:
             if isinstance(vz, types.Real):
                 vz = vz
-            elif isinstance(vz, int):
-                vz = types.Real(vz)
-            elif isinstance(vz, float):
+            elif isinstance(vz, int) or isinstance(vz, float):
                 vz = types.Real(vz)
             elif isinstance(vz, str):
                 vz = types.Real.from_mcnp(vz)
-            else:
-                raise TypeError
 
         if vz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vz)
@@ -201,10 +182,11 @@ class Trc(_option.SurfaceOption):
     @property
     def hx(self) -> types.Real:
         """
-        Gets ``hx``.
+        Truncated cone height vector x component
 
-        Returns:
-            ``hx``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._hx
@@ -225,14 +207,10 @@ class Trc(_option.SurfaceOption):
         if hx is not None:
             if isinstance(hx, types.Real):
                 hx = hx
-            elif isinstance(hx, int):
-                hx = types.Real(hx)
-            elif isinstance(hx, float):
+            elif isinstance(hx, int) or isinstance(hx, float):
                 hx = types.Real(hx)
             elif isinstance(hx, str):
                 hx = types.Real.from_mcnp(hx)
-            else:
-                raise TypeError
 
         if hx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hx)
@@ -242,10 +220,11 @@ class Trc(_option.SurfaceOption):
     @property
     def hy(self) -> types.Real:
         """
-        Gets ``hy``.
+        Truncated cone height vector y component
 
-        Returns:
-            ``hy``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._hy
@@ -266,14 +245,10 @@ class Trc(_option.SurfaceOption):
         if hy is not None:
             if isinstance(hy, types.Real):
                 hy = hy
-            elif isinstance(hy, int):
-                hy = types.Real(hy)
-            elif isinstance(hy, float):
+            elif isinstance(hy, int) or isinstance(hy, float):
                 hy = types.Real(hy)
             elif isinstance(hy, str):
                 hy = types.Real.from_mcnp(hy)
-            else:
-                raise TypeError
 
         if hy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hy)
@@ -283,10 +258,11 @@ class Trc(_option.SurfaceOption):
     @property
     def hz(self) -> types.Real:
         """
-        Gets ``hz``.
+        Truncated cone height vector z component
 
-        Returns:
-            ``hz``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._hz
@@ -307,14 +283,10 @@ class Trc(_option.SurfaceOption):
         if hz is not None:
             if isinstance(hz, types.Real):
                 hz = hz
-            elif isinstance(hz, int):
-                hz = types.Real(hz)
-            elif isinstance(hz, float):
+            elif isinstance(hz, int) or isinstance(hz, float):
                 hz = types.Real(hz)
             elif isinstance(hz, str):
                 hz = types.Real.from_mcnp(hz)
-            else:
-                raise TypeError
 
         if hz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hz)
@@ -324,10 +296,11 @@ class Trc(_option.SurfaceOption):
     @property
     def r1(self) -> types.Real:
         """
-        Gets ``r1``.
+        Truncated cone lower cone radius
 
-        Returns:
-            ``r1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._r1
@@ -348,14 +321,10 @@ class Trc(_option.SurfaceOption):
         if r1 is not None:
             if isinstance(r1, types.Real):
                 r1 = r1
-            elif isinstance(r1, int):
-                r1 = types.Real(r1)
-            elif isinstance(r1, float):
+            elif isinstance(r1, int) or isinstance(r1, float):
                 r1 = types.Real(r1)
             elif isinstance(r1, str):
                 r1 = types.Real.from_mcnp(r1)
-            else:
-                raise TypeError
 
         if r1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r1)
@@ -365,10 +334,11 @@ class Trc(_option.SurfaceOption):
     @property
     def r2(self) -> types.Real:
         """
-        Gets ``r2``.
+        Truncated cone upper cone radius
 
-        Returns:
-            ``r2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._r2
@@ -389,14 +359,10 @@ class Trc(_option.SurfaceOption):
         if r2 is not None:
             if isinstance(r2, types.Real):
                 r2 = r2
-            elif isinstance(r2, int):
-                r2 = types.Real(r2)
-            elif isinstance(r2, float):
+            elif isinstance(r2, int) or isinstance(r2, float):
                 r2 = types.Real(r2)
             elif isinstance(r2, str):
                 r2 = types.Real.from_mcnp(r2)
-            else:
-                raise TypeError
 
         if r2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r2)

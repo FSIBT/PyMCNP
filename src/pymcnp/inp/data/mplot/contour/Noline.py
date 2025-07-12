@@ -6,9 +6,6 @@ from . import _option
 class Noline(_option.ContourOption):
     """
     Represents INP noline elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'noline'

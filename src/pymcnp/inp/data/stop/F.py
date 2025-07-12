@@ -8,10 +8,6 @@ from ....utils import errors
 class F(_option.StopOption):
     """
     Represents INP f elements.
-
-    Attributes:
-        suffix: Data card option option suffix.
-        e: Tally fluctuation relative error before stop.
     """
 
     _KEYWORD = 'f'
@@ -41,10 +37,11 @@ class F(_option.StopOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -69,8 +66,6 @@ class F(_option.StopOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None or not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -80,10 +75,11 @@ class F(_option.StopOption):
     @property
     def e(self) -> types.Integer:
         """
-        Gets ``e``.
+        Tally fluctuation relative error before stop
 
-        Returns:
-            ``e``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._e
@@ -108,8 +104,6 @@ class F(_option.StopOption):
                 e = types.Integer(e)
             elif isinstance(e, str):
                 e = types.Integer.from_mcnp(e)
-            else:
-                raise TypeError
 
         if e is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, e)

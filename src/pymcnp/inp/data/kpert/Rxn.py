@@ -8,9 +8,6 @@ from ....utils import errors
 class Rxn(_option.KpertOption):
     """
     Represents INP rxn elements.
-
-    Attributes:
-        numbers: List of reaction numbers for pertubation.
     """
 
     _KEYWORD = 'rxn'
@@ -37,10 +34,11 @@ class Rxn(_option.KpertOption):
     @property
     def numbers(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``numbers``.
+        List of reaction numbers for pertubation
 
-        Returns:
-            ``numbers``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._numbers
@@ -67,8 +65,7 @@ class Rxn(_option.KpertOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             numbers = types.Tuple(array)
 
         if numbers is None:

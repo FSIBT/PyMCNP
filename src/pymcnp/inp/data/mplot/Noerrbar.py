@@ -6,9 +6,6 @@ from . import _option
 class Noerrbar(_option.MplotOption):
     """
     Represents INP noerrbar elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'noerrbar'

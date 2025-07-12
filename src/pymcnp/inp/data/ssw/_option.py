@@ -7,11 +7,3 @@ class SswOption(_option.Option):
     """
 
     pass
-
-
-class SswOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP ssw option builders.
-    """
-
-    pass

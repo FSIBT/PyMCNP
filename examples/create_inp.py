@@ -9,19 +9,19 @@ RADIUS_SHIELD: float = 5
 RADIUS_LEAD: float = 1
 
 # Creating cell geometries.
-geometry_air = pymcnp.utils.types.GeometryBuilder('11')
-geometry_shield = pymcnp.utils.types.GeometryBuilder('12')
-geometry_lead = pymcnp.utils.types.GeometryBuilder('13')
-geometry_world = pymcnp.utils.types.GeometryBuilder('14')
+geometry_air = pymcnp.utils.types.Geometry('11')
+geometry_shield = pymcnp.utils.types.Geometry('12')
+geometry_lead = pymcnp.utils.types.Geometry('13')
+geometry_world = pymcnp.utils.types.Geometry('14')
 
 # Creating cells.
-cell_air = pymcnp.inp.CellBuilder(number=1, material=21, density=0.5, geometry=geometry_air)
-cell_shield = pymcnp.inp.CellBuilder(number=2, material=22, density=0.5, geometry=geometry_shield & geometry_air)
-cell_lead = pymcnp.inp.CellBuilder(number=3, material=23, density=0.5, geometry=geometry_lead & geometry_shield)
-cell_world = pymcnp.inp.CellBuilder(number=4, material=0, geometry=geometry_world)
+cell_air = pymcnp.inp.Cell(number=1, material=21, density=0.5, geometry=geometry_air)
+cell_shield = pymcnp.inp.Cell(number=2, material=22, density=0.5, geometry=geometry_shield & geometry_air)
+cell_lead = pymcnp.inp.Cell(number=3, material=23, density=0.5, geometry=geometry_lead & geometry_shield)
+cell_world = pymcnp.inp.Cell(number=4, material=0, geometry=geometry_world)
 
 # Creating surface options.
-rpp_air = pymcnp.inp.surface.RppBuilder(
+rpp_air = pymcnp.inp.surface.Rpp(
     xmin=-RADIUS_AIR,
     xmax=RADIUS_AIR,
     ymin=-RADIUS_AIR,
@@ -29,7 +29,7 @@ rpp_air = pymcnp.inp.surface.RppBuilder(
     zmin=-RADIUS_AIR,
     zmax=RADIUS_AIR,
 )
-rpp_shield = pymcnp.inp.surface.RppBuilder(
+rpp_shield = pymcnp.inp.surface.Rpp(
     xmin=-RADIUS_SHIELD,
     xmax=RADIUS_SHIELD,
     ymin=-RADIUS_SHIELD,
@@ -37,7 +37,7 @@ rpp_shield = pymcnp.inp.surface.RppBuilder(
     zmin=-RADIUS_SHIELD,
     zmax=RADIUS_SHIELD,
 )
-rpp_lead = pymcnp.inp.surface.RppBuilder(
+rpp_lead = pymcnp.inp.surface.Rpp(
     xmin=-RADIUS_LEAD,
     xmax=RADIUS_LEAD,
     ymin=-RADIUS_LEAD,
@@ -45,22 +45,22 @@ rpp_lead = pymcnp.inp.surface.RppBuilder(
     zmin=-RADIUS_LEAD,
     zmax=RADIUS_LEAD,
 )
-so_world = pymcnp.inp.surface.SoBuilder(r=RADIUS_AIR + RADIUS_SHIELD + RADIUS_LEAD + 1)
+so_world = pymcnp.inp.surface.So(r=RADIUS_AIR + RADIUS_SHIELD + RADIUS_LEAD + 1)
 
 # Creating surfaces.
-surface_air = pymcnp.inp.SurfaceBuilder(
+surface_air = pymcnp.inp.Surface(
     number=11,
     option=rpp_air,
 )
-surface_shield = pymcnp.inp.SurfaceBuilder(
+surface_shield = pymcnp.inp.Surface(
     number=11,
     option=rpp_shield,
 )
-surface_lead = pymcnp.inp.SurfaceBuilder(
+surface_lead = pymcnp.inp.Surface(
     number=11,
     option=rpp_lead,
 )
-surface_world = pymcnp.inp.SurfaceBuilder(
+surface_world = pymcnp.inp.Surface(
     number=99,
     option=so_world,
 )
@@ -71,16 +71,16 @@ material_shield = pymcnp.inp.data.M_0.from_formula(number=22, formulas={'TiO2': 
 material_lead = pymcnp.inp.data.M_0.from_formula(number=23, formulas={'Pb': 1})
 
 # Creating data.
-data_air = pymcnp.inp.DataBuilder(material_air)
-data_shield = pymcnp.inp.DataBuilder(material_shield)
-data_lead = pymcnp.inp.DataBuilder(material_lead)
+data_air = pymcnp.inp.Data(material_air)
+data_shield = pymcnp.inp.Data(material_shield)
+data_lead = pymcnp.inp.Data(material_lead)
 
 # Creating inp.
-inp = pymcnp.InpBuilder(
+inp = pymcnp.Inp(
     title='Create ``Inp`` Using ``build``\n',
     cells=[cell_air, cell_shield, cell_lead, cell_world],
     surfaces=[surface_air, surface_shield, surface_lead, surface_world],
     data=[data_air, data_shield, data_lead],
-).build()
+)
 
 print(inp)

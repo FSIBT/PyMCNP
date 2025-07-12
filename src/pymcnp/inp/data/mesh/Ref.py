@@ -8,9 +8,6 @@ from ....utils import errors
 class Ref(_option.MeshOption):
     """
     Represents INP ref elements.
-
-    Attributes:
-        point: Mesh reference point.
     """
 
     _KEYWORD = 'ref'
@@ -37,10 +34,11 @@ class Ref(_option.MeshOption):
     @property
     def point(self) -> types.Tuple[types.Real]:
         """
-        Gets ``point``.
+        Mesh reference point
 
-        Returns:
-            ``point``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._point
@@ -63,14 +61,11 @@ class Ref(_option.MeshOption):
             for item in point:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             point = types.Tuple(array)
 
         if point is None:

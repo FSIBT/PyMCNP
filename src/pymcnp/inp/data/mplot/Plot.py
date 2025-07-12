@@ -6,9 +6,6 @@ from . import _option
 class Plot(_option.MplotOption):
     """
     Represents INP plot elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'plot'

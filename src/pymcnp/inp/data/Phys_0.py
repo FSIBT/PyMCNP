@@ -8,16 +8,6 @@ from ...utils import errors
 class Phys_0(_option.DataOption):
     """
     Represents INP phys variation #0 elements.
-
-    Attributes:
-        emax: Upper limit for neutron energy.
-        emcnf: Analog energy limit.
-        iunr: Unresolved resonanace controls.
-        coilf: Light-ion and heavy-ion recoil and NCIA control.
-        cutn: Table-based physics cutoff controls.
-        ngam: Secondary photon production controls.
-        i_int_model: Treataement of nuclear interactions controls.
-        i_els_model: Treatment of nuclear elastic scattering controls.
     """
 
     _KEYWORD = 'phys:n'
@@ -77,10 +67,11 @@ class Phys_0(_option.DataOption):
     @property
     def emax(self) -> types.Real:
         """
-        Gets ``emax``.
+        Upper limit for neutron energy
 
-        Returns:
-            ``emax``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._emax
@@ -101,24 +92,21 @@ class Phys_0(_option.DataOption):
         if emax is not None:
             if isinstance(emax, types.Real):
                 emax = emax
-            elif isinstance(emax, int):
-                emax = types.Real(emax)
-            elif isinstance(emax, float):
+            elif isinstance(emax, int) or isinstance(emax, float):
                 emax = types.Real(emax)
             elif isinstance(emax, str):
                 emax = types.Real.from_mcnp(emax)
-            else:
-                raise TypeError
 
         self._emax: types.Real = emax
 
     @property
     def emcnf(self) -> types.Real:
         """
-        Gets ``emcnf``.
+        Analog energy limit
 
-        Returns:
-            ``emcnf``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._emcnf
@@ -139,24 +127,21 @@ class Phys_0(_option.DataOption):
         if emcnf is not None:
             if isinstance(emcnf, types.Real):
                 emcnf = emcnf
-            elif isinstance(emcnf, int):
-                emcnf = types.Real(emcnf)
-            elif isinstance(emcnf, float):
+            elif isinstance(emcnf, int) or isinstance(emcnf, float):
                 emcnf = types.Real(emcnf)
             elif isinstance(emcnf, str):
                 emcnf = types.Real.from_mcnp(emcnf)
-            else:
-                raise TypeError
 
         self._emcnf: types.Real = emcnf
 
     @property
     def iunr(self) -> types.Integer:
         """
-        Gets ``iunr``.
+        Unresolved resonanace controls
 
-        Returns:
-            ``iunr``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._iunr
@@ -181,8 +166,6 @@ class Phys_0(_option.DataOption):
                 iunr = types.Integer(iunr)
             elif isinstance(iunr, str):
                 iunr = types.Integer.from_mcnp(iunr)
-            else:
-                raise TypeError
 
         if iunr is not None and not (isinstance(iunr.value, types.Jump) or iunr in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iunr)
@@ -192,10 +175,11 @@ class Phys_0(_option.DataOption):
     @property
     def coilf(self) -> types.Real:
         """
-        Gets ``coilf``.
+        Light-ion and heavy-ion recoil and NCIA control
 
-        Returns:
-            ``coilf``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._coilf
@@ -216,24 +200,21 @@ class Phys_0(_option.DataOption):
         if coilf is not None:
             if isinstance(coilf, types.Real):
                 coilf = coilf
-            elif isinstance(coilf, int):
-                coilf = types.Real(coilf)
-            elif isinstance(coilf, float):
+            elif isinstance(coilf, int) or isinstance(coilf, float):
                 coilf = types.Real(coilf)
             elif isinstance(coilf, str):
                 coilf = types.Real.from_mcnp(coilf)
-            else:
-                raise TypeError
 
         self._coilf: types.Real = coilf
 
     @property
     def cutn(self) -> types.Integer:
         """
-        Gets ``cutn``.
+        Table-based physics cutoff controls
 
-        Returns:
-            ``cutn``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._cutn
@@ -258,18 +239,17 @@ class Phys_0(_option.DataOption):
                 cutn = types.Integer(cutn)
             elif isinstance(cutn, str):
                 cutn = types.Integer.from_mcnp(cutn)
-            else:
-                raise TypeError
 
         self._cutn: types.Integer = cutn
 
     @property
     def ngam(self) -> types.Integer:
         """
-        Gets ``ngam``.
+        Secondary photon production controls
 
-        Returns:
-            ``ngam``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ngam
@@ -294,8 +274,6 @@ class Phys_0(_option.DataOption):
                 ngam = types.Integer(ngam)
             elif isinstance(ngam, str):
                 ngam = types.Integer.from_mcnp(ngam)
-            else:
-                raise TypeError
 
         if ngam is not None and not (isinstance(ngam.value, types.Jump) or ngam in {0, 1, 2}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ngam)
@@ -305,10 +283,11 @@ class Phys_0(_option.DataOption):
     @property
     def i_int_model(self) -> types.Integer:
         """
-        Gets ``i_int_model``.
+        Treataement of nuclear interactions controls
 
-        Returns:
-            ``i_int_model``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._i_int_model
@@ -333,8 +312,6 @@ class Phys_0(_option.DataOption):
                 i_int_model = types.Integer(i_int_model)
             elif isinstance(i_int_model, str):
                 i_int_model = types.Integer.from_mcnp(i_int_model)
-            else:
-                raise TypeError
 
         if i_int_model is not None and not (isinstance(i_int_model.value, types.Jump) or i_int_model in {-1, 0, 1, 2, 3}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_int_model)
@@ -344,10 +321,11 @@ class Phys_0(_option.DataOption):
     @property
     def i_els_model(self) -> types.Integer:
         """
-        Gets ``i_els_model``.
+        Treatment of nuclear elastic scattering controls
 
-        Returns:
-            ``i_els_model``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._i_els_model
@@ -372,8 +350,6 @@ class Phys_0(_option.DataOption):
                 i_els_model = types.Integer(i_els_model)
             elif isinstance(i_els_model, str):
                 i_els_model = types.Integer.from_mcnp(i_els_model)
-            else:
-                raise TypeError
 
         if i_els_model is not None and not (isinstance(i_els_model.value, types.Jump) or i_els_model in {-1, 0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_els_model)

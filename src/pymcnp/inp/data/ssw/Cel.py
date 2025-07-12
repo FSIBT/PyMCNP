@@ -8,9 +8,6 @@ from ....utils import errors
 class Cel(_option.SswOption):
     """
     Represents INP cel elements.
-
-    Attributes:
-        cfs: Cells from which KCODE neutrons are written.
     """
 
     _KEYWORD = 'cel'
@@ -37,10 +34,11 @@ class Cel(_option.SswOption):
     @property
     def cfs(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``cfs``.
+        Cells from which KCODE neutrons are written
 
-        Returns:
-            ``cfs``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._cfs
@@ -67,8 +65,7 @@ class Cel(_option.SswOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             cfs = types.Tuple(array)
 
         if cfs is None:

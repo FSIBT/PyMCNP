@@ -7,11 +7,3 @@ class SdefOption(_option.Option):
     """
 
     pass
-
-
-class SdefOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP sdef option builders.
-    """
-
-    pass

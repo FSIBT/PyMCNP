@@ -28,7 +28,6 @@ __all__ = [
     'Run',
     'inp',
     'Inp',
-    'InpBuilder',
     'ptrac',
     'Ptrac',
     'PtracFiltered',

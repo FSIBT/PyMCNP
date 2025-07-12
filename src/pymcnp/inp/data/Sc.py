@@ -8,10 +8,6 @@ from ...utils import errors
 class Sc(_option.DataOption):
     """
     Represents INP sc elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        comment: source comment.
     """
 
     _KEYWORD = 'sc'
@@ -41,10 +37,11 @@ class Sc(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -69,8 +66,6 @@ class Sc(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None or not (suffix >= 1 and suffix <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -80,10 +75,11 @@ class Sc(_option.DataOption):
     @property
     def comment(self) -> types.Tuple[types.String]:
         """
-        Gets ``comment``.
+        Source comment
 
-        Returns:
-            ``comment``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._comment
@@ -108,8 +104,7 @@ class Sc(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.String.from_mcnp(item))
-                else:
-                    raise TypeError
+
             comment = types.Tuple(array)
 
         if comment is None:

@@ -6,9 +6,6 @@ from . import _option
 class Thin(_option.MplotOption):
     """
     Represents INP thin elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'thin'

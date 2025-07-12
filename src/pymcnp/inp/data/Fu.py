@@ -8,12 +8,6 @@ from ...utils import errors
 class Fu(_option.DataOption):
     """
     Represents INP fu elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        bounds: Input parameters for user bins.
-        nt: Notation to inhibit automatic totaling.
-        c: Notation to make bin values cumulative.
     """
 
     _KEYWORD = 'fu'
@@ -49,10 +43,11 @@ class Fu(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -77,8 +72,6 @@ class Fu(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None or not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -88,10 +81,11 @@ class Fu(_option.DataOption):
     @property
     def bounds(self) -> types.Tuple[types.Real]:
         """
-        Gets ``bounds``.
+        Input parameters for user bins
 
-        Returns:
-            ``bounds``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bounds
@@ -114,14 +108,11 @@ class Fu(_option.DataOption):
             for item in bounds:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             bounds = types.Tuple(array)
 
         if bounds is None:
@@ -132,10 +123,11 @@ class Fu(_option.DataOption):
     @property
     def nt(self) -> types.String:
         """
-        Gets ``nt``.
+        Notation to inhibit automatic totaling
 
-        Returns:
-            ``nt``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._nt
@@ -158,8 +150,6 @@ class Fu(_option.DataOption):
                 nt = nt
             elif isinstance(nt, str):
                 nt = types.String.from_mcnp(nt)
-            else:
-                raise TypeError
 
         if nt is not None and nt not in {'nt'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nt)
@@ -169,10 +159,11 @@ class Fu(_option.DataOption):
     @property
     def c(self) -> types.String:
         """
-        Gets ``c``.
+        Notation to make bin values cumulative
 
-        Returns:
-            ``c``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._c
@@ -195,8 +186,6 @@ class Fu(_option.DataOption):
                 c = c
             elif isinstance(c, str):
                 c = types.String.from_mcnp(c)
-            else:
-                raise TypeError
 
         if c is not None and c not in {'c'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, c)

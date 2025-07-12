@@ -8,9 +8,6 @@ from ....utils import errors
 class File(_option.MplotOption):
     """
     Represents INP file elements.
-
-    Attributes:
-        aa: Graphics metafile on/off.
     """
 
     _KEYWORD = 'file'
@@ -37,10 +34,11 @@ class File(_option.MplotOption):
     @property
     def aa(self) -> types.String:
         """
-        Gets ``aa``.
+        Graphics metafile on/off
 
-        Returns:
-            ``aa``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._aa
@@ -63,8 +61,6 @@ class File(_option.MplotOption):
                 aa = aa
             elif isinstance(aa, str):
                 aa = types.String.from_mcnp(aa)
-            else:
-                raise TypeError
 
         if aa is not None and aa not in {'all', 'none'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, aa)

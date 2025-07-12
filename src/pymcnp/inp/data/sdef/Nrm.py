@@ -8,9 +8,6 @@ from ....utils import errors
 class Nrm(_option.SdefOption):
     """
     Represents INP nrm elements.
-
-    Attributes:
-        sign: Sign of the surface normal.
     """
 
     _KEYWORD = 'nrm'
@@ -37,10 +34,11 @@ class Nrm(_option.SdefOption):
     @property
     def sign(self) -> types.Integer:
         """
-        Gets ``sign``.
+        Sign of the surface normal
 
-        Returns:
-            ``sign``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._sign
@@ -65,8 +63,6 @@ class Nrm(_option.SdefOption):
                 sign = types.Integer(sign)
             elif isinstance(sign, str):
                 sign = types.Integer.from_mcnp(sign)
-            else:
-                raise TypeError
 
         if sign is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, sign)

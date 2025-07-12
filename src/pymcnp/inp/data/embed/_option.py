@@ -7,11 +7,3 @@ class EmbedOption(_option.Option):
     """
 
     pass
-
-
-class EmbedOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP embed option builders.
-    """
-
-    pass

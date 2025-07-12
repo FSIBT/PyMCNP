@@ -8,9 +8,6 @@ from ....utils import errors
 class Mat(_option.PertOption):
     """
     Represents INP mat elements.
-
-    Attributes:
-        material: Material number to fill cells.
     """
 
     _KEYWORD = 'mat'
@@ -37,10 +34,11 @@ class Mat(_option.PertOption):
     @property
     def material(self) -> types.Integer:
         """
-        Gets ``material``.
+        Material number to fill cells
 
-        Returns:
-            ``material``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._material
@@ -65,8 +63,6 @@ class Mat(_option.PertOption):
                 material = types.Integer(material)
             elif isinstance(material, str):
                 material = types.Integer.from_mcnp(material)
-            else:
-                raise TypeError
 
         if material is None or not (material >= 0 and material <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, material)

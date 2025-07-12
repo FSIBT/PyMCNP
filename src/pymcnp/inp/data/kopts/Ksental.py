@@ -8,9 +8,6 @@ from ....utils import errors
 class Ksental(_option.KoptsOption):
     """
     Represents INP ksental elements.
-
-    Attributes:
-        fileopt: Format of sensity profiles output file.
     """
 
     _KEYWORD = 'ksental'
@@ -37,10 +34,11 @@ class Ksental(_option.KoptsOption):
     @property
     def fileopt(self) -> types.String:
         """
-        Gets ``fileopt``.
+        Format of sensity profiles output file
 
-        Returns:
-            ``fileopt``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._fileopt
@@ -63,8 +61,6 @@ class Ksental(_option.KoptsOption):
                 fileopt = fileopt
             elif isinstance(fileopt, str):
                 fileopt = types.String.from_mcnp(fileopt)
-            else:
-                raise TypeError
 
         if fileopt is None or fileopt not in {'mctal', 'tsunami-b'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fileopt)

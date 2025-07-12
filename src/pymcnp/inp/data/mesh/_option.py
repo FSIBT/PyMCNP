@@ -7,11 +7,3 @@ class MeshOption(_option.Option):
     """
 
     pass
-
-
-class MeshOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP mesh option builders.
-    """
-
-    pass

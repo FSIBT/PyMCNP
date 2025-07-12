@@ -8,9 +8,6 @@ from ....utils import errors
 class Surface(_option.PtracOption):
     """
     Represents INP surface elements.
-
-    Attributes:
-        numbers: List of surface numbers for filtering.
     """
 
     _KEYWORD = 'surface'
@@ -37,10 +34,11 @@ class Surface(_option.PtracOption):
     @property
     def numbers(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``numbers``.
+        List of surface numbers for filtering
 
-        Returns:
-            ``numbers``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._numbers
@@ -67,8 +65,7 @@ class Surface(_option.PtracOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             numbers = types.Tuple(array)
 
         if numbers is None:

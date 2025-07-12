@@ -8,9 +8,6 @@ from ....utils import errors
 class Nescat(_option.TroptOption):
     """
     Represents INP nescat elements.
-
-    Attributes:
-        setting: Nuclear elastic scattering setting.
     """
 
     _KEYWORD = 'nescat'
@@ -37,10 +34,11 @@ class Nescat(_option.TroptOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Nuclear elastic scattering setting
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Nescat(_option.TroptOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {'off', 'on'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

@@ -8,9 +8,6 @@ from ....utils import errors
 class Emesh(_option.FmeshOption):
     """
     Represents INP emesh elements.
-
-    Attributes:
-        energy: Values of mesh points in energy.
     """
 
     _KEYWORD = 'emesh'
@@ -37,10 +34,11 @@ class Emesh(_option.FmeshOption):
     @property
     def energy(self) -> types.Real:
         """
-        Gets ``energy``.
+        Values of mesh points in energy
 
-        Returns:
-            ``energy``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._energy
@@ -61,14 +59,10 @@ class Emesh(_option.FmeshOption):
         if energy is not None:
             if isinstance(energy, types.Real):
                 energy = energy
-            elif isinstance(energy, int):
-                energy = types.Real(energy)
-            elif isinstance(energy, float):
+            elif isinstance(energy, int) or isinstance(energy, float):
                 energy = types.Real(energy)
             elif isinstance(energy, str):
                 energy = types.Real.from_mcnp(energy)
-            else:
-                raise TypeError
 
         if energy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy)

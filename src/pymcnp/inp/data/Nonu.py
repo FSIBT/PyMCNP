@@ -7,9 +7,6 @@ from ...utils import types
 class Nonu(_option.DataOption):
     """
     Represents INP nonu elements.
-
-    Attributes:
-        settings: Tuple of fission settings.
     """
 
     _KEYWORD = 'nonu'
@@ -36,10 +33,11 @@ class Nonu(_option.DataOption):
     @property
     def settings(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``settings``.
+        Tuple of fission settings
 
-        Returns:
-            ``settings``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._settings
@@ -66,8 +64,7 @@ class Nonu(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             settings = types.Tuple(array)
 
         self._settings: types.Tuple[types.Integer] = settings

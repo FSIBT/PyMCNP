@@ -6,9 +6,6 @@ from . import _option
 class Lethargy(_option.MplotOption):
     """
     Represents INP lethargy elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'lethargy'

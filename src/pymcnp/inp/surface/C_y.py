@@ -9,11 +9,6 @@ from ...utils import _visualization
 class C_y(_option.SurfaceOption):
     """
     Represents INP c/y elements.
-
-    Attributes:
-        x: Parallel-to-y-axis cylinder center x component.
-        z: Parallel-to-y-axis cylinder center z component.
-        r: Parallel-to-y-axis cylinder radius.
     """
 
     _KEYWORD = 'c/y'
@@ -46,10 +41,11 @@ class C_y(_option.SurfaceOption):
     @property
     def x(self) -> types.Real:
         """
-        Gets ``x``.
+        Parallel-to-y-axis cylinder center x component
 
-        Returns:
-            ``x``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x
@@ -70,14 +66,10 @@ class C_y(_option.SurfaceOption):
         if x is not None:
             if isinstance(x, types.Real):
                 x = x
-            elif isinstance(x, int):
-                x = types.Real(x)
-            elif isinstance(x, float):
+            elif isinstance(x, int) or isinstance(x, float):
                 x = types.Real(x)
             elif isinstance(x, str):
                 x = types.Real.from_mcnp(x)
-            else:
-                raise TypeError
 
         if x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
@@ -87,10 +79,11 @@ class C_y(_option.SurfaceOption):
     @property
     def z(self) -> types.Real:
         """
-        Gets ``z``.
+        Parallel-to-y-axis cylinder center z component
 
-        Returns:
-            ``z``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._z
@@ -111,14 +104,10 @@ class C_y(_option.SurfaceOption):
         if z is not None:
             if isinstance(z, types.Real):
                 z = z
-            elif isinstance(z, int):
-                z = types.Real(z)
-            elif isinstance(z, float):
+            elif isinstance(z, int) or isinstance(z, float):
                 z = types.Real(z)
             elif isinstance(z, str):
                 z = types.Real.from_mcnp(z)
-            else:
-                raise TypeError
 
         if z is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z)
@@ -128,10 +117,11 @@ class C_y(_option.SurfaceOption):
     @property
     def r(self) -> types.Real:
         """
-        Gets ``r``.
+        Parallel-to-y-axis cylinder radius
 
-        Returns:
-            ``r``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._r
@@ -152,14 +142,10 @@ class C_y(_option.SurfaceOption):
         if r is not None:
             if isinstance(r, types.Real):
                 r = r
-            elif isinstance(r, int):
-                r = types.Real(r)
-            elif isinstance(r, float):
+            elif isinstance(r, int) or isinstance(r, float):
                 r = types.Real(r)
             elif isinstance(r, str):
                 r = types.Real.from_mcnp(r)
-            else:
-                raise TypeError
 
         if r is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r)

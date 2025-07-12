@@ -8,9 +8,6 @@ from ....utils import errors
 class Axs(_option.SsrOption):
     """
     Represents INP axs elements.
-
-    Attributes:
-        cosines: Direction cosines defining.
     """
 
     _KEYWORD = 'axs'
@@ -37,10 +34,11 @@ class Axs(_option.SsrOption):
     @property
     def cosines(self) -> types.Tuple[types.Real]:
         """
-        Gets ``cosines``.
+        Direction cosines defining
 
-        Returns:
-            ``cosines``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._cosines
@@ -63,14 +61,11 @@ class Axs(_option.SsrOption):
             for item in cosines:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             cosines = types.Tuple(array)
 
         if cosines is None:
