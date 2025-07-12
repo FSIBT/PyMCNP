@@ -8,9 +8,6 @@ from ....utils import errors
 class Legendre(_option.KsenOption):
     """
     Represents INP legendre elements.
-
-    Attributes:
-        number: Order of Legendre moments to calculate sensitivities.
     """
 
     _KEYWORD = 'legendre'
@@ -37,10 +34,11 @@ class Legendre(_option.KsenOption):
     @property
     def number(self) -> types.Integer:
         """
-        Gets ``number``.
+        Order of Legendre moments to calculate sensitivities
 
-        Returns:
-            ``number``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._number
@@ -65,8 +63,6 @@ class Legendre(_option.KsenOption):
                 number = types.Integer(number)
             elif isinstance(number, str):
                 number = types.Integer.from_mcnp(number)
-            else:
-                raise TypeError
 
         if number is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)

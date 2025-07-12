@@ -8,11 +8,6 @@ from ...utils import errors
 class Sp_1(_option.DataOption):
     """
     Represents INP sp variation #1 elements.
-
-    Attributes:
-        function: Built-in function designator.
-        a: Built-in function parameter #1.
-        b: Built-in function parameter #2.
     """
 
     _KEYWORD = 'sp'
@@ -45,10 +40,11 @@ class Sp_1(_option.DataOption):
     @property
     def function(self) -> types.Integer:
         """
-        Gets ``function``.
+        Built-in function designator
 
-        Returns:
-            ``function``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._function
@@ -73,8 +69,6 @@ class Sp_1(_option.DataOption):
                 function = types.Integer(function)
             elif isinstance(function, str):
                 function = types.Integer.from_mcnp(function)
-            else:
-                raise TypeError
 
         if function is None or function not in {-2, -3, -4, -5, -6, -7, -21, -31, -41}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, function)
@@ -84,10 +78,11 @@ class Sp_1(_option.DataOption):
     @property
     def a(self) -> types.Real:
         """
-        Gets ``a``.
+        Built-in function parameter #1
 
-        Returns:
-            ``a``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a
@@ -108,14 +103,10 @@ class Sp_1(_option.DataOption):
         if a is not None:
             if isinstance(a, types.Real):
                 a = a
-            elif isinstance(a, int):
-                a = types.Real(a)
-            elif isinstance(a, float):
+            elif isinstance(a, int) or isinstance(a, float):
                 a = types.Real(a)
             elif isinstance(a, str):
                 a = types.Real.from_mcnp(a)
-            else:
-                raise TypeError
 
         if a is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
@@ -125,10 +116,11 @@ class Sp_1(_option.DataOption):
     @property
     def b(self) -> types.Real:
         """
-        Gets ``b``.
+        Built-in function parameter #2
 
-        Returns:
-            ``b``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._b
@@ -149,13 +141,9 @@ class Sp_1(_option.DataOption):
         if b is not None:
             if isinstance(b, types.Real):
                 b = b
-            elif isinstance(b, int):
-                b = types.Real(b)
-            elif isinstance(b, float):
+            elif isinstance(b, int) or isinstance(b, float):
                 b = types.Real(b)
             elif isinstance(b, str):
                 b = types.Real.from_mcnp(b)
-            else:
-                raise TypeError
 
         self._b: types.Real = b

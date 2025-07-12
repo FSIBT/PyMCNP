@@ -8,11 +8,6 @@ from ...utils import errors
 class Si_1(_option.DataOption):
     """
     Represents INP si variation #1 elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        option: Information kind setting.
-        information: Particle source information.
     """
 
     _KEYWORD = 'si'
@@ -45,10 +40,11 @@ class Si_1(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -73,8 +69,6 @@ class Si_1(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -84,10 +78,11 @@ class Si_1(_option.DataOption):
     @property
     def option(self) -> types.String:
         """
-        Gets ``option``.
+        Information kind setting
 
-        Returns:
-            ``option``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._option
@@ -110,18 +105,17 @@ class Si_1(_option.DataOption):
                 option = option
             elif isinstance(option, str):
                 option = types.String.from_mcnp(option)
-            else:
-                raise TypeError
 
         self._option: types.String = option
 
     @property
     def information(self) -> types.Tuple[types.Real]:
         """
-        Gets ``information``.
+        Particle source information
 
-        Returns:
-            ``information``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._information
@@ -144,14 +138,11 @@ class Si_1(_option.DataOption):
             for item in information:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             information = types.Tuple(array)
 
         if information is None:

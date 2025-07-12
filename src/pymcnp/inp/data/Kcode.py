@@ -8,16 +8,6 @@ from ...utils import errors
 class Kcode(_option.DataOption):
     """
     Represents INP kcode elements.
-
-    Attributes:
-        nsrck: Number of source histories per cycle.
-        rkk: Initial guess of keff.
-        ikz: Number of cycles to be skipped before beginning tally accumulation.
-        kct: Total number of cycles to be done.
-        msrk: Number of source points to allocate for.
-        knrm: Normalization of tallies setting.
-        mrkp: Maximum number of cycle values on MCTAL or RUNTPE files.
-        kc8: Number of cylces for average setting.
     """
 
     _KEYWORD = 'kcode'
@@ -77,10 +67,11 @@ class Kcode(_option.DataOption):
     @property
     def nsrck(self) -> types.Integer:
         """
-        Gets ``nsrck``.
+        Number of source histories per cycle
 
-        Returns:
-            ``nsrck``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._nsrck
@@ -105,8 +96,6 @@ class Kcode(_option.DataOption):
                 nsrck = types.Integer(nsrck)
             elif isinstance(nsrck, str):
                 nsrck = types.Integer.from_mcnp(nsrck)
-            else:
-                raise TypeError
 
         if nsrck is not None and not (isinstance(nsrck.value, types.Jump) or nsrck >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nsrck)
@@ -116,10 +105,11 @@ class Kcode(_option.DataOption):
     @property
     def rkk(self) -> types.Real:
         """
-        Gets ``rkk``.
+        Initial guess of keff
 
-        Returns:
-            ``rkk``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._rkk
@@ -140,24 +130,21 @@ class Kcode(_option.DataOption):
         if rkk is not None:
             if isinstance(rkk, types.Real):
                 rkk = rkk
-            elif isinstance(rkk, int):
-                rkk = types.Real(rkk)
-            elif isinstance(rkk, float):
+            elif isinstance(rkk, int) or isinstance(rkk, float):
                 rkk = types.Real(rkk)
             elif isinstance(rkk, str):
                 rkk = types.Real.from_mcnp(rkk)
-            else:
-                raise TypeError
 
         self._rkk: types.Real = rkk
 
     @property
     def ikz(self) -> types.Integer:
         """
-        Gets ``ikz``.
+        Number of cycles to be skipped before beginning tally accumulation
 
-        Returns:
-            ``ikz``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ikz
@@ -182,18 +169,17 @@ class Kcode(_option.DataOption):
                 ikz = types.Integer(ikz)
             elif isinstance(ikz, str):
                 ikz = types.Integer.from_mcnp(ikz)
-            else:
-                raise TypeError
 
         self._ikz: types.Integer = ikz
 
     @property
     def kct(self) -> types.Integer:
         """
-        Gets ``kct``.
+        Total number of cycles to be done
 
-        Returns:
-            ``kct``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._kct
@@ -218,8 +204,6 @@ class Kcode(_option.DataOption):
                 kct = types.Integer(kct)
             elif isinstance(kct, str):
                 kct = types.Integer.from_mcnp(kct)
-            else:
-                raise TypeError
 
         if kct is not None and not (isinstance(kct.value, types.Jump) or kct > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kct)
@@ -229,10 +213,11 @@ class Kcode(_option.DataOption):
     @property
     def msrk(self) -> types.Integer:
         """
-        Gets ``msrk``.
+        Number of source points to allocate for
 
-        Returns:
-            ``msrk``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._msrk
@@ -257,8 +242,6 @@ class Kcode(_option.DataOption):
                 msrk = types.Integer(msrk)
             elif isinstance(msrk, str):
                 msrk = types.Integer.from_mcnp(msrk)
-            else:
-                raise TypeError
 
         if msrk is not None and not (isinstance(msrk.value, types.Jump) or msrk < 40 * (1000 if not self.nsrck or isinstance(self.nsrck.value, types.Jump) else self.nsrck)):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, msrk)
@@ -268,10 +251,11 @@ class Kcode(_option.DataOption):
     @property
     def knrm(self) -> types.Integer:
         """
-        Gets ``knrm``.
+        Normalization of tallies setting
 
-        Returns:
-            ``knrm``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._knrm
@@ -296,8 +280,6 @@ class Kcode(_option.DataOption):
                 knrm = types.Integer(knrm)
             elif isinstance(knrm, str):
                 knrm = types.Integer.from_mcnp(knrm)
-            else:
-                raise TypeError
 
         if knrm is not None and not (isinstance(knrm.value, types.Jump) or knrm in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, knrm)
@@ -307,10 +289,11 @@ class Kcode(_option.DataOption):
     @property
     def mrkp(self) -> types.Integer:
         """
-        Gets ``mrkp``.
+        Maximum number of cycle values on MCTAL or RUNTPE files
 
-        Returns:
-            ``mrkp``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._mrkp
@@ -335,8 +318,6 @@ class Kcode(_option.DataOption):
                 mrkp = types.Integer(mrkp)
             elif isinstance(mrkp, str):
                 mrkp = types.Integer.from_mcnp(mrkp)
-            else:
-                raise TypeError
 
         if mrkp is not None and not (isinstance(mrkp.value, types.Jump) or mrkp > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mrkp)
@@ -346,10 +327,11 @@ class Kcode(_option.DataOption):
     @property
     def kc8(self) -> types.Integer:
         """
-        Gets ``kc8``.
+        Number of cylces for average setting
 
-        Returns:
-            ``kc8``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._kc8
@@ -374,8 +356,6 @@ class Kcode(_option.DataOption):
                 kc8 = types.Integer(kc8)
             elif isinstance(kc8, str):
                 kc8 = types.Integer.from_mcnp(kc8)
-            else:
-                raise TypeError
 
         if kc8 is not None and not (isinstance(kc8.value, types.Jump) or kc8 in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kc8)

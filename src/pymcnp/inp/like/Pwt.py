@@ -8,9 +8,6 @@ from ...utils import errors
 class Pwt(_option.LikeOption):
     """
     Represents INP pwt elements.
-
-    Attributes:
-        weight: Cell weight of photons produced at neutron collisions.
     """
 
     _KEYWORD = 'pwt'
@@ -61,14 +58,10 @@ class Pwt(_option.LikeOption):
         if weight is not None:
             if isinstance(weight, types.Real):
                 weight = weight
-            elif isinstance(weight, int):
-                weight = types.Real(weight)
-            elif isinstance(weight, float):
+            elif isinstance(weight, int) or isinstance(weight, float):
                 weight = types.Real(weight)
             elif isinstance(weight, str):
                 weight = types.Real.from_mcnp(weight)
-            else:
-                raise TypeError
 
         if weight is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, weight)

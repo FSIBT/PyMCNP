@@ -8,9 +8,6 @@ from ....utils import errors
 class Maxstep(_option.BfldOption):
     """
     Represents INP maxstep elements.
-
-    Attributes:
-        size: Maximum step size.
     """
 
     _KEYWORD = 'maxstep'
@@ -37,10 +34,11 @@ class Maxstep(_option.BfldOption):
     @property
     def size(self) -> types.Real:
         """
-        Gets ``size``.
+        Maximum step size
 
-        Returns:
-            ``size``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._size
@@ -61,14 +59,10 @@ class Maxstep(_option.BfldOption):
         if size is not None:
             if isinstance(size, types.Real):
                 size = size
-            elif isinstance(size, int):
-                size = types.Real(size)
-            elif isinstance(size, float):
+            elif isinstance(size, int) or isinstance(size, float):
                 size = types.Real(size)
             elif isinstance(size, str):
                 size = types.Real.from_mcnp(size)
-            else:
-                raise TypeError
 
         if size is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, size)

@@ -8,10 +8,6 @@ from ....utils import errors
 class Runtpe(_option.MplotOption):
     """
     Represents INP runtpe elements.
-
-    Attributes:
-        filename: RUNTPE file to read dump.
-        n: RUNTPE read dump number.
     """
 
     _KEYWORD = 'runtpe'
@@ -41,10 +37,11 @@ class Runtpe(_option.MplotOption):
     @property
     def filename(self) -> types.String:
         """
-        Gets ``filename``.
+        RUNTPE file to read dump
 
-        Returns:
-            ``filename``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._filename
@@ -67,8 +64,6 @@ class Runtpe(_option.MplotOption):
                 filename = filename
             elif isinstance(filename, str):
                 filename = types.String.from_mcnp(filename)
-            else:
-                raise TypeError
 
         if filename is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, filename)
@@ -78,10 +73,11 @@ class Runtpe(_option.MplotOption):
     @property
     def n(self) -> types.Integer:
         """
-        Gets ``n``.
+        RUNTPE read dump number
 
-        Returns:
-            ``n``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._n
@@ -106,7 +102,5 @@ class Runtpe(_option.MplotOption):
                 n = types.Integer(n)
             elif isinstance(n, str):
                 n = types.Integer.from_mcnp(n)
-            else:
-                raise TypeError
 
         self._n: types.Integer = n

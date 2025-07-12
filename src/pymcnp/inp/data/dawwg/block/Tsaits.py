@@ -8,9 +8,6 @@ from .....utils import errors
 class Tsaits(_option.BlockOption):
     """
     Represents INP tsaits elements.
-
-    Attributes:
-        setting: Maximum TSA iteration count.
     """
 
     _KEYWORD = 'tsaits'
@@ -37,10 +34,11 @@ class Tsaits(_option.BlockOption):
     @property
     def setting(self) -> types.Integer:
         """
-        Gets ``setting``.
+        Maximum TSA iteration count
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -65,8 +63,6 @@ class Tsaits(_option.BlockOption):
                 setting = types.Integer(setting)
             elif isinstance(setting, str):
                 setting = types.Integer.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

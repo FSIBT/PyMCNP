@@ -8,9 +8,6 @@ from .....utils import errors
 class Edoutf(_option.BlockOption):
     """
     Represents INP edoutf elements.
-
-    Attributes:
-        setting: ASCII output files control.
     """
 
     _KEYWORD = 'edoutf'
@@ -37,10 +34,11 @@ class Edoutf(_option.BlockOption):
     @property
     def setting(self) -> types.Integer:
         """
-        Gets ``setting``.
+        ASCII output files control
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -65,8 +63,6 @@ class Edoutf(_option.BlockOption):
                 setting = types.Integer(setting)
             elif isinstance(setting, str):
                 setting = types.Integer.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {-3, -2, -1, 0, 1, 2, 3}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

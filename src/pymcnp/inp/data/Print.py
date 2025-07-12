@@ -7,9 +7,6 @@ from ...utils import types
 class Print(_option.DataOption):
     """
     Represents INP print elements.
-
-    Attributes:
-        tables: Tables to print.
     """
 
     _KEYWORD = 'print'
@@ -36,10 +33,11 @@ class Print(_option.DataOption):
     @property
     def tables(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``tables``.
+        Tables to print
 
-        Returns:
-            ``tables``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._tables
@@ -66,8 +64,7 @@ class Print(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             tables = types.Tuple(array)
 
         self._tables: types.Tuple[types.Integer] = tables

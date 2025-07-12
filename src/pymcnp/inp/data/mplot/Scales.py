@@ -8,9 +8,6 @@ from ....utils import errors
 class Scales(_option.MplotOption):
     """
     Represents INP scales elements.
-
-    Attributes:
-        n: Plot scale setting.
     """
 
     _KEYWORD = 'scales'
@@ -37,10 +34,11 @@ class Scales(_option.MplotOption):
     @property
     def n(self) -> types.Integer:
         """
-        Gets ``n``.
+        Plot scale setting
 
-        Returns:
-            ``n``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._n
@@ -65,8 +63,6 @@ class Scales(_option.MplotOption):
                 n = types.Integer(n)
             elif isinstance(n, str):
                 n = types.Integer.from_mcnp(n)
-            else:
-                raise TypeError
 
         if n is None or n not in {1, 2, 3}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n)

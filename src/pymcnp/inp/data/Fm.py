@@ -8,11 +8,6 @@ from ...utils import errors
 class Fm(_option.DataOption):
     """
     Represents INP fm elements.
-
-    Attributes:
-        prefix: Star prefix.
-        suffix: Data card option suffix.
-        bins: Tally multiplier bins.
     """
 
     _KEYWORD = 'fm'
@@ -45,10 +40,11 @@ class Fm(_option.DataOption):
     @property
     def prefix(self) -> types.String:
         """
-        Gets ``prefix``.
+        Star prefix
 
-        Returns:
-            ``prefix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._prefix
@@ -71,8 +67,6 @@ class Fm(_option.DataOption):
                 prefix = prefix
             elif isinstance(prefix, str):
                 prefix = types.String.from_mcnp(prefix)
-            else:
-                raise TypeError
 
         if prefix is not None and prefix not in {'*', '+'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
@@ -82,10 +76,11 @@ class Fm(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -110,8 +105,6 @@ class Fm(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None or not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -121,10 +114,11 @@ class Fm(_option.DataOption):
     @property
     def bins(self) -> types.String:
         """
-        Gets ``bins``.
+        Tally multiplier bins
 
-        Returns:
-            ``bins``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bins
@@ -147,8 +141,6 @@ class Fm(_option.DataOption):
                 bins = bins
             elif isinstance(bins, str):
                 bins = types.String.from_mcnp(bins)
-            else:
-                raise TypeError
 
         if bins is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bins)

@@ -6,9 +6,6 @@ from . import _option
 class Cop(_option.MplotOption):
     """
     Represents INP cop elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'cop'

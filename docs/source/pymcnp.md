@@ -1,14 +1,14 @@
 # PyMCNP Package
 
+> [!WARNING]
+> Warning: PyMCNP is in active development! Please, double check eveything works. Reports error on [GitHub](https://github.com/FSIBT/PyMCNP).
+
 PyMCNP provides the backend for the CLI and useful tools for programatically interfacing with
 MCNP. This package supports INP, PTRAC, and MESHTAL parsing and the CLI backend using subpackages:
 
 * [inp subpackage](/pymcnp/inp): INP parsing.
-
 * [meshtal subpackage](/pymcnp/meshtal): MESHTAL parsing.
-
 * [ptrac subpackage](/pymcnp/ptrac): PTRAC parsing. 
-
 * [cli subpackage](/pymcnp/cli): CLI backend.
 
 ## Table of Contents
@@ -30,11 +30,8 @@ PyMCNP represents MCNP files using the ``Inp``, ``Meshtal``, and ``Ptrac`` AST c
 ``inp``, ``meshtal``, and ``ptrac`` subpackages. These classes have important methods for translating PyMCNP and MCNP:
 
 * ``from_mcnp``. Parses MCNP source, checking for syntax and semantic errors.
-
 * ``to_mcnp``. Generates MCNP source from PyMCNP objects, reformatting.
-
 * ``from_file``. Parses MCNP file.
-
 * ``to_file``. Generates MCNP file from PyMCNP objects.
 
 ### ``Inp`` Class
@@ -42,43 +39,40 @@ PyMCNP represents MCNP files using the ``Inp``, ``Meshtal``, and ``Ptrac`` AST c
 ```{eval-rst}
 .. autoclass:: pymcnp.Inp
    :members:
+   :inherited-members:
 ```
 
 [inp subpackage](pymcnp/inp)
 
-### ``Meshtal`` Class
+### ``Outp`` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.Meshtal
+.. autoclass:: pymcnp.Outp
    :members:
+   :inherited-members:
 ```
 
-[meshtal subpackage](pymcnp/meshtal)
+[meshtal subpackage](pymcnp/outp)
 
 ### ``Ptrac`` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.Ptrac
    :members:
+   :inherited-members:
 ```
 
 [ptrac subpackage](pymcnp/ptrac)
 
-## Builder Classes
-
-AST classes are immutable, but ``Inp`` has a builder class. ``InpBuilder`` is a mutable wrapper without input
-validation, and it has a method for constructing ``Inp``:
-
-* ``build``. Attempts to build ``Inp`` using ``InpBuilder``'s fields.
-
-### ``InpBuilder`` Class
+### ``Meshtal`` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.InpBuilder
+.. autoclass:: pymcnp.Meshtal
    :members:
+   :inherited-members:
 ```
 
-[inp subpackage](pymcnp/inp)
+[meshtal subpackage](pymcnp/meshtal)
 
 ## Filter & Processor Classes
 
@@ -87,9 +81,7 @@ The ``*Filtered`` and ``*Processed`` classes help handle large ``Meshtal`` and `
 and ``MeshtalProcessed`` have overridable methods for processing data, and all can be run:
 
 * ``check_*``. Returns ``True``/``False`` if data should be kept/removed.
-
 * ``process_*``. Operates with side effects on data.
-
 * ``run``. Runs the filter or processor.
 
 ### ``MeshtalFiltered`` Class
@@ -97,6 +89,7 @@ and ``MeshtalProcessed`` have overridable methods for processing data, and all c
 ```{eval-rst}
 .. autoclass:: pymcnp.MeshtalFiltered
    :members:
+   :inherited-members:
 ```
 
 ### ``PtracFiltered`` Class
@@ -104,6 +97,7 @@ and ``MeshtalProcessed`` have overridable methods for processing data, and all c
 ```{eval-rst}
 .. autoclass:: pymcnp.PtracFiltered
    :members:
+   :inherited-members:
 ```
 
 ### ``MeshtalProcessed`` Class
@@ -111,6 +105,7 @@ and ``MeshtalProcessed`` have overridable methods for processing data, and all c
 ```{eval-rst}
 .. autoclass:: pymcnp.MeshtalProcessed
    :members:
+   :inherited-members:
 ```
 
 ### ``PtracProcessed`` Class
@@ -118,4 +113,5 @@ and ``MeshtalProcessed`` have overridable methods for processing data, and all c
 ```{eval-rst}
 .. autoclass:: pymcnp.PtracProcessed
    :members:
+   :inherited-members:
 ```

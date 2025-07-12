@@ -8,9 +8,6 @@ from ....utils import errors
 class Xs_1(_option.MplotOption):
     """
     Represents INP xs variation #1 elements.
-
-    Attributes:
-        m: Material ZAID.
     """
 
     _KEYWORD = 'xs'
@@ -37,10 +34,11 @@ class Xs_1(_option.MplotOption):
     @property
     def m(self) -> types.Zaid:
         """
-        Gets ``m``.
+        Material ZAID
 
-        Returns:
-            ``m``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._m
@@ -63,8 +61,6 @@ class Xs_1(_option.MplotOption):
                 m = m
             elif isinstance(m, str):
                 m = types.Zaid.from_mcnp(m)
-            else:
-                raise TypeError
 
         if m is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, m)

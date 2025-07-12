@@ -8,11 +8,6 @@ from ...utils import errors
 class Sb_0(_option.DataOption):
     """
     Represents INP sb variation #0 elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        option: Bias kind setting.
-        biases: Particle source biases.
     """
 
     _KEYWORD = 'sb'
@@ -45,10 +40,11 @@ class Sb_0(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -73,8 +69,6 @@ class Sb_0(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None or not (suffix >= 1 and suffix <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -84,10 +78,11 @@ class Sb_0(_option.DataOption):
     @property
     def option(self) -> types.String:
         """
-        Gets ``option``.
+        Bias kind setting
 
-        Returns:
-            ``option``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._option
@@ -110,8 +105,6 @@ class Sb_0(_option.DataOption):
                 option = option
             elif isinstance(option, str):
                 option = types.String.from_mcnp(option)
-            else:
-                raise TypeError
 
         if option is not None and option not in {'d', 'c', 'v', 'w'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, option)
@@ -121,10 +114,11 @@ class Sb_0(_option.DataOption):
     @property
     def biases(self) -> types.Tuple[types.Real]:
         """
-        Gets ``biases``.
+        Particle source biases
 
-        Returns:
-            ``biases``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._biases
@@ -147,14 +141,11 @@ class Sb_0(_option.DataOption):
             for item in biases:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             biases = types.Tuple(array)
 
         if biases is None:

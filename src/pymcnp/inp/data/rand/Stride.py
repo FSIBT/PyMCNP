@@ -8,9 +8,6 @@ from ....utils import errors
 class Stride(_option.RandOption):
     """
     Represents INP stride elements.
-
-    Attributes:
-        stride: Number of random numbers between source particle.
     """
 
     _KEYWORD = 'stride'
@@ -37,10 +34,11 @@ class Stride(_option.RandOption):
     @property
     def stride(self) -> types.Integer:
         """
-        Gets ``stride``.
+        Number of random numbers between source particle
 
-        Returns:
-            ``stride``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._stride
@@ -65,8 +63,6 @@ class Stride(_option.RandOption):
                 stride = types.Integer(stride)
             elif isinstance(stride, str):
                 stride = types.Integer.from_mcnp(stride)
-            else:
-                raise TypeError
 
         if stride is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, stride)

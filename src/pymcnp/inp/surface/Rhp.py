@@ -9,23 +9,6 @@ from ...utils import _visualization
 class Rhp(_option.SurfaceOption):
     """
     Represents INP rhp elements.
-
-    Attributes:
-        vx: Hexagonal prism position vector x component.
-        vy: Hexagonal prism position vector y component.
-        vz: Hexagonal prism position vector z component.
-        hx: Hexagonal prism height vector x component.
-        hy: Hexagonal prism height vector y component.
-        hz: Hexagonal prism height vector z component.
-        r1: Hexagonal prism facet #1 vector x component.
-        r2: Hexagonal prism facet #1 vector y component.
-        r3: Hexagonal prism facet #1 vector z component.
-        s1: Hexagonal prism facet #2 vector x component.
-        s2: Hexagonal prism facet #2 vector y component.
-        s3: Hexagonal prism facet #2 vector z component.
-        t1: Hexagonal prism facet #3 vector x component.
-        t2: Hexagonal prism facet #3 vector y component.
-        t3: Hexagonal prism facet #3 vector z component.
     """
 
     _KEYWORD = 'rhp'
@@ -113,10 +96,11 @@ class Rhp(_option.SurfaceOption):
     @property
     def vx(self) -> types.Real:
         """
-        Gets ``vx``.
+        Hexagonal prism position vector x component
 
-        Returns:
-            ``vx``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._vx
@@ -137,14 +121,10 @@ class Rhp(_option.SurfaceOption):
         if vx is not None:
             if isinstance(vx, types.Real):
                 vx = vx
-            elif isinstance(vx, int):
-                vx = types.Real(vx)
-            elif isinstance(vx, float):
+            elif isinstance(vx, int) or isinstance(vx, float):
                 vx = types.Real(vx)
             elif isinstance(vx, str):
                 vx = types.Real.from_mcnp(vx)
-            else:
-                raise TypeError
 
         if vx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vx)
@@ -154,10 +134,11 @@ class Rhp(_option.SurfaceOption):
     @property
     def vy(self) -> types.Real:
         """
-        Gets ``vy``.
+        Hexagonal prism position vector y component
 
-        Returns:
-            ``vy``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._vy
@@ -178,14 +159,10 @@ class Rhp(_option.SurfaceOption):
         if vy is not None:
             if isinstance(vy, types.Real):
                 vy = vy
-            elif isinstance(vy, int):
-                vy = types.Real(vy)
-            elif isinstance(vy, float):
+            elif isinstance(vy, int) or isinstance(vy, float):
                 vy = types.Real(vy)
             elif isinstance(vy, str):
                 vy = types.Real.from_mcnp(vy)
-            else:
-                raise TypeError
 
         if vy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vy)
@@ -195,10 +172,11 @@ class Rhp(_option.SurfaceOption):
     @property
     def vz(self) -> types.Real:
         """
-        Gets ``vz``.
+        Hexagonal prism position vector z component
 
-        Returns:
-            ``vz``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._vz
@@ -219,14 +197,10 @@ class Rhp(_option.SurfaceOption):
         if vz is not None:
             if isinstance(vz, types.Real):
                 vz = vz
-            elif isinstance(vz, int):
-                vz = types.Real(vz)
-            elif isinstance(vz, float):
+            elif isinstance(vz, int) or isinstance(vz, float):
                 vz = types.Real(vz)
             elif isinstance(vz, str):
                 vz = types.Real.from_mcnp(vz)
-            else:
-                raise TypeError
 
         if vz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vz)
@@ -236,10 +210,11 @@ class Rhp(_option.SurfaceOption):
     @property
     def hx(self) -> types.Real:
         """
-        Gets ``hx``.
+        Hexagonal prism height vector x component
 
-        Returns:
-            ``hx``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._hx
@@ -260,14 +235,10 @@ class Rhp(_option.SurfaceOption):
         if hx is not None:
             if isinstance(hx, types.Real):
                 hx = hx
-            elif isinstance(hx, int):
-                hx = types.Real(hx)
-            elif isinstance(hx, float):
+            elif isinstance(hx, int) or isinstance(hx, float):
                 hx = types.Real(hx)
             elif isinstance(hx, str):
                 hx = types.Real.from_mcnp(hx)
-            else:
-                raise TypeError
 
         if hx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hx)
@@ -277,10 +248,11 @@ class Rhp(_option.SurfaceOption):
     @property
     def hy(self) -> types.Real:
         """
-        Gets ``hy``.
+        Hexagonal prism height vector y component
 
-        Returns:
-            ``hy``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._hy
@@ -301,14 +273,10 @@ class Rhp(_option.SurfaceOption):
         if hy is not None:
             if isinstance(hy, types.Real):
                 hy = hy
-            elif isinstance(hy, int):
-                hy = types.Real(hy)
-            elif isinstance(hy, float):
+            elif isinstance(hy, int) or isinstance(hy, float):
                 hy = types.Real(hy)
             elif isinstance(hy, str):
                 hy = types.Real.from_mcnp(hy)
-            else:
-                raise TypeError
 
         if hy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hy)
@@ -318,10 +286,11 @@ class Rhp(_option.SurfaceOption):
     @property
     def hz(self) -> types.Real:
         """
-        Gets ``hz``.
+        Hexagonal prism height vector z component
 
-        Returns:
-            ``hz``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._hz
@@ -342,14 +311,10 @@ class Rhp(_option.SurfaceOption):
         if hz is not None:
             if isinstance(hz, types.Real):
                 hz = hz
-            elif isinstance(hz, int):
-                hz = types.Real(hz)
-            elif isinstance(hz, float):
+            elif isinstance(hz, int) or isinstance(hz, float):
                 hz = types.Real(hz)
             elif isinstance(hz, str):
                 hz = types.Real.from_mcnp(hz)
-            else:
-                raise TypeError
 
         if hz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hz)
@@ -359,10 +324,11 @@ class Rhp(_option.SurfaceOption):
     @property
     def r1(self) -> types.Real:
         """
-        Gets ``r1``.
+        Hexagonal prism facet #1 vector x component
 
-        Returns:
-            ``r1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._r1
@@ -383,14 +349,10 @@ class Rhp(_option.SurfaceOption):
         if r1 is not None:
             if isinstance(r1, types.Real):
                 r1 = r1
-            elif isinstance(r1, int):
-                r1 = types.Real(r1)
-            elif isinstance(r1, float):
+            elif isinstance(r1, int) or isinstance(r1, float):
                 r1 = types.Real(r1)
             elif isinstance(r1, str):
                 r1 = types.Real.from_mcnp(r1)
-            else:
-                raise TypeError
 
         if r1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r1)
@@ -400,10 +362,11 @@ class Rhp(_option.SurfaceOption):
     @property
     def r2(self) -> types.Real:
         """
-        Gets ``r2``.
+        Hexagonal prism facet #1 vector y component
 
-        Returns:
-            ``r2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._r2
@@ -424,14 +387,10 @@ class Rhp(_option.SurfaceOption):
         if r2 is not None:
             if isinstance(r2, types.Real):
                 r2 = r2
-            elif isinstance(r2, int):
-                r2 = types.Real(r2)
-            elif isinstance(r2, float):
+            elif isinstance(r2, int) or isinstance(r2, float):
                 r2 = types.Real(r2)
             elif isinstance(r2, str):
                 r2 = types.Real.from_mcnp(r2)
-            else:
-                raise TypeError
 
         if r2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r2)
@@ -441,10 +400,11 @@ class Rhp(_option.SurfaceOption):
     @property
     def r3(self) -> types.Real:
         """
-        Gets ``r3``.
+        Hexagonal prism facet #1 vector z component
 
-        Returns:
-            ``r3``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._r3
@@ -465,14 +425,10 @@ class Rhp(_option.SurfaceOption):
         if r3 is not None:
             if isinstance(r3, types.Real):
                 r3 = r3
-            elif isinstance(r3, int):
-                r3 = types.Real(r3)
-            elif isinstance(r3, float):
+            elif isinstance(r3, int) or isinstance(r3, float):
                 r3 = types.Real(r3)
             elif isinstance(r3, str):
                 r3 = types.Real.from_mcnp(r3)
-            else:
-                raise TypeError
 
         if r3 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r3)
@@ -482,10 +438,11 @@ class Rhp(_option.SurfaceOption):
     @property
     def s1(self) -> types.Real:
         """
-        Gets ``s1``.
+        Hexagonal prism facet #2 vector x component
 
-        Returns:
-            ``s1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._s1
@@ -506,24 +463,21 @@ class Rhp(_option.SurfaceOption):
         if s1 is not None:
             if isinstance(s1, types.Real):
                 s1 = s1
-            elif isinstance(s1, int):
-                s1 = types.Real(s1)
-            elif isinstance(s1, float):
+            elif isinstance(s1, int) or isinstance(s1, float):
                 s1 = types.Real(s1)
             elif isinstance(s1, str):
                 s1 = types.Real.from_mcnp(s1)
-            else:
-                raise TypeError
 
         self._s1: types.Real = s1
 
     @property
     def s2(self) -> types.Real:
         """
-        Gets ``s2``.
+        Hexagonal prism facet #2 vector y component
 
-        Returns:
-            ``s2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._s2
@@ -544,24 +498,21 @@ class Rhp(_option.SurfaceOption):
         if s2 is not None:
             if isinstance(s2, types.Real):
                 s2 = s2
-            elif isinstance(s2, int):
-                s2 = types.Real(s2)
-            elif isinstance(s2, float):
+            elif isinstance(s2, int) or isinstance(s2, float):
                 s2 = types.Real(s2)
             elif isinstance(s2, str):
                 s2 = types.Real.from_mcnp(s2)
-            else:
-                raise TypeError
 
         self._s2: types.Real = s2
 
     @property
     def s3(self) -> types.Real:
         """
-        Gets ``s3``.
+        Hexagonal prism facet #2 vector z component
 
-        Returns:
-            ``s3``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._s3
@@ -582,24 +533,21 @@ class Rhp(_option.SurfaceOption):
         if s3 is not None:
             if isinstance(s3, types.Real):
                 s3 = s3
-            elif isinstance(s3, int):
-                s3 = types.Real(s3)
-            elif isinstance(s3, float):
+            elif isinstance(s3, int) or isinstance(s3, float):
                 s3 = types.Real(s3)
             elif isinstance(s3, str):
                 s3 = types.Real.from_mcnp(s3)
-            else:
-                raise TypeError
 
         self._s3: types.Real = s3
 
     @property
     def t1(self) -> types.Real:
         """
-        Gets ``t1``.
+        Hexagonal prism facet #3 vector x component
 
-        Returns:
-            ``t1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._t1
@@ -620,24 +568,21 @@ class Rhp(_option.SurfaceOption):
         if t1 is not None:
             if isinstance(t1, types.Real):
                 t1 = t1
-            elif isinstance(t1, int):
-                t1 = types.Real(t1)
-            elif isinstance(t1, float):
+            elif isinstance(t1, int) or isinstance(t1, float):
                 t1 = types.Real(t1)
             elif isinstance(t1, str):
                 t1 = types.Real.from_mcnp(t1)
-            else:
-                raise TypeError
 
         self._t1: types.Real = t1
 
     @property
     def t2(self) -> types.Real:
         """
-        Gets ``t2``.
+        Hexagonal prism facet #3 vector y component
 
-        Returns:
-            ``t2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._t2
@@ -658,24 +603,21 @@ class Rhp(_option.SurfaceOption):
         if t2 is not None:
             if isinstance(t2, types.Real):
                 t2 = t2
-            elif isinstance(t2, int):
-                t2 = types.Real(t2)
-            elif isinstance(t2, float):
+            elif isinstance(t2, int) or isinstance(t2, float):
                 t2 = types.Real(t2)
             elif isinstance(t2, str):
                 t2 = types.Real.from_mcnp(t2)
-            else:
-                raise TypeError
 
         self._t2: types.Real = t2
 
     @property
     def t3(self) -> types.Real:
         """
-        Gets ``t3``.
+        Hexagonal prism facet #3 vector z component
 
-        Returns:
-            ``t3``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._t3
@@ -696,14 +638,10 @@ class Rhp(_option.SurfaceOption):
         if t3 is not None:
             if isinstance(t3, types.Real):
                 t3 = t3
-            elif isinstance(t3, int):
-                t3 = types.Real(t3)
-            elif isinstance(t3, float):
+            elif isinstance(t3, int) or isinstance(t3, float):
                 t3 = types.Real(t3)
             elif isinstance(t3, str):
                 t3 = types.Real.from_mcnp(t3)
-            else:
-                raise TypeError
 
         self._t3: types.Real = t3
 

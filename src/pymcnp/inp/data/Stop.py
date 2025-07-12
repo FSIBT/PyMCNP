@@ -8,9 +8,6 @@ from ...utils import types
 class Stop(_option.DataOption):
     """
     Represents INP stop elements.
-
-    Attributes:
-        options: Dictionary of options.
     """
 
     _KEYWORD = 'stop'
@@ -37,10 +34,11 @@ class Stop(_option.DataOption):
     @property
     def options(self) -> types.Tuple[stop.StopOption]:
         """
-        Gets ``options``.
+        Dictionary of options
 
-        Returns:
-            ``options``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._options
@@ -65,8 +63,7 @@ class Stop(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(stop.StopOption.from_mcnp(item))
-                else:
-                    raise TypeError
+
             options = types.Tuple(array)
 
         self._options: types.Tuple[stop.StopOption] = options

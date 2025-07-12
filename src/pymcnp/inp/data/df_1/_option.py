@@ -7,11 +7,3 @@ class DfOption_1(_option.Option):
     """
 
     pass
-
-
-class DfOptionBuilder_1(_option.OptionBuilder):
-    """
-    Represents generic INP df_1 option builders.
-    """
-
-    pass

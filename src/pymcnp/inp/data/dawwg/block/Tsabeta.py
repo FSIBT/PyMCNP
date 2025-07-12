@@ -8,9 +8,6 @@ from .....utils import errors
 class Tsabeta(_option.BlockOption):
     """
     Represents INP tsabeta elements.
-
-    Attributes:
-        setting: Scattering cross-section reduction for TSA.
     """
 
     _KEYWORD = 'tsabeta'
@@ -37,10 +34,11 @@ class Tsabeta(_option.BlockOption):
     @property
     def setting(self) -> types.Real:
         """
-        Gets ``setting``.
+        Scattering cross-section reduction for TSA
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -61,14 +59,10 @@ class Tsabeta(_option.BlockOption):
         if setting is not None:
             if isinstance(setting, types.Real):
                 setting = setting
-            elif isinstance(setting, int):
-                setting = types.Real(setting)
-            elif isinstance(setting, float):
+            elif isinstance(setting, int) or isinstance(setting, float):
                 setting = types.Real(setting)
             elif isinstance(setting, str):
                 setting = types.Real.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

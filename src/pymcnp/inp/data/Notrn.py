@@ -6,9 +6,6 @@ from . import _option
 class Notrn(_option.DataOption):
     """
     Represents INP notrn elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'notrn'

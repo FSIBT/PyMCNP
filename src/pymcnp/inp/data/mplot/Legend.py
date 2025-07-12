@@ -7,10 +7,6 @@ from ....utils import types
 class Legend(_option.MplotOption):
     """
     Represents INP legend elements.
-
-    Attributes:
-        x: Label x-location.
-        y: Label x-location.
     """
 
     _KEYWORD = 'legend'
@@ -40,10 +36,11 @@ class Legend(_option.MplotOption):
     @property
     def x(self) -> types.Real:
         """
-        Gets ``x``.
+        Label x-location
 
-        Returns:
-            ``x``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x
@@ -64,24 +61,21 @@ class Legend(_option.MplotOption):
         if x is not None:
             if isinstance(x, types.Real):
                 x = x
-            elif isinstance(x, int):
-                x = types.Real(x)
-            elif isinstance(x, float):
+            elif isinstance(x, int) or isinstance(x, float):
                 x = types.Real(x)
             elif isinstance(x, str):
                 x = types.Real.from_mcnp(x)
-            else:
-                raise TypeError
 
         self._x: types.Real = x
 
     @property
     def y(self) -> types.Real:
         """
-        Gets ``y``.
+        Label x-location
 
-        Returns:
-            ``y``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._y
@@ -102,13 +96,9 @@ class Legend(_option.MplotOption):
         if y is not None:
             if isinstance(y, types.Real):
                 y = y
-            elif isinstance(y, int):
-                y = types.Real(y)
-            elif isinstance(y, float):
+            elif isinstance(y, int) or isinstance(y, float):
                 y = types.Real(y)
             elif isinstance(y, str):
                 y = types.Real.from_mcnp(y)
-            else:
-                raise TypeError
 
         self._y: types.Real = y

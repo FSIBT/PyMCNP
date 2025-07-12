@@ -7,9 +7,6 @@ from ...utils import types
 class Za(_option.DataOption):
     """
     Represents INP za elements.
-
-    Attributes:
-        anything: Any parameters.
     """
 
     _KEYWORD = 'za'
@@ -36,10 +33,11 @@ class Za(_option.DataOption):
     @property
     def anything(self) -> types.String:
         """
-        Gets ``anything``.
+        Any parameters
 
-        Returns:
-            ``anything``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._anything
@@ -62,7 +60,5 @@ class Za(_option.DataOption):
                 anything = anything
             elif isinstance(anything, str):
                 anything = types.String.from_mcnp(anything)
-            else:
-                raise TypeError
 
         self._anything: types.String = anything

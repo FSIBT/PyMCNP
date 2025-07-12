@@ -8,9 +8,6 @@ from ....utils import errors
 class Label(_option.MplotOption):
     """
     Represents INP label elements.
-
-    Attributes:
-        aa: Line to substitute.
     """
 
     _KEYWORD = 'label'
@@ -37,10 +34,11 @@ class Label(_option.MplotOption):
     @property
     def aa(self) -> types.String:
         """
-        Gets ``aa``.
+        Line to substitute
 
-        Returns:
-            ``aa``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._aa
@@ -63,8 +61,6 @@ class Label(_option.MplotOption):
                 aa = aa
             elif isinstance(aa, str):
                 aa = types.String.from_mcnp(aa)
-            else:
-                raise TypeError
 
         if aa is None or not (len(aa) <= 10):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, aa)

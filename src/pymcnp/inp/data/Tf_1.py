@@ -8,25 +8,6 @@ from ...utils import errors
 class Tf_1(_option.DataOption):
     """
     Represents INP tf variation #1 elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        if1: Cell, surface, or detector bin number.
-        id1: Total, flagged, or un-collided bin number.
-        iu1: User bin number.
-        is1: Segment bin number.
-        im1: Multiplier bin number.
-        ic1: Cosine bin number.
-        ie1: Energy bin number.
-        it1: Time bin number.
-        if2: Cell, surface, or detector bin number.
-        id2: Total, flagged, or un-collided bin number.
-        iu2: User bin number.
-        is2: Segment bin number.
-        im2: Multiplier bin number.
-        ic2: Cosine bin number.
-        ie2: Energy bin number.
-        it2: Time bin number.
     """
 
     _KEYWORD = 'tf'
@@ -122,10 +103,11 @@ class Tf_1(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -150,8 +132,6 @@ class Tf_1(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None or not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -161,10 +141,11 @@ class Tf_1(_option.DataOption):
     @property
     def if1(self) -> types.Integer:
         """
-        Gets ``if1``.
+        Cell, surface, or detector bin number
 
-        Returns:
-            ``if1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._if1
@@ -189,18 +170,17 @@ class Tf_1(_option.DataOption):
                 if1 = types.Integer(if1)
             elif isinstance(if1, str):
                 if1 = types.Integer.from_mcnp(if1)
-            else:
-                raise TypeError
 
         self._if1: types.Integer = if1
 
     @property
     def id1(self) -> types.Integer:
         """
-        Gets ``id1``.
+        Total, flagged, or un-collided bin number
 
-        Returns:
-            ``id1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._id1
@@ -225,18 +205,17 @@ class Tf_1(_option.DataOption):
                 id1 = types.Integer(id1)
             elif isinstance(id1, str):
                 id1 = types.Integer.from_mcnp(id1)
-            else:
-                raise TypeError
 
         self._id1: types.Integer = id1
 
     @property
     def iu1(self) -> types.Integer:
         """
-        Gets ``iu1``.
+        User bin number
 
-        Returns:
-            ``iu1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._iu1
@@ -261,18 +240,17 @@ class Tf_1(_option.DataOption):
                 iu1 = types.Integer(iu1)
             elif isinstance(iu1, str):
                 iu1 = types.Integer.from_mcnp(iu1)
-            else:
-                raise TypeError
 
         self._iu1: types.Integer = iu1
 
     @property
     def is1(self) -> types.Integer:
         """
-        Gets ``is1``.
+        Segment bin number
 
-        Returns:
-            ``is1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._is1
@@ -297,18 +275,17 @@ class Tf_1(_option.DataOption):
                 is1 = types.Integer(is1)
             elif isinstance(is1, str):
                 is1 = types.Integer.from_mcnp(is1)
-            else:
-                raise TypeError
 
         self._is1: types.Integer = is1
 
     @property
     def im1(self) -> types.Integer:
         """
-        Gets ``im1``.
+        Multiplier bin number
 
-        Returns:
-            ``im1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._im1
@@ -333,18 +310,17 @@ class Tf_1(_option.DataOption):
                 im1 = types.Integer(im1)
             elif isinstance(im1, str):
                 im1 = types.Integer.from_mcnp(im1)
-            else:
-                raise TypeError
 
         self._im1: types.Integer = im1
 
     @property
     def ic1(self) -> types.Integer:
         """
-        Gets ``ic1``.
+        Cosine bin number
 
-        Returns:
-            ``ic1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ic1
@@ -369,18 +345,17 @@ class Tf_1(_option.DataOption):
                 ic1 = types.Integer(ic1)
             elif isinstance(ic1, str):
                 ic1 = types.Integer.from_mcnp(ic1)
-            else:
-                raise TypeError
 
         self._ic1: types.Integer = ic1
 
     @property
     def ie1(self) -> types.Integer:
         """
-        Gets ``ie1``.
+        Energy bin number
 
-        Returns:
-            ``ie1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ie1
@@ -405,18 +380,17 @@ class Tf_1(_option.DataOption):
                 ie1 = types.Integer(ie1)
             elif isinstance(ie1, str):
                 ie1 = types.Integer.from_mcnp(ie1)
-            else:
-                raise TypeError
 
         self._ie1: types.Integer = ie1
 
     @property
     def it1(self) -> types.Integer:
         """
-        Gets ``it1``.
+        Time bin number
 
-        Returns:
-            ``it1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._it1
@@ -441,18 +415,17 @@ class Tf_1(_option.DataOption):
                 it1 = types.Integer(it1)
             elif isinstance(it1, str):
                 it1 = types.Integer.from_mcnp(it1)
-            else:
-                raise TypeError
 
         self._it1: types.Integer = it1
 
     @property
     def if2(self) -> types.Integer:
         """
-        Gets ``if2``.
+        Cell, surface, or detector bin number
 
-        Returns:
-            ``if2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._if2
@@ -477,18 +450,17 @@ class Tf_1(_option.DataOption):
                 if2 = types.Integer(if2)
             elif isinstance(if2, str):
                 if2 = types.Integer.from_mcnp(if2)
-            else:
-                raise TypeError
 
         self._if2: types.Integer = if2
 
     @property
     def id2(self) -> types.Integer:
         """
-        Gets ``id2``.
+        Total, flagged, or un-collided bin number
 
-        Returns:
-            ``id2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._id2
@@ -513,18 +485,17 @@ class Tf_1(_option.DataOption):
                 id2 = types.Integer(id2)
             elif isinstance(id2, str):
                 id2 = types.Integer.from_mcnp(id2)
-            else:
-                raise TypeError
 
         self._id2: types.Integer = id2
 
     @property
     def iu2(self) -> types.Integer:
         """
-        Gets ``iu2``.
+        User bin number
 
-        Returns:
-            ``iu2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._iu2
@@ -549,18 +520,17 @@ class Tf_1(_option.DataOption):
                 iu2 = types.Integer(iu2)
             elif isinstance(iu2, str):
                 iu2 = types.Integer.from_mcnp(iu2)
-            else:
-                raise TypeError
 
         self._iu2: types.Integer = iu2
 
     @property
     def is2(self) -> types.Integer:
         """
-        Gets ``is2``.
+        Segment bin number
 
-        Returns:
-            ``is2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._is2
@@ -585,18 +555,17 @@ class Tf_1(_option.DataOption):
                 is2 = types.Integer(is2)
             elif isinstance(is2, str):
                 is2 = types.Integer.from_mcnp(is2)
-            else:
-                raise TypeError
 
         self._is2: types.Integer = is2
 
     @property
     def im2(self) -> types.Integer:
         """
-        Gets ``im2``.
+        Multiplier bin number
 
-        Returns:
-            ``im2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._im2
@@ -621,18 +590,17 @@ class Tf_1(_option.DataOption):
                 im2 = types.Integer(im2)
             elif isinstance(im2, str):
                 im2 = types.Integer.from_mcnp(im2)
-            else:
-                raise TypeError
 
         self._im2: types.Integer = im2
 
     @property
     def ic2(self) -> types.Integer:
         """
-        Gets ``ic2``.
+        Cosine bin number
 
-        Returns:
-            ``ic2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ic2
@@ -657,18 +625,17 @@ class Tf_1(_option.DataOption):
                 ic2 = types.Integer(ic2)
             elif isinstance(ic2, str):
                 ic2 = types.Integer.from_mcnp(ic2)
-            else:
-                raise TypeError
 
         self._ic2: types.Integer = ic2
 
     @property
     def ie2(self) -> types.Integer:
         """
-        Gets ``ie2``.
+        Energy bin number
 
-        Returns:
-            ``ie2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ie2
@@ -693,18 +660,17 @@ class Tf_1(_option.DataOption):
                 ie2 = types.Integer(ie2)
             elif isinstance(ie2, str):
                 ie2 = types.Integer.from_mcnp(ie2)
-            else:
-                raise TypeError
 
         self._ie2: types.Integer = ie2
 
     @property
     def it2(self) -> types.Integer:
         """
-        Gets ``it2``.
+        Time bin number
 
-        Returns:
-            ``it2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._it2
@@ -729,7 +695,5 @@ class Tf_1(_option.DataOption):
                 it2 = types.Integer(it2)
             elif isinstance(it2, str):
                 it2 = types.Integer.from_mcnp(it2)
-            else:
-                raise TypeError
 
         self._it2: types.Integer = it2

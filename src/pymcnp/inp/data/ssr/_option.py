@@ -7,11 +7,3 @@ class SsrOption(_option.Option):
     """
 
     pass
-
-
-class SsrOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP ssr option builders.
-    """
-
-    pass

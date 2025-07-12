@@ -6,9 +6,6 @@ from . import _option
 class Log(_option.DfOption_1):
     """
     Represents INP log elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'log'

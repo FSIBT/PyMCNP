@@ -8,12 +8,6 @@ from ...utils import errors
 class Fs(_option.DataOption):
     """
     Represents INP fs elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        numbers: Signed problem number of a segmenting surface..
-        t: Notation to provide totals.
-        c: Notation to make bin values cumulative.
     """
 
     _KEYWORD = 'fs'
@@ -49,10 +43,11 @@ class Fs(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -77,8 +72,6 @@ class Fs(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None or not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -88,10 +81,11 @@ class Fs(_option.DataOption):
     @property
     def numbers(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``numbers``.
+        Signed problem number of a segmenting surface.
 
-        Returns:
-            ``numbers``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._numbers
@@ -118,8 +112,7 @@ class Fs(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             numbers = types.Tuple(array)
 
         if numbers is None:
@@ -130,10 +123,11 @@ class Fs(_option.DataOption):
     @property
     def t(self) -> types.String:
         """
-        Gets ``t``.
+        Notation to provide totals
 
-        Returns:
-            ``t``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._t
@@ -156,8 +150,6 @@ class Fs(_option.DataOption):
                 t = t
             elif isinstance(t, str):
                 t = types.String.from_mcnp(t)
-            else:
-                raise TypeError
 
         if t is not None and t not in {'t'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, t)
@@ -167,10 +159,11 @@ class Fs(_option.DataOption):
     @property
     def c(self) -> types.String:
         """
-        Gets ``c``.
+        Notation to make bin values cumulative
 
-        Returns:
-            ``c``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._c
@@ -193,8 +186,6 @@ class Fs(_option.DataOption):
                 c = c
             elif isinstance(c, str):
                 c = types.String.from_mcnp(c)
-            else:
-                raise TypeError
 
         if c is not None and c not in {'c'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, c)

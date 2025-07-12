@@ -6,9 +6,6 @@ from . import _option
 class Printpts(_option.MplotOption):
     """
     Represents INP printpts elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'printpts'

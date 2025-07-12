@@ -8,9 +8,6 @@ from ....utils import errors
 class Nonfiss(_option.ActOption):
     """
     Represents INP nonfiss elements.
-
-    Attributes:
-        kind: Type of delayed particle(s) to be produced by simple multi-particle reaction.
     """
 
     _KEYWORD = 'nonfiss'
@@ -37,10 +34,11 @@ class Nonfiss(_option.ActOption):
     @property
     def kind(self) -> types.String:
         """
-        Gets ``kind``.
+        Type of delayed particle(s) to be produced by simple multi-particle reaction
 
-        Returns:
-            ``kind``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._kind
@@ -63,8 +61,6 @@ class Nonfiss(_option.ActOption):
                 kind = kind
             elif isinstance(kind, str):
                 kind = types.String.from_mcnp(kind)
-            else:
-                raise TypeError
 
         if kind is None or kind not in {'none', 'n,p,e,f,a', 'all'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kind)

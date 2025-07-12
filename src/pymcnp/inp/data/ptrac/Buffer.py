@@ -8,9 +8,6 @@ from ....utils import errors
 class Buffer(_option.PtracOption):
     """
     Represents INP buffer elements.
-
-    Attributes:
-        storage: Amount of storage available for filtered events.
     """
 
     _KEYWORD = 'buffer'
@@ -37,10 +34,11 @@ class Buffer(_option.PtracOption):
     @property
     def storage(self) -> types.Integer:
         """
-        Gets ``storage``.
+        Amount of storage available for filtered events
 
-        Returns:
-            ``storage``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._storage
@@ -65,8 +63,6 @@ class Buffer(_option.PtracOption):
                 storage = types.Integer(storage)
             elif isinstance(storage, str):
                 storage = types.Integer.from_mcnp(storage)
-            else:
-                raise TypeError
 
         if storage is None or not (storage > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, storage)

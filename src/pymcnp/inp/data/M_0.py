@@ -12,11 +12,6 @@ from ...utils import _elements
 class M_0(_option.DataOption):
     """
     Represents INP m variation #0 elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        substances: Tuple of material constituents.
-        options: Dictionary of options.
     """
 
     _KEYWORD = 'm'
@@ -49,10 +44,11 @@ class M_0(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -77,8 +73,6 @@ class M_0(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -88,10 +82,11 @@ class M_0(_option.DataOption):
     @property
     def substances(self) -> types.Tuple[types.Substance]:
         """
-        Gets ``substances``.
+        Tuple of material constituents
 
-        Returns:
-            ``substances``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._substances
@@ -116,8 +111,7 @@ class M_0(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Substance.from_mcnp(item))
-                else:
-                    raise TypeError
+
             substances = types.Tuple(array)
 
         if substances is None:
@@ -128,10 +122,11 @@ class M_0(_option.DataOption):
     @property
     def options(self) -> types.Tuple[m_0.MOption_0]:
         """
-        Gets ``options``.
+        Dictionary of options
 
-        Returns:
-            ``options``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._options
@@ -156,8 +151,7 @@ class M_0(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(m_0.MOption_0.from_mcnp(item))
-                else:
-                    raise TypeError
+
             options = types.Tuple(array)
 
         self._options: types.Tuple[m_0.MOption_0] = options

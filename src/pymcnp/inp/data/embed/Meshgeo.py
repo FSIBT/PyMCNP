@@ -8,9 +8,6 @@ from ....utils import errors
 class Meshgeo(_option.EmbedOption):
     """
     Represents INP meshgeo elements.
-
-    Attributes:
-        form: Format specification of the embedded mesh input file.
     """
 
     _KEYWORD = 'meshgeo'
@@ -37,10 +34,11 @@ class Meshgeo(_option.EmbedOption):
     @property
     def form(self) -> types.String:
         """
-        Gets ``form``.
+        Format specification of the embedded mesh input file
 
-        Returns:
-            ``form``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._form
@@ -63,8 +61,6 @@ class Meshgeo(_option.EmbedOption):
                 form = form
             elif isinstance(form, str):
                 form = types.String.from_mcnp(form)
-            else:
-                raise TypeError
 
         if form is None or form not in {'lnk3dnt', 'abaqus', 'mcnpum'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, form)

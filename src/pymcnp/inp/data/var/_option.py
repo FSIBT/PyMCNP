@@ -7,11 +7,3 @@ class VarOption(_option.Option):
     """
 
     pass
-
-
-class VarOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP var option builders.
-    """
-
-    pass

@@ -1,6 +1,8 @@
 """
-Examples for reading INP files using ``from_mcnp``.
+Examples for reading INP files.
 """
+
+import pathlib
 
 import pymcnp
 
@@ -8,7 +10,13 @@ RADIUS_AIR: float = 60
 RADIUS_SHIELD: float = 5
 RADIUS_LEAD: float = 1
 
-# Reading INP.
+# Reading INP using ``from_file``.
+path = pathlib.Path(__file__).parent / 'files' / 'inp' / 'F1F8.i'
+inp = pymcnp.Inp.from_file(path)
+
+print(inp)
+
+# Reading INP using ``from_mcnp``.
 inp = pymcnp.Inp.from_mcnp(f"""Create ``Inp`` Using ``build``
 c ============================================================================
 c                                    cells                                    

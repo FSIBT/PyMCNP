@@ -7,9 +7,6 @@ from ....utils import types
 class Dump(_option.MplotOption):
     """
     Represents INP dump elements.
-
-    Attributes:
-        n: RUNTPE read dump number.
     """
 
     _KEYWORD = 'dump'
@@ -36,10 +33,11 @@ class Dump(_option.MplotOption):
     @property
     def n(self) -> types.Integer:
         """
-        Gets ``n``.
+        RUNTPE read dump number
 
-        Returns:
-            ``n``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._n
@@ -64,7 +62,5 @@ class Dump(_option.MplotOption):
                 n = types.Integer(n)
             elif isinstance(n, str):
                 n = types.Integer.from_mcnp(n)
-            else:
-                raise TypeError
 
         self._n: types.Integer = n

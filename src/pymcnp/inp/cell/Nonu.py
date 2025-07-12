@@ -8,9 +8,6 @@ from ...utils import errors
 class Nonu(_option.CellOption):
     """
     Represents INP nonu elements.
-
-    Attributes:
-        setting: Cell fission setting.
     """
 
     _KEYWORD = 'nonu'
@@ -37,10 +34,11 @@ class Nonu(_option.CellOption):
     @property
     def setting(self) -> types.Integer:
         """
-        Gets ``setting``.
+        Cell fission setting
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -65,8 +63,6 @@ class Nonu(_option.CellOption):
                 setting = types.Integer(setting)
             elif isinstance(setting, str):
                 setting = types.Integer.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {0, 1, 2}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

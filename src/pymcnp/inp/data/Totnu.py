@@ -8,9 +8,6 @@ from ...utils import errors
 class Totnu(_option.DataOption):
     """
     Represents INP totnu elements.
-
-    Attributes:
-        no: Delay fission sampling on/off.
     """
 
     _KEYWORD = 'totnu'
@@ -37,10 +34,11 @@ class Totnu(_option.DataOption):
     @property
     def no(self) -> types.String:
         """
-        Gets ``no``.
+        Delay fission sampling on/off
 
-        Returns:
-            ``no``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._no
@@ -63,8 +61,6 @@ class Totnu(_option.DataOption):
                 no = no
             elif isinstance(no, str):
                 no = types.String.from_mcnp(no)
-            else:
-                raise TypeError
 
         if no is not None and not (no == 'no'):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, no)

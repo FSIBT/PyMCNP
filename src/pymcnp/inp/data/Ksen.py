@@ -9,11 +9,6 @@ from ...utils import errors
 class Ksen(_option.DataOption):
     """
     Represents INP ksen elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        sen: Type of sensitivity.
-        options: Dictionary of options.
     """
 
     _KEYWORD = 'ksen'
@@ -46,10 +41,11 @@ class Ksen(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -74,8 +70,6 @@ class Ksen(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None or not (suffix > 0 and suffix <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -85,10 +79,11 @@ class Ksen(_option.DataOption):
     @property
     def sen(self) -> types.String:
         """
-        Gets ``sen``.
+        Type of sensitivity
 
-        Returns:
-            ``sen``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._sen
@@ -111,8 +106,6 @@ class Ksen(_option.DataOption):
                 sen = sen
             elif isinstance(sen, str):
                 sen = types.String.from_mcnp(sen)
-            else:
-                raise TypeError
 
         if sen is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, sen)
@@ -122,10 +115,11 @@ class Ksen(_option.DataOption):
     @property
     def options(self) -> types.Tuple[ksen.KsenOption]:
         """
-        Gets ``options``.
+        Dictionary of options
 
-        Returns:
-            ``options``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._options
@@ -150,8 +144,7 @@ class Ksen(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(ksen.KsenOption.from_mcnp(item))
-                else:
-                    raise TypeError
+
             options = types.Tuple(array)
 
         self._options: types.Tuple[ksen.KsenOption] = options

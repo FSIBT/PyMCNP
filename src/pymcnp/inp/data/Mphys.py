@@ -8,9 +8,6 @@ from ...utils import errors
 class Mphys(_option.DataOption):
     """
     Represents INP mphys elements.
-
-    Attributes:
-        setting: Physics models on/off.
     """
 
     _KEYWORD = 'mphys'
@@ -37,10 +34,11 @@ class Mphys(_option.DataOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Physics models on/off
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Mphys(_option.DataOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is not None and setting not in {'on', 'off'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

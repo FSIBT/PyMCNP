@@ -7,11 +7,3 @@ class KpertOption(_option.Option):
     """
 
     pass
-
-
-class KpertOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP kpert option builders.
-    """
-
-    pass

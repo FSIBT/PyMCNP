@@ -8,9 +8,6 @@ from ....utils import errors
 class Fmatskpt(_option.KoptsOption):
     """
     Represents INP fmatskpt elements.
-
-    Attributes:
-        fmat_skip: fmat_skip.
     """
 
     _KEYWORD = 'fmatskpt'
@@ -37,10 +34,11 @@ class Fmatskpt(_option.KoptsOption):
     @property
     def fmat_skip(self) -> types.Real:
         """
-        Gets ``fmat_skip``.
+        Fmat_skip
 
-        Returns:
-            ``fmat_skip``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._fmat_skip
@@ -61,14 +59,10 @@ class Fmatskpt(_option.KoptsOption):
         if fmat_skip is not None:
             if isinstance(fmat_skip, types.Real):
                 fmat_skip = fmat_skip
-            elif isinstance(fmat_skip, int):
-                fmat_skip = types.Real(fmat_skip)
-            elif isinstance(fmat_skip, float):
+            elif isinstance(fmat_skip, int) or isinstance(fmat_skip, float):
                 fmat_skip = types.Real(fmat_skip)
             elif isinstance(fmat_skip, str):
                 fmat_skip = types.Real.from_mcnp(fmat_skip)
-            else:
-                raise TypeError
 
         if fmat_skip is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fmat_skip)

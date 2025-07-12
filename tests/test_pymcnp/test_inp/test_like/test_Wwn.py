@@ -5,7 +5,7 @@ from .... import classes
 
 class Test_Wwn:
     class Test_Init(classes.Test_Init):
-        element = pymcnp.inp.cell.Wwn
+        element = pymcnp.inp.like.Wwn
         EXAMPLES_VALID = [
             {'suffix': consts.string.type.INTEGER, 'designator': consts.string.type.DESIGNATOR, 'bound': consts.string.type.REAL},
             {'suffix': 1, 'designator': consts.string.type.DESIGNATOR, 'bound': 3.1},
@@ -18,6 +18,6 @@ class Test_Wwn:
         ]
 
     class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.cell.Wwn
-        EXAMPLES_VALID = [consts.string.inp.cell.WWN]
+        element = pymcnp.inp.like.Wwn
+        EXAMPLES_VALID = [consts.string.inp.like.WWN]
         EXAMPLES_INVALID = ['hello']

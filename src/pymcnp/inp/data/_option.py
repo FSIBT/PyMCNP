@@ -7,11 +7,3 @@ class DataOption(_option.Option):
     """
 
     pass
-
-
-class DataOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP data option builders.
-    """
-
-    pass

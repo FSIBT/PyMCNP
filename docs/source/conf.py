@@ -20,4 +20,4 @@ author = 'Devin Pease, Arun Persaud, Mauricio Ayllon Unzueta'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = ['sphinx.ext.napoleon', 'myst_parser']
-autodoc_member_order = 'bysource'
+autodoc_member_order = 'groupwise'

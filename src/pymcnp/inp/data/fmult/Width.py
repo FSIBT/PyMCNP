@@ -8,9 +8,6 @@ from ....utils import errors
 class Width(_option.FmultOption):
     """
     Represents INP width elements.
-
-    Attributes:
-        width: Width for sampling spontaneous fission.
     """
 
     _KEYWORD = 'width'
@@ -37,10 +34,11 @@ class Width(_option.FmultOption):
     @property
     def width(self) -> types.Real:
         """
-        Gets ``width``.
+        Width for sampling spontaneous fission
 
-        Returns:
-            ``width``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._width
@@ -61,14 +59,10 @@ class Width(_option.FmultOption):
         if width is not None:
             if isinstance(width, types.Real):
                 width = width
-            elif isinstance(width, int):
-                width = types.Real(width)
-            elif isinstance(width, float):
+            elif isinstance(width, int) or isinstance(width, float):
                 width = types.Real(width)
             elif isinstance(width, str):
                 width = types.Real.from_mcnp(width)
-            else:
-                raise TypeError
 
         if width is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, width)

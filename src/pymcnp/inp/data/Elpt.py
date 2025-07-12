@@ -8,9 +8,6 @@ from ...utils import errors
 class Elpt(_option.DataOption):
     """
     Represents INP elpt elements.
-
-    Attributes:
-        cutoffs: Tuple of cell lower energy cutoffs.
     """
 
     _KEYWORD = 'elpt'
@@ -37,10 +34,11 @@ class Elpt(_option.DataOption):
     @property
     def cutoffs(self) -> types.Tuple[types.Real]:
         """
-        Gets ``cutoffs``.
+        Tuple of cell lower energy cutoffs
 
-        Returns:
-            ``cutoffs``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._cutoffs
@@ -63,14 +61,11 @@ class Elpt(_option.DataOption):
             for item in cutoffs:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             cutoffs = types.Tuple(array)
 
         if cutoffs is None:

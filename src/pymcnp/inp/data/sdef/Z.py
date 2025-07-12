@@ -8,9 +8,6 @@ from ....utils import errors
 class Z(_option.SdefOption):
     """
     Represents INP z elements.
-
-    Attributes:
-        z_coordinate: Z-cordinate of position.
     """
 
     _KEYWORD = 'z'
@@ -37,10 +34,11 @@ class Z(_option.SdefOption):
     @property
     def z_coordinate(self) -> types.Real:
         """
-        Gets ``z_coordinate``.
+        Z-cordinate of position
 
-        Returns:
-            ``z_coordinate``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._z_coordinate
@@ -61,14 +59,10 @@ class Z(_option.SdefOption):
         if z_coordinate is not None:
             if isinstance(z_coordinate, types.Real):
                 z_coordinate = z_coordinate
-            elif isinstance(z_coordinate, int):
-                z_coordinate = types.Real(z_coordinate)
-            elif isinstance(z_coordinate, float):
+            elif isinstance(z_coordinate, int) or isinstance(z_coordinate, float):
                 z_coordinate = types.Real(z_coordinate)
             elif isinstance(z_coordinate, str):
                 z_coordinate = types.Real.from_mcnp(z_coordinate)
-            else:
-                raise TypeError
 
         if z_coordinate is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z_coordinate)

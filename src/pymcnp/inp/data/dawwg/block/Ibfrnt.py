@@ -8,9 +8,6 @@ from .....utils import errors
 class Ibfrnt(_option.BlockOption):
     """
     Represents INP ibfrnt elements.
-
-    Attributes:
-        setting: Front boudary condition.
     """
 
     _KEYWORD = 'ibfrnt'
@@ -37,10 +34,11 @@ class Ibfrnt(_option.BlockOption):
     @property
     def setting(self) -> types.Integer:
         """
-        Gets ``setting``.
+        Front boudary condition
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -65,8 +63,6 @@ class Ibfrnt(_option.BlockOption):
                 setting = types.Integer(setting)
             elif isinstance(setting, str):
                 setting = types.Integer.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

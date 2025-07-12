@@ -8,9 +8,6 @@ from ....utils import errors
 class Seed(_option.RandOption):
     """
     Represents INP seed elements.
-
-    Attributes:
-        seed: Random number generator seed.
     """
 
     _KEYWORD = 'seed'
@@ -37,10 +34,11 @@ class Seed(_option.RandOption):
     @property
     def seed(self) -> types.Integer:
         """
-        Gets ``seed``.
+        Random number generator seed
 
-        Returns:
-            ``seed``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._seed
@@ -65,8 +63,6 @@ class Seed(_option.RandOption):
                 seed = types.Integer(seed)
             elif isinstance(seed, str):
                 seed = types.Integer.from_mcnp(seed)
-            else:
-                raise TypeError
 
         if seed is None or not (seed % 2 == 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, seed)

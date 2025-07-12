@@ -9,14 +9,6 @@ from ...utils import _visualization
 class Tx(_option.SurfaceOption):
     """
     Represents INP tx elements.
-
-    Attributes:
-        x: Parallel-to-x-axis tori center x component.
-        y: Parallel-to-x-axis tori center y component.
-        z: Parallel-to-x-axis tori center z component.
-        a: Parallel-to-x-axis tori A coefficent.
-        b: Parallel-to-x-axis tori B coefficent.
-        c: Parallel-to-x-axis tori C coefficent.
     """
 
     _KEYWORD = 'tx'
@@ -68,10 +60,11 @@ class Tx(_option.SurfaceOption):
     @property
     def x(self) -> types.Real:
         """
-        Gets ``x``.
+        Parallel-to-x-axis tori center x component
 
-        Returns:
-            ``x``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x
@@ -92,14 +85,10 @@ class Tx(_option.SurfaceOption):
         if x is not None:
             if isinstance(x, types.Real):
                 x = x
-            elif isinstance(x, int):
-                x = types.Real(x)
-            elif isinstance(x, float):
+            elif isinstance(x, int) or isinstance(x, float):
                 x = types.Real(x)
             elif isinstance(x, str):
                 x = types.Real.from_mcnp(x)
-            else:
-                raise TypeError
 
         if x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
@@ -109,10 +98,11 @@ class Tx(_option.SurfaceOption):
     @property
     def y(self) -> types.Real:
         """
-        Gets ``y``.
+        Parallel-to-x-axis tori center y component
 
-        Returns:
-            ``y``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._y
@@ -133,14 +123,10 @@ class Tx(_option.SurfaceOption):
         if y is not None:
             if isinstance(y, types.Real):
                 y = y
-            elif isinstance(y, int):
-                y = types.Real(y)
-            elif isinstance(y, float):
+            elif isinstance(y, int) or isinstance(y, float):
                 y = types.Real(y)
             elif isinstance(y, str):
                 y = types.Real.from_mcnp(y)
-            else:
-                raise TypeError
 
         if y is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y)
@@ -150,10 +136,11 @@ class Tx(_option.SurfaceOption):
     @property
     def z(self) -> types.Real:
         """
-        Gets ``z``.
+        Parallel-to-x-axis tori center z component
 
-        Returns:
-            ``z``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._z
@@ -174,14 +161,10 @@ class Tx(_option.SurfaceOption):
         if z is not None:
             if isinstance(z, types.Real):
                 z = z
-            elif isinstance(z, int):
-                z = types.Real(z)
-            elif isinstance(z, float):
+            elif isinstance(z, int) or isinstance(z, float):
                 z = types.Real(z)
             elif isinstance(z, str):
                 z = types.Real.from_mcnp(z)
-            else:
-                raise TypeError
 
         if z is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z)
@@ -191,10 +174,11 @@ class Tx(_option.SurfaceOption):
     @property
     def a(self) -> types.Real:
         """
-        Gets ``a``.
+        Parallel-to-x-axis tori A coefficent
 
-        Returns:
-            ``a``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a
@@ -215,14 +199,10 @@ class Tx(_option.SurfaceOption):
         if a is not None:
             if isinstance(a, types.Real):
                 a = a
-            elif isinstance(a, int):
-                a = types.Real(a)
-            elif isinstance(a, float):
+            elif isinstance(a, int) or isinstance(a, float):
                 a = types.Real(a)
             elif isinstance(a, str):
                 a = types.Real.from_mcnp(a)
-            else:
-                raise TypeError
 
         if a is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
@@ -232,10 +212,11 @@ class Tx(_option.SurfaceOption):
     @property
     def b(self) -> types.Real:
         """
-        Gets ``b``.
+        Parallel-to-x-axis tori B coefficent
 
-        Returns:
-            ``b``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._b
@@ -256,14 +237,10 @@ class Tx(_option.SurfaceOption):
         if b is not None:
             if isinstance(b, types.Real):
                 b = b
-            elif isinstance(b, int):
-                b = types.Real(b)
-            elif isinstance(b, float):
+            elif isinstance(b, int) or isinstance(b, float):
                 b = types.Real(b)
             elif isinstance(b, str):
                 b = types.Real.from_mcnp(b)
-            else:
-                raise TypeError
 
         if b is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, b)
@@ -273,10 +250,11 @@ class Tx(_option.SurfaceOption):
     @property
     def c(self) -> types.Real:
         """
-        Gets ``c``.
+        Parallel-to-x-axis tori C coefficent
 
-        Returns:
-            ``c``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._c
@@ -297,14 +275,10 @@ class Tx(_option.SurfaceOption):
         if c is not None:
             if isinstance(c, types.Real):
                 c = c
-            elif isinstance(c, int):
-                c = types.Real(c)
-            elif isinstance(c, float):
+            elif isinstance(c, int) or isinstance(c, float):
                 c = types.Real(c)
             elif isinstance(c, str):
                 c = types.Real.from_mcnp(c)
-            else:
-                raise TypeError
 
         if c is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, c)

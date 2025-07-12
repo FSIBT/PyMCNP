@@ -8,14 +8,6 @@ from ...utils import errors
 class Y(_option.SurfaceOption):
     """
     Represents INP y elements.
-
-    Attributes:
-        y1: Y-axisymmetric point-defined surface point #1 y component.
-        r1: Y-axisymmetric point-defined surface point #1 radius.
-        y2: Y-axisymmetric point-defined surface point #2 y component.
-        r2: Y-axisymmetric point-defined surface point #2 radius.
-        y3: Y-axisymmetric point-defined surface point #3 y component.
-        r3: Y-axisymmetric point-defined surface point #3 radius.
     """
 
     _KEYWORD = 'y'
@@ -67,10 +59,11 @@ class Y(_option.SurfaceOption):
     @property
     def y1(self) -> types.Real:
         """
-        Gets ``y1``.
+        Y-axisymmetric point-defined surface point #1 y component
 
-        Returns:
-            ``y1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._y1
@@ -91,14 +84,10 @@ class Y(_option.SurfaceOption):
         if y1 is not None:
             if isinstance(y1, types.Real):
                 y1 = y1
-            elif isinstance(y1, int):
-                y1 = types.Real(y1)
-            elif isinstance(y1, float):
+            elif isinstance(y1, int) or isinstance(y1, float):
                 y1 = types.Real(y1)
             elif isinstance(y1, str):
                 y1 = types.Real.from_mcnp(y1)
-            else:
-                raise TypeError
 
         if y1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y1)
@@ -108,10 +97,11 @@ class Y(_option.SurfaceOption):
     @property
     def r1(self) -> types.Real:
         """
-        Gets ``r1``.
+        Y-axisymmetric point-defined surface point #1 radius
 
-        Returns:
-            ``r1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._r1
@@ -132,14 +122,10 @@ class Y(_option.SurfaceOption):
         if r1 is not None:
             if isinstance(r1, types.Real):
                 r1 = r1
-            elif isinstance(r1, int):
-                r1 = types.Real(r1)
-            elif isinstance(r1, float):
+            elif isinstance(r1, int) or isinstance(r1, float):
                 r1 = types.Real(r1)
             elif isinstance(r1, str):
                 r1 = types.Real.from_mcnp(r1)
-            else:
-                raise TypeError
 
         if r1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r1)
@@ -149,10 +135,11 @@ class Y(_option.SurfaceOption):
     @property
     def y2(self) -> types.Real:
         """
-        Gets ``y2``.
+        Y-axisymmetric point-defined surface point #2 y component
 
-        Returns:
-            ``y2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._y2
@@ -173,24 +160,21 @@ class Y(_option.SurfaceOption):
         if y2 is not None:
             if isinstance(y2, types.Real):
                 y2 = y2
-            elif isinstance(y2, int):
-                y2 = types.Real(y2)
-            elif isinstance(y2, float):
+            elif isinstance(y2, int) or isinstance(y2, float):
                 y2 = types.Real(y2)
             elif isinstance(y2, str):
                 y2 = types.Real.from_mcnp(y2)
-            else:
-                raise TypeError
 
         self._y2: types.Real = y2
 
     @property
     def r2(self) -> types.Real:
         """
-        Gets ``r2``.
+        Y-axisymmetric point-defined surface point #2 radius
 
-        Returns:
-            ``r2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._r2
@@ -211,24 +195,21 @@ class Y(_option.SurfaceOption):
         if r2 is not None:
             if isinstance(r2, types.Real):
                 r2 = r2
-            elif isinstance(r2, int):
-                r2 = types.Real(r2)
-            elif isinstance(r2, float):
+            elif isinstance(r2, int) or isinstance(r2, float):
                 r2 = types.Real(r2)
             elif isinstance(r2, str):
                 r2 = types.Real.from_mcnp(r2)
-            else:
-                raise TypeError
 
         self._r2: types.Real = r2
 
     @property
     def y3(self) -> types.Real:
         """
-        Gets ``y3``.
+        Y-axisymmetric point-defined surface point #3 y component
 
-        Returns:
-            ``y3``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._y3
@@ -249,24 +230,21 @@ class Y(_option.SurfaceOption):
         if y3 is not None:
             if isinstance(y3, types.Real):
                 y3 = y3
-            elif isinstance(y3, int):
-                y3 = types.Real(y3)
-            elif isinstance(y3, float):
+            elif isinstance(y3, int) or isinstance(y3, float):
                 y3 = types.Real(y3)
             elif isinstance(y3, str):
                 y3 = types.Real.from_mcnp(y3)
-            else:
-                raise TypeError
 
         self._y3: types.Real = y3
 
     @property
     def r3(self) -> types.Real:
         """
-        Gets ``r3``.
+        Y-axisymmetric point-defined surface point #3 radius
 
-        Returns:
-            ``r3``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._r3
@@ -287,13 +265,9 @@ class Y(_option.SurfaceOption):
         if r3 is not None:
             if isinstance(r3, types.Real):
                 r3 = r3
-            elif isinstance(r3, int):
-                r3 = types.Real(r3)
-            elif isinstance(r3, float):
+            elif isinstance(r3, int) or isinstance(r3, float):
                 r3 = types.Real(r3)
             elif isinstance(r3, str):
                 r3 = types.Real.from_mcnp(r3)
-            else:
-                raise TypeError
 
         self._r3: types.Real = r3

@@ -8,16 +8,6 @@ from ...utils import errors
 class Lea(_option.DataOption):
     """
     Represents INP lea elements.
-
-    Attributes:
-        ipht: Generation of de-excitation photons setting.
-        icc: Level of physics for PHT physics setting.
-        nobalc: Mass-energy balancing in cascade setting.
-        nobale: Mass-energy balancing in evaporation setting.
-        ifbrk: Mass-energy balancing in Fermi-breakup setting.
-        ilvden: Level-density model setting.
-        ievap: Evaporation and fission model setting.
-        nofis: Fission setting.
     """
 
     _KEYWORD = 'lea'
@@ -77,10 +67,11 @@ class Lea(_option.DataOption):
     @property
     def ipht(self) -> types.Integer:
         """
-        Gets ``ipht``.
+        Generation of de-excitation photons setting
 
-        Returns:
-            ``ipht``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ipht
@@ -105,8 +96,6 @@ class Lea(_option.DataOption):
                 ipht = types.Integer(ipht)
             elif isinstance(ipht, str):
                 ipht = types.Integer.from_mcnp(ipht)
-            else:
-                raise TypeError
 
         if ipht is not None and not (isinstance(ipht.value, types.Jump) or ipht in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ipht)
@@ -116,10 +105,11 @@ class Lea(_option.DataOption):
     @property
     def icc(self) -> types.Integer:
         """
-        Gets ``icc``.
+        Level of physics for PHT physics setting
 
-        Returns:
-            ``icc``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._icc
@@ -144,8 +134,6 @@ class Lea(_option.DataOption):
                 icc = types.Integer(icc)
             elif isinstance(icc, str):
                 icc = types.Integer.from_mcnp(icc)
-            else:
-                raise TypeError
 
         if icc is not None and not (isinstance(icc.value, types.Jump) or icc in {0, 1, 2, 3, 4}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, icc)
@@ -155,10 +143,11 @@ class Lea(_option.DataOption):
     @property
     def nobalc(self) -> types.Integer:
         """
-        Gets ``nobalc``.
+        Mass-energy balancing in cascade setting
 
-        Returns:
-            ``nobalc``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._nobalc
@@ -183,8 +172,6 @@ class Lea(_option.DataOption):
                 nobalc = types.Integer(nobalc)
             elif isinstance(nobalc, str):
                 nobalc = types.Integer.from_mcnp(nobalc)
-            else:
-                raise TypeError
 
         if nobalc is not None and not (isinstance(nobalc.value, types.Jump) or nobalc in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nobalc)
@@ -194,10 +181,11 @@ class Lea(_option.DataOption):
     @property
     def nobale(self) -> types.Integer:
         """
-        Gets ``nobale``.
+        Mass-energy balancing in evaporation setting
 
-        Returns:
-            ``nobale``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._nobale
@@ -222,8 +210,6 @@ class Lea(_option.DataOption):
                 nobale = types.Integer(nobale)
             elif isinstance(nobale, str):
                 nobale = types.Integer.from_mcnp(nobale)
-            else:
-                raise TypeError
 
         if nobale is not None and not (isinstance(nobale.value, types.Jump) or nobale in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nobale)
@@ -233,10 +219,11 @@ class Lea(_option.DataOption):
     @property
     def ifbrk(self) -> types.Integer:
         """
-        Gets ``ifbrk``.
+        Mass-energy balancing in Fermi-breakup setting
 
-        Returns:
-            ``ifbrk``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ifbrk
@@ -261,8 +248,6 @@ class Lea(_option.DataOption):
                 ifbrk = types.Integer(ifbrk)
             elif isinstance(ifbrk, str):
                 ifbrk = types.Integer.from_mcnp(ifbrk)
-            else:
-                raise TypeError
 
         if ifbrk is not None and not (isinstance(ifbrk.value, types.Jump) or ifbrk in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ifbrk)
@@ -272,10 +257,11 @@ class Lea(_option.DataOption):
     @property
     def ilvden(self) -> types.Integer:
         """
-        Gets ``ilvden``.
+        Level-density model setting
 
-        Returns:
-            ``ilvden``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ilvden
@@ -300,8 +286,6 @@ class Lea(_option.DataOption):
                 ilvden = types.Integer(ilvden)
             elif isinstance(ilvden, str):
                 ilvden = types.Integer.from_mcnp(ilvden)
-            else:
-                raise TypeError
 
         if ilvden is not None and not (isinstance(ilvden.value, types.Jump) or ilvden in {0, 1, -1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ilvden)
@@ -311,10 +295,11 @@ class Lea(_option.DataOption):
     @property
     def ievap(self) -> types.Integer:
         """
-        Gets ``ievap``.
+        Evaporation and fission model setting
 
-        Returns:
-            ``ievap``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ievap
@@ -339,8 +324,6 @@ class Lea(_option.DataOption):
                 ievap = types.Integer(ievap)
             elif isinstance(ievap, str):
                 ievap = types.Integer.from_mcnp(ievap)
-            else:
-                raise TypeError
 
         if ievap is not None and not (isinstance(ievap.value, types.Jump) or ievap in {0, 1, -1, 2}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ievap)
@@ -350,10 +333,11 @@ class Lea(_option.DataOption):
     @property
     def nofis(self) -> types.Integer:
         """
-        Gets ``nofis``.
+        Fission setting
 
-        Returns:
-            ``nofis``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._nofis
@@ -378,8 +362,6 @@ class Lea(_option.DataOption):
                 nofis = types.Integer(nofis)
             elif isinstance(nofis, str):
                 nofis = types.Integer.from_mcnp(nofis)
-            else:
-                raise TypeError
 
         if nofis is not None and not (isinstance(nofis.value, types.Jump) or nofis in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nofis)

@@ -8,9 +8,6 @@ from ....utils import errors
 class Precursor(_option.KoptsOption):
     """
     Represents INP precursor elements.
-
-    Attributes:
-        setting: Yes/No detailed precursor information.
     """
 
     _KEYWORD = 'precursor'
@@ -37,10 +34,11 @@ class Precursor(_option.KoptsOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Yes/No detailed precursor information
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Precursor(_option.KoptsOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {'yes', 'no'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

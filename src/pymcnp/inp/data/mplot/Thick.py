@@ -8,9 +8,6 @@ from ....utils import errors
 class Thick(_option.MplotOption):
     """
     Represents INP thick elements.
-
-    Attributes:
-        x: Thickness of plot curves.
     """
 
     _KEYWORD = 'thick'
@@ -37,10 +34,11 @@ class Thick(_option.MplotOption):
     @property
     def x(self) -> types.Real:
         """
-        Gets ``x``.
+        Thickness of plot curves
 
-        Returns:
-            ``x``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x
@@ -61,14 +59,10 @@ class Thick(_option.MplotOption):
         if x is not None:
             if isinstance(x, types.Real):
                 x = x
-            elif isinstance(x, int):
-                x = types.Real(x)
-            elif isinstance(x, float):
+            elif isinstance(x, int) or isinstance(x, float):
                 x = types.Real(x)
             elif isinstance(x, str):
                 x = types.Real.from_mcnp(x)
-            else:
-                raise TypeError
 
         if x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)

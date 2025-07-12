@@ -8,9 +8,6 @@ from ....utils import errors
 class Event(_option.PtracOption):
     """
     Represents INP event elements.
-
-    Attributes:
-        settings: Specifies the type of events written to the PTRAC file.
     """
 
     _KEYWORD = 'event'
@@ -37,10 +34,11 @@ class Event(_option.PtracOption):
     @property
     def settings(self) -> types.Tuple[types.String]:
         """
-        Gets ``settings``.
+        Specifies the type of events written to the PTRAC file
 
-        Returns:
-            ``settings``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._settings
@@ -65,8 +63,7 @@ class Event(_option.PtracOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.String.from_mcnp(item))
-                else:
-                    raise TypeError
+
             settings = types.Tuple(array)
 
         if settings is None:

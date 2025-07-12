@@ -9,9 +9,6 @@ from ...utils import _visualization
 class Px(_option.SurfaceOption):
     """
     Represents INP px elements.
-
-    Attributes:
-        d: Normal-to-the-x-axis plane D coefficent.
     """
 
     _KEYWORD = 'px'
@@ -38,10 +35,11 @@ class Px(_option.SurfaceOption):
     @property
     def d(self) -> types.Real:
         """
-        Gets ``d``.
+        Normal-to-the-x-axis plane D coefficent
 
-        Returns:
-            ``d``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._d
@@ -62,14 +60,10 @@ class Px(_option.SurfaceOption):
         if d is not None:
             if isinstance(d, types.Real):
                 d = d
-            elif isinstance(d, int):
-                d = types.Real(d)
-            elif isinstance(d, float):
+            elif isinstance(d, int) or isinstance(d, float):
                 d = types.Real(d)
             elif isinstance(d, str):
                 d = types.Real.from_mcnp(d)
-            else:
-                raise TypeError
 
         if d is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, d)

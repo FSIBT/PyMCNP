@@ -6,9 +6,6 @@ from . import _option
 class All(_option.FreeOption):
     """
     Represents INP all elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'all'

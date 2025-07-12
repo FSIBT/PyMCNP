@@ -8,9 +8,6 @@ from ....utils import errors
 class Dnbais(_option.ActOption):
     """
     Represents INP dnbais elements.
-
-    Attributes:
-        count: Maximum number of neutrons generated per reaction.
     """
 
     _KEYWORD = 'dnbais'
@@ -37,10 +34,11 @@ class Dnbais(_option.ActOption):
     @property
     def count(self) -> types.Integer:
         """
-        Gets ``count``.
+        Maximum number of neutrons generated per reaction
 
-        Returns:
-            ``count``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._count
@@ -65,8 +63,6 @@ class Dnbais(_option.ActOption):
                 count = types.Integer(count)
             elif isinstance(count, str):
                 count = types.Integer.from_mcnp(count)
-            else:
-                raise TypeError
 
         if count is None or not (count >= 0 and count <= 10):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, count)

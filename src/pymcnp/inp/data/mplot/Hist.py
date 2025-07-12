@@ -6,9 +6,6 @@ from . import _option
 class Hist(_option.MplotOption):
     """
     Represents INP hist elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'hist'

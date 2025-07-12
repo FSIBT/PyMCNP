@@ -8,14 +8,6 @@ from ...utils import errors
 class F_2(_option.DataOption):
     """
     Represents INP f variation #2 elements.
-
-    Attributes:
-        prefix: Star prefix.
-        suffix: Data card option suffix.
-        a: Letter.
-        designator: Data card particle designator.
-        rings: Detector points.
-        nd: Total/average specified surfaces/cells option.
     """
 
     _KEYWORD = 'f'
@@ -65,10 +57,11 @@ class F_2(_option.DataOption):
     @property
     def prefix(self) -> types.String:
         """
-        Gets ``prefix``.
+        Star prefix
 
-        Returns:
-            ``prefix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._prefix
@@ -91,8 +84,6 @@ class F_2(_option.DataOption):
                 prefix = prefix
             elif isinstance(prefix, str):
                 prefix = types.String.from_mcnp(prefix)
-            else:
-                raise TypeError
 
         if prefix is not None and prefix not in {'*', '+'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
@@ -102,10 +93,11 @@ class F_2(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -130,8 +122,6 @@ class F_2(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None or not (suffix <= 99_999_999 and suffix % 10 == 5):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -141,10 +131,11 @@ class F_2(_option.DataOption):
     @property
     def a(self) -> types.String:
         """
-        Gets ``a``.
+        Letter
 
-        Returns:
-            ``a``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a
@@ -167,8 +158,6 @@ class F_2(_option.DataOption):
                 a = a
             elif isinstance(a, str):
                 a = types.String.from_mcnp(a)
-            else:
-                raise TypeError
 
         if a is None or a not in {'x', 'y', 'z'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
@@ -188,10 +177,11 @@ class F_2(_option.DataOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Data card particle designator
 
-        Returns:
-            ``designator``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._designator
@@ -214,18 +204,17 @@ class F_2(_option.DataOption):
                 designator = designator
             elif isinstance(designator, str):
                 designator = types.Designator.from_mcnp(designator)
-            else:
-                raise TypeError
 
         self._designator: types.Designator = designator
 
     @property
     def rings(self) -> types.Tuple[types.Ring]:
         """
-        Gets ``rings``.
+        Detector points
 
-        Returns:
-            ``rings``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._rings
@@ -250,8 +239,7 @@ class F_2(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Ring.from_mcnp(item))
-                else:
-                    raise TypeError
+
             rings = types.Tuple(array)
 
         if rings is None:
@@ -262,10 +250,11 @@ class F_2(_option.DataOption):
     @property
     def nd(self) -> types.String:
         """
-        Gets ``nd``.
+        Total/average specified surfaces/cells option
 
-        Returns:
-            ``nd``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._nd
@@ -288,8 +277,6 @@ class F_2(_option.DataOption):
                 nd = nd
             elif isinstance(nd, str):
                 nd = types.String.from_mcnp(nd)
-            else:
-                raise TypeError
 
         if nd is not None and not (nd == 'nd'):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nd)

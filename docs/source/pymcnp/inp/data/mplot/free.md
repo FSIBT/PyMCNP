@@ -7,6 +7,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.mplot.free.All
    :members:
+   :inherited-members:
 ```
 
 ### ``Noall`` class
@@ -14,20 +15,5 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.mplot.free.Noall
    :members:
-```
-
-## Builder Classes
-
-### ``AllBuilder`` class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.mplot.free.AllBuilder
-   :members:
-```
-
-### ``NoallBuilder`` class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.mplot.free.NoallBuilder
-   :members:
+   :inherited-members:
 ```

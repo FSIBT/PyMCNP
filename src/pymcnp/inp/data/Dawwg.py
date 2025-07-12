@@ -8,9 +8,6 @@ from ...utils import types
 class Dawwg(_option.DataOption):
     """
     Represents INP dawwg elements.
-
-    Attributes:
-        options: Dictionary of options.
     """
 
     _KEYWORD = 'dawwg'
@@ -37,10 +34,11 @@ class Dawwg(_option.DataOption):
     @property
     def options(self) -> types.Tuple[dawwg.DawwgOption]:
         """
-        Gets ``options``.
+        Dictionary of options
 
-        Returns:
-            ``options``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._options
@@ -65,8 +63,7 @@ class Dawwg(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(dawwg.DawwgOption.from_mcnp(item))
-                else:
-                    raise TypeError
+
             options = types.Tuple(array)
 
         self._options: types.Tuple[dawwg.DawwgOption] = options

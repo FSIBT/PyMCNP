@@ -8,9 +8,6 @@ from ...utils import errors
 class Mat(_option.LikeOption):
     """
     Represents INP mat elements.
-
-    Attributes:
-        material: Cell material.
     """
 
     _KEYWORD = 'mat'
@@ -65,8 +62,6 @@ class Mat(_option.LikeOption):
                 material = types.Integer(material)
             elif isinstance(material, str):
                 material = types.Integer.from_mcnp(material)
-            else:
-                raise TypeError
 
         if material is None or not (0 <= material <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, material)

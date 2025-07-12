@@ -8,10 +8,6 @@ from ...utils import errors
 class Ext(_option.CellOption):
     """
     Represents INP ext elements.
-
-    Attributes:
-        designator: Cell particle designator.
-        stretch: Cell exponential transform stretching specifier.
     """
 
     _KEYWORD = 'ext'
@@ -41,10 +37,11 @@ class Ext(_option.CellOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Cell particle designator
 
-        Returns:
-            ``designator``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._designator
@@ -67,8 +64,6 @@ class Ext(_option.CellOption):
                 designator = designator
             elif isinstance(designator, str):
                 designator = types.Designator.from_mcnp(designator)
-            else:
-                raise TypeError
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
@@ -78,10 +73,11 @@ class Ext(_option.CellOption):
     @property
     def stretch(self) -> types.String:
         """
-        Gets ``stretch``.
+        Cell exponential transform stretching specifier
 
-        Returns:
-            ``stretch``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._stretch
@@ -104,8 +100,6 @@ class Ext(_option.CellOption):
                 stretch = stretch
             elif isinstance(stretch, str):
                 stretch = types.String.from_mcnp(stretch)
-            else:
-                raise TypeError
 
         if stretch is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, stretch)

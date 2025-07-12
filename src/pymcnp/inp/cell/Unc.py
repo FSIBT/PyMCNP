@@ -8,10 +8,6 @@ from ...utils import errors
 class Unc(_option.CellOption):
     """
     Represents INP unc elements.
-
-    Attributes:
-        designator: Cell particle designator.
-        setting: Cell uncollided secondaries setting.
     """
 
     _KEYWORD = 'unc'
@@ -41,10 +37,11 @@ class Unc(_option.CellOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Cell particle designator
 
-        Returns:
-            ``designator``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._designator
@@ -67,8 +64,6 @@ class Unc(_option.CellOption):
                 designator = designator
             elif isinstance(designator, str):
                 designator = types.Designator.from_mcnp(designator)
-            else:
-                raise TypeError
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
@@ -78,10 +73,11 @@ class Unc(_option.CellOption):
     @property
     def setting(self) -> types.Integer:
         """
-        Gets ``setting``.
+        Cell uncollided secondaries setting
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -106,8 +102,6 @@ class Unc(_option.CellOption):
                 setting = types.Integer(setting)
             elif isinstance(setting, str):
                 setting = types.Integer.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {0, 1}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

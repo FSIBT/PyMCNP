@@ -8,11 +8,6 @@ from ...utils import errors
 class Dxc(_option.DataOption):
     """
     Represents INP dxc elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        designator: Data card particle designator.
-        probabilities: Probability of contribution to DXTRAN.
     """
 
     _KEYWORD = 'dxc'
@@ -45,10 +40,11 @@ class Dxc(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -73,8 +69,6 @@ class Dxc(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None or not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -84,10 +78,11 @@ class Dxc(_option.DataOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Data card particle designator
 
-        Returns:
-            ``designator``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._designator
@@ -110,8 +105,6 @@ class Dxc(_option.DataOption):
                 designator = designator
             elif isinstance(designator, str):
                 designator = types.Designator.from_mcnp(designator)
-            else:
-                raise TypeError
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
@@ -121,10 +114,11 @@ class Dxc(_option.DataOption):
     @property
     def probabilities(self) -> types.Tuple[types.Real]:
         """
-        Gets ``probabilities``.
+        Probability of contribution to DXTRAN
 
-        Returns:
-            ``probabilities``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._probabilities
@@ -147,14 +141,11 @@ class Dxc(_option.DataOption):
             for item in probabilities:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             probabilities = types.Tuple(array)
 
         if probabilities is None:

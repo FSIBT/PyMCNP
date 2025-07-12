@@ -8,9 +8,6 @@ from ....utils import errors
 class Kmesh(_option.FmeshOption):
     """
     Represents INP kmesh elements.
-
-    Attributes:
-        locations: Locations of mesh points z/theta for rectangular/cylindrical geometry.
     """
 
     _KEYWORD = 'kmesh'
@@ -37,10 +34,11 @@ class Kmesh(_option.FmeshOption):
     @property
     def locations(self) -> types.Tuple[types.Real]:
         """
-        Gets ``locations``.
+        Locations of mesh points z/theta for rectangular/cylindrical geometry
 
-        Returns:
-            ``locations``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._locations
@@ -63,14 +61,11 @@ class Kmesh(_option.FmeshOption):
             for item in locations:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             locations = types.Tuple(array)
 
         if locations is None:

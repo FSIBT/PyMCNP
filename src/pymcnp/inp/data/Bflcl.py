@@ -8,9 +8,6 @@ from ...utils import errors
 class Bflcl(_option.DataOption):
     """
     Represents INP bflcl elements.
-
-    Attributes:
-        numbers: Tuple of BFLD map numbers.
     """
 
     _KEYWORD = 'bflcl'
@@ -37,10 +34,11 @@ class Bflcl(_option.DataOption):
     @property
     def numbers(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``numbers``.
+        Tuple of BFLD map numbers
 
-        Returns:
-            ``numbers``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._numbers
@@ -67,8 +65,7 @@ class Bflcl(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             numbers = types.Tuple(array)
 
         if numbers is None:

@@ -6,9 +6,6 @@ from . import _option
 class Iptal(_option.MplotOption):
     """
     Represents INP iptal elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'iptal'

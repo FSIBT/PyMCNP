@@ -8,14 +8,6 @@ from ...utils import errors
 class Fill_0(_option.LikeOption):
     """
     Represents INP fill variation #0 elements.
-
-    Attributes:
-        prefix: Star prefix.
-        i: Lattice parameter #1.
-        j: Lattice parameter #2.
-        k: Lattice parameter #3.
-        universes: Fill universe numbers.
-        m: Displacement vector origin.
     """
 
     _KEYWORD = 'fill'
@@ -91,8 +83,6 @@ class Fill_0(_option.LikeOption):
                 prefix = prefix
             elif isinstance(prefix, str):
                 prefix = types.String.from_mcnp(prefix)
-            else:
-                raise TypeError
 
         if prefix is not None and prefix not in {'*'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
@@ -128,8 +118,6 @@ class Fill_0(_option.LikeOption):
                 i = i
             elif isinstance(i, str):
                 i = types.Index.from_mcnp(i)
-            else:
-                raise TypeError
 
         if i is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i)
@@ -165,8 +153,6 @@ class Fill_0(_option.LikeOption):
                 j = j
             elif isinstance(j, str):
                 j = types.Index.from_mcnp(j)
-            else:
-                raise TypeError
 
         if j is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, j)
@@ -202,8 +188,6 @@ class Fill_0(_option.LikeOption):
                 k = k
             elif isinstance(k, str):
                 k = types.Index.from_mcnp(k)
-            else:
-                raise TypeError
 
         if k is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, k)
@@ -243,8 +227,7 @@ class Fill_0(_option.LikeOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             universes = types.Tuple(array)
 
         if universes is None:
@@ -283,7 +266,5 @@ class Fill_0(_option.LikeOption):
                 m = types.Integer(m)
             elif isinstance(m, str):
                 m = types.Integer.from_mcnp(m)
-            else:
-                raise TypeError
 
         self._m: types.Integer = m

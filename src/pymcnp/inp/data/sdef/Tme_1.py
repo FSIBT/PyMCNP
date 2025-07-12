@@ -8,9 +8,6 @@ from ....utils import errors
 class Tme_1(_option.SdefOption):
     """
     Represents INP tme variation #1 elements.
-
-    Attributes:
-        time: Time in shakes.
     """
 
     _KEYWORD = 'tme'
@@ -37,10 +34,11 @@ class Tme_1(_option.SdefOption):
     @property
     def time(self) -> types.EmbeddedDistributionNumber:
         """
-        Gets ``time``.
+        Time in shakes
 
-        Returns:
-            ``time``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._time
@@ -63,8 +61,6 @@ class Tme_1(_option.SdefOption):
                 time = time
             elif isinstance(time, str):
                 time = types.EmbeddedDistributionNumber.from_mcnp(time)
-            else:
-                raise TypeError
 
         if time is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time)

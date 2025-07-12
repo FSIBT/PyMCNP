@@ -8,9 +8,6 @@ from ...utils import errors
 class Pwt(_option.DataOption):
     """
     Represents INP pwt elements.
-
-    Attributes:
-        weights: Relative threshold weight of photons produced at neutron collisions in cell.
     """
 
     _KEYWORD = 'pwt'
@@ -37,10 +34,11 @@ class Pwt(_option.DataOption):
     @property
     def weights(self) -> types.Tuple[types.Real]:
         """
-        Gets ``weights``.
+        Relative threshold weight of photons produced at neutron collisions in cell
 
-        Returns:
-            ``weights``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._weights
@@ -63,14 +61,11 @@ class Pwt(_option.DataOption):
             for item in weights:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             weights = types.Tuple(array)
 
         if weights is None:

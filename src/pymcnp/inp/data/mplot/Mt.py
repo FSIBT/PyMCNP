@@ -8,9 +8,6 @@ from ....utils import errors
 class Mt(_option.MplotOption):
     """
     Represents INP mt elements.
-
-    Attributes:
-        n: Reaction number to print.
     """
 
     _KEYWORD = 'mt'
@@ -37,10 +34,11 @@ class Mt(_option.MplotOption):
     @property
     def n(self) -> types.Integer:
         """
-        Gets ``n``.
+        Reaction number to print
 
-        Returns:
-            ``n``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._n
@@ -65,8 +63,6 @@ class Mt(_option.MplotOption):
                 n = types.Integer(n)
             elif isinstance(n, str):
                 n = types.Integer.from_mcnp(n)
-            else:
-                raise TypeError
 
         if n is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n)

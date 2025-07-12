@@ -8,9 +8,6 @@ from .....utils import errors
 class Libname(_option.BlockOption):
     """
     Represents INP libname elements.
-
-    Attributes:
-        setting: Cross-section file name.
     """
 
     _KEYWORD = 'libname'
@@ -37,10 +34,11 @@ class Libname(_option.BlockOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Cross-section file name
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Libname(_option.BlockOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

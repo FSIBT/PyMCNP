@@ -8,11 +8,6 @@ from ....utils import errors
 class Subtitle(_option.MplotOption):
     """
     Represents INP subtitle elements.
-
-    Attributes:
-        x: x-coordinate of location.
-        y: y-coordinate of location.
-        aa: Line to substitute.
     """
 
     _KEYWORD = 'subtitle'
@@ -45,10 +40,11 @@ class Subtitle(_option.MplotOption):
     @property
     def x(self) -> types.Integer:
         """
-        Gets ``x``.
+        X-coordinate of location
 
-        Returns:
-            ``x``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x
@@ -73,8 +69,6 @@ class Subtitle(_option.MplotOption):
                 x = types.Integer(x)
             elif isinstance(x, str):
                 x = types.Integer.from_mcnp(x)
-            else:
-                raise TypeError
 
         if x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
@@ -84,10 +78,11 @@ class Subtitle(_option.MplotOption):
     @property
     def y(self) -> types.Integer:
         """
-        Gets ``y``.
+        Y-coordinate of location
 
-        Returns:
-            ``y``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._y
@@ -112,8 +107,6 @@ class Subtitle(_option.MplotOption):
                 y = types.Integer(y)
             elif isinstance(y, str):
                 y = types.Integer.from_mcnp(y)
-            else:
-                raise TypeError
 
         if y is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y)
@@ -123,10 +116,11 @@ class Subtitle(_option.MplotOption):
     @property
     def aa(self) -> types.String:
         """
-        Gets ``aa``.
+        Line to substitute
 
-        Returns:
-            ``aa``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._aa
@@ -149,8 +143,6 @@ class Subtitle(_option.MplotOption):
                 aa = aa
             elif isinstance(aa, str):
                 aa = types.String.from_mcnp(aa)
-            else:
-                raise TypeError
 
         if aa is None or not (len(aa) <= 40):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, aa)

@@ -6,9 +6,6 @@ from . import _option
 class Linlog(_option.MplotOption):
     """
     Represents INP linlog elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'linlog'

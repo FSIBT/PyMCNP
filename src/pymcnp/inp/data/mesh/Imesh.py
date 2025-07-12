@@ -8,9 +8,6 @@ from ....utils import errors
 class Imesh(_option.MeshOption):
     """
     Represents INP imesh elements.
-
-    Attributes:
-        vector: Locations of the coarse meshes in the x/r directions.
     """
 
     _KEYWORD = 'imesh'
@@ -37,10 +34,11 @@ class Imesh(_option.MeshOption):
     @property
     def vector(self) -> types.Tuple[types.Real]:
         """
-        Gets ``vector``.
+        Locations of the coarse meshes in the x/r directions
 
-        Returns:
-            ``vector``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._vector
@@ -63,14 +61,11 @@ class Imesh(_option.MeshOption):
             for item in vector:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             vector = types.Tuple(array)
 
         if vector is None:

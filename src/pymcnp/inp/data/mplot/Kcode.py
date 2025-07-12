@@ -8,9 +8,6 @@ from ....utils import errors
 class Kcode(_option.MplotOption):
     """
     Represents INP kcode elements.
-
-    Attributes:
-        i: Lifetime to remove.
     """
 
     _KEYWORD = 'kcode'
@@ -37,10 +34,11 @@ class Kcode(_option.MplotOption):
     @property
     def i(self) -> types.Integer:
         """
-        Gets ``i``.
+        Lifetime to remove
 
-        Returns:
-            ``i``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._i
@@ -65,8 +63,6 @@ class Kcode(_option.MplotOption):
                 i = types.Integer(i)
             elif isinstance(i, str):
                 i = types.Integer.from_mcnp(i)
-            else:
-                raise TypeError
 
         if i is None or not ((i >= 1 and i <= 6) or (i >= 1 and i <= 19)):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i)

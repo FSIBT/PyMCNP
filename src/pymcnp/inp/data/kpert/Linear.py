@@ -8,9 +8,6 @@ from ....utils import errors
 class Linear(_option.KpertOption):
     """
     Represents INP linear elements.
-
-    Attributes:
-        setting: Pertubated fission source on/off.
     """
 
     _KEYWORD = 'linear'
@@ -37,10 +34,11 @@ class Linear(_option.KpertOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Pertubated fission source on/off
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Linear(_option.KpertOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {'yes', 'no'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

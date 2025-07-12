@@ -8,9 +8,6 @@ from ....utils import errors
 class Eff(_option.SdefOption):
     """
     Represents INP eff elements.
-
-    Attributes:
-        criterion: Rejection efficiency criterion for position sampling.
     """
 
     _KEYWORD = 'eff'
@@ -37,10 +34,11 @@ class Eff(_option.SdefOption):
     @property
     def criterion(self) -> types.Real:
         """
-        Gets ``criterion``.
+        Rejection efficiency criterion for position sampling
 
-        Returns:
-            ``criterion``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._criterion
@@ -61,14 +59,10 @@ class Eff(_option.SdefOption):
         if criterion is not None:
             if isinstance(criterion, types.Real):
                 criterion = criterion
-            elif isinstance(criterion, int):
-                criterion = types.Real(criterion)
-            elif isinstance(criterion, float):
+            elif isinstance(criterion, int) or isinstance(criterion, float):
                 criterion = types.Real(criterion)
             elif isinstance(criterion, str):
                 criterion = types.Real.from_mcnp(criterion)
-            else:
-                raise TypeError
 
         if criterion is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, criterion)

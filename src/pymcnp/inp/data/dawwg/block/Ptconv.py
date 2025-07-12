@@ -8,9 +8,6 @@ from .....utils import errors
 class Ptconv(_option.BlockOption):
     """
     Represents INP ptconv elements.
-
-    Attributes:
-        setting: Special criticality convergence scheme on/off.
     """
 
     _KEYWORD = 'ptconv'
@@ -37,10 +34,11 @@ class Ptconv(_option.BlockOption):
     @property
     def setting(self) -> types.Integer:
         """
-        Gets ``setting``.
+        Special criticality convergence scheme on/off
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -65,8 +63,6 @@ class Ptconv(_option.BlockOption):
                 setting = types.Integer(setting)
             elif isinstance(setting, str):
                 setting = types.Integer.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {0, 1}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

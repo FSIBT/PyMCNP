@@ -8,9 +8,6 @@ from .....utils import errors
 class Lng(_option.BlockOption):
     """
     Represents INP lng elements.
-
-    Attributes:
-        setting: Number of the last neutron group.
     """
 
     _KEYWORD = 'lng'
@@ -37,10 +34,11 @@ class Lng(_option.BlockOption):
     @property
     def setting(self) -> types.Integer:
         """
-        Gets ``setting``.
+        Number of the last neutron group
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -65,8 +63,6 @@ class Lng(_option.BlockOption):
                 setting = types.Integer(setting)
             elif isinstance(setting, str):
                 setting = types.Integer.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

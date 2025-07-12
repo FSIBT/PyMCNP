@@ -7,9 +7,6 @@ from ....utils import types
 class Pert(_option.MplotOption):
     """
     Represents INP pert elements.
-
-    Attributes:
-        n: Number on a PERT card.
     """
 
     _KEYWORD = 'pert'
@@ -36,10 +33,11 @@ class Pert(_option.MplotOption):
     @property
     def n(self) -> types.Integer:
         """
-        Gets ``n``.
+        Number on a PERT card
 
-        Returns:
-            ``n``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._n
@@ -64,7 +62,5 @@ class Pert(_option.MplotOption):
                 n = types.Integer(n)
             elif isinstance(n, str):
                 n = types.Integer.from_mcnp(n)
-            else:
-                raise TypeError
 
         self._n: types.Integer = n

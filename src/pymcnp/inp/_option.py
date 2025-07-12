@@ -62,19 +62,9 @@ class Option(_object.McnpNonterminal):
             if (attribute := getattr(type(self), name).__get__(self)) is not None:
                 value.append(attribute)
         value = ' '.join(map(str, value))
-        print(type(self), self.__dict__)
-        print(self._KEYWORD, self._ATTRS.keys(), value)
 
         source = f"{self.prefix if hasattr(self, 'prefix') and self.prefix is not None else ''}{self._KEYWORD}{self.suffix if hasattr(self, 'suffix') and self.suffix is not None else ''}{(f':{self.designator}' if self.designator else '') if hasattr(self, 'designator') else ''} {value}"
         source, comments = _parser.preprocess_inp(source)
         source = _parser.postprocess_inp(source)
 
         return source
-
-
-class OptionBuilder(_object.McnpNonterminalBuilder):
-    """
-    Represents generic INP option builders.
-    """
-
-    pass

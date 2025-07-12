@@ -8,17 +8,6 @@ from ...utils import errors
 class Hsrc(_option.DataOption):
     """
     Represents INP hsrc elements.
-
-    Attributes:
-        x_number: Number of mesh intervals in x direction.
-        x_minimum: Minimum x-value for mesh.
-        x_maximum: Maximum x-value for mesh.
-        y_number: Number of mesh intervals in y direction.
-        y_minimum: Minimum y-value for mesh.
-        y_maximum: Maximum y-value for mesh.
-        z_number: Number of mesh intervals in z direction.
-        z_minimum: Minimum z-value for mesh.
-        z_maximum: Maximum z-value for mesh.
     """
 
     _KEYWORD = 'hsrc'
@@ -82,10 +71,11 @@ class Hsrc(_option.DataOption):
     @property
     def x_number(self) -> types.Integer:
         """
-        Gets ``x_number``.
+        Number of mesh intervals in x direction
 
-        Returns:
-            ``x_number``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x_number
@@ -110,8 +100,6 @@ class Hsrc(_option.DataOption):
                 x_number = types.Integer(x_number)
             elif isinstance(x_number, str):
                 x_number = types.Integer.from_mcnp(x_number)
-            else:
-                raise TypeError
 
         if x_number is None or not (x_number > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x_number)
@@ -121,10 +109,11 @@ class Hsrc(_option.DataOption):
     @property
     def x_minimum(self) -> types.Real:
         """
-        Gets ``x_minimum``.
+        Minimum x-value for mesh
 
-        Returns:
-            ``x_minimum``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x_minimum
@@ -145,14 +134,10 @@ class Hsrc(_option.DataOption):
         if x_minimum is not None:
             if isinstance(x_minimum, types.Real):
                 x_minimum = x_minimum
-            elif isinstance(x_minimum, int):
-                x_minimum = types.Real(x_minimum)
-            elif isinstance(x_minimum, float):
+            elif isinstance(x_minimum, int) or isinstance(x_minimum, float):
                 x_minimum = types.Real(x_minimum)
             elif isinstance(x_minimum, str):
                 x_minimum = types.Real.from_mcnp(x_minimum)
-            else:
-                raise TypeError
 
         if x_minimum is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x_minimum)
@@ -162,10 +147,11 @@ class Hsrc(_option.DataOption):
     @property
     def x_maximum(self) -> types.Real:
         """
-        Gets ``x_maximum``.
+        Maximum x-value for mesh
 
-        Returns:
-            ``x_maximum``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x_maximum
@@ -186,14 +172,10 @@ class Hsrc(_option.DataOption):
         if x_maximum is not None:
             if isinstance(x_maximum, types.Real):
                 x_maximum = x_maximum
-            elif isinstance(x_maximum, int):
-                x_maximum = types.Real(x_maximum)
-            elif isinstance(x_maximum, float):
+            elif isinstance(x_maximum, int) or isinstance(x_maximum, float):
                 x_maximum = types.Real(x_maximum)
             elif isinstance(x_maximum, str):
                 x_maximum = types.Real.from_mcnp(x_maximum)
-            else:
-                raise TypeError
 
         if x_maximum is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x_maximum)
@@ -203,10 +185,11 @@ class Hsrc(_option.DataOption):
     @property
     def y_number(self) -> types.Integer:
         """
-        Gets ``y_number``.
+        Number of mesh intervals in y direction
 
-        Returns:
-            ``y_number``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._y_number
@@ -231,8 +214,6 @@ class Hsrc(_option.DataOption):
                 y_number = types.Integer(y_number)
             elif isinstance(y_number, str):
                 y_number = types.Integer.from_mcnp(y_number)
-            else:
-                raise TypeError
 
         if y_number is None or not (y_number > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y_number)
@@ -242,10 +223,11 @@ class Hsrc(_option.DataOption):
     @property
     def y_minimum(self) -> types.Real:
         """
-        Gets ``y_minimum``.
+        Minimum y-value for mesh
 
-        Returns:
-            ``y_minimum``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._y_minimum
@@ -266,14 +248,10 @@ class Hsrc(_option.DataOption):
         if y_minimum is not None:
             if isinstance(y_minimum, types.Real):
                 y_minimum = y_minimum
-            elif isinstance(y_minimum, int):
-                y_minimum = types.Real(y_minimum)
-            elif isinstance(y_minimum, float):
+            elif isinstance(y_minimum, int) or isinstance(y_minimum, float):
                 y_minimum = types.Real(y_minimum)
             elif isinstance(y_minimum, str):
                 y_minimum = types.Real.from_mcnp(y_minimum)
-            else:
-                raise TypeError
 
         if y_minimum is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y_minimum)
@@ -283,10 +261,11 @@ class Hsrc(_option.DataOption):
     @property
     def y_maximum(self) -> types.Real:
         """
-        Gets ``y_maximum``.
+        Maximum y-value for mesh
 
-        Returns:
-            ``y_maximum``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._y_maximum
@@ -307,14 +286,10 @@ class Hsrc(_option.DataOption):
         if y_maximum is not None:
             if isinstance(y_maximum, types.Real):
                 y_maximum = y_maximum
-            elif isinstance(y_maximum, int):
-                y_maximum = types.Real(y_maximum)
-            elif isinstance(y_maximum, float):
+            elif isinstance(y_maximum, int) or isinstance(y_maximum, float):
                 y_maximum = types.Real(y_maximum)
             elif isinstance(y_maximum, str):
                 y_maximum = types.Real.from_mcnp(y_maximum)
-            else:
-                raise TypeError
 
         if y_maximum is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y_maximum)
@@ -324,10 +299,11 @@ class Hsrc(_option.DataOption):
     @property
     def z_number(self) -> types.Integer:
         """
-        Gets ``z_number``.
+        Number of mesh intervals in z direction
 
-        Returns:
-            ``z_number``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._z_number
@@ -352,8 +328,6 @@ class Hsrc(_option.DataOption):
                 z_number = types.Integer(z_number)
             elif isinstance(z_number, str):
                 z_number = types.Integer.from_mcnp(z_number)
-            else:
-                raise TypeError
 
         if z_number is None or not (z_number > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z_number)
@@ -363,10 +337,11 @@ class Hsrc(_option.DataOption):
     @property
     def z_minimum(self) -> types.Real:
         """
-        Gets ``z_minimum``.
+        Minimum z-value for mesh
 
-        Returns:
-            ``z_minimum``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._z_minimum
@@ -387,14 +362,10 @@ class Hsrc(_option.DataOption):
         if z_minimum is not None:
             if isinstance(z_minimum, types.Real):
                 z_minimum = z_minimum
-            elif isinstance(z_minimum, int):
-                z_minimum = types.Real(z_minimum)
-            elif isinstance(z_minimum, float):
+            elif isinstance(z_minimum, int) or isinstance(z_minimum, float):
                 z_minimum = types.Real(z_minimum)
             elif isinstance(z_minimum, str):
                 z_minimum = types.Real.from_mcnp(z_minimum)
-            else:
-                raise TypeError
 
         if z_minimum is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z_minimum)
@@ -404,10 +375,11 @@ class Hsrc(_option.DataOption):
     @property
     def z_maximum(self) -> types.Real:
         """
-        Gets ``z_maximum``.
+        Maximum z-value for mesh
 
-        Returns:
-            ``z_maximum``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._z_maximum
@@ -428,14 +400,10 @@ class Hsrc(_option.DataOption):
         if z_maximum is not None:
             if isinstance(z_maximum, types.Real):
                 z_maximum = z_maximum
-            elif isinstance(z_maximum, int):
-                z_maximum = types.Real(z_maximum)
-            elif isinstance(z_maximum, float):
+            elif isinstance(z_maximum, int) or isinstance(z_maximum, float):
                 z_maximum = types.Real(z_maximum)
             elif isinstance(z_maximum, str):
                 z_maximum = types.Real.from_mcnp(z_maximum)
-            else:
-                raise TypeError
 
         if z_maximum is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z_maximum)

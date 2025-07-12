@@ -8,9 +8,6 @@ from ....utils import errors
 class Sym(_option.SswOption):
     """
     Represents INP sym elements.
-
-    Attributes:
-        setting: Symmetric option flag.
     """
 
     _KEYWORD = 'sym'
@@ -37,10 +34,11 @@ class Sym(_option.SswOption):
     @property
     def setting(self) -> types.Integer:
         """
-        Gets ``setting``.
+        Symmetric option flag
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -65,8 +63,6 @@ class Sym(_option.SswOption):
                 setting = types.Integer(setting)
             elif isinstance(setting, str):
                 setting = types.Integer.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {0, 1, 2}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

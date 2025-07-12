@@ -8,10 +8,6 @@ from ...utils import errors
 class Pd(_option.LikeOption):
     """
     Represents INP pd elements.
-
-    Attributes:
-        suffix: Cell option suffix.
-        probability: Cell probability of DXTRAN contribution.
     """
 
     _KEYWORD = 'pd'
@@ -69,8 +65,6 @@ class Pd(_option.LikeOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -104,14 +98,10 @@ class Pd(_option.LikeOption):
         if probability is not None:
             if isinstance(probability, types.Real):
                 probability = probability
-            elif isinstance(probability, int):
-                probability = types.Real(probability)
-            elif isinstance(probability, float):
+            elif isinstance(probability, int) or isinstance(probability, float):
                 probability = types.Real(probability)
             elif isinstance(probability, str):
                 probability = types.Real.from_mcnp(probability)
-            else:
-                raise TypeError
 
         if probability is None or not (probability >= 0 and probability <= 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, probability)

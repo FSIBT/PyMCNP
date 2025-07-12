@@ -8,9 +8,6 @@ from .....utils import errors
 class Nomix(_option.BlockOption):
     """
     Represents INP nomix elements.
-
-    Attributes:
-        setting: Suppress writing mixing on/off.
     """
 
     _KEYWORD = 'nomix'
@@ -37,10 +34,11 @@ class Nomix(_option.BlockOption):
     @property
     def setting(self) -> types.Integer:
         """
-        Gets ``setting``.
+        Suppress writing mixing on/off
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -65,8 +63,6 @@ class Nomix(_option.BlockOption):
                 setting = types.Integer(setting)
             elif isinstance(setting, str):
                 setting = types.Integer.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {0, 1}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

@@ -7,9 +7,6 @@ from ....utils import types
 class Pause(_option.MplotOption):
     """
     Represents INP pause elements.
-
-    Attributes:
-        n: Pause duration.
     """
 
     _KEYWORD = 'pause'
@@ -36,10 +33,11 @@ class Pause(_option.MplotOption):
     @property
     def n(self) -> types.Integer:
         """
-        Gets ``n``.
+        Pause duration
 
-        Returns:
-            ``n``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._n
@@ -64,7 +62,5 @@ class Pause(_option.MplotOption):
                 n = types.Integer(n)
             elif isinstance(n, str):
                 n = types.Integer.from_mcnp(n)
-            else:
-                raise TypeError
 
         self._n: types.Integer = n

@@ -8,9 +8,6 @@ from ....utils import errors
 class Thresh(_option.ActOption):
     """
     Represents INP thresh elements.
-
-    Attributes:
-        fraction: Fraction of highest-amplitude discrete delayed-gamma lines retained.
     """
 
     _KEYWORD = 'thresh'
@@ -37,10 +34,11 @@ class Thresh(_option.ActOption):
     @property
     def fraction(self) -> types.Real:
         """
-        Gets ``fraction``.
+        Fraction of highest-amplitude discrete delayed-gamma lines retained
 
-        Returns:
-            ``fraction``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._fraction
@@ -61,14 +59,10 @@ class Thresh(_option.ActOption):
         if fraction is not None:
             if isinstance(fraction, types.Real):
                 fraction = fraction
-            elif isinstance(fraction, int):
-                fraction = types.Real(fraction)
-            elif isinstance(fraction, float):
+            elif isinstance(fraction, int) or isinstance(fraction, float):
                 fraction = types.Real(fraction)
             elif isinstance(fraction, str):
                 fraction = types.Real.from_mcnp(fraction)
-            else:
-                raise TypeError
 
         if fraction is None or not (fraction >= 0 and fraction <= 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fraction)

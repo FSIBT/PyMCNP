@@ -8,9 +8,6 @@ from ....utils import errors
 class Pty(_option.SsrOption):
     """
     Represents INP pty elements.
-
-    Attributes:
-        particles: Tuple of designators.
     """
 
     _KEYWORD = 'pty'
@@ -37,10 +34,11 @@ class Pty(_option.SsrOption):
     @property
     def particles(self) -> types.Tuple[types.Designator]:
         """
-        Gets ``particles``.
+        Tuple of designators
 
-        Returns:
-            ``particles``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._particles
@@ -65,8 +63,7 @@ class Pty(_option.SsrOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Designator.from_mcnp(item))
-                else:
-                    raise TypeError
+
             particles = types.Tuple(array)
 
         if particles is None:

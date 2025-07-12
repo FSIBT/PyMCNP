@@ -8,9 +8,6 @@ from ....utils import errors
 class Refi(_option.MOption_0):
     """
     Represents INP refi elements.
-
-    Attributes:
-        refractive_index: Refractive index constant.
     """
 
     _KEYWORD = 'refi'
@@ -37,10 +34,11 @@ class Refi(_option.MOption_0):
     @property
     def refractive_index(self) -> types.Real:
         """
-        Gets ``refractive_index``.
+        Refractive index constant
 
-        Returns:
-            ``refractive_index``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._refractive_index
@@ -61,14 +59,10 @@ class Refi(_option.MOption_0):
         if refractive_index is not None:
             if isinstance(refractive_index, types.Real):
                 refractive_index = refractive_index
-            elif isinstance(refractive_index, int):
-                refractive_index = types.Real(refractive_index)
-            elif isinstance(refractive_index, float):
+            elif isinstance(refractive_index, int) or isinstance(refractive_index, float):
                 refractive_index = types.Real(refractive_index)
             elif isinstance(refractive_index, str):
                 refractive_index = types.Real.from_mcnp(refractive_index)
-            else:
-                raise TypeError
 
         if refractive_index is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, refractive_index)

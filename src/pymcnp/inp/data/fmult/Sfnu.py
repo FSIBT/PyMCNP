@@ -8,9 +8,6 @@ from ....utils import errors
 class Sfnu(_option.FmultOption):
     """
     Represents INP sfnu elements.
-
-    Attributes:
-        distribution: V bar for or of cumulative distribution the sampling spontaneous fission.
     """
 
     _KEYWORD = 'sfnu'
@@ -37,10 +34,11 @@ class Sfnu(_option.FmultOption):
     @property
     def distribution(self) -> types.Tuple[types.Real]:
         """
-        Gets ``distribution``.
+        V bar for or of cumulative distribution the sampling spontaneous fission
 
-        Returns:
-            ``distribution``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._distribution
@@ -63,14 +61,11 @@ class Sfnu(_option.FmultOption):
             for item in distribution:
                 if isinstance(item, types.Real):
                     array.append(item)
-                elif isinstance(item, int):
-                    array.append(types.Real(item))
-                elif isinstance(item, float):
+                elif isinstance(item, int) or isinstance(item, float):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-                else:
-                    raise TypeError
+
             distribution = types.Tuple(array)
 
         if distribution is None:

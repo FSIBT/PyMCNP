@@ -8,11 +8,6 @@ from ....utils import errors
 class Loc(_option.SdefOption):
     """
     Represents INP loc elements.
-
-    Attributes:
-        latitude: Latitude for cosmic source.
-        longitude: Longitude for cosmic source.
-        altitude: Altitude for cosmic source.
     """
 
     _KEYWORD = 'loc'
@@ -45,10 +40,11 @@ class Loc(_option.SdefOption):
     @property
     def latitude(self) -> types.Real:
         """
-        Gets ``latitude``.
+        Latitude for cosmic source
 
-        Returns:
-            ``latitude``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._latitude
@@ -69,14 +65,10 @@ class Loc(_option.SdefOption):
         if latitude is not None:
             if isinstance(latitude, types.Real):
                 latitude = latitude
-            elif isinstance(latitude, int):
-                latitude = types.Real(latitude)
-            elif isinstance(latitude, float):
+            elif isinstance(latitude, int) or isinstance(latitude, float):
                 latitude = types.Real(latitude)
             elif isinstance(latitude, str):
                 latitude = types.Real.from_mcnp(latitude)
-            else:
-                raise TypeError
 
         if latitude is None or not (latitude >= -0 and latitude <= 90):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, latitude)
@@ -86,10 +78,11 @@ class Loc(_option.SdefOption):
     @property
     def longitude(self) -> types.Real:
         """
-        Gets ``longitude``.
+        Longitude for cosmic source
 
-        Returns:
-            ``longitude``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._longitude
@@ -110,14 +103,10 @@ class Loc(_option.SdefOption):
         if longitude is not None:
             if isinstance(longitude, types.Real):
                 longitude = longitude
-            elif isinstance(longitude, int):
-                longitude = types.Real(longitude)
-            elif isinstance(longitude, float):
+            elif isinstance(longitude, int) or isinstance(longitude, float):
                 longitude = types.Real(longitude)
             elif isinstance(longitude, str):
                 longitude = types.Real.from_mcnp(longitude)
-            else:
-                raise TypeError
 
         if longitude is None or not (longitude >= -0 and longitude <= 180):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, longitude)
@@ -127,10 +116,11 @@ class Loc(_option.SdefOption):
     @property
     def altitude(self) -> types.Real:
         """
-        Gets ``altitude``.
+        Altitude for cosmic source
 
-        Returns:
-            ``altitude``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._altitude
@@ -151,14 +141,10 @@ class Loc(_option.SdefOption):
         if altitude is not None:
             if isinstance(altitude, types.Real):
                 altitude = altitude
-            elif isinstance(altitude, int):
-                altitude = types.Real(altitude)
-            elif isinstance(altitude, float):
+            elif isinstance(altitude, int) or isinstance(altitude, float):
                 altitude = types.Real(altitude)
             elif isinstance(altitude, str):
                 altitude = types.Real.from_mcnp(altitude)
-            else:
-                raise TypeError
 
         if altitude is None or not (0 <= altitude):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, altitude)

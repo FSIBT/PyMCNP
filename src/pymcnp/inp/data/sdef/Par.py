@@ -8,9 +8,6 @@ from ....utils import errors
 class Par(_option.SdefOption):
     """
     Represents INP par elements.
-
-    Attributes:
-        kind: Source particle type.
     """
 
     _KEYWORD = 'par'
@@ -37,10 +34,11 @@ class Par(_option.SdefOption):
     @property
     def kind(self) -> types.String:
         """
-        Gets ``kind``.
+        Source particle type
 
-        Returns:
-            ``kind``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._kind
@@ -63,8 +61,6 @@ class Par(_option.SdefOption):
                 kind = kind
             elif isinstance(kind, str):
                 kind = types.String.from_mcnp(kind)
-            else:
-                raise TypeError
 
         if kind is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kind)

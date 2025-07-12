@@ -8,15 +8,6 @@ from ...utils import errors
 class Mgopt(_option.DataOption):
     """
     Represents INP mgopt elements.
-
-    Attributes:
-        mcal: Problem type setting.
-        igm: Total number of energy groups for all kinds of particle.
-        iplt: Weight windows usage indicator.
-        iab: Adjoint biasing for adjoint problems contorls.
-        icw: Name of the reference cell for generated weight windows.
-        fnw: Normalization value for generated weight windows.
-        rim: Generated weight windows compression limit.
     """
 
     _KEYWORD = 'mgopt'
@@ -72,10 +63,11 @@ class Mgopt(_option.DataOption):
     @property
     def mcal(self) -> types.String:
         """
-        Gets ``mcal``.
+        Problem type setting
 
-        Returns:
-            ``mcal``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._mcal
@@ -98,8 +90,6 @@ class Mgopt(_option.DataOption):
                 mcal = mcal
             elif isinstance(mcal, str):
                 mcal = types.String.from_mcnp(mcal)
-            else:
-                raise TypeError
 
         if mcal is None or mcal not in {'f', 'a'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mcal)
@@ -109,10 +99,11 @@ class Mgopt(_option.DataOption):
     @property
     def igm(self) -> types.Integer:
         """
-        Gets ``igm``.
+        Total number of energy groups for all kinds of particle
 
-        Returns:
-            ``igm``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._igm
@@ -137,8 +128,6 @@ class Mgopt(_option.DataOption):
                 igm = types.Integer(igm)
             elif isinstance(igm, str):
                 igm = types.Integer.from_mcnp(igm)
-            else:
-                raise TypeError
 
         if igm is None or not (igm >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, igm)
@@ -148,10 +137,11 @@ class Mgopt(_option.DataOption):
     @property
     def iplt(self) -> types.Integer:
         """
-        Gets ``iplt``.
+        Weight windows usage indicator
 
-        Returns:
-            ``iplt``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._iplt
@@ -176,8 +166,6 @@ class Mgopt(_option.DataOption):
                 iplt = types.Integer(iplt)
             elif isinstance(iplt, str):
                 iplt = types.Integer.from_mcnp(iplt)
-            else:
-                raise TypeError
 
         if iplt is not None and iplt not in {0, 1, 2}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iplt)
@@ -187,10 +175,11 @@ class Mgopt(_option.DataOption):
     @property
     def iab(self) -> types.Integer:
         """
-        Gets ``iab``.
+        Adjoint biasing for adjoint problems contorls
 
-        Returns:
-            ``iab``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._iab
@@ -215,8 +204,6 @@ class Mgopt(_option.DataOption):
                 iab = types.Integer(iab)
             elif isinstance(iab, str):
                 iab = types.Integer.from_mcnp(iab)
-            else:
-                raise TypeError
 
         if iab is not None and iab not in {0, 1, 2}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iab)
@@ -226,10 +213,11 @@ class Mgopt(_option.DataOption):
     @property
     def icw(self) -> types.Integer:
         """
-        Gets ``icw``.
+        Name of the reference cell for generated weight windows
 
-        Returns:
-            ``icw``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._icw
@@ -254,18 +242,17 @@ class Mgopt(_option.DataOption):
                 icw = types.Integer(icw)
             elif isinstance(icw, str):
                 icw = types.Integer.from_mcnp(icw)
-            else:
-                raise TypeError
 
         self._icw: types.Integer = icw
 
     @property
     def fnw(self) -> types.Real:
         """
-        Gets ``fnw``.
+        Normalization value for generated weight windows
 
-        Returns:
-            ``fnw``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._fnw
@@ -286,24 +273,21 @@ class Mgopt(_option.DataOption):
         if fnw is not None:
             if isinstance(fnw, types.Real):
                 fnw = fnw
-            elif isinstance(fnw, int):
-                fnw = types.Real(fnw)
-            elif isinstance(fnw, float):
+            elif isinstance(fnw, int) or isinstance(fnw, float):
                 fnw = types.Real(fnw)
             elif isinstance(fnw, str):
                 fnw = types.Real.from_mcnp(fnw)
-            else:
-                raise TypeError
 
         self._fnw: types.Real = fnw
 
     @property
     def rim(self) -> types.Real:
         """
-        Gets ``rim``.
+        Generated weight windows compression limit
 
-        Returns:
-            ``rim``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._rim
@@ -324,13 +308,9 @@ class Mgopt(_option.DataOption):
         if rim is not None:
             if isinstance(rim, types.Real):
                 rim = rim
-            elif isinstance(rim, int):
-                rim = types.Real(rim)
-            elif isinstance(rim, float):
+            elif isinstance(rim, int) or isinstance(rim, float):
                 rim = types.Real(rim)
             elif isinstance(rim, str):
                 rim = types.Real.from_mcnp(rim)
-            else:
-                raise TypeError
 
         self._rim: types.Real = rim

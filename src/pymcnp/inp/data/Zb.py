@@ -7,9 +7,6 @@ from ...utils import types
 class Zb(_option.DataOption):
     """
     Represents INP zb elements.
-
-    Attributes:
-        anything: Any parameters.
     """
 
     _KEYWORD = 'zb'
@@ -36,10 +33,11 @@ class Zb(_option.DataOption):
     @property
     def anything(self) -> types.String:
         """
-        Gets ``anything``.
+        Any parameters
 
-        Returns:
-            ``anything``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._anything
@@ -62,7 +60,5 @@ class Zb(_option.DataOption):
                 anything = anything
             elif isinstance(anything, str):
                 anything = types.String.from_mcnp(anything)
-            else:
-                raise TypeError
 
         self._anything: types.String = anything

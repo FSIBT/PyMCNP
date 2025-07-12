@@ -8,9 +8,6 @@ from ....utils import errors
 class Wash(_option.MplotOption):
     """
     Represents INP wash elements.
-
-    Attributes:
-        aa: Color-wash on/offs.
     """
 
     _KEYWORD = 'wash'
@@ -37,10 +34,11 @@ class Wash(_option.MplotOption):
     @property
     def aa(self) -> types.String:
         """
-        Gets ``aa``.
+        Color-wash on/offs
 
-        Returns:
-            ``aa``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._aa
@@ -63,8 +61,6 @@ class Wash(_option.MplotOption):
                 aa = aa
             elif isinstance(aa, str):
                 aa = types.String.from_mcnp(aa)
-            else:
-                raise TypeError
 
         if aa is None or aa not in {'on', 'off'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, aa)

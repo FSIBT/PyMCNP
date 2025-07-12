@@ -100,4 +100,8 @@ class Test_Ell:
 
     class Test_Draw(classes.Test_Draw):
         element = pymcnp.inp.surface.Ell
-        EXAMPLES = [consts.string.inp.surface.ELL]
+        EXAMPLES = [
+            consts.string.inp.surface.ELL,
+            'ell 1 2 3 4 5 6 7',
+            'ell 1 2 3 4 5 6 -7',
+        ]

@@ -8,9 +8,6 @@ from ....utils import errors
 class Csub(_option.TOption_1):
     """
     Represents INP csub elements.
-
-    Attributes:
-        count: Number of subdivisions to use.
     """
 
     _KEYWORD = 'csub'
@@ -37,10 +34,11 @@ class Csub(_option.TOption_1):
     @property
     def count(self) -> types.Integer:
         """
-        Gets ``count``.
+        Number of subdivisions to use
 
-        Returns:
-            ``count``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._count
@@ -65,8 +63,6 @@ class Csub(_option.TOption_1):
                 count = types.Integer(count)
             elif isinstance(count, str):
                 count = types.Integer.from_mcnp(count)
-            else:
-                raise TypeError
 
         if count is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, count)

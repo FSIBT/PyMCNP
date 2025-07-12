@@ -6,9 +6,6 @@ from . import _option
 class Lin(_option.ContourOption):
     """
     Represents INP lin elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'lin'

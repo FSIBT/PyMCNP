@@ -8,10 +8,6 @@ from ...utils import errors
 class Trcl_2(_option.LikeOption):
     """
     Represents INP trcl variation #2 elements.
-
-    Attributes:
-        prefix: Star prefix.
-        transformation: Cell transformation..
     """
 
     _KEYWORD = 'trcl'
@@ -67,8 +63,6 @@ class Trcl_2(_option.LikeOption):
                 prefix = prefix
             elif isinstance(prefix, str):
                 prefix = types.String.from_mcnp(prefix)
-            else:
-                raise TypeError
 
         if prefix is not None and prefix not in {'*'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
@@ -104,8 +98,6 @@ class Trcl_2(_option.LikeOption):
                 transformation = transformation
             elif isinstance(transformation, str):
                 transformation = types.Transformation_1.from_mcnp(transformation)
-            else:
-                raise TypeError
 
         if transformation is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, transformation)

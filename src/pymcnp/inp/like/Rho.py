@@ -8,9 +8,6 @@ from ...utils import errors
 class Rho(_option.LikeOption):
     """
     Represents INP rho elements.
-
-    Attributes:
-        density: Cell density.
     """
 
     _KEYWORD = 'rho'
@@ -61,14 +58,10 @@ class Rho(_option.LikeOption):
         if density is not None:
             if isinstance(density, types.Real):
                 density = density
-            elif isinstance(density, float):
-                density = types.Real(density)
-            elif isinstance(density, int):
+            elif isinstance(density, float) or isinstance(density, int):
                 density = types.Real(density)
             elif isinstance(density, str):
                 density = types.Real.from_mcnp(density)
-            else:
-                raise TypeError
 
         if density is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, density)

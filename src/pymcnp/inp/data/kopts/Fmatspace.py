@@ -8,9 +8,6 @@ from ....utils import errors
 class Fmatspace(_option.KoptsOption):
     """
     Represents INP fmatspace elements.
-
-    Attributes:
-        fmat_space: fmat_space.
     """
 
     _KEYWORD = 'fmatspace'
@@ -37,10 +34,11 @@ class Fmatspace(_option.KoptsOption):
     @property
     def fmat_space(self) -> types.Real:
         """
-        Gets ``fmat_space``.
+        Fmat_space
 
-        Returns:
-            ``fmat_space``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._fmat_space
@@ -61,14 +59,10 @@ class Fmatspace(_option.KoptsOption):
         if fmat_space is not None:
             if isinstance(fmat_space, types.Real):
                 fmat_space = fmat_space
-            elif isinstance(fmat_space, int):
-                fmat_space = types.Real(fmat_space)
-            elif isinstance(fmat_space, float):
+            elif isinstance(fmat_space, int) or isinstance(fmat_space, float):
                 fmat_space = types.Real(fmat_space)
             elif isinstance(fmat_space, str):
                 fmat_space = types.Real.from_mcnp(fmat_space)
-            else:
-                raise TypeError
 
         if fmat_space is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fmat_space)

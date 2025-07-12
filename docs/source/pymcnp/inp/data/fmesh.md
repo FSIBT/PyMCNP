@@ -7,6 +7,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.fmesh.Axs
    :members:
+   :inherited-members:
 ```
 
 ### ``Eints`` Class
@@ -14,6 +15,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.fmesh.Eints
    :members:
+   :inherited-members:
 ```
 
 ### ``Emesh`` Class
@@ -21,6 +23,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.fmesh.Emesh
    :members:
+   :inherited-members:
 ```
 
 ### ``Enorm`` Class
@@ -28,6 +31,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.fmesh.Enorm
    :members:
+   :inherited-members:
 ```
 
 ### ``Factor`` Class
@@ -35,6 +39,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.fmesh.Factor
    :members:
+   :inherited-members:
 ```
 
 ### ``Geom`` Class
@@ -42,6 +47,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.fmesh.Geom
    :members:
+   :inherited-members:
 ```
 
 ### ``Iints`` Class
@@ -49,6 +55,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.fmesh.Iints
    :members:
+   :inherited-members:
 ```
 
 ### ``Imesh`` Class
@@ -56,6 +63,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.fmesh.Imesh
    :members:
+   :inherited-members:
 ```
 
 ### ``Inc`` Class
@@ -63,6 +71,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.fmesh.Inc
    :members:
+   :inherited-members:
 ```
 
 ### ``Jints`` Class
@@ -70,6 +79,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.fmesh.Jints
    :members:
+   :inherited-members:
 ```
 
 ### ``Jmesh`` Class
@@ -77,6 +87,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.fmesh.Jmesh
    :members:
+   :inherited-members:
 ```
 
 ### ``Kclear`` Class
@@ -84,6 +95,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.fmesh.Kclear
    :members:
+   :inherited-members:
 ```
 
 ### ``Kints`` Class
@@ -91,6 +103,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.fmesh.Kints
    :members:
+   :inherited-members:
 ```
 
 ### ``Kmesh`` Class
@@ -98,6 +111,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.fmesh.Kmesh
    :members:
+   :inherited-members:
 ```
 
 ### ``Origin`` Class
@@ -105,6 +119,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.fmesh.Origin
    :members:
+   :inherited-members:
 ```
 
 ### ``Out`` Class
@@ -112,6 +127,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.fmesh.Out
    :members:
+   :inherited-members:
 ```
 
 ### ``Tints`` Class
@@ -119,6 +135,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.fmesh.Tints
    :members:
+   :inherited-members:
 ```
 
 ### ``Tmesh`` Class
@@ -126,6 +143,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.fmesh.Tmesh
    :members:
+   :inherited-members:
 ```
 
 ### ``Tnorm`` Class
@@ -133,6 +151,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.fmesh.Tnorm
    :members:
+   :inherited-members:
 ```
 
 ### ``Tr`` Class
@@ -140,6 +159,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.fmesh.Tr
    :members:
+   :inherited-members:
 ```
 
 ### ``Type`` Class
@@ -147,6 +167,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.fmesh.Type
    :members:
+   :inherited-members:
 ```
 
 ### ``Vec`` Class
@@ -154,160 +175,5 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.fmesh.Vec
    :members:
-```
-
-## Builder Classes
-
-### ``AxsBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.fmesh.AxsBuilder
-   :members:
-```
-
-### ``EintsBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.fmesh.EintsBuilder
-   :members:
-```
-
-### ``EmeshBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.fmesh.EmeshBuilder
-   :members:
-```
-
-### ``EnormBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.fmesh.EnormBuilder
-   :members:
-```
-
-### ``FactorBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.fmesh.FactorBuilder
-   :members:
-```
-
-### ``GeomBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.fmesh.GeomBuilder
-   :members:
-```
-
-### ``IintsBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.fmesh.IintsBuilder
-   :members:
-```
-
-### ``ImeshBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.fmesh.ImeshBuilder
-   :members:
-```
-
-### ``IncBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.fmesh.IncBuilder
-   :members:
-```
-
-### ``JintsBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.fmesh.JintsBuilder
-   :members:
-```
-
-### ``JmeshBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.fmesh.JmeshBuilder
-   :members:
-```
-
-### ``KclearBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.fmesh.KclearBuilder
-   :members:
-```
-
-### ``KintsBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.fmesh.KintsBuilder
-   :members:
-```
-
-### ``KmeshBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.fmesh.KmeshBuilder
-   :members:
-```
-
-### ``OriginBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.fmesh.OriginBuilder
-   :members:
-```
-
-### ``OutBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.fmesh.OutBuilder
-   :members:
-```
-
-### ``TintsBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.fmesh.TintsBuilder
-   :members:
-```
-
-### ``TmeshBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.fmesh.TmeshBuilder
-   :members:
-```
-
-### ``TnormBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.fmesh.TnormBuilder
-   :members:
-```
-
-### ``TrBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.fmesh.TrBuilder
-   :members:
-```
-
-### ``TypeBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.fmesh.TypeBuilder
-   :members:
-```
-
-### ``VecBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.fmesh.VecBuilder
-   :members:
+   :inherited-members:
 ```

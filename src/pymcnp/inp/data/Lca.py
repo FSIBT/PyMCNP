@@ -8,19 +8,6 @@ from ...utils import errors
 class Lca(_option.DataOption):
     """
     Represents INP lca elements.
-
-    Attributes:
-        ielas: Elastic scattering controls.
-        ipreg: pre-equilibrium model.
-        iexisa: Model choice controls.
-        ichoic: ISABEL intranuclear cascade model control.
-        jcoul: Coulomb barrier for incident charged particle controls.
-        nexite: Subtract nuclear recoil energy to get excitation energy.
-        npidk: Cutoff interact/terminate control.
-        noact: Particle transport settings.
-        icem: Choose alternative physics model.
-        ilaq: Choose light ion and nucleon physics modules.
-        nevtype: Choose number of evaporation particles for GEM2.
     """
 
     _KEYWORD = 'lca'
@@ -92,10 +79,11 @@ class Lca(_option.DataOption):
     @property
     def ielas(self) -> types.Integer:
         """
-        Gets ``ielas``.
+        Elastic scattering controls
 
-        Returns:
-            ``ielas``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ielas
@@ -120,8 +108,6 @@ class Lca(_option.DataOption):
                 ielas = types.Integer(ielas)
             elif isinstance(ielas, str):
                 ielas = types.Integer.from_mcnp(ielas)
-            else:
-                raise TypeError
 
         if ielas is not None and not (isinstance(ielas.value, types.Jump) or ielas == 0 or ielas == 1 or ielas == 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ielas)
@@ -131,10 +117,11 @@ class Lca(_option.DataOption):
     @property
     def ipreg(self) -> types.Integer:
         """
-        Gets ``ipreg``.
+        Pre-equilibrium model
 
-        Returns:
-            ``ipreg``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ipreg
@@ -159,8 +146,6 @@ class Lca(_option.DataOption):
                 ipreg = types.Integer(ipreg)
             elif isinstance(ipreg, str):
                 ipreg = types.Integer.from_mcnp(ipreg)
-            else:
-                raise TypeError
 
         if ipreg is not None and not (isinstance(ipreg.value, types.Jump) or ipreg == 0 or ipreg == 1 or ipreg == 2 or ipreg == 3):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ipreg)
@@ -170,10 +155,11 @@ class Lca(_option.DataOption):
     @property
     def iexisa(self) -> types.Integer:
         """
-        Gets ``iexisa``.
+        Model choice controls
 
-        Returns:
-            ``iexisa``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._iexisa
@@ -198,8 +184,6 @@ class Lca(_option.DataOption):
                 iexisa = types.Integer(iexisa)
             elif isinstance(iexisa, str):
                 iexisa = types.Integer.from_mcnp(iexisa)
-            else:
-                raise TypeError
 
         if iexisa is not None and not (isinstance(iexisa.value, types.Jump) or iexisa == 0 or iexisa == 1 or iexisa == 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iexisa)
@@ -209,10 +193,11 @@ class Lca(_option.DataOption):
     @property
     def ichoic(self) -> types.Integer:
         """
-        Gets ``ichoic``.
+        ISABEL intranuclear cascade model control
 
-        Returns:
-            ``ichoic``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ichoic
@@ -237,18 +222,17 @@ class Lca(_option.DataOption):
                 ichoic = types.Integer(ichoic)
             elif isinstance(ichoic, str):
                 ichoic = types.Integer.from_mcnp(ichoic)
-            else:
-                raise TypeError
 
         self._ichoic: types.Integer = ichoic
 
     @property
     def jcoul(self) -> types.Integer:
         """
-        Gets ``jcoul``.
+        Coulomb barrier for incident charged particle controls
 
-        Returns:
-            ``jcoul``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._jcoul
@@ -273,8 +257,6 @@ class Lca(_option.DataOption):
                 jcoul = types.Integer(jcoul)
             elif isinstance(jcoul, str):
                 jcoul = types.Integer.from_mcnp(jcoul)
-            else:
-                raise TypeError
 
         if jcoul is not None and not (isinstance(jcoul.value, types.Jump) or jcoul == 0 or jcoul == 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, jcoul)
@@ -284,10 +266,11 @@ class Lca(_option.DataOption):
     @property
     def nexite(self) -> types.Integer:
         """
-        Gets ``nexite``.
+        Subtract nuclear recoil energy to get excitation energy
 
-        Returns:
-            ``nexite``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._nexite
@@ -312,8 +295,6 @@ class Lca(_option.DataOption):
                 nexite = types.Integer(nexite)
             elif isinstance(nexite, str):
                 nexite = types.Integer.from_mcnp(nexite)
-            else:
-                raise TypeError
 
         if nexite is not None and not (isinstance(nexite.value, types.Jump) or nexite == 0 or nexite == 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nexite)
@@ -323,10 +304,11 @@ class Lca(_option.DataOption):
     @property
     def npidk(self) -> types.Integer:
         """
-        Gets ``npidk``.
+        Cutoff interact/terminate control
 
-        Returns:
-            ``npidk``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._npidk
@@ -351,8 +333,6 @@ class Lca(_option.DataOption):
                 npidk = types.Integer(npidk)
             elif isinstance(npidk, str):
                 npidk = types.Integer.from_mcnp(npidk)
-            else:
-                raise TypeError
 
         if npidk is not None and not (isinstance(npidk.value, types.Jump) or npidk == 0 or npidk == 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, npidk)
@@ -362,10 +342,11 @@ class Lca(_option.DataOption):
     @property
     def noact(self) -> types.Integer:
         """
-        Gets ``noact``.
+        Particle transport settings
 
-        Returns:
-            ``noact``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._noact
@@ -390,8 +371,6 @@ class Lca(_option.DataOption):
                 noact = types.Integer(noact)
             elif isinstance(noact, str):
                 noact = types.Integer.from_mcnp(noact)
-            else:
-                raise TypeError
 
         if noact is not None and not (isinstance(noact.value, types.Jump) or noact == -2 or noact == -1 or noact == 0 or noact == 1 or noact == 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, noact)
@@ -401,10 +380,11 @@ class Lca(_option.DataOption):
     @property
     def icem(self) -> types.Integer:
         """
-        Gets ``icem``.
+        Choose alternative physics model
 
-        Returns:
-            ``icem``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._icem
@@ -429,8 +409,6 @@ class Lca(_option.DataOption):
                 icem = types.Integer(icem)
             elif isinstance(icem, str):
                 icem = types.Integer.from_mcnp(icem)
-            else:
-                raise TypeError
 
         if icem is not None and not (isinstance(icem.value, types.Jump) or icem == 0 or icem == 1 or icem == 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, icem)
@@ -440,10 +418,11 @@ class Lca(_option.DataOption):
     @property
     def ilaq(self) -> types.Integer:
         """
-        Gets ``ilaq``.
+        Choose light ion and nucleon physics modules
 
-        Returns:
-            ``ilaq``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ilaq
@@ -468,8 +447,6 @@ class Lca(_option.DataOption):
                 ilaq = types.Integer(ilaq)
             elif isinstance(ilaq, str):
                 ilaq = types.Integer.from_mcnp(ilaq)
-            else:
-                raise TypeError
 
         if ilaq is not None and not (isinstance(ilaq.value, types.Jump) or ilaq == 0 or ilaq == 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ilaq)
@@ -479,10 +456,11 @@ class Lca(_option.DataOption):
     @property
     def nevtype(self) -> types.Integer:
         """
-        Gets ``nevtype``.
+        Choose number of evaporation particles for GEM2
 
-        Returns:
-            ``nevtype``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._nevtype
@@ -507,7 +485,5 @@ class Lca(_option.DataOption):
                 nevtype = types.Integer(nevtype)
             elif isinstance(nevtype, str):
                 nevtype = types.Integer.from_mcnp(nevtype)
-            else:
-                raise TypeError
 
         self._nevtype: types.Integer = nevtype

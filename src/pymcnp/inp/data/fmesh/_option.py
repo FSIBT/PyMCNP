@@ -7,11 +7,3 @@ class FmeshOption(_option.Option):
     """
 
     pass
-
-
-class FmeshOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP fmesh option builders.
-    """
-
-    pass

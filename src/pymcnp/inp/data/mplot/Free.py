@@ -9,11 +9,6 @@ from ....utils import errors
 class Free(_option.MplotOption):
     """
     Represents INP free elements.
-
-    Attributes:
-        x: Independent variable.
-        y: Dependent variable.
-        option: free option.
     """
 
     _KEYWORD = 'free'
@@ -46,10 +41,11 @@ class Free(_option.MplotOption):
     @property
     def x(self) -> types.String:
         """
-        Gets ``x``.
+        Independent variable
 
-        Returns:
-            ``x``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x
@@ -72,8 +68,6 @@ class Free(_option.MplotOption):
                 x = x
             elif isinstance(x, str):
                 x = types.String.from_mcnp(x)
-            else:
-                raise TypeError
 
         if x is None or x not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't', 'i', 'j', 'k'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
@@ -83,10 +77,11 @@ class Free(_option.MplotOption):
     @property
     def y(self) -> types.String:
         """
-        Gets ``y``.
+        Dependent variable
 
-        Returns:
-            ``y``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._y
@@ -109,8 +104,6 @@ class Free(_option.MplotOption):
                 y = y
             elif isinstance(y, str):
                 y = types.String.from_mcnp(y)
-            else:
-                raise TypeError
 
         if y is None or y not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't', 'i', 'j', 'k'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y)
@@ -120,10 +113,11 @@ class Free(_option.MplotOption):
     @property
     def option(self) -> free.FreeOption:
         """
-        Gets ``option``.
+        Free option
 
-        Returns:
-            ``option``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._option
@@ -146,7 +140,5 @@ class Free(_option.MplotOption):
                 option = option
             elif isinstance(option, str):
                 option = free.FreeOption.from_mcnp(option)
-            else:
-                raise TypeError
 
         self._option: free.FreeOption = option

@@ -8,10 +8,6 @@ from ...utils import errors
 class Fcl(_option.CellOption):
     """
     Represents INP fcl elements.
-
-    Attributes:
-        designator: Cell particle designator.
-        control: Cell forced-collision control.
     """
 
     _KEYWORD = 'fcl'
@@ -41,10 +37,11 @@ class Fcl(_option.CellOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Cell particle designator
 
-        Returns:
-            ``designator``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._designator
@@ -67,8 +64,6 @@ class Fcl(_option.CellOption):
                 designator = designator
             elif isinstance(designator, str):
                 designator = types.Designator.from_mcnp(designator)
-            else:
-                raise TypeError
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
@@ -78,10 +73,11 @@ class Fcl(_option.CellOption):
     @property
     def control(self) -> types.Real:
         """
-        Gets ``control``.
+        Cell forced-collision control
 
-        Returns:
-            ``control``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._control
@@ -102,14 +98,10 @@ class Fcl(_option.CellOption):
         if control is not None:
             if isinstance(control, types.Real):
                 control = control
-            elif isinstance(control, int):
-                control = types.Real(control)
-            elif isinstance(control, float):
+            elif isinstance(control, int) or isinstance(control, float):
                 control = types.Real(control)
             elif isinstance(control, str):
                 control = types.Real.from_mcnp(control)
-            else:
-                raise TypeError
 
         if control is None or not (control >= -1 and control <= 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, control)

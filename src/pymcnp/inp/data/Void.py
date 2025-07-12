@@ -7,9 +7,6 @@ from ...utils import types
 class Void(_option.DataOption):
     """
     Represents INP void elements.
-
-    Attributes:
-        numbers: Tuple of cell numbers.
     """
 
     _KEYWORD = 'void'
@@ -36,10 +33,11 @@ class Void(_option.DataOption):
     @property
     def numbers(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``numbers``.
+        Tuple of cell numbers
 
-        Returns:
-            ``numbers``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._numbers
@@ -66,8 +64,7 @@ class Void(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             numbers = types.Tuple(array)
 
         self._numbers: types.Tuple[types.Integer] = numbers

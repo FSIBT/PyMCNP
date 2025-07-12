@@ -8,9 +8,6 @@ from ...utils import types
 class Ssr(_option.DataOption):
     """
     Represents INP ssr elements.
-
-    Attributes:
-        options: Dictionary of options.
     """
 
     _KEYWORD = 'ssr'
@@ -37,10 +34,11 @@ class Ssr(_option.DataOption):
     @property
     def options(self) -> types.Tuple[ssr.SsrOption]:
         """
-        Gets ``options``.
+        Dictionary of options
 
-        Returns:
-            ``options``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._options
@@ -65,8 +63,7 @@ class Ssr(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(ssr.SsrOption.from_mcnp(item))
-                else:
-                    raise TypeError
+
             options = types.Tuple(array)
 
         self._options: types.Tuple[ssr.SsrOption] = options

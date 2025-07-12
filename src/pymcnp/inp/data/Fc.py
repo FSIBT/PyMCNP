@@ -8,10 +8,6 @@ from ...utils import errors
 class Fc(_option.DataOption):
     """
     Represents INP fc elements.
-
-    Attributes:
-        suffix: Data card option suffix.
-        info: Title for tally in output and MCTAL file.
     """
 
     _KEYWORD = 'fc'
@@ -41,10 +37,11 @@ class Fc(_option.DataOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Data card option suffix
 
-        Returns:
-            ``suffix``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._suffix
@@ -69,8 +66,6 @@ class Fc(_option.DataOption):
                 suffix = types.Integer(suffix)
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
-            else:
-                raise TypeError
 
         if suffix is None or not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
@@ -80,10 +75,11 @@ class Fc(_option.DataOption):
     @property
     def info(self) -> types.String:
         """
-        Gets ``info``.
+        Title for tally in output and MCTAL file
 
-        Returns:
-            ``info``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._info
@@ -106,8 +102,6 @@ class Fc(_option.DataOption):
                 info = info
             elif isinstance(info, str):
                 info = types.String.from_mcnp(info)
-            else:
-                raise TypeError
 
         if info is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, info)

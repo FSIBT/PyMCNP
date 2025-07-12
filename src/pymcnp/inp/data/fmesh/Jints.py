@@ -8,9 +8,6 @@ from ....utils import errors
 class Jints(_option.FmeshOption):
     """
     Represents INP jints elements.
-
-    Attributes:
-        count: Number of mesh points y/z for rectangular/cylindrical geometry.
     """
 
     _KEYWORD = 'jints'
@@ -37,10 +34,11 @@ class Jints(_option.FmeshOption):
     @property
     def count(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``count``.
+        Number of mesh points y/z for rectangular/cylindrical geometry
 
-        Returns:
-            ``count``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._count
@@ -67,8 +65,7 @@ class Jints(_option.FmeshOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             count = types.Tuple(array)
 
         if count is None:

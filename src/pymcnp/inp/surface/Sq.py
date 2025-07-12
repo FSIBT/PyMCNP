@@ -8,18 +8,6 @@ from ...utils import errors
 class Sq(_option.SurfaceOption):
     """
     Represents INP sq elements.
-
-    Attributes:
-        a: Oblique special quadratic A coefficent.
-        b: Oblique special quadratic B coefficent.
-        c: Oblique special quadratic C coefficent.
-        d: Oblique special quadratic D coefficent.
-        e: Oblique special quadratic E coefficent.
-        f: Oblique special quadratic F coefficent.
-        g: Oblique special quadratic G coefficent.
-        x: Oblique special quadratic center x component.
-        y: Oblique special quadratic center y component.
-        z: Oblique special quadratic center z component.
     """
 
     _KEYWORD = 'sq'
@@ -87,10 +75,11 @@ class Sq(_option.SurfaceOption):
     @property
     def a(self) -> types.Real:
         """
-        Gets ``a``.
+        Oblique special quadratic A coefficent
 
-        Returns:
-            ``a``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._a
@@ -111,14 +100,10 @@ class Sq(_option.SurfaceOption):
         if a is not None:
             if isinstance(a, types.Real):
                 a = a
-            elif isinstance(a, int):
-                a = types.Real(a)
-            elif isinstance(a, float):
+            elif isinstance(a, int) or isinstance(a, float):
                 a = types.Real(a)
             elif isinstance(a, str):
                 a = types.Real.from_mcnp(a)
-            else:
-                raise TypeError
 
         if a is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
@@ -128,10 +113,11 @@ class Sq(_option.SurfaceOption):
     @property
     def b(self) -> types.Real:
         """
-        Gets ``b``.
+        Oblique special quadratic B coefficent
 
-        Returns:
-            ``b``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._b
@@ -152,14 +138,10 @@ class Sq(_option.SurfaceOption):
         if b is not None:
             if isinstance(b, types.Real):
                 b = b
-            elif isinstance(b, int):
-                b = types.Real(b)
-            elif isinstance(b, float):
+            elif isinstance(b, int) or isinstance(b, float):
                 b = types.Real(b)
             elif isinstance(b, str):
                 b = types.Real.from_mcnp(b)
-            else:
-                raise TypeError
 
         if b is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, b)
@@ -169,10 +151,11 @@ class Sq(_option.SurfaceOption):
     @property
     def c(self) -> types.Real:
         """
-        Gets ``c``.
+        Oblique special quadratic C coefficent
 
-        Returns:
-            ``c``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._c
@@ -193,14 +176,10 @@ class Sq(_option.SurfaceOption):
         if c is not None:
             if isinstance(c, types.Real):
                 c = c
-            elif isinstance(c, int):
-                c = types.Real(c)
-            elif isinstance(c, float):
+            elif isinstance(c, int) or isinstance(c, float):
                 c = types.Real(c)
             elif isinstance(c, str):
                 c = types.Real.from_mcnp(c)
-            else:
-                raise TypeError
 
         if c is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, c)
@@ -210,10 +189,11 @@ class Sq(_option.SurfaceOption):
     @property
     def d(self) -> types.Real:
         """
-        Gets ``d``.
+        Oblique special quadratic D coefficent
 
-        Returns:
-            ``d``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._d
@@ -234,14 +214,10 @@ class Sq(_option.SurfaceOption):
         if d is not None:
             if isinstance(d, types.Real):
                 d = d
-            elif isinstance(d, int):
-                d = types.Real(d)
-            elif isinstance(d, float):
+            elif isinstance(d, int) or isinstance(d, float):
                 d = types.Real(d)
             elif isinstance(d, str):
                 d = types.Real.from_mcnp(d)
-            else:
-                raise TypeError
 
         if d is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, d)
@@ -251,10 +227,11 @@ class Sq(_option.SurfaceOption):
     @property
     def e(self) -> types.Real:
         """
-        Gets ``e``.
+        Oblique special quadratic E coefficent
 
-        Returns:
-            ``e``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._e
@@ -275,14 +252,10 @@ class Sq(_option.SurfaceOption):
         if e is not None:
             if isinstance(e, types.Real):
                 e = e
-            elif isinstance(e, int):
-                e = types.Real(e)
-            elif isinstance(e, float):
+            elif isinstance(e, int) or isinstance(e, float):
                 e = types.Real(e)
             elif isinstance(e, str):
                 e = types.Real.from_mcnp(e)
-            else:
-                raise TypeError
 
         if e is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, e)
@@ -292,10 +265,11 @@ class Sq(_option.SurfaceOption):
     @property
     def f(self) -> types.Real:
         """
-        Gets ``f``.
+        Oblique special quadratic F coefficent
 
-        Returns:
-            ``f``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._f
@@ -316,14 +290,10 @@ class Sq(_option.SurfaceOption):
         if f is not None:
             if isinstance(f, types.Real):
                 f = f
-            elif isinstance(f, int):
-                f = types.Real(f)
-            elif isinstance(f, float):
+            elif isinstance(f, int) or isinstance(f, float):
                 f = types.Real(f)
             elif isinstance(f, str):
                 f = types.Real.from_mcnp(f)
-            else:
-                raise TypeError
 
         if f is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f)
@@ -333,10 +303,11 @@ class Sq(_option.SurfaceOption):
     @property
     def g(self) -> types.Real:
         """
-        Gets ``g``.
+        Oblique special quadratic G coefficent
 
-        Returns:
-            ``g``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._g
@@ -357,14 +328,10 @@ class Sq(_option.SurfaceOption):
         if g is not None:
             if isinstance(g, types.Real):
                 g = g
-            elif isinstance(g, int):
-                g = types.Real(g)
-            elif isinstance(g, float):
+            elif isinstance(g, int) or isinstance(g, float):
                 g = types.Real(g)
             elif isinstance(g, str):
                 g = types.Real.from_mcnp(g)
-            else:
-                raise TypeError
 
         if g is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, g)
@@ -374,10 +341,11 @@ class Sq(_option.SurfaceOption):
     @property
     def x(self) -> types.Real:
         """
-        Gets ``x``.
+        Oblique special quadratic center x component
 
-        Returns:
-            ``x``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._x
@@ -398,14 +366,10 @@ class Sq(_option.SurfaceOption):
         if x is not None:
             if isinstance(x, types.Real):
                 x = x
-            elif isinstance(x, int):
-                x = types.Real(x)
-            elif isinstance(x, float):
+            elif isinstance(x, int) or isinstance(x, float):
                 x = types.Real(x)
             elif isinstance(x, str):
                 x = types.Real.from_mcnp(x)
-            else:
-                raise TypeError
 
         if x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
@@ -415,10 +379,11 @@ class Sq(_option.SurfaceOption):
     @property
     def y(self) -> types.Real:
         """
-        Gets ``y``.
+        Oblique special quadratic center y component
 
-        Returns:
-            ``y``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._y
@@ -439,14 +404,10 @@ class Sq(_option.SurfaceOption):
         if y is not None:
             if isinstance(y, types.Real):
                 y = y
-            elif isinstance(y, int):
-                y = types.Real(y)
-            elif isinstance(y, float):
+            elif isinstance(y, int) or isinstance(y, float):
                 y = types.Real(y)
             elif isinstance(y, str):
                 y = types.Real.from_mcnp(y)
-            else:
-                raise TypeError
 
         if y is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y)
@@ -456,10 +417,11 @@ class Sq(_option.SurfaceOption):
     @property
     def z(self) -> types.Real:
         """
-        Gets ``z``.
+        Oblique special quadratic center z component
 
-        Returns:
-            ``z``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._z
@@ -480,14 +442,10 @@ class Sq(_option.SurfaceOption):
         if z is not None:
             if isinstance(z, types.Real):
                 z = z
-            elif isinstance(z, int):
-                z = types.Real(z)
-            elif isinstance(z, float):
+            elif isinstance(z, int) or isinstance(z, float):
                 z = types.Real(z)
             elif isinstance(z, str):
                 z = types.Real.from_mcnp(z)
-            else:
-                raise TypeError
 
         if z is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z)

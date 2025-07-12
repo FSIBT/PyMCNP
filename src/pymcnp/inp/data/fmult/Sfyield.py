@@ -8,9 +8,6 @@ from ....utils import errors
 class Sfyield(_option.FmultOption):
     """
     Represents INP sfyield elements.
-
-    Attributes:
-        fission_yield: Spontaneous fission yield.
     """
 
     _KEYWORD = 'sfyield'
@@ -37,10 +34,11 @@ class Sfyield(_option.FmultOption):
     @property
     def fission_yield(self) -> types.Real:
         """
-        Gets ``fission_yield``.
+        Spontaneous fission yield
 
-        Returns:
-            ``fission_yield``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._fission_yield
@@ -61,14 +59,10 @@ class Sfyield(_option.FmultOption):
         if fission_yield is not None:
             if isinstance(fission_yield, types.Real):
                 fission_yield = fission_yield
-            elif isinstance(fission_yield, int):
-                fission_yield = types.Real(fission_yield)
-            elif isinstance(fission_yield, float):
+            elif isinstance(fission_yield, int) or isinstance(fission_yield, float):
                 fission_yield = types.Real(fission_yield)
             elif isinstance(fission_yield, str):
                 fission_yield = types.Real.from_mcnp(fission_yield)
-            else:
-                raise TypeError
 
         if fission_yield is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fission_yield)

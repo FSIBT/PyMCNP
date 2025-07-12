@@ -9,9 +9,6 @@ from ...utils import _visualization
 class So(_option.SurfaceOption):
     """
     Represents INP so elements.
-
-    Attributes:
-        r: Origin-centered sphere radius.
     """
 
     _KEYWORD = 'so'
@@ -38,10 +35,11 @@ class So(_option.SurfaceOption):
     @property
     def r(self) -> types.Real:
         """
-        Gets ``r``.
+        Origin-centered sphere radius
 
-        Returns:
-            ``r``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._r
@@ -62,14 +60,10 @@ class So(_option.SurfaceOption):
         if r is not None:
             if isinstance(r, types.Real):
                 r = r
-            elif isinstance(r, int):
-                r = types.Real(r)
-            elif isinstance(r, float):
+            elif isinstance(r, int) or isinstance(r, float):
                 r = types.Real(r)
             elif isinstance(r, str):
                 r = types.Real.from_mcnp(r)
-            else:
-                raise TypeError
 
         if r is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r)

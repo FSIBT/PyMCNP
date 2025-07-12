@@ -8,9 +8,6 @@ from ....utils import errors
 class Nreact(_option.TroptOption):
     """
     Represents INP nreact elements.
-
-    Attributes:
-        setting: Nuclear reactions setting.
     """
 
     _KEYWORD = 'nreact'
@@ -37,10 +34,11 @@ class Nreact(_option.TroptOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        Nuclear reactions setting
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class Nreact(_option.TroptOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {'off', 'on', 'atten', 'remove'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

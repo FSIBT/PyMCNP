@@ -8,9 +8,6 @@ from ...utils import errors
 class U(_option.LikeOption):
     """
     Represents INP u elements.
-
-    Attributes:
-        number: Cell universe number.
     """
 
     _KEYWORD = 'u'
@@ -65,8 +62,6 @@ class U(_option.LikeOption):
                 number = types.Integer(number)
             elif isinstance(number, str):
                 number = types.Integer.from_mcnp(number)
-            else:
-                raise TypeError
 
         if number is None or not (number == 10000000000 or (number >= -9 and number <= 99_999_999)):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)

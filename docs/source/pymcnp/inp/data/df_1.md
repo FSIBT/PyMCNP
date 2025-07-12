@@ -7,6 +7,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.df_1.Fac
    :members:
+   :inherited-members:
 ```
 
 ### ``Ic`` Class
@@ -14,6 +15,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.df_1.Ic
    :members:
+   :inherited-members:
 ```
 
 ### ``Log`` Class
@@ -21,6 +23,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.df_1.Log
    :members:
+   :inherited-members:
 ```
 
 ### ``Lin`` Class
@@ -28,6 +31,7 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.df_1.Lin
    :members:
+   :inherited-members:
 ```
 
 ### ``Iu`` Class
@@ -35,41 +39,5 @@
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.df_1.Iu
    :members:
-```
-
-## Builder Classes
-
-### ``FacBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.df_1.FacBuilder
-   :members:
-```
-
-### ``IcBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.df_1.IcBuilder
-   :members:
-```
-
-### ``LogBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.df_1.LogBuilder
-   :members:
-```
-
-### ``LinBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.df_1.LinBuilder
-   :members:
-```
-
-### ``IuBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.df_1.IuBuilder
-   :members:
+   :inherited-members:
 ```

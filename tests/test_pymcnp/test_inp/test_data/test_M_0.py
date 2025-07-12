@@ -21,3 +21,18 @@ class Test_M_0:
         element = pymcnp.inp.data.M_0
         EXAMPLES_VALID = [consts.string.inp.data.M_0]
         EXAMPLES_INVALID = ['hello']
+
+    class Test_Formula:
+        element = pymcnp.inp.data.M_0
+        EXAMPLES = [
+            (1, {'H2O': 1}, True),
+            (1, {'H2O': 1}, False),
+        ]
+
+        def test(self):
+            """
+            Tests ``EXAMPLES`` on ``from_formula``.
+            """
+
+            for number, formulas, is_weight in self.EXAMPLES:
+                self.element.from_formula(number, formulas, is_weight)

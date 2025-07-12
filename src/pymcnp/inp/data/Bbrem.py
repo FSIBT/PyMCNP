@@ -8,58 +8,6 @@ from ...utils import errors
 class Bbrem(_option.DataOption):
     """
     Represents INP bbrem elements.
-
-    Attributes:
-        bias_1: Bias factor #1 for bremsstrahlung specturm.
-        bias_2: Bias factor #2 for bremsstrahlung specturm.
-        bias_3: Bias factor #3 for bremsstrahlung specturm.
-        bias_4: Bias factor #4 for bremsstrahlung specturm.
-        bias_5: Bias factor #5 for bremsstrahlung specturm.
-        bias_6: Bias factor #6 for bremsstrahlung specturm.
-        bias_7: Bias factor #7 for bremsstrahlung specturm.
-        bias_8: Bias factor #8 for bremsstrahlung specturm.
-        bias_9: Bias factor #9 for bremsstrahlung specturm.
-        bias_10: Bias factor #10 for bremsstrahlung specturm.
-        bias_11: Bias factor #11 for bremsstrahlung specturm.
-        bias_12: Bias factor #12 for bremsstrahlung specturm.
-        bias_13: Bias factor #13 for bremsstrahlung specturm.
-        bias_14: Bias factor #14 for bremsstrahlung specturm.
-        bias_15: Bias factor #15 for bremsstrahlung specturm.
-        bias_16: Bias factor #16 for bremsstrahlung specturm.
-        bias_17: Bias factor #17 for bremsstrahlung specturm.
-        bias_18: Bias factor #18 for bremsstrahlung specturm.
-        bias_19: Bias factor #19 for bremsstrahlung specturm.
-        bias_20: Bias factor #20 for bremsstrahlung specturm.
-        bias_21: Bias factor #21 for bremsstrahlung specturm.
-        bias_22: Bias factor #22 for bremsstrahlung specturm.
-        bias_23: Bias factor #23 for bremsstrahlung specturm.
-        bias_24: Bias factor #24 for bremsstrahlung specturm.
-        bias_25: Bias factor #25 for bremsstrahlung specturm.
-        bias_26: Bias factor #26 for bremsstrahlung specturm.
-        bias_27: Bias factor #27 for bremsstrahlung specturm.
-        bias_28: Bias factor #28 for bremsstrahlung specturm.
-        bias_29: Bias factor #29 for bremsstrahlung specturm.
-        bias_30: Bias factor #30 for bremsstrahlung specturm.
-        bias_31: Bias factor #31 for bremsstrahlung specturm.
-        bias_32: Bias factor #32 for bremsstrahlung specturm.
-        bias_33: Bias factor #33 for bremsstrahlung specturm.
-        bias_34: Bias factor #34 for bremsstrahlung specturm.
-        bias_35: Bias factor #35 for bremsstrahlung specturm.
-        bias_36: Bias factor #36 for bremsstrahlung specturm.
-        bias_37: Bias factor #37 for bremsstrahlung specturm.
-        bias_38: Bias factor #38 for bremsstrahlung specturm.
-        bias_39: Bias factor #39 for bremsstrahlung specturm.
-        bias_40: Bias factor #40 for bremsstrahlung specturm.
-        bias_41: Bias factor #41 for bremsstrahlung specturm.
-        bias_42: Bias factor #42 for bremsstrahlung specturm.
-        bias_43: Bias factor #43 for bremsstrahlung specturm.
-        bias_44: Bias factor #44 for bremsstrahlung specturm.
-        bias_45: Bias factor #45 for bremsstrahlung specturm.
-        bias_46: Bias factor #46 for bremsstrahlung specturm.
-        bias_47: Bias factor #47 for bremsstrahlung specturm.
-        bias_48: Bias factor #48 for bremsstrahlung specturm.
-        bias_49: Bias factor #49 for bremsstrahlung specturm.
-        materials: Material to bias.
     """
 
     _KEYWORD = 'bbrem'
@@ -287,10 +235,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_1(self) -> types.Real:
         """
-        Gets ``bias_1``.
+        Bias factor #1 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_1``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_1
@@ -311,14 +260,10 @@ class Bbrem(_option.DataOption):
         if bias_1 is not None:
             if isinstance(bias_1, types.Real):
                 bias_1 = bias_1
-            elif isinstance(bias_1, int):
-                bias_1 = types.Real(bias_1)
-            elif isinstance(bias_1, float):
+            elif isinstance(bias_1, int) or isinstance(bias_1, float):
                 bias_1 = types.Real(bias_1)
             elif isinstance(bias_1, str):
                 bias_1 = types.Real.from_mcnp(bias_1)
-            else:
-                raise TypeError
 
         if bias_1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_1)
@@ -328,10 +273,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_2(self) -> types.Real:
         """
-        Gets ``bias_2``.
+        Bias factor #2 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_2``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_2
@@ -352,14 +298,10 @@ class Bbrem(_option.DataOption):
         if bias_2 is not None:
             if isinstance(bias_2, types.Real):
                 bias_2 = bias_2
-            elif isinstance(bias_2, int):
-                bias_2 = types.Real(bias_2)
-            elif isinstance(bias_2, float):
+            elif isinstance(bias_2, int) or isinstance(bias_2, float):
                 bias_2 = types.Real(bias_2)
             elif isinstance(bias_2, str):
                 bias_2 = types.Real.from_mcnp(bias_2)
-            else:
-                raise TypeError
 
         if bias_2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_2)
@@ -369,10 +311,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_3(self) -> types.Real:
         """
-        Gets ``bias_3``.
+        Bias factor #3 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_3``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_3
@@ -393,14 +336,10 @@ class Bbrem(_option.DataOption):
         if bias_3 is not None:
             if isinstance(bias_3, types.Real):
                 bias_3 = bias_3
-            elif isinstance(bias_3, int):
-                bias_3 = types.Real(bias_3)
-            elif isinstance(bias_3, float):
+            elif isinstance(bias_3, int) or isinstance(bias_3, float):
                 bias_3 = types.Real(bias_3)
             elif isinstance(bias_3, str):
                 bias_3 = types.Real.from_mcnp(bias_3)
-            else:
-                raise TypeError
 
         if bias_3 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_3)
@@ -410,10 +349,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_4(self) -> types.Real:
         """
-        Gets ``bias_4``.
+        Bias factor #4 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_4``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_4
@@ -434,14 +374,10 @@ class Bbrem(_option.DataOption):
         if bias_4 is not None:
             if isinstance(bias_4, types.Real):
                 bias_4 = bias_4
-            elif isinstance(bias_4, int):
-                bias_4 = types.Real(bias_4)
-            elif isinstance(bias_4, float):
+            elif isinstance(bias_4, int) or isinstance(bias_4, float):
                 bias_4 = types.Real(bias_4)
             elif isinstance(bias_4, str):
                 bias_4 = types.Real.from_mcnp(bias_4)
-            else:
-                raise TypeError
 
         if bias_4 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_4)
@@ -451,10 +387,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_5(self) -> types.Real:
         """
-        Gets ``bias_5``.
+        Bias factor #5 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_5``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_5
@@ -475,14 +412,10 @@ class Bbrem(_option.DataOption):
         if bias_5 is not None:
             if isinstance(bias_5, types.Real):
                 bias_5 = bias_5
-            elif isinstance(bias_5, int):
-                bias_5 = types.Real(bias_5)
-            elif isinstance(bias_5, float):
+            elif isinstance(bias_5, int) or isinstance(bias_5, float):
                 bias_5 = types.Real(bias_5)
             elif isinstance(bias_5, str):
                 bias_5 = types.Real.from_mcnp(bias_5)
-            else:
-                raise TypeError
 
         if bias_5 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_5)
@@ -492,10 +425,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_6(self) -> types.Real:
         """
-        Gets ``bias_6``.
+        Bias factor #6 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_6``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_6
@@ -516,14 +450,10 @@ class Bbrem(_option.DataOption):
         if bias_6 is not None:
             if isinstance(bias_6, types.Real):
                 bias_6 = bias_6
-            elif isinstance(bias_6, int):
-                bias_6 = types.Real(bias_6)
-            elif isinstance(bias_6, float):
+            elif isinstance(bias_6, int) or isinstance(bias_6, float):
                 bias_6 = types.Real(bias_6)
             elif isinstance(bias_6, str):
                 bias_6 = types.Real.from_mcnp(bias_6)
-            else:
-                raise TypeError
 
         if bias_6 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_6)
@@ -533,10 +463,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_7(self) -> types.Real:
         """
-        Gets ``bias_7``.
+        Bias factor #7 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_7``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_7
@@ -557,14 +488,10 @@ class Bbrem(_option.DataOption):
         if bias_7 is not None:
             if isinstance(bias_7, types.Real):
                 bias_7 = bias_7
-            elif isinstance(bias_7, int):
-                bias_7 = types.Real(bias_7)
-            elif isinstance(bias_7, float):
+            elif isinstance(bias_7, int) or isinstance(bias_7, float):
                 bias_7 = types.Real(bias_7)
             elif isinstance(bias_7, str):
                 bias_7 = types.Real.from_mcnp(bias_7)
-            else:
-                raise TypeError
 
         if bias_7 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_7)
@@ -574,10 +501,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_8(self) -> types.Real:
         """
-        Gets ``bias_8``.
+        Bias factor #8 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_8``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_8
@@ -598,14 +526,10 @@ class Bbrem(_option.DataOption):
         if bias_8 is not None:
             if isinstance(bias_8, types.Real):
                 bias_8 = bias_8
-            elif isinstance(bias_8, int):
-                bias_8 = types.Real(bias_8)
-            elif isinstance(bias_8, float):
+            elif isinstance(bias_8, int) or isinstance(bias_8, float):
                 bias_8 = types.Real(bias_8)
             elif isinstance(bias_8, str):
                 bias_8 = types.Real.from_mcnp(bias_8)
-            else:
-                raise TypeError
 
         if bias_8 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_8)
@@ -615,10 +539,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_9(self) -> types.Real:
         """
-        Gets ``bias_9``.
+        Bias factor #9 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_9``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_9
@@ -639,14 +564,10 @@ class Bbrem(_option.DataOption):
         if bias_9 is not None:
             if isinstance(bias_9, types.Real):
                 bias_9 = bias_9
-            elif isinstance(bias_9, int):
-                bias_9 = types.Real(bias_9)
-            elif isinstance(bias_9, float):
+            elif isinstance(bias_9, int) or isinstance(bias_9, float):
                 bias_9 = types.Real(bias_9)
             elif isinstance(bias_9, str):
                 bias_9 = types.Real.from_mcnp(bias_9)
-            else:
-                raise TypeError
 
         if bias_9 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_9)
@@ -656,10 +577,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_10(self) -> types.Real:
         """
-        Gets ``bias_10``.
+        Bias factor #10 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_10``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_10
@@ -680,14 +602,10 @@ class Bbrem(_option.DataOption):
         if bias_10 is not None:
             if isinstance(bias_10, types.Real):
                 bias_10 = bias_10
-            elif isinstance(bias_10, int):
-                bias_10 = types.Real(bias_10)
-            elif isinstance(bias_10, float):
+            elif isinstance(bias_10, int) or isinstance(bias_10, float):
                 bias_10 = types.Real(bias_10)
             elif isinstance(bias_10, str):
                 bias_10 = types.Real.from_mcnp(bias_10)
-            else:
-                raise TypeError
 
         if bias_10 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_10)
@@ -697,10 +615,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_11(self) -> types.Real:
         """
-        Gets ``bias_11``.
+        Bias factor #11 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_11``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_11
@@ -721,14 +640,10 @@ class Bbrem(_option.DataOption):
         if bias_11 is not None:
             if isinstance(bias_11, types.Real):
                 bias_11 = bias_11
-            elif isinstance(bias_11, int):
-                bias_11 = types.Real(bias_11)
-            elif isinstance(bias_11, float):
+            elif isinstance(bias_11, int) or isinstance(bias_11, float):
                 bias_11 = types.Real(bias_11)
             elif isinstance(bias_11, str):
                 bias_11 = types.Real.from_mcnp(bias_11)
-            else:
-                raise TypeError
 
         if bias_11 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_11)
@@ -738,10 +653,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_12(self) -> types.Real:
         """
-        Gets ``bias_12``.
+        Bias factor #12 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_12``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_12
@@ -762,14 +678,10 @@ class Bbrem(_option.DataOption):
         if bias_12 is not None:
             if isinstance(bias_12, types.Real):
                 bias_12 = bias_12
-            elif isinstance(bias_12, int):
-                bias_12 = types.Real(bias_12)
-            elif isinstance(bias_12, float):
+            elif isinstance(bias_12, int) or isinstance(bias_12, float):
                 bias_12 = types.Real(bias_12)
             elif isinstance(bias_12, str):
                 bias_12 = types.Real.from_mcnp(bias_12)
-            else:
-                raise TypeError
 
         if bias_12 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_12)
@@ -779,10 +691,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_13(self) -> types.Real:
         """
-        Gets ``bias_13``.
+        Bias factor #13 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_13``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_13
@@ -803,14 +716,10 @@ class Bbrem(_option.DataOption):
         if bias_13 is not None:
             if isinstance(bias_13, types.Real):
                 bias_13 = bias_13
-            elif isinstance(bias_13, int):
-                bias_13 = types.Real(bias_13)
-            elif isinstance(bias_13, float):
+            elif isinstance(bias_13, int) or isinstance(bias_13, float):
                 bias_13 = types.Real(bias_13)
             elif isinstance(bias_13, str):
                 bias_13 = types.Real.from_mcnp(bias_13)
-            else:
-                raise TypeError
 
         if bias_13 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_13)
@@ -820,10 +729,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_14(self) -> types.Real:
         """
-        Gets ``bias_14``.
+        Bias factor #14 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_14``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_14
@@ -844,14 +754,10 @@ class Bbrem(_option.DataOption):
         if bias_14 is not None:
             if isinstance(bias_14, types.Real):
                 bias_14 = bias_14
-            elif isinstance(bias_14, int):
-                bias_14 = types.Real(bias_14)
-            elif isinstance(bias_14, float):
+            elif isinstance(bias_14, int) or isinstance(bias_14, float):
                 bias_14 = types.Real(bias_14)
             elif isinstance(bias_14, str):
                 bias_14 = types.Real.from_mcnp(bias_14)
-            else:
-                raise TypeError
 
         if bias_14 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_14)
@@ -861,10 +767,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_15(self) -> types.Real:
         """
-        Gets ``bias_15``.
+        Bias factor #15 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_15``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_15
@@ -885,14 +792,10 @@ class Bbrem(_option.DataOption):
         if bias_15 is not None:
             if isinstance(bias_15, types.Real):
                 bias_15 = bias_15
-            elif isinstance(bias_15, int):
-                bias_15 = types.Real(bias_15)
-            elif isinstance(bias_15, float):
+            elif isinstance(bias_15, int) or isinstance(bias_15, float):
                 bias_15 = types.Real(bias_15)
             elif isinstance(bias_15, str):
                 bias_15 = types.Real.from_mcnp(bias_15)
-            else:
-                raise TypeError
 
         if bias_15 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_15)
@@ -902,10 +805,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_16(self) -> types.Real:
         """
-        Gets ``bias_16``.
+        Bias factor #16 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_16``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_16
@@ -926,14 +830,10 @@ class Bbrem(_option.DataOption):
         if bias_16 is not None:
             if isinstance(bias_16, types.Real):
                 bias_16 = bias_16
-            elif isinstance(bias_16, int):
-                bias_16 = types.Real(bias_16)
-            elif isinstance(bias_16, float):
+            elif isinstance(bias_16, int) or isinstance(bias_16, float):
                 bias_16 = types.Real(bias_16)
             elif isinstance(bias_16, str):
                 bias_16 = types.Real.from_mcnp(bias_16)
-            else:
-                raise TypeError
 
         if bias_16 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_16)
@@ -943,10 +843,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_17(self) -> types.Real:
         """
-        Gets ``bias_17``.
+        Bias factor #17 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_17``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_17
@@ -967,14 +868,10 @@ class Bbrem(_option.DataOption):
         if bias_17 is not None:
             if isinstance(bias_17, types.Real):
                 bias_17 = bias_17
-            elif isinstance(bias_17, int):
-                bias_17 = types.Real(bias_17)
-            elif isinstance(bias_17, float):
+            elif isinstance(bias_17, int) or isinstance(bias_17, float):
                 bias_17 = types.Real(bias_17)
             elif isinstance(bias_17, str):
                 bias_17 = types.Real.from_mcnp(bias_17)
-            else:
-                raise TypeError
 
         if bias_17 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_17)
@@ -984,10 +881,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_18(self) -> types.Real:
         """
-        Gets ``bias_18``.
+        Bias factor #18 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_18``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_18
@@ -1008,14 +906,10 @@ class Bbrem(_option.DataOption):
         if bias_18 is not None:
             if isinstance(bias_18, types.Real):
                 bias_18 = bias_18
-            elif isinstance(bias_18, int):
-                bias_18 = types.Real(bias_18)
-            elif isinstance(bias_18, float):
+            elif isinstance(bias_18, int) or isinstance(bias_18, float):
                 bias_18 = types.Real(bias_18)
             elif isinstance(bias_18, str):
                 bias_18 = types.Real.from_mcnp(bias_18)
-            else:
-                raise TypeError
 
         if bias_18 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_18)
@@ -1025,10 +919,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_19(self) -> types.Real:
         """
-        Gets ``bias_19``.
+        Bias factor #19 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_19``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_19
@@ -1049,14 +944,10 @@ class Bbrem(_option.DataOption):
         if bias_19 is not None:
             if isinstance(bias_19, types.Real):
                 bias_19 = bias_19
-            elif isinstance(bias_19, int):
-                bias_19 = types.Real(bias_19)
-            elif isinstance(bias_19, float):
+            elif isinstance(bias_19, int) or isinstance(bias_19, float):
                 bias_19 = types.Real(bias_19)
             elif isinstance(bias_19, str):
                 bias_19 = types.Real.from_mcnp(bias_19)
-            else:
-                raise TypeError
 
         if bias_19 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_19)
@@ -1066,10 +957,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_20(self) -> types.Real:
         """
-        Gets ``bias_20``.
+        Bias factor #20 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_20``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_20
@@ -1090,14 +982,10 @@ class Bbrem(_option.DataOption):
         if bias_20 is not None:
             if isinstance(bias_20, types.Real):
                 bias_20 = bias_20
-            elif isinstance(bias_20, int):
-                bias_20 = types.Real(bias_20)
-            elif isinstance(bias_20, float):
+            elif isinstance(bias_20, int) or isinstance(bias_20, float):
                 bias_20 = types.Real(bias_20)
             elif isinstance(bias_20, str):
                 bias_20 = types.Real.from_mcnp(bias_20)
-            else:
-                raise TypeError
 
         if bias_20 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_20)
@@ -1107,10 +995,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_21(self) -> types.Real:
         """
-        Gets ``bias_21``.
+        Bias factor #21 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_21``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_21
@@ -1131,14 +1020,10 @@ class Bbrem(_option.DataOption):
         if bias_21 is not None:
             if isinstance(bias_21, types.Real):
                 bias_21 = bias_21
-            elif isinstance(bias_21, int):
-                bias_21 = types.Real(bias_21)
-            elif isinstance(bias_21, float):
+            elif isinstance(bias_21, int) or isinstance(bias_21, float):
                 bias_21 = types.Real(bias_21)
             elif isinstance(bias_21, str):
                 bias_21 = types.Real.from_mcnp(bias_21)
-            else:
-                raise TypeError
 
         if bias_21 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_21)
@@ -1148,10 +1033,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_22(self) -> types.Real:
         """
-        Gets ``bias_22``.
+        Bias factor #22 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_22``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_22
@@ -1172,14 +1058,10 @@ class Bbrem(_option.DataOption):
         if bias_22 is not None:
             if isinstance(bias_22, types.Real):
                 bias_22 = bias_22
-            elif isinstance(bias_22, int):
-                bias_22 = types.Real(bias_22)
-            elif isinstance(bias_22, float):
+            elif isinstance(bias_22, int) or isinstance(bias_22, float):
                 bias_22 = types.Real(bias_22)
             elif isinstance(bias_22, str):
                 bias_22 = types.Real.from_mcnp(bias_22)
-            else:
-                raise TypeError
 
         if bias_22 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_22)
@@ -1189,10 +1071,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_23(self) -> types.Real:
         """
-        Gets ``bias_23``.
+        Bias factor #23 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_23``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_23
@@ -1213,14 +1096,10 @@ class Bbrem(_option.DataOption):
         if bias_23 is not None:
             if isinstance(bias_23, types.Real):
                 bias_23 = bias_23
-            elif isinstance(bias_23, int):
-                bias_23 = types.Real(bias_23)
-            elif isinstance(bias_23, float):
+            elif isinstance(bias_23, int) or isinstance(bias_23, float):
                 bias_23 = types.Real(bias_23)
             elif isinstance(bias_23, str):
                 bias_23 = types.Real.from_mcnp(bias_23)
-            else:
-                raise TypeError
 
         if bias_23 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_23)
@@ -1230,10 +1109,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_24(self) -> types.Real:
         """
-        Gets ``bias_24``.
+        Bias factor #24 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_24``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_24
@@ -1254,14 +1134,10 @@ class Bbrem(_option.DataOption):
         if bias_24 is not None:
             if isinstance(bias_24, types.Real):
                 bias_24 = bias_24
-            elif isinstance(bias_24, int):
-                bias_24 = types.Real(bias_24)
-            elif isinstance(bias_24, float):
+            elif isinstance(bias_24, int) or isinstance(bias_24, float):
                 bias_24 = types.Real(bias_24)
             elif isinstance(bias_24, str):
                 bias_24 = types.Real.from_mcnp(bias_24)
-            else:
-                raise TypeError
 
         if bias_24 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_24)
@@ -1271,10 +1147,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_25(self) -> types.Real:
         """
-        Gets ``bias_25``.
+        Bias factor #25 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_25``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_25
@@ -1295,14 +1172,10 @@ class Bbrem(_option.DataOption):
         if bias_25 is not None:
             if isinstance(bias_25, types.Real):
                 bias_25 = bias_25
-            elif isinstance(bias_25, int):
-                bias_25 = types.Real(bias_25)
-            elif isinstance(bias_25, float):
+            elif isinstance(bias_25, int) or isinstance(bias_25, float):
                 bias_25 = types.Real(bias_25)
             elif isinstance(bias_25, str):
                 bias_25 = types.Real.from_mcnp(bias_25)
-            else:
-                raise TypeError
 
         if bias_25 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_25)
@@ -1312,10 +1185,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_26(self) -> types.Real:
         """
-        Gets ``bias_26``.
+        Bias factor #26 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_26``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_26
@@ -1336,14 +1210,10 @@ class Bbrem(_option.DataOption):
         if bias_26 is not None:
             if isinstance(bias_26, types.Real):
                 bias_26 = bias_26
-            elif isinstance(bias_26, int):
-                bias_26 = types.Real(bias_26)
-            elif isinstance(bias_26, float):
+            elif isinstance(bias_26, int) or isinstance(bias_26, float):
                 bias_26 = types.Real(bias_26)
             elif isinstance(bias_26, str):
                 bias_26 = types.Real.from_mcnp(bias_26)
-            else:
-                raise TypeError
 
         if bias_26 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_26)
@@ -1353,10 +1223,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_27(self) -> types.Real:
         """
-        Gets ``bias_27``.
+        Bias factor #27 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_27``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_27
@@ -1377,14 +1248,10 @@ class Bbrem(_option.DataOption):
         if bias_27 is not None:
             if isinstance(bias_27, types.Real):
                 bias_27 = bias_27
-            elif isinstance(bias_27, int):
-                bias_27 = types.Real(bias_27)
-            elif isinstance(bias_27, float):
+            elif isinstance(bias_27, int) or isinstance(bias_27, float):
                 bias_27 = types.Real(bias_27)
             elif isinstance(bias_27, str):
                 bias_27 = types.Real.from_mcnp(bias_27)
-            else:
-                raise TypeError
 
         if bias_27 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_27)
@@ -1394,10 +1261,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_28(self) -> types.Real:
         """
-        Gets ``bias_28``.
+        Bias factor #28 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_28``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_28
@@ -1418,14 +1286,10 @@ class Bbrem(_option.DataOption):
         if bias_28 is not None:
             if isinstance(bias_28, types.Real):
                 bias_28 = bias_28
-            elif isinstance(bias_28, int):
-                bias_28 = types.Real(bias_28)
-            elif isinstance(bias_28, float):
+            elif isinstance(bias_28, int) or isinstance(bias_28, float):
                 bias_28 = types.Real(bias_28)
             elif isinstance(bias_28, str):
                 bias_28 = types.Real.from_mcnp(bias_28)
-            else:
-                raise TypeError
 
         if bias_28 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_28)
@@ -1435,10 +1299,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_29(self) -> types.Real:
         """
-        Gets ``bias_29``.
+        Bias factor #29 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_29``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_29
@@ -1459,14 +1324,10 @@ class Bbrem(_option.DataOption):
         if bias_29 is not None:
             if isinstance(bias_29, types.Real):
                 bias_29 = bias_29
-            elif isinstance(bias_29, int):
-                bias_29 = types.Real(bias_29)
-            elif isinstance(bias_29, float):
+            elif isinstance(bias_29, int) or isinstance(bias_29, float):
                 bias_29 = types.Real(bias_29)
             elif isinstance(bias_29, str):
                 bias_29 = types.Real.from_mcnp(bias_29)
-            else:
-                raise TypeError
 
         if bias_29 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_29)
@@ -1476,10 +1337,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_30(self) -> types.Real:
         """
-        Gets ``bias_30``.
+        Bias factor #30 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_30``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_30
@@ -1500,14 +1362,10 @@ class Bbrem(_option.DataOption):
         if bias_30 is not None:
             if isinstance(bias_30, types.Real):
                 bias_30 = bias_30
-            elif isinstance(bias_30, int):
-                bias_30 = types.Real(bias_30)
-            elif isinstance(bias_30, float):
+            elif isinstance(bias_30, int) or isinstance(bias_30, float):
                 bias_30 = types.Real(bias_30)
             elif isinstance(bias_30, str):
                 bias_30 = types.Real.from_mcnp(bias_30)
-            else:
-                raise TypeError
 
         if bias_30 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_30)
@@ -1517,10 +1375,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_31(self) -> types.Real:
         """
-        Gets ``bias_31``.
+        Bias factor #31 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_31``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_31
@@ -1541,14 +1400,10 @@ class Bbrem(_option.DataOption):
         if bias_31 is not None:
             if isinstance(bias_31, types.Real):
                 bias_31 = bias_31
-            elif isinstance(bias_31, int):
-                bias_31 = types.Real(bias_31)
-            elif isinstance(bias_31, float):
+            elif isinstance(bias_31, int) or isinstance(bias_31, float):
                 bias_31 = types.Real(bias_31)
             elif isinstance(bias_31, str):
                 bias_31 = types.Real.from_mcnp(bias_31)
-            else:
-                raise TypeError
 
         if bias_31 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_31)
@@ -1558,10 +1413,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_32(self) -> types.Real:
         """
-        Gets ``bias_32``.
+        Bias factor #32 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_32``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_32
@@ -1582,14 +1438,10 @@ class Bbrem(_option.DataOption):
         if bias_32 is not None:
             if isinstance(bias_32, types.Real):
                 bias_32 = bias_32
-            elif isinstance(bias_32, int):
-                bias_32 = types.Real(bias_32)
-            elif isinstance(bias_32, float):
+            elif isinstance(bias_32, int) or isinstance(bias_32, float):
                 bias_32 = types.Real(bias_32)
             elif isinstance(bias_32, str):
                 bias_32 = types.Real.from_mcnp(bias_32)
-            else:
-                raise TypeError
 
         if bias_32 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_32)
@@ -1599,10 +1451,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_33(self) -> types.Real:
         """
-        Gets ``bias_33``.
+        Bias factor #33 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_33``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_33
@@ -1623,14 +1476,10 @@ class Bbrem(_option.DataOption):
         if bias_33 is not None:
             if isinstance(bias_33, types.Real):
                 bias_33 = bias_33
-            elif isinstance(bias_33, int):
-                bias_33 = types.Real(bias_33)
-            elif isinstance(bias_33, float):
+            elif isinstance(bias_33, int) or isinstance(bias_33, float):
                 bias_33 = types.Real(bias_33)
             elif isinstance(bias_33, str):
                 bias_33 = types.Real.from_mcnp(bias_33)
-            else:
-                raise TypeError
 
         if bias_33 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_33)
@@ -1640,10 +1489,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_34(self) -> types.Real:
         """
-        Gets ``bias_34``.
+        Bias factor #34 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_34``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_34
@@ -1664,14 +1514,10 @@ class Bbrem(_option.DataOption):
         if bias_34 is not None:
             if isinstance(bias_34, types.Real):
                 bias_34 = bias_34
-            elif isinstance(bias_34, int):
-                bias_34 = types.Real(bias_34)
-            elif isinstance(bias_34, float):
+            elif isinstance(bias_34, int) or isinstance(bias_34, float):
                 bias_34 = types.Real(bias_34)
             elif isinstance(bias_34, str):
                 bias_34 = types.Real.from_mcnp(bias_34)
-            else:
-                raise TypeError
 
         if bias_34 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_34)
@@ -1681,10 +1527,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_35(self) -> types.Real:
         """
-        Gets ``bias_35``.
+        Bias factor #35 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_35``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_35
@@ -1705,14 +1552,10 @@ class Bbrem(_option.DataOption):
         if bias_35 is not None:
             if isinstance(bias_35, types.Real):
                 bias_35 = bias_35
-            elif isinstance(bias_35, int):
-                bias_35 = types.Real(bias_35)
-            elif isinstance(bias_35, float):
+            elif isinstance(bias_35, int) or isinstance(bias_35, float):
                 bias_35 = types.Real(bias_35)
             elif isinstance(bias_35, str):
                 bias_35 = types.Real.from_mcnp(bias_35)
-            else:
-                raise TypeError
 
         if bias_35 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_35)
@@ -1722,10 +1565,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_36(self) -> types.Real:
         """
-        Gets ``bias_36``.
+        Bias factor #36 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_36``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_36
@@ -1746,14 +1590,10 @@ class Bbrem(_option.DataOption):
         if bias_36 is not None:
             if isinstance(bias_36, types.Real):
                 bias_36 = bias_36
-            elif isinstance(bias_36, int):
-                bias_36 = types.Real(bias_36)
-            elif isinstance(bias_36, float):
+            elif isinstance(bias_36, int) or isinstance(bias_36, float):
                 bias_36 = types.Real(bias_36)
             elif isinstance(bias_36, str):
                 bias_36 = types.Real.from_mcnp(bias_36)
-            else:
-                raise TypeError
 
         if bias_36 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_36)
@@ -1763,10 +1603,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_37(self) -> types.Real:
         """
-        Gets ``bias_37``.
+        Bias factor #37 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_37``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_37
@@ -1787,14 +1628,10 @@ class Bbrem(_option.DataOption):
         if bias_37 is not None:
             if isinstance(bias_37, types.Real):
                 bias_37 = bias_37
-            elif isinstance(bias_37, int):
-                bias_37 = types.Real(bias_37)
-            elif isinstance(bias_37, float):
+            elif isinstance(bias_37, int) or isinstance(bias_37, float):
                 bias_37 = types.Real(bias_37)
             elif isinstance(bias_37, str):
                 bias_37 = types.Real.from_mcnp(bias_37)
-            else:
-                raise TypeError
 
         if bias_37 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_37)
@@ -1804,10 +1641,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_38(self) -> types.Real:
         """
-        Gets ``bias_38``.
+        Bias factor #38 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_38``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_38
@@ -1828,14 +1666,10 @@ class Bbrem(_option.DataOption):
         if bias_38 is not None:
             if isinstance(bias_38, types.Real):
                 bias_38 = bias_38
-            elif isinstance(bias_38, int):
-                bias_38 = types.Real(bias_38)
-            elif isinstance(bias_38, float):
+            elif isinstance(bias_38, int) or isinstance(bias_38, float):
                 bias_38 = types.Real(bias_38)
             elif isinstance(bias_38, str):
                 bias_38 = types.Real.from_mcnp(bias_38)
-            else:
-                raise TypeError
 
         if bias_38 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_38)
@@ -1845,10 +1679,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_39(self) -> types.Real:
         """
-        Gets ``bias_39``.
+        Bias factor #39 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_39``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_39
@@ -1869,14 +1704,10 @@ class Bbrem(_option.DataOption):
         if bias_39 is not None:
             if isinstance(bias_39, types.Real):
                 bias_39 = bias_39
-            elif isinstance(bias_39, int):
-                bias_39 = types.Real(bias_39)
-            elif isinstance(bias_39, float):
+            elif isinstance(bias_39, int) or isinstance(bias_39, float):
                 bias_39 = types.Real(bias_39)
             elif isinstance(bias_39, str):
                 bias_39 = types.Real.from_mcnp(bias_39)
-            else:
-                raise TypeError
 
         if bias_39 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_39)
@@ -1886,10 +1717,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_40(self) -> types.Real:
         """
-        Gets ``bias_40``.
+        Bias factor #40 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_40``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_40
@@ -1910,14 +1742,10 @@ class Bbrem(_option.DataOption):
         if bias_40 is not None:
             if isinstance(bias_40, types.Real):
                 bias_40 = bias_40
-            elif isinstance(bias_40, int):
-                bias_40 = types.Real(bias_40)
-            elif isinstance(bias_40, float):
+            elif isinstance(bias_40, int) or isinstance(bias_40, float):
                 bias_40 = types.Real(bias_40)
             elif isinstance(bias_40, str):
                 bias_40 = types.Real.from_mcnp(bias_40)
-            else:
-                raise TypeError
 
         if bias_40 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_40)
@@ -1927,10 +1755,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_41(self) -> types.Real:
         """
-        Gets ``bias_41``.
+        Bias factor #41 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_41``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_41
@@ -1951,14 +1780,10 @@ class Bbrem(_option.DataOption):
         if bias_41 is not None:
             if isinstance(bias_41, types.Real):
                 bias_41 = bias_41
-            elif isinstance(bias_41, int):
-                bias_41 = types.Real(bias_41)
-            elif isinstance(bias_41, float):
+            elif isinstance(bias_41, int) or isinstance(bias_41, float):
                 bias_41 = types.Real(bias_41)
             elif isinstance(bias_41, str):
                 bias_41 = types.Real.from_mcnp(bias_41)
-            else:
-                raise TypeError
 
         if bias_41 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_41)
@@ -1968,10 +1793,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_42(self) -> types.Real:
         """
-        Gets ``bias_42``.
+        Bias factor #42 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_42``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_42
@@ -1992,14 +1818,10 @@ class Bbrem(_option.DataOption):
         if bias_42 is not None:
             if isinstance(bias_42, types.Real):
                 bias_42 = bias_42
-            elif isinstance(bias_42, int):
-                bias_42 = types.Real(bias_42)
-            elif isinstance(bias_42, float):
+            elif isinstance(bias_42, int) or isinstance(bias_42, float):
                 bias_42 = types.Real(bias_42)
             elif isinstance(bias_42, str):
                 bias_42 = types.Real.from_mcnp(bias_42)
-            else:
-                raise TypeError
 
         if bias_42 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_42)
@@ -2009,10 +1831,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_43(self) -> types.Real:
         """
-        Gets ``bias_43``.
+        Bias factor #43 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_43``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_43
@@ -2033,14 +1856,10 @@ class Bbrem(_option.DataOption):
         if bias_43 is not None:
             if isinstance(bias_43, types.Real):
                 bias_43 = bias_43
-            elif isinstance(bias_43, int):
-                bias_43 = types.Real(bias_43)
-            elif isinstance(bias_43, float):
+            elif isinstance(bias_43, int) or isinstance(bias_43, float):
                 bias_43 = types.Real(bias_43)
             elif isinstance(bias_43, str):
                 bias_43 = types.Real.from_mcnp(bias_43)
-            else:
-                raise TypeError
 
         if bias_43 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_43)
@@ -2050,10 +1869,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_44(self) -> types.Real:
         """
-        Gets ``bias_44``.
+        Bias factor #44 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_44``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_44
@@ -2074,14 +1894,10 @@ class Bbrem(_option.DataOption):
         if bias_44 is not None:
             if isinstance(bias_44, types.Real):
                 bias_44 = bias_44
-            elif isinstance(bias_44, int):
-                bias_44 = types.Real(bias_44)
-            elif isinstance(bias_44, float):
+            elif isinstance(bias_44, int) or isinstance(bias_44, float):
                 bias_44 = types.Real(bias_44)
             elif isinstance(bias_44, str):
                 bias_44 = types.Real.from_mcnp(bias_44)
-            else:
-                raise TypeError
 
         if bias_44 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_44)
@@ -2091,10 +1907,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_45(self) -> types.Real:
         """
-        Gets ``bias_45``.
+        Bias factor #45 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_45``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_45
@@ -2115,14 +1932,10 @@ class Bbrem(_option.DataOption):
         if bias_45 is not None:
             if isinstance(bias_45, types.Real):
                 bias_45 = bias_45
-            elif isinstance(bias_45, int):
-                bias_45 = types.Real(bias_45)
-            elif isinstance(bias_45, float):
+            elif isinstance(bias_45, int) or isinstance(bias_45, float):
                 bias_45 = types.Real(bias_45)
             elif isinstance(bias_45, str):
                 bias_45 = types.Real.from_mcnp(bias_45)
-            else:
-                raise TypeError
 
         if bias_45 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_45)
@@ -2132,10 +1945,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_46(self) -> types.Real:
         """
-        Gets ``bias_46``.
+        Bias factor #46 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_46``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_46
@@ -2156,14 +1970,10 @@ class Bbrem(_option.DataOption):
         if bias_46 is not None:
             if isinstance(bias_46, types.Real):
                 bias_46 = bias_46
-            elif isinstance(bias_46, int):
-                bias_46 = types.Real(bias_46)
-            elif isinstance(bias_46, float):
+            elif isinstance(bias_46, int) or isinstance(bias_46, float):
                 bias_46 = types.Real(bias_46)
             elif isinstance(bias_46, str):
                 bias_46 = types.Real.from_mcnp(bias_46)
-            else:
-                raise TypeError
 
         if bias_46 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_46)
@@ -2173,10 +1983,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_47(self) -> types.Real:
         """
-        Gets ``bias_47``.
+        Bias factor #47 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_47``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_47
@@ -2197,14 +2008,10 @@ class Bbrem(_option.DataOption):
         if bias_47 is not None:
             if isinstance(bias_47, types.Real):
                 bias_47 = bias_47
-            elif isinstance(bias_47, int):
-                bias_47 = types.Real(bias_47)
-            elif isinstance(bias_47, float):
+            elif isinstance(bias_47, int) or isinstance(bias_47, float):
                 bias_47 = types.Real(bias_47)
             elif isinstance(bias_47, str):
                 bias_47 = types.Real.from_mcnp(bias_47)
-            else:
-                raise TypeError
 
         if bias_47 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_47)
@@ -2214,10 +2021,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_48(self) -> types.Real:
         """
-        Gets ``bias_48``.
+        Bias factor #48 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_48``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_48
@@ -2238,14 +2046,10 @@ class Bbrem(_option.DataOption):
         if bias_48 is not None:
             if isinstance(bias_48, types.Real):
                 bias_48 = bias_48
-            elif isinstance(bias_48, int):
-                bias_48 = types.Real(bias_48)
-            elif isinstance(bias_48, float):
+            elif isinstance(bias_48, int) or isinstance(bias_48, float):
                 bias_48 = types.Real(bias_48)
             elif isinstance(bias_48, str):
                 bias_48 = types.Real.from_mcnp(bias_48)
-            else:
-                raise TypeError
 
         if bias_48 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_48)
@@ -2255,10 +2059,11 @@ class Bbrem(_option.DataOption):
     @property
     def bias_49(self) -> types.Real:
         """
-        Gets ``bias_49``.
+        Bias factor #49 for bremsstrahlung specturm
 
-        Returns:
-            ``bias_49``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._bias_49
@@ -2279,14 +2084,10 @@ class Bbrem(_option.DataOption):
         if bias_49 is not None:
             if isinstance(bias_49, types.Real):
                 bias_49 = bias_49
-            elif isinstance(bias_49, int):
-                bias_49 = types.Real(bias_49)
-            elif isinstance(bias_49, float):
+            elif isinstance(bias_49, int) or isinstance(bias_49, float):
                 bias_49 = types.Real(bias_49)
             elif isinstance(bias_49, str):
                 bias_49 = types.Real.from_mcnp(bias_49)
-            else:
-                raise TypeError
 
         if bias_49 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_49)
@@ -2296,10 +2097,11 @@ class Bbrem(_option.DataOption):
     @property
     def materials(self) -> types.Tuple[types.Integer]:
         """
-        Gets ``materials``.
+        Material to bias
 
-        Returns:
-            ``materials``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._materials
@@ -2326,8 +2128,7 @@ class Bbrem(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-                else:
-                    raise TypeError
+
             materials = types.Tuple(array)
 
         if materials is None:

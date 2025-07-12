@@ -7,11 +7,3 @@ class BlockOption(_option.Option):
     """
 
     pass
-
-
-class BlockOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP block option builders.
-    """
-
-    pass

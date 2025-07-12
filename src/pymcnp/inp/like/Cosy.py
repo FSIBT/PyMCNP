@@ -8,9 +8,6 @@ from ...utils import errors
 class Cosy(_option.LikeOption):
     """
     Represents INP cosy elements.
-
-    Attributes:
-        number: Cell cosy map number.
     """
 
     _KEYWORD = 'cosy'
@@ -65,8 +62,6 @@ class Cosy(_option.LikeOption):
                 number = types.Integer(number)
             elif isinstance(number, str):
                 number = types.Integer.from_mcnp(number)
-            else:
-                raise TypeError
 
         if number is None or number not in {1, 2, 3, 4, 5, 6}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)

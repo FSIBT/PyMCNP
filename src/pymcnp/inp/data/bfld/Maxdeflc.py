@@ -8,9 +8,6 @@ from ....utils import errors
 class Maxdeflc(_option.BfldOption):
     """
     Represents INP maxdeflc elements.
-
-    Attributes:
-        angle: Maximum deflection angles.
     """
 
     _KEYWORD = 'maxdeflc'
@@ -37,10 +34,11 @@ class Maxdeflc(_option.BfldOption):
     @property
     def angle(self) -> types.Real:
         """
-        Gets ``angle``.
+        Maximum deflection angles
 
-        Returns:
-            ``angle``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._angle
@@ -61,14 +59,10 @@ class Maxdeflc(_option.BfldOption):
         if angle is not None:
             if isinstance(angle, types.Real):
                 angle = angle
-            elif isinstance(angle, int):
-                angle = types.Real(angle)
-            elif isinstance(angle, float):
+            elif isinstance(angle, int) or isinstance(angle, float):
                 angle = types.Real(angle)
             elif isinstance(angle, str):
                 angle = types.Real.from_mcnp(angle)
-            else:
-                raise TypeError
 
         if angle is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, angle)

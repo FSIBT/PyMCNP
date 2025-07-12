@@ -8,14 +8,6 @@ from ...utils import errors
 class Phys_1(_option.DataOption):
     """
     Represents INP phys variation #1 elements.
-
-    Attributes:
-        emcpf: Upper energy limit for photon treatment.
-        ides: Generation of elections by photon controls.
-        nocoh: Coherent Thomson scattering controls.
-        ispn: Photonuclear particle production controls.
-        nodop: Photon Doppler energy broadening controls.
-        fism: Selection of photofission method controls.
     """
 
     _KEYWORD = 'phys:p'
@@ -67,10 +59,11 @@ class Phys_1(_option.DataOption):
     @property
     def emcpf(self) -> types.Real:
         """
-        Gets ``emcpf``.
+        Upper energy limit for photon treatment
 
-        Returns:
-            ``emcpf``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._emcpf
@@ -91,24 +84,21 @@ class Phys_1(_option.DataOption):
         if emcpf is not None:
             if isinstance(emcpf, types.Real):
                 emcpf = emcpf
-            elif isinstance(emcpf, int):
-                emcpf = types.Real(emcpf)
-            elif isinstance(emcpf, float):
+            elif isinstance(emcpf, int) or isinstance(emcpf, float):
                 emcpf = types.Real(emcpf)
             elif isinstance(emcpf, str):
                 emcpf = types.Real.from_mcnp(emcpf)
-            else:
-                raise TypeError
 
         self._emcpf: types.Real = emcpf
 
     @property
     def ides(self) -> types.Integer:
         """
-        Gets ``ides``.
+        Generation of elections by photon controls
 
-        Returns:
-            ``ides``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ides
@@ -133,8 +123,6 @@ class Phys_1(_option.DataOption):
                 ides = types.Integer(ides)
             elif isinstance(ides, str):
                 ides = types.Integer.from_mcnp(ides)
-            else:
-                raise TypeError
 
         if ides is not None and not (isinstance(ides.value, types.Jump) or ides in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ides)
@@ -144,10 +132,11 @@ class Phys_1(_option.DataOption):
     @property
     def nocoh(self) -> types.Integer:
         """
-        Gets ``nocoh``.
+        Coherent Thomson scattering controls
 
-        Returns:
-            ``nocoh``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._nocoh
@@ -172,8 +161,6 @@ class Phys_1(_option.DataOption):
                 nocoh = types.Integer(nocoh)
             elif isinstance(nocoh, str):
                 nocoh = types.Integer.from_mcnp(nocoh)
-            else:
-                raise TypeError
 
         if nocoh is not None and not (isinstance(nocoh.value, types.Jump) or nocoh in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nocoh)
@@ -183,10 +170,11 @@ class Phys_1(_option.DataOption):
     @property
     def ispn(self) -> types.Integer:
         """
-        Gets ``ispn``.
+        Photonuclear particle production controls
 
-        Returns:
-            ``ispn``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._ispn
@@ -211,8 +199,6 @@ class Phys_1(_option.DataOption):
                 ispn = types.Integer(ispn)
             elif isinstance(ispn, str):
                 ispn = types.Integer.from_mcnp(ispn)
-            else:
-                raise TypeError
 
         if ispn is not None and not (isinstance(ispn.value, types.Jump) or ispn in {-1, 0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ispn)
@@ -222,10 +208,11 @@ class Phys_1(_option.DataOption):
     @property
     def nodop(self) -> types.Integer:
         """
-        Gets ``nodop``.
+        Photon Doppler energy broadening controls
 
-        Returns:
-            ``nodop``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._nodop
@@ -250,8 +237,6 @@ class Phys_1(_option.DataOption):
                 nodop = types.Integer(nodop)
             elif isinstance(nodop, str):
                 nodop = types.Integer.from_mcnp(nodop)
-            else:
-                raise TypeError
 
         if nodop is not None and not (isinstance(nodop.value, types.Jump) or nodop in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nodop)
@@ -261,10 +246,11 @@ class Phys_1(_option.DataOption):
     @property
     def fism(self) -> types.Integer:
         """
-        Gets ``fism``.
+        Selection of photofission method controls
 
-        Returns:
-            ``fism``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._fism
@@ -289,7 +275,5 @@ class Phys_1(_option.DataOption):
                 fism = types.Integer(fism)
             elif isinstance(fism, str):
                 fism = types.Integer.from_mcnp(fism)
-            else:
-                raise TypeError
 
         self._fism: types.Integer = fism

@@ -7,11 +7,3 @@ class KsenOption(_option.Option):
     """
 
     pass
-
-
-class KsenOptionBuilder(_option.OptionBuilder):
-    """
-    Represents generic INP ksen option builders.
-    """
-
-    pass

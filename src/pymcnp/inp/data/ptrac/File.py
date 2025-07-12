@@ -8,9 +8,6 @@ from ....utils import errors
 class File(_option.PtracOption):
     """
     Represents INP file elements.
-
-    Attributes:
-        setting: PTRAC file type.
     """
 
     _KEYWORD = 'file'
@@ -37,10 +34,11 @@ class File(_option.PtracOption):
     @property
     def setting(self) -> types.String:
         """
-        Gets ``setting``.
+        PTRAC file type
 
-        Returns:
-            ``setting``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._setting
@@ -63,8 +61,6 @@ class File(_option.PtracOption):
                 setting = setting
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
-            else:
-                raise TypeError
 
         if setting is None or setting not in {'asc', 'bin', 'aov', 'bov'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)

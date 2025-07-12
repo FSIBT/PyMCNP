@@ -8,9 +8,6 @@ from ....utils import errors
 class Rad_1(_option.SdefOption):
     """
     Represents INP rad variation #1 elements.
-
-    Attributes:
-        radial_distance: Radial distance fo the position from POS or AXS.
     """
 
     _KEYWORD = 'rad'
@@ -37,10 +34,11 @@ class Rad_1(_option.SdefOption):
     @property
     def radial_distance(self) -> types.DistributionNumber:
         """
-        Gets ``radial_distance``.
+        Radial distance fo the position from POS or AXS
 
-        Returns:
-            ``radial_distance``.
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
         return self._radial_distance
@@ -63,8 +61,6 @@ class Rad_1(_option.SdefOption):
                 radial_distance = radial_distance
             elif isinstance(radial_distance, str):
                 radial_distance = types.DistributionNumber.from_mcnp(radial_distance)
-            else:
-                raise TypeError
 
         if radial_distance is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, radial_distance)

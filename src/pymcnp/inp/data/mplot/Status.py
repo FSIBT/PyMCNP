@@ -6,9 +6,6 @@ from . import _option
 class Status(_option.MplotOption):
     """
     Represents INP status elements.
-
-    Attributes:
-
     """
 
     _KEYWORD = 'status'
