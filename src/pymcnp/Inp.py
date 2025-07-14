@@ -408,3 +408,100 @@ class Inp(_object.McnpFile):
                 other = types.String.from_mcnp(other)
 
         self._other: types.Integer = other
+
+    @property
+    def nps(self) -> types.Integer:
+        """
+        File nps.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        try:
+            card_nps = next(filter(lambda card: isinstance(card, inp.Data) and isinstance(card.option, inp.data.Nps), self.data))
+            return card_nps.option.npp
+        except StopIteration:
+            return None
+
+    @nps.setter
+    def nps(self, nps: str | int | types.Integer) -> None:
+        """
+        Sets ``nps``.
+
+        Parameters:
+            nps: File nps.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if nps is not None:
+            if isinstance(nps, types.Integer):
+                nps = nps
+            elif isinstance(nps, int):
+                nps = types.Integer(nps)
+            elif isinstance(nps, str):
+                nps = types.Integer.from_mcnp(nps)
+
+        try:
+            card_nps = next(filter(lambda card: isinstance(card, inp.Data) and isinstance(card.option, inp.data.Nps), self.data))
+            card_nps.option.npp = nps
+        except StopIteration:
+            card_nps = inp.data.Nps(nps)
+            self.data = [*self.data, inp.Data(card_nps)]
+
+    @property
+    def seed(self) -> types.Integer:
+        """
+        File seed.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        try:
+            card_rand = next(filter(lambda card: isinstance(card, inp.Data) and isinstance(card.option, inp.data.Rand), self.data))
+            option_seed = next(filter(lambda option: isinstance(option, inp.data.rand.Seed), card_rand.option.options or []))
+            return option_seed.seed
+        except StopIteration:
+            return None
+
+    @seed.setter
+    def seed(self, seed: str | int | types.Integer) -> None:
+        """
+        Sets ``seed``.
+
+        Parameters:
+            seed: File seed.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if seed is not None:
+            if isinstance(seed, types.Integer):
+                seed = seed
+            elif isinstance(seed, int):
+                seed = types.Integer(seed)
+            elif isinstance(seed, str):
+                seed = types.Integer.from_mcnp(seed)
+
+        try:
+            card_rand = next(filter(lambda card: isinstance(card, inp.Data) and isinstance(card.option, inp.data.Rand), self.data))
+
+            try:
+                option_seed = next(filter(lambda option: isinstance(option, inp.data.rand.Seed), card_rand.option.options or []))
+                option_seed.seed = seed
+            except StopIteration:
+                option_seed = inp.data.rand.Seed(seed)
+                card_rand.option.options = [*(card_rand.option.options or []), option_seed]
+
+        except StopIteration:
+            option_seed = inp.data.rand.Seed(seed)
+            card_rand = inp.Data(inp.data.Rand([option_seed]))
+            self.data = [*self.data, card_rand]

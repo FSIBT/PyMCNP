@@ -1,5 +1,5 @@
 """
-Example converting INp files using ``Convert``.
+Example converting INP files using ``Convert``.
 """
 
 import pathlib
