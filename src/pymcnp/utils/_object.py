@@ -103,10 +103,6 @@ class McnpFile(McnpNonterminal, metaclass=abc.ABCMeta):
         """
 
         filename = pathlib.Path(filename)
-
-        if not filename.is_file():
-            raise errors.CliError(errors.CliCode.SEMANTICS_PATH, filename)
-
         filename.write_text(self.to_mcnp())
 
     def __str__(self):

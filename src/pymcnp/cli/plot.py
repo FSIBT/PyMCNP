@@ -92,6 +92,8 @@ class Plot:
                 for fig in self.to_show(number):
                     pdf.savefig(fig)
 
+        matplotlib.pyplot.close()
+
 
 def main() -> None:
     """
@@ -118,6 +120,8 @@ def main() -> None:
 
             if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
                 matplotlib.pyplot.show()
+
+            matplotlib.pyplot.close()
     except errors.OutpError as err:
         _io.error(err)
         exit(1)
