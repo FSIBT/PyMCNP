@@ -44,7 +44,7 @@ class Test_Main:
             matplotlib.pyplot.close()
 
         def test_invalid(self):
-            subprocess.run(['pymcnp', 'plot', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'outp' / 'invalid_A.o'), '1'])
+            subprocess.run(['pymcnp', 'plot', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'outp' / 'invalid_00.o'), '1'])
             subprocess.run(['pymcnp', 'plot', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'outp' / 'valid_A.o'), '132423'])
             subprocess.run(['pymcnp', 'plot', 'hello', '1'])
             matplotlib.pyplot.close()

@@ -137,6 +137,7 @@ class Inp(_object.McnpFile):
 {'\n'.join(map(str, self.surfaces))}
 
 {'\n'.join(map(str, self.data))}
+
 {self.other or ""}
 """[1:-1]
 

@@ -4,7 +4,7 @@ import pymcnp
 
 
 class string:
-    INP = (pathlib.Path(__file__).parent.parent / 'files' / 'inp' / 'valid_00.inp').read_text()
+    INP = (pathlib.Path(__file__).parent.parent / 'files' / 'inp' / 'valid_10.inp').read_text()
     OUTP = (pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'valid_A.o').read_text()
 
     class type:
