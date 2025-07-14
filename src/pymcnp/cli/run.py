@@ -46,22 +46,24 @@ class Run:
         self.inps = inps
         self.command = command
 
-    def prehook_file(self, path: pathlib.Path):
+    def prehook_file(self, path: pathlib.Path, index: int):
         """
         Runs before a file.
 
         Parameters:
             path: Path to run directory.
+            index: Run number.
         """
 
         pass
 
-    def posthook_file(self, path: pathlib.Path):
+    def posthook_file(self, path: pathlib.Path, index: int):
         """
         Runs after a file.
 
         Parameters:
             path: Path to run directory.
+            index: Run number.
         """
 
         pass
@@ -110,13 +112,13 @@ class Run:
             with path_input.open('w') as file:
                 file.write(inp.to_mcnp())
 
-            self.prehook_file(subdirectory)
+            self.prehook_file(subdirectory, i)
             process = subprocess.Popen([f'{self.command}', f'inp={path_input} outp={path_output} ptrac={path_ptrac}'])
             processes.append((process, subdirectory))
 
-        for process, subdirectory in processes:
+        for i, (process, subdirectory) in enumerate(processes):
             process.wait()
-            self.posthook_file(subdirectory)
+            self.posthook_file(subdirectory, i)
 
         self.posthook_batch(directory)
 
