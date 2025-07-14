@@ -131,10 +131,11 @@ class Test_Inp:
     class Test_File(classes.Test_File):
         element = pymcnp.Inp
         EXAMPLES_VALID = [
-            *(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp').glob('valid*.i'),
+            *(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp').glob('valid*.inp'),
+            *(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp').glob('example*.inp'),
         ]
         EXAMPLES_INVALID = [
-            *(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp').glob('invalid*.i'),
+            *(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp').glob('invalid*.inp'),
         ]
 
     class Test_Draw(classes.Test_Draw):
