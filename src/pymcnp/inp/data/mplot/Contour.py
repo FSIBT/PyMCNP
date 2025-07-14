@@ -189,7 +189,6 @@ class Contour(_option.MplotOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(contour.ContourOption.from_mcnp(item))
-
             options = types.Tuple(array)
 
         self._options: types.Tuple[contour.ContourOption] = options

@@ -232,7 +232,6 @@ class Fill_0(_option.CellOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-
             universes = types.Tuple(array)
 
         if universes is None:

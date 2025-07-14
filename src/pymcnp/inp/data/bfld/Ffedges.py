@@ -65,7 +65,6 @@ class Ffedges(_option.BfldOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-
             numbers = types.Tuple(array)
 
         if numbers is None:

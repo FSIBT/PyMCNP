@@ -63,7 +63,6 @@ class Zlev(_option.MplotOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.String.from_mcnp(item))
-
             n = types.Tuple(array)
 
         if n is None:

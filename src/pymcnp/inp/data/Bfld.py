@@ -144,7 +144,6 @@ class Bfld(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(bfld.BfldOption.from_mcnp(item))
-
             options = types.Tuple(array)
 
         self._options: types.Tuple[bfld.BfldOption] = options

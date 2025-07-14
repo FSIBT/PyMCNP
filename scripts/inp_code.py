@@ -166,15 +166,11 @@ def ATTR_BUILDER(element, attribute, t):
             o += f'{TABS(t)}        elif isinstance(item, int):\n'
             o += f'{TABS(t)}            array.append({attribute.type[12:-1]}(item))\n'
         if 'types.Real' in attribute.type:
-            o += f'{TABS(t)}        elif isinstance(item, int):\n'
-            o += f'{TABS(t)}            array.append({attribute.type[12:-1]}(item))\n'
-            o += f'{TABS(t)}        elif isinstance(item, float):\n'
+            o += f'{TABS(t)}        elif isinstance(item, int) or isinstance(item, float):\n'
             o += f'{TABS(t)}            array.append({attribute.type[12:-1]}(item))\n'
 
         o += f'{TABS(t)}        elif isinstance(item, str):\n'
         o += f'{TABS(t)}            array.append({attribute.type[12:-1]}.from_mcnp(item))\n'
-        o += f'{TABS(t)}        else:\n'
-        o += f'{TABS(t)}            raise TypeError\n'
         o += f'{TABS(t)}    {attribute.name} = types.Tuple(array)\n'
     else:
         o += f'{TABS(t)}    if isinstance({attribute.name}, {attribute.type}):\n'
@@ -184,15 +180,11 @@ def ATTR_BUILDER(element, attribute, t):
             o += f'{TABS(t)}    elif isinstance({attribute.name}, int):\n'
             o += f'{TABS(t)}        {attribute.name} = {attribute.type}({attribute.name})\n'
         if 'types.Real' in attribute.type:
-            o += f'{TABS(t)}    elif isinstance({attribute.name}, int):\n'
-            o += f'{TABS(t)}        {attribute.name} = {attribute.type}({attribute.name})\n'
-            o += f'{TABS(t)}    elif isinstance({attribute.name}, float):\n'
+            o += f'{TABS(t)}    elif isinstance({attribute.name}, int) or isinstance({attribute.name}, float):\n'
             o += f'{TABS(t)}        {attribute.name} = {attribute.type}({attribute.name})\n'
 
         o += f'{TABS(t)}    elif isinstance({attribute.name}, str):\n'
         o += f'{TABS(t)}        {attribute.name} = {attribute.type}.from_mcnp({attribute.name})\n'
-        o += f'{TABS(t)}    else:\n'
-        o += f'{TABS(t)}        raise TypeError\n'
 
     return o.strip()
 

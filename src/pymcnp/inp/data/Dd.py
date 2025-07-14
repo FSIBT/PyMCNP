@@ -101,7 +101,6 @@ class Dd(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Diagnostic.from_mcnp(item))
-
             diagnostics = types.Tuple(array)
 
         if diagnostics is None:

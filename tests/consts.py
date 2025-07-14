@@ -168,7 +168,7 @@ class string:
             FILL = 'fill 1 1 1'
             URAN = 'uran 1 3.1 3.1 3.1 1 3.1 3.1 3.1'
             DM = 'dm1 001001 001001 001001'
-            DAWWG = 'dawwg points hello'
+            DAWWG = 'dawwg points=1'
             EMBED = 'embed1 background=1'
             EMBEE = 'embee1:@ embed=1'
             EMBEB = 'embeb1 3.1 3.1 3.1'
@@ -307,8 +307,8 @@ class string:
             FILES = 'files 1 1 s f 1 1 1 s f 1 1 1 s f 1'
 
             class dawwg:
-                POINTS = 'points hello'
-                XSEC = 'xsec 1'
+                POINTS = 'points 1'
+                XSEC = 'xsec hello'
                 BLOCK = 'block 1'
 
                 class block:

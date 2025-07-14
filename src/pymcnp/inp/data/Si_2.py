@@ -140,7 +140,6 @@ class Si_2(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Designator.from_mcnp(item))
-
             information = types.Tuple(array)
 
         if information is None:

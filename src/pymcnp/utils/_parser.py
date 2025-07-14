@@ -12,7 +12,7 @@ def _preprocess_vertical(string: str):
 
     string = ''
     for token in tokens:
-        if (match := re.match(r'#((?: \S+)+)\n((?: *\d\S*(?: +\S+)+\n)+)', token)):
+        if match := re.match(r'#((?: \S+)+)\n((?: *\d\S*(?: +\S+)+\n)+)', token):
             cards = re.split(r'\s+', match[1])[1:]
             rows = [[card] for card in cards]
 
@@ -27,6 +27,7 @@ def _preprocess_vertical(string: str):
             string += token
 
     return string
+
 
 def _preprocess_horizontal(string: str):
     """ """

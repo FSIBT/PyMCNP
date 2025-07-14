@@ -65,7 +65,6 @@ class Axs(_option.SsrOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-
             cosines = types.Tuple(array)
 
         if cosines is None:

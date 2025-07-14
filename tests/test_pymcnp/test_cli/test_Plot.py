@@ -23,10 +23,9 @@ class Test_Plot:
         def test_to_show(self):
             for example in self.EXAMPLES:
                 element = self.element(example['outp'])
-                figures = element.to_show(example['number'])
+                element.to_show(example['number'])
 
             matplotlib.pyplot.close()
-
 
         def test_to_pdf(self):
             path = pathlib.Path('hello.pdf')

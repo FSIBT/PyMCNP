@@ -63,7 +63,6 @@ class Pikmt(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.PhotonBias.from_mcnp(item))
-
             biases = types.Tuple(array)
 
         if biases is None:

@@ -72,7 +72,6 @@ class Ssw(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-
             surfaces = types.Tuple(array)
 
         if surfaces is None:
@@ -114,7 +113,6 @@ class Ssw(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-
             cells = types.Tuple(array)
 
         self._cells: types.Tuple[types.Integer] = cells
@@ -151,7 +149,6 @@ class Ssw(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(ssw.SswOption.from_mcnp(item))
-
             options = types.Tuple(array)
 
         self._options: types.Tuple[ssw.SswOption] = options

@@ -63,7 +63,6 @@ class Dgeb(_option.ActOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Bias.from_mcnp(item))
-
             biases = types.Tuple(array)
 
         if biases is None:

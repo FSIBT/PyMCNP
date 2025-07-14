@@ -34,15 +34,6 @@ class Ds_1(_option.DataOption):
         self.suffix: types.Integer = suffix
         self.ijs: types.Tuple[types.IndependentDependent] = ijs
 
-    def to_mcnp(self):
-        """
-        Generates INP from ``Ds_1``.
-
-        Returns:
-            INP for ``Ds_1``.
-        """
-        return f'ds{self.suffix} t {self.ijs}'
-
     @property
     def suffix(self) -> types.Integer:
         """
@@ -113,10 +104,18 @@ class Ds_1(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.IndependentDependent.from_mcnp(item))
-
             ijs = types.Tuple(array)
 
         if ijs is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ijs)
 
         self._ijs: types.Tuple[types.IndependentDependent] = ijs
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``Ds_1``.
+
+        Returns:
+            INP for ``Ds_1``.
+        """
+        return f'ds{self.suffix} t {self.ijs}'

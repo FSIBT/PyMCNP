@@ -62,7 +62,6 @@ class Drxs(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Zaid.from_mcnp(item))
-
             zaids = types.Tuple(array)
 
         self._zaids: types.Tuple[types.Zaid] = zaids

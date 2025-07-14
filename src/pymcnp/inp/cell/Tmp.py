@@ -103,7 +103,6 @@ class Tmp(_option.CellOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-
             temperature = types.Tuple(array)
 
         if temperature is None or not (min(map(lambda temp: temp, temperature)) > 0):

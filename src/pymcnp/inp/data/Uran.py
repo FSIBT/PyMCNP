@@ -63,7 +63,6 @@ class Uran(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Stochastic.from_mcnp(item))
-
             transformations = types.Tuple(array)
 
         if transformations is None:

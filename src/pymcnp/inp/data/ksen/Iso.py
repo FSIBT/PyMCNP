@@ -63,7 +63,6 @@ class Iso(_option.KsenOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Zaid.from_mcnp(item))
-
             zaids = types.Tuple(array)
 
         if zaids is None:

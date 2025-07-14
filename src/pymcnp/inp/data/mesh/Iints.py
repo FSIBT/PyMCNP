@@ -65,7 +65,6 @@ class Iints(_option.MeshOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-
             number = types.Tuple(array)
 
         if number is None:

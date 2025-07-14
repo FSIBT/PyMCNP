@@ -64,7 +64,6 @@ class Print(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-
             tables = types.Tuple(array)
 
         self._tables: types.Tuple[types.Integer] = tables

@@ -104,7 +104,6 @@ class Fcl(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-
             control = types.Tuple(array)
 
         if control is None:

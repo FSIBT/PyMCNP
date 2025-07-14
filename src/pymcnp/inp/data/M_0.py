@@ -111,7 +111,6 @@ class M_0(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Substance.from_mcnp(item))
-
             substances = types.Tuple(array)
 
         if substances is None:
@@ -151,7 +150,6 @@ class M_0(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(m_0.MOption_0.from_mcnp(item))
-
             options = types.Tuple(array)
 
         self._options: types.Tuple[m_0.MOption_0] = options
