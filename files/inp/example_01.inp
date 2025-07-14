@@ -62,7 +62,7 @@ c                      source cards
 c ============================================================
 mode n p
 nps 1e7
-c rand seed = 71129329235055
+rand seed = 71129329235055
 c source definition
 sdef par=n erg=14.05
 c tally information
