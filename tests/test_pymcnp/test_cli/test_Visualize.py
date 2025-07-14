@@ -52,5 +52,5 @@ class Test_Main:
             subprocess.run(['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'valid_00.inp'), '--surfaces', '--pdf'])
 
         def test_invalid(self):
-            subprocess.run(['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'invalid_A.i')])
+            subprocess.run(['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'invalid_00.inp')])
             subprocess.run(['pymcnp', 'visualize', 'hello'])

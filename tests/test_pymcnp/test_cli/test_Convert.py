@@ -42,5 +42,5 @@ class Test_Main:
             subprocess.run(['pymcnp', 'convert', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'outp' / 'valid_A.o'), '1', '--parquet'])
 
         def test_invalid(self):
-            subprocess.run(['pymcnp', 'convert', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'invalid_A.i'), '1', '--csv'])
+            subprocess.run(['pymcnp', 'convert', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'invalid_00.inp'), '1', '--csv'])
             subprocess.run(['pymcnp', 'convert', 'hello', '1', '--csv'])
