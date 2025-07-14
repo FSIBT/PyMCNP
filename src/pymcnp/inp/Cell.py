@@ -26,8 +26,8 @@ class Cell(Card):
         self,
         number: types.Integer,
         material: types.Integer,
-        density: types.Integer,
         geometry: types.Geometry,
+        density: types.Real = None,
         options: types.Tuple[cell.CellOption] = None,
     ):
         """
@@ -46,7 +46,7 @@ class Cell(Card):
 
         self.number: types.Integer = number
         self.material: types.Integer = material
-        self.density: types.Integer = density
+        self.density: types.Real = density
         self.geometry: types.Geometry = geometry
         self.options: types.Tuple[cell.CellOption] = options
 
