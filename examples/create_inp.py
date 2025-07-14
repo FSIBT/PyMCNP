@@ -1,5 +1,5 @@
 """
-Examples for creating INP files using ``build``.
+Example creating INP files.
 """
 
 import pymcnp
@@ -77,7 +77,7 @@ data_lead = pymcnp.inp.Data(material_lead)
 
 # Creating inp.
 inp = pymcnp.Inp(
-    title='Create ``Inp`` Using ``build``\n',
+    title='Create ``Inp``\n',
     cells=[cell_air, cell_shield, cell_lead, cell_world],
     surfaces=[surface_air, surface_shield, surface_lead, surface_world],
     data=[data_air, data_shield, data_lead],

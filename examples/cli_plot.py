@@ -1,5 +1,5 @@
 """
-Examples for plotting OUTP files using ``Plot``.
+Example plotting OUTP files using ``Plot``.
 """
 
 import pathlib
@@ -11,9 +11,10 @@ import pymcnp
 TALLY = '1'
 
 # Reading OUTP.
-outp = pymcnp.Outp.from_file(pathlib.Path(__file__).parent / 'files' / 'outp' / 'F1F8.o')
+path = pathlib.Path(__file__).parent / 'files' / 'outp' / 'F1F8.o'
+outp = pymcnp.Outp.from_file(path)
 
-# Converting.
+# Plotting.
 plotter = pymcnp.cli.Plot(outp)
 plotter.to_show(TALLY)
 matplotlib.pyplot.show()
