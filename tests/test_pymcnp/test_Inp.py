@@ -77,6 +77,52 @@ class Test_Inp:
             },
         ]
 
+    class Test_Properties:
+        EXAMPLES = [
+            {
+                'title': consts.string.type.STRING,
+                'cells': [consts.string.inp.CELL, consts.string.inp.COMMENT, consts.string.inp.LIKE],
+                'surfaces': [consts.string.inp.SURFACE, consts.string.inp.COMMENT],
+                'data': [consts.string.inp.DATA, consts.string.inp.COMMENT],
+                'message': consts.string.type.STRING,
+                'other': consts.string.type.STRING,
+            },
+        ]
+
+        def test_nps(self):
+            for example in self.EXAMPLES:
+                print(example)
+
+                inp = pymcnp.Inp(**example)
+                inp.nps
+
+                inp.nps = '1e3'
+                inp.nps = 10
+                inp.nps = pymcnp.utils.types.Integer(1234938)
+                inp.nps
+
+        def test_seed(self):
+            for example in self.EXAMPLES:
+                print(example)
+
+                inp = pymcnp.Inp(**example)
+                inp.seed
+
+                save = inp.data
+
+                inp.seed = '11'
+                inp.seed = 11
+                inp.seed = pymcnp.utils.types.Integer(11)
+                inp.seed
+
+                inp.data = save
+                inp.data = [*inp.data, pymcnp.inp.Data(pymcnp.inp.data.Rand())]
+
+                inp.seed = '11'
+                inp.seed = 11
+                inp.seed = pymcnp.utils.types.Integer(11)
+                inp.seed
+
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.Inp
         EXAMPLES_VALID = []

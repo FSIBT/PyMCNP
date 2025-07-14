@@ -30,6 +30,13 @@ inp0 = pymcnp.Inp.from_file(path0)
 inp1 = pymcnp.Inp.from_file(path1)
 inp2 = pymcnp.Inp.from_file(path2)
 
+inp0.nps = 1e4
+inp1.nps = 1e5
+inp2.nps = 1e6
+inp0.seed = 123534727
+inp1.seed = 123534727
+inp2.seed = 123534727
+
 # Running.
 runner = MyRun([inp0, inp1, inp2], command='echo')
 runner.run('.')
