@@ -12,7 +12,7 @@ ANGLE_FROM = '180.0'
 BIN_WIDTH = 5
 
 # Reading OUTP.
-path = pathlib.Path(__file__).parent / 'files' / 'outp' / 'F1.o'
+path = pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'example_00.outp'
 outp = pymcnp.Outp.from_file(path)
 
 # Reading tallies.

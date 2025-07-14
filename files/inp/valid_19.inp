@@ -1,0 +1,22 @@
+RZT Test of checkerboard cylinder with lnk3dnt
+11 3 -18.7 0 u=e10 imp:n=1 $ inferred geometry cell
+12 4 -0.001 0 u=e10 imp:n=1 $ inferred geometry cell
+13 0 0 u=e10 imp:n=1 $ inferred background cell
+20 0 -1 fill=e10 imp:n=1 $ embedded mesh fill cell
+99 0 1 imp:n=0 $ outside world
+
+1 so 20
+
+kcode 500 1.0 50 100
+ksrc 1 1 5 1 -1 5 -1 -1 5 -1 1 5
+    5 5 5 5 -5 5 -5 -5 5 -5 5 5
+    1 1 -5 1 -1 -5 -1 -1 -5 -1 1 -5
+    5 5 -5 5 -5 -5 -5 -5 -5 -5 5 -5
+m3 92235.69c 1.0
+m4 6012 1.0
+dm1 92235 92235.50
+embed10 meshgeo=lnk3dnt mgeoin=cyl.linkout debug=echomesh
+    matcell= 1 11 2 12
+    background=13
+
+(MCNP Manual 6.2 Section 4.1.4)

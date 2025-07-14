@@ -1,0 +1,22 @@
+Test of light ion recoil
+1 1 1e-5 -1
+2 0 1
+
+1 so 1.e-5
+
+mode n a
+imp:n,a 1 0
+phys:n 6j 1
+sdef erg=15
+print -161 -162
+tmp1 1e-20 0
+fcl:n 1 0
+m1 2004 0.2
+cut:a j 0
+nps 1000000
+f51:a 1
+e51 0.1 100log 20
+c51 -0.8 8i 1 t
+fq51 e c
+
+(MCNP Manual 6.2 Section 4.2.7.1)

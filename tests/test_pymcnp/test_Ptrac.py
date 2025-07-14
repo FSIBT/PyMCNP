@@ -37,8 +37,8 @@ class Test_Ptrac:
     class Test_File(classes.Test_File):
         element = pymcnp.Ptrac
         EXAMPLES_VALID = [
-            *(pathlib.Path(__file__).parent.parent / 'files' / 'ptrac').glob('valid*.ptrac'),
+            *(pathlib.Path(__file__).parent.parent.parent / 'files' / 'ptrac').glob('valid*.ptrac'),
         ]
         EXAMPLES_INVALID = [
-            *(pathlib.Path(__file__).parent.parent / 'files' / 'ptrac').glob('invalid*.ptrac'),
+            *(pathlib.Path(__file__).parent.parent.parent / 'files' / 'ptrac').glob('invalid*.ptrac'),
         ]

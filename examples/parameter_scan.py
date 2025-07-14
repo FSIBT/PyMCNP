@@ -10,7 +10,7 @@ import pymcnp
 
 
 # Reading INP.
-path_inp = pathlib.Path(__file__).parent / 'files' / 'inp' / 'inp_A.i'
+path_inp = pathlib.Path(__file__).parent.parent / 'files' / 'inp' / 'example_04.inp'
 inp = pymcnp.Inp.from_file(path_inp)
 
 # Scanning.
@@ -29,7 +29,7 @@ for inp in inps:
 class MyRun(pymcnp.cli.Run):
     def posthook_file(self, path, index):
         # Copying OUTP (ECHO used for demo).
-        path_copy = pathlib.Path(__file__).parent / 'files' / 'outp' / 'F1.o'
+        path_copy = pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'example_01.outp'
         path_outp = path / f'run-{index}.outp'
         path_outp.open('w').write(path_copy.open('r').read())
 

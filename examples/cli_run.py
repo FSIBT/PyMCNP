@@ -23,9 +23,9 @@ class MyRun(pymcnp.cli.Run):
 
 
 # Reading INP.
-path0 = pathlib.Path(__file__).parent / 'files' / 'inp' / 'F1F8.i'
-path1 = pathlib.Path(__file__).parent / 'files' / 'inp' / 'F1F8.i'
-path2 = pathlib.Path(__file__).parent / 'files' / 'inp' / 'F1.i'
+path0 = pathlib.Path(__file__).parent.parent / 'files' / 'inp' / 'example_00.inp'
+path1 = pathlib.Path(__file__).parent.parent / 'files' / 'inp' / 'example_01.inp'
+path2 = pathlib.Path(__file__).parent.parent / 'files' / 'inp' / 'example_02.inp'
 inp0 = pymcnp.Inp.from_file(path0)
 inp1 = pymcnp.Inp.from_file(path1)
 inp2 = pymcnp.Inp.from_file(path2)

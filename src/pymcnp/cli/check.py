@@ -87,6 +87,9 @@ def main() -> None:
     except errors.CliError as err:
         _io.error(str(err))
         exit(2)
+    except errors.McnpError as err:
+        _io.error(str(err))
+        exit(3)
 
     if args['--fix']:
         check.fix()

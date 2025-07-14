@@ -1,0 +1,16 @@
+Tally Multiplier (FM)
+10 999 -1.0 -1 imp:n=1 $ Water
+11 1001 -1. 1 -2 imp:n=1 $ Li
+12 0 2 imp:n=0
+
+1 so 5
+2 so 6
+
+sdef
+nps 2000
+M999 1001.80c 2 8016.80c 1
+M1001 3006.80 0.0742 3007.80 0.9258
+F4:N 11
+FM4 (0.04635 1001 (105:91))
+
+(MCNP Manual 6.2 Section 4.2.1)
