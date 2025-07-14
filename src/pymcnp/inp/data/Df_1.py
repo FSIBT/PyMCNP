@@ -105,7 +105,6 @@ class Df_1(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(df_1.DfOption_1.from_mcnp(item))
-
             options = types.Tuple(array)
 
         if options is None:

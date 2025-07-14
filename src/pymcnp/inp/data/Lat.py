@@ -65,7 +65,6 @@ class Lat(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-
             type = types.Tuple(array)
 
         if type is None:

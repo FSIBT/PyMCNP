@@ -65,7 +65,6 @@ class Refs(_option.MOption_0):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-
             coefficents = types.Tuple(array)
 
         if coefficents is None:

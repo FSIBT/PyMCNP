@@ -45,6 +45,6 @@ mesh geom cyl
     jints 2 $ 2 axial divisions
     kmesh 1 $ azimuth-single rotation (0-2pi)
     kints 4 $ 4 azimuthal divisions (0, pi/2, pi, 3pi/2, 2pi)
-c dawwg xsec=ndilib points=10
+dawwg xsec=ndilib points=10
 
 (MCNP Manual 6.2 Section 4.1.4)

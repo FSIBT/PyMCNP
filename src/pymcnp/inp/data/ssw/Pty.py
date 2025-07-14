@@ -63,7 +63,6 @@ class Pty(_option.SswOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Designator.from_mcnp(item))
-
             tracks = types.Tuple(array)
 
         if tracks is None:

@@ -63,7 +63,6 @@ class Ksrc(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Location.from_mcnp(item))
-
             locations = types.Tuple(array)
 
         if locations is None:

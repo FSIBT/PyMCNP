@@ -105,7 +105,6 @@ class Kpert(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(kpert.KpertOption.from_mcnp(item))
-
             options = types.Tuple(array)
 
         self._options: types.Tuple[kpert.KpertOption] = options

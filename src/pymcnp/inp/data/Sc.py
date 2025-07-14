@@ -104,7 +104,6 @@ class Sc(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.String.from_mcnp(item))
-
             comment = types.Tuple(array)
 
         if comment is None:

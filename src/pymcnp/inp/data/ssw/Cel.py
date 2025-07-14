@@ -65,7 +65,6 @@ class Cel(_option.SswOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-
             cfs = types.Tuple(array)
 
         if cfs is None:

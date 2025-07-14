@@ -105,7 +105,6 @@ class Block(_option.DawwgOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(block.BlockOption.from_mcnp(item))
-
             options = types.Tuple(array)
 
         self._options: types.Tuple[block.BlockOption] = options

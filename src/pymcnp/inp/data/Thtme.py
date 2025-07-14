@@ -65,7 +65,6 @@ class Thtme(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-
             times = types.Tuple(array)
 
         if times is None:

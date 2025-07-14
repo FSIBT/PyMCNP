@@ -65,7 +65,6 @@ class Kmesh(_option.FmeshOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-
             locations = types.Tuple(array)
 
         if locations is None:

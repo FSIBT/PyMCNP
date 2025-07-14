@@ -63,7 +63,6 @@ class Filter(_option.PtracOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.PtracFilter.from_mcnp(item))
-
             variables = types.Tuple(array)
 
         if variables is None:

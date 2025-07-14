@@ -184,7 +184,6 @@ class F_1(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Sphere.from_mcnp(item))
-
             spheres = types.Tuple(array)
 
         if spheres is None:

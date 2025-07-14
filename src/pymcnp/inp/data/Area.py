@@ -65,7 +65,6 @@ class Area(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-
             areas = types.Tuple(array)
 
         if areas is None:

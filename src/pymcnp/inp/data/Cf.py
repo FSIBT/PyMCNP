@@ -106,7 +106,6 @@ class Cf(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-
             numbers = types.Tuple(array)
 
         if numbers is None:

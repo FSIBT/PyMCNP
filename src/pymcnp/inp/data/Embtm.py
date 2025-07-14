@@ -106,7 +106,6 @@ class Embtm(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-
             multipliers = types.Tuple(array)
 
         if multipliers is None:

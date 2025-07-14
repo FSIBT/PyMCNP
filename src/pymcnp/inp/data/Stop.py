@@ -63,7 +63,6 @@ class Stop(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(stop.StopOption.from_mcnp(item))
-
             options = types.Tuple(array)
 
         self._options: types.Tuple[stop.StopOption] = options

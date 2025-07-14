@@ -63,7 +63,6 @@ class Files(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.File.from_mcnp(item))
-
             creations = types.Tuple(array)
 
         if creations is None:
