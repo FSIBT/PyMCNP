@@ -109,8 +109,7 @@ class Run:
             path_ptrac = subdirectory / f'run-{i}.ptrac'
 
             subdirectory.mkdir()
-            with path_input.open('w') as file:
-                file.write(inp.to_mcnp())
+            inp.to_file(path_input)
 
             self.prehook_file(subdirectory, i)
             process = subprocess.Popen([f'{self.command}', f'inp={path_input} outp={path_output} ptrac={path_ptrac}'])
