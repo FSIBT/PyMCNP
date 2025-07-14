@@ -1,0 +1,21 @@
+MCNP6 test: p + U238 by CEM03.03 at 1 GeV, nevtype=66
+1 1 1.0 -1 2 -3
+2 0 -4 (1:-2:3)
+3 0 4
+
+1 cz 4.0
+2 pz -1.0
+3 pz 1.0
+4 so 50.0
+
+sdef erg=1000 par=H dir=1 pos=0 0 0 vec 0 0 1
+imp:h 1 1 0
+phys:h 1000
+mode h
+LCA 8j 1 $ use CEM03.03
+tropt genxs inxc01 nreact on nescat off
+print 40 110 95
+nps 1000000
+prdmp 2j -1
+
+(MCNP Manual 6.2 Section 3.3.3.9)

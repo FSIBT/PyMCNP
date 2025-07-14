@@ -46,11 +46,11 @@ class Test_Visualize:
 class Test_Main:
     class Test_Main:
         def test_valid(self):
-            subprocess.run(['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_A.i'), '--cells'])
-            subprocess.run(['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_A.i'), '--surfaces'])
-            subprocess.run(['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_A.i'), '--cells', '--pdf'])
-            subprocess.run(['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_A.i'), '--surfaces', '--pdf'])
+            subprocess.run(['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'valid_00.inp'), '--cells'])
+            subprocess.run(['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'valid_00.inp'), '--surfaces'])
+            subprocess.run(['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'valid_00.inp'), '--cells', '--pdf'])
+            subprocess.run(['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'valid_00.inp'), '--surfaces', '--pdf'])
 
         def test_invalid(self):
-            subprocess.run(['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'invalid_A.i')])
+            subprocess.run(['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'invalid_A.i')])
             subprocess.run(['pymcnp', 'visualize', 'hello'])

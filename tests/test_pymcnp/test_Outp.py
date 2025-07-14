@@ -37,12 +37,12 @@ class Test_Outp:
     class Test_File(classes.Test_File):
         element = pymcnp.Outp
         EXAMPLES_VALID = [
-            *(pathlib.Path(__file__).parent.parent / 'files' / 'outp').glob('valid*.o'),
+            *(pathlib.Path(__file__).parent.parent.parent / 'files' / 'outp').glob('valid*.o'),
         ]
         EXAMPLES_INVALID = [
-            *(pathlib.Path(__file__).parent.parent / 'files' / 'outp').glob('invalid*.o'),
+            *(pathlib.Path(__file__).parent.parent.parent / 'files' / 'outp').glob('invalid*.o'),
         ]
 
     class Test_Dataframe(classes.Test_Dataframe):
         element = pymcnp.Outp
-        EXAMPLES = [path.read_text() for path in (pathlib.Path(__file__).parent.parent / 'files' / 'outp').glob('valid*.o')]
+        EXAMPLES = [path.read_text() for path in (pathlib.Path(__file__).parent.parent.parent / 'files' / 'outp').glob('valid*.o')]

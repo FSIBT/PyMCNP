@@ -1,0 +1,67 @@
+FMESH tally Example 32
+c Cells
+900 10 -2.5 -1 imp:n=1 $ Concrete
+901 11 -7.86 -2 imp:n=1 $ Stainless Steel - 202
+902 12 -0.0012 1 2 -3 imp:n=1 $ Void, transport
+903 0 3 imp:n=0 $ Void, kill n
+
+c Surfaces
+1 sx 6 3
+2 sx -6 3
+3 so 10
+
+sdef erg=2
+mode n
+nps 500000
+c
+c Problem materials
+c Ordinary Concrete (rho = 2.35 g/cc)
+m10 1001 -0.00600
+    8016 -0.50000
+    11023 -0.01700
+    13027 -0.04800
+    14028 -0.28940
+    14029 -0.01518
+    14030 -0.01042
+    19000 -0.01900
+    20000 -0.08300
+    26054 -0.00068
+    26056 -0.01106
+    26057 -0.00026
+c Stainless Steel - 202
+m11 6000 -0.00075
+    7014 -0.00125
+    14000 -0.00500
+    15031 -0.00030
+    16000 -0.00015
+    24000 -0.18000
+    25055 -0.08750
+    26000 -0.67505
+    28000 -0.05000
+m12 7014 -0.755 8016 -0.232 18000 -0.013
+m20 11023 1
+m21 26054 1
+m22 25055 1
+c
+fmesh04:n geom=xyz origin -10 -10 -10
+    imesh 10 iints 50
+    jmesh 10 jints 50
+    kmesh 10 kints 50
+    out=none
+fmesh14:n geom=xyz origin -10 -10 -10
+    imesh 10 iints 50
+    jmesh 10 jints 50
+    kmesh 10 kints 50
+    out=none
+fmesh24:n geom=xyz origin -10 -10 -10
+    imesh 10 iints 50
+    jmesh 10 jints 50
+    kmesh 10 kints 50
+    out=none
+c
+C 102 = (n,gamma) reaction
++fm4 -1 20 102 $ Na-24 production (not in material 11)
++fm14 -1 21 102 $ Fe-55 production (2600 in material 11)
++fm24 -1 22 102 $ Mn-56 production (not in material 10)
+
+(MCNP Manual 6.2 Section 4.2.3)

@@ -1,0 +1,121 @@
+Embedded source simulation of PNG
+c
+c ===============================================================
+c                        cell definitions
+c ===============================================================
+c cell
+1       0  -8    imp:n=1
+2       0   8    imp:n=0 $ outside world
+c
+
+c ===============================================================
+c                       surface definitions
+c ===============================================================
+c neutron surface for tally
+c
+8 so  1     $ outside world
+c         ***** Anything else? *****
+c
+c ===============================================================
+
+c          *****physics and tracking*****
+c turn on elastic recoil and NCIA
+c phys:n 50000 5j 4 100
+c enable photonuclear physics
+c phys:p 100 2j -1
+c cut:h,t,d,s,a,# j 1e-8
+cut:n 100000000 j 0 0
+mode n
+c
+c
+c ===============================================================
+c          *****material compositions*****
+c
+c m0 nlib=80c
+c Aluminum is 7.874 g/cm3
+m13      13027 1
+c
+c Source definition
+c
+c burst=10 us
+c period=35 us
+c burst packets=32
+c capture gate=380 us
+c sigma packets=3
+c sdef par=n erg=14 TME=D1<D2
+c # SI1 SP1
+c 0  0
+c 10e2  1
+c 35e2 0
+c 45e2  1
+c 70e2 0
+c 80e2  1
+c 105e2 0
+c 115e2  1
+c 140e2 0
+c 150e2  1
+c 175e2 0
+c 185e2  1
+c 210e2 0
+c 220e2  1
+c 245e2 0
+c 255e2  1
+c 280e2 0
+c 290e2  1
+c 315e2 0
+c 325e2  1
+c 350e2 0
+c 360e2  1
+c 385e2 0
+c 395e2  1
+c 420e2 0
+c 430e2  1
+c 455e2 0
+c 465e2  1
+c 490e2 0
+c 500e2  1
+c 525e2 0
+c 535e2  1
+c 560e2 0
+c 570e2  1
+c 595e2 0
+c 605e2  1
+c 630e2 0
+c 640e2  1
+c 665e2 0
+c 675e2  1
+c 700e2 0
+c 710e2  1
+c 735e2 0
+c 745e2  1
+c 770e2 0
+c 780e2  1
+c 805e2 0
+c 815e2  1
+c 840e2 0
+c 850e2  1
+c 875e2 0
+c 885e2  1
+c 910e2 0
+c 920e2  1
+c 945e2 0
+c 955e2  1
+c 980e2 0
+c 990e2  1
+c 1015e2 0
+c 1025e2  1
+c 1050e2 0
+c 1060e2  1
+c 1085e2 0
+c 1095e2 1
+c 1500e2 0
+SI2 0 4500e2
+SP2 0 1
+c ===============================================================
+c
+t0 0 4499i 4500e2
+f2:n   8
+fq2  t  f
+c
+c ===============================================================
+nps    100000                                                                   

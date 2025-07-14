@@ -7,7 +7,7 @@ import pathlib
 import pymcnp
 
 # Reading OUTP using ``from_file`.
-path = pathlib.Path(__file__).parent / 'files' / 'outp' / 'F1F8.o'
+path = pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'example_00.outp'
 inp = pymcnp.Outp.from_file(path)
 
 print(inp)
