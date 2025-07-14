@@ -5,13 +5,36 @@ import decimal
 """ Preprocessing Functions """
 
 
+def _preprocess_vertical(string: str):
+    """ """
+
+    tokens = re.split(r'\n(#(?: \S+)+\n(?: *\d\S*(?: +\S+)+\n)+)', string)
+
+    string = ''
+    for token in tokens:
+        if (match := re.match(r'#((?: \S+)+)\n((?: *\d\S*(?: +\S+)+\n)+)', token)):
+            cards = re.split(r'\s+', match[1])[1:]
+            rows = [[card] for card in cards]
+
+            lines = match[2].split('\n')[:-1]
+            for line in lines:
+                parameters = re.split(r'\s+', line)
+                for parameter, row in zip(parameters, rows):
+                    row.append(parameter)
+
+            string += '\n' + '\n'.join([' '.join(row) for row in rows]) + '\n'
+        else:
+            string += token
+
+    return string
+
 def _preprocess_horizontal(string: str):
     """ """
 
     tokens = re.split(r'( \d+j)', string)
 
     string = ''
-    for i, token in enumerate(tokens):
+    for token in tokens:
         if match := re.match(r'( \d+)j', token):
             string += int(match[1]) * ' j'
         else:
@@ -71,6 +94,7 @@ def _preprocess_comments(string: str):
 def preprocess_inp(string: str):
     """ """
 
+    string = _preprocess_vertical(string)
     string, comments = _preprocess_comments(string)
     string = _preprocess_case(string)
     string = _preprocess_whitespace(string)
