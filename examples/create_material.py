@@ -1,5 +1,5 @@
 """
-Examples for creating INP materials.
+Examples creating INP materials.
 """
 
 import pymcnp

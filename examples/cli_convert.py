@@ -1,5 +1,5 @@
 """
-Examples for converting OUTP files using ``Convert``.
+Example converting OUTP files using ``Convert``.
 """
 
 import pathlib
@@ -9,7 +9,8 @@ import pymcnp
 TALLY = '1'
 
 # Reading OUTP.
-outp = pymcnp.Outp.from_file(pathlib.Path(__file__).parent / 'files' / 'outp' / 'F1F8.o')
+path = pathlib.Path(__file__).parent / 'files' / 'outp' / 'F1F8.o'
+outp = pymcnp.Outp.from_file(path)
 
 # Converting.
 converter = pymcnp.cli.Convert(outp)

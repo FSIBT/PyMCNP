@@ -1,5 +1,5 @@
 """
-Examples for creating INP surfaces.
+Examples creating INP surfaces.
 """
 
 import pymcnp
