@@ -46,6 +46,7 @@ class Visualize:
         """
 
         plot = pyvista.Plotter()
+        plot.add_axes()
         # vis = self.inp.draw()
         # plot.add_mesh(vis.data)
 
@@ -57,6 +58,7 @@ class Visualize:
         """
 
         plot = pyvista.Plotter()
+        plot.add_axes()
         vis = self.inp.draw()
         plot.add_mesh(vis.data)
 
@@ -85,6 +87,7 @@ class Visualize:
         """
 
         plot = pyvista.Plotter()
+        plot.add_axes()
         vis = self.inp.draw()
         plot.add_mesh(vis.data)
 
@@ -122,7 +125,7 @@ def main() -> None:
             plot = visualize.to_show_cells()
 
             if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-                plot.plot()
+                plot.show()
 
     else:
         if args['--pdf']:
@@ -131,6 +134,6 @@ def main() -> None:
             plot = visualize.to_show_surfaces()
 
             if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-                plot.plot()
+                plot.show()
 
     _io.done()
