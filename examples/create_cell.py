@@ -1,5 +1,5 @@
 """
-Examples for creating INP cells.
+Examples creating INP cells.
 """
 
 import pymcnp

@@ -1,5 +1,5 @@
 """
-Examples for reading OUTP files using ``from_file``.
+Example reading OUTP files.
 """
 
 import pathlib

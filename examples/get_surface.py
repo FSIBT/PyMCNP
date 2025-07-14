@@ -1,5 +1,5 @@
 """
-Examples for reading INP surfaces using ``from_mcnp``.
+Example reading INP surfaces.
 """
 
 import pathlib
@@ -11,6 +11,6 @@ path = pathlib.Path(__file__).parent / 'files' / 'inp' / 'F1F8.i'
 inp = pymcnp.Inp.from_file(path)
 
 # Reading surface.
-surface = inp.surfaces[0]
+surface = inp.surfaces[4]
 
 print(surface)

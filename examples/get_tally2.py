@@ -5,7 +5,6 @@ Example reading OUTP type-2 tallies.
 import pathlib
 
 import pymcnp
-import matplotlib.pyplot as plt
 
 TALLY = '2'
 SURFACE = '8'
@@ -19,10 +18,4 @@ tallies = outp.to_dataframe()
 tally = tallies[TALLY]
 tally = tally.loc[tally['surface'] == SURFACE]
 
-# Plotting tally.
-plt.figure()
-plt.step(tally['bins'], tally['counts'])
-plt.xlabel('Bins')
-plt.ylabel('Counts')
-plt.title('Type-2 Tally: Bins vs Counts')
-plt.show()
+print(tally)

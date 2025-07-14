@@ -1,5 +1,5 @@
 """
-Examples for reading INP files.
+Example reading INP files.
 """
 
 import pathlib
