@@ -58,13 +58,13 @@ rand seed = 71129329235055
 c source definition
 c
 c sdef par=n erg=14 TME=D1<D2
-c # SI1 SP1
-c 0 0
-c 1000 1
-c 20000 0
-c # SI2 SP2
-c 0 0
-c 20000 1
+# SI1 SP1
+0 0
+1000 1
+20000 0
+# SI2 SP2
+0 0
+20000 1
 F4:n 200
 T4 0 99i 20000
 c end of file      
