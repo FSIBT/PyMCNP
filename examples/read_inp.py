@@ -11,7 +11,7 @@ RADIUS_SHIELD: float = 5
 RADIUS_LEAD: float = 1
 
 # Reading INP using ``from_file``.
-path = pathlib.Path(__file__).parent / 'files' / 'inp' / 'F1F8.i'
+path = pathlib.Path(__file__).parent.parent / 'files' / 'inp' / 'example_00.inp'
 inp = pymcnp.Inp.from_file(path)
 
 print(inp)

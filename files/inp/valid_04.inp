@@ -1,0 +1,22 @@
+Test problem: RECOIL2
+1 1 -16.654 -1 2 -3
+2 0 -4 (1:-2:3)
+3 0 4
+
+1 cz 4.0
+2 pz -1.0
+3 pz 1.0
+4 so 50.0
+
+m1   74180 0.001300 74182 0.263000 74183 0.143000
+     74184 0.306700 74186 0.286000
+sdef erg = 23080 par = 5 dir = 1 pos = 0 0 0 vec 0 0 1
+imp:h 1 1 0
+phys:h 23080
+mode h
+print 40 110 95
+nps 10000000
+prdmp 2j -1
+tropt genxs nreact atten
+
+(MCNP Manual 6.2 Section 3.3.3.9)

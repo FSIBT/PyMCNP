@@ -12,7 +12,7 @@ ANGLE = ''
 BIN_WIDTH = 5
 
 # Reading tallies.
-path = pathlib.Path(__file__).parent / 'files' / 'outp' / 'png_tmp.o'
+path = pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'example_03.outp'
 outp = pymcnp.Outp.from_file(path)
 tallies = outp.to_dataframe()
 tally = tallies[TALLY]

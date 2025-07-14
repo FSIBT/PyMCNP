@@ -1,0 +1,10 @@
+Example Input A
+2 22 -11.34 12 imp:p=1 $ Wall
+
+11 SPH 3 0 0 0.5                     $ Target
+12 BOX 1 -0.5 -0.5 1 0 0 0 1 0 0 0 1 $ Wall
+
+M22 208082 -1 $ Lead
+SDEF PAR=2 POS=0 0 0 ERG=1.0
+NPS 1e5
+F1:P 11

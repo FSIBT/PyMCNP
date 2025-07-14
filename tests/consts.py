@@ -4,8 +4,8 @@ import pymcnp
 
 
 class string:
-    INP = (pathlib.Path(__file__).parent / 'files' / 'inp' / 'valid_A.i').read_text()
-    OUTP = (pathlib.Path(__file__).parent / 'files' / 'outp' / 'valid_A.o').read_text()
+    INP = (pathlib.Path(__file__).parent.parent / 'files' / 'inp' / 'valid_00.inp').read_text()
+    OUTP = (pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'valid_A.o').read_text()
 
     class type:
         REPEAT = '10r'

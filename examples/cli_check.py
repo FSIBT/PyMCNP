@@ -7,7 +7,7 @@ import pathlib
 import pymcnp
 
 # Getting INP path.
-path = pathlib.Path(__file__).parent / 'files' / 'outp' / 'F1.o'
+path = pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'example_00.outp'
 
 # Checking.
 checker = pymcnp.cli.Check(path)
