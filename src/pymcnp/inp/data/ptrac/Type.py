@@ -63,7 +63,6 @@ class Type(_option.PtracOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Designator.from_mcnp(item))
-
             particles = types.Tuple(array)
 
         if particles is None:

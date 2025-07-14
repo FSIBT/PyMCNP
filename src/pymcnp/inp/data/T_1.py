@@ -105,7 +105,6 @@ class T_1(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(t_1.TOption_1.from_mcnp(item))
-
             options = types.Tuple(array)
 
         if options is None:

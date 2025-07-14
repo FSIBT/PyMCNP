@@ -102,7 +102,6 @@ class Histp(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-
             cells = types.Tuple(array)
 
         self._cells: types.Tuple[types.Integer] = cells

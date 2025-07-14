@@ -102,7 +102,6 @@ class Ext(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.String.from_mcnp(item))
-
             stretching = types.Tuple(array)
 
         if stretching is None:

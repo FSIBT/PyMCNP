@@ -63,7 +63,6 @@ class Event(_option.PtracOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.String.from_mcnp(item))
-
             settings = types.Tuple(array)
 
         if settings is None:

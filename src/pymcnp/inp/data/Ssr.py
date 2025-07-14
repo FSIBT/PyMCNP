@@ -63,7 +63,6 @@ class Ssr(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(ssr.SsrOption.from_mcnp(item))
-
             options = types.Tuple(array)
 
         self._options: types.Tuple[ssr.SsrOption] = options

@@ -3182,9 +3182,9 @@ cards = ElementScheme(
                             mnemonic='points',
                             attributes=[
                                 AttributeScheme(
-                                    name='name',
-                                    type='types.String',
-                                    description='Cross section library',
+                                    name='count',
+                                    type='types.Integer',
+                                    description='Number of sample points for each direction in each mesh',
                                 ),
                             ],
                         ),
@@ -3193,9 +3193,9 @@ cards = ElementScheme(
                             mnemonic='xsec',
                             attributes=[
                                 AttributeScheme(
-                                    name='count',
-                                    type='types.Integer',
-                                    description='Number of sample points for each direction in each mesh',
+                                    name='name',
+                                    type='types.String',
+                                    description='Cross section library',
                                 ),
                             ],
                         ),
@@ -6655,6 +6655,16 @@ cards = ElementScheme(
                     name='ds_1',
                     mnemonic='ds',
                     regex='ds(\\d+) t((?: {types.IndependentDependent._REGEX.pattern[2:-2]})+?)',
+                    extra='''
+    def to_mcnp(self):
+        """
+        Generates INP from ``Ds_1``.
+
+        Returns:
+            INP for ``Ds_1``.
+        """
+        return f'ds{self.suffix} t {self.ijs}'
+    ''',
                     attributes=[
                         AttributeScheme(
                             name='suffix',
@@ -6674,6 +6684,16 @@ cards = ElementScheme(
                     name='ds_2',
                     mnemonic='ds',
                     regex='ds(\\d+) q((?: {types.IndependentDependent._REGEX.pattern[2:-2]})+?)',
+                    extra='''
+    def to_mcnp(self):
+        """
+        Generates INP from ``Ds_2``.
+
+        Returns:
+            INP for ``Ds_2``.
+        """
+        return f'ds{self.suffix} q {self.vss}'
+    ''',
                     attributes=[
                         AttributeScheme(
                             name='suffix',
@@ -7306,6 +7326,17 @@ cards = ElementScheme(
                     name='f_2',
                     mnemonic='f',
                     regex='([*+])?f(\\d*[5])([xyz])(?::(\\S+))?((?: \\S+ \\S+ \\S+)+?)( nd)?',
+                    extra='''
+    def to_mcnp(self):
+        """
+        Generates INP from ``F_2``.
+
+        Returns:
+            INP for ``F_2``.
+        """
+
+        return f'{self.prefix or ""}f{self.suffix}{self.a}{f":{self.designator}" if self.designator else ""} {self.rings} {self.nd or ""}'
+    ''',
                     attributes=[
                         AttributeScheme(
                             name='prefix',

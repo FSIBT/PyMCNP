@@ -106,7 +106,6 @@ class Sd(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-
             information = types.Tuple(array)
 
         if information is None:

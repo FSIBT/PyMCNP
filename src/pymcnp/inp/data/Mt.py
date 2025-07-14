@@ -104,7 +104,6 @@ class Mt(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.String.from_mcnp(item))
-
             identifiers = types.Tuple(array)
 
         if identifiers is None:

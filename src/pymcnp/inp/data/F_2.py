@@ -164,16 +164,6 @@ class F_2(_option.DataOption):
 
         self._a: types.String = a
 
-    def to_mcnp(self):
-        """
-        Generates INP from ``F_2``.
-
-        Returns:
-            INP for ``F_2``.
-        """
-
-        return f'{self.prefix or ""}f{self.suffix}{self.a}{f":{self.designator}" if self.designator else ""} {self.rings} {self.nd or ""}'
-
     @property
     def designator(self) -> types.Designator:
         """
@@ -239,7 +229,6 @@ class F_2(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Ring.from_mcnp(item))
-
             rings = types.Tuple(array)
 
         if rings is None:
@@ -282,3 +271,13 @@ class F_2(_option.DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nd)
 
         self._nd: types.String = nd
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``F_2``.
+
+        Returns:
+            INP for ``F_2``.
+        """
+
+        return f'{self.prefix or ""}f{self.suffix}{self.a}{f":{self.designator}" if self.designator else ""} {self.rings} {self.nd or ""}'

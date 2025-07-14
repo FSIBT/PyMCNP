@@ -65,7 +65,6 @@ class Jints(_option.FmeshOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-
             count = types.Tuple(array)
 
         if count is None:

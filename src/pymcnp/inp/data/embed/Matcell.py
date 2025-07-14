@@ -63,7 +63,6 @@ class Matcell(_option.EmbedOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Matcell.from_mcnp(item))
-
             pairs = types.Tuple(array)
 
         if pairs is None:

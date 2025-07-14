@@ -6,8 +6,8 @@ from ..... import classes
 class Test_Points:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.dawwg.Points
-        EXAMPLES_VALID = [{'name': consts.string.type.STRING}, {'name': consts.ast.type.STRING}]
-        EXAMPLES_INVALID = [{'name': None}]
+        EXAMPLES_VALID = [{'count': consts.string.type.INTEGER}, {'count': 1}, {'count': consts.ast.type.INTEGER}]
+        EXAMPLES_INVALID = [{'count': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.data.dawwg.Points

@@ -13,58 +13,56 @@ class Xsec(_option.DawwgOption):
     _KEYWORD = 'xsec'
 
     _ATTRS = {
-        'count': types.Integer,
+        'name': types.String,
     }
 
-    _REGEX = re.compile(rf'\Axsec( {types.Integer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Axsec( {types.String._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, count: str | int | types.Integer):
+    def __init__(self, name: str | types.String):
         """
         Initializes ``Xsec``.
 
         Parameters:
-            count: Number of sample points for each direction in each mesh.
+            name: Cross section library.
 
         Raises:
             InpError: SEMANTICS_OPTION.
         """
 
-        self.count: types.Integer = count
+        self.name: types.String = name
 
     @property
-    def count(self) -> types.Integer:
+    def name(self) -> types.String:
         """
-        Number of sample points for each direction in each mesh
+        Cross section library
 
         Raises:
             InpError: SEMANTICS_OPTION.
             TypeError:
         """
 
-        return self._count
+        return self._name
 
-    @count.setter
-    def count(self, count: str | int | types.Integer) -> None:
+    @name.setter
+    def name(self, name: str | types.String) -> None:
         """
-        Sets ``count``.
+        Sets ``name``.
 
         Parameters:
-            count: Number of sample points for each direction in each mesh.
+            name: Cross section library.
 
         Raises:
             InpError: SEMANTICS_OPTION.
             TypeError:
         """
 
-        if count is not None:
-            if isinstance(count, types.Integer):
-                count = count
-            elif isinstance(count, int):
-                count = types.Integer(count)
-            elif isinstance(count, str):
-                count = types.Integer.from_mcnp(count)
+        if name is not None:
+            if isinstance(name, types.String):
+                name = name
+            elif isinstance(name, str):
+                name = types.String.from_mcnp(name)
 
-        if count is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, count)
+        if name is None:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, name)
 
-        self._count: types.Integer = count
+        self._name: types.String = name

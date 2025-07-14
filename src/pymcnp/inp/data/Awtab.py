@@ -63,7 +63,6 @@ class Awtab(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Substance.from_mcnp(item))
-
             weight_ratios = types.Tuple(array)
 
         if weight_ratios is None:

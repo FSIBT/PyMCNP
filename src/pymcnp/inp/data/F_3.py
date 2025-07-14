@@ -191,7 +191,6 @@ class F_3(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-
             problems = types.Tuple(array)
 
         if problems is None:
