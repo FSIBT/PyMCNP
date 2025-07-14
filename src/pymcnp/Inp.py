@@ -131,8 +131,7 @@ class Inp(_object.McnpFile):
         # source += DELIMITER
 
         return f"""
-{self.message or ""}
-{self.title}
+{self.message + "\n" if self.message else ""}{self.title}
 {'\n'.join(map(str, self.cells))}
 
 {'\n'.join(map(str, self.surfaces))}

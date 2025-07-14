@@ -24,12 +24,12 @@ class Test_Run:
         def test_prehook_file(self):
             for example in self.EXAMPLES:
                 element = self.element(**example)
-                element.prehook_file(self.PATH)
+                element.prehook_file(self.PATH, 0)
 
         def test_posthook_file(self):
             for example in self.EXAMPLES:
                 element = self.element(**example)
-                element.prehook_file(self.PATH)
+                element.posthook_file(self.PATH, 0)
 
         def test_prehook_batch(self):
             for example in self.EXAMPLES:
@@ -39,7 +39,7 @@ class Test_Run:
         def test_posthook_batch(self):
             for example in self.EXAMPLES:
                 element = self.element(**example)
-                element.prehook_batch(self.PATH)
+                element.posthook_batch(self.PATH)
 
         def test_run(self):
             for example in self.EXAMPLES:
