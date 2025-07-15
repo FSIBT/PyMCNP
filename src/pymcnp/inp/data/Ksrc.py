@@ -1,5 +1,6 @@
 import re
 
+from . import ksrc
 from . import _option
 from ...utils import types
 from ...utils import errors
@@ -13,12 +14,12 @@ class Ksrc(_option.DataOption):
     _KEYWORD = 'ksrc'
 
     _ATTRS = {
-        'locations': types.Tuple[types.Location],
+        'locations': types.Tuple[ksrc.Location],
     }
 
-    _REGEX = re.compile(rf'\Aksrc((?: {types.Location._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Aksrc((?: {ksrc.Location._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, locations: list[str] | list[types.Location]):
+    def __init__(self, locations: list[str] | list[ksrc.Location]):
         """
         Initializes ``Ksrc``.
 
@@ -29,10 +30,10 @@ class Ksrc(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.locations: types.Tuple[types.Location] = locations
+        self.locations: types.Tuple[ksrc.Location] = locations
 
     @property
-    def locations(self) -> types.Tuple[types.Location]:
+    def locations(self) -> types.Tuple[ksrc.Location]:
         """
         Tuple of inital source points
 
@@ -44,7 +45,7 @@ class Ksrc(_option.DataOption):
         return self._locations
 
     @locations.setter
-    def locations(self, locations: list[str] | list[types.Location]) -> None:
+    def locations(self, locations: list[str] | list[ksrc.Location]) -> None:
         """
         Sets ``locations``.
 
@@ -59,13 +60,13 @@ class Ksrc(_option.DataOption):
         if locations is not None:
             array = []
             for item in locations:
-                if isinstance(item, types.Location):
+                if isinstance(item, ksrc.Location):
                     array.append(item)
                 elif isinstance(item, str):
-                    array.append(types.Location.from_mcnp(item))
+                    array.append(ksrc.Location.from_mcnp(item))
             locations = types.Tuple(array)
 
         if locations is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, locations)
 
-        self._locations: types.Tuple[types.Location] = locations
+        self._locations: types.Tuple[ksrc.Location] = locations

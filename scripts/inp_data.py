@@ -3144,9 +3144,33 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='transformations',
-                            type='types.Tuple[types.Stochastic]',
+                            type='types.Tuple[uran.Stochastic]',
                             description='Tuple of stochastic transformations',
                         ),
+                    ],
+                    options=[
+                        ElementScheme(
+                            name='stochastic',
+                            mnemonic='',
+                            attributes=[
+                                AttributeScheme(name='universe', type='types.Integer', description='Universe number', restriction='0 <= universe.value <= 99_999_999'),
+                                AttributeScheme(
+                                    name='maximum_x',
+                                    type='types.Real',
+                                    description='Maximum x displacement',
+                                ),
+                                AttributeScheme(
+                                    name='maximum_y',
+                                    type='types.Real',
+                                    description='Maximum y displacement',
+                                ),
+                                AttributeScheme(
+                                    name='maximum_z',
+                                    type='types.Real',
+                                    description='Maximum z displacement',
+                                ),
+                            ],
+                        )
                     ],
                 ),
                 ElementScheme(
@@ -4007,9 +4031,19 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='pairs',
-                                    type='types.Tuple[types.Matcell]',
+                                    type='types.Tuple[matcell.Entry]',
                                     description='Tuple of material-cell paris',
                                 ),
+                            ],
+                            options=[
+                                ElementScheme(
+                                    name='entry',
+                                    mnemonic='',
+                                    attributes=[
+                                        AttributeScheme(name='material', type='types.Integer', description='Material number', restriction='0 <= material.value <= 99_999_999'),
+                                        AttributeScheme(name='cell', type='types.Integer', description='Geometry number', restriction='0 <= cell.value <= 99_999_999'),
+                                    ],
+                                )
                             ],
                         ),
                         ElementScheme(
@@ -5279,9 +5313,27 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='biases',
-                                    type='types.Tuple[types.Bias]',
+                                    type='types.Tuple[dneb.Bias]',
                                     description='Delayed neutron energy biases',
                                 ),
+                            ],
+                            options=[
+                                ElementScheme(
+                                    name='bias',
+                                    mnemonic='',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='weight',
+                                            type='types.Real',
+                                            description='Weight for bias',
+                                        ),
+                                        AttributeScheme(
+                                            name='energy',
+                                            type='types.Real',
+                                            description='Energy boundary for bias',
+                                        ),
+                                    ],
+                                )
                             ],
                         ),
                         ElementScheme(
@@ -5290,9 +5342,27 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='biases',
-                                    type='types.Tuple[types.Bias]',
+                                    type='types.Tuple[dgeb.Bias]',
                                     description='Delayed neutron energy biases',
                                 ),
+                            ],
+                            options=[
+                                ElementScheme(
+                                    name='bias',
+                                    mnemonic='',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='weight',
+                                            type='types.Real',
+                                            description='Weight for bias',
+                                        ),
+                                        AttributeScheme(
+                                            name='energy',
+                                            type='types.Real',
+                                            description='Energy boundary for bias',
+                                        ),
+                                    ],
+                                )
                             ],
                         ),
                         ElementScheme(
@@ -6654,7 +6724,7 @@ cards = ElementScheme(
                 ElementScheme(
                     name='ds_1',
                     mnemonic='ds',
-                    regex='ds(\\d+) t((?: {types.IndependentDependent._REGEX.pattern[2:-2]})+?)',
+                    regex='ds(\\d+) t((?: {ds_1.Variables._REGEX.pattern[2:-2]})+?)',
                     extra='''
     def to_mcnp(self):
         """
@@ -6675,15 +6745,33 @@ cards = ElementScheme(
                         # t
                         AttributeScheme(
                             name='ijs',
-                            type='types.Tuple[types.IndependentDependent]',
+                            type='types.Tuple[ds_1.Variables]',
                             description='Dependent source independent & dependent variables',
                         ),
+                    ],
+                    options=[
+                        ElementScheme(
+                            name='variables',
+                            mnemonic='',
+                            attributes=[
+                                AttributeScheme(
+                                    name='independent',
+                                    type='types.Real',
+                                    description='Independent source dependent variable',
+                                ),
+                                AttributeScheme(
+                                    name='dependent',
+                                    type='types.Real',
+                                    description='Dependent source dependent variable',
+                                ),
+                            ],
+                        )
                     ],
                 ),
                 ElementScheme(
                     name='ds_2',
                     mnemonic='ds',
-                    regex='ds(\\d+) q((?: {types.IndependentDependent._REGEX.pattern[2:-2]})+?)',
+                    regex='ds(\\d+) q((?: {ds_2.Variables._REGEX.pattern[2:-2]})+?)',
                     extra='''
     def to_mcnp(self):
         """
@@ -6704,9 +6792,27 @@ cards = ElementScheme(
                         # q
                         AttributeScheme(
                             name='vss',
-                            type='types.Tuple[types.IndependentDependent]',
+                            type='types.Tuple[ds_2.Variables]',
                             description='Dependent source independent & dependent variables',
                         ),
+                    ],
+                    options=[
+                        ElementScheme(
+                            name='variables',
+                            mnemonic='',
+                            attributes=[
+                                AttributeScheme(
+                                    name='independent',
+                                    type='types.Real',
+                                    description='Independent source dependent variable',
+                                ),
+                                AttributeScheme(
+                                    name='dependent',
+                                    type='types.Real',
+                                    description='Dependent source dependent variable',
+                                ),
+                            ],
+                        )
                     ],
                 ),
                 ElementScheme(
@@ -7023,9 +7129,32 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='locations',
-                            type='types.Tuple[types.Location]',
+                            type='types.Tuple[ksrc.Location]',
                             description='Tuple of inital source points',
                         ),
+                    ],
+                    options=[
+                        ElementScheme(
+                            name='location',
+                            mnemonic='',
+                            attributes=[
+                                AttributeScheme(
+                                    name='x',
+                                    type='types.Real',
+                                    description='Location x-coordinate',
+                                ),
+                                AttributeScheme(
+                                    name='y',
+                                    type='types.Real',
+                                    description='Location y-coordinate',
+                                ),
+                                AttributeScheme(
+                                    name='z',
+                                    type='types.Real',
+                                    description='Location z-coordinate',
+                                ),
+                            ],
+                        )
                     ],
                 ),
                 ElementScheme(
@@ -7310,7 +7439,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='spheres',
-                            type='types.Tuple[types.Sphere]',
+                            type='types.Tuple[f_1.Sphere]',
                             description='Detector points',
                         ),
                         AttributeScheme(
@@ -7320,6 +7449,34 @@ cards = ElementScheme(
                             restriction='nd == "nd"',
                             optional=True,
                         ),
+                    ],
+                    options=[
+                        ElementScheme(
+                            name='sphere',
+                            mnemonic='',
+                            attributes=[
+                                AttributeScheme(
+                                    name='x',
+                                    type='types.Real',
+                                    description='Vector x coordinate',
+                                ),
+                                AttributeScheme(
+                                    name='y',
+                                    type='types.Real',
+                                    description='Vector y coordinate',
+                                ),
+                                AttributeScheme(
+                                    name='z',
+                                    type='types.Integer',
+                                    description='Vector z coordinate',
+                                ),
+                                AttributeScheme(
+                                    name='ro',
+                                    type='types.Integer',
+                                    description='Sphere exclusion radius',
+                                ),
+                            ],
+                        )
                     ],
                 ),
                 ElementScheme(
@@ -7365,7 +7522,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='rings',
-                            type='types.Tuple[types.Ring]',
+                            type='types.Tuple[f_2.Ring]',
                             description='Detector points',
                         ),
                         AttributeScheme(
@@ -7375,6 +7532,29 @@ cards = ElementScheme(
                             restriction='nd == "nd"',
                             optional=True,
                         ),
+                    ],
+                    options=[
+                        ElementScheme(
+                            name='ring',
+                            mnemonic='',
+                            attributes=[
+                                AttributeScheme(
+                                    name='distance',
+                                    type='types.Real',
+                                    description='Ring position',
+                                ),
+                                AttributeScheme(
+                                    name='radius',
+                                    type='types.Real',
+                                    description='Ring radius',
+                                ),
+                                AttributeScheme(
+                                    name='ro',
+                                    type='types.Integer',
+                                    description='Ring radius',
+                                ),
+                            ],
+                        )
                     ],
                 ),
                 ElementScheme(
@@ -9972,52 +10152,52 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='spheres_1',
-                            type='types.Shell',
+                            type='dxt.Shell',
                             description='DXTRAN spheres #1',
                         ),
                         AttributeScheme(
                             name='spheres_2',
-                            type='types.Shell',
+                            type='dxt.Shell',
                             description='DXTRAN spheres #2',
                         ),
                         AttributeScheme(
                             name='spheres_3',
-                            type='types.Shell',
+                            type='dxt.Shell',
                             description='DXTRAN spheres #3',
                         ),
                         AttributeScheme(
                             name='spheres_4',
-                            type='types.Shell',
+                            type='dxt.Shell',
                             description='DXTRAN spheres #4',
                         ),
                         AttributeScheme(
                             name='spheres_5',
-                            type='types.Shell',
+                            type='dxt.Shell',
                             description='DXTRAN spheres #5',
                         ),
                         AttributeScheme(
                             name='spheres_6',
-                            type='types.Shell',
+                            type='dxt.Shell',
                             description='DXTRAN spheres #6',
                         ),
                         AttributeScheme(
                             name='spheres_7',
-                            type='types.Shell',
+                            type='dxt.Shell',
                             description='DXTRAN spheres #7',
                         ),
                         AttributeScheme(
                             name='spheres_8',
-                            type='types.Shell',
+                            type='dxt.Shell',
                             description='DXTRAN spheres #8',
                         ),
                         AttributeScheme(
                             name='spheres_9',
-                            type='types.Shell',
+                            type='dxt.Shell',
                             description='DXTRAN spheres #9',
                         ),
                         AttributeScheme(
                             name='spheres_10',
-                            type='types.Shell',
+                            type='dxt.Shell',
                             description='DXTRAN spheres #10',
                         ),
                         AttributeScheme(
@@ -10036,10 +10216,43 @@ cards = ElementScheme(
                             description='Minimum photon weight',
                         ),
                     ],
+                    options=[
+                        ElementScheme(
+                            name='shell',
+                            mnemonic='',
+                            attributes=[
+                                AttributeScheme(
+                                    name='x',
+                                    type='types.Real',
+                                    description='Vector x coordinate',
+                                ),
+                                AttributeScheme(
+                                    name='y',
+                                    type='types.Real',
+                                    description='Vector y coordinate',
+                                ),
+                                AttributeScheme(
+                                    name='z',
+                                    type='types.Real',
+                                    description='Vector z coordinate',
+                                ),
+                                AttributeScheme(
+                                    name='inner_radius',
+                                    type='types.Integer',
+                                    description='Inner sphere radius',
+                                ),
+                                AttributeScheme(
+                                    name='outer_radius',
+                                    type='types.Integer',
+                                    description='Outer sphere radius',
+                                ),
+                            ],
+                        )
+                    ],
                 ),
                 ElementScheme(
                     name='dd',
-                    regex='dd(\\d+)?((?: {types.Diagnostic._REGEX.pattern[2:-2]})+?)',
+                    regex='dd(\\d+)?((?: {dd.Diagnostic._REGEX.pattern[2:-2]})+?)',
                     mnemonic='dd',
                     attributes=[
                         AttributeScheme(
@@ -10050,9 +10263,27 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='diagnostics',
-                            type='types.Tuple[types.Diagnostic]',
+                            type='types.Tuple[dd.Diagnostic]',
                             description='Detector diagnostic entries',
                         ),
+                    ],
+                    options=[
+                        ElementScheme(
+                            name='diagnostic',
+                            mnemonic='',
+                            attributes=[
+                                AttributeScheme(
+                                    name='playing_setting',
+                                    type='types.Real',
+                                    description='Criterion for playing Russian roulette for DXTRAN',
+                                ),
+                                AttributeScheme(
+                                    name='printing_setting',
+                                    type='types.Real',
+                                    description='Criterion for printing diagnostics for large contributions for DXTRAN',
+                                ),
+                            ],
+                        )
                     ],
                 ),
                 ElementScheme(
@@ -10361,9 +10592,27 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='biases',
-                            type='types.Tuple[types.PhotonBias]',
+                            type='types.Tuple[pikmt.Photonbias]',
                             description='Biases for proton production',
                         ),
+                    ],
+                    options=[
+                        ElementScheme(
+                            name='photonbias',
+                            mnemonic='',
+                            attributes=[
+                                AttributeScheme(
+                                    name='zaid',
+                                    type='types.Zaid',
+                                    description='Bias nuclide identifier',
+                                ),
+                                AttributeScheme(
+                                    name='ipiki',
+                                    type='types.Integer',
+                                    description='Bias controls',
+                                ),
+                            ],
+                        )
                     ],
                 ),
                 ElementScheme(
@@ -10631,9 +10880,33 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='variables',
-                                    type='types.Tuple[types.PtracFilter]',
+                                    type='types.Tuple[filter.Entry]',
                                     description='MCNP6 variables for filtering',
                                 ),
+                            ],
+                            options=[
+                                ElementScheme(
+                                    name='entry',
+                                    mnemonic='',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='lower',
+                                            type='types.Real',
+                                            description='Lower bound for filtering',
+                                        ),
+                                        AttributeScheme(
+                                            name='variable',
+                                            type='types.String',
+                                            description='Variable name for PBL derived structure',
+                                            optional=True,
+                                        ),
+                                        AttributeScheme(
+                                            name='upper',
+                                            type='types.Real',
+                                            description='Upper bound for filtering',
+                                        ),
+                                    ],
+                                )
                             ],
                         ),
                         ElementScheme(
@@ -12299,9 +12572,47 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='creations',
-                            type='types.Tuple[types.File]',
+                            type='types.Tuple[files.File]',
                             description='Files to create',
                         ),
+                    ],
+                    options=[
+                        ElementScheme(
+                            name='file',
+                            mnemonic='',
+                            attributes=[
+                                AttributeScheme(
+                                    name='unit',
+                                    type='types.Integer',
+                                    description='Unit number of file to create',
+                                ),
+                                AttributeScheme(
+                                    name='filename',
+                                    type='types.Integer',
+                                    description='Name of file to create',
+                                ),
+                                AttributeScheme(
+                                    name='access',
+                                    type='types.String',
+                                    description='access of file to create',
+                                    restriction="access.value not in {'sequential', 'direct', 's', 'd'}",
+                                    optional=True,
+                                ),
+                                AttributeScheme(
+                                    name='form',
+                                    type='types.String',
+                                    description='Format of file to create',
+                                    restriction="form.value not in {'formatted', 'unformatted', 'f', 'u'}",
+                                    optional=True,
+                                ),
+                                AttributeScheme(
+                                    name='length',
+                                    type='types.Integer',
+                                    description='Record length of file to create',
+                                    optional=True,
+                                ),
+                            ],
+                        )
                     ],
                 ),
             ],

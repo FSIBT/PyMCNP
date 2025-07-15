@@ -1,5 +1,5 @@
 from ._option import PtracOption
-
+from . import filter
 from .Buffer import Buffer
 from .File import File
 from .Max import Max
@@ -17,6 +17,7 @@ from .Value import Value
 
 __all__ = [
     'PtracOption',
+    'filter',
     'Buffer',
     'File',
     'Max',

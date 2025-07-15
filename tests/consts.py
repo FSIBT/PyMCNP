@@ -22,25 +22,12 @@ class string:
         DESIGNATOR = 'n,#'
         GEOMETRY = '1 (2:(+3 -4) #5)'
         SUBSTANCE = '001001 0.5'
-        BIAS = '3.1 4.1'
         TRANSFORMATION_0 = '1 1 1 2 2 2 3 3 3 4 4 4'
         TRANSFORMATION_1 = '1 1 1 2 2 2 3 3 3'
         TRANSFORMATION_2 = '1 1 1 2 2 2 3 3'
         TRANSFORMATION_3 = '1 1 1 2 2 2'
         TRANSFORMATION_4 = '1 1 1'
-        STOCHASTIC = '1 3.1 4.1 5.9'
-        INDEPENDENTDEPENDENT = '3.1 4.1'
-        LOCATION = '3.1 4.1 5.9'
-        FILE = '1 2 s f 3'
-        DIAGNOSTIC = '3.1 4.1'
-        RING = '3.1 4.1 5.9'
-        SPHERE = '3.1 4.1 5.9 2.6'
-        SHELL = '3.1 4.1 5.9 1 2'
-        REACTION = '001001 1'
-        PTRACFILTER = '3.1,hello,4.1'
-        PHOTONBIAS = '001001 1'
         INDEX = '1:2'
-        MATCELL = '1 2'
 
     class inp:
         CELL = '1 1 3.1 1 (2:(+3 -4) #5) imp:@=1'
@@ -306,6 +293,36 @@ class string:
             ZD = 'zd hello'
             FILES = 'files 1 1 s f 1 1 1 s f 1 1 1 s f 1'
 
+            class dd:
+                DIAGNOSTIC = '3.1 4.1'
+
+            class ds_1:
+                VARIABLES = '3.1 4.1'
+
+            class ds_2:
+                VARIABLES = '3.1 4.1'
+
+            class dxt:
+                SHELL = '3.1 4.1 5.9 1 2'
+
+            class f_1:
+                SPHERE = '3.1 4.1 5.9 2.6'
+
+            class f_2:
+                RING = '3.1 4.1 5.9'
+
+            class files:
+                FILE = '1 2 s f 3'
+
+            class ksrc:
+                LOCATION = '3.1 4.1 5.9'
+
+            class pikmt:
+                PHOTONBIAS = '001001 1'
+
+            class uran:
+                STOCHASTIC = '1 3.1 4.1 5.9'
+
             class dawwg:
                 POINTS = 'points 1'
                 XSEC = 'xsec hello'
@@ -380,17 +397,20 @@ class string:
 
             class embed:
                 BACKGROUND = 'background 3.1'
-                MATCELL = 'matcell 1 1 1 1 1 1'
+                MATCELL = 'matcell 1 2 1 2 1 2'
                 MESHGEO = 'meshgeo lnk3dnt'
                 MGEOIN = 'mgeoin hello'
                 MEEOUT = 'meeout hello'
                 MEEIN = 'meein hello'
-                CALCVOLS = 'calcvols yes'
+                CALCVOLS = 'calc_vols yes'
                 DEBUG = 'debug echomesh'
                 FILETYPE = 'filetype ascii'
                 GMVFILE = 'gmvfile hello'
                 LENGTH = 'length 3.1'
                 MCNPUMFILE = 'mcnpumfile hello'
+
+                class matcell:
+                    ENTRY = '1 2'
 
             class embee:
                 EMBED = 'embed 1'
@@ -433,6 +453,12 @@ class string:
                 PECUT = 'pecut 3.1'
                 HLCUT = 'hlcut 3.1'
                 SAMPLE = 'sample correlate'
+
+                class dgeb:
+                    BIAS = '3.1 4.1'
+
+                class dneb:
+                    BIAS = '3.1 4.1'
 
             class fmult:
                 SFNU = 'sfnu 3.1 3.1 3.1'
@@ -627,6 +653,9 @@ class string:
                 SURFACE = 'surface 1 1 1'
                 TALLY = 'tally 1 1 1'
                 VALUE = 'value 3.1'
+
+                class filter:
+                    ENTRY = '3.1,hello,4.1'
 
             class mplot:
                 TERM = 'term 1'
@@ -1394,25 +1423,12 @@ class ast:
         DESIGNATOR = pymcnp.utils.types.Designator.from_mcnp(string.type.DESIGNATOR)
         GEOMETRY = pymcnp.utils.types.Geometry.from_mcnp(string.type.GEOMETRY)
         SUBSTANCE = pymcnp.utils.types.Substance.from_mcnp(string.type.SUBSTANCE)
-        BIAS = pymcnp.utils.types.Bias.from_mcnp(string.type.BIAS)
         TRANSFORMATION_0 = pymcnp.utils.types.Transformation_0.from_mcnp(string.type.TRANSFORMATION_0)
         TRANSFORMATION_1 = pymcnp.utils.types.Transformation_1.from_mcnp(string.type.TRANSFORMATION_1)
         TRANSFORMATION_2 = pymcnp.utils.types.Transformation_2.from_mcnp(string.type.TRANSFORMATION_2)
         TRANSFORMATION_3 = pymcnp.utils.types.Transformation_3.from_mcnp(string.type.TRANSFORMATION_3)
         TRANSFORMATION_4 = pymcnp.utils.types.Transformation_4.from_mcnp(string.type.TRANSFORMATION_4)
-        STOCHASTIC = pymcnp.utils.types.Stochastic.from_mcnp(string.type.STOCHASTIC)
-        INDEPENDENTDEPENDENT = pymcnp.utils.types.IndependentDependent.from_mcnp(string.type.INDEPENDENTDEPENDENT)
-        LOCATION = pymcnp.utils.types.Location.from_mcnp(string.type.LOCATION)
-        FILE = pymcnp.utils.types.File.from_mcnp(string.type.FILE)
-        DIAGNOSTIC = pymcnp.utils.types.Diagnostic.from_mcnp(string.type.DIAGNOSTIC)
-        RING = pymcnp.utils.types.Ring.from_mcnp(string.type.RING)
-        SPHERE = pymcnp.utils.types.Sphere.from_mcnp(string.type.SPHERE)
-        SHELL = pymcnp.utils.types.Shell.from_mcnp(string.type.SHELL)
-        REACTION = pymcnp.utils.types.Reaction.from_mcnp(string.type.REACTION)
-        PTRACFILTER = pymcnp.utils.types.PtracFilter.from_mcnp(string.type.PTRACFILTER)
-        PHOTONBIAS = pymcnp.utils.types.PhotonBias.from_mcnp(string.type.PHOTONBIAS)
         INDEX = pymcnp.utils.types.Index.from_mcnp(string.type.INDEX)
-        MATCELL = pymcnp.utils.types.Matcell.from_mcnp(string.type.MATCELL)
 
     class inp:
         CELL = pymcnp.inp.Cell.from_mcnp(string.inp.CELL)
@@ -1678,6 +1694,36 @@ class ast:
             ZD = pymcnp.inp.data.Zd.from_mcnp(string.inp.data.ZD)
             FILES = pymcnp.inp.data.Files.from_mcnp(string.inp.data.FILES)
 
+            class dd:
+                DIAGNOSTIC = pymcnp.inp.data.dd.Diagnostic.from_mcnp(string.inp.data.dd.DIAGNOSTIC)
+
+            class ds_1:
+                VARIABLES = pymcnp.inp.data.ds_1.Variables.from_mcnp(string.inp.data.ds_1.VARIABLES)
+
+            class ds_2:
+                VARIABLES = pymcnp.inp.data.ds_2.Variables.from_mcnp(string.inp.data.ds_2.VARIABLES)
+
+            class dxt:
+                SHELL = pymcnp.inp.data.dxt.Shell.from_mcnp(string.inp.data.dxt.SHELL)
+
+            class f_1:
+                SPHERE = pymcnp.inp.data.f_1.Sphere.from_mcnp(string.inp.data.f_1.SPHERE)
+
+            class f_2:
+                RING = pymcnp.inp.data.f_2.Ring.from_mcnp(string.inp.data.f_2.RING)
+
+            class files:
+                FILE = pymcnp.inp.data.files.File.from_mcnp(string.inp.data.files.FILE)
+
+            class ksrc:
+                LOCATION = pymcnp.inp.data.ksrc.Location.from_mcnp(string.inp.data.ksrc.LOCATION)
+
+            class pikmt:
+                PHOTONBIAS = pymcnp.inp.data.pikmt.Photonbias.from_mcnp(string.inp.data.pikmt.PHOTONBIAS)
+
+            class uran:
+                STOCHASTIC = pymcnp.inp.data.uran.Stochastic.from_mcnp(string.inp.data.uran.STOCHASTIC)
+
             class dawwg:
                 POINTS = pymcnp.inp.data.dawwg.Points.from_mcnp(string.inp.data.dawwg.POINTS)
                 XSEC = pymcnp.inp.data.dawwg.Xsec.from_mcnp(string.inp.data.dawwg.XSEC)
@@ -1764,6 +1810,9 @@ class ast:
                 LENGTH = pymcnp.inp.data.embed.Length.from_mcnp(string.inp.data.embed.LENGTH)
                 MCNPUMFILE = pymcnp.inp.data.embed.Mcnpumfile.from_mcnp(string.inp.data.embed.MCNPUMFILE)
 
+                class matcell:
+                    ENTRY = pymcnp.inp.data.embed.matcell.Entry.from_mcnp(string.inp.data.embed.matcell.ENTRY)
+
             class embee:
                 EMBED = pymcnp.inp.data.embee.Embed.from_mcnp(string.inp.data.embee.EMBED)
                 ENERGY = pymcnp.inp.data.embee.Energy.from_mcnp(string.inp.data.embee.ENERGY)
@@ -1805,6 +1854,12 @@ class ast:
                 PECUT = pymcnp.inp.data.act.Pecut.from_mcnp(string.inp.data.act.PECUT)
                 HLCUT = pymcnp.inp.data.act.Hlcut.from_mcnp(string.inp.data.act.HLCUT)
                 SAMPLE = pymcnp.inp.data.act.Sample.from_mcnp(string.inp.data.act.SAMPLE)
+
+                class dgeb:
+                    BIAS = pymcnp.inp.data.act.dgeb.Bias.from_mcnp(string.inp.data.act.dgeb.BIAS)
+
+                class dneb:
+                    BIAS = pymcnp.inp.data.act.dneb.Bias.from_mcnp(string.inp.data.act.dneb.BIAS)
 
             class fmult:
                 SFNU = pymcnp.inp.data.fmult.Sfnu.from_mcnp(string.inp.data.fmult.SFNU)
@@ -1999,6 +2054,9 @@ class ast:
                 SURFACE = pymcnp.inp.data.ptrac.Surface.from_mcnp(string.inp.data.ptrac.SURFACE)
                 TALLY = pymcnp.inp.data.ptrac.Tally.from_mcnp(string.inp.data.ptrac.TALLY)
                 VALUE = pymcnp.inp.data.ptrac.Value.from_mcnp(string.inp.data.ptrac.VALUE)
+
+                class filter:
+                    ENTRY = pymcnp.inp.data.ptrac.filter.Entry.from_mcnp(string.inp.data.ptrac.filter.ENTRY)
 
             class mplot:
                 TERM = pymcnp.inp.data.mplot.Term.from_mcnp(string.inp.data.mplot.TERM)

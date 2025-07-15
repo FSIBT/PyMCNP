@@ -1,5 +1,6 @@
 import re
 
+from . import uran
 from . import _option
 from ...utils import types
 from ...utils import errors
@@ -13,12 +14,12 @@ class Uran(_option.DataOption):
     _KEYWORD = 'uran'
 
     _ATTRS = {
-        'transformations': types.Tuple[types.Stochastic],
+        'transformations': types.Tuple[uran.Stochastic],
     }
 
     _REGEX = re.compile(r'\Auran((?: \S+ \S+ \S+ \S+)+?)\Z')
 
-    def __init__(self, transformations: list[str] | list[types.Stochastic]):
+    def __init__(self, transformations: list[str] | list[uran.Stochastic]):
         """
         Initializes ``Uran``.
 
@@ -29,10 +30,10 @@ class Uran(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.transformations: types.Tuple[types.Stochastic] = transformations
+        self.transformations: types.Tuple[uran.Stochastic] = transformations
 
     @property
-    def transformations(self) -> types.Tuple[types.Stochastic]:
+    def transformations(self) -> types.Tuple[uran.Stochastic]:
         """
         Tuple of stochastic transformations
 
@@ -44,7 +45,7 @@ class Uran(_option.DataOption):
         return self._transformations
 
     @transformations.setter
-    def transformations(self, transformations: list[str] | list[types.Stochastic]) -> None:
+    def transformations(self, transformations: list[str] | list[uran.Stochastic]) -> None:
         """
         Sets ``transformations``.
 
@@ -59,13 +60,13 @@ class Uran(_option.DataOption):
         if transformations is not None:
             array = []
             for item in transformations:
-                if isinstance(item, types.Stochastic):
+                if isinstance(item, uran.Stochastic):
                     array.append(item)
                 elif isinstance(item, str):
-                    array.append(types.Stochastic.from_mcnp(item))
+                    array.append(uran.Stochastic.from_mcnp(item))
             transformations = types.Tuple(array)
 
         if transformations is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, transformations)
 
-        self._transformations: types.Tuple[types.Stochastic] = transformations
+        self._transformations: types.Tuple[uran.Stochastic] = transformations

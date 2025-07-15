@@ -1,5 +1,6 @@
 import re
 
+from . import filter
 from . import _option
 from ....utils import types
 from ....utils import errors
@@ -13,12 +14,12 @@ class Filter(_option.PtracOption):
     _KEYWORD = 'filter'
 
     _ATTRS = {
-        'variables': types.Tuple[types.PtracFilter],
+        'variables': types.Tuple[filter.Entry],
     }
 
-    _REGEX = re.compile(rf'\Afilter((?: {types.PtracFilter._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Afilter((?: {filter.Entry._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, variables: list[str] | list[types.PtracFilter]):
+    def __init__(self, variables: list[str] | list[filter.Entry]):
         """
         Initializes ``Filter``.
 
@@ -29,10 +30,10 @@ class Filter(_option.PtracOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.variables: types.Tuple[types.PtracFilter] = variables
+        self.variables: types.Tuple[filter.Entry] = variables
 
     @property
-    def variables(self) -> types.Tuple[types.PtracFilter]:
+    def variables(self) -> types.Tuple[filter.Entry]:
         """
         MCNP6 variables for filtering
 
@@ -44,7 +45,7 @@ class Filter(_option.PtracOption):
         return self._variables
 
     @variables.setter
-    def variables(self, variables: list[str] | list[types.PtracFilter]) -> None:
+    def variables(self, variables: list[str] | list[filter.Entry]) -> None:
         """
         Sets ``variables``.
 
@@ -59,13 +60,13 @@ class Filter(_option.PtracOption):
         if variables is not None:
             array = []
             for item in variables:
-                if isinstance(item, types.PtracFilter):
+                if isinstance(item, filter.Entry):
                     array.append(item)
                 elif isinstance(item, str):
-                    array.append(types.PtracFilter.from_mcnp(item))
+                    array.append(filter.Entry.from_mcnp(item))
             variables = types.Tuple(array)
 
         if variables is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, variables)
 
-        self._variables: types.Tuple[types.PtracFilter] = variables
+        self._variables: types.Tuple[filter.Entry] = variables

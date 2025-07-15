@@ -1,5 +1,6 @@
 import re
 
+from . import pikmt
 from . import _option
 from ...utils import types
 from ...utils import errors
@@ -13,12 +14,12 @@ class Pikmt(_option.DataOption):
     _KEYWORD = 'pikmt'
 
     _ATTRS = {
-        'biases': types.Tuple[types.PhotonBias],
+        'biases': types.Tuple[pikmt.Photonbias],
     }
 
-    _REGEX = re.compile(rf'\Apikmt((?: {types.PhotonBias._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Apikmt((?: {pikmt.Photonbias._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, biases: list[str] | list[types.PhotonBias]):
+    def __init__(self, biases: list[str] | list[pikmt.Photonbias]):
         """
         Initializes ``Pikmt``.
 
@@ -29,10 +30,10 @@ class Pikmt(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.biases: types.Tuple[types.PhotonBias] = biases
+        self.biases: types.Tuple[pikmt.Photonbias] = biases
 
     @property
-    def biases(self) -> types.Tuple[types.PhotonBias]:
+    def biases(self) -> types.Tuple[pikmt.Photonbias]:
         """
         Biases for proton production
 
@@ -44,7 +45,7 @@ class Pikmt(_option.DataOption):
         return self._biases
 
     @biases.setter
-    def biases(self, biases: list[str] | list[types.PhotonBias]) -> None:
+    def biases(self, biases: list[str] | list[pikmt.Photonbias]) -> None:
         """
         Sets ``biases``.
 
@@ -59,13 +60,13 @@ class Pikmt(_option.DataOption):
         if biases is not None:
             array = []
             for item in biases:
-                if isinstance(item, types.PhotonBias):
+                if isinstance(item, pikmt.Photonbias):
                     array.append(item)
                 elif isinstance(item, str):
-                    array.append(types.PhotonBias.from_mcnp(item))
+                    array.append(pikmt.Photonbias.from_mcnp(item))
             biases = types.Tuple(array)
 
         if biases is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, biases)
 
-        self._biases: types.Tuple[types.PhotonBias] = biases
+        self._biases: types.Tuple[pikmt.Photonbias] = biases

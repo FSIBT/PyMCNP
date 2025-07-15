@@ -1,5 +1,6 @@
 import re
 
+from . import files
 from . import _option
 from ...utils import types
 from ...utils import errors
@@ -13,12 +14,12 @@ class Files(_option.DataOption):
     _KEYWORD = 'files'
 
     _ATTRS = {
-        'creations': types.Tuple[types.File],
+        'creations': types.Tuple[files.File],
     }
 
-    _REGEX = re.compile(rf'\Afiles((?: {types.File._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Afiles((?: {files.File._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, creations: list[str] | list[types.File]):
+    def __init__(self, creations: list[str] | list[files.File]):
         """
         Initializes ``Files``.
 
@@ -29,10 +30,10 @@ class Files(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.creations: types.Tuple[types.File] = creations
+        self.creations: types.Tuple[files.File] = creations
 
     @property
-    def creations(self) -> types.Tuple[types.File]:
+    def creations(self) -> types.Tuple[files.File]:
         """
         Files to create
 
@@ -44,7 +45,7 @@ class Files(_option.DataOption):
         return self._creations
 
     @creations.setter
-    def creations(self, creations: list[str] | list[types.File]) -> None:
+    def creations(self, creations: list[str] | list[files.File]) -> None:
         """
         Sets ``creations``.
 
@@ -59,13 +60,13 @@ class Files(_option.DataOption):
         if creations is not None:
             array = []
             for item in creations:
-                if isinstance(item, types.File):
+                if isinstance(item, files.File):
                     array.append(item)
                 elif isinstance(item, str):
-                    array.append(types.File.from_mcnp(item))
+                    array.append(files.File.from_mcnp(item))
             creations = types.Tuple(array)
 
         if creations is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, creations)
 
-        self._creations: types.Tuple[types.File] = creations
+        self._creations: types.Tuple[files.File] = creations
