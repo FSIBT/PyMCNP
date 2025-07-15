@@ -1,5 +1,6 @@
 import re
 
+from . import dneb
 from . import _option
 from ....utils import types
 from ....utils import errors
@@ -13,12 +14,12 @@ class Dneb(_option.ActOption):
     _KEYWORD = 'dneb'
 
     _ATTRS = {
-        'biases': types.Tuple[types.Bias],
+        'biases': types.Tuple[dneb.Bias],
     }
 
-    _REGEX = re.compile(rf'\Adneb((?: {types.Bias._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Adneb((?: {dneb.Bias._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, biases: list[str] | list[types.Bias]):
+    def __init__(self, biases: list[str] | list[dneb.Bias]):
         """
         Initializes ``Dneb``.
 
@@ -29,10 +30,10 @@ class Dneb(_option.ActOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.biases: types.Tuple[types.Bias] = biases
+        self.biases: types.Tuple[dneb.Bias] = biases
 
     @property
-    def biases(self) -> types.Tuple[types.Bias]:
+    def biases(self) -> types.Tuple[dneb.Bias]:
         """
         Delayed neutron energy biases
 
@@ -44,7 +45,7 @@ class Dneb(_option.ActOption):
         return self._biases
 
     @biases.setter
-    def biases(self, biases: list[str] | list[types.Bias]) -> None:
+    def biases(self, biases: list[str] | list[dneb.Bias]) -> None:
         """
         Sets ``biases``.
 
@@ -59,13 +60,13 @@ class Dneb(_option.ActOption):
         if biases is not None:
             array = []
             for item in biases:
-                if isinstance(item, types.Bias):
+                if isinstance(item, dneb.Bias):
                     array.append(item)
                 elif isinstance(item, str):
-                    array.append(types.Bias.from_mcnp(item))
+                    array.append(dneb.Bias.from_mcnp(item))
             biases = types.Tuple(array)
 
         if biases is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, biases)
 
-        self._biases: types.Tuple[types.Bias] = biases
+        self._biases: types.Tuple[dneb.Bias] = biases

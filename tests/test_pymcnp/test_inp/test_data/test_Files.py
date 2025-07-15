@@ -6,7 +6,7 @@ from .... import classes
 class Test_Files:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.Files
-        EXAMPLES_VALID = [{'creations': [consts.string.type.FILE]}, {'creations': [consts.ast.type.FILE]}]
+        EXAMPLES_VALID = [{'creations': [consts.string.inp.data.files.FILE]}, {'creations': [consts.ast.inp.data.files.FILE]}]
         EXAMPLES_INVALID = [{'creations': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):

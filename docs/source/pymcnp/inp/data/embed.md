@@ -1,5 +1,14 @@
 # ``pymcnp.inp.data.embed`` Subpackage
 
+## Table of Contents
+
+```{eval-rst}
+.. toctree::
+   :maxdepth: 1
+
+   embed/matcell
+```
+
 ## AST Classes
 
 ### ``Background`` Class
@@ -49,6 +58,16 @@
    :members:
    :inherited-members:
 ```
+
+### ``Matcell`` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.data.embed.Matcell
+   :members:
+   :inherited-members:
+```
+
+[matcell subpackage](embed/matcell)
 
 ### ``Mcnpumfile`` Class
 

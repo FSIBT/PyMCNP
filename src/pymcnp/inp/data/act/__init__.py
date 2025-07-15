@@ -1,5 +1,6 @@
 from ._option import ActOption
-
+from . import dneb
+from . import dgeb
 from .Fission import Fission
 from .Nonfiss import Nonfiss
 from .Dn import Dn
@@ -15,6 +16,8 @@ from .Sample import Sample
 
 __all__ = [
     'ActOption',
+    'dneb',
+    'dgeb',
     'Fission',
     'Nonfiss',
     'Dn',
