@@ -1,5 +1,6 @@
 import re
 
+from . import dd
 from . import _option
 from ...utils import types
 from ...utils import errors
@@ -14,12 +15,12 @@ class Dd(_option.DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'diagnostics': types.Tuple[types.Diagnostic],
+        'diagnostics': types.Tuple[dd.Diagnostic],
     }
 
-    _REGEX = re.compile(rf'\Add(\d+)?((?: {types.Diagnostic._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Add(\d+)?((?: {dd.Diagnostic._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, diagnostics: list[str] | list[types.Diagnostic], suffix: str | int | types.Integer = None):
+    def __init__(self, diagnostics: list[str] | list[dd.Diagnostic], suffix: str | int | types.Integer = None):
         """
         Initializes ``Dd``.
 
@@ -32,7 +33,7 @@ class Dd(_option.DataOption):
         """
 
         self.suffix: types.Integer = suffix
-        self.diagnostics: types.Tuple[types.Diagnostic] = diagnostics
+        self.diagnostics: types.Tuple[dd.Diagnostic] = diagnostics
 
     @property
     def suffix(self) -> types.Integer:
@@ -70,7 +71,7 @@ class Dd(_option.DataOption):
         self._suffix: types.Integer = suffix
 
     @property
-    def diagnostics(self) -> types.Tuple[types.Diagnostic]:
+    def diagnostics(self) -> types.Tuple[dd.Diagnostic]:
         """
         Detector diagnostic entries
 
@@ -82,7 +83,7 @@ class Dd(_option.DataOption):
         return self._diagnostics
 
     @diagnostics.setter
-    def diagnostics(self, diagnostics: list[str] | list[types.Diagnostic]) -> None:
+    def diagnostics(self, diagnostics: list[str] | list[dd.Diagnostic]) -> None:
         """
         Sets ``diagnostics``.
 
@@ -97,13 +98,13 @@ class Dd(_option.DataOption):
         if diagnostics is not None:
             array = []
             for item in diagnostics:
-                if isinstance(item, types.Diagnostic):
+                if isinstance(item, dd.Diagnostic):
                     array.append(item)
                 elif isinstance(item, str):
-                    array.append(types.Diagnostic.from_mcnp(item))
+                    array.append(dd.Diagnostic.from_mcnp(item))
             diagnostics = types.Tuple(array)
 
         if diagnostics is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, diagnostics)
 
-        self._diagnostics: types.Tuple[types.Diagnostic] = diagnostics
+        self._diagnostics: types.Tuple[dd.Diagnostic] = diagnostics

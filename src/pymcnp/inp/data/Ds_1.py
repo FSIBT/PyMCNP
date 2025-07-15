@@ -1,5 +1,6 @@
 import re
 
+from . import ds_1
 from . import _option
 from ...utils import types
 from ...utils import errors
@@ -14,12 +15,12 @@ class Ds_1(_option.DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'ijs': types.Tuple[types.IndependentDependent],
+        'ijs': types.Tuple[ds_1.Variables],
     }
 
-    _REGEX = re.compile(rf'\Ads(\d+) t((?: {types.IndependentDependent._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Ads(\d+) t((?: {ds_1.Variables._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, suffix: str | int | types.Integer, ijs: list[str] | list[types.IndependentDependent]):
+    def __init__(self, suffix: str | int | types.Integer, ijs: list[str] | list[ds_1.Variables]):
         """
         Initializes ``Ds_1``.
 
@@ -32,7 +33,7 @@ class Ds_1(_option.DataOption):
         """
 
         self.suffix: types.Integer = suffix
-        self.ijs: types.Tuple[types.IndependentDependent] = ijs
+        self.ijs: types.Tuple[ds_1.Variables] = ijs
 
     @property
     def suffix(self) -> types.Integer:
@@ -73,7 +74,7 @@ class Ds_1(_option.DataOption):
         self._suffix: types.Integer = suffix
 
     @property
-    def ijs(self) -> types.Tuple[types.IndependentDependent]:
+    def ijs(self) -> types.Tuple[ds_1.Variables]:
         """
         Dependent source independent & dependent variables
 
@@ -85,7 +86,7 @@ class Ds_1(_option.DataOption):
         return self._ijs
 
     @ijs.setter
-    def ijs(self, ijs: list[str] | list[types.IndependentDependent]) -> None:
+    def ijs(self, ijs: list[str] | list[ds_1.Variables]) -> None:
         """
         Sets ``ijs``.
 
@@ -100,16 +101,16 @@ class Ds_1(_option.DataOption):
         if ijs is not None:
             array = []
             for item in ijs:
-                if isinstance(item, types.IndependentDependent):
+                if isinstance(item, ds_1.Variables):
                     array.append(item)
                 elif isinstance(item, str):
-                    array.append(types.IndependentDependent.from_mcnp(item))
+                    array.append(ds_1.Variables.from_mcnp(item))
             ijs = types.Tuple(array)
 
         if ijs is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ijs)
 
-        self._ijs: types.Tuple[types.IndependentDependent] = ijs
+        self._ijs: types.Tuple[ds_1.Variables] = ijs
 
     def to_mcnp(self):
         """

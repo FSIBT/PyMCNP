@@ -1,5 +1,6 @@
 import re
 
+from . import f_2
 from . import _option
 from ...utils import types
 from ...utils import errors
@@ -17,7 +18,7 @@ class F_2(_option.DataOption):
         'suffix': types.Integer,
         'a': types.String,
         'designator': types.Designator,
-        'rings': types.Tuple[types.Ring],
+        'rings': types.Tuple[f_2.Ring],
         'nd': types.String,
     }
 
@@ -27,7 +28,7 @@ class F_2(_option.DataOption):
         self,
         suffix: str | int | types.Integer,
         a: str | types.String,
-        rings: list[str] | list[types.Ring],
+        rings: list[str] | list[f_2.Ring],
         prefix: str | types.String = None,
         designator: str | types.Designator = None,
         nd: str | types.String = None,
@@ -51,7 +52,7 @@ class F_2(_option.DataOption):
         self.suffix: types.Integer = suffix
         self.a: types.String = a
         self.designator: types.Designator = designator
-        self.rings: types.Tuple[types.Ring] = rings
+        self.rings: types.Tuple[f_2.Ring] = rings
         self.nd: types.String = nd
 
     @property
@@ -198,7 +199,7 @@ class F_2(_option.DataOption):
         self._designator: types.Designator = designator
 
     @property
-    def rings(self) -> types.Tuple[types.Ring]:
+    def rings(self) -> types.Tuple[f_2.Ring]:
         """
         Detector points
 
@@ -210,7 +211,7 @@ class F_2(_option.DataOption):
         return self._rings
 
     @rings.setter
-    def rings(self, rings: list[str] | list[types.Ring]) -> None:
+    def rings(self, rings: list[str] | list[f_2.Ring]) -> None:
         """
         Sets ``rings``.
 
@@ -225,16 +226,16 @@ class F_2(_option.DataOption):
         if rings is not None:
             array = []
             for item in rings:
-                if isinstance(item, types.Ring):
+                if isinstance(item, f_2.Ring):
                     array.append(item)
                 elif isinstance(item, str):
-                    array.append(types.Ring.from_mcnp(item))
+                    array.append(f_2.Ring.from_mcnp(item))
             rings = types.Tuple(array)
 
         if rings is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, rings)
 
-        self._rings: types.Tuple[types.Ring] = rings
+        self._rings: types.Tuple[f_2.Ring] = rings
 
     @property
     def nd(self) -> types.String:

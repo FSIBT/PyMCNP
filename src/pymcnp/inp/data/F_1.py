@@ -1,5 +1,6 @@
 import re
 
+from . import f_1
 from . import _option
 from ...utils import types
 from ...utils import errors
@@ -16,14 +17,14 @@ class F_1(_option.DataOption):
         'prefix': types.String,
         'suffix': types.Integer,
         'designator': types.Designator,
-        'spheres': types.Tuple[types.Sphere],
+        'spheres': types.Tuple[f_1.Sphere],
         'nd': types.String,
     }
 
     _REGEX = re.compile(r'\A([*+])?f(\d*[5])(?::(\S+))?((?: \S+ \S+ \S+ \S+)+?)( nd)?\Z')
 
     def __init__(
-        self, suffix: str | int | types.Integer, spheres: list[str] | list[types.Sphere], prefix: str | types.String = None, designator: str | types.Designator = None, nd: str | types.String = None
+        self, suffix: str | int | types.Integer, spheres: list[str] | list[f_1.Sphere], prefix: str | types.String = None, designator: str | types.Designator = None, nd: str | types.String = None
     ):
         """
         Initializes ``F_1``.
@@ -42,7 +43,7 @@ class F_1(_option.DataOption):
         self.prefix: types.String = prefix
         self.suffix: types.Integer = suffix
         self.designator: types.Designator = designator
-        self.spheres: types.Tuple[types.Sphere] = spheres
+        self.spheres: types.Tuple[f_1.Sphere] = spheres
         self.nd: types.String = nd
 
     @property
@@ -153,7 +154,7 @@ class F_1(_option.DataOption):
         self._designator: types.Designator = designator
 
     @property
-    def spheres(self) -> types.Tuple[types.Sphere]:
+    def spheres(self) -> types.Tuple[f_1.Sphere]:
         """
         Detector points
 
@@ -165,7 +166,7 @@ class F_1(_option.DataOption):
         return self._spheres
 
     @spheres.setter
-    def spheres(self, spheres: list[str] | list[types.Sphere]) -> None:
+    def spheres(self, spheres: list[str] | list[f_1.Sphere]) -> None:
         """
         Sets ``spheres``.
 
@@ -180,16 +181,16 @@ class F_1(_option.DataOption):
         if spheres is not None:
             array = []
             for item in spheres:
-                if isinstance(item, types.Sphere):
+                if isinstance(item, f_1.Sphere):
                     array.append(item)
                 elif isinstance(item, str):
-                    array.append(types.Sphere.from_mcnp(item))
+                    array.append(f_1.Sphere.from_mcnp(item))
             spheres = types.Tuple(array)
 
         if spheres is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres)
 
-        self._spheres: types.Tuple[types.Sphere] = spheres
+        self._spheres: types.Tuple[f_1.Sphere] = spheres
 
     @property
     def nd(self) -> types.String:

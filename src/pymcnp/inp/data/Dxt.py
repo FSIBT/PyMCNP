@@ -1,5 +1,6 @@
 import re
 
+from . import dxt
 from . import _option
 from ...utils import types
 from ...utils import errors
@@ -14,16 +15,16 @@ class Dxt(_option.DataOption):
 
     _ATTRS = {
         'designator': types.Designator,
-        'spheres_1': types.Shell,
-        'spheres_2': types.Shell,
-        'spheres_3': types.Shell,
-        'spheres_4': types.Shell,
-        'spheres_5': types.Shell,
-        'spheres_6': types.Shell,
-        'spheres_7': types.Shell,
-        'spheres_8': types.Shell,
-        'spheres_9': types.Shell,
-        'spheres_10': types.Shell,
+        'spheres_1': dxt.Shell,
+        'spheres_2': dxt.Shell,
+        'spheres_3': dxt.Shell,
+        'spheres_4': dxt.Shell,
+        'spheres_5': dxt.Shell,
+        'spheres_6': dxt.Shell,
+        'spheres_7': dxt.Shell,
+        'spheres_8': dxt.Shell,
+        'spheres_9': dxt.Shell,
+        'spheres_10': dxt.Shell,
         'cutoff_1': types.Real,
         'cutoff_2': types.Real,
         'weight': types.Real,
@@ -36,16 +37,16 @@ class Dxt(_option.DataOption):
     def __init__(
         self,
         designator: str | types.Designator,
-        spheres_1: str | types.Shell,
-        spheres_2: str | types.Shell,
-        spheres_3: str | types.Shell,
-        spheres_4: str | types.Shell,
-        spheres_5: str | types.Shell,
-        spheres_6: str | types.Shell,
-        spheres_7: str | types.Shell,
-        spheres_8: str | types.Shell,
-        spheres_9: str | types.Shell,
-        spheres_10: str | types.Shell,
+        spheres_1: str | dxt.Shell,
+        spheres_2: str | dxt.Shell,
+        spheres_3: str | dxt.Shell,
+        spheres_4: str | dxt.Shell,
+        spheres_5: str | dxt.Shell,
+        spheres_6: str | dxt.Shell,
+        spheres_7: str | dxt.Shell,
+        spheres_8: str | dxt.Shell,
+        spheres_9: str | dxt.Shell,
+        spheres_10: str | dxt.Shell,
         cutoff_1: str | int | float | types.Real,
         cutoff_2: str | int | float | types.Real,
         weight: str | int | float | types.Real,
@@ -74,16 +75,16 @@ class Dxt(_option.DataOption):
         """
 
         self.designator: types.Designator = designator
-        self.spheres_1: types.Shell = spheres_1
-        self.spheres_2: types.Shell = spheres_2
-        self.spheres_3: types.Shell = spheres_3
-        self.spheres_4: types.Shell = spheres_4
-        self.spheres_5: types.Shell = spheres_5
-        self.spheres_6: types.Shell = spheres_6
-        self.spheres_7: types.Shell = spheres_7
-        self.spheres_8: types.Shell = spheres_8
-        self.spheres_9: types.Shell = spheres_9
-        self.spheres_10: types.Shell = spheres_10
+        self.spheres_1: dxt.Shell = spheres_1
+        self.spheres_2: dxt.Shell = spheres_2
+        self.spheres_3: dxt.Shell = spheres_3
+        self.spheres_4: dxt.Shell = spheres_4
+        self.spheres_5: dxt.Shell = spheres_5
+        self.spheres_6: dxt.Shell = spheres_6
+        self.spheres_7: dxt.Shell = spheres_7
+        self.spheres_8: dxt.Shell = spheres_8
+        self.spheres_9: dxt.Shell = spheres_9
+        self.spheres_10: dxt.Shell = spheres_10
         self.cutoff_1: types.Real = cutoff_1
         self.cutoff_2: types.Real = cutoff_2
         self.weight: types.Real = weight
@@ -125,7 +126,7 @@ class Dxt(_option.DataOption):
         self._designator: types.Designator = designator
 
     @property
-    def spheres_1(self) -> types.Shell:
+    def spheres_1(self) -> dxt.Shell:
         """
         DXTRAN spheres #1
 
@@ -137,7 +138,7 @@ class Dxt(_option.DataOption):
         return self._spheres_1
 
     @spheres_1.setter
-    def spheres_1(self, spheres_1: str | types.Shell) -> None:
+    def spheres_1(self, spheres_1: str | dxt.Shell) -> None:
         """
         Sets ``spheres_1``.
 
@@ -150,18 +151,18 @@ class Dxt(_option.DataOption):
         """
 
         if spheres_1 is not None:
-            if isinstance(spheres_1, types.Shell):
+            if isinstance(spheres_1, dxt.Shell):
                 spheres_1 = spheres_1
             elif isinstance(spheres_1, str):
-                spheres_1 = types.Shell.from_mcnp(spheres_1)
+                spheres_1 = dxt.Shell.from_mcnp(spheres_1)
 
         if spheres_1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_1)
 
-        self._spheres_1: types.Shell = spheres_1
+        self._spheres_1: dxt.Shell = spheres_1
 
     @property
-    def spheres_2(self) -> types.Shell:
+    def spheres_2(self) -> dxt.Shell:
         """
         DXTRAN spheres #2
 
@@ -173,7 +174,7 @@ class Dxt(_option.DataOption):
         return self._spheres_2
 
     @spheres_2.setter
-    def spheres_2(self, spheres_2: str | types.Shell) -> None:
+    def spheres_2(self, spheres_2: str | dxt.Shell) -> None:
         """
         Sets ``spheres_2``.
 
@@ -186,18 +187,18 @@ class Dxt(_option.DataOption):
         """
 
         if spheres_2 is not None:
-            if isinstance(spheres_2, types.Shell):
+            if isinstance(spheres_2, dxt.Shell):
                 spheres_2 = spheres_2
             elif isinstance(spheres_2, str):
-                spheres_2 = types.Shell.from_mcnp(spheres_2)
+                spheres_2 = dxt.Shell.from_mcnp(spheres_2)
 
         if spheres_2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_2)
 
-        self._spheres_2: types.Shell = spheres_2
+        self._spheres_2: dxt.Shell = spheres_2
 
     @property
-    def spheres_3(self) -> types.Shell:
+    def spheres_3(self) -> dxt.Shell:
         """
         DXTRAN spheres #3
 
@@ -209,7 +210,7 @@ class Dxt(_option.DataOption):
         return self._spheres_3
 
     @spheres_3.setter
-    def spheres_3(self, spheres_3: str | types.Shell) -> None:
+    def spheres_3(self, spheres_3: str | dxt.Shell) -> None:
         """
         Sets ``spheres_3``.
 
@@ -222,18 +223,18 @@ class Dxt(_option.DataOption):
         """
 
         if spheres_3 is not None:
-            if isinstance(spheres_3, types.Shell):
+            if isinstance(spheres_3, dxt.Shell):
                 spheres_3 = spheres_3
             elif isinstance(spheres_3, str):
-                spheres_3 = types.Shell.from_mcnp(spheres_3)
+                spheres_3 = dxt.Shell.from_mcnp(spheres_3)
 
         if spheres_3 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_3)
 
-        self._spheres_3: types.Shell = spheres_3
+        self._spheres_3: dxt.Shell = spheres_3
 
     @property
-    def spheres_4(self) -> types.Shell:
+    def spheres_4(self) -> dxt.Shell:
         """
         DXTRAN spheres #4
 
@@ -245,7 +246,7 @@ class Dxt(_option.DataOption):
         return self._spheres_4
 
     @spheres_4.setter
-    def spheres_4(self, spheres_4: str | types.Shell) -> None:
+    def spheres_4(self, spheres_4: str | dxt.Shell) -> None:
         """
         Sets ``spheres_4``.
 
@@ -258,18 +259,18 @@ class Dxt(_option.DataOption):
         """
 
         if spheres_4 is not None:
-            if isinstance(spheres_4, types.Shell):
+            if isinstance(spheres_4, dxt.Shell):
                 spheres_4 = spheres_4
             elif isinstance(spheres_4, str):
-                spheres_4 = types.Shell.from_mcnp(spheres_4)
+                spheres_4 = dxt.Shell.from_mcnp(spheres_4)
 
         if spheres_4 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_4)
 
-        self._spheres_4: types.Shell = spheres_4
+        self._spheres_4: dxt.Shell = spheres_4
 
     @property
-    def spheres_5(self) -> types.Shell:
+    def spheres_5(self) -> dxt.Shell:
         """
         DXTRAN spheres #5
 
@@ -281,7 +282,7 @@ class Dxt(_option.DataOption):
         return self._spheres_5
 
     @spheres_5.setter
-    def spheres_5(self, spheres_5: str | types.Shell) -> None:
+    def spheres_5(self, spheres_5: str | dxt.Shell) -> None:
         """
         Sets ``spheres_5``.
 
@@ -294,18 +295,18 @@ class Dxt(_option.DataOption):
         """
 
         if spheres_5 is not None:
-            if isinstance(spheres_5, types.Shell):
+            if isinstance(spheres_5, dxt.Shell):
                 spheres_5 = spheres_5
             elif isinstance(spheres_5, str):
-                spheres_5 = types.Shell.from_mcnp(spheres_5)
+                spheres_5 = dxt.Shell.from_mcnp(spheres_5)
 
         if spheres_5 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_5)
 
-        self._spheres_5: types.Shell = spheres_5
+        self._spheres_5: dxt.Shell = spheres_5
 
     @property
-    def spheres_6(self) -> types.Shell:
+    def spheres_6(self) -> dxt.Shell:
         """
         DXTRAN spheres #6
 
@@ -317,7 +318,7 @@ class Dxt(_option.DataOption):
         return self._spheres_6
 
     @spheres_6.setter
-    def spheres_6(self, spheres_6: str | types.Shell) -> None:
+    def spheres_6(self, spheres_6: str | dxt.Shell) -> None:
         """
         Sets ``spheres_6``.
 
@@ -330,18 +331,18 @@ class Dxt(_option.DataOption):
         """
 
         if spheres_6 is not None:
-            if isinstance(spheres_6, types.Shell):
+            if isinstance(spheres_6, dxt.Shell):
                 spheres_6 = spheres_6
             elif isinstance(spheres_6, str):
-                spheres_6 = types.Shell.from_mcnp(spheres_6)
+                spheres_6 = dxt.Shell.from_mcnp(spheres_6)
 
         if spheres_6 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_6)
 
-        self._spheres_6: types.Shell = spheres_6
+        self._spheres_6: dxt.Shell = spheres_6
 
     @property
-    def spheres_7(self) -> types.Shell:
+    def spheres_7(self) -> dxt.Shell:
         """
         DXTRAN spheres #7
 
@@ -353,7 +354,7 @@ class Dxt(_option.DataOption):
         return self._spheres_7
 
     @spheres_7.setter
-    def spheres_7(self, spheres_7: str | types.Shell) -> None:
+    def spheres_7(self, spheres_7: str | dxt.Shell) -> None:
         """
         Sets ``spheres_7``.
 
@@ -366,18 +367,18 @@ class Dxt(_option.DataOption):
         """
 
         if spheres_7 is not None:
-            if isinstance(spheres_7, types.Shell):
+            if isinstance(spheres_7, dxt.Shell):
                 spheres_7 = spheres_7
             elif isinstance(spheres_7, str):
-                spheres_7 = types.Shell.from_mcnp(spheres_7)
+                spheres_7 = dxt.Shell.from_mcnp(spheres_7)
 
         if spheres_7 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_7)
 
-        self._spheres_7: types.Shell = spheres_7
+        self._spheres_7: dxt.Shell = spheres_7
 
     @property
-    def spheres_8(self) -> types.Shell:
+    def spheres_8(self) -> dxt.Shell:
         """
         DXTRAN spheres #8
 
@@ -389,7 +390,7 @@ class Dxt(_option.DataOption):
         return self._spheres_8
 
     @spheres_8.setter
-    def spheres_8(self, spheres_8: str | types.Shell) -> None:
+    def spheres_8(self, spheres_8: str | dxt.Shell) -> None:
         """
         Sets ``spheres_8``.
 
@@ -402,18 +403,18 @@ class Dxt(_option.DataOption):
         """
 
         if spheres_8 is not None:
-            if isinstance(spheres_8, types.Shell):
+            if isinstance(spheres_8, dxt.Shell):
                 spheres_8 = spheres_8
             elif isinstance(spheres_8, str):
-                spheres_8 = types.Shell.from_mcnp(spheres_8)
+                spheres_8 = dxt.Shell.from_mcnp(spheres_8)
 
         if spheres_8 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_8)
 
-        self._spheres_8: types.Shell = spheres_8
+        self._spheres_8: dxt.Shell = spheres_8
 
     @property
-    def spheres_9(self) -> types.Shell:
+    def spheres_9(self) -> dxt.Shell:
         """
         DXTRAN spheres #9
 
@@ -425,7 +426,7 @@ class Dxt(_option.DataOption):
         return self._spheres_9
 
     @spheres_9.setter
-    def spheres_9(self, spheres_9: str | types.Shell) -> None:
+    def spheres_9(self, spheres_9: str | dxt.Shell) -> None:
         """
         Sets ``spheres_9``.
 
@@ -438,18 +439,18 @@ class Dxt(_option.DataOption):
         """
 
         if spheres_9 is not None:
-            if isinstance(spheres_9, types.Shell):
+            if isinstance(spheres_9, dxt.Shell):
                 spheres_9 = spheres_9
             elif isinstance(spheres_9, str):
-                spheres_9 = types.Shell.from_mcnp(spheres_9)
+                spheres_9 = dxt.Shell.from_mcnp(spheres_9)
 
         if spheres_9 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_9)
 
-        self._spheres_9: types.Shell = spheres_9
+        self._spheres_9: dxt.Shell = spheres_9
 
     @property
-    def spheres_10(self) -> types.Shell:
+    def spheres_10(self) -> dxt.Shell:
         """
         DXTRAN spheres #10
 
@@ -461,7 +462,7 @@ class Dxt(_option.DataOption):
         return self._spheres_10
 
     @spheres_10.setter
-    def spheres_10(self, spheres_10: str | types.Shell) -> None:
+    def spheres_10(self, spheres_10: str | dxt.Shell) -> None:
         """
         Sets ``spheres_10``.
 
@@ -474,15 +475,15 @@ class Dxt(_option.DataOption):
         """
 
         if spheres_10 is not None:
-            if isinstance(spheres_10, types.Shell):
+            if isinstance(spheres_10, dxt.Shell):
                 spheres_10 = spheres_10
             elif isinstance(spheres_10, str):
-                spheres_10 = types.Shell.from_mcnp(spheres_10)
+                spheres_10 = dxt.Shell.from_mcnp(spheres_10)
 
         if spheres_10 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_10)
 
-        self._spheres_10: types.Shell = spheres_10
+        self._spheres_10: dxt.Shell = spheres_10
 
     @property
     def cutoff_1(self) -> types.Real:

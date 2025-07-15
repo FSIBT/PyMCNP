@@ -2,6 +2,15 @@
 
 ## AST Classes
 
+## Table of Contents
+
+```{eval-rst}
+.. toctree::
+   :maxdepth: 1
+
+   ptrac/filter
+```
+
 ### ``Buffer`` Class
 
 ```{eval-rst}
@@ -49,6 +58,8 @@
    :members:
    :inherited-members:
 ```
+
+[ptrac subpackage](ptrac/filter)
 
 ### ``Max`` Class
 

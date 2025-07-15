@@ -6,7 +6,7 @@ from ..... import classes
 class Test_Dneb:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.act.Dneb
-        EXAMPLES_VALID = [{'biases': [consts.string.type.BIAS]}, {'biases': [consts.ast.type.BIAS]}]
+        EXAMPLES_VALID = [{'biases': [consts.string.inp.data.act.dneb.BIAS]}, {'biases': [consts.ast.inp.data.act.dneb.BIAS]}]
         EXAMPLES_INVALID = [{'biases': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):

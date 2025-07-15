@@ -1,5 +1,15 @@
 # ``pymcnp.inp.data.act`` Subpackage
 
+## Table of Contents
+
+```{eval-rst}
+.. toctree::
+   :maxdepth: 1
+
+   act/dgeb
+   act/dneb
+```
+
 ## AST Classes
 
 ### ``Dg`` Class
@@ -17,6 +27,8 @@
    :members:
    :inherited-members:
 ```
+
+[dgeb subpackage](act/dgeb)
 
 ### ``Dn`` Class
 
@@ -41,6 +53,8 @@
    :members:
    :inherited-members:
 ```
+
+[dneb subpackage](act/dneb)
 
 ### ``Fission`` Class
 

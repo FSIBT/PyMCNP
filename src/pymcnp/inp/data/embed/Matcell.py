@@ -1,5 +1,6 @@
 import re
 
+from . import matcell
 from . import _option
 from ....utils import types
 from ....utils import errors
@@ -13,12 +14,12 @@ class Matcell(_option.EmbedOption):
     _KEYWORD = 'matcell'
 
     _ATTRS = {
-        'pairs': types.Tuple[types.Matcell],
+        'pairs': types.Tuple[matcell.Entry],
     }
 
-    _REGEX = re.compile(rf'\Amatcell((?: {types.Matcell._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Amatcell((?: {matcell.Entry._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, pairs: list[str] | list[types.Matcell]):
+    def __init__(self, pairs: list[str] | list[matcell.Entry]):
         """
         Initializes ``Matcell``.
 
@@ -29,10 +30,10 @@ class Matcell(_option.EmbedOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.pairs: types.Tuple[types.Matcell] = pairs
+        self.pairs: types.Tuple[matcell.Entry] = pairs
 
     @property
-    def pairs(self) -> types.Tuple[types.Matcell]:
+    def pairs(self) -> types.Tuple[matcell.Entry]:
         """
         Tuple of material-cell paris
 
@@ -44,7 +45,7 @@ class Matcell(_option.EmbedOption):
         return self._pairs
 
     @pairs.setter
-    def pairs(self, pairs: list[str] | list[types.Matcell]) -> None:
+    def pairs(self, pairs: list[str] | list[matcell.Entry]) -> None:
         """
         Sets ``pairs``.
 
@@ -59,13 +60,13 @@ class Matcell(_option.EmbedOption):
         if pairs is not None:
             array = []
             for item in pairs:
-                if isinstance(item, types.Matcell):
+                if isinstance(item, matcell.Entry):
                     array.append(item)
                 elif isinstance(item, str):
-                    array.append(types.Matcell.from_mcnp(item))
+                    array.append(matcell.Entry.from_mcnp(item))
             pairs = types.Tuple(array)
 
         if pairs is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, pairs)
 
-        self._pairs: types.Tuple[types.Matcell] = pairs
+        self._pairs: types.Tuple[matcell.Entry] = pairs

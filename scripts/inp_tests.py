@@ -519,7 +519,7 @@ def TEST(element, mod):
             valid_build[1][attribute.name] = 'consts.string.type.INDEPENDENTDEPENDENT'
             valid_build[2][attribute.name] = 'consts.ast.type.INDEPENDENTDEPENDENT'
             valid_init[0][attribute.name] = 'consts.ast.type.INDEPENDENTDEPENDENT'
-        elif attribute.type == 'types.Location':
+        elif attribute.type == 'ksrc.Location':
             valid_build[0][attribute.name] = 'consts.string.type.LOCATION'
             valid_build[1][attribute.name] = 'consts.string.type.LOCATION'
             valid_build[2][attribute.name] = 'consts.ast.type.LOCATION'
@@ -530,10 +530,10 @@ def TEST(element, mod):
             valid_build[2][attribute.name] = 'consts.ast.type.FILE'
             valid_init[0][attribute.name] = 'consts.ast.type.FILE'
         elif attribute.type == 'types.Diagnostic':
-            valid_build[0][attribute.name] = 'consts.string.type.DIAGNOSTIC'
-            valid_build[1][attribute.name] = 'consts.string.type.DIAGNOSTIC'
-            valid_build[2][attribute.name] = 'consts.ast.type.DIAGNOSTIC'
-            valid_init[0][attribute.name] = 'consts.ast.type.DIAGNOSTIC'
+            valid_build[0][attribute.name] = 'consts.string.inp.data.dd.DIAGNOSTIC'
+            valid_build[1][attribute.name] = 'consts.string.inp.data.dd.DIAGNOSTIC'
+            valid_build[2][attribute.name] = 'consts.ast.inp.data.dd.DIAGNOSTIC'
+            valid_init[0][attribute.name] = 'consts.ast.inp.data.dd.DIAGNOSTIC'
         elif attribute.type == 'types.Ring':
             valid_build[0][attribute.name] = 'consts.string.type.RING'
             valid_build[1][attribute.name] = 'consts.string.type.RING'
@@ -559,7 +559,7 @@ def TEST(element, mod):
             valid_build[1][attribute.name] = 'consts.string.type.PTRACFILTER'
             valid_build[2][attribute.name] = 'consts.ast.type.PTRACFILTER'
             valid_init[0][attribute.name] = 'consts.ast.type.PTRACFILTER'
-        elif attribute.type == 'types.PhotonBias':
+        elif attribute.type == 'types.Photonbias':
             valid_build[0][attribute.name] = 'consts.string.type.PHOTONBIAS'
             valid_build[1][attribute.name] = 'consts.string.type.PHOTONBIAS'
             valid_build[2][attribute.name] = 'consts.ast.type.PHOTONBIAS'
@@ -569,7 +569,7 @@ def TEST(element, mod):
             valid_build[1][attribute.name] = 'consts.string.type.INDEX'
             valid_build[2][attribute.name] = 'consts.ast.type.INDEX'
             valid_init[0][attribute.name] = 'consts.ast.type.INDEX'
-        elif attribute.type == 'types.Matcell':
+        elif attribute.type == 'matcell.Entry':
             valid_build[0][attribute.name] = 'consts.string.type.MATCELL'
             valid_build[1][attribute.name] = 'consts.string.type.MATCELL'
             valid_build[2][attribute.name] = 'consts.ast.type.MATCELL'
@@ -684,7 +684,7 @@ def TEST(element, mod):
             valid_build[1][attribute.name] = '[consts.string.type.INDEPENDENTDEPENDENT]'
             valid_build[2][attribute.name] = '[consts.ast.type.INDEPENDENTDEPENDENT]'
             valid_init[0][attribute.name] = '[consts.ast.type.INDEPENDENTDEPENDENT]'
-        elif attribute.type == 'types.Tuple[types.Location]':
+        elif attribute.type == 'types.Tuple[ksrc.Location]':
             valid_build[0][attribute.name] = '[consts.string.type.LOCATION]'
             valid_build[1][attribute.name] = '[consts.string.type.LOCATION]'
             valid_build[2][attribute.name] = '[consts.ast.type.LOCATION]'
@@ -695,10 +695,10 @@ def TEST(element, mod):
             valid_build[2][attribute.name] = '[consts.ast.type.FILE]'
             valid_init[0][attribute.name] = '[consts.ast.type.FILE]'
         elif attribute.type == 'types.Tuple[types.Diagnostic]':
-            valid_build[0][attribute.name] = '[consts.string.type.DIAGNOSTIC]'
-            valid_build[1][attribute.name] = '[consts.string.type.DIAGNOSTIC]'
-            valid_build[2][attribute.name] = '[consts.ast.type.DIAGNOSTIC]'
-            valid_init[0][attribute.name] = '[consts.ast.type.DIAGNOSTIC]'
+            valid_build[0][attribute.name] = '[consts.string.inp.data.dd.DIAGNOSTIC]'
+            valid_build[1][attribute.name] = '[consts.string.inp.data.dd.DIAGNOSTIC]'
+            valid_build[2][attribute.name] = '[consts.ast.inp.data.dd.DIAGNOSTIC]'
+            valid_init[0][attribute.name] = '[consts.ast.inp.data.dd.DIAGNOSTIC]'
         elif attribute.type == 'types.Tuple[types.Ring]':
             valid_build[0][attribute.name] = '[consts.string.type.RING]'
             valid_build[1][attribute.name] = '[consts.string.type.RING]'
@@ -724,7 +724,7 @@ def TEST(element, mod):
             valid_build[1][attribute.name] = '[consts.string.type.PTRACFILTER]'
             valid_build[2][attribute.name] = '[consts.ast.type.PTRACFILTER]'
             valid_init[0][attribute.name] = '[consts.ast.type.PTRACFILTER]'
-        elif attribute.type == 'types.Tuple[types.PhotonBias]':
+        elif attribute.type == 'types.Tuple[types.Photonbias]':
             valid_build[0][attribute.name] = '[consts.string.type.PHOTONBIAS]'
             valid_build[1][attribute.name] = '[consts.string.type.PHOTONBIAS]'
             valid_build[2][attribute.name] = '[consts.ast.type.PHOTONBIAS]'
@@ -734,7 +734,7 @@ def TEST(element, mod):
             valid_build[1][attribute.name] = '[consts.string.type.INDEX]'
             valid_build[2][attribute.name] = '[consts.ast.type.INDEX]'
             valid_init[0][attribute.name] = '[consts.ast.type.INDEX]'
-        elif attribute.type == 'types.Tuple[types.Matcell]':
+        elif attribute.type == 'types.Tuple[matcell.Entry]':
             valid_build[0][attribute.name] = '[consts.string.type.MATCELL]'
             valid_build[1][attribute.name] = '[consts.string.type.MATCELL]'
             valid_build[2][attribute.name] = '[consts.ast.type.MATCELL]'

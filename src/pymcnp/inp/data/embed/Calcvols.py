@@ -10,13 +10,13 @@ class Calcvols(_option.EmbedOption):
     Represents INP calcvols elements.
     """
 
-    _KEYWORD = 'calcvols'
+    _KEYWORD = 'calc_vols'
 
     _ATTRS = {
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'\Acalcvols( {types.String._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Acalc_vols( {types.String._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, setting: str | types.String):
         """

@@ -1,5 +1,5 @@
 from ._option import EmbedOption
-
+from . import matcell
 from .Background import Background
 from .Matcell import Matcell
 from .Meshgeo import Meshgeo
@@ -15,6 +15,7 @@ from .Mcnpumfile import Mcnpumfile
 
 __all__ = [
     'EmbedOption',
+    'matcell',
     'Background',
     'Matcell',
     'Meshgeo',
