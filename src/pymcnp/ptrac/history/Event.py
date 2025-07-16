@@ -5,7 +5,7 @@ from .. import Header
 
 from . import event
 from . import _block
-from ...utils import errors
+from ... import errors
 
 
 class Event(_block.HistoryBlock):

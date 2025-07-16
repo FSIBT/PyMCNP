@@ -1,8 +1,8 @@
 import re
 
 from . import inp
-from .utils import types
-from .utils import errors
+from . import types
+from . import errors
 from .utils import _parser
 from .utils import _object
 from .utils import _visualization
@@ -61,14 +61,14 @@ class Inp(_object.McnpFile):
             ``Inp``.
 
         Raises:
-            InpError: SYNTAX_INP.
+            InpError: SYNTAX_FILE.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = Inp._REGEX.match(source)
 
         if not tokens:
-            raise errors.InpError(errors.InpCode.SYNTAX_INP, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_FILE, source)
 
         message = types.String.from_mcnp(tokens[1]) if tokens[1] else None
         title = types.String.from_mcnp(tokens[2])
@@ -192,7 +192,7 @@ class Inp(_object.McnpFile):
                 title = types.String.from_mcnp(title)
 
         if title is None or not len(title) < 80:
-            raise errors.InpError(errors.InpCode.SEMANTICS_INP, title)
+            raise errors.InpError(errors.InpCode.SEMANTICS_FILE, title)
 
         self._title: types.Integer = title
 
@@ -245,7 +245,7 @@ class Inp(_object.McnpFile):
             cells = types.Tuple(array)
 
         if cells is None or None in cells:
-            raise errors.InpError(errors.InpCode.SEMANTICS_INP, cells)
+            raise errors.InpError(errors.InpCode.SEMANTICS_FILE, cells)
 
         self._cells: types.Integer = cells
 
@@ -292,7 +292,7 @@ class Inp(_object.McnpFile):
             surfaces = types.Tuple(array)
 
         if surfaces is None or None in surfaces:
-            raise errors.InpError(errors.InpCode.SEMANTICS_INP, surfaces)
+            raise errors.InpError(errors.InpCode.SEMANTICS_FILE, surfaces)
 
         self._surfaces: types.Integer = surfaces
 
@@ -340,7 +340,7 @@ class Inp(_object.McnpFile):
             data = types.Tuple(array)
 
         if data is None or None in data:
-            raise errors.InpError(errors.InpCode.SEMANTICS_INP, data)
+            raise errors.InpError(errors.InpCode.SEMANTICS_FILE, data)
 
         self._data: types.Integer = data
 

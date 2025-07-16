@@ -6,7 +6,7 @@ from ..... import classes
 class Test_Ext:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.ssr.Ext
-        EXAMPLES_VALID = [{'number': consts.string.type.DISTRIBUTIONNUMBER}, {'number': consts.ast.type.DISTRIBUTIONNUMBER}]
+        EXAMPLES_VALID = [{'number': consts.string.types.DISTRIBUTION}, {'number': consts.ast.types.DISTRIBUTION}]
         EXAMPLES_INVALID = [{'number': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):

@@ -5,8 +5,8 @@ import pandas
 
 from . import subtally
 from . import _subblock
-from ...utils import types
-from ...utils import errors
+from ... import types
+from ... import errors
 
 
 class Subtally_4(_subblock.TallySubblock):
@@ -101,5 +101,5 @@ class Subtally_4(_subblock.TallySubblock):
         """
 
         df = pandas.concat((line.to_dataframe() for line in self.lines), ignore_index=True)
-        df['cell'] = self.cell.strip()
+        df['cell'] = self.cell.value.strip()
         return df

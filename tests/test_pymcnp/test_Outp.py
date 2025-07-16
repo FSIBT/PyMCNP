@@ -14,17 +14,17 @@ class Test_Outp:
         element = pymcnp.Outp
         EXAMPLES_VALID = [
             {
-                'header': consts.string.type.STRING,
-                'blocks': [consts.string.type.STRING],
+                'header': consts.string.types.STRING,
+                'blocks': [consts.string.types.STRING],
             },
         ]
         EXAMPLES_INVALID = [
             {
                 'header': None,
-                'blocks': [consts.string.type.STRING],
+                'blocks': [consts.string.types.STRING],
             },
             {
-                'header': consts.string.type.STRING,
+                'header': consts.string.types.STRING,
                 'blocks': None,
             },
         ]

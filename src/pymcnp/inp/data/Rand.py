@@ -2,7 +2,7 @@ import re
 
 from . import rand
 from . import _option
-from ...utils import types
+from ... import types
 
 
 class Rand(_option.DataOption):

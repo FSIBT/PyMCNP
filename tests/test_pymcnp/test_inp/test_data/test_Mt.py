@@ -7,11 +7,11 @@ class Test_Mt:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.Mt
         EXAMPLES_VALID = [
-            {'suffix': consts.string.type.INTEGER, 'identifiers': [consts.string.type.STRING]},
-            {'suffix': 1, 'identifiers': [consts.string.type.STRING]},
-            {'suffix': consts.ast.type.INTEGER, 'identifiers': [consts.ast.type.STRING]},
+            {'suffix': consts.string.types.INTEGER, 'identifiers': [consts.string.types.STRING]},
+            {'suffix': 1, 'identifiers': [consts.string.types.STRING]},
+            {'suffix': consts.ast.types.INTEGER, 'identifiers': [consts.ast.types.STRING]},
         ]
-        EXAMPLES_INVALID = [{'suffix': None, 'identifiers': [consts.string.type.STRING]}, {'suffix': consts.string.type.INTEGER, 'identifiers': None}]
+        EXAMPLES_INVALID = [{'suffix': None, 'identifiers': [consts.string.types.STRING]}, {'suffix': consts.string.types.INTEGER, 'identifiers': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.data.Mt

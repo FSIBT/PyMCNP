@@ -6,7 +6,7 @@ from .... import classes
 class Test_Vol:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.cell.Vol
-        EXAMPLES_VALID = [{'volume': consts.string.type.REAL}, {'volume': 3.1}, {'volume': consts.ast.type.REAL}]
+        EXAMPLES_VALID = [{'volume': consts.string.types.REAL}, {'volume': 3.1}, {'volume': consts.ast.types.REAL}]
         EXAMPLES_INVALID = [{'volume': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):

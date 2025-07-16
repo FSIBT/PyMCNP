@@ -6,7 +6,7 @@ from ..... import classes
 class Test_Cfrq:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.t_1.Cfrq
-        EXAMPLES_VALID = [{'frequency': consts.string.type.REAL}, {'frequency': 3.1}, {'frequency': consts.ast.type.REAL}]
+        EXAMPLES_VALID = [{'frequency': consts.string.types.REAL}, {'frequency': 3.1}, {'frequency': consts.ast.types.REAL}]
         EXAMPLES_INVALID = [{'frequency': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):

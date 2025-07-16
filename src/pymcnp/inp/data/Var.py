@@ -2,7 +2,7 @@ import re
 
 from . import var
 from . import _option
-from ...utils import types
+from ... import types
 
 
 class Var(_option.DataOption):

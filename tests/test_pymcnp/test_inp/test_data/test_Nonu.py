@@ -6,7 +6,7 @@ from .... import classes
 class Test_Nonu:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.Nonu
-        EXAMPLES_VALID = [{'settings': [consts.string.type.INTEGER]}, {'settings': [1]}, {'settings': [consts.ast.type.INTEGER]}, {'settings': None}]
+        EXAMPLES_VALID = [{'settings': [consts.string.types.INTEGER]}, {'settings': [1]}, {'settings': [consts.ast.types.INTEGER]}, {'settings': None}]
         EXAMPLES_INVALID = []
 
     class Test_Mcnp(classes.Test_Mcnp):

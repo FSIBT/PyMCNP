@@ -7,14 +7,14 @@ class Test_C_x:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.surface.C_x
         EXAMPLES_VALID = [
-            {'y': consts.string.type.REAL, 'z': consts.string.type.REAL, 'r': consts.string.type.REAL},
+            {'y': consts.string.types.REAL, 'z': consts.string.types.REAL, 'r': consts.string.types.REAL},
             {'y': 3.1, 'z': 3.1, 'r': 3.1},
-            {'y': consts.ast.type.REAL, 'z': consts.ast.type.REAL, 'r': consts.ast.type.REAL},
+            {'y': consts.ast.types.REAL, 'z': consts.ast.types.REAL, 'r': consts.ast.types.REAL},
         ]
         EXAMPLES_INVALID = [
-            {'y': None, 'z': consts.string.type.REAL, 'r': consts.string.type.REAL},
-            {'y': consts.string.type.REAL, 'z': None, 'r': consts.string.type.REAL},
-            {'y': consts.string.type.REAL, 'z': consts.string.type.REAL, 'r': None},
+            {'y': None, 'z': consts.string.types.REAL, 'r': consts.string.types.REAL},
+            {'y': consts.string.types.REAL, 'z': None, 'r': consts.string.types.REAL},
+            {'y': consts.string.types.REAL, 'z': consts.string.types.REAL, 'r': None},
         ]
 
     class Test_Mcnp(classes.Test_Mcnp):

@@ -7,7 +7,7 @@ class string:
     INP = (pathlib.Path(__file__).parent.parent / 'files' / 'inp' / 'valid_10.inp').read_text()
     OUTP = (pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'valid_A.o').read_text()
 
-    class type:
+    class types:
         REPEAT = '10r'
         INSERT = '10i'
         MULTIPLY = '10m'
@@ -16,11 +16,11 @@ class string:
         INTEGER = '1'
         REAL = '3.1'
         STRING = 'none'
-        DISTRIBUTIONNUMBER = 'd1'
-        EMBEDDEDDISTRIBUTIONNUMBER = 'd1'
+        DISTRIBUTION = 'd1'
+        EMBEDDEDDISTRIBUTION = 'd1'
         ZAID = '001001'
         DESIGNATOR = 'n,#'
-        GEOMETRY = '1 (2:(+3 -4) #5)'
+        PARTICLE = 'n'
         SUBSTANCE = '001001 0.5'
         TRANSFORMATION_0 = '1 1 1 2 2 2 3 3 3 4 4 4'
         TRANSFORMATION_1 = '1 1 1 2 2 2 3 3 3'
@@ -37,6 +37,7 @@ class string:
         COMMENT = 'c hello'
 
         class cell:
+            GEOMETRY = '1 (2:(+3 -4) #5)'
             IMP = 'imp:@=1'
             VOL = 'vol=1'
             PWT = 'pwt=3.1'
@@ -1408,27 +1409,27 @@ class ast:
     INP = pymcnp.Inp.from_mcnp(string.INP)
     OUTP = pymcnp.Outp.from_mcnp(string.OUTP)
 
-    class type:
-        REPEAT = pymcnp.utils.types.Repeat.from_mcnp(string.type.REPEAT)
-        INSERT = pymcnp.utils.types.Insert.from_mcnp(string.type.INSERT)
-        MULTIPLY = pymcnp.utils.types.Multiply.from_mcnp(string.type.MULTIPLY)
-        JUMP = pymcnp.utils.types.Jump.from_mcnp(string.type.JUMP)
-        LOG = pymcnp.utils.types.Log.from_mcnp(string.type.LOG)
-        INTEGER = pymcnp.utils.types.Integer.from_mcnp(string.type.INTEGER)
-        REAL = pymcnp.utils.types.Real.from_mcnp(string.type.REAL)
-        STRING = pymcnp.utils.types.String.from_mcnp(string.type.STRING)
-        DISTRIBUTIONNUMBER = pymcnp.utils.types.DistributionNumber.from_mcnp(string.type.DISTRIBUTIONNUMBER)
-        EMBEDDEDDISTRIBUTIONNUMBER = pymcnp.utils.types.EmbeddedDistributionNumber.from_mcnp(string.type.EMBEDDEDDISTRIBUTIONNUMBER)
-        ZAID = pymcnp.utils.types.Zaid.from_mcnp(string.type.ZAID)
-        DESIGNATOR = pymcnp.utils.types.Designator.from_mcnp(string.type.DESIGNATOR)
-        GEOMETRY = pymcnp.utils.types.Geometry.from_mcnp(string.type.GEOMETRY)
-        SUBSTANCE = pymcnp.utils.types.Substance.from_mcnp(string.type.SUBSTANCE)
-        TRANSFORMATION_0 = pymcnp.utils.types.Transformation_0.from_mcnp(string.type.TRANSFORMATION_0)
-        TRANSFORMATION_1 = pymcnp.utils.types.Transformation_1.from_mcnp(string.type.TRANSFORMATION_1)
-        TRANSFORMATION_2 = pymcnp.utils.types.Transformation_2.from_mcnp(string.type.TRANSFORMATION_2)
-        TRANSFORMATION_3 = pymcnp.utils.types.Transformation_3.from_mcnp(string.type.TRANSFORMATION_3)
-        TRANSFORMATION_4 = pymcnp.utils.types.Transformation_4.from_mcnp(string.type.TRANSFORMATION_4)
-        INDEX = pymcnp.utils.types.Index.from_mcnp(string.type.INDEX)
+    class types:
+        REPEAT = pymcnp.types.Repeat.from_mcnp(string.types.REPEAT)
+        INSERT = pymcnp.types.Insert.from_mcnp(string.types.INSERT)
+        MULTIPLY = pymcnp.types.Multiply.from_mcnp(string.types.MULTIPLY)
+        JUMP = pymcnp.types.Jump.from_mcnp(string.types.JUMP)
+        LOG = pymcnp.types.Log.from_mcnp(string.types.LOG)
+        INTEGER = pymcnp.types.Integer.from_mcnp(string.types.INTEGER)
+        REAL = pymcnp.types.Real.from_mcnp(string.types.REAL)
+        STRING = pymcnp.types.String.from_mcnp(string.types.STRING)
+        DISTRIBUTION = pymcnp.types.Distribution.from_mcnp(string.types.DISTRIBUTION)
+        EMBEDDEDDISTRIBUTION = pymcnp.types.EmbeddedDistribution.from_mcnp(string.types.EMBEDDEDDISTRIBUTION)
+        ZAID = pymcnp.types.Zaid.from_mcnp(string.types.ZAID)
+        DESIGNATOR = pymcnp.types.Designator.from_mcnp(string.types.DESIGNATOR)
+        PARTICLE = pymcnp.types.Particle.from_mcnp(string.types.PARTICLE)
+        SUBSTANCE = pymcnp.types.Substance.from_mcnp(string.types.SUBSTANCE)
+        TRANSFORMATION_0 = pymcnp.types.Transformation_0.from_mcnp(string.types.TRANSFORMATION_0)
+        TRANSFORMATION_1 = pymcnp.types.Transformation_1.from_mcnp(string.types.TRANSFORMATION_1)
+        TRANSFORMATION_2 = pymcnp.types.Transformation_2.from_mcnp(string.types.TRANSFORMATION_2)
+        TRANSFORMATION_3 = pymcnp.types.Transformation_3.from_mcnp(string.types.TRANSFORMATION_3)
+        TRANSFORMATION_4 = pymcnp.types.Transformation_4.from_mcnp(string.types.TRANSFORMATION_4)
+        INDEX = pymcnp.types.Index.from_mcnp(string.types.INDEX)
 
     class inp:
         CELL = pymcnp.inp.Cell.from_mcnp(string.inp.CELL)
@@ -1438,6 +1439,7 @@ class ast:
         COMMENT = pymcnp.inp.Comment.from_mcnp(string.inp.COMMENT)
 
         class cell:
+            GEOMETRY = pymcnp.inp.cell.Geometry.from_mcnp(string.inp.cell.GEOMETRY)
             IMP = pymcnp.inp.cell.Imp.from_mcnp(string.inp.cell.IMP)
             VOL = pymcnp.inp.cell.Vol.from_mcnp(string.inp.cell.VOL)
             PWT = pymcnp.inp.cell.Pwt.from_mcnp(string.inp.cell.PWT)

@@ -6,7 +6,7 @@ from ..... import classes
 class Test_Dir_1:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.sdef.Dir_1
-        EXAMPLES_VALID = [{'cosine': consts.string.type.DISTRIBUTIONNUMBER}, {'cosine': consts.ast.type.DISTRIBUTIONNUMBER}, {'cosine': None}]
+        EXAMPLES_VALID = [{'cosine': consts.string.types.DISTRIBUTION}, {'cosine': consts.ast.types.DISTRIBUTION}, {'cosine': None}]
         EXAMPLES_INVALID = []
 
     class Test_Mcnp(classes.Test_Mcnp):

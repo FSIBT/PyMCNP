@@ -6,7 +6,7 @@ from ..... import classes
 class Test_Ytitle:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.mplot.Ytitle
-        EXAMPLES_VALID = [{'aa': consts.string.type.STRING}, {'aa': consts.ast.type.STRING}]
+        EXAMPLES_VALID = [{'aa': consts.string.types.STRING}, {'aa': consts.ast.types.STRING}]
         EXAMPLES_INVALID = [{'aa': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):

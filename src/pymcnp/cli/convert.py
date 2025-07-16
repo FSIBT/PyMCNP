@@ -17,11 +17,12 @@ import pathlib
 from docopt import docopt
 
 from . import _io
+from . import _doer
+from .. import errors
 from ..Outp import Outp
-from ..utils import errors
 
 
-class Convert:
+class Convert(_doer.Doer):
     """
     Converts OUTP files.
 
@@ -37,11 +38,11 @@ class Convert:
             outp: OUTP to convert.
 
         Raises:
-            CliError: SEMANTICS_PATH.
+            CliError: RUNTIME_DOER.
         """
 
         if outp is None:
-            raise errors.CliError(errors.CliCode.SEMANTICS_PATH, outp)
+            raise errors.CliError(errors.CliCode.RUNTIME_DOER, outp)
 
         self.outp = outp
 

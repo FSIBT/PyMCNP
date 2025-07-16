@@ -8,35 +8,35 @@ class Test_UnnormedTallyDensity:
         element = pymcnp.outp.UnnormedTallyDensity
         EXAMPLES_VALID = [
             {
-                'tally': consts.string.type.STRING,
-                'mean': consts.string.type.STRING,
-                'nps': consts.string.type.STRING,
-                'chart': consts.string.type.STRING,
+                'tally': consts.string.types.STRING,
+                'mean': consts.string.types.STRING,
+                'nps': consts.string.types.STRING,
+                'chart': consts.string.types.STRING,
             },
         ]
         EXAMPLES_INVALID = [
             {
                 'tally': None,
-                'mean': consts.string.type.STRING,
-                'nps': consts.string.type.STRING,
-                'chart': consts.string.type.STRING,
+                'mean': consts.string.types.STRING,
+                'nps': consts.string.types.STRING,
+                'chart': consts.string.types.STRING,
             },
             {
-                'tally': consts.string.type.STRING,
+                'tally': consts.string.types.STRING,
                 'mean': None,
-                'nps': consts.string.type.STRING,
-                'chart': consts.string.type.STRING,
+                'nps': consts.string.types.STRING,
+                'chart': consts.string.types.STRING,
             },
             {
-                'tally': consts.string.type.STRING,
-                'mean': consts.string.type.STRING,
+                'tally': consts.string.types.STRING,
+                'mean': consts.string.types.STRING,
                 'nps': None,
-                'chart': consts.string.type.STRING,
+                'chart': consts.string.types.STRING,
             },
             {
-                'tally': consts.string.type.STRING,
-                'mean': consts.string.type.STRING,
-                'nps': consts.string.type.STRING,
+                'tally': consts.string.types.STRING,
+                'mean': consts.string.types.STRING,
+                'nps': consts.string.types.STRING,
                 'chart': None,
             },
         ]

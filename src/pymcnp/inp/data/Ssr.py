@@ -2,7 +2,7 @@ import re
 
 from . import ssr
 from . import _option
-from ...utils import types
+from ... import types
 
 
 class Ssr(_option.DataOption):

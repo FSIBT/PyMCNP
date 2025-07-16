@@ -7,11 +7,11 @@ class Test_Trcl_3:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.like.Trcl_3
         EXAMPLES_VALID = [
-            {'prefix': '*', 'transformation': consts.string.type.TRANSFORMATION_2},
-            {'prefix': pymcnp.types.String('*'), 'transformation': consts.ast.type.TRANSFORMATION_2},
-            {'prefix': None, 'transformation': consts.string.type.TRANSFORMATION_2},
+            {'prefix': '*', 'transformation': consts.string.types.TRANSFORMATION_2},
+            {'prefix': pymcnp.types.String('*'), 'transformation': consts.ast.types.TRANSFORMATION_2},
+            {'prefix': None, 'transformation': consts.string.types.TRANSFORMATION_2},
         ]
-        EXAMPLES_INVALID = [{'prefix': '*', 'transformation': None}, {'prefix': 'hello', 'transformation': consts.string.type.TRANSFORMATION_2}]
+        EXAMPLES_INVALID = [{'prefix': '*', 'transformation': None}, {'prefix': 'hello', 'transformation': consts.string.types.TRANSFORMATION_2}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.like.Trcl_3

@@ -7,14 +7,14 @@ class Test_Si_2:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.Si_2
         EXAMPLES_VALID = [
-            {'suffix': consts.string.type.INTEGER, 'option': consts.string.type.STRING, 'information': [consts.string.type.DESIGNATOR]},
-            {'suffix': 1, 'option': consts.string.type.STRING, 'information': [consts.string.type.DESIGNATOR]},
-            {'suffix': consts.ast.type.INTEGER, 'option': consts.ast.type.STRING, 'information': [consts.ast.type.DESIGNATOR]},
-            {'suffix': consts.string.type.INTEGER, 'option': None, 'information': [consts.string.type.DESIGNATOR]},
+            {'suffix': consts.string.types.INTEGER, 'option': consts.string.types.STRING, 'information': [consts.string.types.DESIGNATOR]},
+            {'suffix': 1, 'option': consts.string.types.STRING, 'information': [consts.string.types.DESIGNATOR]},
+            {'suffix': consts.ast.types.INTEGER, 'option': consts.ast.types.STRING, 'information': [consts.ast.types.DESIGNATOR]},
+            {'suffix': consts.string.types.INTEGER, 'option': None, 'information': [consts.string.types.DESIGNATOR]},
         ]
         EXAMPLES_INVALID = [
-            {'suffix': None, 'option': consts.string.type.STRING, 'information': [consts.string.type.DESIGNATOR]},
-            {'suffix': consts.string.type.INTEGER, 'option': consts.string.type.STRING, 'information': None},
+            {'suffix': None, 'option': consts.string.types.STRING, 'information': [consts.string.types.DESIGNATOR]},
+            {'suffix': consts.string.types.INTEGER, 'option': consts.string.types.STRING, 'information': None},
         ]
 
     class Test_Mcnp(classes.Test_Mcnp):

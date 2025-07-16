@@ -7,11 +7,11 @@ class Test_Imp:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.like.Imp
         EXAMPLES_VALID = [
-            {'designator': consts.string.type.DESIGNATOR, 'importance': consts.string.type.REAL},
-            {'designator': consts.string.type.DESIGNATOR, 'importance': 3.1},
-            {'designator': consts.ast.type.DESIGNATOR, 'importance': consts.ast.type.REAL},
+            {'designator': consts.string.types.DESIGNATOR, 'importance': consts.string.types.REAL},
+            {'designator': consts.string.types.DESIGNATOR, 'importance': 3.1},
+            {'designator': consts.ast.types.DESIGNATOR, 'importance': consts.ast.types.REAL},
         ]
-        EXAMPLES_INVALID = [{'designator': None, 'importance': consts.string.type.REAL}, {'designator': consts.string.type.DESIGNATOR, 'importance': None}]
+        EXAMPLES_INVALID = [{'designator': None, 'importance': consts.string.types.REAL}, {'designator': consts.string.types.DESIGNATOR, 'importance': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.like.Imp

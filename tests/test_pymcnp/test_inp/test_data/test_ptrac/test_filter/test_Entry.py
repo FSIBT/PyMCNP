@@ -8,35 +8,35 @@ class Test_Entry:
         element = pymcnp.inp.data.ptrac.filter.Entry
         EXAMPLES_VALID = [
             {
-                'lower': consts.string.type.REAL,
-                'variable': consts.string.type.STRING,
-                'upper': consts.string.type.REAL,
+                'lower': consts.string.types.REAL,
+                'variable': consts.string.types.STRING,
+                'upper': consts.string.types.REAL,
             },
             {
                 'lower': 0.5,
-                'variable': consts.string.type.STRING,
+                'variable': consts.string.types.STRING,
                 'upper': 0.5,
             },
             {
-                'lower': consts.ast.type.REAL,
-                'variable': consts.ast.type.STRING,
-                'upper': consts.ast.type.REAL,
+                'lower': consts.ast.types.REAL,
+                'variable': consts.ast.types.STRING,
+                'upper': consts.ast.types.REAL,
             },
             {
-                'lower': consts.ast.type.REAL,
+                'lower': consts.ast.types.REAL,
                 'variable': None,
-                'upper': consts.ast.type.REAL,
+                'upper': consts.ast.types.REAL,
             },
         ]
         EXAMPLES_INVALID = [
             {
                 'lower': None,
-                'variable': consts.ast.type.STRING,
-                'upper': consts.ast.type.REAL,
+                'variable': consts.ast.types.STRING,
+                'upper': consts.ast.types.REAL,
             },
             {
-                'lower': consts.ast.type.REAL,
-                'variable': consts.ast.type.STRING,
+                'lower': consts.ast.types.REAL,
+                'variable': consts.ast.types.STRING,
                 'upper': None,
             },
         ]

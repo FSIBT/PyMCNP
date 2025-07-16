@@ -3,8 +3,8 @@ import typing
 
 from . import event
 from . import _line
-from ...utils import types
-from ...utils import errors
+from ... import types
+from ... import errors
 from ...utils import _parser
 
 

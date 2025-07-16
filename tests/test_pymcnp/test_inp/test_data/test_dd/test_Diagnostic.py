@@ -8,25 +8,25 @@ class Test_Diagnostic:
         element = pymcnp.inp.data.dd.Diagnostic
         EXAMPLES_VALID = [
             {
-                'playing_setting': consts.string.type.REAL,
-                'printing_setting': consts.string.type.REAL,
+                'playing_setting': consts.string.types.REAL,
+                'printing_setting': consts.string.types.REAL,
             },
             {
                 'playing_setting': 0.5,
                 'printing_setting': 0.5,
             },
             {
-                'playing_setting': consts.ast.type.REAL,
-                'printing_setting': consts.ast.type.REAL,
+                'playing_setting': consts.ast.types.REAL,
+                'printing_setting': consts.ast.types.REAL,
             },
         ]
         EXAMPLES_INVALID = [
             {
                 'playing_setting': None,
-                'printing_setting': consts.string.type.REAL,
+                'printing_setting': consts.string.types.REAL,
             },
             {
-                'playing_setting': consts.string.type.REAL,
+                'playing_setting': consts.string.types.REAL,
                 'printing_setting': None,
             },
         ]

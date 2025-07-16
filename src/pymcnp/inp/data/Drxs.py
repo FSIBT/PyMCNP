@@ -1,7 +1,7 @@
 import re
 
 from . import _option
-from ...utils import types
+from ... import types
 
 
 class Drxs(_option.DataOption):

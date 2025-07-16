@@ -8,25 +8,25 @@ class Test_Bias:
         element = pymcnp.inp.data.act.dneb.Bias
         EXAMPLES_VALID = [
             {
-                'weight': consts.string.type.REAL,
-                'energy': consts.string.type.REAL,
+                'weight': consts.string.types.REAL,
+                'energy': consts.string.types.REAL,
             },
             {
                 'weight': 0.5,
                 'energy': 0.5,
             },
             {
-                'weight': consts.ast.type.REAL,
-                'energy': consts.ast.type.REAL,
+                'weight': consts.ast.types.REAL,
+                'energy': consts.ast.types.REAL,
             },
         ]
         EXAMPLES_INVALID = [
             {
                 'weight': None,
-                'energy': consts.string.type.REAL,
+                'energy': consts.string.types.REAL,
             },
             {
-                'weight': consts.string.type.REAL,
+                'weight': consts.string.types.REAL,
                 'energy': None,
             },
         ]

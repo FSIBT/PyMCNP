@@ -8,46 +8,46 @@ class Test_Cell:
         element = pymcnp.inp.Cell
         EXAMPLES_VALID = [
             {
-                'number': consts.string.type.INTEGER,
-                'material': consts.string.type.INTEGER,
-                'density': consts.string.type.REAL,
-                'geometry': consts.string.type.GEOMETRY,
+                'number': consts.string.types.INTEGER,
+                'material': consts.string.types.INTEGER,
+                'density': consts.string.types.REAL,
+                'geometry': consts.string.inp.cell.GEOMETRY,
                 'options': [consts.string.inp.cell.IMP],
             },
             {
                 'number': 1,
                 'material': 1,
                 'density': 3.1,
-                'geometry': consts.string.type.GEOMETRY,
+                'geometry': consts.string.inp.cell.GEOMETRY,
                 'options': [consts.string.inp.cell.IMP],
             },
             {
-                'number': consts.ast.type.INTEGER,
-                'material': consts.ast.type.INTEGER,
-                'density': consts.ast.type.REAL,
-                'geometry': consts.ast.type.GEOMETRY,
+                'number': consts.ast.types.INTEGER,
+                'material': consts.ast.types.INTEGER,
+                'density': consts.ast.types.REAL,
+                'geometry': consts.ast.inp.cell.GEOMETRY,
                 'options': [consts.ast.inp.cell.IMP],
             },
-            {'number': consts.string.type.INTEGER, 'material': consts.string.type.INTEGER, 'density': consts.string.type.REAL, 'geometry': consts.string.type.GEOMETRY, 'options': None},
+            {'number': consts.string.types.INTEGER, 'material': consts.string.types.INTEGER, 'density': consts.string.types.REAL, 'geometry': consts.string.inp.cell.GEOMETRY, 'options': None},
         ]
         EXAMPLES_INVALID = [
-            {'number': None, 'material': consts.string.type.INTEGER, 'density': consts.string.type.REAL, 'geometry': consts.string.type.GEOMETRY, 'options': [consts.string.inp.cell.IMP]},
+            {'number': None, 'material': consts.string.types.INTEGER, 'density': consts.string.types.REAL, 'geometry': consts.string.inp.cell.GEOMETRY, 'options': [consts.string.inp.cell.IMP]},
             {
-                'number': consts.string.type.INTEGER,
+                'number': consts.string.types.INTEGER,
                 'material': '0',
-                'density': consts.string.type.REAL,
-                'geometry': consts.string.type.GEOMETRY,
+                'density': consts.string.types.REAL,
+                'geometry': consts.string.inp.cell.GEOMETRY,
                 'options': [consts.string.inp.cell.IMP],
             },
             {
-                'number': consts.string.type.INTEGER,
-                'material': consts.string.type.INTEGER,
+                'number': consts.string.types.INTEGER,
+                'material': consts.string.types.INTEGER,
                 'density': None,
-                'geometry': consts.string.type.GEOMETRY,
+                'geometry': consts.string.inp.cell.GEOMETRY,
                 'options': [consts.string.inp.cell.IMP],
             },
-            {'number': consts.string.type.INTEGER, 'material': None, 'density': consts.string.type.REAL, 'geometry': consts.string.type.GEOMETRY, 'options': [consts.string.inp.cell.IMP]},
-            {'number': consts.string.type.INTEGER, 'material': consts.string.type.REAL, 'density': consts.string.type.INTEGER, 'geometry': None, 'options': [consts.string.inp.cell.IMP]},
+            {'number': consts.string.types.INTEGER, 'material': None, 'density': consts.string.types.REAL, 'geometry': consts.string.inp.cell.GEOMETRY, 'options': [consts.string.inp.cell.IMP]},
+            {'number': consts.string.types.INTEGER, 'material': consts.string.types.REAL, 'density': consts.string.types.INTEGER, 'geometry': None, 'options': [consts.string.inp.cell.IMP]},
         ]
 
     class Test_Mcnp(classes.Test_Mcnp):

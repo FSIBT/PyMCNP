@@ -7,17 +7,17 @@ class Test_Surface:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.Surface
         EXAMPLES_VALID = [
-            {'prefix': '*', 'number': consts.string.type.INTEGER, 'transform': consts.string.type.INTEGER, 'option': consts.string.inp.surface.SO},
+            {'prefix': '*', 'number': consts.string.types.INTEGER, 'transform': consts.string.types.INTEGER, 'option': consts.string.inp.surface.SO},
             {'prefix': '*', 'number': 1, 'transform': 1, 'option': consts.ast.inp.surface.SO},
-            {'prefix': pymcnp.utils.types.String('*'), 'number': consts.ast.type.INTEGER, 'transform': consts.ast.type.INTEGER, 'option': consts.ast.inp.surface.SO},
-            {'prefix': None, 'number': consts.string.type.INTEGER, 'transform': consts.string.type.INTEGER, 'option': consts.string.inp.surface.SO},
-            {'prefix': '*', 'number': consts.string.type.INTEGER, 'transform': None, 'option': consts.string.inp.surface.SO},
+            {'prefix': pymcnp.types.String('*'), 'number': consts.ast.types.INTEGER, 'transform': consts.ast.types.INTEGER, 'option': consts.ast.inp.surface.SO},
+            {'prefix': None, 'number': consts.string.types.INTEGER, 'transform': consts.string.types.INTEGER, 'option': consts.string.inp.surface.SO},
+            {'prefix': '*', 'number': consts.string.types.INTEGER, 'transform': None, 'option': consts.string.inp.surface.SO},
         ]
         EXAMPLES_INVALID = [
-            {'prefix': 'a', 'number': consts.string.type.INTEGER, 'transform': consts.string.type.INTEGER, 'option': consts.string.inp.surface.SO},
-            {'prefix': '*', 'number': consts.string.type.INTEGER, 'transform': '1000', 'option': consts.string.inp.surface.SO},
-            {'prefix': '*', 'number': None, 'transform': consts.string.type.INTEGER, 'option': consts.string.inp.surface.SO},
-            {'prefix': '*', 'number': consts.string.type.INTEGER, 'transform': consts.string.type.INTEGER, 'option': None},
+            {'prefix': 'a', 'number': consts.string.types.INTEGER, 'transform': consts.string.types.INTEGER, 'option': consts.string.inp.surface.SO},
+            {'prefix': '*', 'number': consts.string.types.INTEGER, 'transform': '1000', 'option': consts.string.inp.surface.SO},
+            {'prefix': '*', 'number': None, 'transform': consts.string.types.INTEGER, 'option': consts.string.inp.surface.SO},
+            {'prefix': '*', 'number': consts.string.types.INTEGER, 'transform': consts.string.types.INTEGER, 'option': None},
         ]
 
     class Test_Mcnp(classes.Test_Mcnp):

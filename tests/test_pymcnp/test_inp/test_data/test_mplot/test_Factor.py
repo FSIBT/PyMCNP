@@ -7,15 +7,15 @@ class Test_Factor:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.mplot.Factor
         EXAMPLES_VALID = [
-            {'a': 'x', 'f': consts.string.type.REAL, 's': consts.string.type.REAL},
+            {'a': 'x', 'f': consts.string.types.REAL, 's': consts.string.types.REAL},
             {'a': 'x', 'f': 3.1, 's': 3.1},
-            {'a': pymcnp.types.String('x'), 'f': consts.ast.type.REAL, 's': consts.ast.type.REAL},
-            {'a': 'x', 'f': consts.string.type.REAL, 's': None},
+            {'a': pymcnp.types.String('x'), 'f': consts.ast.types.REAL, 's': consts.ast.types.REAL},
+            {'a': 'x', 'f': consts.string.types.REAL, 's': None},
         ]
         EXAMPLES_INVALID = [
-            {'a': None, 'f': consts.string.type.REAL, 's': consts.string.type.REAL},
-            {'a': 'x', 'f': None, 's': consts.string.type.REAL},
-            {'a': 'hello', 'f': consts.string.type.REAL, 's': consts.string.type.REAL},
+            {'a': None, 'f': consts.string.types.REAL, 's': consts.string.types.REAL},
+            {'a': 'x', 'f': None, 's': consts.string.types.REAL},
+            {'a': 'hello', 'f': consts.string.types.REAL, 's': consts.string.types.REAL},
         ]
 
     class Test_Mcnp(classes.Test_Mcnp):

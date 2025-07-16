@@ -1,11 +1,11 @@
 import re
 
-from ._card import Card
-from ..utils import types
+from . import _card
+from .. import types
 from ..utils import _parser
 
 
-class Comment(Card):
+class Comment(_card.Card):
     """
     Represents INP comment elements.
     """

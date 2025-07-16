@@ -1,45 +1,33 @@
-# UTILS
-from .utils import types
-from .utils import errors
-
-from .cli.run import Run
+from . import cli
+from . import errors
 from . import inp
-from .Inp import Inp
+from . import meshtal
+from . import outp
 from . import ptrac
+from . import types
+from .Inp import Inp
+from .Meshtal import Meshtal
+from .Outp import Outp
 from .Ptrac import Ptrac
 from .PtracFiltered import PtracFiltered
 from .PtracProcessed import PtracProcessed
-from . import meshtal
-from .Meshtal import Meshtal
 from .MeshtalFiltered import MeshtalFiltered
 from .MeshtalProcessed import MeshtalProcessed
 
-from . import outp
-from .Outp import Outp
-
-read_input = Inp.from_file
-read_ptrac = Ptrac.from_file
-read_meshtal = Meshtal.from_file
-read_output = Outp.from_file
-
 __all__ = [
-    'types',
+    'cli',
     'errors',
-    'Run',
     'inp',
-    'Inp',
+    'meshtal',
+    'outp',
     'ptrac',
+    'types',
+    'Inp',
+    'Meshtal',
+    'Outp',
     'Ptrac',
     'PtracFiltered',
     'PtracProcessed',
-    'meshtal',
-    'Meshtal',
     'MeshtalFiltered',
     'MeshtalProcessed',
-    'outp',
-    'Outp',
-    'read_input',
-    'read_ptrac',
-    'read_meshtal',
-    'read_output',
 ]

@@ -6,7 +6,7 @@ from ..... import classes
 class Test_List:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.embee.List
-        EXAMPLES_VALID = [{'reactions': consts.string.type.REAL}, {'reactions': 3.1}, {'reactions': consts.ast.type.REAL}]
+        EXAMPLES_VALID = [{'reactions': consts.string.types.REAL}, {'reactions': 3.1}, {'reactions': consts.ast.types.REAL}]
         EXAMPLES_INVALID = [{'reactions': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):

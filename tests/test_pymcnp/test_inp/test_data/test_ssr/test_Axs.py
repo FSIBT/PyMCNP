@@ -6,7 +6,7 @@ from ..... import classes
 class Test_Axs:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.ssr.Axs
-        EXAMPLES_VALID = [{'cosines': [consts.string.type.REAL]}, {'cosines': [3.1]}, {'cosines': [consts.ast.type.REAL]}]
+        EXAMPLES_VALID = [{'cosines': [consts.string.types.REAL]}, {'cosines': [3.1]}, {'cosines': [consts.ast.types.REAL]}]
         EXAMPLES_INVALID = [{'cosines': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):

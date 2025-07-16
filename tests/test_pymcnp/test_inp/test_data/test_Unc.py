@@ -7,11 +7,11 @@ class Test_Unc:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.Unc
         EXAMPLES_VALID = [
-            {'designator': consts.string.type.DESIGNATOR, 'settings': [consts.string.type.INTEGER]},
-            {'designator': consts.string.type.DESIGNATOR, 'settings': [1]},
-            {'designator': consts.ast.type.DESIGNATOR, 'settings': [consts.ast.type.INTEGER]},
+            {'designator': consts.string.types.DESIGNATOR, 'settings': [consts.string.types.INTEGER]},
+            {'designator': consts.string.types.DESIGNATOR, 'settings': [1]},
+            {'designator': consts.ast.types.DESIGNATOR, 'settings': [consts.ast.types.INTEGER]},
         ]
-        EXAMPLES_INVALID = [{'designator': None, 'settings': [consts.string.type.INTEGER]}, {'designator': consts.string.type.DESIGNATOR, 'settings': None}]
+        EXAMPLES_INVALID = [{'designator': None, 'settings': [consts.string.types.INTEGER]}, {'designator': consts.string.types.DESIGNATOR, 'settings': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.data.Unc

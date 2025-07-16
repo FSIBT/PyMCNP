@@ -6,7 +6,7 @@ from ... import classes
 class Test_Comment:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.Comment
-        EXAMPLES_VALID = [{'text': None}, {'text': consts.string.type.STRING}, {'text': consts.ast.type.STRING}]
+        EXAMPLES_VALID = [{'text': None}, {'text': consts.string.types.STRING}, {'text': consts.ast.types.STRING}]
         EXAMPLES_INVALID = []
 
     class Test_Mcnp(classes.Test_Mcnp):

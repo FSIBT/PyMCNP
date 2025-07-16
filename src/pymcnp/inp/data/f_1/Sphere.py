@@ -1,8 +1,8 @@
 import re
 
 from . import _entry
-from ....utils import types
-from ....utils import errors
+from .... import types
+from .... import errors
 
 
 class Sphere(_entry.FEntry_1):

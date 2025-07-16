@@ -6,7 +6,7 @@ from ..... import classes
 class Test_Width:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.fmult.Width
-        EXAMPLES_VALID = [{'width': consts.string.type.REAL}, {'width': 3.1}, {'width': consts.ast.type.REAL}]
+        EXAMPLES_VALID = [{'width': consts.string.types.REAL}, {'width': 3.1}, {'width': consts.ast.types.REAL}]
         EXAMPLES_INVALID = [{'width': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):

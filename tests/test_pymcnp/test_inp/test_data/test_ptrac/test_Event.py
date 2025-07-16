@@ -6,7 +6,7 @@ from ..... import classes
 class Test_Event:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.ptrac.Event
-        EXAMPLES_VALID = [{'settings': [consts.string.type.STRING]}, {'settings': [consts.ast.type.STRING]}]
+        EXAMPLES_VALID = [{'settings': [consts.string.types.STRING]}, {'settings': [consts.ast.types.STRING]}]
         EXAMPLES_INVALID = [{'settings': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):

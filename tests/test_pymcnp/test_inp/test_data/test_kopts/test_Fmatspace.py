@@ -6,7 +6,7 @@ from ..... import classes
 class Test_Fmatspace:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.kopts.Fmatspace
-        EXAMPLES_VALID = [{'fmat_space': consts.string.type.REAL}, {'fmat_space': 3.1}, {'fmat_space': consts.ast.type.REAL}]
+        EXAMPLES_VALID = [{'fmat_space': consts.string.types.REAL}, {'fmat_space': 3.1}, {'fmat_space': consts.ast.types.REAL}]
         EXAMPLES_INVALID = [{'fmat_space': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):

@@ -6,7 +6,7 @@ from .... import classes
 class Test_So:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.surface.So
-        EXAMPLES_VALID = [{'r': consts.string.type.REAL}, {'r': 3.1}, {'r': consts.ast.type.REAL}]
+        EXAMPLES_VALID = [{'r': consts.string.types.REAL}, {'r': 3.1}, {'r': consts.ast.types.REAL}]
         EXAMPLES_INVALID = [{'r': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
