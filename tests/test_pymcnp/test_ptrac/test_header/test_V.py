@@ -8,7 +8,7 @@ class Test_L:
         element = pymcnp.ptrac.header.V
         EXAMPLES_VALID = [
             {
-                'variables': [consts.ast.type.REAL],
+                'variables': [consts.ast.types.REAL],
             }
         ]
         EXAMPLES_INVALID = [

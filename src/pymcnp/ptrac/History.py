@@ -3,8 +3,8 @@ import typing
 
 from . import history
 from .Header import Header
-from ..utils import types
-from ..utils import errors
+from .. import types
+from .. import errors
 from ..utils import _object
 
 

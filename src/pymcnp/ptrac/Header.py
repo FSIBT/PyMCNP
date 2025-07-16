@@ -4,8 +4,8 @@ import re
 import typing
 
 from . import header
-from ..utils import types
-from ..utils import errors
+from .. import types
+from .. import errors
 from ..utils import _object
 
 

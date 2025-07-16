@@ -7,11 +7,11 @@ class Test_Fcl:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.Fcl
         EXAMPLES_VALID = [
-            {'designator': consts.string.type.DESIGNATOR, 'control': [consts.string.type.REAL]},
-            {'designator': consts.string.type.DESIGNATOR, 'control': [3.1]},
-            {'designator': consts.ast.type.DESIGNATOR, 'control': [consts.ast.type.REAL]},
+            {'designator': consts.string.types.DESIGNATOR, 'control': [consts.string.types.REAL]},
+            {'designator': consts.string.types.DESIGNATOR, 'control': [3.1]},
+            {'designator': consts.ast.types.DESIGNATOR, 'control': [consts.ast.types.REAL]},
         ]
-        EXAMPLES_INVALID = [{'designator': None, 'control': [consts.string.type.REAL]}, {'designator': consts.string.type.DESIGNATOR, 'control': None}]
+        EXAMPLES_INVALID = [{'designator': None, 'control': [consts.string.types.REAL]}, {'designator': consts.string.types.DESIGNATOR, 'control': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.data.Fcl

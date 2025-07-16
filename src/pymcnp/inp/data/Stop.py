@@ -2,7 +2,7 @@ import re
 
 from . import stop
 from . import _option
-from ...utils import types
+from ... import types
 
 
 class Stop(_option.DataOption):

@@ -8,8 +8,8 @@ class Test_Like:
         element = pymcnp.inp.Like
         EXAMPLES_VALID = [
             {
-                'number': consts.string.type.INTEGER,
-                'cell': consts.string.type.INTEGER,
+                'number': consts.string.types.INTEGER,
+                'cell': consts.string.types.INTEGER,
                 'options': [consts.string.inp.like.IMP],
             },
             {
@@ -18,16 +18,16 @@ class Test_Like:
                 'options': [consts.ast.inp.like.IMP],
             },
             {
-                'number': consts.ast.type.INTEGER,
-                'cell': consts.ast.type.INTEGER,
+                'number': consts.ast.types.INTEGER,
+                'cell': consts.ast.types.INTEGER,
                 'options': [consts.ast.inp.like.IMP],
             },
-            {'number': consts.string.type.INTEGER, 'cell': consts.string.type.INTEGER, 'options': None},
+            {'number': consts.string.types.INTEGER, 'cell': consts.string.types.INTEGER, 'options': None},
         ]
         EXAMPLES_INVALID = [
-            {'number': None, 'cell': consts.string.type.INTEGER, 'options': [consts.string.inp.like.IMP]},
+            {'number': None, 'cell': consts.string.types.INTEGER, 'options': [consts.string.inp.like.IMP]},
             {
-                'number': consts.string.type.INTEGER,
+                'number': consts.string.types.INTEGER,
                 'cell': None,
                 'options': [consts.string.inp.like.IMP],
             },

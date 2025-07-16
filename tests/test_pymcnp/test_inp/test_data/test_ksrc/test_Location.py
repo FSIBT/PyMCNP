@@ -8,9 +8,9 @@ class Test_Location:
         element = pymcnp.inp.data.ksrc.Location
         EXAMPLES_VALID = [
             {
-                'x': consts.string.type.REAL,
-                'y': consts.string.type.REAL,
-                'z': consts.string.type.REAL,
+                'x': consts.string.types.REAL,
+                'y': consts.string.types.REAL,
+                'z': consts.string.types.REAL,
             },
             {
                 'x': 0.5,
@@ -18,25 +18,25 @@ class Test_Location:
                 'z': 0.5,
             },
             {
-                'x': consts.ast.type.REAL,
-                'y': consts.ast.type.REAL,
-                'z': consts.ast.type.REAL,
+                'x': consts.ast.types.REAL,
+                'y': consts.ast.types.REAL,
+                'z': consts.ast.types.REAL,
             },
         ]
         EXAMPLES_INVALID = [
             {
                 'x': None,
-                'y': consts.string.type.REAL,
-                'z': consts.string.type.REAL,
+                'y': consts.string.types.REAL,
+                'z': consts.string.types.REAL,
             },
             {
-                'x': consts.string.type.REAL,
+                'x': consts.string.types.REAL,
                 'y': None,
-                'z': consts.string.type.REAL,
+                'z': consts.string.types.REAL,
             },
             {
-                'x': consts.string.type.REAL,
-                'y': consts.string.type.REAL,
+                'x': consts.string.types.REAL,
+                'y': consts.string.types.REAL,
                 'z': None,
             },
         ]

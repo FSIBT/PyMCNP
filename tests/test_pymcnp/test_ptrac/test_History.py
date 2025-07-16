@@ -50,7 +50,7 @@ class Test_History:
             """
 
             for example in self.EXAMPLES_INVALID:
-                with pytest.raises((pymcnp.utils.errors.Error)):
+                with pytest.raises((pymcnp.errors.Error)):
                     print(repr(example))
 
                     self.element.from_mcnp(example, consts.ast.ptrac.HEADER)

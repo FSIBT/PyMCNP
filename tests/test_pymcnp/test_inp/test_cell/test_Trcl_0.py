@@ -7,12 +7,12 @@ class Test_Trcl_0:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.cell.Trcl_0
         EXAMPLES_VALID = [
-            {'prefix': '*', 'transformation': consts.string.type.INTEGER},
+            {'prefix': '*', 'transformation': consts.string.types.INTEGER},
             {'prefix': '*', 'transformation': 1},
-            {'prefix': pymcnp.types.String('*'), 'transformation': consts.ast.type.INTEGER},
-            {'prefix': None, 'transformation': consts.string.type.INTEGER},
+            {'prefix': pymcnp.types.String('*'), 'transformation': consts.ast.types.INTEGER},
+            {'prefix': None, 'transformation': consts.string.types.INTEGER},
         ]
-        EXAMPLES_INVALID = [{'prefix': '*', 'transformation': None}, {'prefix': 'hello', 'transformation': consts.string.type.INTEGER}]
+        EXAMPLES_INVALID = [{'prefix': '*', 'transformation': None}, {'prefix': 'hello', 'transformation': consts.string.types.INTEGER}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.cell.Trcl_0

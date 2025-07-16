@@ -2,8 +2,8 @@ import re
 
 from . import f_2
 from . import _option
-from ...utils import types
-from ...utils import errors
+from ... import types
+from ... import errors
 
 
 class F_2(_option.DataOption):
@@ -54,6 +54,16 @@ class F_2(_option.DataOption):
         self.designator: types.Designator = designator
         self.rings: types.Tuple[f_2.Ring] = rings
         self.nd: types.String = nd
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``F_2``.
+
+        Returns:
+            INP for ``F_2``.
+        """
+
+        return f'{self.prefix or ""}f{self.suffix}{self.a}{f":{self.designator}" if self.designator else ""} {self.rings} {self.nd or ""}'
 
     @property
     def prefix(self) -> types.String:
@@ -272,13 +282,3 @@ class F_2(_option.DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nd)
 
         self._nd: types.String = nd
-
-    def to_mcnp(self):
-        """
-        Generates INP from ``F_2``.
-
-        Returns:
-            INP for ``F_2``.
-        """
-
-        return f'{self.prefix or ""}f{self.suffix}{self.a}{f":{self.designator}" if self.designator else ""} {self.rings} {self.nd or ""}'

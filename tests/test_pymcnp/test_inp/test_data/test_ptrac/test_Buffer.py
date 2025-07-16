@@ -6,7 +6,7 @@ from ..... import classes
 class Test_Buffer:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.ptrac.Buffer
-        EXAMPLES_VALID = [{'storage': consts.string.type.INTEGER}, {'storage': 1}, {'storage': consts.ast.type.INTEGER}]
+        EXAMPLES_VALID = [{'storage': consts.string.types.INTEGER}, {'storage': 1}, {'storage': consts.ast.types.INTEGER}]
         EXAMPLES_INVALID = [{'storage': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):

@@ -6,7 +6,7 @@ from ..... import classes
 class Test_Pause:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.mplot.Pause
-        EXAMPLES_VALID = [{'n': consts.string.type.INTEGER}, {'n': 1}, {'n': consts.ast.type.INTEGER}, {'n': None}]
+        EXAMPLES_VALID = [{'n': consts.string.types.INTEGER}, {'n': 1}, {'n': consts.ast.types.INTEGER}, {'n': None}]
         EXAMPLES_INVALID = []
 
     class Test_Mcnp(classes.Test_Mcnp):

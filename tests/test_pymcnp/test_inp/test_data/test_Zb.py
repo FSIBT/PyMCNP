@@ -6,7 +6,7 @@ from .... import classes
 class Test_Zb:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.Zb
-        EXAMPLES_VALID = [{'anything': consts.string.type.STRING}, {'anything': consts.ast.type.STRING}, {'anything': None}]
+        EXAMPLES_VALID = [{'anything': consts.string.types.STRING}, {'anything': consts.ast.types.STRING}, {'anything': None}]
         EXAMPLES_INVALID = []
 
     class Test_Mcnp(classes.Test_Mcnp):

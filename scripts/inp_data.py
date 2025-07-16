@@ -141,7 +141,7 @@ cards = ElementScheme(
                 ),
                 AttributeScheme(
                     name='geometry',
-                    type='types.Geometry',
+                    type='cell.Geometry',
                     description='cell geometry',
                     restriction='# TODO #',
                 ),
@@ -6182,7 +6182,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='energy',
-                                    type='types.DistributionNumber',
+                                    type='types.Distribution',
                                     description='Kinetic energy',
                                 ),
                             ],
@@ -6204,7 +6204,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='time',
-                                    type='types.EmbeddedDistributionNumber',
+                                    type='types.EmbeddedDistribution',
                                     description='Time in shakes',
                                 ),
                             ],
@@ -6227,7 +6227,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='cosine',
-                                    type='types.DistributionNumber',
+                                    type='types.Distribution',
                                     description='Cosine of the angle between VEC and particle',
                                     optional=True,
                                 ),
@@ -6293,7 +6293,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='radial_distance',
-                                    type='types.DistributionNumber',
+                                    type='types.Distribution',
                                     description='Radial distance fo the position from POS or AXS',
                                 ),
                             ],
@@ -6551,7 +6551,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='information',
-                            type='types.Tuple[types.DistributionNumber]',
+                            type='types.Tuple[types.Distribution]',
                             description='Particle source information',
                         ),
                     ],
@@ -6977,7 +6977,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='number',
-                                    type='types.DistributionNumber',
+                                    type='types.Distribution',
                                     description='Particle weight',
                                 ),
                             ],
@@ -7022,7 +7022,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='number',
-                                    type='types.DistributionNumber',
+                                    type='types.Distribution',
                                     description='Distribution number for baising sampling',
                                 ),
                             ],

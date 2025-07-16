@@ -6,7 +6,7 @@ from .... import classes
 class Test_Void:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.Void
-        EXAMPLES_VALID = [{'numbers': [consts.string.type.INTEGER]}, {'numbers': [1]}, {'numbers': [consts.ast.type.INTEGER]}, {'numbers': None}]
+        EXAMPLES_VALID = [{'numbers': [consts.string.types.INTEGER]}, {'numbers': [1]}, {'numbers': [consts.ast.types.INTEGER]}, {'numbers': None}]
         EXAMPLES_INVALID = []
 
     class Test_Mcnp(classes.Test_Mcnp):

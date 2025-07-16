@@ -7,11 +7,11 @@ class Test_Legend:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.mplot.Legend
         EXAMPLES_VALID = [
-            {'x': consts.string.type.REAL, 'y': consts.string.type.REAL},
+            {'x': consts.string.types.REAL, 'y': consts.string.types.REAL},
             {'x': 3.1, 'y': 3.1},
-            {'x': consts.ast.type.REAL, 'y': consts.ast.type.REAL},
-            {'x': None, 'y': consts.string.type.REAL},
-            {'x': consts.string.type.REAL, 'y': None},
+            {'x': consts.ast.types.REAL, 'y': consts.ast.types.REAL},
+            {'x': None, 'y': consts.string.types.REAL},
+            {'x': consts.string.types.REAL, 'y': None},
         ]
         EXAMPLES_INVALID = []
 

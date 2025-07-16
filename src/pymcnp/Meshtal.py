@@ -2,7 +2,7 @@ import re
 import typing
 
 from . import meshtal
-from .utils import errors
+from . import errors
 from .utils import _object
 
 
@@ -29,15 +29,15 @@ class Meshtal(_object.McnpFile):
             ``Meshtal``.
 
         Raises:
-            MeshtalError: SEMANTICS_MESHTAL_HEADER.
-            MeshtalError: SEMANTICS_MESHTAL_TALLIES.
+            MeshtalError: SEMANTICS_FILE_HEADER.
+            MeshtalError: SEMANTICS_FILE_TALLIES.
         """
 
         if header is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_MESHTAL)
+            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_FILE)
 
         if tallies is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_MESHTAL)
+            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_FILE)
 
         self.header: typing.Final[meshtal.Header] = header
         self.tallies: typing.Final[typing.Generator[typing.Generator[meshtal.Tally, None, None]]] = tallies
@@ -57,7 +57,7 @@ class Meshtal(_object.McnpFile):
         tokens = Meshtal._REGEX.match(source)
 
         if not tokens:
-            raise errors.MeshtalError(errors.MeshtalCode.SYNTAX_MESHTAL, source)
+            raise errors.MeshtalError(errors.MeshtalCode.SYNTAX_FILE, source)
 
         header = meshtal.Header.from_mcnp(tokens[1])
         tallies = (meshtal.Tally.from_mcnp(match[0], header) for match in meshtal.Tally._REGEX.finditer(tokens[12]))

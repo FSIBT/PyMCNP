@@ -1,4 +1,4 @@
-from ..utils import errors
+from .. import errors
 from ..utils import _object
 from ..utils import _parser
 

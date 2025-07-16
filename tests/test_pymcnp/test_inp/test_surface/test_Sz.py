@@ -6,8 +6,8 @@ from .... import classes
 class Test_Sz:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.surface.Sz
-        EXAMPLES_VALID = [{'z': consts.string.type.REAL, 'r': consts.string.type.REAL}, {'z': 3.1, 'r': 3.1}, {'z': consts.ast.type.REAL, 'r': consts.ast.type.REAL}]
-        EXAMPLES_INVALID = [{'z': None, 'r': consts.string.type.REAL}, {'z': consts.string.type.REAL, 'r': None}]
+        EXAMPLES_VALID = [{'z': consts.string.types.REAL, 'r': consts.string.types.REAL}, {'z': 3.1, 'r': 3.1}, {'z': consts.ast.types.REAL, 'r': consts.ast.types.REAL}]
+        EXAMPLES_INVALID = [{'z': None, 'r': consts.string.types.REAL}, {'z': consts.string.types.REAL, 'r': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.surface.Sz

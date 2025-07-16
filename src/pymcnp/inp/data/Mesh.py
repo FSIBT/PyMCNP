@@ -2,7 +2,7 @@ import re
 
 from . import mesh
 from . import _option
-from ...utils import types
+from ... import types
 
 
 class Mesh(_option.DataOption):

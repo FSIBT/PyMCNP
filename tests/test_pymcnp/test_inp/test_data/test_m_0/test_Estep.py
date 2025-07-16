@@ -6,7 +6,7 @@ from ..... import classes
 class Test_Estep:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.m_0.Estep
-        EXAMPLES_VALID = [{'step': consts.string.type.INTEGER}, {'step': 1}, {'step': consts.ast.type.INTEGER}]
+        EXAMPLES_VALID = [{'step': consts.string.types.INTEGER}, {'step': 1}, {'step': consts.ast.types.INTEGER}]
         EXAMPLES_INVALID = [{'step': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):

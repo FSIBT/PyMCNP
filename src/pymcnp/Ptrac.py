@@ -2,8 +2,8 @@ import re
 import typing
 
 from . import ptrac
-from .utils import types
-from .utils import errors
+from . import types
+from . import errors
 from .utils import _object
 
 
@@ -30,14 +30,14 @@ class Ptrac(_object.McnpFile):
             ``Ptrac``.
 
         Raises:
-            PtracError: SEMANTICS_PTRAC.
+            PtracError: SEMANTICS_FILE.
         """
 
         if header is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_PTRAC, header)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_FILE, header)
 
         if histories is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_PTRAC, histories)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_FILE, histories)
 
         self.header: typing.Final[ptrac.Header] = header
         self.histories: typing.Final[typing.Generator[ptrac.History, None, None]] = histories
@@ -54,13 +54,13 @@ class Ptrac(_object.McnpFile):
             ``Ptrac``.
 
         Raises:
-            PtracError: SYNTAX_PTRAC.
+            PtracError: SYNTAX_FILE.
         """
 
         tokens = Ptrac._REGEX.match(source)
 
         if not tokens:
-            raise errors.PtracError(errors.PtracCode.SYNTAX_PTRAC, source)
+            raise errors.PtracError(errors.PtracCode.SYNTAX_FILE, source)
 
         header = ptrac.Header.from_mcnp(tokens[1])
         histories = types.Tuple(ptrac.History.from_mcnp(match[0], header) for match in re.finditer(ptrac.History._REGEX.pattern[2:-2], tokens[10]))

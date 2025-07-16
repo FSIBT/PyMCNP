@@ -8,25 +8,25 @@ class Test_Entry:
         element = pymcnp.inp.data.embed.matcell.Entry
         EXAMPLES_VALID = [
             {
-                'material': consts.string.type.INTEGER,
-                'cell': consts.string.type.INTEGER,
+                'material': consts.string.types.INTEGER,
+                'cell': consts.string.types.INTEGER,
             },
             {
                 'material': 1,
                 'cell': 1,
             },
             {
-                'material': consts.ast.type.INTEGER,
-                'cell': consts.ast.type.INTEGER,
+                'material': consts.ast.types.INTEGER,
+                'cell': consts.ast.types.INTEGER,
             },
         ]
         EXAMPLES_INVALID = [
             {
                 'material': None,
-                'cell': consts.string.type.INTEGER,
+                'cell': consts.string.types.INTEGER,
             },
             {
-                'material': consts.string.type.INTEGER,
+                'material': consts.string.types.INTEGER,
                 'cell': None,
             },
         ]

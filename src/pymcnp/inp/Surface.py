@@ -1,13 +1,14 @@
 import re
 
+from . import cell
 from . import surface
-from ._card import Card
-from ..utils import types
-from ..utils import errors
+from . import _card
+from .. import types
+from .. import errors
 from ..utils import _parser
 
 
-class Surface(Card):
+class Surface(_card.Card):
     """
     Represents INP surface cards.
     """
@@ -72,6 +73,64 @@ class Surface(Card):
         """
 
         return self.option.draw()
+
+    def __and__(a, b):
+        """
+        Unites ``Surface``.
+
+        Parameters:
+            a: Operand #1.
+            b: Operand #2.
+
+        Returns:
+            ``Surface`` union.
+        """
+
+        return cell.Geometry(infix=types.String(f'{a.number}:{b.number}'))
+
+    def __or__(a, b):
+        """
+        Intersects ``Surface``.
+
+        Parameters:
+            a: Operand #1.
+            b: Operand #2.
+
+        Returns:
+            ``Surface`` intersection.
+        """
+
+        return cell.Geometry(infix=types.String(f'{a.number} {b.number}'))
+
+    def __neg__(self):
+        """
+        Negatives ``Surface``.
+
+        Returns:
+            ``Surface`` negative.
+        """
+
+        return cell.Geometry(infix=types.String(f'-{self.number}'))
+
+    def __pos__(self):
+        """
+        Positives ``Surface``.
+
+        Returns:
+            ``Surface`` positive.
+        """
+
+        return cell.Geometry(infix=types.String(f'+{self.number}'))
+
+    def __invert__(self):
+        """
+        Inverts ``Surface``.
+
+        Returns:
+            ``Surface`` complement.
+        """
+
+        return cell.Geometry(infix=types.String(f'#{self.number}'))
 
     @property
     def number(self) -> types.Integer:
@@ -220,61 +279,3 @@ class Surface(Card):
             raise errors.InpError(errors.InpCode.SEMANTICS_CARD, prefix)
 
         self._prefix: types.String = prefix
-
-    def __and__(a, b):
-        """
-        Unites ``Surface``.
-
-        Parameters:
-            a: Operand #1.
-            b: Operand #2.
-
-        Returns:
-            ``Surface`` union.
-        """
-
-        return types.Geometry(infix=f'{a.number}:{b.number}')
-
-    def __or__(a, b):
-        """
-        Intersects ``Surface``.
-
-        Parameters:
-            a: Operand #1.
-            b: Operand #2.
-
-        Returns:
-            ``Surface`` intersection.
-        """
-
-        return types.Geometry(infix=f'{a.number} {b.number}')
-
-    def __neg__(self):
-        """
-        Negatives ``Surface``.
-
-        Returns:
-            ``Surface`` negative.
-        """
-
-        return types.Geometry(infix=f'-{self.number}')
-
-    def __pos__(self):
-        """
-        Positives ``Surface``.
-
-        Returns:
-            ``Surface`` positive.
-        """
-
-        return types.Geometry(infix=f'+{self.number}')
-
-    def __invert__(self):
-        """
-        Inverts ``Surface``.
-
-        Returns:
-            ``Surface`` complement.
-        """
-
-        return types.Geometry(infix=f'#{self.number}')

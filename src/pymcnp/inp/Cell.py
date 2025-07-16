@@ -1,13 +1,13 @@
 import re
 
 from . import cell
-from ._card import Card
-from ..utils import types
-from ..utils import errors
+from . import _card
+from .. import types
+from .. import errors
 from ..utils import _parser
 
 
-class Cell(Card):
+class Cell(_card.Card):
     """
     Represents INP cell cards.
     """
@@ -16,7 +16,7 @@ class Cell(Card):
         'number': types.Integer,
         'material': types.Integer,
         'density': types.Real,
-        'geometry': types.Geometry,
+        'geometry': cell.Geometry,
         'options': types.Tuple[cell.CellOption],
     }
 
@@ -26,7 +26,7 @@ class Cell(Card):
         self,
         number: types.Integer,
         material: types.Integer,
-        geometry: types.Geometry,
+        geometry: cell.Geometry,
         density: types.Real = None,
         options: types.Tuple[cell.CellOption] = None,
     ):
@@ -47,7 +47,7 @@ class Cell(Card):
         self.number: types.Integer = number
         self.material: types.Integer = material
         self.density: types.Real = density
-        self.geometry: types.Geometry = geometry
+        self.geometry: cell.Geometry = geometry
         self.options: types.Tuple[cell.CellOption] = options
 
     def to_mcnp(self):
@@ -63,6 +63,26 @@ class Cell(Card):
         source = _parser.postprocess_inp(source)
 
         return source
+
+    #    def draw(self, surfaces: dict[int, _visualization.Visualization]):
+    #        """
+    #        Generates ``Visualization`` from ``Cell``.
+    #
+    #        Returns:
+    #            ``Visualization`` for ``Cell``
+    #        """
+    #
+    #        temp = re.sub(r' 0+', '', self.geometry.infix)
+    #        temp = re.sub(r' +', ' ', temp)
+    #        temp = re.sub(r'\+', '', temp)
+    #        temp = re.sub(r' ?: ?', '|', temp)
+    #        temp = re.sub(r' ', '&', temp)
+    #        temp = re.sub(r'(\d+)', r'surfaces[\1]', temp)
+    #
+    #        if '-' in temp or '#' in temp:
+    #            assert False, "I'm working on it!"
+    #
+    #        return eval(temp)
 
     @property
     def number(self) -> types.Integer:
@@ -179,7 +199,7 @@ class Cell(Card):
         self._density: types.Real = density
 
     @property
-    def geometry(self) -> types.Geometry:
+    def geometry(self) -> cell.Geometry:
         """
         Cell geometry.
 
@@ -191,7 +211,7 @@ class Cell(Card):
         return self._geometry
 
     @geometry.setter
-    def geometry(self, geometry: str | types.Geometry) -> None:
+    def geometry(self, geometry: str | cell.Geometry) -> None:
         """
         Sets ``geometry``.
 
@@ -204,15 +224,15 @@ class Cell(Card):
         """
 
         if geometry is not None:
-            if isinstance(geometry, types.Geometry):
+            if isinstance(geometry, cell.Geometry):
                 geometry = geometry
             elif isinstance(geometry, str):
-                geometry = types.Geometry.from_mcnp(geometry)
+                geometry = cell.Geometry.from_mcnp(geometry)
 
         if geometry is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, geometry)
 
-        self._geometry: types.Geometry = geometry
+        self._geometry: cell.Geometry = geometry
 
     @property
     def options(self) -> types.Tuple[cell.CellOption]:
@@ -250,24 +270,3 @@ class Cell(Card):
             options = types.Tuple(array)
 
         self._options: types.Tuple[cell.CellOption] = options
-
-
-#    def draw(self, surfaces: dict[int, _visualization.Visualization]):
-#        """
-#        Generates ``Visualization`` from ``Cell``.
-#
-#        Returns:
-#            ``Visualization`` for ``Cell``
-#        """
-#
-#        temp = re.sub(r' 0+', '', self.geometry.infix)
-#        temp = re.sub(r' +', ' ', temp)
-#        temp = re.sub(r'\+', '', temp)
-#        temp = re.sub(r' ?: ?', '|', temp)
-#        temp = re.sub(r' ', '&', temp)
-#        temp = re.sub(r'(\d+)', r'surfaces[\1]', temp)
-#
-#        if '-' in temp or '#' in temp:
-#            assert False, "I'm working on it!"
-#
-#        return eval(temp)

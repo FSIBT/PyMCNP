@@ -27,7 +27,7 @@ class Test_Init:
         """
 
         for example in self.EXAMPLES_INVALID:
-            with pytest.raises((pymcnp.utils.errors.Error)):
+            with pytest.raises((pymcnp.errors.Error)):
                 print(repr(example))
 
                 self.element(**example)
@@ -59,7 +59,7 @@ class Test_Mcnp:
         """
 
         for example in self.EXAMPLES_INVALID:
-            with pytest.raises((pymcnp.utils.errors.Error)):
+            with pytest.raises((pymcnp.errors.Error)):
                 print(repr(example))
 
                 self.element.from_mcnp(example)
@@ -92,7 +92,7 @@ class Test_File:
         """
 
         for example in self.EXAMPLES_INVALID:
-            with pytest.raises((pymcnp.utils.errors.Error)):
+            with pytest.raises((pymcnp.errors.Error)):
                 print(repr(example))
                 self.element.from_file(example)
 
@@ -123,7 +123,7 @@ class Test_Build:
         """
 
         for example in self.EXAMPLES_INVALID:
-            with pytest.raises((pymcnp.utils.errors.Error)):
+            with pytest.raises((pymcnp.errors.Error)):
                 print(repr(example))
 
                 self.element(**example).build()

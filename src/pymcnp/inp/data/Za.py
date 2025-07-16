@@ -1,7 +1,7 @@
 import re
 
 from . import _option
-from ...utils import types
+from ... import types
 
 
 class Za(_option.DataOption):

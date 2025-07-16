@@ -3,7 +3,7 @@ import abc
 import enum
 import pathlib
 
-from ..utils import errors
+from .. import errors
 
 
 class classproperty:
@@ -82,13 +82,13 @@ class McnpFile(McnpNonterminal, metaclass=abc.ABCMeta):
             filename: MCNP file path.
 
         Raises:
-            CliError: SEMANTICS_PATH.
+            CliError: RUNTIME_PATH.
         """
 
         filename = pathlib.Path(filename)
 
         if not filename.is_file():
-            raise errors.CliError(errors.CliCode.SEMANTICS_PATH, filename)
+            raise errors.CliError(errors.CliCode.RUNTIME_PATH, filename)
 
         source = filename.read_text()
 

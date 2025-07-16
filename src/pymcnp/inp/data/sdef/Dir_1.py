@@ -1,7 +1,7 @@
 import re
 
 from . import _option
-from ....utils import types
+from .... import types
 
 
 class Dir_1(_option.SdefOption):
@@ -12,12 +12,12 @@ class Dir_1(_option.SdefOption):
     _KEYWORD = 'dir'
 
     _ATTRS = {
-        'cosine': types.DistributionNumber,
+        'cosine': types.Distribution,
     }
 
-    _REGEX = re.compile(rf'\Adir( {types.DistributionNumber._REGEX.pattern[2:-2]})?\Z')
+    _REGEX = re.compile(rf'\Adir( {types.Distribution._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(self, cosine: str | types.DistributionNumber = None):
+    def __init__(self, cosine: str | types.Distribution = None):
         """
         Initializes ``Dir_1``.
 
@@ -28,10 +28,10 @@ class Dir_1(_option.SdefOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.cosine: types.DistributionNumber = cosine
+        self.cosine: types.Distribution = cosine
 
     @property
-    def cosine(self) -> types.DistributionNumber:
+    def cosine(self) -> types.Distribution:
         """
         Cosine of the angle between VEC and particle
 
@@ -43,7 +43,7 @@ class Dir_1(_option.SdefOption):
         return self._cosine
 
     @cosine.setter
-    def cosine(self, cosine: str | types.DistributionNumber) -> None:
+    def cosine(self, cosine: str | types.Distribution) -> None:
         """
         Sets ``cosine``.
 
@@ -56,9 +56,9 @@ class Dir_1(_option.SdefOption):
         """
 
         if cosine is not None:
-            if isinstance(cosine, types.DistributionNumber):
+            if isinstance(cosine, types.Distribution):
                 cosine = cosine
             elif isinstance(cosine, str):
-                cosine = types.DistributionNumber.from_mcnp(cosine)
+                cosine = types.Distribution.from_mcnp(cosine)
 
-        self._cosine: types.DistributionNumber = cosine
+        self._cosine: types.Distribution = cosine

@@ -8,9 +8,9 @@ class Test_Ring:
         element = pymcnp.inp.data.f_2.Ring
         EXAMPLES_VALID = [
             {
-                'distance': consts.string.type.REAL,
-                'radius': consts.string.type.REAL,
-                'ro': consts.string.type.INTEGER,
+                'distance': consts.string.types.REAL,
+                'radius': consts.string.types.REAL,
+                'ro': consts.string.types.INTEGER,
             },
             {
                 'distance': 0.5,
@@ -18,25 +18,25 @@ class Test_Ring:
                 'ro': 1,
             },
             {
-                'distance': consts.ast.type.REAL,
-                'radius': consts.ast.type.REAL,
-                'ro': consts.ast.type.INTEGER,
+                'distance': consts.ast.types.REAL,
+                'radius': consts.ast.types.REAL,
+                'ro': consts.ast.types.INTEGER,
             },
         ]
         EXAMPLES_INVALID = [
             {
                 'distance': None,
-                'radius': consts.string.type.REAL,
-                'ro': consts.string.type.INTEGER,
+                'radius': consts.string.types.REAL,
+                'ro': consts.string.types.INTEGER,
             },
             {
-                'distance': consts.string.type.REAL,
+                'distance': consts.string.types.REAL,
                 'radius': None,
-                'ro': consts.string.type.INTEGER,
+                'ro': consts.string.types.INTEGER,
             },
             {
-                'distance': consts.string.type.REAL,
-                'radius': consts.string.type.REAL,
+                'distance': consts.string.types.REAL,
+                'radius': consts.string.types.REAL,
                 'ro': None,
             },
         ]

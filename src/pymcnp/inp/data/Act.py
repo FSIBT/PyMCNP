@@ -2,7 +2,7 @@ import re
 
 from . import act
 from . import _option
-from ...utils import types
+from ... import types
 
 
 class Act(_option.DataOption):

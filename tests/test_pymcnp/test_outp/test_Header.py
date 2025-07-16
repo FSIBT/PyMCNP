@@ -8,23 +8,23 @@ class Test_Header:
         element = pymcnp.outp.Header
         EXAMPLES_VALID = [
             {
-                'name': consts.string.type.STRING,
-                'logo': consts.string.type.STRING,
-                'box': consts.string.type.STRING,
+                'name': consts.string.types.STRING,
+                'logo': consts.string.types.STRING,
+                'box': consts.string.types.STRING,
             },
         ]
         EXAMPLES_INVALID = [
             {
                 'name': None,
-                'logo': consts.string.type.STRING,
-                'box': consts.string.type.STRING,
+                'logo': consts.string.types.STRING,
+                'box': consts.string.types.STRING,
             },
             {
-                'name': consts.string.type.STRING,
+                'name': consts.string.types.STRING,
                 'logo': None,
-                'box': consts.string.type.STRING,
+                'box': consts.string.types.STRING,
             },
-            {'name': consts.string.type.STRING, 'logo': consts.string.type.STRING, 'box': None},
+            {'name': consts.string.types.STRING, 'logo': consts.string.types.STRING, 'box': None},
         ]
 
     class Test_Mcnp(classes.Test_Mcnp):

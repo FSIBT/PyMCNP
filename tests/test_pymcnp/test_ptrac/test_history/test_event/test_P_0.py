@@ -8,25 +8,25 @@ class Test_P_0:
         element = pymcnp.ptrac.history.event.P_0
         EXAMPLES_VALID = [
             {
-                'x': consts.ast.type.REAL,
-                'y': consts.ast.type.REAL,
-                'z': consts.ast.type.REAL,
+                'x': consts.ast.types.REAL,
+                'y': consts.ast.types.REAL,
+                'z': consts.ast.types.REAL,
             },
         ]
         EXAMPLES_INVALID = [
             {
                 'x': None,
-                'y': consts.ast.type.REAL,
-                'z': consts.ast.type.REAL,
+                'y': consts.ast.types.REAL,
+                'z': consts.ast.types.REAL,
             },
             {
-                'x': consts.ast.type.REAL,
+                'x': consts.ast.types.REAL,
                 'y': None,
-                'z': consts.ast.type.REAL,
+                'z': consts.ast.types.REAL,
             },
             {
-                'x': consts.ast.type.REAL,
-                'y': consts.ast.type.REAL,
+                'x': consts.ast.types.REAL,
+                'y': consts.ast.types.REAL,
                 'z': None,
             },
         ]

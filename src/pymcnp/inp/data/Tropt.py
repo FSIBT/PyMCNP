@@ -2,7 +2,7 @@ import re
 
 from . import tropt
 from . import _option
-from ...utils import types
+from ... import types
 
 
 class Tropt(_option.DataOption):

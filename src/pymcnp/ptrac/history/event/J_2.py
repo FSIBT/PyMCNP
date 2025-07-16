@@ -3,8 +3,8 @@ import typing
 
 from . import j
 from . import _line
-from ....utils import types
-from ....utils import errors
+from .... import types
+from .... import errors
 
 
 class J_2(_line.EventLine):

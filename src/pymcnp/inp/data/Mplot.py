@@ -2,7 +2,7 @@ import re
 
 from . import mplot
 from . import _option
-from ...utils import types
+from ... import types
 
 
 class Mplot(_option.DataOption):

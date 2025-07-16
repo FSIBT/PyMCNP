@@ -8,10 +8,10 @@ class Test_Sphere:
         element = pymcnp.inp.data.f_1.Sphere
         EXAMPLES_VALID = [
             {
-                'x': consts.string.type.REAL,
-                'y': consts.string.type.REAL,
-                'z': consts.string.type.INTEGER,
-                'ro': consts.string.type.INTEGER,
+                'x': consts.string.types.REAL,
+                'y': consts.string.types.REAL,
+                'z': consts.string.types.INTEGER,
+                'ro': consts.string.types.INTEGER,
             },
             {
                 'x': 0.5,
@@ -20,35 +20,35 @@ class Test_Sphere:
                 'ro': 1,
             },
             {
-                'x': consts.ast.type.REAL,
-                'y': consts.ast.type.REAL,
-                'z': consts.ast.type.INTEGER,
-                'ro': consts.ast.type.INTEGER,
+                'x': consts.ast.types.REAL,
+                'y': consts.ast.types.REAL,
+                'z': consts.ast.types.INTEGER,
+                'ro': consts.ast.types.INTEGER,
             },
         ]
         EXAMPLES_INVALID = [
             {
                 'x': None,
-                'y': consts.string.type.REAL,
-                'z': consts.string.type.INTEGER,
-                'ro': consts.string.type.INTEGER,
+                'y': consts.string.types.REAL,
+                'z': consts.string.types.INTEGER,
+                'ro': consts.string.types.INTEGER,
             },
             {
-                'x': consts.string.type.REAL,
+                'x': consts.string.types.REAL,
                 'y': None,
-                'z': consts.string.type.INTEGER,
-                'ro': consts.string.type.INTEGER,
+                'z': consts.string.types.INTEGER,
+                'ro': consts.string.types.INTEGER,
             },
             {
-                'x': consts.string.type.REAL,
-                'y': consts.string.type.REAL,
+                'x': consts.string.types.REAL,
+                'y': consts.string.types.REAL,
                 'z': None,
-                'ro': consts.string.type.INTEGER,
+                'ro': consts.string.types.INTEGER,
             },
             {
-                'x': consts.string.type.REAL,
-                'y': consts.string.type.REAL,
-                'z': consts.string.type.INTEGER,
+                'x': consts.string.types.REAL,
+                'y': consts.string.types.REAL,
+                'z': consts.string.types.INTEGER,
                 'ro': None,
             },
         ]

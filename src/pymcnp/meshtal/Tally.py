@@ -3,8 +3,8 @@ import typing
 
 from . import _line
 from .Header import Header
-from ..utils import types
-from ..utils import errors
+from .. import types
+from .. import errors
 
 
 class Tally(_line.Line):

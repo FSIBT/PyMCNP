@@ -4,8 +4,8 @@ import typing
 import pandas
 
 from . import _subblock
-from ....utils import types
-from ....utils import errors
+from .... import types
+from .... import errors
 
 
 class Line(_subblock.LineSubblock):
@@ -96,8 +96,8 @@ class Line(_subblock.LineSubblock):
 
         return pandas.DataFrame(
             {
-                'bins': [float(self.bucket)],
-                'counts': [float(self.count)],
-                'errors': [float(self.error)],
+                'bins': [float(self.bucket.value)],
+                'counts': [float(self.count.value)],
+                'errors': [float(self.error.value)],
             }
         )

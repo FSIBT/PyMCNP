@@ -2,8 +2,8 @@ import re
 import typing
 
 from . import _block
-from ..utils import types
-from ..utils import errors
+from .. import types
+from .. import errors
 
 
 class PhotonActivity(_block.Block):
