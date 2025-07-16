@@ -1,8 +1,8 @@
 import re
 
 from . import _option
-from ....utils import types
-from ....utils import errors
+from .... import types
+from .... import errors
 
 
 class Erg_1(_option.SdefOption):
@@ -13,12 +13,12 @@ class Erg_1(_option.SdefOption):
     _KEYWORD = 'erg'
 
     _ATTRS = {
-        'energy': types.DistributionNumber,
+        'energy': types.Distribution,
     }
 
-    _REGEX = re.compile(rf'\Aerg( {types.DistributionNumber._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Aerg( {types.Distribution._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, energy: str | types.DistributionNumber):
+    def __init__(self, energy: str | types.Distribution):
         """
         Initializes ``Erg_1``.
 
@@ -29,10 +29,10 @@ class Erg_1(_option.SdefOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.energy: types.DistributionNumber = energy
+        self.energy: types.Distribution = energy
 
     @property
-    def energy(self) -> types.DistributionNumber:
+    def energy(self) -> types.Distribution:
         """
         Kinetic energy
 
@@ -44,7 +44,7 @@ class Erg_1(_option.SdefOption):
         return self._energy
 
     @energy.setter
-    def energy(self, energy: str | types.DistributionNumber) -> None:
+    def energy(self, energy: str | types.Distribution) -> None:
         """
         Sets ``energy``.
 
@@ -57,12 +57,12 @@ class Erg_1(_option.SdefOption):
         """
 
         if energy is not None:
-            if isinstance(energy, types.DistributionNumber):
+            if isinstance(energy, types.Distribution):
                 energy = energy
             elif isinstance(energy, str):
-                energy = types.DistributionNumber.from_mcnp(energy)
+                energy = types.Distribution.from_mcnp(energy)
 
         if energy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy)
 
-        self._energy: types.DistributionNumber = energy
+        self._energy: types.Distribution = energy

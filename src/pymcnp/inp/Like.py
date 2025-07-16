@@ -1,13 +1,13 @@
 import re
 
 from . import like
-from ._card import Card
-from ..utils import types
-from ..utils import errors
+from . import _card
+from .. import types
+from .. import errors
 from ..utils import _parser
 
 
-class Like(Card):
+class Like(_card.Card):
     """
     Represents INP cell cards.
     """

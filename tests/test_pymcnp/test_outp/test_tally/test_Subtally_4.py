@@ -8,25 +8,25 @@ class Test_Subtally_4:
         element = pymcnp.outp.tally.Subtally_4
         EXAMPLES_VALID = [
             {
-                'cell': consts.string.type.STRING,
-                'lines': [consts.string.type.STRING],
-                'total': consts.string.type.STRING,
+                'cell': consts.string.types.STRING,
+                'lines': [consts.string.types.STRING],
+                'total': consts.string.types.STRING,
             },
         ]
         EXAMPLES_INVALID = [
             {
                 'cell': None,
-                'lines': [consts.string.type.STRING],
-                'total': consts.string.type.STRING,
+                'lines': [consts.string.types.STRING],
+                'total': consts.string.types.STRING,
             },
             {
-                'cell': consts.string.type.STRING,
+                'cell': consts.string.types.STRING,
                 'lines': [None],
-                'total': consts.string.type.STRING,
+                'total': consts.string.types.STRING,
             },
             {
-                'cell': consts.string.type.STRING,
-                'lines': [consts.string.type.STRING],
+                'cell': consts.string.types.STRING,
+                'lines': [consts.string.types.STRING],
                 'total': None,
             },
         ]

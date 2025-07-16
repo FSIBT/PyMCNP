@@ -7,15 +7,15 @@ class Test_P_0:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.surface.P_0
         EXAMPLES_VALID = [
-            {'a': consts.string.type.REAL, 'b': consts.string.type.REAL, 'c': consts.string.type.REAL, 'd': consts.string.type.REAL},
+            {'a': consts.string.types.REAL, 'b': consts.string.types.REAL, 'c': consts.string.types.REAL, 'd': consts.string.types.REAL},
             {'a': 3.1, 'b': 3.1, 'c': 3.1, 'd': 3.1},
-            {'a': consts.ast.type.REAL, 'b': consts.ast.type.REAL, 'c': consts.ast.type.REAL, 'd': consts.ast.type.REAL},
+            {'a': consts.ast.types.REAL, 'b': consts.ast.types.REAL, 'c': consts.ast.types.REAL, 'd': consts.ast.types.REAL},
         ]
         EXAMPLES_INVALID = [
-            {'a': None, 'b': consts.string.type.REAL, 'c': consts.string.type.REAL, 'd': consts.string.type.REAL},
-            {'a': consts.string.type.REAL, 'b': None, 'c': consts.string.type.REAL, 'd': consts.string.type.REAL},
-            {'a': consts.string.type.REAL, 'b': consts.string.type.REAL, 'c': None, 'd': consts.string.type.REAL},
-            {'a': consts.string.type.REAL, 'b': consts.string.type.REAL, 'c': consts.string.type.REAL, 'd': None},
+            {'a': None, 'b': consts.string.types.REAL, 'c': consts.string.types.REAL, 'd': consts.string.types.REAL},
+            {'a': consts.string.types.REAL, 'b': None, 'c': consts.string.types.REAL, 'd': consts.string.types.REAL},
+            {'a': consts.string.types.REAL, 'b': consts.string.types.REAL, 'c': None, 'd': consts.string.types.REAL},
+            {'a': consts.string.types.REAL, 'b': consts.string.types.REAL, 'c': consts.string.types.REAL, 'd': None},
         ]
 
     class Test_Mcnp(classes.Test_Mcnp):

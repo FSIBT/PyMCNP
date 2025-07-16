@@ -6,8 +6,8 @@ from .... import classes
 class Test_Ext:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.like.Ext
-        EXAMPLES_VALID = [{'designator': consts.string.type.DESIGNATOR, 'stretch': consts.string.type.STRING}, {'designator': consts.ast.type.DESIGNATOR, 'stretch': consts.ast.type.STRING}]
-        EXAMPLES_INVALID = [{'designator': None, 'stretch': consts.string.type.STRING}, {'designator': consts.string.type.DESIGNATOR, 'stretch': None}]
+        EXAMPLES_VALID = [{'designator': consts.string.types.DESIGNATOR, 'stretch': consts.string.types.STRING}, {'designator': consts.ast.types.DESIGNATOR, 'stretch': consts.ast.types.STRING}]
+        EXAMPLES_INVALID = [{'designator': None, 'stretch': consts.string.types.STRING}, {'designator': consts.string.types.DESIGNATOR, 'stretch': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.like.Ext

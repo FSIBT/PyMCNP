@@ -7,11 +7,11 @@ class Test_Elpt:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.cell.Elpt
         EXAMPLES_VALID = [
-            {'designator': consts.string.type.DESIGNATOR, 'cutoff': consts.string.type.REAL},
-            {'designator': consts.string.type.DESIGNATOR, 'cutoff': 3.1},
-            {'designator': consts.ast.type.DESIGNATOR, 'cutoff': consts.ast.type.REAL},
+            {'designator': consts.string.types.DESIGNATOR, 'cutoff': consts.string.types.REAL},
+            {'designator': consts.string.types.DESIGNATOR, 'cutoff': 3.1},
+            {'designator': consts.ast.types.DESIGNATOR, 'cutoff': consts.ast.types.REAL},
         ]
-        EXAMPLES_INVALID = [{'designator': None, 'cutoff': consts.string.type.REAL}, {'designator': consts.string.type.DESIGNATOR, 'cutoff': None}]
+        EXAMPLES_INVALID = [{'designator': None, 'cutoff': consts.string.types.REAL}, {'designator': consts.string.types.DESIGNATOR, 'cutoff': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.cell.Elpt

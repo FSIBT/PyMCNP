@@ -3,8 +3,8 @@ import typing
 
 
 from . import outp
-from .utils import types
-from .utils import errors
+from . import types
+from . import errors
 from .utils import _object
 
 
@@ -38,10 +38,10 @@ class Outp(_object.McnpFile):
         """
 
         if header is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, header)
+            raise errors.OutpError(errors.OutpCode.SEMANTICS_FILE, header)
 
         if blocks is None or None in blocks:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, blocks)
+            raise errors.OutpError(errors.OutpCode.SEMANTICS_FILE, blocks)
 
         self.header: typing.Final[outp.Header] = header
         self.blocks: typing.Final[types.Tuple[outp.Block]] = blocks
@@ -107,6 +107,6 @@ class Outp(_object.McnpFile):
 
         for block in self.blocks:
             if hasattr(block, 'to_dataframe'):
-                tallies[block.number.strip()] = block.to_dataframe()
+                tallies[block.number.value.strip()] = block.to_dataframe()
 
         return tallies

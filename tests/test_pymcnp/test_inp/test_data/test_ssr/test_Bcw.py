@@ -7,15 +7,15 @@ class Test_Bcw:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.ssr.Bcw
         EXAMPLES_VALID = [
-            {'radius': consts.string.type.REAL, 'zb': '0.8', 'ze': consts.string.type.REAL},
+            {'radius': consts.string.types.REAL, 'zb': '0.8', 'ze': consts.string.types.REAL},
             {'radius': 3.1, 'zb': 0.8, 'ze': 3.1},
-            {'radius': consts.ast.type.REAL, 'zb': pymcnp.types.Real(0.8), 'ze': consts.ast.type.REAL},
+            {'radius': consts.ast.types.REAL, 'zb': pymcnp.types.Real(0.8), 'ze': consts.ast.types.REAL},
         ]
         EXAMPLES_INVALID = [
-            {'radius': None, 'zb': '0.8', 'ze': consts.string.type.REAL},
-            {'radius': consts.string.type.REAL, 'zb': None, 'ze': consts.string.type.REAL},
-            {'radius': consts.string.type.REAL, 'zb': '0.8', 'ze': None},
-            {'radius': consts.string.type.REAL, 'zb': '3.1', 'ze': consts.string.type.REAL},
+            {'radius': None, 'zb': '0.8', 'ze': consts.string.types.REAL},
+            {'radius': consts.string.types.REAL, 'zb': None, 'ze': consts.string.types.REAL},
+            {'radius': consts.string.types.REAL, 'zb': '0.8', 'ze': None},
+            {'radius': consts.string.types.REAL, 'zb': '3.1', 'ze': consts.string.types.REAL},
         ]
 
     class Test_Mcnp(classes.Test_Mcnp):

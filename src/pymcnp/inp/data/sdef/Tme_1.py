@@ -1,8 +1,8 @@
 import re
 
 from . import _option
-from ....utils import types
-from ....utils import errors
+from .... import types
+from .... import errors
 
 
 class Tme_1(_option.SdefOption):
@@ -13,12 +13,12 @@ class Tme_1(_option.SdefOption):
     _KEYWORD = 'tme'
 
     _ATTRS = {
-        'time': types.EmbeddedDistributionNumber,
+        'time': types.EmbeddedDistribution,
     }
 
-    _REGEX = re.compile(rf'\Atme( {types.EmbeddedDistributionNumber._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Atme( {types.EmbeddedDistribution._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, time: str | types.EmbeddedDistributionNumber):
+    def __init__(self, time: str | types.EmbeddedDistribution):
         """
         Initializes ``Tme_1``.
 
@@ -29,10 +29,10 @@ class Tme_1(_option.SdefOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.time: types.EmbeddedDistributionNumber = time
+        self.time: types.EmbeddedDistribution = time
 
     @property
-    def time(self) -> types.EmbeddedDistributionNumber:
+    def time(self) -> types.EmbeddedDistribution:
         """
         Time in shakes
 
@@ -44,7 +44,7 @@ class Tme_1(_option.SdefOption):
         return self._time
 
     @time.setter
-    def time(self, time: str | types.EmbeddedDistributionNumber) -> None:
+    def time(self, time: str | types.EmbeddedDistribution) -> None:
         """
         Sets ``time``.
 
@@ -57,12 +57,12 @@ class Tme_1(_option.SdefOption):
         """
 
         if time is not None:
-            if isinstance(time, types.EmbeddedDistributionNumber):
+            if isinstance(time, types.EmbeddedDistribution):
                 time = time
             elif isinstance(time, str):
-                time = types.EmbeddedDistributionNumber.from_mcnp(time)
+                time = types.EmbeddedDistribution.from_mcnp(time)
 
         if time is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time)
 
-        self._time: types.EmbeddedDistributionNumber = time
+        self._time: types.EmbeddedDistribution = time

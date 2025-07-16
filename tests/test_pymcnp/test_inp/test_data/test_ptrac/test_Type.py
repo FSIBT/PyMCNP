@@ -6,7 +6,7 @@ from ..... import classes
 class Test_Type:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.ptrac.Type
-        EXAMPLES_VALID = [{'particles': [consts.string.type.DESIGNATOR]}, {'particles': [consts.ast.type.DESIGNATOR]}]
+        EXAMPLES_VALID = [{'particles': [consts.string.types.DESIGNATOR]}, {'particles': [consts.ast.types.DESIGNATOR]}]
         EXAMPLES_INVALID = [{'particles': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):

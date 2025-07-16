@@ -8,25 +8,25 @@ class Test_Variables:
         element = pymcnp.inp.data.ds_1.Variables
         EXAMPLES_VALID = [
             {
-                'independent': consts.string.type.REAL,
-                'dependent': consts.string.type.REAL,
+                'independent': consts.string.types.REAL,
+                'dependent': consts.string.types.REAL,
             },
             {
                 'independent': 0.5,
                 'dependent': 0.5,
             },
             {
-                'independent': consts.ast.type.REAL,
-                'dependent': consts.ast.type.REAL,
+                'independent': consts.ast.types.REAL,
+                'dependent': consts.ast.types.REAL,
             },
         ]
         EXAMPLES_INVALID = [
             {
                 'independent': None,
-                'dependent': consts.string.type.REAL,
+                'dependent': consts.string.types.REAL,
             },
             {
-                'independent': consts.string.type.REAL,
+                'independent': consts.string.types.REAL,
                 'dependent': None,
             },
         ]

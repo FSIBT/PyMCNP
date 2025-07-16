@@ -10,35 +10,35 @@ class Test_Inp:
         element = pymcnp.Inp
         EXAMPLES_VALID = [
             {
-                'title': consts.string.type.STRING,
+                'title': consts.string.types.STRING,
                 'cells': [consts.string.inp.CELL, consts.string.inp.COMMENT, consts.string.inp.LIKE],
                 'surfaces': [consts.string.inp.SURFACE, consts.string.inp.COMMENT],
                 'data': [consts.string.inp.DATA, consts.string.inp.COMMENT],
-                'message': consts.string.type.STRING,
-                'other': consts.string.type.STRING,
+                'message': consts.string.types.STRING,
+                'other': consts.string.types.STRING,
             },
             {
-                'title': consts.ast.type.STRING,
+                'title': consts.ast.types.STRING,
                 'cells': [consts.ast.inp.CELL, consts.ast.inp.COMMENT, consts.ast.inp.LIKE],
                 'surfaces': [consts.ast.inp.SURFACE, consts.ast.inp.COMMENT],
                 'data': [consts.ast.inp.DATA, consts.ast.inp.COMMENT],
-                'message': consts.ast.type.STRING,
-                'other': consts.ast.type.STRING,
+                'message': consts.ast.types.STRING,
+                'other': consts.ast.types.STRING,
             },
             {
-                'title': consts.string.type.STRING,
+                'title': consts.string.types.STRING,
                 'cells': [consts.string.inp.CELL, consts.string.inp.COMMENT, consts.string.inp.LIKE],
                 'surfaces': [consts.string.inp.SURFACE, consts.string.inp.COMMENT],
                 'data': [consts.string.inp.DATA, consts.string.inp.COMMENT],
                 'message': None,
-                'other': consts.string.type.STRING,
+                'other': consts.string.types.STRING,
             },
             {
-                'title': consts.string.type.STRING,
+                'title': consts.string.types.STRING,
                 'cells': [consts.string.inp.CELL, consts.string.inp.COMMENT, consts.string.inp.LIKE],
                 'surfaces': [consts.string.inp.SURFACE, consts.string.inp.COMMENT],
                 'data': [consts.string.inp.DATA, consts.string.inp.COMMENT],
-                'message': consts.string.type.STRING,
+                'message': consts.string.types.STRING,
                 'other': None,
             },
         ]
@@ -48,44 +48,44 @@ class Test_Inp:
                 'cells': [consts.string.inp.CELL, consts.string.inp.COMMENT, consts.string.inp.LIKE],
                 'surfaces': [consts.string.inp.SURFACE, consts.string.inp.COMMENT],
                 'data': [consts.string.inp.DATA, consts.string.inp.COMMENT],
-                'message': consts.string.type.STRING,
-                'other': consts.string.type.STRING,
+                'message': consts.string.types.STRING,
+                'other': consts.string.types.STRING,
             },
             {
-                'title': consts.string.type.STRING,
+                'title': consts.string.types.STRING,
                 'cells': None,
                 'surfaces': [consts.string.inp.SURFACE, consts.string.inp.COMMENT],
                 'data': [consts.string.inp.DATA, consts.string.inp.COMMENT],
-                'message': consts.string.type.STRING,
-                'other': consts.string.type.STRING,
+                'message': consts.string.types.STRING,
+                'other': consts.string.types.STRING,
             },
             {
-                'title': consts.string.type.STRING,
+                'title': consts.string.types.STRING,
                 'cells': [consts.string.inp.CELL, consts.string.inp.COMMENT, consts.string.inp.LIKE],
                 'surfaces': None,
                 'data': [consts.string.inp.DATA, consts.string.inp.COMMENT],
-                'message': consts.string.type.STRING,
-                'other': consts.string.type.STRING,
+                'message': consts.string.types.STRING,
+                'other': consts.string.types.STRING,
             },
             {
-                'title': consts.string.type.STRING,
+                'title': consts.string.types.STRING,
                 'cells': [consts.string.inp.CELL, consts.string.inp.COMMENT, consts.string.inp.LIKE],
                 'surfaces': [consts.string.inp.SURFACE, consts.string.inp.COMMENT],
                 'data': None,
-                'message': consts.string.type.STRING,
-                'other': consts.string.type.STRING,
+                'message': consts.string.types.STRING,
+                'other': consts.string.types.STRING,
             },
         ]
 
     class Test_Properties:
         EXAMPLES = [
             {
-                'title': consts.string.type.STRING,
+                'title': consts.string.types.STRING,
                 'cells': [consts.string.inp.CELL, consts.string.inp.COMMENT, consts.string.inp.LIKE],
                 'surfaces': [consts.string.inp.SURFACE, consts.string.inp.COMMENT],
                 'data': [consts.string.inp.DATA, consts.string.inp.COMMENT],
-                'message': consts.string.type.STRING,
-                'other': consts.string.type.STRING,
+                'message': consts.string.types.STRING,
+                'other': consts.string.types.STRING,
             },
         ]
 
@@ -98,7 +98,7 @@ class Test_Inp:
 
                 inp.nps = '1e3'
                 inp.nps = 10
-                inp.nps = pymcnp.utils.types.Integer(1234938)
+                inp.nps = pymcnp.types.Integer(1234938)
                 inp.nps
 
         def test_seed(self):
@@ -112,7 +112,7 @@ class Test_Inp:
 
                 inp.seed = '11'
                 inp.seed = 11
-                inp.seed = pymcnp.utils.types.Integer(11)
+                inp.seed = pymcnp.types.Integer(11)
                 inp.seed
 
                 inp.data = save
@@ -120,7 +120,7 @@ class Test_Inp:
 
                 inp.seed = '11'
                 inp.seed = 11
-                inp.seed = pymcnp.utils.types.Integer(11)
+                inp.seed = pymcnp.types.Integer(11)
                 inp.seed
 
     class Test_Mcnp(classes.Test_Mcnp):

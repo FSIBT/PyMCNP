@@ -5,8 +5,8 @@ import pandas
 
 from . import subtally
 from . import _subblock
-from ...utils import types
-from ...utils import errors
+from ... import types
+from ... import errors
 
 
 class Subtally_1(_subblock.TallySubblock):
@@ -118,7 +118,7 @@ class Subtally_1(_subblock.TallySubblock):
         """
 
         df = pandas.concat((line.to_dataframe() for line in self.lines), ignore_index=True)
-        df['surface'] = self.surface.strip()
-        df['angle_from'] = self.angle_from.strip()
-        df['angle_to'] = self.angle_to.strip()
+        df['surface'] = self.surface.value.strip()
+        df['angle_from'] = self.angle_from.value.strip()
+        df['angle_to'] = self.angle_to.value.strip()
         return df

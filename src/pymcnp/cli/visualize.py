@@ -15,11 +15,12 @@ import pyvista
 from docopt import docopt
 
 from . import _io
+from . import _doer
+from .. import errors
 from ..Inp import Inp
-from ..utils import errors
 
 
-class Visualize:
+class Visualize(_doer.Doer):
     """
     Visualizes INP files.
 
@@ -33,10 +34,13 @@ class Visualize:
 
         Parameters:
             inp: Files to visualize.
+
+        Raises:
+            CliCode: RUNTIME_DOER.
         """
 
         if inp is None:
-            raise errors.CliError(errors.CliCode.SEMANTICS_INP, inp)
+            raise errors.CliError(errors.CliCode.RUNTIME_DOER, inp)
 
         self.inp = inp
 

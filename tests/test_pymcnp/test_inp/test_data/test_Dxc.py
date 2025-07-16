@@ -7,14 +7,14 @@ class Test_Dxc:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.Dxc
         EXAMPLES_VALID = [
-            {'suffix': consts.string.type.INTEGER, 'designator': consts.string.type.DESIGNATOR, 'probabilities': [consts.string.type.REAL]},
-            {'suffix': 1, 'designator': consts.string.type.DESIGNATOR, 'probabilities': [3.1]},
-            {'suffix': consts.ast.type.INTEGER, 'designator': consts.ast.type.DESIGNATOR, 'probabilities': [consts.ast.type.REAL]},
+            {'suffix': consts.string.types.INTEGER, 'designator': consts.string.types.DESIGNATOR, 'probabilities': [consts.string.types.REAL]},
+            {'suffix': 1, 'designator': consts.string.types.DESIGNATOR, 'probabilities': [3.1]},
+            {'suffix': consts.ast.types.INTEGER, 'designator': consts.ast.types.DESIGNATOR, 'probabilities': [consts.ast.types.REAL]},
         ]
         EXAMPLES_INVALID = [
-            {'suffix': None, 'designator': consts.string.type.DESIGNATOR, 'probabilities': [consts.string.type.REAL]},
-            {'suffix': consts.string.type.INTEGER, 'designator': None, 'probabilities': [consts.string.type.REAL]},
-            {'suffix': consts.string.type.INTEGER, 'designator': consts.string.type.DESIGNATOR, 'probabilities': None},
+            {'suffix': None, 'designator': consts.string.types.DESIGNATOR, 'probabilities': [consts.string.types.REAL]},
+            {'suffix': consts.string.types.INTEGER, 'designator': None, 'probabilities': [consts.string.types.REAL]},
+            {'suffix': consts.string.types.INTEGER, 'designator': consts.string.types.DESIGNATOR, 'probabilities': None},
         ]
 
     class Test_Mcnp(classes.Test_Mcnp):

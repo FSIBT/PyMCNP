@@ -1,13 +1,13 @@
 import re
 
 from . import data
-from ._card import Card
-from ..utils import types
-from ..utils import errors
+from . import _card
+from .. import types
+from .. import errors
 from ..utils import _parser
 
 
-class Data(Card):
+class Data(_card.Card):
     """
     Represents INP data elements.
     """

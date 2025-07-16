@@ -6,7 +6,7 @@ from .... import classes
 class Test_Lat:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.Lat
-        EXAMPLES_VALID = [{'type': [consts.string.type.INTEGER]}, {'type': [1]}, {'type': [consts.ast.type.INTEGER]}]
+        EXAMPLES_VALID = [{'type': [consts.string.types.INTEGER]}, {'type': [1]}, {'type': [consts.ast.types.INTEGER]}]
         EXAMPLES_INVALID = [{'type': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):

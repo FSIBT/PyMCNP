@@ -14,11 +14,12 @@ import matplotlib.backends.backend_pdf
 from docopt import docopt
 
 from . import _io
+from . import _doer
+from .. import errors
 from ..Outp import Outp
-from ..utils import errors
 
 
-class Plot:
+class Plot(_doer.Doer):
     """
     Plots OUTP files.
 
@@ -34,11 +35,11 @@ class Plot:
             path: File to plot.
 
         Raises:
-            CliError: SEMANTICS_PATH.
+            CliError: RUNTIME_DOER.
         """
 
         if outp is None:
-            raise errors.CliError(errors.CliCode.SEMANTICS_OUTP, outp)
+            raise errors.CliError(errors.CliCode.RUNTIME_DOER, outp)
 
         self.outp = outp
 
@@ -52,7 +53,7 @@ class Plot:
 
         tallies = self.outp.to_dataframe()
         if number not in tallies:
-            raise errors.CliError(errors.CliCode.SEMANTICS_TALLY, number)
+            raise errors.CliError(errors.CliCode.RUNTIME_DOER, number)
 
         names = tallies[number].columns[3:-4]
 

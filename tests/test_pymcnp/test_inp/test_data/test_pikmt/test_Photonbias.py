@@ -8,25 +8,25 @@ class Test_Photonbias:
         element = pymcnp.inp.data.pikmt.Photonbias
         EXAMPLES_VALID = [
             {
-                'zaid': consts.string.type.ZAID,
-                'ipiki': consts.string.type.INTEGER,
+                'zaid': consts.string.types.ZAID,
+                'ipiki': consts.string.types.INTEGER,
             },
             {
-                'zaid': consts.string.type.ZAID,
+                'zaid': consts.string.types.ZAID,
                 'ipiki': 1,
             },
             {
-                'zaid': consts.ast.type.ZAID,
-                'ipiki': consts.ast.type.INTEGER,
+                'zaid': consts.ast.types.ZAID,
+                'ipiki': consts.ast.types.INTEGER,
             },
         ]
         EXAMPLES_INVALID = [
             {
                 'zaid': None,
-                'ipiki': consts.string.type.INTEGER,
+                'ipiki': consts.string.types.INTEGER,
             },
             {
-                'zaid': consts.string.type.ZAID,
+                'zaid': consts.string.types.ZAID,
                 'ipiki': None,
             },
         ]

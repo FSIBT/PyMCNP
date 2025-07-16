@@ -2,7 +2,7 @@ import re
 
 from . import sdef
 from . import _option
-from ...utils import types
+from ... import types
 
 
 class Sdef(_option.DataOption):

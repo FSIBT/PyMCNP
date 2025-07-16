@@ -13,11 +13,12 @@ import difflib
 from docopt import docopt
 
 from . import _io
+from . import _doer
+from .. import errors
 from ..Inp import Inp
-from ..utils import errors
 
 
-class Check:
+class Check(_doer.Doer):
     """
     Checks OUTP files.
 
@@ -33,11 +34,11 @@ class Check:
             path: File to check.
 
         Raises:
-            CLIError: SEMANTICS_PATH.
+            CLIError: RUNTIME_DOER.
         """
 
         if path is None:
-            raise errors.CliError(errors.CliCode.SEMANTICS_PATH, path)
+            raise errors.CliError(errors.CliCode.RUNTIME_PATH, path)
 
         self.path = pathlib.Path(path)
 
@@ -53,7 +54,7 @@ class Check:
 
                 return difflib.unified_diff(current.split('\n'), correct.split('\n'))
         except FileNotFoundError:
-            raise errors.CliError(errors.CliCode.SEMANTICS_PATH, self.path)
+            raise errors.CliError(errors.CliCode.RUNTIME_PATH, self.path)
 
     def fix(self):
         """
@@ -87,7 +88,7 @@ def main() -> None:
     except errors.CliError as err:
         _io.error(str(err))
         exit(2)
-    except errors.McnpError as err:
+    except errors.TypesError as err:
         _io.error(str(err))
         exit(3)
 

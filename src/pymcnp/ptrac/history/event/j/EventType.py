@@ -1,5 +1,5 @@
 from . import _keyword
-from .....utils import errors
+from ..... import errors
 
 
 class EventType(_keyword.JKeyword):

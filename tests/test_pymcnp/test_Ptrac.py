@@ -14,17 +14,17 @@ class Test_Ptrac:
         element = pymcnp.Ptrac
         EXAMPLES_VALID = [
             {
-                'header': consts.string.type.STRING,
-                'histories': [consts.string.type.STRING],
+                'header': consts.string.types.STRING,
+                'histories': [consts.string.types.STRING],
             },
         ]
         EXAMPLES_INVALID = [
             {
                 'header': None,
-                'histories': [consts.string.type.STRING],
+                'histories': [consts.string.types.STRING],
             },
             {
-                'header': consts.string.type.STRING,
+                'header': consts.string.types.STRING,
                 'histories': None,
             },
         ]

@@ -1,8 +1,8 @@
 import re
 
 from . import _option
-from ....utils import types
-from ....utils import errors
+from .... import types
+from .... import errors
 
 
 class Rad_1(_option.SdefOption):
@@ -13,12 +13,12 @@ class Rad_1(_option.SdefOption):
     _KEYWORD = 'rad'
 
     _ATTRS = {
-        'radial_distance': types.DistributionNumber,
+        'radial_distance': types.Distribution,
     }
 
-    _REGEX = re.compile(rf'\Arad( {types.DistributionNumber._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Arad( {types.Distribution._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, radial_distance: str | types.DistributionNumber):
+    def __init__(self, radial_distance: str | types.Distribution):
         """
         Initializes ``Rad_1``.
 
@@ -29,10 +29,10 @@ class Rad_1(_option.SdefOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.radial_distance: types.DistributionNumber = radial_distance
+        self.radial_distance: types.Distribution = radial_distance
 
     @property
-    def radial_distance(self) -> types.DistributionNumber:
+    def radial_distance(self) -> types.Distribution:
         """
         Radial distance fo the position from POS or AXS
 
@@ -44,7 +44,7 @@ class Rad_1(_option.SdefOption):
         return self._radial_distance
 
     @radial_distance.setter
-    def radial_distance(self, radial_distance: str | types.DistributionNumber) -> None:
+    def radial_distance(self, radial_distance: str | types.Distribution) -> None:
         """
         Sets ``radial_distance``.
 
@@ -57,12 +57,12 @@ class Rad_1(_option.SdefOption):
         """
 
         if radial_distance is not None:
-            if isinstance(radial_distance, types.DistributionNumber):
+            if isinstance(radial_distance, types.Distribution):
                 radial_distance = radial_distance
             elif isinstance(radial_distance, str):
-                radial_distance = types.DistributionNumber.from_mcnp(radial_distance)
+                radial_distance = types.Distribution.from_mcnp(radial_distance)
 
         if radial_distance is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, radial_distance)
 
-        self._radial_distance: types.DistributionNumber = radial_distance
+        self._radial_distance: types.Distribution = radial_distance

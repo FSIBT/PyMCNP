@@ -2,8 +2,8 @@ import re
 
 from . import f_1
 from . import _option
-from ...utils import types
-from ...utils import errors
+from ... import types
+from ... import errors
 
 
 class F_1(_option.DataOption):

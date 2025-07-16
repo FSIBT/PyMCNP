@@ -2,8 +2,8 @@ import re
 
 from . import ds_2
 from . import _option
-from ...utils import types
-from ...utils import errors
+from ... import types
+from ... import errors
 
 
 class Ds_2(_option.DataOption):
@@ -34,6 +34,15 @@ class Ds_2(_option.DataOption):
 
         self.suffix: types.Integer = suffix
         self.vss: types.Tuple[ds_2.Variables] = vss
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``Ds_2``.
+
+        Returns:
+            INP for ``Ds_2``.
+        """
+        return f'ds{self.suffix} q {self.vss}'
 
     @property
     def suffix(self) -> types.Integer:
@@ -111,12 +120,3 @@ class Ds_2(_option.DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vss)
 
         self._vss: types.Tuple[ds_2.Variables] = vss
-
-    def to_mcnp(self):
-        """
-        Generates INP from ``Ds_2``.
-
-        Returns:
-            INP for ``Ds_2``.
-        """
-        return f'ds{self.suffix} q {self.vss}'

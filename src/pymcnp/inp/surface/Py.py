@@ -1,8 +1,8 @@
 import re
 
 from . import _option
-from ...utils import types
-from ...utils import errors
+from ... import types
+from ... import errors
 from ...utils import _visualization
 
 

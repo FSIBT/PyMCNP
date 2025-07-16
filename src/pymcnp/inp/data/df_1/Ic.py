@@ -1,8 +1,8 @@
 import re
 
 from . import _option
-from ....utils import types
-from ....utils import errors
+from .... import types
+from .... import errors
 
 
 class Ic(_option.DfOption_1):

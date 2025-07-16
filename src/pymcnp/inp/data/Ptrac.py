@@ -2,7 +2,7 @@ import re
 
 from . import ptrac
 from . import _option
-from ...utils import types
+from ... import types
 
 
 class Ptrac(_option.DataOption):

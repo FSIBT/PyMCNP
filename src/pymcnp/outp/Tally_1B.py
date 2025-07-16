@@ -5,8 +5,8 @@ import pandas
 
 from . import _block
 from . import tally
-from ..utils import types
-from ..utils import errors
+from .. import types
+from .. import errors
 
 
 class Tally_1B(_block.Block):
@@ -182,8 +182,8 @@ class Tally_1B(_block.Block):
         """
 
         df = pandas.concat((subtally.to_dataframe() for subtally in self.subtallies), ignore_index=True)
-        df['number'] = self.number.strip()
-        df['type'] = self.tally_type.strip()
-        df['particles'] = self.particles.strip()
-        df['nps'] = self.nps.strip()
+        df['number'] = self.number.value.strip()
+        df['type'] = self.tally_type.value.strip()
+        df['particles'] = self.particles.value.strip()
+        df['nps'] = self.nps.value.strip()
         return df

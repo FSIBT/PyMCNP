@@ -7,11 +7,11 @@ class Test_Sd:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.Sd
         EXAMPLES_VALID = [
-            {'suffix': consts.string.type.INTEGER, 'information': [consts.string.type.REAL]},
+            {'suffix': consts.string.types.INTEGER, 'information': [consts.string.types.REAL]},
             {'suffix': 1, 'information': [3.1]},
-            {'suffix': consts.ast.type.INTEGER, 'information': [consts.ast.type.REAL]},
+            {'suffix': consts.ast.types.INTEGER, 'information': [consts.ast.types.REAL]},
         ]
-        EXAMPLES_INVALID = [{'suffix': None, 'information': [consts.string.type.REAL]}, {'suffix': consts.string.type.INTEGER, 'information': None}]
+        EXAMPLES_INVALID = [{'suffix': None, 'information': [consts.string.types.REAL]}, {'suffix': consts.string.types.INTEGER, 'information': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.data.Sd

@@ -7,14 +7,14 @@ class Test_Prdmp:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.Prdmp
         EXAMPLES_VALID = [
-            {'ndp': consts.string.type.INTEGER, 'ndm': consts.string.type.INTEGER, 'mct': consts.string.type.INTEGER, 'ndmp': consts.string.type.INTEGER, 'dmmp': consts.string.type.INTEGER},
+            {'ndp': consts.string.types.INTEGER, 'ndm': consts.string.types.INTEGER, 'mct': consts.string.types.INTEGER, 'ndmp': consts.string.types.INTEGER, 'dmmp': consts.string.types.INTEGER},
             {'ndp': 1, 'ndm': 1, 'mct': 1, 'ndmp': 1, 'dmmp': 1},
-            {'ndp': consts.ast.type.INTEGER, 'ndm': consts.ast.type.INTEGER, 'mct': consts.ast.type.INTEGER, 'ndmp': consts.ast.type.INTEGER, 'dmmp': consts.ast.type.INTEGER},
-            {'ndp': None, 'ndm': consts.string.type.INTEGER, 'mct': consts.string.type.INTEGER, 'ndmp': consts.string.type.INTEGER, 'dmmp': consts.string.type.INTEGER},
-            {'ndp': consts.string.type.INTEGER, 'ndm': None, 'mct': consts.string.type.INTEGER, 'ndmp': consts.string.type.INTEGER, 'dmmp': consts.string.type.INTEGER},
-            {'ndp': consts.string.type.INTEGER, 'ndm': consts.string.type.INTEGER, 'mct': None, 'ndmp': consts.string.type.INTEGER, 'dmmp': consts.string.type.INTEGER},
-            {'ndp': consts.string.type.INTEGER, 'ndm': consts.string.type.INTEGER, 'mct': consts.string.type.INTEGER, 'ndmp': None, 'dmmp': consts.string.type.INTEGER},
-            {'ndp': consts.string.type.INTEGER, 'ndm': consts.string.type.INTEGER, 'mct': consts.string.type.INTEGER, 'ndmp': consts.string.type.INTEGER, 'dmmp': None},
+            {'ndp': consts.ast.types.INTEGER, 'ndm': consts.ast.types.INTEGER, 'mct': consts.ast.types.INTEGER, 'ndmp': consts.ast.types.INTEGER, 'dmmp': consts.ast.types.INTEGER},
+            {'ndp': None, 'ndm': consts.string.types.INTEGER, 'mct': consts.string.types.INTEGER, 'ndmp': consts.string.types.INTEGER, 'dmmp': consts.string.types.INTEGER},
+            {'ndp': consts.string.types.INTEGER, 'ndm': None, 'mct': consts.string.types.INTEGER, 'ndmp': consts.string.types.INTEGER, 'dmmp': consts.string.types.INTEGER},
+            {'ndp': consts.string.types.INTEGER, 'ndm': consts.string.types.INTEGER, 'mct': None, 'ndmp': consts.string.types.INTEGER, 'dmmp': consts.string.types.INTEGER},
+            {'ndp': consts.string.types.INTEGER, 'ndm': consts.string.types.INTEGER, 'mct': consts.string.types.INTEGER, 'ndmp': None, 'dmmp': consts.string.types.INTEGER},
+            {'ndp': consts.string.types.INTEGER, 'ndm': consts.string.types.INTEGER, 'mct': consts.string.types.INTEGER, 'ndmp': consts.string.types.INTEGER, 'dmmp': None},
         ]
         EXAMPLES_INVALID = []
 

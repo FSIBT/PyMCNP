@@ -8,25 +8,25 @@ class Test_Line:
         element = pymcnp.outp.tally.subtally.Line
         EXAMPLES_VALID = [
             {
-                'bucket': consts.string.type.STRING,
-                'count': consts.string.type.STRING,
-                'error': consts.string.type.STRING,
+                'bucket': consts.string.types.STRING,
+                'count': consts.string.types.STRING,
+                'error': consts.string.types.STRING,
             },
         ]
         EXAMPLES_INVALID = [
             {
                 'bucket': None,
-                'count': consts.string.type.STRING,
-                'error': consts.string.type.STRING,
+                'count': consts.string.types.STRING,
+                'error': consts.string.types.STRING,
             },
             {
-                'bucket': consts.string.type.STRING,
+                'bucket': consts.string.types.STRING,
                 'count': None,
-                'error': consts.string.type.STRING,
+                'error': consts.string.types.STRING,
             },
             {
-                'bucket': consts.string.type.STRING,
-                'count': consts.string.type.STRING,
+                'bucket': consts.string.types.STRING,
+                'count': consts.string.types.STRING,
                 'error': None,
             },
         ]

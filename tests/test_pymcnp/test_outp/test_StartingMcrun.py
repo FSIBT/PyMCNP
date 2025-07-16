@@ -8,25 +8,25 @@ class Test_StartingMcrun:
         element = pymcnp.outp.StartingMcrun
         EXAMPLES_VALID = [
             {
-                'cp0': consts.string.type.STRING,
-                'title': consts.string.type.STRING,
-                'data': consts.string.type.STRING,
+                'cp0': consts.string.types.STRING,
+                'title': consts.string.types.STRING,
+                'data': consts.string.types.STRING,
             },
         ]
         EXAMPLES_INVALID = [
             {
                 'cp0': None,
-                'title': consts.string.type.STRING,
-                'data': consts.string.type.STRING,
+                'title': consts.string.types.STRING,
+                'data': consts.string.types.STRING,
             },
             {
-                'cp0': consts.string.type.STRING,
+                'cp0': consts.string.types.STRING,
                 'title': None,
-                'data': consts.string.type.STRING,
+                'data': consts.string.types.STRING,
             },
             {
-                'cp0': consts.string.type.STRING,
-                'title': consts.string.type.STRING,
+                'cp0': consts.string.types.STRING,
+                'title': consts.string.types.STRING,
                 'data': None,
             },
         ]

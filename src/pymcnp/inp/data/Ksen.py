@@ -2,8 +2,8 @@ import re
 
 from . import ksen
 from . import _option
-from ...utils import types
-from ...utils import errors
+from ... import types
+from ... import errors
 
 
 class Ksen(_option.DataOption):

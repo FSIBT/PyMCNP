@@ -7,17 +7,17 @@ class Test_Tz:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.surface.Tz
         EXAMPLES_VALID = [
-            {'x': consts.string.type.REAL, 'y': consts.string.type.REAL, 'z': consts.string.type.REAL, 'a': consts.string.type.REAL, 'b': consts.string.type.REAL, 'c': consts.string.type.REAL},
+            {'x': consts.string.types.REAL, 'y': consts.string.types.REAL, 'z': consts.string.types.REAL, 'a': consts.string.types.REAL, 'b': consts.string.types.REAL, 'c': consts.string.types.REAL},
             {'x': 3.1, 'y': 3.1, 'z': 3.1, 'a': 3.1, 'b': 3.1, 'c': 3.1},
-            {'x': consts.ast.type.REAL, 'y': consts.ast.type.REAL, 'z': consts.ast.type.REAL, 'a': consts.ast.type.REAL, 'b': consts.ast.type.REAL, 'c': consts.ast.type.REAL},
+            {'x': consts.ast.types.REAL, 'y': consts.ast.types.REAL, 'z': consts.ast.types.REAL, 'a': consts.ast.types.REAL, 'b': consts.ast.types.REAL, 'c': consts.ast.types.REAL},
         ]
         EXAMPLES_INVALID = [
-            {'x': None, 'y': consts.string.type.REAL, 'z': consts.string.type.REAL, 'a': consts.string.type.REAL, 'b': consts.string.type.REAL, 'c': consts.string.type.REAL},
-            {'x': consts.string.type.REAL, 'y': None, 'z': consts.string.type.REAL, 'a': consts.string.type.REAL, 'b': consts.string.type.REAL, 'c': consts.string.type.REAL},
-            {'x': consts.string.type.REAL, 'y': consts.string.type.REAL, 'z': None, 'a': consts.string.type.REAL, 'b': consts.string.type.REAL, 'c': consts.string.type.REAL},
-            {'x': consts.string.type.REAL, 'y': consts.string.type.REAL, 'z': consts.string.type.REAL, 'a': None, 'b': consts.string.type.REAL, 'c': consts.string.type.REAL},
-            {'x': consts.string.type.REAL, 'y': consts.string.type.REAL, 'z': consts.string.type.REAL, 'a': consts.string.type.REAL, 'b': None, 'c': consts.string.type.REAL},
-            {'x': consts.string.type.REAL, 'y': consts.string.type.REAL, 'z': consts.string.type.REAL, 'a': consts.string.type.REAL, 'b': consts.string.type.REAL, 'c': None},
+            {'x': None, 'y': consts.string.types.REAL, 'z': consts.string.types.REAL, 'a': consts.string.types.REAL, 'b': consts.string.types.REAL, 'c': consts.string.types.REAL},
+            {'x': consts.string.types.REAL, 'y': None, 'z': consts.string.types.REAL, 'a': consts.string.types.REAL, 'b': consts.string.types.REAL, 'c': consts.string.types.REAL},
+            {'x': consts.string.types.REAL, 'y': consts.string.types.REAL, 'z': None, 'a': consts.string.types.REAL, 'b': consts.string.types.REAL, 'c': consts.string.types.REAL},
+            {'x': consts.string.types.REAL, 'y': consts.string.types.REAL, 'z': consts.string.types.REAL, 'a': None, 'b': consts.string.types.REAL, 'c': consts.string.types.REAL},
+            {'x': consts.string.types.REAL, 'y': consts.string.types.REAL, 'z': consts.string.types.REAL, 'a': consts.string.types.REAL, 'b': None, 'c': consts.string.types.REAL},
+            {'x': consts.string.types.REAL, 'y': consts.string.types.REAL, 'z': consts.string.types.REAL, 'a': consts.string.types.REAL, 'b': consts.string.types.REAL, 'c': None},
         ]
 
     class Test_Mcnp(classes.Test_Mcnp):

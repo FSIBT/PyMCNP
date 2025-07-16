@@ -2,7 +2,7 @@ import re
 
 from . import kopts
 from . import _option
-from ...utils import types
+from ... import types
 
 
 class Kopts(_option.DataOption):

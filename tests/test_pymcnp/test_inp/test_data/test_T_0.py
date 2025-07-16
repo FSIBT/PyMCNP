@@ -7,15 +7,15 @@ class Test_T_0:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.T_0
         EXAMPLES_VALID = [
-            {'suffix': consts.string.type.INTEGER, 'bounds': [consts.string.type.REAL], 'nt': consts.string.type.STRING, 'c': consts.string.type.STRING},
-            {'suffix': 1, 'bounds': [3.1], 'nt': consts.string.type.STRING, 'c': consts.string.type.STRING},
-            {'suffix': consts.ast.type.INTEGER, 'bounds': [consts.ast.type.REAL], 'nt': consts.ast.type.STRING, 'c': consts.ast.type.STRING},
-            {'suffix': consts.string.type.INTEGER, 'bounds': [consts.string.type.REAL], 'nt': None, 'c': consts.string.type.STRING},
-            {'suffix': consts.string.type.INTEGER, 'bounds': [consts.string.type.REAL], 'nt': consts.string.type.STRING, 'c': None},
+            {'suffix': consts.string.types.INTEGER, 'bounds': [consts.string.types.REAL], 'nt': consts.string.types.STRING, 'c': consts.string.types.STRING},
+            {'suffix': 1, 'bounds': [3.1], 'nt': consts.string.types.STRING, 'c': consts.string.types.STRING},
+            {'suffix': consts.ast.types.INTEGER, 'bounds': [consts.ast.types.REAL], 'nt': consts.ast.types.STRING, 'c': consts.ast.types.STRING},
+            {'suffix': consts.string.types.INTEGER, 'bounds': [consts.string.types.REAL], 'nt': None, 'c': consts.string.types.STRING},
+            {'suffix': consts.string.types.INTEGER, 'bounds': [consts.string.types.REAL], 'nt': consts.string.types.STRING, 'c': None},
         ]
         EXAMPLES_INVALID = [
-            {'suffix': None, 'bounds': [consts.string.type.REAL], 'nt': consts.string.type.STRING, 'c': consts.string.type.STRING},
-            {'suffix': consts.string.type.INTEGER, 'bounds': None, 'nt': consts.string.type.STRING, 'c': consts.string.type.STRING},
+            {'suffix': None, 'bounds': [consts.string.types.REAL], 'nt': consts.string.types.STRING, 'c': consts.string.types.STRING},
+            {'suffix': consts.string.types.INTEGER, 'bounds': None, 'nt': consts.string.types.STRING, 'c': consts.string.types.STRING},
         ]
 
     class Test_Mcnp(classes.Test_Mcnp):

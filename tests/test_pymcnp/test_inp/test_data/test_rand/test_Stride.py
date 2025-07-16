@@ -6,7 +6,7 @@ from ..... import classes
 class Test_Stride:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.rand.Stride
-        EXAMPLES_VALID = [{'stride': consts.string.type.INTEGER}, {'stride': 1}, {'stride': consts.ast.type.INTEGER}]
+        EXAMPLES_VALID = [{'stride': consts.string.types.INTEGER}, {'stride': 1}, {'stride': consts.ast.types.INTEGER}]
         EXAMPLES_INVALID = [{'stride': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):

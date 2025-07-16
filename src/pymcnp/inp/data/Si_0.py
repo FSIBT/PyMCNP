@@ -1,8 +1,8 @@
 import re
 
 from . import _option
-from ...utils import types
-from ...utils import errors
+from ... import types
+from ... import errors
 
 
 class Si_0(_option.DataOption):
@@ -15,12 +15,12 @@ class Si_0(_option.DataOption):
     _ATTRS = {
         'suffix': types.Integer,
         'option': types.String,
-        'information': types.Tuple[types.DistributionNumber],
+        'information': types.Tuple[types.Distribution],
     }
 
-    _REGEX = re.compile(rf'\Asi(\d+)( {types.String._REGEX.pattern[2:-2]})?((?: {types.DistributionNumber._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Asi(\d+)( {types.String._REGEX.pattern[2:-2]})?((?: {types.Distribution._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, suffix: str | int | types.Integer, information: list[str] | list[types.DistributionNumber], option: str | types.String = None):
+    def __init__(self, suffix: str | int | types.Integer, information: list[str] | list[types.Distribution], option: str | types.String = None):
         """
         Initializes ``Si_0``.
 
@@ -35,7 +35,7 @@ class Si_0(_option.DataOption):
 
         self.suffix: types.Integer = suffix
         self.option: types.String = option
-        self.information: types.Tuple[types.DistributionNumber] = information
+        self.information: types.Tuple[types.Distribution] = information
 
     @property
     def suffix(self) -> types.Integer:
@@ -109,7 +109,7 @@ class Si_0(_option.DataOption):
         self._option: types.String = option
 
     @property
-    def information(self) -> types.Tuple[types.DistributionNumber]:
+    def information(self) -> types.Tuple[types.Distribution]:
         """
         Particle source information
 
@@ -121,7 +121,7 @@ class Si_0(_option.DataOption):
         return self._information
 
     @information.setter
-    def information(self, information: list[str] | list[types.DistributionNumber]) -> None:
+    def information(self, information: list[str] | list[types.Distribution]) -> None:
         """
         Sets ``information``.
 
@@ -136,13 +136,13 @@ class Si_0(_option.DataOption):
         if information is not None:
             array = []
             for item in information:
-                if isinstance(item, types.DistributionNumber):
+                if isinstance(item, types.Distribution):
                     array.append(item)
                 elif isinstance(item, str):
-                    array.append(types.DistributionNumber.from_mcnp(item))
+                    array.append(types.Distribution.from_mcnp(item))
             information = types.Tuple(array)
 
         if information is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, information)
 
-        self._information: types.Tuple[types.DistributionNumber] = information
+        self._information: types.Tuple[types.Distribution] = information

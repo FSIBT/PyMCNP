@@ -7,16 +7,16 @@ class Test_Fill_6:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.cell.Fill_6
         EXAMPLES_VALID = [
-            {'prefix': '*', 'universe': consts.string.type.INTEGER, 'transformation': consts.string.type.INTEGER},
+            {'prefix': '*', 'universe': consts.string.types.INTEGER, 'transformation': consts.string.types.INTEGER},
             {'prefix': '*', 'universe': 1, 'transformation': 1},
-            {'prefix': pymcnp.types.String('*'), 'universe': consts.ast.type.INTEGER, 'transformation': consts.ast.type.INTEGER},
-            {'prefix': None, 'universe': consts.string.type.INTEGER, 'transformation': consts.string.type.INTEGER},
-            {'prefix': '*', 'universe': consts.string.type.INTEGER, 'transformation': None},
+            {'prefix': pymcnp.types.String('*'), 'universe': consts.ast.types.INTEGER, 'transformation': consts.ast.types.INTEGER},
+            {'prefix': None, 'universe': consts.string.types.INTEGER, 'transformation': consts.string.types.INTEGER},
+            {'prefix': '*', 'universe': consts.string.types.INTEGER, 'transformation': None},
         ]
         EXAMPLES_INVALID = [
-            {'prefix': '*', 'universe': None, 'transformation': consts.string.type.INTEGER},
-            {'prefix': 'hello', 'universe': consts.string.type.INTEGER, 'transformation': consts.string.type.INTEGER},
-            {'prefix': '*', 'universe': consts.string.type.INTEGER, 'transformation': -9999},
+            {'prefix': '*', 'universe': None, 'transformation': consts.string.types.INTEGER},
+            {'prefix': 'hello', 'universe': consts.string.types.INTEGER, 'transformation': consts.string.types.INTEGER},
+            {'prefix': '*', 'universe': consts.string.types.INTEGER, 'transformation': -9999},
         ]
 
     class Test_Mcnp(classes.Test_Mcnp):

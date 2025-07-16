@@ -2,7 +2,7 @@ import re
 
 from . import dawwg
 from . import _option
-from ...utils import types
+from ... import types
 
 
 class Dawwg(_option.DataOption):

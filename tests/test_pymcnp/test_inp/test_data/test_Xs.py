@@ -7,11 +7,11 @@ class Test_Xs:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.Xs
         EXAMPLES_VALID = [
-            {'suffix': consts.string.type.INTEGER, 'weight_ratios': [consts.string.type.SUBSTANCE]},
-            {'suffix': 1, 'weight_ratios': [consts.string.type.SUBSTANCE]},
-            {'suffix': consts.ast.type.INTEGER, 'weight_ratios': [consts.ast.type.SUBSTANCE]},
+            {'suffix': consts.string.types.INTEGER, 'weight_ratios': [consts.string.types.SUBSTANCE]},
+            {'suffix': 1, 'weight_ratios': [consts.string.types.SUBSTANCE]},
+            {'suffix': consts.ast.types.INTEGER, 'weight_ratios': [consts.ast.types.SUBSTANCE]},
         ]
-        EXAMPLES_INVALID = [{'suffix': None, 'weight_ratios': [consts.string.type.SUBSTANCE]}, {'suffix': consts.string.type.INTEGER, 'weight_ratios': None}]
+        EXAMPLES_INVALID = [{'suffix': None, 'weight_ratios': [consts.string.types.SUBSTANCE]}, {'suffix': consts.string.types.INTEGER, 'weight_ratios': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.data.Xs

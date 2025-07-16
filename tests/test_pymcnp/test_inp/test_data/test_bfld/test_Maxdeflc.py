@@ -6,7 +6,7 @@ from ..... import classes
 class Test_Maxdeflc:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.bfld.Maxdeflc
-        EXAMPLES_VALID = [{'angle': consts.string.type.REAL}, {'angle': 3.1}, {'angle': consts.ast.type.REAL}]
+        EXAMPLES_VALID = [{'angle': consts.string.types.REAL}, {'angle': 3.1}, {'angle': consts.ast.types.REAL}]
         EXAMPLES_INVALID = [{'angle': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):

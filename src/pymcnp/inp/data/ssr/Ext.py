@@ -1,8 +1,8 @@
 import re
 
 from . import _option
-from ....utils import types
-from ....utils import errors
+from .... import types
+from .... import errors
 
 
 class Ext(_option.SsrOption):
@@ -13,12 +13,12 @@ class Ext(_option.SsrOption):
     _KEYWORD = 'ext'
 
     _ATTRS = {
-        'number': types.DistributionNumber,
+        'number': types.Distribution,
     }
 
-    _REGEX = re.compile(rf'\Aext( {types.DistributionNumber._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Aext( {types.Distribution._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, number: str | types.DistributionNumber):
+    def __init__(self, number: str | types.Distribution):
         """
         Initializes ``Ext``.
 
@@ -29,10 +29,10 @@ class Ext(_option.SsrOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.number: types.DistributionNumber = number
+        self.number: types.Distribution = number
 
     @property
-    def number(self) -> types.DistributionNumber:
+    def number(self) -> types.Distribution:
         """
         Distribution number for baising sampling
 
@@ -44,7 +44,7 @@ class Ext(_option.SsrOption):
         return self._number
 
     @number.setter
-    def number(self, number: str | types.DistributionNumber) -> None:
+    def number(self, number: str | types.Distribution) -> None:
         """
         Sets ``number``.
 
@@ -57,12 +57,12 @@ class Ext(_option.SsrOption):
         """
 
         if number is not None:
-            if isinstance(number, types.DistributionNumber):
+            if isinstance(number, types.Distribution):
                 number = number
             elif isinstance(number, str):
-                number = types.DistributionNumber.from_mcnp(number)
+                number = types.Distribution.from_mcnp(number)
 
         if number is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)
 
-        self._number: types.DistributionNumber = number
+        self._number: types.Distribution = number

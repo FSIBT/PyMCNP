@@ -2,8 +2,8 @@ import re
 import typing
 
 from . import _line
-from ...utils import types
-from ...utils import errors
+from ... import types
+from ... import errors
 
 
 class N(_line.HeaderLine):

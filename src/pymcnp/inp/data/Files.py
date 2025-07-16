@@ -2,8 +2,8 @@ import re
 
 from . import files
 from . import _option
-from ...utils import types
-from ...utils import errors
+from ... import types
+from ... import errors
 
 
 class Files(_option.DataOption):

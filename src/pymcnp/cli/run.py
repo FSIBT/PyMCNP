@@ -15,11 +15,12 @@ import subprocess
 from docopt import docopt
 
 from . import _io
+from . import _doer
+from .. import errors
 from ..Inp import Inp
-from ..utils import errors
 
 
-class Run:
+class Run(_doer.Doer):
     """
     Runs INP files.
 
@@ -35,13 +36,16 @@ class Run:
         Parameters:
             inps: Files to run.
             command: Command to run.
+
+        Raises:
+            CliCode: RUNTIME_DOER.
         """
 
         if inps is None or None in inps:
-            raise errors.CliError(errors.CliCode.SEMANTICS_INP, inps)
+            raise errors.CliError(errors.CliCode.RUNTIME_DOER, inps)
 
         if command is None or not (shutil.which(command)):
-            raise errors.CliError(errors.CliCode.SEMANTICS_COMMAND, command)
+            raise errors.CliError(errors.CliCode.RUNTIME_DOER, command)
 
         self.inps = inps
         self.command = command

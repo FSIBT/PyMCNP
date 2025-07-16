@@ -6,7 +6,7 @@ from .... import classes
 class Test_Ctme:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.Ctme
-        EXAMPLES_VALID = [{'tme': consts.string.type.INTEGER}, {'tme': 1}, {'tme': consts.ast.type.INTEGER}]
+        EXAMPLES_VALID = [{'tme': consts.string.types.INTEGER}, {'tme': 1}, {'tme': consts.ast.types.INTEGER}]
         EXAMPLES_INVALID = [{'tme': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
