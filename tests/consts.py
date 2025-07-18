@@ -5,7 +5,7 @@ import pymcnp
 
 class string:
     INP = (pathlib.Path(__file__).parent.parent / 'files' / 'inp' / 'valid_10.inp').read_text()
-    OUTP = (pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'valid_A.o').read_text()
+    OUTP = (pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'example_00.outp').read_text()
 
     class types:
         REPEAT = '10r'

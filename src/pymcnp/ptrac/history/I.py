@@ -19,14 +19,14 @@ class I(_line.HistoryLine):
         tfc: TFC bin tally.
     """
 
-    _REGEX = re.compile(r'\A\s(.{10})(.{10})(.{10})(.{13})\Z')
+    _REGEX = re.compile(r'\A\s(.{10})(.{10})(.{10})?(.{13})?\Z')
 
     def __init__(
         self,
         nps: types.Integer,
         event_type: event.j.EventType,
-        number: types.Integer,
-        tfc: types.Real,
+        number: types.Integer = None,
+        tfc: types.Real = None,
     ):
         """
         Initializes ``I``.
@@ -46,12 +46,6 @@ class I(_line.HistoryLine):
 
         if event_type is None:
             raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, event_type)
-
-        if number is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, number)
-
-        if tfc is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, tfc)
 
         self.nps: typing.Final[types.Integer] = nps
         self.event_type: typing.Final[event.j.EventType] = event_type
@@ -79,8 +73,8 @@ class I(_line.HistoryLine):
 
         nps = types.Integer.from_mcnp(tokens[1])
         event_type = event.j.EventType.from_mcnp(tokens[2].strip())
-        number = types.Integer.from_mcnp(tokens[3])
-        tfc = types.Real.from_mcnp(tokens[4])
+        number = types.Integer.from_mcnp(tokens[3]) if tokens[3] else None
+        tfc = types.Real.from_mcnp(tokens[4]) if tokens[4] else None
 
         return I(
             nps,
@@ -97,6 +91,14 @@ class I(_line.HistoryLine):
             PTRAC for ``I``.
         """
 
-        tfc = _parser.postprocess_exponenet(self.tfc.value, 5, offset=0)
+        if self.tfc:
+            tfc = " " + _parser.postprocess_exponenet(self.tfc.value, 5, offset=0)
+        else:
+            tfc = ""
 
-        return f' {str(self.nps):>10}{str(self.event_type):>10}{str(self.number):>10} {tfc}'
+        if self.number:
+            number = f'{str(self.number):>10}'
+        else:
+            number = ""
+
+        return f' {str(self.nps):>10}{str(self.event_type):>10}{number}{tfc}'
