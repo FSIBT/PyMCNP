@@ -69,7 +69,7 @@ class V(_line.HeaderLine):
         v_line = ' '
 
         for i, v in enumerate(self.variables):
-            v_line += ' ' + _parser.postprocess_exponenet(v.value, 5, offset=0)
+            v_line += ' ' + _parser.postprocess_exponenet(v.value, 4, offset=0)
 
             if (i + 1) % 10 == 0 and i != 0:
                 v_line += '\n '

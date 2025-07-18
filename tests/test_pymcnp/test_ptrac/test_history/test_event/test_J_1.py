@@ -10,7 +10,7 @@ class Test_J_1:
             {
                 'next_type': consts.ast.ptrac.history.event.j.EVENT_TYPE,
                 'node': consts.ast.types.INTEGER,
-                'nsx_nsf_nter': consts.ast.types.INTEGER,
+                'nsx_nsf_nter': consts.ast.types.REAL,
                 'ntyn_mtp_angle_branch': consts.ast.types.INTEGER,
                 'ncl': consts.ast.types.INTEGER,
                 'mat': consts.ast.types.INTEGER,
@@ -20,7 +20,7 @@ class Test_J_1:
             {
                 'next_type': None,
                 'node': consts.ast.types.INTEGER,
-                'nsx_nsf_nter': consts.ast.types.INTEGER,
+                'nsx_nsf_nter': consts.ast.types.REAL,
                 'ntyn_mtp_angle_branch': consts.ast.types.INTEGER,
                 'ncl': consts.ast.types.INTEGER,
                 'mat': consts.ast.types.INTEGER,
@@ -28,7 +28,7 @@ class Test_J_1:
             {
                 'next_type': consts.ast.ptrac.history.event.j.EVENT_TYPE,
                 'node': None,
-                'nsx_nsf_nter': consts.ast.types.INTEGER,
+                'nsx_nsf_nter': consts.ast.types.REAL,
                 'ntyn_mtp_angle_branch': consts.ast.types.INTEGER,
                 'ncl': consts.ast.types.INTEGER,
                 'mat': consts.ast.types.INTEGER,
@@ -44,7 +44,7 @@ class Test_J_1:
             {
                 'next_type': consts.ast.ptrac.history.event.j.EVENT_TYPE,
                 'node': consts.ast.types.INTEGER,
-                'nsx_nsf_nter': consts.ast.types.INTEGER,
+                'nsx_nsf_nter': consts.ast.types.REAL,
                 'ntyn_mtp_angle_branch': None,
                 'ncl': consts.ast.types.INTEGER,
                 'mat': consts.ast.types.INTEGER,
@@ -52,7 +52,7 @@ class Test_J_1:
             {
                 'next_type': consts.ast.ptrac.history.event.j.EVENT_TYPE,
                 'node': consts.ast.types.INTEGER,
-                'nsx_nsf_nter': consts.ast.types.INTEGER,
+                'nsx_nsf_nter': consts.ast.types.REAL,
                 'ntyn_mtp_angle_branch': consts.ast.types.INTEGER,
                 'ncl': None,
                 'mat': consts.ast.types.INTEGER,
@@ -60,7 +60,7 @@ class Test_J_1:
             {
                 'next_type': consts.ast.ptrac.history.event.j.EVENT_TYPE,
                 'node': consts.ast.types.INTEGER,
-                'nsx_nsf_nter': consts.ast.types.INTEGER,
+                'nsx_nsf_nter': consts.ast.types.REAL,
                 'ntyn_mtp_angle_branch': consts.ast.types.INTEGER,
                 'ncl': consts.ast.types.INTEGER,
                 'mat': None,

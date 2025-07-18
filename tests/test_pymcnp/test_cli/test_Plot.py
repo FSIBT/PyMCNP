@@ -38,12 +38,12 @@ class Test_Plot:
 class Test_Main:
     class Test_Main:
         def test_valid(self):
-            subprocess.run(['pymcnp', 'plot', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'outp' / 'valid_A.o'), '1'])
-            subprocess.run(['pymcnp', 'plot', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'outp' / 'valid_A.o'), '1', '--pdf'])
+            subprocess.run(['pymcnp', 'plot', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'outp' / 'valid_00.outp'), '1'])
+            subprocess.run(['pymcnp', 'plot', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'outp' / 'valid_00.outp'), '1', '--pdf'])
             matplotlib.pyplot.close()
 
         def test_invalid(self):
             subprocess.run(['pymcnp', 'plot', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'outp' / 'invalid_00.o'), '1'])
-            subprocess.run(['pymcnp', 'plot', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'outp' / 'valid_A.o'), '132423'])
+            subprocess.run(['pymcnp', 'plot', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'outp' / 'valid_00.outp'), '132423'])
             subprocess.run(['pymcnp', 'plot', 'hello', '1'])
             matplotlib.pyplot.close()

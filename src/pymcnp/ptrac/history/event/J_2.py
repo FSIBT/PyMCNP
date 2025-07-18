@@ -26,7 +26,7 @@ class J_2(_line.EventLine):
         self,
         next_type: j.EventType,
         node: types.Integer,
-        nsr: types.Integer,
+        nsr: types.Real,
         ipt: types.Integer,
         ncl: types.Integer,
         mat: types.Integer,
@@ -66,7 +66,7 @@ class J_2(_line.EventLine):
 
         self.next_type: typing.Final[j.EventType] = next_type
         self.node: typing.Final[types.Integer] = node
-        self.nsr: typing.Final[types.Integer] = nsr
+        self.nsr: typing.Final[types.Real] = nsr
         self.ipt: typing.Final[types.Integer] = ipt
         self.ncl: typing.Final[types.Integer] = ncl
         self.mat: typing.Final[types.Integer] = mat
@@ -92,7 +92,7 @@ class J_2(_line.EventLine):
 
         next_type = j.EventType.from_mcnp(tokens[1].strip())
         node = types.Integer.from_mcnp(tokens[2])
-        nsr = types.Integer.from_mcnp(tokens[3])
+        nsr = types.Real.from_mcnp(tokens[3])
         ipt = types.Integer.from_mcnp(tokens[4])
         ncl = types.Integer.from_mcnp(tokens[5])
         mat = types.Integer.from_mcnp(tokens[6])

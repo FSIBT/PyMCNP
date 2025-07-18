@@ -10,7 +10,7 @@ class Test_J_4:
             {
                 'next_type': consts.ast.ptrac.history.event.j.EVENT_TYPE,
                 'node': consts.ast.types.INTEGER,
-                'nsr': consts.ast.types.INTEGER,
+                'nsr': consts.ast.types.REAL,
                 'ncl': consts.ast.types.INTEGER,
                 'mat': consts.ast.types.INTEGER,
                 'ncp': consts.ast.types.INTEGER,
@@ -20,7 +20,7 @@ class Test_J_4:
             {
                 'next_type': None,
                 'node': consts.ast.types.INTEGER,
-                'nsr': consts.ast.types.INTEGER,
+                'nsr': consts.ast.types.REAL,
                 'ncl': consts.ast.types.INTEGER,
                 'mat': consts.ast.types.INTEGER,
                 'ncp': consts.ast.types.INTEGER,
@@ -28,7 +28,7 @@ class Test_J_4:
             {
                 'next_type': consts.ast.ptrac.history.event.j.EVENT_TYPE,
                 'node': None,
-                'nsr': consts.ast.types.INTEGER,
+                'nsr': consts.ast.types.REAL,
                 'ncl': consts.ast.types.INTEGER,
                 'mat': consts.ast.types.INTEGER,
                 'ncp': consts.ast.types.INTEGER,
@@ -44,7 +44,7 @@ class Test_J_4:
             {
                 'next_type': consts.ast.ptrac.history.event.j.EVENT_TYPE,
                 'node': consts.ast.types.INTEGER,
-                'nsr': consts.ast.types.INTEGER,
+                'nsr': consts.ast.types.REAL,
                 'ncl': None,
                 'mat': consts.ast.types.INTEGER,
                 'ncp': consts.ast.types.INTEGER,
@@ -52,7 +52,7 @@ class Test_J_4:
             {
                 'next_type': consts.ast.ptrac.history.event.j.EVENT_TYPE,
                 'node': consts.ast.types.INTEGER,
-                'nsr': consts.ast.types.INTEGER,
+                'nsr': consts.ast.types.REAL,
                 'ncl': consts.ast.types.INTEGER,
                 'mat': None,
                 'ncp': consts.ast.types.INTEGER,
@@ -60,7 +60,7 @@ class Test_J_4:
             {
                 'next_type': consts.ast.ptrac.history.event.j.EVENT_TYPE,
                 'node': consts.ast.types.INTEGER,
-                'nsr': consts.ast.types.INTEGER,
+                'nsr': consts.ast.types.REAL,
                 'ncl': consts.ast.types.INTEGER,
                 'mat': consts.ast.types.INTEGER,
                 'ncp': None,

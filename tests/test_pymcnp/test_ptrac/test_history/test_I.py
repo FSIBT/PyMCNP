@@ -13,6 +13,18 @@ class Test_I:
                 'number': consts.ast.types.INTEGER,
                 'tfc': consts.ast.types.REAL,
             },
+            {
+                'nps': consts.ast.types.INTEGER,
+                'event_type': consts.ast.ptrac.history.event.j.EVENT_TYPE,
+                'number': None,
+                'tfc': consts.ast.types.REAL,
+            },
+            {
+                'nps': consts.ast.types.INTEGER,
+                'event_type': consts.ast.ptrac.history.event.j.EVENT_TYPE,
+                'number': consts.ast.types.INTEGER,
+                'tfc': None,
+            },
         ]
         EXAMPLES_INVALID = [
             {
@@ -26,18 +38,6 @@ class Test_I:
                 'event_type': None,
                 'number': consts.ast.types.INTEGER,
                 'tfc': consts.ast.types.REAL,
-            },
-            {
-                'nps': consts.ast.types.INTEGER,
-                'event_type': consts.ast.ptrac.history.event.j.EVENT_TYPE,
-                'number': None,
-                'tfc': consts.ast.types.REAL,
-            },
-            {
-                'nps': consts.ast.types.INTEGER,
-                'event_type': consts.ast.ptrac.history.event.j.EVENT_TYPE,
-                'number': consts.ast.types.INTEGER,
-                'tfc': None,
             },
         ]
 
