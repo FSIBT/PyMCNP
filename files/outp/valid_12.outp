@@ -1,0 +1,111 @@
+          Code Name & Version = MCNP6, 1.0
+  
+     _/      _/        _/_/_/       _/      _/       _/_/_/         _/_/_/
+    _/_/  _/_/      _/             _/_/    _/       _/    _/     _/       
+   _/  _/  _/      _/             _/  _/  _/       _/_/_/       _/_/_/    
+  _/      _/      _/             _/    _/_/       _/           _/    _/   
+ _/      _/        _/_/_/       _/      _/       _/             _/_/      
+  
+  +---------------------------------------------------------------------+
+  | Copyright 2008. Los Alamos National Security, LLC.  All rights      |
+  | reserved.                                                           |
+  |   This material was produced under U.S. Government contract         |
+  | DE-AC52-06NA25396 for Los Alamos National Laboratory, which is      |
+  | operated by Los Alamos National Security, LLC, for the U.S.         |
+  | Department of Energy. The Government is granted for itself and      |
+  | others acting on its behalf a paid-up, nonexclusive, irrevocable    |
+  | worldwide license in this material to reproduce, prepare derivative |
+  | works, and perform publicly and display publicly. Beginning five    |
+  | (5) years after 2008, subject to additional five-year worldwide     |
+  | renewals, the Government is granted for itself and others acting on |
+  | its behalf a paid-up, nonexclusive, irrevocable worldwide license   |
+  | in this material to reproduce, prepare derivative works, distribute |
+  | copies to the public, perform publicly and display publicly, and to |
+  | permit others to do so. NEITHER THE UNITED STATES NOR THE UNITED    |
+  | STATES DEPARTMENT OF ENERGY, NOR LOS ALAMOS NATIONAL SECURITY, LLC, |
+  | NOR ANY OF THEIR EMPLOYEES, MAKES ANY WARRANTY, EXPRESS OR IMPLIED, |
+  | OR ASSUMES ANY LEGAL LIABILITY OR RESPONSIBILITY FOR THE ACCURACY,  |
+  | COMPLETENESS, OR USEFULNESS OF ANY INFORMATION, APPARATUS, PRODUCT, |
+  | OR PROCESS DISCLOSED, OR REPRESENTS THAT ITS USE WOULD NOT INFRINGE |
+  | PRIVATELY OWNED RIGHTS.                                             |
+  +---------------------------------------------------------------------+
+  
+1mcnp     version 6     ld=05/08/13                     07/14/25 11:39:04 
+ *************************************************************************                 probid =  07/14/25 11:39:04 
+ inp=valid_12.inp outp=valid_12.inp.outp ptrac=valid_12.inp.ptrac                
+
+ 
+  warning.  Physics models disabled.
+         1-       Chapter 4 Lattice example 20                                                    
+         2-       1 1 -0.6 -1 imp:n=1                                                             
+         3-       2 0 1 2 -4 imp:n=1                                                              
+         4-       2 0 1 -2 -4 fill=1 (-6 -6.5 0) imp:n=1                                          
+  fatal error.  data symbol 2        is used more than once.
+         5-       3 0 2 -3 -4 *fill=2 (-7 5 0 30 60 90 120 30 90) imp:n=1                         
+         6-       4 0 2 3 -4 *fill=2 (4 8 0 15 105 90 75 15 90) imp:n=1                           
+         7-       5 0 4 imp:n=0                                                                   
+         8-       6 0 -5 6 -7 8 -9 10 fill=3 u=1 lat=1 imp:n=1                                    
+         9-       7 0 -11 12 -13 14 -15 16 fill=5 u=2 lat=1 imp:n=1                               
+        10-       18 3 -2.7 -18 u=5 imp:n=1                                                       
+        11-       8 2 -0.8 -17 u=3 imp:n=1                                                        
+        12-       9 0 17 u=3 imp:n=1                                                              
+  fatal error.  this cell has no surfaces.
+        13-       10 0 -18 u=4 imp:n=1                                                            
+        14-                                                                                       
+        15-       1 sy -5 3                                                                       
+        16-       2 py 0                                                                          
+        17-       3 px 0                                                                          
+        18-       4 so 15                                                                         
+        19-       5 px 1.5                                                                        
+        20-       6 px -1.5                                                                       
+        21-       7 py 1                                                                          
+        22-       8 py -1                                                                         
+        23-       9 pz 3                                                                          
+        24-       10 pz -3                                                                        
+        25-       11 p 1 -0.5 0 1.3                                                               
+        26-       12 p 1 -0.5 0 -1.3                                                              
+        27-       13 py 0.5                                                                       
+        28-       14 py -0.5                                                                      
+        29-       15 pz 3                                                                         
+        30-       16 pz -3                                                                        
+        31-       17 sq 1 2 0 0 0 0 -1 0.2 0 0                                                    
+        32-       18 so 10                                                                        
+        33-                                                                                       
+ imp:n 1 1 1 1 1 0 1 1 1 1 1 1                                        
+  fatal error.         12 entries not equal to number of cells =       11.
+ u    j j j j j j 1 2 5 3 3 4                                         
+  warning.         12 entries not equal to number of cells =       11.
+ lat  j j j j j j 1 1 j j j j                                         
+  warning.         12 entries not equal to number of cells =       11.
+        34-       sdef pos 0 -5 0 erg d1 rad d2                                                   
+        35-       si1 0 10                                                                        
+        36-       sp1 0 1                                                                         
+        37-       si2 3                                                                           
+        38-       sp2 -21                                                                         
+        39-       e0 1 2 3 4 5 6 7 8 9 10 11 12                                                   
+        40-       f2:n 3                                                                          
+        41-       sd2 1                                                                           
+        42-       f4:n 8 9                                                                        
+        43-       sd4 1 1                                                                         
+        44-       m1 4009 1                                                                       
+        45-       m2 6000 1                                                                       
+        46-       m3 13027 1                                                                      
+        47-       c nps 100000                                                                    
+        48-       print                                                                           
+        49-       dbcn 0 0 1 4                                                                    
+        50-       c                                                                               
+        51-       NPS 1e4                                                                         
+        52-       PTRAC file=asc                                                                  
+        53-                                                                                       
+ 
+  comment.  total nubar used if fissionable isotopes are present.
+
+ surface        9   and surface       15   are the same.       15   will be deleted.
+
+ surface       10   and surface       16   are the same.       16   will be deleted.
+ 
+  comment.           2 surfaces were deleted for being the same as others.
+
+ bad trouble in subroutine latcon of imcn                             
+
+ wrong order of surfaces in lattice cell        18

@@ -1,0 +1,618 @@
+          Code Name & Version = MCNP6, 1.0
+  
+     _/      _/        _/_/_/       _/      _/       _/_/_/         _/_/_/
+    _/_/  _/_/      _/             _/_/    _/       _/    _/     _/       
+   _/  _/  _/      _/             _/  _/  _/       _/_/_/       _/_/_/    
+  _/      _/      _/             _/    _/_/       _/           _/    _/   
+ _/      _/        _/_/_/       _/      _/       _/             _/_/      
+  
+  +---------------------------------------------------------------------+
+  | Copyright 2008. Los Alamos National Security, LLC.  All rights      |
+  | reserved.                                                           |
+  |   This material was produced under U.S. Government contract         |
+  | DE-AC52-06NA25396 for Los Alamos National Laboratory, which is      |
+  | operated by Los Alamos National Security, LLC, for the U.S.         |
+  | Department of Energy. The Government is granted for itself and      |
+  | others acting on its behalf a paid-up, nonexclusive, irrevocable    |
+  | worldwide license in this material to reproduce, prepare derivative |
+  | works, and perform publicly and display publicly. Beginning five    |
+  | (5) years after 2008, subject to additional five-year worldwide     |
+  | renewals, the Government is granted for itself and others acting on |
+  | its behalf a paid-up, nonexclusive, irrevocable worldwide license   |
+  | in this material to reproduce, prepare derivative works, distribute |
+  | copies to the public, perform publicly and display publicly, and to |
+  | permit others to do so. NEITHER THE UNITED STATES NOR THE UNITED    |
+  | STATES DEPARTMENT OF ENERGY, NOR LOS ALAMOS NATIONAL SECURITY, LLC, |
+  | NOR ANY OF THEIR EMPLOYEES, MAKES ANY WARRANTY, EXPRESS OR IMPLIED, |
+  | OR ASSUMES ANY LEGAL LIABILITY OR RESPONSIBILITY FOR THE ACCURACY,  |
+  | COMPLETENESS, OR USEFULNESS OF ANY INFORMATION, APPARATUS, PRODUCT, |
+  | OR PROCESS DISCLOSED, OR REPRESENTS THAT ITS USE WOULD NOT INFRINGE |
+  | PRIVATELY OWNED RIGHTS.                                             |
+  +---------------------------------------------------------------------+
+  
+1mcnp     version 6     ld=05/08/13                     07/14/25 11:39:04 
+ *************************************************************************                 probid =  07/14/25 11:39:04 
+ inp=valid_29.inp outp=valid_29.inp.outp ptrac=valid_29.inp.ptrac                
+
+ 
+  warning.  Physics models disabled.
+ 
+  fatal error.  Cannot use models on MX card without an MPHYS card.
+         1-       Generate ROC curve for 15-MeV photons into U-238                                
+         2-       1 0 -1 2 7 5 imp:p=1                                                            
+         3-       2 0 -2 imp:p=1                                                                  
+         4-       4 1 -5.16 -4 imp:p=1                                                            
+         5-       5 2 -19.0 -5 imp:p=1                                                            
+         6-       6 0 -6 imp:p=1                                                                  
+         7-       7 3 -11.3 -7 4 6 imp:p=1                                                        
+         8-       8 0 1 imp:p=0                                                                   
+         9-                                                                                       
+        10-       1 RPP -100 100 -100 100 -100 100                                                
+        11-       2 SO 5.0                                                                        
+        12-       3 PZ 0.0                                                                        
+        13-       4 RCC 20 0 25 0 0 10 4.0                                                        
+        14-       5 SPH 20 0 0 5.0                                                                
+        15-       6 RCC 20 0 20 0 0 5 4.0                                                         
+        16-       7 RCC 20 0 20 0 0 17 6.0                                                        
+        17-                                                                                       
+        18-       MODE p n                                                                        
+        19-       M1 32074.70c 1                                                                  
+        20-       M2 92238.70c 1                                                                  
+        21-       M3 82208.70c 1                                                                  
+        22-       MX2:P model                                                                     
+        23-       CUT:N 60e8                                                                      
+        24-       CUT:P 60e8                                                                      
+        25-       PHYS:P j 1 j -1 j -101                                                          
+  fatal error.  6th entry of PHYS:P card deprecated - use ACT card instead.
+        26-       SDEF PAR=P ERG=D1 X=FERG D2 Y=FERG D3 Z=FERG D4 TME=FERG D7                     
+        27-          VEC=1 0 0 DIR=FERG D8 CEL=1 WGT=1                                            
+  fatal error.  vec   is not a legal data symbol.
+        28-       SI1 S 5 6                                                                       
+        29-       SP1 0.9391 0.0609                                                               
+        30-       DS2 S 15 16                                                                     
+        31-       DS3 S 25 26                                                                     
+        32-       DS4 S 35 36                                                                     
+        33-       DS7 S 45 46                                                                     
+        34-       DS8 S 55 56                                                                     
+        35-       SI15 L 5.1                                                                      
+        36-       SP15 1                                                                          
+        37-       SI25 L 0.0                                                                      
+        38-       SP25 1                                                                          
+        39-       SI35 L 0.0                                                                      
+        40-       SP35 1                                                                          
+        41-       SI16 -100 100                                                                   
+        42-       SP16 0 1                                                                        
+        43-       SI26 -100 100                                                                   
+        44-       SP26 0 1                                                                        
+        45-       SI36 -100 100                                                                   
+        46-       SP36 0 1                                                                        
+        47-       SI45 0 0.000010e8                                                               
+        48-       SP45 0 1                                                                        
+        49-       SI46 0 60e8                                                                     
+        50-       SP46 0 1                                                                        
+        51-       SI55 L 1                                                                        
+        52-       SP55 1                                                                          
+        53-       SI56 -1 1                                                                       
+        54-       SP56 0 1                                                                        
+        55-       SI5 L 15.0                                                                      
+        56-       SP5 1                                                                           
+        57-       C 1/E for background source                                                     
+        58-       SI6 A .100 1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0 9.0 10.0                             
+        59-       SP6 10.0 1.0 0.5 0.333 0.250 0.200 0.167 0.143 0.125 0.111 0.100                
+        60-       c                                                                               
+        61-       f4:p 2                                                                          
+  warning.  without bremsstrahlung, flux estimates will be low.
+        62-       f1:p 4.3                                                                        
+  warning.  without bremsstrahlung, flux estimates will be low.
+        63-       e1 1.0 100.0                                                                    
+        64-       t1 0.001e8 60e8                                                                 
+        65-       ft1 scx 1 roc 10648648                                                          
+        66-       tf1 1 1 1 1 1 1 2 2  1 1 2 1 1 1 2 2 $ signal bins, noise bins                  
+        67-       c nps 106486480l                                                                
+        68-       c                                                                               
+        69-       NPS 1e4                                                                         
+        70-       PTRAC file=asc                                                                  
+        71-                                                                                       
+ 
+  comment.  total nubar used if fissionable isotopes are present.
+ 
+  comment.  neutron  importances have been set equal to 1.
+
+ surface        4.1 and surface        6.1 are the same.        6.1 will be deleted.
+
+ surface        4.3 and surface        6.2 are the same.        6.2 will be deleted.
+
+ surface        6.3 and surface        7.3 are the same.        7.3 will be deleted.
+ 
+  comment.           3 surfaces were deleted for being the same as others.
+1source                                                                                                 print table 10
+
+ values of defaulted or explicitly defined source variables
+
+    cel        0.0000E+00
+    sur        0.0000E+00
+    dir        isotropic 
+    pos        0.0000E+00   0.0000E+00   0.0000E+00
+    rad        0.0000E+00
+    ext        0.0000E+00
+    axs        0.0000E+00   0.0000E+00   0.0000E+00
+    vec        0.0000E+00   0.0000E+00   0.0000E+00
+    ccc        0.0000E+00
+    nrm        1.0000E+00
+    ara        0.0000E+00
+    wgt        1.0000E+00
+    eff        1.0000E-02
+    par        2.0000E+00
+    tr         0.0000E+00
+    bem        0.0000E+00   0.0000E+00   0.0000E+00
+    bap        0.0000E+00   0.0000E+00   0.0000E+00
+    loc        0.0000E+00   0.0000E+00   0.0000E+00
+    dat        0.0000E+00   0.0000E+00   0.0000E+00
+ 
+  warning.  source distribution        8 is not used in this problem.
+ 
+  warning.  source distribution       55 is not used in this problem.
+ 
+  warning.  source distribution       56 is not used in this problem.
+
+
+
+ probability distribution        1 for source variable erg
+ unbiased discrete  distribution
+
+ source        source           cumulative          probability
+  entry         value           probability           of bin
+
+    1              5           9.391000E-01        9.391000E-01
+    2              6           1.000000E+00        6.090000E-02
+
+
+
+ probability distribution        2 for source variable x  
+ distribution is dependent on erg
+
+ s    15    16
+
+
+
+ probability distribution        3 for source variable y  
+ distribution is dependent on erg
+
+ s    25    26
+
+
+
+ probability distribution        4 for source variable z  
+ distribution is dependent on erg
+
+ s    35    36
+
+
+
+ probability distribution        7 for source variable tme
+ distribution is dependent on erg
+
+ s    45    46
+
+
+
+ probability distribution       15 for source variable x  
+ unbiased discrete  distribution
+
+ source        source           cumulative          probability
+  entry         value           probability           of bin
+
+    1       5.10000E+00        1.000000E+00        1.000000E+00
+
+     the mean of source distribution       15 is  5.1000E+00
+
+
+
+ probability distribution       25 for source variable y  
+ unbiased discrete  distribution
+
+ source        source           cumulative          probability
+  entry         value           probability           of bin
+
+    1       0.00000E+00        1.000000E+00        1.000000E+00
+
+
+
+ probability distribution       35 for source variable z  
+ unbiased discrete  distribution
+
+ source        source           cumulative          probability
+  entry         value           probability           of bin
+
+    1       0.00000E+00        1.000000E+00        1.000000E+00
+
+
+
+ probability distribution       16 for source variable x  
+ unbiased histogram distribution
+
+ source        source           cumulative          probability
+  entry         value           probability           of bin
+
+    1      -1.00000E+02        0.000000E+00        0.000000E+00
+    2       1.00000E+02        1.000000E+00        1.000000E+00
+
+
+
+ probability distribution       26 for source variable y  
+ unbiased histogram distribution
+
+ source        source           cumulative          probability
+  entry         value           probability           of bin
+
+    1      -1.00000E+02        0.000000E+00        0.000000E+00
+    2       1.00000E+02        1.000000E+00        1.000000E+00
+
+
+
+ probability distribution       36 for source variable z  
+ unbiased histogram distribution
+
+ source        source           cumulative          probability
+  entry         value           probability           of bin
+
+    1      -1.00000E+02        0.000000E+00        0.000000E+00
+    2       1.00000E+02        1.000000E+00        1.000000E+00
+
+
+
+ probability distribution       45 for source variable tme
+ unbiased histogram distribution
+
+ source        source           cumulative          probability
+  entry         value           probability           of bin
+
+    1       0.00000E+00        0.000000E+00        0.000000E+00
+    2       1.00000E+03        1.000000E+00        1.000000E+00
+
+     the mean of source distribution       45 is  5.0000E+02
+
+
+
+ probability distribution       46 for source variable tme
+ unbiased histogram distribution
+
+ source        source           cumulative          probability
+  entry         value           probability           of bin
+
+    1       0.00000E+00        0.000000E+00        0.000000E+00
+    2       6.00000E+09        1.000000E+00        1.000000E+00
+
+     the mean of source distribution       46 is  3.0000E+09
+
+
+
+ probability distribution        5 for source variable erg
+ unbiased discrete  distribution
+
+ source        source           cumulative          probability
+  entry         value           probability           of bin
+
+    1       1.50000E+01        1.000000E+00        1.000000E+00
+
+     the mean of source distribution        5 is  1.5000E+01
+
+
+
+ probability distribution        6 for source variable erg
+ unbiased interpolated distribution
+
+ source        source           cumulative          probability
+  entry         value           probability           density
+
+    1       1.00000E-01        0.000000E+00        1.364443E+00
+    2       1.00000E+00        6.753991E-01        1.364443E-01
+    3       2.00000E+00        7.777323E-01        6.822213E-02
+    4       3.00000E+00        8.345613E-01        4.543594E-02
+    5       4.00000E+00        8.743348E-01        3.411107E-02
+    6       5.00000E+00        9.050348E-01        2.728885E-02
+    7       6.00000E+00        9.300723E-01        2.278619E-02
+    8       7.00000E+00        9.512212E-01        1.951153E-02
+    9       8.00000E+00        9.695047E-01        1.705553E-02
+   10       9.00000E+00        9.856051E-01        1.514531E-02
+   11       1.00000E+01        1.000000E+00        1.364443E-02
+
+     the mean of source distribution        6 is  1.5372E+00
+
+
+ order of sampling source variables.
+ par erg x   y   z   pos tme
+
+1tally        1                                                                                         print table 30
+           tally type 1    number of particles crossing a surface.                             
+           particle(s): photons  
+ surfaces  4.3                                                                                                                         
+     Tally segments relative to FT8 FFT first fission site.
+
+ energy bins
+      1.00000E-03  to  1.00000E+00 MeV   
+      1.00000E+00  to  1.00000E+02 MeV   
+      total bin
+
+  time  bins
+     -i            to  1.00000E+05 shakes
+      1.00000E+05  to  6.00000E+09 shakes
+      total bin
+
+ tally fluctuations chart bin indexes:   f   d   u   s   m   c   e   t
+                                         1   1   1   1   1   1   2   2
+
+1tally        4                                                                                         print table 30
+           tally type 4    track length estimate of particle flux.                             
+           particle(s): photons  
+ cells     2                                                                                                                           
+1material composition                                                                                   print table 40
+
+ material
+  number     component nuclide, atom fraction
+
+        1           32074, 1.00000E+00
+        2           92238, 1.00000E+00
+        3           82208, 1.00000E+00
+
+
+
+
+
+ material
+  number     component nuclide, mass fraction
+
+        1           32074, 1.00000E+00
+        2           92238, 1.00000E+00
+        3           82208, 1.00000E+00
+1cell volumes and masses                                                                                print table 50
+
+              cell     atom          gram         input       calculated                            reason volume
+                      density       density       volume        volume         mass       pieces    not calculated
+
+        1        1  0.00000E+00   0.00000E+00   0.00000E+00   0.00000E+00   0.00000E+00      0      asymmetric      
+        2        2  0.00000E+00   0.00000E+00   0.00000E+00   5.23599E+02   0.00000E+00      1                      
+        3        4  4.20363E-02   5.16000E+00   0.00000E+00   5.02655E+02   2.59370E+03      1                      
+        4        5  4.80649E-02   1.90000E+01   0.00000E+00   5.23599E+02   9.94838E+03      1                      
+        5        6  0.00000E+00   0.00000E+00   0.00000E+00   2.51327E+02   0.00000E+00      1                      
+        6        7  3.27196E-02   1.13000E+01   0.00000E+00   1.16867E+03   1.32060E+04      1                      
+        7        8  0.00000E+00   0.00000E+00   0.00000E+00   0.00000E+00   0.00000E+00      0      infinite        
+1surface areas                                                                                          print table 50
+
+           surface      input      calculated    reason area
+                        area          area       not calculated
+
+        2        1.1    0.00000E+00   4.00000E+04                   
+        3        1.2    0.00000E+00   4.00000E+04                   
+        4        1.3    0.00000E+00   4.00000E+04                   
+        5        1.4    0.00000E+00   4.00000E+04                   
+        6        1.5    0.00000E+00   4.00000E+04                   
+        7        1.6    0.00000E+00   4.00000E+04                   
+        8        2      0.00000E+00   3.14159E+02                   
+        9        3.6    0.00000E+00   0.00000E+00   not a boundary  
+       11        4.1    0.00000E+00   3.76991E+02                   
+       12        4.2    0.00000E+00   5.02655E+01                   
+       13        4.3    0.00000E+00   5.02655E+01                   
+       14        5      0.00000E+00   3.14159E+02                   
+       18        6.3    0.00000E+00   1.13097E+02                   
+       20        7.1    0.00000E+00   6.40885E+02                   
+       21        7.2    0.00000E+00   1.13097E+02                   
+1cells                                                                                                  print table 60
+
+                               atom        gram                                            neutron    photon     photon wt             
+              cell      mat   density     density     volume       mass            pieces importance importance generation             
+
+        1        1        0  0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00           0  1.0000E+00 1.0000E+00 -1.000E+00             
+        2        2        0  0.00000E+00 0.00000E+00 5.23599E+02 0.00000E+00           1  1.0000E+00 1.0000E+00 -1.000E+00             
+        3        4        1  4.20363E-02 5.16000E+00 5.02655E+02 2.59370E+03           1  1.0000E+00 1.0000E+00 -1.000E+00             
+        4        5        2  4.80649E-02 1.90000E+01 5.23599E+02 9.94838E+03           1  1.0000E+00 1.0000E+00 -1.000E+00             
+        5        6        0  0.00000E+00 0.00000E+00 2.51327E+02 0.00000E+00           1  1.0000E+00 1.0000E+00 -1.000E+00             
+        6        7        3  3.27196E-02 1.13000E+01 1.16867E+03 1.32060E+04           1  1.0000E+00 1.0000E+00 -1.000E+00             
+        7        8        0  0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00           0  0.0000E+00 0.0000E+00 -1.000E+00             
+
+ total                                               2.96985E+03 2.57481E+04
+1surfaces                                                                                               print table 70
+
+           surface        trans  type   surface coefficients
+
+        1        1                rpp
+        2        1.1              px    1.0000000E+02
+        3        1.2              p    -1.0000000E+00   0.0000000E+00   0.0000000E+00   1.0000000E+02
+        4        1.3              py    1.0000000E+02
+        5        1.4              p     0.0000000E+00  -1.0000000E+00   0.0000000E+00   1.0000000E+02
+        6        1.5              pz    1.0000000E+02
+        7        1.6              p     0.0000000E+00   0.0000000E+00  -1.0000000E+00   1.0000000E+02
+        8        2                so    5.0000000E+00
+        9        3                pz    0.0000000E+00
+       10        4                rcc
+       11        4.1              c/z   2.0000000E+01   0.0000000E+00   4.0000000E+00
+       12        4.2              pz    3.5000000E+01
+       13        4.3              p     0.0000000E+00   0.0000000E+00  -1.0000000E+00  -2.5000000E+01
+       14        5                sx    2.0000000E+01   5.0000000E+00
+       15        6                rcc
+       18        6.3              p     0.0000000E+00   0.0000000E+00  -1.0000000E+00  -2.0000000E+01
+       19        7                rcc
+       20        7.1              c/z   2.0000000E+01   0.0000000E+00   6.0000000E+00
+       21        7.2              pz    3.7000000E+01
+1  identical surfaces                                                                                   print table 70
+
+   master surface     identical surfaces
+
+         4.1           6.1                                                                                                             
+         4.3           6.2                                                                                                             
+         6.3           7.3                                                                                                             
+
+
+   surface coefficients for identical surfaces not used.
+
+             surface     trans  type   surface coefficients
+
+       16        6.1              c/z   2.0000000E+01   0.0000000E+00   4.0000000E+00
+       17        6.2              pz    2.5000000E+01
+       22        7.3              p     0.0000000E+00   0.0000000E+00  -1.0000000E+00  -2.0000000E+01
+ 
+  warning.  surface        3.0 is not used for anything.
+1  cell temperatures in mev for the free-gas thermal neutron treatment.                                 print table 72
+
+   all non-zero importance cells with materials have a temperature for thermal neutrons of 2.5300E-08 mev.
+
+    minimum source weight = 1.0000E+00    maximum source weight = 1.0000E+00
+
+ ***************************************************
+ * Random Number Generator  =                    1 *
+ * Random Number Seed       =       19073486328125 *
+ * Random Number Multiplier =       19073486328125 *
+ * Random Number Adder      =                    0 *
+ * Random Number Bits Used  =                   48 *
+ * Random Number Stride     =               152917 *
+ ***************************************************
+
+
+         7 warning messages so far.
+
+         3 fatal errors so far.
+1physical constants                                                                                     print table 98
+
+
+       name                    value     description
+
+ huge_float      1.0000000000000E+36     infinity
+        pie      3.1415926535898E+00     pi
+      euler      5.7721566490153E-01     euler constant
+     avogad      6.0220434469282E+23     avogadro number (molecules/mole)
+      aneut      1.0086649670000E+00     neutron mass (amu)
+      avgdn      5.9703109000000E-01     avogadro number/neutron mass (1.e-24*molecules/mole/amu)
+      slite      2.9979250000000E+02     speed of light (cm/shake)
+     planck      4.1357320000000E-13     planck constant (mev shake)
+      fscon      1.3703930000000E+02     inverse fine structure constant h*c/(2*pi*e**2)
+
+ particle masses:   ipt       mass (mev)           particle      anti-particle
+
+                      1    9.3958000000000E+02     neutron        5   Aneutron
+                      3    5.1100800000000E-01     electron       8   positron
+                      4    1.0565835700000E+02     mu_minus      16   mu_plus 
+                      9    9.3827199800000E+02     proton        19   Aproton 
+                     10    1.1156830000000E+03     lambda0       25   Alambda0
+                     11    1.1893700000000E+03     sigma+        26   Asigma+ 
+                     12    1.1974490000000E+03     sigma-        27   Asigma- 
+                     13    1.3148300000000E+03     xi0           28   Axi0    
+                     14    1.3213100000000E+03     xi_minus      29   xi_plus 
+                     15    1.6724500000000E+03     omega-        30   Aomega- 
+                     20    1.3957018000000E+02     pi_plus       35   pi_minus
+                     21    1.3497660000000E+02     pi_zero 
+                     22    4.9367700000000E+02     k_plus        36   k_minus 
+                     23    4.9767200000000E+02     k0_short
+                     24    4.9767200000000E+02     k0_long 
+                     31    1.8756127600000E+03     deuteron
+                     32    2.8089208600000E+03     triton  
+                     33    2.8083913200000E+03     helion  
+                     34    3.7273790400000E+03     alpha   
+
+
+ fission q-values:     nuclide    q(mev)   nuclide    q(mev)
+                         90232    171.91     91233    175.57
+                         92233    180.84     92234    179.45
+                         92235    180.88     92236    179.50
+                         92237    180.40     92238    181.31
+                         92239    180.40     92240    180.40
+                         93237    183.67     94238    186.65
+                         94239    189.44     94240    186.36
+                         94241    188.99     94242    185.98
+                         94243    187.48     95241    190.83
+                         95242    190.54     95243    190.25
+                         96242    190.49     96244    190.49
+                         other    180.00
+
+ parallel options:
+
+     omp
+
+     default datapath: /home/arun/projects/roots/MCNP/MCNP_DATA                                        
+                       /opt/local/codes/mcnp/MCNP_DATA                                                 
+
+ the following conditional compilation symbols were defined:
+
+     CEM
+     CEM_M6
+     CINDER
+     INTEL
+     LAQGSM
+     LINUX
+     LLNL_FISS
+     OMP
+     PLOT
+     UNIX
+     XLIB
+1cross-section tables                                                                                   print table 100
+     XSDIR used: /home/arun/projects/roots/MCNP/MCNP_DATA/xsdir_mcnp6.1
+
+     table    length
+
+                        tables from file xdata/endf70b                                                   
+
+ particle-production data for protons   being expunged from  32074.70c
+ particle-production data for alphas    being expunged from  32074.70c
+  32074.70c  108824  32-Ge- 74 at 293.6K from endf/b-vii.0 njoy99.248                             mat3237      08/28/07
+                     probability tables used from 6.0000E-03 to 6.0400E-01 mev.
+
+                        tables from file xdata/endf70i                                                   
+
+ particle-production data for protons   being expunged from  82208.70c
+ particle-production data for deuterons being expunged from  82208.70c
+ particle-production data for tritons   being expunged from  82208.70c
+ particle-production data for alphas    being expunged from  82208.70c
+  82208.70c  320103  82-Pb-208 at 293.6K from endf/b-vii.0 njoy99.248                             mat8237      08/25/07
+
+                        tables from file xdata/endf70j                                                   
+
+  92238.70c 1479970  92-U -238 at 293.6K from endf/b-vii.0 njoy99.248   total nu                  mat9237      08/25/07
+                     probability tables used from 2.0000E-02 to 1.4903E-01 mev.
+
+                        tables from file xdata/mcplib84                                                  
+
+  32000.84p    7103  Update of MCPLIB04 Photon Compton Broadening Data For MCNP5 see LA-UR-    12-00018        01/03/12
+  82000.84p   10086  Update of MCPLIB04 Photon Compton Broadening Data For MCNP5 see LA-UR-    12-00018        01/03/12
+  92000.84p   10884  Update of MCPLIB04 Photon Compton Broadening Data For MCNP5 see LA-UR-    12-00018        01/03/12
+
+                        tables from file xmc/endf7u                                                      
+
+  32074.70u  126135   32-Ge- 74 photonuclear from ENDF/B-VII.0                                    mat3237      05/02/07
+
+                        tables from file xdata/la150u                                                    
+
+  82208.24u   77099  LA150 Photonuclear Data Library Pb-208                                       mat8237      07/26/00
+
+  total     2140204
+ 
+  warning.  simple physics turned on for photons > 100 mev.
+ 
+  warning.  use ACT card to generate delayed gammas from fission.
+
+1particles and energy limits                                                                            print table 101
+
+                         particle      maximum       smallest      largest       always        always
+                         cutoff        particle      table         table         use table     use model
+   particle type         energy        energy        maximum       maximum       below         above
+
+    1  n    neutron     0.0000E+00    1.0000E+36    2.0000E+01    1.5000E+02    1.0000E+36    1.0000E+36
+    2  p    photon      1.0000E-03    1.0000E+05    1.0000E+05    1.0000E+05    1.0000E+36    1.0000E+36
+       photonuclear     1.0000E+00    1.0000E+05    1.4000E+02    1.5000E+02    0.0000E+00    1.5000E+02
+ 
+  fatal error.  Models required. Cannot use memory reduction option.
+
+
+The following nuclides use physics models rather than data tables:
+
+           92238.  u
+ 
+
+         9 warning messages so far.
+
+         4 fatal errors so far.
+
+
+ run terminated because of fatal errors.
+
+ computer time =    0.03 minutes
+
+ mcnp     version 6     05/08/13                     07/14/25 11:39:06                     probid =  07/14/25 11:39:04 
