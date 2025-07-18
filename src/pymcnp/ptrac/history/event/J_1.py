@@ -26,7 +26,7 @@ class J_1(_line.EventLine):
         self,
         next_type: j.EventType,
         node: types.Integer,
-        nsx_nsf_nter: types.Integer,
+        nsx_nsf_nter: types.Real,
         ntyn_mtp_angle_branch: types.Integer,
         ncl: types.Integer,
         mat: types.Integer,
@@ -66,7 +66,7 @@ class J_1(_line.EventLine):
 
         self.next_type: typing.Final[j.EventType] = next_type
         self.node: typing.Final[types.Integer] = node
-        self.nsx_nsf_nter: typing.Final[types.Integer] = nsx_nsf_nter
+        self.nsx_nsf_nter: typing.Final[types.Real] = nsx_nsf_nter
         self.ntyn_mtp_angle_branch: typing.Final[types.Integer] = ntyn_mtp_angle_branch
         self.ncl: typing.Final[types.Integer] = ncl
         self.mat: typing.Final[types.Integer] = mat
@@ -92,7 +92,7 @@ class J_1(_line.EventLine):
 
         next_type = j.EventType.from_mcnp(tokens[1].strip())
         node = types.Integer.from_mcnp(tokens[2])
-        nsx_nsf_nter = types.Integer.from_mcnp(tokens[3])
+        nsx_nsf_nter = types.Real.from_mcnp(tokens[3])
         ntyn_mtp_angle_branch = types.Integer.from_mcnp(tokens[4])
         ncl = types.Integer.from_mcnp(tokens[5])
         mat = types.Integer.from_mcnp(tokens[6])

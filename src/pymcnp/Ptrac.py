@@ -16,7 +16,7 @@ class Ptrac(_object.McnpFile):
         histories: PTRAC histories.
     """
 
-    _REGEX = re.compile(rf'\A({ptrac.Header._REGEX.pattern[2:-2]})((?:{ptrac.History._REGEX.pattern[2:-2]})+)\Z')
+    _REGEX = re.compile(r'\A(   -1\n.{60}\n[^\n]{80}\n(?:\s[^\n]{120}\n)+\s[^\n]{100}\n(?:\s(?:[^\n]{4})+\n)+?)((?:[^\n]+\n(?:(?:(?:(?:\s[^\n]{50})|(?:\s[^\n]{60})|(?:\s[^\n]{60})|(?:\s[^\n]{70})|(?:\s[^\n]{60})|(?:\s[^\n]{70})|(?:\s[^\n]{70})|(?:\s[^\n]{80}))\n(?:\s[^\n]{39})|(?:\s[^\n]{117}))\n)+)+)\Z')
 
     def __init__(self, header: ptrac.Header, histories: typing.Generator[ptrac.History, None, None]):
         """
@@ -63,7 +63,7 @@ class Ptrac(_object.McnpFile):
             raise errors.PtracError(errors.PtracCode.SYNTAX_FILE, source)
 
         header = ptrac.Header.from_mcnp(tokens[1])
-        histories = types.Tuple(ptrac.History.from_mcnp(match[0], header) for match in re.finditer(ptrac.History._REGEX.pattern[2:-2], tokens[10]))
+        histories = types.Tuple(ptrac.History.from_mcnp(match[0], header) for match in re.finditer(ptrac.History._REGEX.pattern[2:-2], tokens[2]))
 
         return Ptrac(header, histories)
 
