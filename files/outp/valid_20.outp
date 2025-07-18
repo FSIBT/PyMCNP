@@ -1,0 +1,65 @@
+          Code Name & Version = MCNP6, 1.0
+  
+     _/      _/        _/_/_/       _/      _/       _/_/_/         _/_/_/
+    _/_/  _/_/      _/             _/_/    _/       _/    _/     _/       
+   _/  _/  _/      _/             _/  _/  _/       _/_/_/       _/_/_/    
+  _/      _/      _/             _/    _/_/       _/           _/    _/   
+ _/      _/        _/_/_/       _/      _/       _/             _/_/      
+  
+  +---------------------------------------------------------------------+
+  | Copyright 2008. Los Alamos National Security, LLC.  All rights      |
+  | reserved.                                                           |
+  |   This material was produced under U.S. Government contract         |
+  | DE-AC52-06NA25396 for Los Alamos National Laboratory, which is      |
+  | operated by Los Alamos National Security, LLC, for the U.S.         |
+  | Department of Energy. The Government is granted for itself and      |
+  | others acting on its behalf a paid-up, nonexclusive, irrevocable    |
+  | worldwide license in this material to reproduce, prepare derivative |
+  | works, and perform publicly and display publicly. Beginning five    |
+  | (5) years after 2008, subject to additional five-year worldwide     |
+  | renewals, the Government is granted for itself and others acting on |
+  | its behalf a paid-up, nonexclusive, irrevocable worldwide license   |
+  | in this material to reproduce, prepare derivative works, distribute |
+  | copies to the public, perform publicly and display publicly, and to |
+  | permit others to do so. NEITHER THE UNITED STATES NOR THE UNITED    |
+  | STATES DEPARTMENT OF ENERGY, NOR LOS ALAMOS NATIONAL SECURITY, LLC, |
+  | NOR ANY OF THEIR EMPLOYEES, MAKES ANY WARRANTY, EXPRESS OR IMPLIED, |
+  | OR ASSUMES ANY LEGAL LIABILITY OR RESPONSIBILITY FOR THE ACCURACY,  |
+  | COMPLETENESS, OR USEFULNESS OF ANY INFORMATION, APPARATUS, PRODUCT, |
+  | OR PROCESS DISCLOSED, OR REPRESENTS THAT ITS USE WOULD NOT INFRINGE |
+  | PRIVATELY OWNED RIGHTS.                                             |
+  +---------------------------------------------------------------------+
+  
+1mcnp     version 6     ld=05/08/13                     07/14/25 11:39:04 
+ *************************************************************************                 probid =  07/14/25 11:39:04 
+ inp=valid_20.inp outp=valid_20.inp.outp ptrac=valid_20.inp.ptrac                
+
+ 
+  warning.  universe map (print table 128) disabled.
+ 
+  warning.  Physics models disabled.
+         1-       RZT Test of two checkerboard cylinders with lnk3dnt                             
+         2-       11 3 -18.7 0 u=1e10 imp:n=1 $ inferred geometry cell                            
+         3-       12 4 -0.001 0 u=1e10 imp:n=1 $ inferred geometry cell                           
+         4-       13 0 0 u=1e10 imp:n=1 $ inferred background cell                                
+         5-       20 0 -1 fill=1e10 (20 0 0) imp:n=1 $ fill cell 1                                
+         6-       21 0 -2 fill=1e10 (-20 0 0 -1 1 0 1 1 0) imp:n=1 $ fill cell 2                  
+         7-                                                                                       
+         8-       1 so 20                                                                         
+         9-                                                                                       
+        10-       kcode 500 1.0 50 100                                                            
+        11-       ksrc 1 1 5 1 -1 5 -1 -1 5 -1 1 5                                                
+        12-           5 5 5 5 -5 5 -5 -5 5 -5 5 5                                                 
+  fatal error.        is not a legal data symbol.
+        13-           1 1 -5 1 -1 -5 -1 -1 -5 -1 1 -5                                             
+  fatal error.        is not a legal data symbol.
+        14-           5 5 -5 5 -5 -5 -5 -5 -5 -5 5 -5                                             
+  fatal error.        is not a legal data symbol.
+        15-       m3 92235.69c 1.0                                                                
+        16-       m4 6012 1.0                                                                     
+        17-       dm1 92235 92235.50                                                              
+        18-       embed10 meshgeo=lnk3dnt mgeoin=cyl.linkout debug=echomesh                       
+
+ bad trouble in subroutine  of imcn                                   
+
+ Embedded geometry file cyl.linkout does not exist.

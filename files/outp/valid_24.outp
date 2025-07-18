@@ -1,0 +1,422 @@
+          Code Name & Version = MCNP6, 1.0
+  
+     _/      _/        _/_/_/       _/      _/       _/_/_/         _/_/_/
+    _/_/  _/_/      _/             _/_/    _/       _/    _/     _/       
+   _/  _/  _/      _/             _/  _/  _/       _/_/_/       _/_/_/    
+  _/      _/      _/             _/    _/_/       _/           _/    _/   
+ _/      _/        _/_/_/       _/      _/       _/             _/_/      
+  
+  +---------------------------------------------------------------------+
+  | Copyright 2008. Los Alamos National Security, LLC.  All rights      |
+  | reserved.                                                           |
+  |   This material was produced under U.S. Government contract         |
+  | DE-AC52-06NA25396 for Los Alamos National Laboratory, which is      |
+  | operated by Los Alamos National Security, LLC, for the U.S.         |
+  | Department of Energy. The Government is granted for itself and      |
+  | others acting on its behalf a paid-up, nonexclusive, irrevocable    |
+  | worldwide license in this material to reproduce, prepare derivative |
+  | works, and perform publicly and display publicly. Beginning five    |
+  | (5) years after 2008, subject to additional five-year worldwide     |
+  | renewals, the Government is granted for itself and others acting on |
+  | its behalf a paid-up, nonexclusive, irrevocable worldwide license   |
+  | in this material to reproduce, prepare derivative works, distribute |
+  | copies to the public, perform publicly and display publicly, and to |
+  | permit others to do so. NEITHER THE UNITED STATES NOR THE UNITED    |
+  | STATES DEPARTMENT OF ENERGY, NOR LOS ALAMOS NATIONAL SECURITY, LLC, |
+  | NOR ANY OF THEIR EMPLOYEES, MAKES ANY WARRANTY, EXPRESS OR IMPLIED, |
+  | OR ASSUMES ANY LEGAL LIABILITY OR RESPONSIBILITY FOR THE ACCURACY,  |
+  | COMPLETENESS, OR USEFULNESS OF ANY INFORMATION, APPARATUS, PRODUCT, |
+  | OR PROCESS DISCLOSED, OR REPRESENTS THAT ITS USE WOULD NOT INFRINGE |
+  | PRIVATELY OWNED RIGHTS.                                             |
+  +---------------------------------------------------------------------+
+  
+1mcnp     version 6     ld=05/08/13                     07/14/25 11:39:04 
+ *************************************************************************                 probid =  07/14/25 11:39:04 
+ inp=valid_24.inp outp=valid_24.inp.outp ptrac=valid_24.inp.ptrac                
+
+ 
+  warning.  Physics models disabled.
+         1-       FMESH tally Example 31                                                          
+         2-       c Cells                                                                         
+         3-       900 100 -19.1 -1 imp:n=1 $ Natural Uranium                                      
+         4-       901 200 -19.1 -2 imp:n=1 $ Depleted Uranium                                     
+         5-       902 300 -0.001 1 2 -3 imp:n=1 $ air                                             
+         6-       903 0 3 imp:n=0 $ Void, kill n                                                  
+         7-                                                                                       
+         8-       c Surfaces                                                                      
+         9-       1 sx 4 3                                                                        
+        10-       2 sx -4 3                                                                       
+        11-       3 so 10                                                                         
+        12-                                                                                       
+        13-       sdef erg=2                                                                      
+        14-       mode n                                                                          
+        15-       c nps 500000                                                                    
+        16-       c                                                                               
+        17-       c Problem materials                                                             
+        18-       c Natural Uranium                                                               
+        19-       m100 92238 0.992745                                                             
+        20-            92235 0.007200                                                             
+        21-       c Hypothetical Depleted Uranium                                                 
+        22-       m200 92238 0.9999                                                               
+        23-            92235 0.0001                                                               
+        24-       c Air                                                                           
+        25-       m300 7014 -0.755 8016 -0.231 18000 -0.013                                       
+        26-       c Dummy materials for FM mesh tallies                                           
+        27-       m238 92238 1.0                                                                  
+  warning.  material       238 is used only for a perturbation or tally.
+        28-       m235 92235 1.0                                                                  
+  warning.  material       235 is used only for a perturbation or tally.
+        29-       c                                                                               
+        30-       fmesh04:n geom=xyz origin -10 -10 -10                                           
+ 
+  fatal error.  imesh keyword missing from fmesh card.
+ 
+  fatal error.  jmesh keyword missing from fmesh card.
+ 
+  fatal error.  kmesh keyword missing from fmesh card.
+        31-           imesh 10 iints 100                                                          
+  fatal error.  imesh is not a legal data symbol.
+        32-           jmesh 10 jints 100                                                          
+  fatal error.  jmesh is not a legal data symbol.
+        33-           kmesh 10 kints 100                                                          
+  fatal error.  kmesh is not a legal data symbol.
+        34-           out=none                                                                    
+  fatal error.  outno is not a legal data symbol.
+        35-       fmesh14:n geom=xyz origin -10 -10 -10                                           
+ 
+  fatal error.  imesh keyword missing from fmesh card.
+ 
+  fatal error.  jmesh keyword missing from fmesh card.
+ 
+  fatal error.  kmesh keyword missing from fmesh card.
+        36-           imesh 10 iints 100                                                          
+  fatal error.  imesh is not a legal data symbol.
+        37-           jmesh 10 jints 100                                                          
+  fatal error.  jmesh is not a legal data symbol.
+        38-           kmesh 10 kints 100                                                          
+  fatal error.  kmesh is not a legal data symbol.
+        39-           out=none                                                                    
+  fatal error.  outno is not a legal data symbol.
+        40-       fmesh24:n geom=xyz origin -10 -10 -10                                           
+ 
+  fatal error.  imesh keyword missing from fmesh card.
+ 
+  fatal error.  jmesh keyword missing from fmesh card.
+ 
+  fatal error.  kmesh keyword missing from fmesh card.
+        41-           imesh 10 iints 100                                                          
+  fatal error.  imesh is not a legal data symbol.
+        42-           jmesh 10 jints 100                                                          
+  fatal error.  jmesh is not a legal data symbol.
+        43-           kmesh 10 kints 100                                                          
+  fatal error.  kmesh is not a legal data symbol.
+        44-           out=none                                                                    
+  fatal error.  outno is not a legal data symbol.
+        45-       c Tally multipliers                                                             
+        46-       +fm04 -1 235 -6 $ fission rate per cm3 from U235                                
+        47-       +fm14 -1 238 -6 $ fission rate per cm3 from U238                                
+        48-       +fm24 -1 100 -6 $ total fission rate from both U235 and U238                    
+        49-       c                                                                               
+        50-       NPS 1e4                                                                         
+        51-       PTRAC file=asc                                                                  
+        52-                                                                                       
+ 
+  comment.  total nubar used if fissionable isotopes are present.
+1source                                                                                                 print table 10
+
+ values of defaulted or explicitly defined source variables
+
+    cel        0.0000E+00
+    sur        0.0000E+00
+    erg        2.0000E+00
+    tme        0.0000E+00
+    dir        isotropic 
+    pos        0.0000E+00   0.0000E+00   0.0000E+00
+    x          0.0000E+00
+    y          0.0000E+00
+    z          0.0000E+00
+    rad        0.0000E+00
+    ext        0.0000E+00
+    axs        0.0000E+00   0.0000E+00   0.0000E+00
+    vec        0.0000E+00   0.0000E+00   0.0000E+00
+    ccc        0.0000E+00
+    nrm        1.0000E+00
+    ara        0.0000E+00
+    wgt        1.0000E+00
+    eff        1.0000E-02
+    par        0.0000E+00
+    tr         0.0000E+00
+    bem        0.0000E+00   0.0000E+00   0.0000E+00
+    bap        0.0000E+00   0.0000E+00   0.0000E+00
+    loc        0.0000E+00   0.0000E+00   0.0000E+00
+    dat        0.0000E+00   0.0000E+00   0.0000E+00
+
+
+ order of sampling source variables.
+ pos erg tme
+ 
+  warning.   FM card uses material       235 cross sections over all of mesh tally         4
+ 
+  warning.   FM card uses material       238 cross sections over all of mesh tally        14
+ 
+  warning.   FM card uses material       100 cross sections over all of mesh tally        24
+ 
+1mesh tally         4                                                                                   print table 32
+                 tally type 4    track length estimate of particle flux
+ neutron  mesh tally.
+
+Isotopic reaction rate tally
+
+ multiplier bins
+      constant    material   reactions
+    -1.00000E+00      235         -6
+ 
+          Cartesian coordinates
+               x coordinate range is from -1.00E+01 to -1.00E+01 in     0 bins.
+               y coordinate range is from -1.00E+01 to -1.00E+01 in     0 bins.
+               z coordinate range is from -1.00E+01 to -1.00E+01 in     0 bins.
+ 
+1mesh tally        14                                                                                   print table 32
+                 tally type 4    track length estimate of particle flux
+ neutron  mesh tally.
+
+Isotopic reaction rate tally
+
+ multiplier bins
+      constant    material   reactions
+    -1.00000E+00      238         -6
+ 
+          Cartesian coordinates
+               x coordinate range is from -1.00E+01 to -1.00E+01 in     0 bins.
+               y coordinate range is from -1.00E+01 to -1.00E+01 in     0 bins.
+               z coordinate range is from -1.00E+01 to -1.00E+01 in     0 bins.
+ 
+1mesh tally        24                                                                                   print table 32
+                 tally type 4    track length estimate of particle flux
+ neutron  mesh tally.
+
+Isotopic reaction rate tally
+
+ multiplier bins
+      constant    material   reactions
+    -1.00000E+00      100         -6
+ 
+          Cartesian coordinates
+               x coordinate range is from -1.00E+01 to -1.00E+01 in     0 bins.
+               y coordinate range is from -1.00E+01 to -1.00E+01 in     0 bins.
+               z coordinate range is from -1.00E+01 to -1.00E+01 in     0 bins.
+1material composition                                                                                   print table 40
+
+ the sum of the fractions of material      100 was 9.999450E-01
+
+ the sum of the fractions of material      300 was 9.990000E-01
+
+ material
+  number     component nuclide, atom fraction
+
+      100           92238, 9.92800E-01      92235, 7.20040E-03
+      200           92238, 9.99900E-01      92235, 1.00000E-04
+      300            7014, 7.84994E-01       8016, 2.10268E-01      18000, 4.73800E-03
+      238           92238, 1.00000E+00
+      235           92235, 1.00000E+00
+
+
+
+
+
+ material
+  number     component nuclide, mass fraction
+
+      100           92238, 9.92890E-01      92235, 7.11009E-03
+      200           92238, 9.99901E-01      92235, 9.87370E-05
+      300            7014, 7.55756E-01       8016, 2.31231E-01      18000, 1.30130E-02
+      238           92238, 1.00000E+00
+      235           92235, 1.00000E+00
+ 
+  warning.    2 materials had unnormalized fractions. print table 40.
+1cell volumes and masses                                                                                print table 50
+
+              cell     atom          gram         input       calculated                            reason volume
+                      density       density       volume        volume         mass       pieces    not calculated
+
+        1      900  4.83222E-02   1.91000E+01   0.00000E+00   1.13097E+02   2.16016E+03      1                      
+        2      901  4.83179E-02   1.91000E+01   0.00000E+00   1.13097E+02   2.16016E+03      1                      
+        3      902  4.14034E-05   1.00000E-03   0.00000E+00   3.96260E+03   3.96260E+00      1                      
+        4      903  0.00000E+00   0.00000E+00   0.00000E+00   0.00000E+00   0.00000E+00      0      infinite        
+1surface areas                                                                                          print table 50
+
+           surface      input      calculated    reason area
+                        area          area       not calculated
+
+        1        1      0.00000E+00   1.13097E+02                   
+        2        2      0.00000E+00   1.13097E+02                   
+        3        3      0.00000E+00   1.25664E+03                   
+1cells                                                                                                  print table 60
+
+                               atom        gram                                            neutron                                     
+              cell      mat   density     density     volume       mass            pieces importance                                   
+
+        1      900      100  4.83222E-02 1.91000E+01 1.13097E+02 2.16016E+03           1  1.0000E+00                                   
+        2      901      200  4.83179E-02 1.91000E+01 1.13097E+02 2.16016E+03           1  1.0000E+00                                   
+        3      902      300  4.14034E-05 1.00000E-03 3.96260E+03 3.96260E+00           1  1.0000E+00                                   
+        4      903        0  0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00           0  0.0000E+00                                   
+
+ total                                               4.18879E+03 4.32428E+03
+1surfaces                                                                                               print table 70
+
+           surface        trans  type   surface coefficients
+
+        1        1                sx    4.0000000E+00   3.0000000E+00
+        2        2                sx   -4.0000000E+00   3.0000000E+00
+        3        3                so    1.0000000E+01
+1  cell temperatures in mev for the free-gas thermal neutron treatment.                                 print table 72
+
+   all non-zero importance cells with materials have a temperature for thermal neutrons of 2.5300E-08 mev.
+
+    minimum source weight = 1.0000E+00    maximum source weight = 1.0000E+00
+
+ ***************************************************
+ * Random Number Generator  =                    1 *
+ * Random Number Seed       =       19073486328125 *
+ * Random Number Multiplier =       19073486328125 *
+ * Random Number Adder      =                    0 *
+ * Random Number Bits Used  =                   48 *
+ * Random Number Stride     =               152917 *
+ ***************************************************
+
+
+         7 warning messages so far.
+
+        21 fatal errors so far.
+1physical constants                                                                                     print table 98
+
+
+       name                    value     description
+
+ huge_float      1.0000000000000E+36     infinity
+        pie      3.1415926535898E+00     pi
+      euler      5.7721566490153E-01     euler constant
+     avogad      6.0220434469282E+23     avogadro number (molecules/mole)
+      aneut      1.0086649670000E+00     neutron mass (amu)
+      avgdn      5.9703109000000E-01     avogadro number/neutron mass (1.e-24*molecules/mole/amu)
+      slite      2.9979250000000E+02     speed of light (cm/shake)
+     planck      4.1357320000000E-13     planck constant (mev shake)
+      fscon      1.3703930000000E+02     inverse fine structure constant h*c/(2*pi*e**2)
+
+ particle masses:   ipt       mass (mev)           particle      anti-particle
+
+                      1    9.3958000000000E+02     neutron        5   Aneutron
+                      3    5.1100800000000E-01     electron       8   positron
+                      4    1.0565835700000E+02     mu_minus      16   mu_plus 
+                      9    9.3827199800000E+02     proton        19   Aproton 
+                     10    1.1156830000000E+03     lambda0       25   Alambda0
+                     11    1.1893700000000E+03     sigma+        26   Asigma+ 
+                     12    1.1974490000000E+03     sigma-        27   Asigma- 
+                     13    1.3148300000000E+03     xi0           28   Axi0    
+                     14    1.3213100000000E+03     xi_minus      29   xi_plus 
+                     15    1.6724500000000E+03     omega-        30   Aomega- 
+                     20    1.3957018000000E+02     pi_plus       35   pi_minus
+                     21    1.3497660000000E+02     pi_zero 
+                     22    4.9367700000000E+02     k_plus        36   k_minus 
+                     23    4.9767200000000E+02     k0_short
+                     24    4.9767200000000E+02     k0_long 
+                     31    1.8756127600000E+03     deuteron
+                     32    2.8089208600000E+03     triton  
+                     33    2.8083913200000E+03     helion  
+                     34    3.7273790400000E+03     alpha   
+
+
+ fission q-values:     nuclide    q(mev)   nuclide    q(mev)
+                         90232    171.91     91233    175.57
+                         92233    180.84     92234    179.45
+                         92235    180.88     92236    179.50
+                         92237    180.40     92238    181.31
+                         92239    180.40     92240    180.40
+                         93237    183.67     94238    186.65
+                         94239    189.44     94240    186.36
+                         94241    188.99     94242    185.98
+                         94243    187.48     95241    190.83
+                         95242    190.54     95243    190.25
+                         96242    190.49     96244    190.49
+                         other    180.00
+
+ parallel options:
+
+     omp
+
+     default datapath: /home/arun/projects/roots/MCNP/MCNP_DATA                                        
+                       /opt/local/codes/mcnp/MCNP_DATA                                                 
+
+ the following conditional compilation symbols were defined:
+
+     CEM
+     CEM_M6
+     CINDER
+     INTEL
+     LAQGSM
+     LINUX
+     LLNL_FISS
+     OMP
+     PLOT
+     UNIX
+     XLIB
+1cross-section tables                                                                                   print table 100
+     XSDIR used: /home/arun/projects/roots/MCNP/MCNP_DATA/xsdir_mcnp6.1
+
+     table    length
+
+                        tables from file xdata/endf71x/N/7014.710nc                                      
+
+ particle-production data for protons   being expunged from   7014.80c
+ particle-production data for deuterons being expunged from   7014.80c
+ particle-production data for alphas    being expunged from   7014.80c
+   7014.80c   67470  N14 ENDF71x (jlconlin)  Ref. see jlconlin (ref 09/10/2012  10:00:53)         mat 725      12/16/12
+
+                        tables from file xdata/endf71x/O/8016.710nc                                      
+
+ particle-production data for protons   being expunged from   8016.80c
+ particle-production data for deuterons being expunged from   8016.80c
+ particle-production data for tritons   being expunged from   8016.80c
+ particle-production data for alphas    being expunged from   8016.80c
+   8016.80c  171194  O16 ENDF71x (jlconlin)  Ref. see jlconlin (ref 09/10/2012  10:00:53)         mat 825      12/13/12
+
+                        tables from file xdata/rmccsa                                                    
+
+  18000.35c    2182      endl85                                                                   (  18)       11/01/85
+                     temperature = 0.0000E+00 adjusted to 2.5300E-08
+
+                        tables from file xdata/endf71x/U/92235.710nc                                     
+
+  92235.80c  680846  U235 ENDF71x (jlconlin)  Ref. see jlconlin (ref 09/total nu 10:00:53)        mat9228      12/19/12
+                     probability tables used from 2.2500E-03 to 2.5000E-02 mev.
+
+                        tables from file xdata/endf71x/U/92238.710nc                                     
+
+  92238.80c 1317975  U238 ENDF71x (jlconlin)  Ref. see jlconlin (ref 09/total nu 10:00:53)        mat9237      12/13/12
+                     probability tables used from 2.0000E-02 to 1.4903E-01 mev.
+
+  total     2239667
+ 
+  warning.  neutron energy cutoff is below some cross-section tables.
+ 
+  comment.     1 cross sections modified by free gas thermal treatment.
+
+1particles and energy limits                                                                            print table 101
+
+                         particle      maximum       smallest      largest       always        always
+                         cutoff        particle      table         table         use table     use model
+   particle type         energy        energy        maximum       maximum       below         above
+
+    1  n    neutron     0.0000E+00    1.0000E+36    2.0000E+01    1.5000E+02    1.0000E+36    1.0000E+36
+ 
+
+         8 warning messages so far.
+
+        21 fatal errors so far.
+
+
+ run terminated because of fatal errors.
+
+ computer time =    0.01 minutes
+
+ mcnp     version 6     05/08/13                     07/14/25 11:39:04                     probid =  07/14/25 11:39:04 
