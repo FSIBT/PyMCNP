@@ -27,7 +27,7 @@ class Tuple(tuple, _type.Type):
             TypesError: SEMANTICS_TYPE.
         """
 
-        if value is None or not (value != tuple()):
+        if value is None or value == tuple() or None in value:
             raise errors.TypesError(errors.TypesCode.SEMANTICS_TYPE, value)
 
         self.value: typing.Final[tuple] = value
@@ -49,10 +49,6 @@ class Tuple(tuple, _type.Type):
         """
 
         tokens = re.finditer(T._REGEX.pattern[2:-2], source)
-
-        if not tokens:
-            raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source)
-
         return Tuple([T.from_mcnp(token[0]) for token in tokens])
 
     def to_mcnp(self):

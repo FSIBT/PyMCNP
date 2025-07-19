@@ -1,5 +1,4 @@
 import re
-import typing
 
 from . import _type
 from .Integer import Integer
@@ -34,11 +33,12 @@ class Index(_type.Type):
 
         if lower is None:
             raise errors.TypesError(errors.TypesCode.SEMANTICS_TYPE, lower)
+
         if upper is None:
             raise errors.TypesError(errors.TypesCode.SEMANTICS_TYPE, upper)
 
-        self.lower: typing.Final[Integer] = lower
-        self.upper: typing.Final[Integer] = upper
+        self.lower: Integer = lower
+        self.upper: Integer = upper
 
     @staticmethod
     def from_mcnp(source: str):
@@ -60,8 +60,8 @@ class Index(_type.Type):
         if not tokens:
             raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source)
 
-        lower = Integer.from_mcnp(tokens[1])
-        upper = Integer.from_mcnp(tokens[2])
+        lower = Integer.from_mcnp(tokens[1]).value
+        upper = Integer.from_mcnp(tokens[2]).value
 
         return Index(lower, upper)
 

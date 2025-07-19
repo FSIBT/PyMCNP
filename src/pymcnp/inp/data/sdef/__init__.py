@@ -1,5 +1,6 @@
 from ._option import SdefOption
 
+from . import tme_1
 from .Cel import Cel
 from .Sur import Sur
 from .Erg_0 import Erg_0
@@ -32,6 +33,7 @@ from .Bap import Bap
 
 __all__ = [
     'SdefOption',
+    'tme_1',
     'Cel',
     'Sur',
     'Erg_0',

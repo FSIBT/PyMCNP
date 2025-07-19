@@ -3,12 +3,7 @@ import typing
 import decimal
 
 from . import _type
-from .Horizontal import Horizontal
-from .Horizontal import Repeat
-from .Horizontal import Insert
-from .Horizontal import Multiply
-from .Horizontal import Jump
-from .Horizontal import Log
+from .. import types
 from .. import errors
 
 
@@ -22,7 +17,7 @@ class Real(_type.Type):
 
     _REGEX = re.compile(r'\A(?:\d*j|\d*log|\d*ilog|\d*m|\d*i|\d*r|[-+0-9.eEdD]+)\Z')
 
-    def __init__(self, value: int | Horizontal):
+    def __init__(self, value: int | types.Horizontal):
         """
         Initializes ``Real``.
 
@@ -57,27 +52,27 @@ class Real(_type.Type):
         """
 
         try:
-            return Real(Repeat.from_mcnp(source))
+            return Real(types.Repeat.from_mcnp(source))
         except errors.TypesError:
             pass
 
         try:
-            return Real(Insert.from_mcnp(source))
+            return Real(types.Insert.from_mcnp(source))
         except errors.TypesError:
             pass
 
         try:
-            return Real(Multiply.from_mcnp(source))
+            return Real(types.Multiply.from_mcnp(source))
         except errors.TypesError:
             pass
 
         try:
-            return Real(Jump.from_mcnp(source))
+            return Real(types.Jump.from_mcnp(source))
         except errors.TypesError:
             pass
 
         try:
-            return Real(Log.from_mcnp(source))
+            return Real(types.Log.from_mcnp(source))
         except errors.TypesError:
             pass
 
@@ -87,7 +82,7 @@ class Real(_type.Type):
 
         try:
             return Real(decimal.Decimal(source))
-        except errors.TypesError:
+        except decimal.InvalidOperation:
             raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source)
 
     def to_mcnp(self):
@@ -100,188 +95,8 @@ class Real(_type.Type):
 
         return str(self.value)
 
-    def __lt__(a, b):
-        if isinstance(b, Real):
-            return a.value < b.value
-        elif isinstance(b, decimal.Decimal):
-            return a.value < b
-        elif isinstance(b, float) or isinstance(b, int):
-            return a.value < decimal.Decimal(str(b))
-        else:
-            return a.value.__lt__(b)
-
-    def __le__(a, b):
-        if isinstance(b, Real):
-            return a.value <= b.value
-        elif isinstance(b, decimal.Decimal):
-            return a.value <= b
-        elif isinstance(b, float) or isinstance(b, int):
-            return a.value <= decimal.Decimal(str(b))
-        else:
-            return a.value.__le__(b)
-
-    def __eq__(a, b):
-        if isinstance(b, Real):
-            return a.value == b.value
-        elif isinstance(b, decimal.Decimal):
-            return a.value == b
-        elif isinstance(b, float) or isinstance(b, int):
-            return a.value == decimal.Decimal(str(b))
-        else:
-            return a.value.__eq__(b)
-
-    def __ne__(a, b):
-        if isinstance(b, Real):
-            return a.value != b.value
-        elif isinstance(b, decimal.Decimal):
-            return a.value != b
-        elif isinstance(b, float) or isinstance(b, int):
-            return a.value != decimal.Decimal(str(b))
-        else:
-            return a.value.__ne__(b)
-
-    def __gt__(a, b):
-        if isinstance(b, Real):
-            return a.value > b.value
-        elif isinstance(b, decimal.Decimal):
-            return a.value > b
-        elif isinstance(b, float) or isinstance(b, int):
-            return a.value > decimal.Decimal(str(b))
-        else:
-            return a.value.__gt__(b)
-
-    def __ge__(a, b):
-        if isinstance(b, Real):
-            return a.value >= b.value
-        elif isinstance(b, decimal.Decimal):
-            return a.value >= b
-        elif isinstance(b, float) or isinstance(b, int):
-            return a.value >= decimal.Decimal(str(b))
-        else:
-            return a.value.__ge__(b)
-
     def __hash__(self):
         return hash(self.value)
-
-    def __add__(a, b):
-        if isinstance(b, Real):
-            return a.value.__add__(b.value)
-        elif isinstance(b, decimal.Decimal):
-            return a.value.__add__(b)
-        elif isinstance(b, float) or isinstance(b, int):
-            return a.value.__add__(decimal.Decimal(str(b)))
-        else:
-            return a.__add_(b)
-
-    def __radd__(a, b):
-        if isinstance(b, Real):
-            return a.value.__add__(b.value)
-        elif isinstance(b, decimal.Decimal):
-            return a.value.__add__(b)
-        elif isinstance(b, float) or isinstance(b, int):
-            return a.value.__add__(decimal.Decimal(str(b)))
-        else:
-            return a.__radd(b)
-
-    def __sub__(a, b):
-        if isinstance(b, Real):
-            return a.value.__add__(b.value)
-        elif isinstance(b, decimal.Decimal):
-            return a.value.__add__(b)
-        elif isinstance(b, float) or isinstance(b, int):
-            return a.value.__add__(decimal.Decimal(str(b)))
-        else:
-            return a.__sub_(b)
-
-    def __rsub__(a, b):
-        if isinstance(b, Real):
-            return a.value.__add__(b.value)
-        elif isinstance(b, decimal.Decimal):
-            return a.value.__add__(b)
-        elif isinstance(b, float) or isinstance(b, int):
-            return a.value.__add__(decimal.Decimal(str(b)))
-        else:
-            return a.__rsub(b)
-
-    def __mul__(a, b):
-        if isinstance(b, Real):
-            return a.value.__add__(b.value)
-        elif isinstance(b, decimal.Decimal):
-            return a.value.__add__(b)
-        elif isinstance(b, float) or isinstance(b, int):
-            return a.value.__add__(decimal.Decimal(str(b)))
-        else:
-            return a.__mul_(b)
-
-    def __rmul__(a, b):
-        if isinstance(b, Real):
-            return a.value.__add__(b.value)
-        elif isinstance(b, decimal.Decimal):
-            return a.value.__add__(b)
-        elif isinstance(b, float) or isinstance(b, int):
-            return a.value.__add__(decimal.Decimal(str(b)))
-        else:
-            return a.__rmul(b)
-
-    def __mod__(a, b):
-        if isinstance(b, Real):
-            return a.value.__add__(b.value)
-        elif isinstance(b, decimal.Decimal):
-            return a.value.__add__(b)
-        elif isinstance(b, float) or isinstance(b, int):
-            return a.value.__add__(decimal.Decimal(str(b)))
-        else:
-            return a.__mod_(b)
-
-    def __rmod__(a, b):
-        if isinstance(b, Real):
-            return a.value.__add__(b.value)
-        elif isinstance(b, decimal.Decimal):
-            return a.value.__add__(b)
-        elif isinstance(b, float) or isinstance(b, int):
-            return a.value.__add__(decimal.Decimal(str(b)))
-        else:
-            return a.__rmod(b)
-
-    def __divmod__(a, b):
-        if isinstance(b, Real):
-            return a.value.__add__(b.value)
-        elif isinstance(b, decimal.Decimal):
-            return a.value.__add__(b)
-        elif isinstance(b, float) or isinstance(b, int):
-            return a.value.__add__(decimal.Decimal(str(b)))
-        else:
-            return a.__divm(b)
-
-    def __rdivmod__(a, b):
-        if isinstance(b, Real):
-            return a.value.__add__(b.value)
-        elif isinstance(b, decimal.Decimal):
-            return a.value.__add__(b)
-        elif isinstance(b, float) or isinstance(b, int):
-            return a.value.__add__(decimal.Decimal(str(b)))
-        else:
-            return a.__rdiv(b)
-
-    def __pow__(a, b):
-        if isinstance(b, Real):
-            return a.value.__add__(b.value)
-        elif isinstance(b, decimal.Decimal):
-            return a.value.__add__(b)
-        elif isinstance(b, float) or isinstance(b, int):
-            return a.value.__add__(decimal.Decimal(str(b)))
-        else:
-            return a.__pow_(b)
-
-    def __rpow__(a, b):
-        if isinstance(b, Real):
-            return a.value.__add__(b.value)
-        elif isinstance(b, decimal.Decimal):
-            return a.value.__add__(b)
-        elif isinstance(b, float) or isinstance(b, int):
-            return a.value.__add__(decimal.Decimal(str(b)))
-        else:
-            return a.__rpow(b)
 
     def __neg__(self):
         return self.value.__neg__()
@@ -301,46 +116,6 @@ class Real(_type.Type):
     def __float__(self):
         return self.value.__float__()
 
-    def __floordiv__(a, b):
-        if isinstance(b, Real):
-            return a.value.__add__(b.value)
-        elif isinstance(b, decimal.Decimal):
-            return a.value.__add__(b)
-        elif isinstance(b, float) or isinstance(b, int):
-            return a.value.__add__(decimal.Decimal(str(b)))
-        else:
-            return a.__floo(b)
-
-    def __rfloordiv__(a, b):
-        if isinstance(b, Real):
-            return a.value.__add__(b.value)
-        elif isinstance(b, decimal.Decimal):
-            return a.value.__add__(b)
-        elif isinstance(b, float) or isinstance(b, int):
-            return a.value.__add__(decimal.Decimal(str(b)))
-        else:
-            return a.__rflo(b)
-
-    def __truediv__(a, b):
-        if isinstance(b, Real):
-            return a.value.__add__(b.value)
-        elif isinstance(b, decimal.Decimal):
-            return a.value.__add__(b)
-        elif isinstance(b, float) or isinstance(b, int):
-            return a.value.__add__(decimal.Decimal(str(b)))
-        else:
-            return a.__true(b)
-
-    def __rtruediv__(a, b):
-        if isinstance(b, Real):
-            return a.value.__add__(b.value)
-        elif isinstance(b, decimal.Decimal):
-            return a.value.__add__(b)
-        elif isinstance(b, float) or isinstance(b, int):
-            return a.value.__add__(decimal.Decimal(str(b)))
-        else:
-            return a.__rtru(b)
-
     def __trunc__(self):
         return self.value.__trunc__()
 
@@ -352,3 +127,182 @@ class Real(_type.Type):
 
     def __round__(self):
         return self.value.__round__()
+
+    def __format__(self, spec):
+        return self.value.__format__(spec)
+
+    def __lt__(a, b):
+        if isinstance(b, Real):
+            return a.value < b.value
+        elif isinstance(b, decimal.Decimal):
+            return a.value < b
+        elif isinstance(b, float) or isinstance(b, int):
+            return a.value < decimal.Decimal(str(b))
+
+    def __le__(a, b):
+        if isinstance(b, Real):
+            return a.value <= b.value
+        elif isinstance(b, decimal.Decimal):
+            return a.value <= b
+        elif isinstance(b, float) or isinstance(b, int):
+            return a.value <= decimal.Decimal(str(b))
+
+    def __eq__(a, b):
+        if isinstance(b, Real):
+            return a.value == b.value
+        elif isinstance(b, decimal.Decimal):
+            return a.value == b
+        elif isinstance(b, float) or isinstance(b, int):
+            return a.value == decimal.Decimal(str(b))
+
+    def __ne__(a, b):
+        if isinstance(b, Real):
+            return a.value != b.value
+        elif isinstance(b, decimal.Decimal):
+            return a.value != b
+        elif isinstance(b, float) or isinstance(b, int):
+            return a.value != decimal.Decimal(str(b))
+
+    def __gt__(a, b):
+        if isinstance(b, Real):
+            return a.value > b.value
+        elif isinstance(b, decimal.Decimal):
+            return a.value > b
+        elif isinstance(b, float) or isinstance(b, int):
+            return a.value > decimal.Decimal(str(b))
+
+    def __ge__(a, b):
+        if isinstance(b, Real):
+            return a.value >= b.value
+        elif isinstance(b, decimal.Decimal):
+            return a.value >= b
+        elif isinstance(b, float) or isinstance(b, int):
+            return a.value >= decimal.Decimal(str(b))
+
+    def __add__(a, b):
+        if isinstance(b, Real):
+            return a.value.__add__(b.value)
+        elif isinstance(b, decimal.Decimal):
+            return a.value.__add__(b)
+        elif isinstance(b, float) or isinstance(b, int):
+            return a.value.__add__(decimal.Decimal(str(b)))
+
+    def __radd__(a, b):
+        if isinstance(b, Real):
+            return a.value.__radd__(b.value)
+        elif isinstance(b, decimal.Decimal):
+            return a.value.__radd__(b)
+        elif isinstance(b, float) or isinstance(b, int):
+            return a.value.__radd__(decimal.Decimal(str(b)))
+
+    def __sub__(a, b):
+        if isinstance(b, Real):
+            return a.value.__sub__(b.value)
+        elif isinstance(b, decimal.Decimal):
+            return a.value.__sub__(b)
+        elif isinstance(b, float) or isinstance(b, int):
+            return a.value.__sub__(decimal.Decimal(str(b)))
+
+    def __rsub__(a, b):
+        if isinstance(b, Real):
+            return a.value.__rsub__(b.value)
+        elif isinstance(b, decimal.Decimal):
+            return a.value.__rsub__(b)
+        elif isinstance(b, float) or isinstance(b, int):
+            return a.value.__rsub__(decimal.Decimal(str(b)))
+
+    def __mul__(a, b):
+        if isinstance(b, Real):
+            return a.value.__mul__(b.value)
+        elif isinstance(b, decimal.Decimal):
+            return a.value.__mul__(b)
+        elif isinstance(b, float) or isinstance(b, int):
+            return a.value.__mul__(decimal.Decimal(str(b)))
+
+    def __rmul__(a, b):
+        if isinstance(b, Real):
+            return a.value.__rmul__(b.value)
+        elif isinstance(b, decimal.Decimal):
+            return a.value.__rmul__(b)
+        elif isinstance(b, float) or isinstance(b, int):
+            return a.value.__rmul__(decimal.Decimal(str(b)))
+
+    def __mod__(a, b):
+        if isinstance(b, Real):
+            return a.value.__mod__(b.value)
+        elif isinstance(b, decimal.Decimal):
+            return a.value.__mod__(b)
+        elif isinstance(b, float) or isinstance(b, int):
+            return a.value.__mod__(decimal.Decimal(str(b)))
+
+    def __rmod__(a, b):
+        if isinstance(b, Real):
+            return a.value.__rmod__(b.value)
+        elif isinstance(b, decimal.Decimal):
+            return a.value.__rmod__(b)
+        elif isinstance(b, float) or isinstance(b, int):
+            return a.value.__rmod__(decimal.Decimal(str(b)))
+
+    def __divmod__(a, b):
+        if isinstance(b, Real):
+            return a.value.__divmod__(b.value)
+        elif isinstance(b, decimal.Decimal):
+            return a.value.__divmod__(b)
+        elif isinstance(b, float) or isinstance(b, int):
+            return a.value.__divmod__(decimal.Decimal(str(b)))
+
+    def __rdivmod__(a, b):
+        if isinstance(b, Real):
+            return a.value.__rdivmod__(b.value)
+        elif isinstance(b, decimal.Decimal):
+            return a.value.__rdivmod__(b)
+        elif isinstance(b, float) or isinstance(b, int):
+            return a.value.__rdivmod__(decimal.Decimal(str(b)))
+
+    def __pow__(a, b):
+        if isinstance(b, Real):
+            return a.value.__pow__(b.value)
+        elif isinstance(b, decimal.Decimal):
+            return a.value.__pow__(b)
+        elif isinstance(b, float) or isinstance(b, int):
+            return a.value.__pow__(decimal.Decimal(str(b)))
+
+    def __rpow__(a, b):
+        if isinstance(b, Real):
+            return a.value.__rpow__(b.value)
+        elif isinstance(b, decimal.Decimal):
+            return a.value.__rpow__(b)
+        elif isinstance(b, float) or isinstance(b, int):
+            return a.value.__rpow__(decimal.Decimal(str(b)))
+
+    def __floordiv__(a, b):
+        if isinstance(b, Real):
+            return a.value.__floordiv__(b.value)
+        elif isinstance(b, decimal.Decimal):
+            return a.value.__floordiv__(b)
+        elif isinstance(b, float) or isinstance(b, int):
+            return a.value.__floordiv__(decimal.Decimal(str(b)))
+
+    def __rfloordiv__(a, b):
+        if isinstance(b, Real):
+            return a.value.__rfloordiv__(b.value)
+        elif isinstance(b, decimal.Decimal):
+            return a.value.__rfloordiv__(b)
+        elif isinstance(b, float) or isinstance(b, int):
+            return a.value.__rfloordiv__(decimal.Decimal(str(b)))
+
+    def __truediv__(a, b):
+        if isinstance(b, Real):
+            return a.value.__truediv__(b.value)
+        elif isinstance(b, decimal.Decimal):
+            return a.value.__truediv__(b)
+        elif isinstance(b, float) or isinstance(b, int):
+            return a.value.__truediv__(decimal.Decimal(str(b)))
+
+    def __rtruediv__(a, b):
+        if isinstance(b, Real):
+            return a.value.__rtruediv__(b.value)
+        elif isinstance(b, decimal.Decimal):
+            return a.value.__rtruediv__(b)
+        elif isinstance(b, float) or isinstance(b, int):
+            return a.value.__rtruediv__(decimal.Decimal(str(b)))

@@ -20,7 +20,6 @@ class string:
         EMBEDDEDDISTRIBUTION = 'd1'
         ZAID = '001001'
         DESIGNATOR = 'n,#'
-        PARTICLE = 'n'
         SUBSTANCE = '001001 0.5'
         TRANSFORMATION_0 = '1 1 1 2 2 2 3 3 3 4 4 4'
         TRANSFORMATION_1 = '1 1 1 2 2 2 3 3 3'
@@ -28,6 +27,7 @@ class string:
         TRANSFORMATION_3 = '1 1 1 2 2 2'
         TRANSFORMATION_4 = '1 1 1'
         INDEX = '1:2'
+        TUPLE = '0.5 3.1'
 
     class inp:
         CELL = '1 1 3.1 1 (2:(+3 -4) #5) imp:@=1'
@@ -516,6 +516,9 @@ class string:
                 LOC = 'loc 3.1 3.1 3.1'
                 BEM = 'bem 3.1 3.1 3.1'
                 BAP = 'bap 3.1 3.1 3.1'
+
+                class tme_1:
+                    EMBEDDED = 'd1 < d2'
 
             class ssw:
                 SYM = 'sym 1'
@@ -1419,10 +1422,8 @@ class ast:
         REAL = pymcnp.types.Real.from_mcnp(string.types.REAL)
         STRING = pymcnp.types.String.from_mcnp(string.types.STRING)
         DISTRIBUTION = pymcnp.types.Distribution.from_mcnp(string.types.DISTRIBUTION)
-        EMBEDDEDDISTRIBUTION = pymcnp.types.EmbeddedDistribution.from_mcnp(string.types.EMBEDDEDDISTRIBUTION)
         ZAID = pymcnp.types.Zaid.from_mcnp(string.types.ZAID)
         DESIGNATOR = pymcnp.types.Designator.from_mcnp(string.types.DESIGNATOR)
-        PARTICLE = pymcnp.types.Particle.from_mcnp(string.types.PARTICLE)
         SUBSTANCE = pymcnp.types.Substance.from_mcnp(string.types.SUBSTANCE)
         TRANSFORMATION_0 = pymcnp.types.Transformation_0.from_mcnp(string.types.TRANSFORMATION_0)
         TRANSFORMATION_1 = pymcnp.types.Transformation_1.from_mcnp(string.types.TRANSFORMATION_1)
@@ -1918,6 +1919,9 @@ class ast:
                 LOC = pymcnp.inp.data.sdef.Loc.from_mcnp(string.inp.data.sdef.LOC)
                 BEM = pymcnp.inp.data.sdef.Bem.from_mcnp(string.inp.data.sdef.BEM)
                 BAP = pymcnp.inp.data.sdef.Bap.from_mcnp(string.inp.data.sdef.BAP)
+
+                class tme_1:
+                    EMBEDDED = pymcnp.inp.data.sdef.tme_1.Embedded.from_mcnp(string.inp.data.sdef.tme_1.EMBEDDED)
 
             class ssw:
                 SYM = pymcnp.inp.data.ssw.Sym.from_mcnp(string.inp.data.ssw.SYM)

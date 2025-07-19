@@ -1,5 +1,6 @@
 import re
 import typing
+import decimal
 
 from . import _type
 from .Horizontal import Horizontal
@@ -85,8 +86,8 @@ class Integer(_type.Type):
             source = '1' + source
 
         try:
-            return Integer(int(float(source)))
-        except errors.TypesError:
+            return Integer(int(decimal.Decimal(source)))
+        except decimal.InvalidOperation:
             raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source)
 
     def to_mcnp(self):
@@ -99,152 +100,8 @@ class Integer(_type.Type):
 
         return str(self.value)
 
-    def __lt__(a, b):
-        if isinstance(b, Integer):
-            return a.value.__lt__(b.value)
-        elif isinstance(b, int):
-            return a.value.__lt__(b)
-        else:
-            return a.value.__lt__(b)
-
-    def __le__(a, b):
-        if isinstance(b, Integer):
-            return a.value.__le__(b.value)
-        elif isinstance(b, int):
-            return a.value.__le__(b)
-        else:
-            return a.value.__le__(b)
-
-    def __eq__(a, b):
-        if isinstance(b, Integer):
-            return a.value.__eq__(b.value)
-        elif isinstance(b, int):
-            return a.value.__eq__(b)
-        else:
-            return a.value.__eq__(b)
-
-    def __ne__(a, b):
-        if isinstance(b, Integer):
-            return a.value.__ne__(b.value)
-        elif isinstance(b, int):
-            return a.value.__ne__(b)
-        else:
-            return a.value.__ne__(b)
-
-    def __gt__(a, b):
-        if isinstance(b, Integer):
-            return a.value.__gt__(b.value)
-        elif isinstance(b, int):
-            return a.value.__gt__(b)
-        else:
-            return a.value.__gt__(b)
-
-    def __ge__(a, b):
-        if isinstance(b, Integer):
-            return a.value.__ge__(b.value)
-        elif isinstance(b, int):
-            return a.value.__ge__(b)
-        else:
-            return a.value.__ge__(b)
-
     def __hash__(self):
-        return hash(self.value)
-
-    def __add__(a, b):
-        if isinstance(b, Integer):
-            return a.value.__add__(b.value)
-        elif isinstance(b, int):
-            return a.value.__add__(b)
-        else:
-            return a.value.__add__(b)
-
-    def __radd__(a, b):
-        if isinstance(b, Integer):
-            return a.value.__radd__(b.value)
-        elif isinstance(b, int):
-            return a.value.__radd__(b)
-        else:
-            return a.value.__radd__(b)
-
-    def __sub__(a, b):
-        if isinstance(b, Integer):
-            return a.value.__sub__(b.value)
-        elif isinstance(b, int):
-            return a.value.__sub__(b)
-        else:
-            return a.value.__sub__(b)
-
-    def __rsub__(a, b):
-        if isinstance(b, Integer):
-            return a.value.__rsub__(b.value)
-        elif isinstance(b, int):
-            return a.value.__rsub__(b)
-        else:
-            return a.value.__rsub__(b)
-
-    def __mul__(a, b):
-        if isinstance(b, Integer):
-            return a.value.__mul__(b.value)
-        elif isinstance(b, int):
-            return a.value.__mul__(b)
-        else:
-            return a.value.__mul__(b)
-
-    def __rmul__(a, b):
-        if isinstance(b, Integer):
-            return a.value.__rmul__(b.value)
-        elif isinstance(b, int):
-            return a.value.__rmul__(b)
-        else:
-            return a.value.__rmul__(b)
-
-    def __mod__(a, b):
-        if isinstance(b, Integer):
-            return a.value.__mod__(b.value)
-        elif isinstance(b, int):
-            return a.value.__mod__(b)
-        else:
-            return a.value.__mod__(b)
-
-    def __rmod__(a, b):
-        if isinstance(b, Integer):
-            return a.value.__rmod__(b.value)
-        elif isinstance(b, int):
-            return a.value.__rmod__(b)
-        else:
-            return a.value.__rmod__(b)
-
-    def __divmod__(a, b):
-        if isinstance(b, Integer):
-            return a.value.__divmod__(b.value)
-        elif isinstance(b, int):
-            return a.value.__divmod__(b)
-        else:
-            return a.value.__divmod__(b)
-
-    def __rdivmod__(a, b):
-        if isinstance(b, Integer):
-            return a.value.__rdivmod__(b.value)
-        elif isinstance(b, int):
-            return a.value.__rdivmod__(b)
-        else:
-            return a.value.__rdivmod__(b)
-
-    def __pow__(a, b):
-        if isinstance(b, Integer):
-            return a.value.__pow__(b.value)
-        elif isinstance(b, int):
-            return a.value.__pow__(b)
-        else:
-            return a.value.__pow__(b)
-
-    def __rpow__(a, b):
-        if isinstance(b, Integer):
-            return a.value.__rpow__(b.value)
-        elif isinstance(b, int):
-            return a.value.__rpow__(b)
-        else:
-            return a.value.__rpow__(b)
+        return self.value.__hash__()
 
     def __neg__(self):
         return self.value.__neg__()
@@ -264,38 +121,6 @@ class Integer(_type.Type):
     def __float__(self):
         return self.value.__float__()
 
-    def __floordiv__(a, b):
-        if isinstance(b, Integer):
-            return a.value.__floordiv__(b.value)
-        elif isinstance(b, int):
-            return a.value.__floordiv__(b)
-        else:
-            return a.value.__floordiv__(b)
-
-    def __rfloordiv__(a, b):
-        if isinstance(b, Integer):
-            return a.value.__rfloordiv__(b.value)
-        elif isinstance(b, int):
-            return a.value.__rfloordiv__(b)
-        else:
-            return a.value.__rfloordiv__(b)
-
-    def __truediv__(a, b):
-        if isinstance(b, Integer):
-            return a.value.__truediv__(b.value)
-        elif isinstance(b, int):
-            return a.value.__truediv__(b)
-        else:
-            return a.value.__truediv__(b)
-
-    def __rtruediv__(a, b):
-        if isinstance(b, Integer):
-            return a.value.__rtruediv__(b.value)
-        elif isinstance(b, int):
-            return a.value.__rtruediv__(b)
-        else:
-            return a.value.__rtruediv__(b)
-
     def __trunc__(self):
         return self.value.__trunc__()
 
@@ -307,3 +132,138 @@ class Integer(_type.Type):
 
     def __round__(self):
         return self.value.__round__()
+
+    def __format__(self, spec):
+        return self.value.__format__(spec)
+
+    def __lt__(a, b):
+        if isinstance(b, Integer):
+            return a.value.__lt__(b.value)
+        elif isinstance(b, int):
+            return a.value.__lt__(b)
+
+    def __le__(a, b):
+        if isinstance(b, Integer):
+            return a.value.__le__(b.value)
+        elif isinstance(b, int):
+            return a.value.__le__(b)
+
+    def __eq__(a, b):
+        if isinstance(b, Integer):
+            return a.value.__eq__(b.value)
+        elif isinstance(b, int):
+            return a.value.__eq__(b)
+
+    def __ne__(a, b):
+        if isinstance(b, Integer):
+            return a.value.__ne__(b.value)
+        elif isinstance(b, int):
+            return a.value.__ne__(b)
+
+    def __gt__(a, b):
+        if isinstance(b, Integer):
+            return a.value.__gt__(b.value)
+        elif isinstance(b, int):
+            return a.value.__gt__(b)
+
+    def __ge__(a, b):
+        if isinstance(b, Integer):
+            return a.value.__ge__(b.value)
+        elif isinstance(b, int):
+            return a.value.__ge__(b)
+
+    def __add__(a, b):
+        if isinstance(b, Integer):
+            return a.value.__add__(b.value)
+        elif isinstance(b, int):
+            return a.value.__add__(b)
+
+    def __radd__(a, b):
+        if isinstance(b, Integer):
+            return a.value.__radd__(b.value)
+        elif isinstance(b, int):
+            return a.value.__radd__(b)
+
+    def __sub__(a, b):
+        if isinstance(b, Integer):
+            return a.value.__sub__(b.value)
+        elif isinstance(b, int):
+            return a.value.__sub__(b)
+
+    def __rsub__(a, b):
+        if isinstance(b, Integer):
+            return a.value.__rsub__(b.value)
+        elif isinstance(b, int):
+            return a.value.__rsub__(b)
+
+    def __mul__(a, b):
+        if isinstance(b, Integer):
+            return a.value.__mul__(b.value)
+        elif isinstance(b, int):
+            return a.value.__mul__(b)
+
+    def __rmul__(a, b):
+        if isinstance(b, Integer):
+            return a.value.__rmul__(b.value)
+        elif isinstance(b, int):
+            return a.value.__rmul__(b)
+
+    def __mod__(a, b):
+        if isinstance(b, Integer):
+            return a.value.__mod__(b.value)
+        elif isinstance(b, int):
+            return a.value.__mod__(b)
+
+    def __rmod__(a, b):
+        if isinstance(b, Integer):
+            return a.value.__rmod__(b.value)
+        elif isinstance(b, int):
+            return a.value.__rmod__(b)
+
+    def __divmod__(a, b):
+        if isinstance(b, Integer):
+            return a.value.__divmod__(b.value)
+        elif isinstance(b, int):
+            return a.value.__divmod__(b)
+
+    def __rdivmod__(a, b):
+        if isinstance(b, Integer):
+            return a.value.__rdivmod__(b.value)
+        elif isinstance(b, int):
+            return a.value.__rdivmod__(b)
+
+    def __pow__(a, b):
+        if isinstance(b, Integer):
+            return a.value.__pow__(b.value)
+        elif isinstance(b, int):
+            return a.value.__pow__(b)
+
+    def __rpow__(a, b):
+        if isinstance(b, Integer):
+            return a.value.__rpow__(b.value)
+        elif isinstance(b, int):
+            return a.value.__rpow__(b)
+
+    def __floordiv__(a, b):
+        if isinstance(b, Integer):
+            return a.value.__floordiv__(b.value)
+        elif isinstance(b, int):
+            return a.value.__floordiv__(b)
+
+    def __rfloordiv__(a, b):
+        if isinstance(b, Integer):
+            return a.value.__rfloordiv__(b.value)
+        elif isinstance(b, int):
+            return a.value.__rfloordiv__(b)
+
+    def __truediv__(a, b):
+        if isinstance(b, Integer):
+            return a.value.__truediv__(b.value)
+        elif isinstance(b, int):
+            return a.value.__truediv__(b)
+
+    def __rtruediv__(a, b):
+        if isinstance(b, Integer):
+            return a.value.__rtruediv__(b.value)
+        elif isinstance(b, int):
+            return a.value.__rtruediv__(b)
