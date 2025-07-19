@@ -1,5 +1,4 @@
 import pathlib
-import dataclasses
 
 import pytest
 
@@ -95,38 +94,6 @@ class Test_File:
             with pytest.raises((pymcnp.errors.Error)):
                 print(repr(example))
                 self.element.from_file(example)
-
-
-class Test_Build:
-    element: dataclasses.dataclass
-    EXAMPLES_VALID: list[dict[object]] = []
-    EXAMPLES_INVALID: list[dict[object]] = []
-
-    def test_valid(self):
-        """
-        Tests ``EXAMPLES_VALID`` on ``build`` and ``unbuild``.
-        """
-
-        for example in self.EXAMPLES_VALID:
-            print(repr(example))
-
-            a = self.element(**example)
-            b = a.build()
-            c = self.element.unbuild(b)
-            d = c.build()
-
-            assert b.to_mcnp() == d.to_mcnp()
-
-    def test_invalid(self):
-        """
-        Tests ``EXAMPLES_INVALID`` on `build``.
-        """
-
-        for example in self.EXAMPLES_INVALID:
-            with pytest.raises((pymcnp.errors.Error)):
-                print(repr(example))
-
-                self.element(**example).build()
 
 
 class Test_Draw:

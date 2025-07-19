@@ -92,13 +92,13 @@ class I(_line.HistoryLine):
         """
 
         if self.tfc:
-            tfc = " " + _parser.postprocess_exponenet(self.tfc.value, 5, offset=0)
+            tfc = ' ' + _parser.postprocess_exponenet(self.tfc.value, 5, offset=0)
         else:
-            tfc = ""
+            tfc = ''
 
         if self.number:
             number = f'{str(self.number):>10}'
         else:
-            number = ""
+            number = ''
 
         return f' {str(self.nps):>10}{str(self.event_type):>10}{number}{tfc}'

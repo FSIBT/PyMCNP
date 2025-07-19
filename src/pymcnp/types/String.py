@@ -2,6 +2,7 @@ import re
 import typing
 
 from . import _type
+from .Integer import Integer
 from .. import errors
 
 
@@ -64,6 +65,27 @@ class String(_type.Type):
     def __hash__(self):
         return hash(self.value)
 
+    def __iter__(self):
+        return self.value.__iter__()
+
+    def __len__(self):
+        return self.value.__len__()
+
+    def __getitem__(self, index: int | Integer):
+        if isinstance(index, Integer):
+            return self.value.__getitem__(index.value)
+        else:
+            return self.value.__getitem__(index)
+
+    def __contains__(self, item):
+        if isinstance(item, String):
+            return self.value.__contains__(item.value)
+        else:
+            return self.value.__contains__(item)
+
+    def __format__(self, spec):
+        return self.value.__format__(spec)
+
     def __lt__(a, b):
         if isinstance(b, String):
             return a.value.__lt__(b.value)
@@ -100,26 +122,17 @@ class String(_type.Type):
         else:
             return a.value.__ge__(b)
 
-    def __iter__(self):
-        return self.value.__iter__()
+    # def __mod__(a, b):
+    # if isinstance(b, String):
+    # return a.value.__mod__(b.value)
+    # else:
+    # return a.value.__mod__(b)
 
-    def __mod__(a, b):
-        if isinstance(b, String):
-            return a.value.__mod__(b.value)
-        else:
-            return a.value.__mod__(b)
-
-    def __rmod__(a, b):
-        if isinstance(b, String):
-            return a.value.__mod__(b.value)
-        else:
-            return a.value.__mod__(b)
-
-    def __len__(self):
-        return self.value.__len__()
-
-    def __getitem__(self, index):
-        return self.value.__getitem__(index)
+    # def __rmod__(a, b):
+    # if isinstance(b, String):
+    # return a.value.__mod__(b.value)
+    # else:
+    # return a.value.__mod__(b)
 
     def __add__(a, b):
         if isinstance(b, String):
@@ -128,22 +141,13 @@ class String(_type.Type):
             return String(a.value.__add__(b))
 
     def __mul__(a, b):
-        if isinstance(b, String):
+        if isinstance(b, Integer):
             return String(a.value.__mul__(b.value))
         else:
             return String(a.value.__mul__(b))
 
     def __rmul__(a, b):
-        if isinstance(b, String):
+        if isinstance(b, Integer):
             return String(a.value.__rmul__(b.value))
         else:
             return String(a.value.__rmul__(b))
-
-    def __contains__(self, item):
-        return self.value.__contains__(item)
-
-    def __format__(self, spec):
-        if isinstance(spec, String):
-            return self.value.__format__(spec.value)
-        else:
-            return self.value.__format__(spec)

@@ -1,8 +1,7 @@
 from ._type import Type
 from .Designator import Designator
-from .Designator import Particle
 from .Distribution import Distribution
-from .Distribution import EmbeddedDistribution
+from .Horizontal import Horizontal
 from .Horizontal import Repeat
 from .Horizontal import Insert
 from .Horizontal import Multiply
@@ -19,7 +18,7 @@ from .Transformation import Transformation_3
 from .Transformation import Transformation_4
 from .Tuple import Tuple
 from .Zaid import Zaid
-from .Zaid import Substance
+from .Substance import Substance
 
 __all__ = [
     'Type',
@@ -27,7 +26,7 @@ __all__ = [
     'Designator',
     'Particle',
     'Distribution',
-    'EmbeddedDistribution',
+    'Horizontal',
     'Repeat',
     'Insert',
     'Multiply',

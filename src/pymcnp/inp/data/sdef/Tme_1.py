@@ -1,7 +1,7 @@
 import re
 
+from . import tme_1
 from . import _option
-from .... import types
 from .... import errors
 
 
@@ -13,12 +13,12 @@ class Tme_1(_option.SdefOption):
     _KEYWORD = 'tme'
 
     _ATTRS = {
-        'time': types.EmbeddedDistribution,
+        'time': tme_1.Embedded,
     }
 
-    _REGEX = re.compile(rf'\Atme( {types.EmbeddedDistribution._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Atme( {tme_1.Embedded._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, time: str | types.EmbeddedDistribution):
+    def __init__(self, time: str | tme_1.Embedded):
         """
         Initializes ``Tme_1``.
 
@@ -29,10 +29,10 @@ class Tme_1(_option.SdefOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.time: types.EmbeddedDistribution = time
+        self.time: tme_1.Embedded = time
 
     @property
-    def time(self) -> types.EmbeddedDistribution:
+    def time(self) -> tme_1.Embedded:
         """
         Time in shakes
 
@@ -44,7 +44,7 @@ class Tme_1(_option.SdefOption):
         return self._time
 
     @time.setter
-    def time(self, time: str | types.EmbeddedDistribution) -> None:
+    def time(self, time: str | tme_1.Embedded) -> None:
         """
         Sets ``time``.
 
@@ -57,12 +57,12 @@ class Tme_1(_option.SdefOption):
         """
 
         if time is not None:
-            if isinstance(time, types.EmbeddedDistribution):
+            if isinstance(time, tme_1.Embedded):
                 time = time
             elif isinstance(time, str):
-                time = types.EmbeddedDistribution.from_mcnp(time)
+                time = tme_1.Embedded.from_mcnp(time)
 
         if time is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time)
 
-        self._time: types.EmbeddedDistribution = time
+        self._time: tme_1.Embedded = time
