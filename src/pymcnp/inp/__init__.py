@@ -1,4 +1,4 @@
-from . import _card
+from ._card import Card
 from ._option import Option
 from . import cell
 from . import like

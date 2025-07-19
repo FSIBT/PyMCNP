@@ -3,6 +3,7 @@ import typing
 
 from . import _type
 from .Real import Real
+from .Integer import Integer
 from .. import errors
 from ..utils import _parser
 
@@ -45,7 +46,7 @@ class Transformation_0(_type.Type):
         zx: Real,
         zy: Real,
         zz: Real,
-        m: Real = None,
+        m: Integer = None,
     ):
         """
         Initializes ``Transformation_0``.
@@ -145,7 +146,7 @@ class Transformation_0(_type.Type):
         zx = Real.from_mcnp(tokens[10])
         zy = Real.from_mcnp(tokens[11])
         zz = Real.from_mcnp(tokens[12])
-        m = Real.from_mcnp(tokens[13]) if tokens[13] else None
+        m = Integer.from_mcnp(tokens[13]) if tokens[13] else None
 
         return Transformation_0(o1, o2, o3, xx, xy, xz, yx, yy, yz, zx, zy, zz, m)
 
@@ -190,7 +191,7 @@ class Transformation_1(_type.Type):
         yx: Real,
         yy: Real,
         yz: Real,
-        m: Real = None,
+        m: Integer = None,
     ):
         """
         Initializes ``Transformation_1``.
@@ -276,7 +277,7 @@ class Transformation_1(_type.Type):
         yx = Real.from_mcnp(tokens[7])
         yy = Real.from_mcnp(tokens[8])
         yz = Real.from_mcnp(tokens[9])
-        m = Real.from_mcnp(tokens[10]) if tokens[10] else None
+        m = Integer.from_mcnp(tokens[10]) if tokens[10] else None
 
         return Transformation_1(o1, o2, o3, xx, xy, xz, yx, yy, yz, m)
 
@@ -319,7 +320,7 @@ class Transformation_2(_type.Type):
         xz: Real,
         yx: Real,
         yy: Real,
-        m: Real = None,
+        m: Integer = None,
     ):
         """
         Initializes ``Transformation_2``.
@@ -400,7 +401,7 @@ class Transformation_2(_type.Type):
         xz = Real.from_mcnp(tokens[6])
         yx = Real.from_mcnp(tokens[7])
         yy = Real.from_mcnp(tokens[8])
-        m = Real.from_mcnp(tokens[9]) if tokens[9] else None
+        m = Integer.from_mcnp(tokens[9]) if tokens[9] else None
 
         return Transformation_2(o1, o2, o3, xx, xy, xz, yx, yy, m)
 
@@ -439,7 +440,7 @@ class Transformation_3(_type.Type):
         xx: Real,
         xy: Real,
         xz: Real,
-        m: Real = None,
+        m: Integer = None,
     ):
         """
         Initializes ``Transformation_3``.
@@ -510,7 +511,7 @@ class Transformation_3(_type.Type):
         xx = Real.from_mcnp(tokens[4])
         xy = Real.from_mcnp(tokens[5])
         xz = Real.from_mcnp(tokens[6])
-        m = Real.from_mcnp(tokens[7]) if tokens[7] else None
+        m = Integer.from_mcnp(tokens[7]) if tokens[7] else None
 
         return Transformation_3(o1, o2, o3, xx, xy, xz, m)
 
@@ -543,7 +544,7 @@ class Transformation_4(_type.Type):
         o1: Real,
         o2: Real,
         o3: Real,
-        m: Real = None,
+        m: Integer = None,
     ):
         """
         Initializes ``Transformation_4``.
@@ -599,7 +600,7 @@ class Transformation_4(_type.Type):
         o1 = Real.from_mcnp(tokens[1])
         o2 = Real.from_mcnp(tokens[2])
         o3 = Real.from_mcnp(tokens[3])
-        m = Real.from_mcnp(tokens[4]) if tokens[4] else None
+        m = Integer.from_mcnp(tokens[4]) if tokens[4] else None
 
         return Transformation_4(o1, o2, o3, m)
 
