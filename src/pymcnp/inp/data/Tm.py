@@ -14,7 +14,7 @@ class Tm(_option.DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'multipliers': types.Tuple[types.Real],
+        'multipliers': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Atm(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -32,7 +32,7 @@ class Tm(_option.DataOption):
         """
 
         self.suffix: types.Integer = suffix
-        self.multipliers: types.Tuple[types.Real] = multipliers
+        self.multipliers: types.Tuple(types.Real) = multipliers
 
     @property
     def suffix(self) -> types.Integer:
@@ -73,7 +73,7 @@ class Tm(_option.DataOption):
         self._suffix: types.Integer = suffix
 
     @property
-    def multipliers(self) -> types.Tuple[types.Real]:
+    def multipliers(self) -> types.Tuple(types.Real):
         """
         Time bin multiplier to apply
 
@@ -106,9 +106,9 @@ class Tm(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            multipliers = types.Tuple(array)
+            multipliers = types.Tuple(types.Real)(array)
 
         if multipliers is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, multipliers)
 
-        self._multipliers: types.Tuple[types.Real] = multipliers
+        self._multipliers: types.Tuple(types.Real) = multipliers

@@ -13,7 +13,7 @@ class Event(_option.PtracOption):
     _KEYWORD = 'event'
 
     _ATTRS = {
-        'settings': types.Tuple[types.String],
+        'settings': types.Tuple(types.String),
     }
 
     _REGEX = re.compile(rf'\Aevent((?: {types.String._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Event(_option.PtracOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.settings: types.Tuple[types.String] = settings
+        self.settings: types.Tuple(types.String) = settings
 
     @property
-    def settings(self) -> types.Tuple[types.String]:
+    def settings(self) -> types.Tuple(types.String):
         """
         Specifies the type of events written to the PTRAC file
 
@@ -63,9 +63,9 @@ class Event(_option.PtracOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.String.from_mcnp(item))
-            settings = types.Tuple(array)
+            settings = types.Tuple(types.String)(array)
 
         if settings is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, settings)
 
-        self._settings: types.Tuple[types.String] = settings
+        self._settings: types.Tuple(types.String) = settings

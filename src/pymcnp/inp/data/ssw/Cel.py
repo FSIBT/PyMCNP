@@ -13,7 +13,7 @@ class Cel(_option.SswOption):
     _KEYWORD = 'cel'
 
     _ATTRS = {
-        'cfs': types.Tuple[types.Integer],
+        'cfs': types.Tuple(types.Integer),
     }
 
     _REGEX = re.compile(rf'\Acel((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Cel(_option.SswOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.cfs: types.Tuple[types.Integer] = cfs
+        self.cfs: types.Tuple(types.Integer) = cfs
 
     @property
-    def cfs(self) -> types.Tuple[types.Integer]:
+    def cfs(self) -> types.Tuple(types.Integer):
         """
         Cells from which KCODE neutrons are written
 
@@ -65,9 +65,9 @@ class Cel(_option.SswOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-            cfs = types.Tuple(array)
+            cfs = types.Tuple(types.Integer)(array)
 
         if cfs is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cfs)
 
-        self._cfs: types.Tuple[types.Integer] = cfs
+        self._cfs: types.Tuple(types.Integer) = cfs

@@ -13,7 +13,7 @@ class Sfnu(_option.FmultOption):
     _KEYWORD = 'sfnu'
 
     _ATTRS = {
-        'distribution': types.Tuple[types.Real],
+        'distribution': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Asfnu((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Sfnu(_option.FmultOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.distribution: types.Tuple[types.Real] = distribution
+        self.distribution: types.Tuple(types.Real) = distribution
 
     @property
-    def distribution(self) -> types.Tuple[types.Real]:
+    def distribution(self) -> types.Tuple(types.Real):
         """
         V bar for or of cumulative distribution the sampling spontaneous fission
 
@@ -65,9 +65,9 @@ class Sfnu(_option.FmultOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            distribution = types.Tuple(array)
+            distribution = types.Tuple(types.Real)(array)
 
         if distribution is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, distribution)
 
-        self._distribution: types.Tuple[types.Real] = distribution
+        self._distribution: types.Tuple(types.Real) = distribution

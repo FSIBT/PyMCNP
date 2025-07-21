@@ -13,7 +13,7 @@ class Nps(_option.PtracOption):
     _KEYWORD = 'nps'
 
     _ATTRS = {
-        'particles': types.Tuple[types.Integer],
+        'particles': types.Tuple(types.Integer),
     }
 
     _REGEX = re.compile(rf'\Anps((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Nps(_option.PtracOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.particles: types.Tuple[types.Integer] = particles
+        self.particles: types.Tuple(types.Integer) = particles
 
     @property
-    def particles(self) -> types.Tuple[types.Integer]:
+    def particles(self) -> types.Tuple(types.Integer):
         """
         Sets the range of particle histories for which events will be output
 
@@ -65,9 +65,9 @@ class Nps(_option.PtracOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-            particles = types.Tuple(array)
+            particles = types.Tuple(types.Integer)(array)
 
         if particles is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, particles)
 
-        self._particles: types.Tuple[types.Integer] = particles
+        self._particles: types.Tuple(types.Integer) = particles

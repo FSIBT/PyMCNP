@@ -13,7 +13,7 @@ class Idum(_option.DataOption):
     _KEYWORD = 'idum'
 
     _ATTRS = {
-        'intergers': types.Tuple[types.Integer],
+        'intergers': types.Tuple(types.Integer),
     }
 
     _REGEX = re.compile(rf'\Aidum((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Idum(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.intergers: types.Tuple[types.Integer] = intergers
+        self.intergers: types.Tuple(types.Integer) = intergers
 
     @property
-    def intergers(self) -> types.Tuple[types.Integer]:
+    def intergers(self) -> types.Tuple(types.Integer):
         """
         Integer array
 
@@ -65,9 +65,9 @@ class Idum(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-            intergers = types.Tuple(array)
+            intergers = types.Tuple(types.Integer)(array)
 
         if intergers is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, intergers)
 
-        self._intergers: types.Tuple[types.Integer] = intergers
+        self._intergers: types.Tuple(types.Integer) = intergers

@@ -14,7 +14,7 @@ class Ext(_option.DataOption):
 
     _ATTRS = {
         'designator': types.Designator,
-        'stretching': types.Tuple[types.String],
+        'stretching': types.Tuple(types.String),
     }
 
     _REGEX = re.compile(rf'\Aext:(\S+)((?: {types.String._REGEX.pattern[2:-2]})+?)\Z')
@@ -32,7 +32,7 @@ class Ext(_option.DataOption):
         """
 
         self.designator: types.Designator = designator
-        self.stretching: types.Tuple[types.String] = stretching
+        self.stretching: types.Tuple(types.String) = stretching
 
     @property
     def designator(self) -> types.Designator:
@@ -71,7 +71,7 @@ class Ext(_option.DataOption):
         self._designator: types.Designator = designator
 
     @property
-    def stretching(self) -> types.Tuple[types.String]:
+    def stretching(self) -> types.Tuple(types.String):
         """
         Stretching direction for the cell
 
@@ -102,9 +102,9 @@ class Ext(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.String.from_mcnp(item))
-            stretching = types.Tuple(array)
+            stretching = types.Tuple(types.String)(array)
 
         if stretching is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, stretching)
 
-        self._stretching: types.Tuple[types.String] = stretching
+        self._stretching: types.Tuple(types.String) = stretching

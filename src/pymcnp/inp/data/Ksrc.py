@@ -14,7 +14,7 @@ class Ksrc(_option.DataOption):
     _KEYWORD = 'ksrc'
 
     _ATTRS = {
-        'locations': types.Tuple[ksrc.Location],
+        'locations': types.Tuple(ksrc.Location),
     }
 
     _REGEX = re.compile(rf'\Aksrc((?: {ksrc.Location._REGEX.pattern[2:-2]})+?)\Z')
@@ -30,10 +30,10 @@ class Ksrc(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.locations: types.Tuple[ksrc.Location] = locations
+        self.locations: types.Tuple(ksrc.Location) = locations
 
     @property
-    def locations(self) -> types.Tuple[ksrc.Location]:
+    def locations(self) -> types.Tuple(ksrc.Location):
         """
         Tuple of inital source points
 
@@ -64,9 +64,9 @@ class Ksrc(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(ksrc.Location.from_mcnp(item))
-            locations = types.Tuple(array)
+            locations = types.Tuple(ksrc.Location)(array)
 
         if locations is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, locations)
 
-        self._locations: types.Tuple[ksrc.Location] = locations
+        self._locations: types.Tuple(ksrc.Location) = locations

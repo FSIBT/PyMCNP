@@ -15,7 +15,7 @@ class Si_2(_option.DataOption):
     _ATTRS = {
         'suffix': types.Integer,
         'option': types.String,
-        'information': types.Tuple[types.Designator],
+        'information': types.Tuple(types.Designator),
     }
 
     _REGEX = re.compile(rf'\Asi(\d+)( {types.String._REGEX.pattern[2:-2]})?((?: {types.Designator._REGEX.pattern[2:-2]})+?)\Z')
@@ -35,7 +35,7 @@ class Si_2(_option.DataOption):
 
         self.suffix: types.Integer = suffix
         self.option: types.String = option
-        self.information: types.Tuple[types.Designator] = information
+        self.information: types.Tuple(types.Designator) = information
 
     @property
     def suffix(self) -> types.Integer:
@@ -109,7 +109,7 @@ class Si_2(_option.DataOption):
         self._option: types.String = option
 
     @property
-    def information(self) -> types.Tuple[types.Designator]:
+    def information(self) -> types.Tuple(types.Designator):
         """
         Particle source information
 
@@ -140,9 +140,9 @@ class Si_2(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Designator.from_mcnp(item))
-            information = types.Tuple(array)
+            information = types.Tuple(types.Designator)(array)
 
         if information is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, information)
 
-        self._information: types.Tuple[types.Designator] = information
+        self._information: types.Tuple(types.Designator) = information

@@ -15,7 +15,7 @@ class Dd(_option.DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'diagnostics': types.Tuple[dd.Diagnostic],
+        'diagnostics': types.Tuple(dd.Diagnostic),
     }
 
     _REGEX = re.compile(rf'\Add(\d+)?((?: {dd.Diagnostic._REGEX.pattern[2:-2]})+?)\Z')
@@ -33,7 +33,7 @@ class Dd(_option.DataOption):
         """
 
         self.suffix: types.Integer = suffix
-        self.diagnostics: types.Tuple[dd.Diagnostic] = diagnostics
+        self.diagnostics: types.Tuple(dd.Diagnostic) = diagnostics
 
     @property
     def suffix(self) -> types.Integer:
@@ -71,7 +71,7 @@ class Dd(_option.DataOption):
         self._suffix: types.Integer = suffix
 
     @property
-    def diagnostics(self) -> types.Tuple[dd.Diagnostic]:
+    def diagnostics(self) -> types.Tuple(dd.Diagnostic):
         """
         Detector diagnostic entries
 
@@ -102,9 +102,9 @@ class Dd(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(dd.Diagnostic.from_mcnp(item))
-            diagnostics = types.Tuple(array)
+            diagnostics = types.Tuple(dd.Diagnostic)(array)
 
         if diagnostics is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, diagnostics)
 
-        self._diagnostics: types.Tuple[dd.Diagnostic] = diagnostics
+        self._diagnostics: types.Tuple(dd.Diagnostic) = diagnostics

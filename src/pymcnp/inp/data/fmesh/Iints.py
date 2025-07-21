@@ -13,7 +13,7 @@ class Iints(_option.FmeshOption):
     _KEYWORD = 'iints'
 
     _ATTRS = {
-        'count': types.Tuple[types.Integer],
+        'count': types.Tuple(types.Integer),
     }
 
     _REGEX = re.compile(rf'\Aiints((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Iints(_option.FmeshOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.count: types.Tuple[types.Integer] = count
+        self.count: types.Tuple(types.Integer) = count
 
     @property
-    def count(self) -> types.Tuple[types.Integer]:
+    def count(self) -> types.Tuple(types.Integer):
         """
         Number of mesh points x/r for rectangular/cylindrical geometry
 
@@ -65,9 +65,9 @@ class Iints(_option.FmeshOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-            count = types.Tuple(array)
+            count = types.Tuple(types.Integer)(array)
 
         if count is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, count)
 
-        self._count: types.Tuple[types.Integer] = count
+        self._count: types.Tuple(types.Integer) = count

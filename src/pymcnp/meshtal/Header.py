@@ -42,11 +42,11 @@ class Header(_block.Block):
         histories: types.Integer,
         number: types.Integer,
         particle: types.String,
-        bins_x: types.Tuple[types.Real],
-        bins_y: types.Tuple[types.Real],
-        bins_z: types.Tuple[types.Real],
-        bins_energy: types.Tuple[types.Real],
-        bins_time: types.Tuple[types.Real],
+        bins_x: types.Tuple(types.Real),
+        bins_y: types.Tuple(types.Real),
+        bins_z: types.Tuple(types.Real),
+        bins_energy: types.Tuple(types.Real),
+        bins_time: types.Tuple(types.Real),
         columns: types.String,
     ):
         """
@@ -107,11 +107,11 @@ class Header(_block.Block):
         self.histories: typing.Final[types.Integer] = histories
         self.number: typing.Final[types.Integer] = number
         self.particle: typing.Final[types.String] = particle
-        self.bins_x: typing.Final[types.Tuple[types.Real]] = bins_x
-        self.bins_y: typing.Final[types.Tuple[types.Real]] = bins_y
-        self.bins_z: typing.Final[types.Tuple[types.Real]] = bins_z
-        self.bins_energy: typing.Final[types.Tuple[types.Real]] = bins_energy
-        self.bins_time: typing.Final[types.Tuple[types.Real]] = bins_time
+        self.bins_x: typing.Final[types.Tuple(types.Real)] = bins_x
+        self.bins_y: typing.Final[types.Tuple(types.Real)] = bins_y
+        self.bins_z: typing.Final[types.Tuple(types.Real)] = bins_z
+        self.bins_energy: typing.Final[types.Tuple(types.Real)] = bins_energy
+        self.bins_time: typing.Final[types.Tuple(types.Real)] = bins_time
         self.columns: typing.Final[types.String] = columns
 
     @staticmethod

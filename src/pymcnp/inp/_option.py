@@ -1,5 +1,3 @@
-import types
-
 from .. import errors
 from ..utils import _object
 from ..utils import _parser
@@ -42,10 +40,7 @@ class Option(_object.McnpNonterminal):
 
         attrs = {}
         for i, (name, attr) in enumerate(subclass._ATTRS.items()):
-            if isinstance(attr, types.GenericAlias):
-                attrs[name] = attr.from_mcnp(tokens[i + 1].strip(), attr.__args__[0]) if tokens[i + 1] else None
-            else:
-                attrs[name] = attr.from_mcnp(tokens[i + 1].strip()) if tokens[i + 1] else None
+            attrs[name] = attr.from_mcnp(tokens[i + 1].strip()) if tokens[i + 1] else None
 
         return subclass(**attrs)
 

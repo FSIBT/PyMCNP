@@ -13,7 +13,7 @@ class Axs(_option.SsrOption):
     _KEYWORD = 'axs'
 
     _ATTRS = {
-        'cosines': types.Tuple[types.Real],
+        'cosines': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Aaxs((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Axs(_option.SsrOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.cosines: types.Tuple[types.Real] = cosines
+        self.cosines: types.Tuple(types.Real) = cosines
 
     @property
-    def cosines(self) -> types.Tuple[types.Real]:
+    def cosines(self) -> types.Tuple(types.Real):
         """
         Direction cosines defining
 
@@ -65,9 +65,9 @@ class Axs(_option.SsrOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            cosines = types.Tuple(array)
+            cosines = types.Tuple(types.Real)(array)
 
         if cosines is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cosines)
 
-        self._cosines: types.Tuple[types.Real] = cosines
+        self._cosines: types.Tuple(types.Real) = cosines

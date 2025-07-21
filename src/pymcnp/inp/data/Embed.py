@@ -15,7 +15,7 @@ class Embed(_option.DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'options': types.Tuple[embed.EmbedOption],
+        'options': types.Tuple(embed.EmbedOption),
     }
 
     _REGEX = re.compile(rf'\Aembed(\d+)?((?: (?:{embed.EmbedOption._REGEX.pattern[2:-2]}))+?)?\Z')
@@ -33,7 +33,7 @@ class Embed(_option.DataOption):
         """
 
         self.suffix: types.Integer = suffix
-        self.options: types.Tuple[embed.EmbedOption] = options
+        self.options: types.Tuple(embed.EmbedOption) = options
 
     @property
     def suffix(self) -> types.Integer:
@@ -74,7 +74,7 @@ class Embed(_option.DataOption):
         self._suffix: types.Integer = suffix
 
     @property
-    def options(self) -> types.Tuple[embed.EmbedOption]:
+    def options(self) -> types.Tuple(embed.EmbedOption):
         """
         Dictionary of options
 
@@ -105,6 +105,6 @@ class Embed(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(embed.EmbedOption.from_mcnp(item))
-            options = types.Tuple(array)
+            options = types.Tuple(embed.EmbedOption)(array)
 
-        self._options: types.Tuple[embed.EmbedOption] = options
+        self._options: types.Tuple(embed.EmbedOption) = options

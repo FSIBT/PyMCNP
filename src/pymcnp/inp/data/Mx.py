@@ -15,7 +15,7 @@ class Mx(_option.DataOption):
     _ATTRS = {
         'suffix': types.Integer,
         'designator': types.Designator,
-        'zaids': types.Tuple[types.String],
+        'zaids': types.Tuple(types.String),
     }
 
     _REGEX = re.compile(rf'\Amx(\d+):(\S+)((?: (?:{types.Zaid._REGEX.pattern[2:-2]}|j|model|0))+?)\Z')
@@ -35,7 +35,7 @@ class Mx(_option.DataOption):
 
         self.suffix: types.Integer = suffix
         self.designator: types.Designator = designator
-        self.zaids: types.Tuple[types.String] = zaids
+        self.zaids: types.Tuple(types.String) = zaids
 
     @property
     def suffix(self) -> types.Integer:
@@ -112,7 +112,7 @@ class Mx(_option.DataOption):
         self._designator: types.Designator = designator
 
     @property
-    def zaids(self) -> types.Tuple[types.String]:
+    def zaids(self) -> types.Tuple(types.String):
         """
         Zaid substitutions for particles
 
@@ -143,9 +143,9 @@ class Mx(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.String.from_mcnp(item))
-            zaids = types.Tuple(array)
+            zaids = types.Tuple(types.String)(array)
 
         if zaids is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zaids)
 
-        self._zaids: types.Tuple[types.String] = zaids
+        self._zaids: types.Tuple(types.String) = zaids

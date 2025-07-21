@@ -13,7 +13,7 @@ class Mplot(_option.DataOption):
     _KEYWORD = 'mplot'
 
     _ATTRS = {
-        'options': types.Tuple[mplot.MplotOption],
+        'options': types.Tuple(mplot.MplotOption),
     }
 
     _REGEX = re.compile(rf'\Amplot((?: (?:{mplot.MplotOption._REGEX.pattern[2:-2]}))+?)?\Z')
@@ -29,10 +29,10 @@ class Mplot(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.options: types.Tuple[mplot.MplotOption] = options
+        self.options: types.Tuple(mplot.MplotOption) = options
 
     @property
-    def options(self) -> types.Tuple[mplot.MplotOption]:
+    def options(self) -> types.Tuple(mplot.MplotOption):
         """
         Dictionary of options
 
@@ -63,6 +63,6 @@ class Mplot(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(mplot.MplotOption.from_mcnp(item))
-            options = types.Tuple(array)
+            options = types.Tuple(mplot.MplotOption)(array)
 
-        self._options: types.Tuple[mplot.MplotOption] = options
+        self._options: types.Tuple(mplot.MplotOption) = options

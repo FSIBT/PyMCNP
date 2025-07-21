@@ -13,7 +13,7 @@ class Rho(_option.KpertOption):
     _KEYWORD = 'rho'
 
     _ATTRS = {
-        'densities': types.Tuple[types.Real],
+        'densities': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Arho((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Rho(_option.KpertOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.densities: types.Tuple[types.Real] = densities
+        self.densities: types.Tuple(types.Real) = densities
 
     @property
-    def densities(self) -> types.Tuple[types.Real]:
+    def densities(self) -> types.Tuple(types.Real):
         """
         List of densities
 
@@ -65,9 +65,9 @@ class Rho(_option.KpertOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            densities = types.Tuple(array)
+            densities = types.Tuple(types.Real)(array)
 
         if densities is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, densities)
 
-        self._densities: types.Tuple[types.Real] = densities
+        self._densities: types.Tuple(types.Real) = densities

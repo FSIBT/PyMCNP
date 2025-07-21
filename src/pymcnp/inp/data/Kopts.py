@@ -13,7 +13,7 @@ class Kopts(_option.DataOption):
     _KEYWORD = 'kopts'
 
     _ATTRS = {
-        'options': types.Tuple[kopts.KoptsOption],
+        'options': types.Tuple(kopts.KoptsOption),
     }
 
     _REGEX = re.compile(rf'\Akopts((?: (?:{kopts.KoptsOption._REGEX.pattern[2:-2]}))+?)?\Z')
@@ -29,10 +29,10 @@ class Kopts(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.options: types.Tuple[kopts.KoptsOption] = options
+        self.options: types.Tuple(kopts.KoptsOption) = options
 
     @property
-    def options(self) -> types.Tuple[kopts.KoptsOption]:
+    def options(self) -> types.Tuple(kopts.KoptsOption):
         """
         Dictionary of options
 
@@ -63,6 +63,6 @@ class Kopts(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(kopts.KoptsOption.from_mcnp(item))
-            options = types.Tuple(array)
+            options = types.Tuple(kopts.KoptsOption)(array)
 
-        self._options: types.Tuple[kopts.KoptsOption] = options
+        self._options: types.Tuple(kopts.KoptsOption) = options

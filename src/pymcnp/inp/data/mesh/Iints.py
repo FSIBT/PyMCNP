@@ -13,7 +13,7 @@ class Iints(_option.MeshOption):
     _KEYWORD = 'iints'
 
     _ATTRS = {
-        'number': types.Tuple[types.Integer],
+        'number': types.Tuple(types.Integer),
     }
 
     _REGEX = re.compile(rf'\Aiints((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Iints(_option.MeshOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.number: types.Tuple[types.Integer] = number
+        self.number: types.Tuple(types.Integer) = number
 
     @property
-    def number(self) -> types.Tuple[types.Integer]:
+    def number(self) -> types.Tuple(types.Integer):
         """
         Number of fine meshes within corresponding coarse meshes in the x/r directions
 
@@ -65,9 +65,9 @@ class Iints(_option.MeshOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-            number = types.Tuple(array)
+            number = types.Tuple(types.Integer)(array)
 
         if number is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)
 
-        self._number: types.Tuple[types.Integer] = number
+        self._number: types.Tuple(types.Integer) = number

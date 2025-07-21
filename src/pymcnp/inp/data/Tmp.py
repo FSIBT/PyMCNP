@@ -14,7 +14,7 @@ class Tmp(_option.DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'temperatures': types.Tuple[types.Real],
+        'temperatures': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Atmp(\d+)?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -32,7 +32,7 @@ class Tmp(_option.DataOption):
         """
 
         self.suffix: types.Integer = suffix
-        self.temperatures: types.Tuple[types.Real] = temperatures
+        self.temperatures: types.Tuple(types.Real) = temperatures
 
     @property
     def suffix(self) -> types.Integer:
@@ -70,7 +70,7 @@ class Tmp(_option.DataOption):
         self._suffix: types.Integer = suffix
 
     @property
-    def temperatures(self) -> types.Tuple[types.Real]:
+    def temperatures(self) -> types.Tuple(types.Real):
         """
         Cell temperatrues
 
@@ -103,9 +103,9 @@ class Tmp(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            temperatures = types.Tuple(array)
+            temperatures = types.Tuple(types.Real)(array)
 
         if temperatures is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, temperatures)
 
-        self._temperatures: types.Tuple[types.Real] = temperatures
+        self._temperatures: types.Tuple(types.Real) = temperatures

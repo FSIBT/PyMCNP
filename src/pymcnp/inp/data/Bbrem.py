@@ -62,7 +62,7 @@ class Bbrem(_option.DataOption):
         'bias_47': types.Real,
         'bias_48': types.Real,
         'bias_49': types.Real,
-        'materials': types.Tuple[types.Integer],
+        'materials': types.Tuple(types.Integer),
     }
 
     _REGEX = re.compile(
@@ -230,7 +230,7 @@ class Bbrem(_option.DataOption):
         self.bias_47: types.Real = bias_47
         self.bias_48: types.Real = bias_48
         self.bias_49: types.Real = bias_49
-        self.materials: types.Tuple[types.Integer] = materials
+        self.materials: types.Tuple(types.Integer) = materials
 
     @property
     def bias_1(self) -> types.Real:
@@ -2095,7 +2095,7 @@ class Bbrem(_option.DataOption):
         self._bias_49: types.Real = bias_49
 
     @property
-    def materials(self) -> types.Tuple[types.Integer]:
+    def materials(self) -> types.Tuple(types.Integer):
         """
         Material to bias
 
@@ -2128,9 +2128,9 @@ class Bbrem(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-            materials = types.Tuple(array)
+            materials = types.Tuple(types.Integer)(array)
 
         if materials is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, materials)
 
-        self._materials: types.Tuple[types.Integer] = materials
+        self._materials: types.Tuple(types.Integer) = materials

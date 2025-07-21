@@ -5,58 +5,70 @@ from . import _type
 from .. import errors
 
 
-class Tuple(tuple, _type.Type):
-    """
-    Represents generic MCNP collections.
-
-    Attributes:
-        value: Tuple value.
-    """
-
-    def __init__(self, value: tuple):
+def Tuple(element: typing.Type) -> object:
+    class _Tuple(tuple, _type.Type):
         """
-        Initializes ``Tuple``.
+        Represents generic MCNP collections.
 
-        Parameters:
+        Attributes:
             value: Tuple value.
-
-        Returns:
-            ``Tuple``.
-
-        Raises:
-            TypesError: SEMANTICS_TYPE.
         """
 
-        if value is None or value == tuple() or None in value:
-            raise errors.TypesError(errors.TypesCode.SEMANTICS_TYPE, value)
+        def __init__(self, value: tuple[element]):
+            """
+            Initializes ``Tuple``.
 
-        self.value: typing.Final[tuple] = value
+            Parameters:
+                value: Tuple value.
 
-    @classmethod
-    def from_mcnp(cls, source: str, T: typing.Type):
-        """
-        Generates ``Tuple`` from MCNP.
+            Returns:
+                ``Tuple``.
 
-        Parameters:
-            source: MCNP tuple.
-            T: Inner type.
+            Raises:
+                TypesError: SEMANTICS_TYPE.
+            """
 
-        Returns:
-            ``Tuple``.
+            if value is None or value == tuple() or None in value:
+                raise errors.TypesError(errors.TypesCode.SEMANTICS_TYPE, value)
 
-        Raises:
-            TypesError: SYNTAX_TYPE.
-        """
+            self.value: typing.Final[tuple[element]] = value
 
-        tokens = re.finditer(T._REGEX.pattern[2:-2], source)
-        return Tuple([T.from_mcnp(token[0]) for token in tokens])
+        @classmethod
+        def from_mcnp(cls, source: str):
+            """
+            Generates ``Tuple`` from MCNP.
 
-    def to_mcnp(self):
-        """
-        Generates MCNP from ``Tuple``.
+            Parameters:
+                source: MCNP tuple.
+                T: Inner type.
 
-        Returns:
-            MCNP for ``Tuple``.
-        """
+            Returns:
+                ``Tuple``.
 
-        return ' '.join(val.to_mcnp() if val is not None else '' for val in self.value)
+            Raises:
+                TypesError: SYNTAX_TYPE.
+            """
+
+            tokens = re.finditer(element._REGEX.pattern[2:-2], source)
+            return _Tuple([element.from_mcnp(token[0]) for token in tokens])
+
+        def to_mcnp(self):
+            """
+            Generates MCNP from ``Tuple``.
+
+            Returns:
+                MCNP for ``Tuple``.
+            """
+
+            return ' '.join(val.to_mcnp() if val is not None else '' for val in self.value)
+
+        def __iter__(self):
+            return self.value.__iter__()
+
+        def __getitem__(self, index):
+            return self.value.__getitem__(index)
+
+        def __contains__(self, item):
+            return self.value.__contains__(item)
+
+    return _Tuple

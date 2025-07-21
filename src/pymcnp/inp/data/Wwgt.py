@@ -14,7 +14,7 @@ class Wwgt(_option.DataOption):
 
     _ATTRS = {
         'designator': types.Designator,
-        'bounds': types.Tuple[types.Real],
+        'bounds': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Awwgt:(\S+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -32,7 +32,7 @@ class Wwgt(_option.DataOption):
         """
 
         self.designator: types.Designator = designator
-        self.bounds: types.Tuple[types.Real] = bounds
+        self.bounds: types.Tuple(types.Real) = bounds
 
     @property
     def designator(self) -> types.Designator:
@@ -71,7 +71,7 @@ class Wwgt(_option.DataOption):
         self._designator: types.Designator = designator
 
     @property
-    def bounds(self) -> types.Tuple[types.Real]:
+    def bounds(self) -> types.Tuple(types.Real):
         """
         Upper time bound for weight-window group to be generated
 
@@ -104,9 +104,9 @@ class Wwgt(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            bounds = types.Tuple(array)
+            bounds = types.Tuple(types.Real)(array)
 
         if bounds is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bounds)
 
-        self._bounds: types.Tuple[types.Real] = bounds
+        self._bounds: types.Tuple(types.Real) = bounds

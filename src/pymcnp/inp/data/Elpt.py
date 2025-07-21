@@ -13,7 +13,7 @@ class Elpt(_option.DataOption):
     _KEYWORD = 'elpt'
 
     _ATTRS = {
-        'cutoffs': types.Tuple[types.Real],
+        'cutoffs': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Aelpt((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Elpt(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.cutoffs: types.Tuple[types.Real] = cutoffs
+        self.cutoffs: types.Tuple(types.Real) = cutoffs
 
     @property
-    def cutoffs(self) -> types.Tuple[types.Real]:
+    def cutoffs(self) -> types.Tuple(types.Real):
         """
         Tuple of cell lower energy cutoffs
 
@@ -65,9 +65,9 @@ class Elpt(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            cutoffs = types.Tuple(array)
+            cutoffs = types.Tuple(types.Real)(array)
 
         if cutoffs is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cutoffs)
 
-        self._cutoffs: types.Tuple[types.Real] = cutoffs
+        self._cutoffs: types.Tuple(types.Real) = cutoffs

@@ -14,7 +14,7 @@ class Mt(_option.DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'identifiers': types.Tuple[types.String],
+        'identifiers': types.Tuple(types.String),
     }
 
     _REGEX = re.compile(rf'\Amt(\d+)((?: {types.String._REGEX.pattern[2:-2]})+?)\Z')
@@ -32,7 +32,7 @@ class Mt(_option.DataOption):
         """
 
         self.suffix: types.Integer = suffix
-        self.identifiers: types.Tuple[types.String] = identifiers
+        self.identifiers: types.Tuple(types.String) = identifiers
 
     @property
     def suffix(self) -> types.Integer:
@@ -73,7 +73,7 @@ class Mt(_option.DataOption):
         self._suffix: types.Integer = suffix
 
     @property
-    def identifiers(self) -> types.Tuple[types.String]:
+    def identifiers(self) -> types.Tuple(types.String):
         """
         Corresponding S(α,β) identifier
 
@@ -104,9 +104,9 @@ class Mt(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.String.from_mcnp(item))
-            identifiers = types.Tuple(array)
+            identifiers = types.Tuple(types.String)(array)
 
         if identifiers is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, identifiers)
 
-        self._identifiers: types.Tuple[types.String] = identifiers
+        self._identifiers: types.Tuple(types.String) = identifiers

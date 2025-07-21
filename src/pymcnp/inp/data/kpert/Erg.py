@@ -13,7 +13,7 @@ class Erg(_option.KpertOption):
     _KEYWORD = 'erg'
 
     _ATTRS = {
-        'energies': types.Tuple[types.Real],
+        'energies': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Aerg((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Erg(_option.KpertOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.energies: types.Tuple[types.Real] = energies
+        self.energies: types.Tuple(types.Real) = energies
 
     @property
-    def energies(self) -> types.Tuple[types.Real]:
+    def energies(self) -> types.Tuple(types.Real):
         """
         List of energies
 
@@ -65,9 +65,9 @@ class Erg(_option.KpertOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            energies = types.Tuple(array)
+            energies = types.Tuple(types.Real)(array)
 
         if energies is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energies)
 
-        self._energies: types.Tuple[types.Real] = energies
+        self._energies: types.Tuple(types.Real) = energies

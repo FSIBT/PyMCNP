@@ -13,7 +13,7 @@ class Refs(_option.MOption_0):
     _KEYWORD = 'refs'
 
     _ATTRS = {
-        'coefficents': types.Tuple[types.Real],
+        'coefficents': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Arefs((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Refs(_option.MOption_0):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.coefficents: types.Tuple[types.Real] = coefficents
+        self.coefficents: types.Tuple(types.Real) = coefficents
 
     @property
-    def coefficents(self) -> types.Tuple[types.Real]:
+    def coefficents(self) -> types.Tuple(types.Real):
         """
         Sellmeier coefficents
 
@@ -65,9 +65,9 @@ class Refs(_option.MOption_0):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            coefficents = types.Tuple(array)
+            coefficents = types.Tuple(types.Real)(array)
 
         if coefficents is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, coefficents)
 
-        self._coefficents: types.Tuple[types.Real] = coefficents
+        self._coefficents: types.Tuple(types.Real) = coefficents

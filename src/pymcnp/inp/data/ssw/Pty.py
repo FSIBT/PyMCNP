@@ -13,7 +13,7 @@ class Pty(_option.SswOption):
     _KEYWORD = 'pty'
 
     _ATTRS = {
-        'tracks': types.Tuple[types.Designator],
+        'tracks': types.Tuple(types.Designator),
     }
 
     _REGEX = re.compile(rf'\Apty((?: {types.Designator._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Pty(_option.SswOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.tracks: types.Tuple[types.Designator] = tracks
+        self.tracks: types.Tuple(types.Designator) = tracks
 
     @property
-    def tracks(self) -> types.Tuple[types.Designator]:
+    def tracks(self) -> types.Tuple(types.Designator):
         """
         Tracks to record
 
@@ -63,9 +63,9 @@ class Pty(_option.SswOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Designator.from_mcnp(item))
-            tracks = types.Tuple(array)
+            tracks = types.Tuple(types.Designator)(array)
 
         if tracks is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tracks)
 
-        self._tracks: types.Tuple[types.Designator] = tracks
+        self._tracks: types.Tuple(types.Designator) = tracks

@@ -13,7 +13,7 @@ class Sdef(_option.DataOption):
     _KEYWORD = 'sdef'
 
     _ATTRS = {
-        'options': types.Tuple[sdef.SdefOption],
+        'options': types.Tuple(sdef.SdefOption),
     }
 
     _REGEX = re.compile(rf'\Asdef((?: (?:{sdef.SdefOption._REGEX.pattern[2:-2]}))+?)?\Z')
@@ -29,10 +29,10 @@ class Sdef(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.options: types.Tuple[sdef.SdefOption] = options
+        self.options: types.Tuple(sdef.SdefOption) = options
 
     @property
-    def options(self) -> types.Tuple[sdef.SdefOption]:
+    def options(self) -> types.Tuple(sdef.SdefOption):
         """
         Dictionary of options
 
@@ -63,6 +63,6 @@ class Sdef(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(sdef.SdefOption.from_mcnp(item))
-            options = types.Tuple(array)
+            options = types.Tuple(sdef.SdefOption)(array)
 
-        self._options: types.Tuple[sdef.SdefOption] = options
+        self._options: types.Tuple(sdef.SdefOption) = options

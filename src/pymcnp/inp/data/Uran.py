@@ -14,7 +14,7 @@ class Uran(_option.DataOption):
     _KEYWORD = 'uran'
 
     _ATTRS = {
-        'transformations': types.Tuple[uran.Stochastic],
+        'transformations': types.Tuple(uran.Stochastic),
     }
 
     _REGEX = re.compile(r'\Auran((?: \S+ \S+ \S+ \S+)+?)\Z')
@@ -30,10 +30,10 @@ class Uran(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.transformations: types.Tuple[uran.Stochastic] = transformations
+        self.transformations: types.Tuple(uran.Stochastic) = transformations
 
     @property
-    def transformations(self) -> types.Tuple[uran.Stochastic]:
+    def transformations(self) -> types.Tuple(uran.Stochastic):
         """
         Tuple of stochastic transformations
 
@@ -64,9 +64,9 @@ class Uran(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(uran.Stochastic.from_mcnp(item))
-            transformations = types.Tuple(array)
+            transformations = types.Tuple(uran.Stochastic)(array)
 
         if transformations is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, transformations)
 
-        self._transformations: types.Tuple[uran.Stochastic] = transformations
+        self._transformations: types.Tuple(uran.Stochastic) = transformations

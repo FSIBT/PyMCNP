@@ -13,7 +13,7 @@ class Old(_option.SsrOption):
     _KEYWORD = 'old'
 
     _ATTRS = {
-        'numbers': types.Tuple[types.Integer],
+        'numbers': types.Tuple(types.Integer),
     }
 
     _REGEX = re.compile(rf'\Aold((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Old(_option.SsrOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.numbers: types.Tuple[types.Integer] = numbers
+        self.numbers: types.Tuple(types.Integer) = numbers
 
     @property
-    def numbers(self) -> types.Tuple[types.Integer]:
+    def numbers(self) -> types.Tuple(types.Integer):
         """
         Tuple of surface numbers from subset of surfaces on SSW card
 
@@ -65,9 +65,9 @@ class Old(_option.SsrOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-            numbers = types.Tuple(array)
+            numbers = types.Tuple(types.Integer)(array)
 
         if numbers is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
 
-        self._numbers: types.Tuple[types.Integer] = numbers
+        self._numbers: types.Tuple(types.Integer) = numbers

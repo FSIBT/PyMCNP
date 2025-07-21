@@ -12,7 +12,7 @@ class Drxs(_option.DataOption):
     _KEYWORD = 'drxs'
 
     _ATTRS = {
-        'zaids': types.Tuple[types.Zaid],
+        'zaids': types.Tuple(types.Zaid),
     }
 
     _REGEX = re.compile(rf'\Adrxs((?: {types.Zaid._REGEX.pattern[2:-2]})+?)?\Z')
@@ -28,10 +28,10 @@ class Drxs(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.zaids: types.Tuple[types.Zaid] = zaids
+        self.zaids: types.Tuple(types.Zaid) = zaids
 
     @property
-    def zaids(self) -> types.Tuple[types.Zaid]:
+    def zaids(self) -> types.Tuple(types.Zaid):
         """
         Tuple of ZAID aliases
 
@@ -62,6 +62,6 @@ class Drxs(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Zaid.from_mcnp(item))
-            zaids = types.Tuple(array)
+            zaids = types.Tuple(types.Zaid)(array)
 
-        self._zaids: types.Tuple[types.Zaid] = zaids
+        self._zaids: types.Tuple(types.Zaid) = zaids

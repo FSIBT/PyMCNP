@@ -14,7 +14,7 @@ class Cf(_option.DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'numbers': types.Tuple[types.Integer],
+        'numbers': types.Tuple(types.Integer),
     }
 
     _REGEX = re.compile(rf'\Acf(\d+)((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z')
@@ -32,7 +32,7 @@ class Cf(_option.DataOption):
         """
 
         self.suffix: types.Integer = suffix
-        self.numbers: types.Tuple[types.Integer] = numbers
+        self.numbers: types.Tuple(types.Integer) = numbers
 
     @property
     def suffix(self) -> types.Integer:
@@ -73,7 +73,7 @@ class Cf(_option.DataOption):
         self._suffix: types.Integer = suffix
 
     @property
-    def numbers(self) -> types.Tuple[types.Integer]:
+    def numbers(self) -> types.Tuple(types.Integer):
         """
         Tallies for problem cell numbers to flag
 
@@ -106,9 +106,9 @@ class Cf(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-            numbers = types.Tuple(array)
+            numbers = types.Tuple(types.Integer)(array)
 
         if numbers is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
 
-        self._numbers: types.Tuple[types.Integer] = numbers
+        self._numbers: types.Tuple(types.Integer) = numbers

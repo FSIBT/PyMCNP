@@ -14,7 +14,7 @@ class Filter(_option.PtracOption):
     _KEYWORD = 'filter'
 
     _ATTRS = {
-        'variables': types.Tuple[filter.Entry],
+        'variables': types.Tuple(filter.Entry),
     }
 
     _REGEX = re.compile(rf'\Afilter((?: {filter.Entry._REGEX.pattern[2:-2]})+?)\Z')
@@ -30,10 +30,10 @@ class Filter(_option.PtracOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.variables: types.Tuple[filter.Entry] = variables
+        self.variables: types.Tuple(filter.Entry) = variables
 
     @property
-    def variables(self) -> types.Tuple[filter.Entry]:
+    def variables(self) -> types.Tuple(filter.Entry):
         """
         MCNP6 variables for filtering
 
@@ -64,9 +64,9 @@ class Filter(_option.PtracOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(filter.Entry.from_mcnp(item))
-            variables = types.Tuple(array)
+            variables = types.Tuple(filter.Entry)(array)
 
         if variables is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, variables)
 
-        self._variables: types.Tuple[filter.Entry] = variables
+        self._variables: types.Tuple(filter.Entry) = variables

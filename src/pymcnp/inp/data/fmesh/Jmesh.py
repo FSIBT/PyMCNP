@@ -13,7 +13,7 @@ class Jmesh(_option.FmeshOption):
     _KEYWORD = 'jmesh'
 
     _ATTRS = {
-        'locations': types.Tuple[types.Real],
+        'locations': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Ajmesh((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Jmesh(_option.FmeshOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.locations: types.Tuple[types.Real] = locations
+        self.locations: types.Tuple(types.Real) = locations
 
     @property
-    def locations(self) -> types.Tuple[types.Real]:
+    def locations(self) -> types.Tuple(types.Real):
         """
         Locations of mesh points y/z for rectangular/cylindrical geometry
 
@@ -65,9 +65,9 @@ class Jmesh(_option.FmeshOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            locations = types.Tuple(array)
+            locations = types.Tuple(types.Real)(array)
 
         if locations is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, locations)
 
-        self._locations: types.Tuple[types.Real] = locations
+        self._locations: types.Tuple(types.Real) = locations

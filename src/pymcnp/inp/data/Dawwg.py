@@ -13,7 +13,7 @@ class Dawwg(_option.DataOption):
     _KEYWORD = 'dawwg'
 
     _ATTRS = {
-        'options': types.Tuple[dawwg.DawwgOption],
+        'options': types.Tuple(dawwg.DawwgOption),
     }
 
     _REGEX = re.compile(rf'\Adawwg((?: (?:{dawwg.DawwgOption._REGEX.pattern[2:-2]}))+?)?\Z')
@@ -29,10 +29,10 @@ class Dawwg(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.options: types.Tuple[dawwg.DawwgOption] = options
+        self.options: types.Tuple(dawwg.DawwgOption) = options
 
     @property
-    def options(self) -> types.Tuple[dawwg.DawwgOption]:
+    def options(self) -> types.Tuple(dawwg.DawwgOption):
         """
         Dictionary of options
 
@@ -63,6 +63,6 @@ class Dawwg(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(dawwg.DawwgOption.from_mcnp(item))
-            options = types.Tuple(array)
+            options = types.Tuple(dawwg.DawwgOption)(array)
 
-        self._options: types.Tuple[dawwg.DawwgOption] = options
+        self._options: types.Tuple(dawwg.DawwgOption) = options

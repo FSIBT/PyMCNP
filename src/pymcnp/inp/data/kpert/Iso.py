@@ -13,7 +13,7 @@ class Iso(_option.KpertOption):
     _KEYWORD = 'iso'
 
     _ATTRS = {
-        'zaids': types.Tuple[types.Zaid],
+        'zaids': types.Tuple(types.Zaid),
     }
 
     _REGEX = re.compile(rf'\Aiso((?: {types.Zaid._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Iso(_option.KpertOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.zaids: types.Tuple[types.Zaid] = zaids
+        self.zaids: types.Tuple(types.Zaid) = zaids
 
     @property
-    def zaids(self) -> types.Tuple[types.Zaid]:
+    def zaids(self) -> types.Tuple(types.Zaid):
         """
         List of ZAIDs for pertubation
 
@@ -63,9 +63,9 @@ class Iso(_option.KpertOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Zaid.from_mcnp(item))
-            zaids = types.Tuple(array)
+            zaids = types.Tuple(types.Zaid)(array)
 
         if zaids is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zaids)
 
-        self._zaids: types.Tuple[types.Zaid] = zaids
+        self._zaids: types.Tuple(types.Zaid) = zaids

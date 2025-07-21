@@ -13,7 +13,7 @@ class Tropt(_option.DataOption):
     _KEYWORD = 'tropt'
 
     _ATTRS = {
-        'options': types.Tuple[tropt.TroptOption],
+        'options': types.Tuple(tropt.TroptOption),
     }
 
     _REGEX = re.compile(rf'\Atropt((?: (?:{tropt.TroptOption._REGEX.pattern[2:-2]}))+?)?\Z')
@@ -29,10 +29,10 @@ class Tropt(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.options: types.Tuple[tropt.TroptOption] = options
+        self.options: types.Tuple(tropt.TroptOption) = options
 
     @property
-    def options(self) -> types.Tuple[tropt.TroptOption]:
+    def options(self) -> types.Tuple(tropt.TroptOption):
         """
         Dictionary of options
 
@@ -63,6 +63,6 @@ class Tropt(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(tropt.TroptOption.from_mcnp(item))
-            options = types.Tuple(array)
+            options = types.Tuple(tropt.TroptOption)(array)
 
-        self._options: types.Tuple[tropt.TroptOption] = options
+        self._options: types.Tuple(tropt.TroptOption) = options

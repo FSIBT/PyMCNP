@@ -14,7 +14,7 @@ class Vol(_option.DataOption):
 
     _ATTRS = {
         'no': types.String,
-        'volumes': types.Tuple[types.Real],
+        'volumes': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Avol(?: (no))?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -32,7 +32,7 @@ class Vol(_option.DataOption):
         """
 
         self.no: types.String = no
-        self.volumes: types.Tuple[types.Real] = volumes
+        self.volumes: types.Tuple(types.Real) = volumes
 
     @property
     def no(self) -> types.String:
@@ -71,7 +71,7 @@ class Vol(_option.DataOption):
         self._no: types.String = no
 
     @property
-    def volumes(self) -> types.Tuple[types.Real]:
+    def volumes(self) -> types.Tuple(types.Real):
         """
         Tuple of cell volumes
 
@@ -104,9 +104,9 @@ class Vol(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            volumes = types.Tuple(array)
+            volumes = types.Tuple(types.Real)(array)
 
         if volumes is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, volumes)
 
-        self._volumes: types.Tuple[types.Real] = volumes
+        self._volumes: types.Tuple(types.Real) = volumes

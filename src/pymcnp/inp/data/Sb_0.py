@@ -15,7 +15,7 @@ class Sb_0(_option.DataOption):
     _ATTRS = {
         'suffix': types.Integer,
         'option': types.String,
-        'biases': types.Tuple[types.Real],
+        'biases': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Asb(\d+)( [dcvw])?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -35,7 +35,7 @@ class Sb_0(_option.DataOption):
 
         self.suffix: types.Integer = suffix
         self.option: types.String = option
-        self.biases: types.Tuple[types.Real] = biases
+        self.biases: types.Tuple(types.Real) = biases
 
     @property
     def suffix(self) -> types.Integer:
@@ -112,7 +112,7 @@ class Sb_0(_option.DataOption):
         self._option: types.String = option
 
     @property
-    def biases(self) -> types.Tuple[types.Real]:
+    def biases(self) -> types.Tuple(types.Real):
         """
         Particle source biases
 
@@ -145,9 +145,9 @@ class Sb_0(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            biases = types.Tuple(array)
+            biases = types.Tuple(types.Real)(array)
 
         if biases is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, biases)
 
-        self._biases: types.Tuple[types.Real] = biases
+        self._biases: types.Tuple(types.Real) = biases

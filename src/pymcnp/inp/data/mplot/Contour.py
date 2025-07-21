@@ -17,7 +17,7 @@ class Contour(_option.MplotOption):
         'cmin': types.Real,
         'cmax': types.Real,
         'cstep': types.Real,
-        'options': types.Tuple[contour.ContourOption],
+        'options': types.Tuple(contour.ContourOption),
     }
 
     _REGEX = re.compile(
@@ -41,7 +41,7 @@ class Contour(_option.MplotOption):
         self.cmin: types.Real = cmin
         self.cmax: types.Real = cmax
         self.cstep: types.Real = cstep
-        self.options: types.Tuple[contour.ContourOption] = options
+        self.options: types.Tuple(contour.ContourOption) = options
 
     @property
     def cmin(self) -> types.Real:
@@ -158,7 +158,7 @@ class Contour(_option.MplotOption):
         self._cstep: types.Real = cstep
 
     @property
-    def options(self) -> types.Tuple[contour.ContourOption]:
+    def options(self) -> types.Tuple(contour.ContourOption):
         """
         Dictionary of options
 
@@ -189,6 +189,6 @@ class Contour(_option.MplotOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(contour.ContourOption.from_mcnp(item))
-            options = types.Tuple(array)
+            options = types.Tuple(contour.ContourOption)(array)
 
-        self._options: types.Tuple[contour.ContourOption] = options
+        self._options: types.Tuple(contour.ContourOption) = options

@@ -15,7 +15,7 @@ class Wwn(_option.DataOption):
     _ATTRS = {
         'suffix': types.Integer,
         'designator': types.Designator,
-        'bounds': types.Tuple[types.Real],
+        'bounds': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Awwn(\d+):(\S+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -35,7 +35,7 @@ class Wwn(_option.DataOption):
 
         self.suffix: types.Integer = suffix
         self.designator: types.Designator = designator
-        self.bounds: types.Tuple[types.Real] = bounds
+        self.bounds: types.Tuple(types.Real) = bounds
 
     @property
     def suffix(self) -> types.Integer:
@@ -112,7 +112,7 @@ class Wwn(_option.DataOption):
         self._designator: types.Designator = designator
 
     @property
-    def bounds(self) -> types.Tuple[types.Real]:
+    def bounds(self) -> types.Tuple(types.Real):
         """
         Lower weight bound
 
@@ -145,9 +145,9 @@ class Wwn(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            bounds = types.Tuple(array)
+            bounds = types.Tuple(types.Real)(array)
 
         if bounds is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bounds)
 
-        self._bounds: types.Tuple[types.Real] = bounds
+        self._bounds: types.Tuple(types.Real) = bounds

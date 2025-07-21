@@ -21,7 +21,7 @@ class History(_object.McnpNonterminal):
     def __init__(
         self,
         i_line: history.I,
-        events: types.Tuple[history.Event],
+        events: types.Tuple(history.Event),
     ):
         """
         Initializes ``History``.
@@ -41,7 +41,7 @@ class History(_object.McnpNonterminal):
             raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, events)
 
         self.i_line: typing.Final[history.I] = i_line
-        self.events: typing.Final[types.Tuple[history.Event]] = events
+        self.events: typing.Final[types.Tuple(history.Event)] = events
 
     @staticmethod
     def from_mcnp(source: str):
@@ -70,7 +70,7 @@ class History(_object.McnpNonterminal):
             event = history.Event.from_mcnp(match[0])
             events.append(event)
 
-        events = types.Tuple(events)
+        events = types.Tuple(history.Event)(events)
 
         return History(i_line, events)
 
@@ -82,4 +82,6 @@ class History(_object.McnpNonterminal):
             PTRAC for ``History``.
         """
 
+        print(repr(self.events))
+        print(self.events)
         return f'{self.i_line}\n{''.join(map(str, self.events))}'
