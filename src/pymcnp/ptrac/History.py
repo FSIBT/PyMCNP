@@ -2,7 +2,6 @@ import re
 import typing
 
 from . import history
-from .Header import Header
 from .. import types
 from .. import errors
 from ..utils import _object
@@ -45,13 +44,12 @@ class History(_object.McnpNonterminal):
         self.events: typing.Final[types.Tuple[history.Event]] = events
 
     @staticmethod
-    def from_mcnp(source: str, header: Header):
+    def from_mcnp(source: str):
         """
         Generates ``History`` from PTRAC.
 
         Parameters:
             source: PTRAC for ``History``.
-            header: PTRAC header.
 
         Returns:
             ``History``.
@@ -68,10 +66,8 @@ class History(_object.McnpNonterminal):
         i_line = history.I.from_mcnp(tokens[1])
 
         events = []
-        next_type = i_line.event_type
         for match in re.finditer(history.Event._REGEX.pattern[2:-2], tokens[2]):
-            event = history.Event.from_mcnp(match[0], next_type, header)
-            next_type = event.j_line.next_type
+            event = history.Event.from_mcnp(match[0])
             events.append(event)
 
         events = types.Tuple(events)
