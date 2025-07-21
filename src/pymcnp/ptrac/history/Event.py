@@ -1,7 +1,6 @@
 import re
 import typing
 
-from .. import Header
 
 from . import event
 from . import _block
@@ -46,7 +45,7 @@ class Event(_block.HistoryBlock):
         self.j_line: typing.Final[typing.Union[event.J_0, event.J_1, event.J_2, event.J_3, event.J_4, event.J_5, event.J_6, event.J_7]] = j_line
         self.p_line: typing.Final[typing.Union[event.P_0, event.P_1]] = p_line
 
-    def from_mcnp(source: str, next_type: event.j.EventType, header: Header):
+    def from_mcnp(source: str):
         """
         Generates ``Event`` from PTRAC.
 

@@ -1,5 +1,3 @@
-import pytest
-
 import pymcnp
 from ... import consts
 from ... import classes
