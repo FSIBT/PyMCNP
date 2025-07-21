@@ -16,7 +16,7 @@ class Bfld(_option.DataOption):
     _ATTRS = {
         'suffix': types.Integer,
         'kind': types.String,
-        'options': types.Tuple[bfld.BfldOption],
+        'options': types.Tuple(bfld.BfldOption),
     }
 
     _REGEX = re.compile(rf'\Abfld(\d+)( {types.String._REGEX.pattern[2:-2]})((?: (?:{bfld.BfldOption._REGEX.pattern[2:-2]}))+?)?\Z')
@@ -36,7 +36,7 @@ class Bfld(_option.DataOption):
 
         self.suffix: types.Integer = suffix
         self.kind: types.String = kind
-        self.options: types.Tuple[bfld.BfldOption] = options
+        self.options: types.Tuple(bfld.BfldOption) = options
 
     @property
     def suffix(self) -> types.Integer:
@@ -113,7 +113,7 @@ class Bfld(_option.DataOption):
         self._kind: types.String = kind
 
     @property
-    def options(self) -> types.Tuple[bfld.BfldOption]:
+    def options(self) -> types.Tuple(bfld.BfldOption):
         """
         Dictionary of options
 
@@ -144,6 +144,6 @@ class Bfld(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(bfld.BfldOption.from_mcnp(item))
-            options = types.Tuple(array)
+            options = types.Tuple(bfld.BfldOption)(array)
 
-        self._options: types.Tuple[bfld.BfldOption] = options
+        self._options: types.Tuple(bfld.BfldOption) = options

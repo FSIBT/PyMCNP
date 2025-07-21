@@ -13,7 +13,7 @@ class Axs(_option.BfldOption):
     _KEYWORD = 'axs'
 
     _ATTRS = {
-        'vector': types.Tuple[types.Real],
+        'vector': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Aaxs((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Axs(_option.BfldOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.vector: types.Tuple[types.Real] = vector
+        self.vector: types.Tuple(types.Real) = vector
 
     @property
-    def vector(self) -> types.Tuple[types.Real]:
+    def vector(self) -> types.Tuple(types.Real):
         """
         Direction of the cosines of the quadropole beam axis
 
@@ -65,9 +65,9 @@ class Axs(_option.BfldOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            vector = types.Tuple(array)
+            vector = types.Tuple(types.Real)(array)
 
         if vector is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vector)
 
-        self._vector: types.Tuple[types.Real] = vector
+        self._vector: types.Tuple(types.Real) = vector

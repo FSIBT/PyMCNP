@@ -14,7 +14,7 @@ class Imp(_option.DataOption):
 
     _ATTRS = {
         'designator': types.Designator,
-        'importances': types.Tuple[types.Real],
+        'importances': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Aimp:(\S+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -32,7 +32,7 @@ class Imp(_option.DataOption):
         """
 
         self.designator: types.Designator = designator
-        self.importances: types.Tuple[types.Real] = importances
+        self.importances: types.Tuple(types.Real) = importances
 
     @property
     def designator(self) -> types.Designator:
@@ -71,7 +71,7 @@ class Imp(_option.DataOption):
         self._designator: types.Designator = designator
 
     @property
-    def importances(self) -> types.Tuple[types.Real]:
+    def importances(self) -> types.Tuple(types.Real):
         """
         Cell importance
 
@@ -104,9 +104,9 @@ class Imp(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            importances = types.Tuple(array)
+            importances = types.Tuple(types.Real)(array)
 
         if importances is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, importances)
 
-        self._importances: types.Tuple[types.Real] = importances
+        self._importances: types.Tuple(types.Real) = importances

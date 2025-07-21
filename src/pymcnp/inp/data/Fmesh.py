@@ -16,7 +16,7 @@ class Fmesh(_option.DataOption):
     _ATTRS = {
         'suffix': types.Integer,
         'designator': types.Designator,
-        'options': types.Tuple[fmesh.FmeshOption],
+        'options': types.Tuple(fmesh.FmeshOption),
     }
 
     _REGEX = re.compile(rf'\Afmesh(\d+):(\S+)((?: (?:{fmesh.FmeshOption._REGEX.pattern[2:-2]}))+?)?\Z')
@@ -36,7 +36,7 @@ class Fmesh(_option.DataOption):
 
         self.suffix: types.Integer = suffix
         self.designator: types.Designator = designator
-        self.options: types.Tuple[fmesh.FmeshOption] = options
+        self.options: types.Tuple(fmesh.FmeshOption) = options
 
     @property
     def suffix(self) -> types.Integer:
@@ -113,7 +113,7 @@ class Fmesh(_option.DataOption):
         self._designator: types.Designator = designator
 
     @property
-    def options(self) -> types.Tuple[fmesh.FmeshOption]:
+    def options(self) -> types.Tuple(fmesh.FmeshOption):
         """
         Dictionary of options
 
@@ -144,6 +144,6 @@ class Fmesh(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(fmesh.FmeshOption.from_mcnp(item))
-            options = types.Tuple(array)
+            options = types.Tuple(fmesh.FmeshOption)(array)
 
-        self._options: types.Tuple[fmesh.FmeshOption] = options
+        self._options: types.Tuple(fmesh.FmeshOption) = options

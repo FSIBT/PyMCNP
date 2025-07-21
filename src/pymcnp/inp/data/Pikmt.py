@@ -14,7 +14,7 @@ class Pikmt(_option.DataOption):
     _KEYWORD = 'pikmt'
 
     _ATTRS = {
-        'biases': types.Tuple[pikmt.Photonbias],
+        'biases': types.Tuple(pikmt.Photonbias),
     }
 
     _REGEX = re.compile(rf'\Apikmt((?: {pikmt.Photonbias._REGEX.pattern[2:-2]})+?)\Z')
@@ -30,10 +30,10 @@ class Pikmt(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.biases: types.Tuple[pikmt.Photonbias] = biases
+        self.biases: types.Tuple(pikmt.Photonbias) = biases
 
     @property
-    def biases(self) -> types.Tuple[pikmt.Photonbias]:
+    def biases(self) -> types.Tuple(pikmt.Photonbias):
         """
         Biases for proton production
 
@@ -64,9 +64,9 @@ class Pikmt(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(pikmt.Photonbias.from_mcnp(item))
-            biases = types.Tuple(array)
+            biases = types.Tuple(pikmt.Photonbias)(array)
 
         if biases is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, biases)
 
-        self._biases: types.Tuple[pikmt.Photonbias] = biases
+        self._biases: types.Tuple(pikmt.Photonbias) = biases

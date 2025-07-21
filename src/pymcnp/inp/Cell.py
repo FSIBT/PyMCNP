@@ -17,7 +17,7 @@ class Cell(_card.Card):
         'material': types.Integer,
         'density': types.Real,
         'geometry': cell.Geometry,
-        'options': types.Tuple[cell.CellOption],
+        'options': types.Tuple(cell.CellOption),
     }
 
     _REGEX = re.compile(rf'\A(\S+)( \S+)((?<! 0) \S+|(?<= 0))( [^a-z]+)((?: (?:{cell.CellOption._REGEX.pattern[2:-2]}))+?)?\Z')
@@ -28,7 +28,7 @@ class Cell(_card.Card):
         material: types.Integer,
         geometry: cell.Geometry,
         density: types.Real = None,
-        options: types.Tuple[cell.CellOption] = None,
+        options: types.Tuple(cell.CellOption) = None,
     ):
         """
         Initializes ``Cell``.
@@ -48,7 +48,7 @@ class Cell(_card.Card):
         self.material: types.Integer = material
         self.density: types.Real = density
         self.geometry: cell.Geometry = geometry
-        self.options: types.Tuple[cell.CellOption] = options
+        self.options: types.Tuple(cell.CellOption) = options
 
     def to_mcnp(self):
         """
@@ -57,6 +57,8 @@ class Cell(_card.Card):
         Returns:
             INP cell card.
         """
+
+        print(type(self.options))
 
         source = f'{self.number} {self.material} {self.density or ""} {self.geometry} {self.options or ""}'
         source, comments = _parser.preprocess_inp(source)
@@ -235,7 +237,7 @@ class Cell(_card.Card):
         self._geometry: cell.Geometry = geometry
 
     @property
-    def options(self) -> types.Tuple[cell.CellOption]:
+    def options(self) -> types.Tuple(cell.CellOption):
         """
         Cell options.
 
@@ -266,7 +268,6 @@ class Cell(_card.Card):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(cell.CellOption.from_mcnp(item))
+            options = types.Tuple(cell.CellOption)(array)
 
-            options = types.Tuple(array)
-
-        self._options: types.Tuple[cell.CellOption] = options
+        self._options: types.Tuple(cell.CellOption) = options

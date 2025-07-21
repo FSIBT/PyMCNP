@@ -13,7 +13,7 @@ class Lat(_option.DataOption):
     _KEYWORD = 'lat'
 
     _ATTRS = {
-        'type': types.Tuple[types.Integer],
+        'type': types.Tuple(types.Integer),
     }
 
     _REGEX = re.compile(rf'\Alat((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Lat(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.type: types.Tuple[types.Integer] = type
+        self.type: types.Tuple(types.Integer) = type
 
     @property
-    def type(self) -> types.Tuple[types.Integer]:
+    def type(self) -> types.Tuple(types.Integer):
         """
         Tuple of lattice types
 
@@ -65,9 +65,9 @@ class Lat(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-            type = types.Tuple(array)
+            type = types.Tuple(types.Integer)(array)
 
         if type is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, type)
 
-        self._type: types.Tuple[types.Integer] = type
+        self._type: types.Tuple(types.Integer) = type

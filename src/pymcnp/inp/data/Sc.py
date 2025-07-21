@@ -14,7 +14,7 @@ class Sc(_option.DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'comment': types.Tuple[types.String],
+        'comment': types.Tuple(types.String),
     }
 
     _REGEX = re.compile(rf'\Asc(\d+)((?: {types.String._REGEX.pattern[2:-2]})+?)\Z')
@@ -32,7 +32,7 @@ class Sc(_option.DataOption):
         """
 
         self.suffix: types.Integer = suffix
-        self.comment: types.Tuple[types.String] = comment
+        self.comment: types.Tuple(types.String) = comment
 
     @property
     def suffix(self) -> types.Integer:
@@ -73,7 +73,7 @@ class Sc(_option.DataOption):
         self._suffix: types.Integer = suffix
 
     @property
-    def comment(self) -> types.Tuple[types.String]:
+    def comment(self) -> types.Tuple(types.String):
         """
         Source comment
 
@@ -104,9 +104,9 @@ class Sc(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.String.from_mcnp(item))
-            comment = types.Tuple(array)
+            comment = types.Tuple(types.String)(array)
 
         if comment is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, comment)
 
-        self._comment: types.Tuple[types.String] = comment
+        self._comment: types.Tuple(types.String) = comment

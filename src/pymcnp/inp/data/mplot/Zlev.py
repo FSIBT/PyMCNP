@@ -13,7 +13,7 @@ class Zlev(_option.MplotOption):
     _KEYWORD = 'zlev'
 
     _ATTRS = {
-        'n': types.Tuple[types.String],
+        'n': types.Tuple(types.String),
     }
 
     _REGEX = re.compile(rf'\Azlev((?: {types.String._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Zlev(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.n: types.Tuple[types.String] = n
+        self.n: types.Tuple(types.String) = n
 
     @property
-    def n(self) -> types.Tuple[types.String]:
+    def n(self) -> types.Tuple(types.String):
         """
         Scales of tally plots
 
@@ -63,9 +63,9 @@ class Zlev(_option.MplotOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.String.from_mcnp(item))
-            n = types.Tuple(array)
+            n = types.Tuple(types.String)(array)
 
         if n is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n)
 
-        self._n: types.Tuple[types.String] = n
+        self._n: types.Tuple(types.String) = n

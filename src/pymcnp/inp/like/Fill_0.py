@@ -17,7 +17,7 @@ class Fill_0(_option.LikeOption):
         'i': types.Index,
         'j': types.Index,
         'k': types.Index,
-        'universes': types.Tuple[types.Integer],
+        'universes': types.Tuple(types.Integer),
         'm': types.Integer,
     }
 
@@ -51,7 +51,7 @@ class Fill_0(_option.LikeOption):
         self.i: types.Index = i
         self.j: types.Index = j
         self.k: types.Index = k
-        self.universes: types.Tuple[types.Integer] = universes
+        self.universes: types.Tuple(types.Integer) = universes
         self.m: types.Integer = m
 
     @property
@@ -195,7 +195,7 @@ class Fill_0(_option.LikeOption):
         self._k: types.Index = k
 
     @property
-    def universes(self) -> types.Tuple[types.Integer]:
+    def universes(self) -> types.Tuple(types.Integer):
         """
         Gets ``universes``.
 
@@ -228,12 +228,12 @@ class Fill_0(_option.LikeOption):
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
 
-            universes = types.Tuple(array)
+            universes = types.Tuple(types.Integer)(array)
 
         if universes is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, universes)
 
-        self._universes: types.Tuple[types.Integer] = universes
+        self._universes: types.Tuple(types.Integer) = universes
 
     @property
     def m(self) -> types.Integer:

@@ -13,7 +13,7 @@ class Thtme(_option.DataOption):
     _KEYWORD = 'thtme'
 
     _ATTRS = {
-        'times': types.Tuple[types.Real],
+        'times': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Athtme((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Thtme(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.times: types.Tuple[types.Real] = times
+        self.times: types.Tuple(types.Real) = times
 
     @property
-    def times(self) -> types.Tuple[types.Real]:
+    def times(self) -> types.Tuple(types.Real):
         """
         Tuple of times when thermal temperatures are specified
 
@@ -65,9 +65,9 @@ class Thtme(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            times = types.Tuple(array)
+            times = types.Tuple(types.Real)(array)
 
         if times is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, times)
 
-        self._times: types.Tuple[types.Real] = times
+        self._times: types.Tuple(types.Real) = times

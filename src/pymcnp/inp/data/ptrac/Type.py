@@ -13,7 +13,7 @@ class Type(_option.PtracOption):
     _KEYWORD = 'type'
 
     _ATTRS = {
-        'particles': types.Tuple[types.Designator],
+        'particles': types.Tuple(types.Designator),
     }
 
     _REGEX = re.compile(rf'\Atype((?: {types.Designator._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Type(_option.PtracOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.particles: types.Tuple[types.Designator] = particles
+        self.particles: types.Tuple(types.Designator) = particles
 
     @property
-    def particles(self) -> types.Tuple[types.Designator]:
+    def particles(self) -> types.Tuple(types.Designator):
         """
         Filters events based on one or more particle types
 
@@ -63,9 +63,9 @@ class Type(_option.PtracOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Designator.from_mcnp(item))
-            particles = types.Tuple(array)
+            particles = types.Tuple(types.Designator)(array)
 
         if particles is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, particles)
 
-        self._particles: types.Tuple[types.Designator] = particles
+        self._particles: types.Tuple(types.Designator) = particles

@@ -14,7 +14,7 @@ class Files(_option.DataOption):
     _KEYWORD = 'files'
 
     _ATTRS = {
-        'creations': types.Tuple[files.File],
+        'creations': types.Tuple(files.File),
     }
 
     _REGEX = re.compile(rf'\Afiles((?: {files.File._REGEX.pattern[2:-2]})+?)\Z')
@@ -30,10 +30,10 @@ class Files(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.creations: types.Tuple[files.File] = creations
+        self.creations: types.Tuple(files.File) = creations
 
     @property
-    def creations(self) -> types.Tuple[files.File]:
+    def creations(self) -> types.Tuple(files.File):
         """
         Files to create
 
@@ -64,9 +64,9 @@ class Files(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(files.File.from_mcnp(item))
-            creations = types.Tuple(array)
+            creations = types.Tuple(files.File)(array)
 
         if creations is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, creations)
 
-        self._creations: types.Tuple[files.File] = creations
+        self._creations: types.Tuple(files.File) = creations

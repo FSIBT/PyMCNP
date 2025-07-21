@@ -16,7 +16,7 @@ class Ksen(_option.DataOption):
     _ATTRS = {
         'suffix': types.Integer,
         'sen': types.String,
-        'options': types.Tuple[ksen.KsenOption],
+        'options': types.Tuple(ksen.KsenOption),
     }
 
     _REGEX = re.compile(rf'\Aksen(\d+)( {types.String._REGEX.pattern[2:-2]})((?: (?:{ksen.KsenOption._REGEX.pattern[2:-2]}))+?)?\Z')
@@ -36,7 +36,7 @@ class Ksen(_option.DataOption):
 
         self.suffix: types.Integer = suffix
         self.sen: types.String = sen
-        self.options: types.Tuple[ksen.KsenOption] = options
+        self.options: types.Tuple(ksen.KsenOption) = options
 
     @property
     def suffix(self) -> types.Integer:
@@ -113,7 +113,7 @@ class Ksen(_option.DataOption):
         self._sen: types.String = sen
 
     @property
-    def options(self) -> types.Tuple[ksen.KsenOption]:
+    def options(self) -> types.Tuple(ksen.KsenOption):
         """
         Dictionary of options
 
@@ -144,6 +144,6 @@ class Ksen(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(ksen.KsenOption.from_mcnp(item))
-            options = types.Tuple(array)
+            options = types.Tuple(ksen.KsenOption)(array)
 
-        self._options: types.Tuple[ksen.KsenOption] = options
+        self._options: types.Tuple(ksen.KsenOption) = options

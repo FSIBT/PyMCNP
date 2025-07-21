@@ -15,7 +15,7 @@ class Ds_2(_option.DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'vss': types.Tuple[ds_2.Variables],
+        'vss': types.Tuple(ds_2.Variables),
     }
 
     _REGEX = re.compile(rf'\Ads(\d+) q((?: {ds_2.Variables._REGEX.pattern[2:-2]})+?)\Z')
@@ -33,7 +33,7 @@ class Ds_2(_option.DataOption):
         """
 
         self.suffix: types.Integer = suffix
-        self.vss: types.Tuple[ds_2.Variables] = vss
+        self.vss: types.Tuple(ds_2.Variables) = vss
 
     def to_mcnp(self):
         """
@@ -83,7 +83,7 @@ class Ds_2(_option.DataOption):
         self._suffix: types.Integer = suffix
 
     @property
-    def vss(self) -> types.Tuple[ds_2.Variables]:
+    def vss(self) -> types.Tuple(ds_2.Variables):
         """
         Dependent source independent & dependent variables
 
@@ -114,9 +114,9 @@ class Ds_2(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(ds_2.Variables.from_mcnp(item))
-            vss = types.Tuple(array)
+            vss = types.Tuple(ds_2.Variables)(array)
 
         if vss is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vss)
 
-        self._vss: types.Tuple[ds_2.Variables] = vss
+        self._vss: types.Tuple(ds_2.Variables) = vss

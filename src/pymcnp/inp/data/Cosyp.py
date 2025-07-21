@@ -16,7 +16,7 @@ class Cosyp(_option.DataOption):
         'pre': types.Integer,
         'axsh': types.Integer,
         'axsv': types.Integer,
-        'emaps': types.Tuple[types.Real],
+        'emaps': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Acosyp( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -38,7 +38,7 @@ class Cosyp(_option.DataOption):
         self.pre: types.Integer = pre
         self.axsh: types.Integer = axsh
         self.axsv: types.Integer = axsv
-        self.emaps: types.Tuple[types.Real] = emaps
+        self.emaps: types.Tuple(types.Real) = emaps
 
     @property
     def pre(self) -> types.Integer:
@@ -155,7 +155,7 @@ class Cosyp(_option.DataOption):
         self._axsv: types.Integer = axsv
 
     @property
-    def emaps(self) -> types.Tuple[types.Real]:
+    def emaps(self) -> types.Tuple(types.Real):
         """
         Tuple of operating beam energies
 
@@ -188,9 +188,9 @@ class Cosyp(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            emaps = types.Tuple(array)
+            emaps = types.Tuple(types.Real)(array)
 
         if emaps is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, emaps)
 
-        self._emaps: types.Tuple[types.Real] = emaps
+        self._emaps: types.Tuple(types.Real) = emaps

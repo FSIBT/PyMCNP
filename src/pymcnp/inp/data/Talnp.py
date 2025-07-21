@@ -12,7 +12,7 @@ class Talnp(_option.DataOption):
     _KEYWORD = 'talnp'
 
     _ATTRS = {
-        'tallies': types.Tuple[types.Integer],
+        'tallies': types.Tuple(types.Integer),
     }
 
     _REGEX = re.compile(rf'\Atalnp((?: {types.Integer._REGEX.pattern[2:-2]})+?)?\Z')
@@ -28,10 +28,10 @@ class Talnp(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.tallies: types.Tuple[types.Integer] = tallies
+        self.tallies: types.Tuple(types.Integer) = tallies
 
     @property
-    def tallies(self) -> types.Tuple[types.Integer]:
+    def tallies(self) -> types.Tuple(types.Integer):
         """
         Tallies to exclude from output
 
@@ -64,6 +64,6 @@ class Talnp(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-            tallies = types.Tuple(array)
+            tallies = types.Tuple(types.Integer)(array)
 
-        self._tallies: types.Tuple[types.Integer] = tallies
+        self._tallies: types.Tuple(types.Integer) = tallies

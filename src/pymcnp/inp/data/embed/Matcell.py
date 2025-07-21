@@ -14,7 +14,7 @@ class Matcell(_option.EmbedOption):
     _KEYWORD = 'matcell'
 
     _ATTRS = {
-        'pairs': types.Tuple[matcell.Entry],
+        'pairs': types.Tuple(matcell.Entry),
     }
 
     _REGEX = re.compile(rf'\Amatcell((?: {matcell.Entry._REGEX.pattern[2:-2]})+?)\Z')
@@ -30,10 +30,10 @@ class Matcell(_option.EmbedOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.pairs: types.Tuple[matcell.Entry] = pairs
+        self.pairs: types.Tuple(matcell.Entry) = pairs
 
     @property
-    def pairs(self) -> types.Tuple[matcell.Entry]:
+    def pairs(self) -> types.Tuple(matcell.Entry):
         """
         Tuple of material-cell paris
 
@@ -64,9 +64,9 @@ class Matcell(_option.EmbedOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(matcell.Entry.from_mcnp(item))
-            pairs = types.Tuple(array)
+            pairs = types.Tuple(matcell.Entry)(array)
 
         if pairs is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, pairs)
 
-        self._pairs: types.Tuple[matcell.Entry] = pairs
+        self._pairs: types.Tuple(matcell.Entry) = pairs

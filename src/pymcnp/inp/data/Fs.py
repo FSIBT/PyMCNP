@@ -14,7 +14,7 @@ class Fs(_option.DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'numbers': types.Tuple[types.Integer],
+        'numbers': types.Tuple(types.Integer),
         't': types.String,
         'c': types.String,
     }
@@ -36,7 +36,7 @@ class Fs(_option.DataOption):
         """
 
         self.suffix: types.Integer = suffix
-        self.numbers: types.Tuple[types.Integer] = numbers
+        self.numbers: types.Tuple(types.Integer) = numbers
         self.t: types.String = t
         self.c: types.String = c
 
@@ -79,7 +79,7 @@ class Fs(_option.DataOption):
         self._suffix: types.Integer = suffix
 
     @property
-    def numbers(self) -> types.Tuple[types.Integer]:
+    def numbers(self) -> types.Tuple(types.Integer):
         """
         Signed problem number of a segmenting surface.
 
@@ -112,12 +112,12 @@ class Fs(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-            numbers = types.Tuple(array)
+            numbers = types.Tuple(types.Integer)(array)
 
         if numbers is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
 
-        self._numbers: types.Tuple[types.Integer] = numbers
+        self._numbers: types.Tuple(types.Integer) = numbers
 
     @property
     def t(self) -> types.String:

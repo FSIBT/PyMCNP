@@ -13,7 +13,7 @@ class Otfdb(_option.DataOption):
     _KEYWORD = 'otfdb'
 
     _ATTRS = {
-        'zaids': types.Tuple[types.Zaid],
+        'zaids': types.Tuple(types.Zaid),
     }
 
     _REGEX = re.compile(rf'\Aotfdb((?: {types.Zaid._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Otfdb(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.zaids: types.Tuple[types.Zaid] = zaids
+        self.zaids: types.Tuple(types.Zaid) = zaids
 
     @property
-    def zaids(self) -> types.Tuple[types.Zaid]:
+    def zaids(self) -> types.Tuple(types.Zaid):
         """
         Identifiers for the broadening tables
 
@@ -63,9 +63,9 @@ class Otfdb(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Zaid.from_mcnp(item))
-            zaids = types.Tuple(array)
+            zaids = types.Tuple(types.Zaid)(array)
 
         if zaids is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zaids)
 
-        self._zaids: types.Tuple[types.Zaid] = zaids
+        self._zaids: types.Tuple(types.Zaid) = zaids

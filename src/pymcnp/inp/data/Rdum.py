@@ -13,7 +13,7 @@ class Rdum(_option.DataOption):
     _KEYWORD = 'rdum'
 
     _ATTRS = {
-        'floats': types.Tuple[types.Real],
+        'floats': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Ardum((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Rdum(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.floats: types.Tuple[types.Real] = floats
+        self.floats: types.Tuple(types.Real) = floats
 
     @property
-    def floats(self) -> types.Tuple[types.Real]:
+    def floats(self) -> types.Tuple(types.Real):
         """
         Floating point array
 
@@ -65,9 +65,9 @@ class Rdum(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            floats = types.Tuple(array)
+            floats = types.Tuple(types.Real)(array)
 
         if floats is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, floats)
 
-        self._floats: types.Tuple[types.Real] = floats
+        self._floats: types.Tuple(types.Real) = floats

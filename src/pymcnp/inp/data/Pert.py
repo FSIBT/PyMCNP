@@ -16,7 +16,7 @@ class Pert(_option.DataOption):
     _ATTRS = {
         'suffix': types.Integer,
         'designator': types.Designator,
-        'options': types.Tuple[pert.PertOption],
+        'options': types.Tuple(pert.PertOption),
     }
 
     _REGEX = re.compile(rf'\Apert(\d+):(\S+)((?: (?:{pert.PertOption._REGEX.pattern[2:-2]}))+?)?\Z')
@@ -36,7 +36,7 @@ class Pert(_option.DataOption):
 
         self.suffix: types.Integer = suffix
         self.designator: types.Designator = designator
-        self.options: types.Tuple[pert.PertOption] = options
+        self.options: types.Tuple(pert.PertOption) = options
 
     @property
     def suffix(self) -> types.Integer:
@@ -113,7 +113,7 @@ class Pert(_option.DataOption):
         self._designator: types.Designator = designator
 
     @property
-    def options(self) -> types.Tuple[pert.PertOption]:
+    def options(self) -> types.Tuple(pert.PertOption):
         """
         Dictionary of options
 
@@ -144,6 +144,6 @@ class Pert(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(pert.PertOption.from_mcnp(item))
-            options = types.Tuple(array)
+            options = types.Tuple(pert.PertOption)(array)
 
-        self._options: types.Tuple[pert.PertOption] = options
+        self._options: types.Tuple(pert.PertOption) = options

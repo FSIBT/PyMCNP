@@ -14,7 +14,7 @@ class Sd(_option.DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'information': types.Tuple[types.Real],
+        'information': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Asd(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -32,7 +32,7 @@ class Sd(_option.DataOption):
         """
 
         self.suffix: types.Integer = suffix
-        self.information: types.Tuple[types.Real] = information
+        self.information: types.Tuple(types.Real) = information
 
     @property
     def suffix(self) -> types.Integer:
@@ -73,7 +73,7 @@ class Sd(_option.DataOption):
         self._suffix: types.Integer = suffix
 
     @property
-    def information(self) -> types.Tuple[types.Real]:
+    def information(self) -> types.Tuple(types.Real):
         """
         Area, volume, or mass by segmented, surface/cell
 
@@ -106,9 +106,9 @@ class Sd(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            information = types.Tuple(array)
+            information = types.Tuple(types.Real)(array)
 
         if information is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, information)
 
-        self._information: types.Tuple[types.Real] = information
+        self._information: types.Tuple(types.Real) = information

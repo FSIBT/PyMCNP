@@ -23,7 +23,7 @@ class Outp(_object.McnpFile):
     def __init__(
         self,
         header: outp.Header,
-        blocks: types.Tuple[outp.Block],
+        blocks: types.Tuple(outp.Block),
     ):
         """
         Initializes ``Outp``.
@@ -44,7 +44,7 @@ class Outp(_object.McnpFile):
             raise errors.OutpError(errors.OutpCode.SEMANTICS_FILE, blocks)
 
         self.header: typing.Final[outp.Header] = header
-        self.blocks: typing.Final[types.Tuple[outp.Block]] = blocks
+        self.blocks: typing.Final[types.Tuple(outp.Block)] = blocks
 
     @staticmethod
     def from_mcnp(source: str):
@@ -78,7 +78,7 @@ class Outp(_object.McnpFile):
 
             blocks.append(block)
 
-        blocks = types.Tuple(blocks)
+        blocks = types.Tuple(outp.Block)(blocks)
 
         return Outp(
             header,

@@ -13,7 +13,7 @@ class Histp(_option.DataOption):
 
     _ATTRS = {
         'lhist': types.Integer,
-        'cells': types.Tuple[types.Integer],
+        'cells': types.Tuple(types.Integer),
     }
 
     _REGEX = re.compile(rf'\Ahistp( {types.Integer._REGEX.pattern[2:-2]})?((?: {types.Integer._REGEX.pattern[2:-2]})+?)?\Z')
@@ -31,7 +31,7 @@ class Histp(_option.DataOption):
         """
 
         self.lhist: types.Integer = lhist
-        self.cells: types.Tuple[types.Integer] = cells
+        self.cells: types.Tuple(types.Integer) = cells
 
     @property
     def lhist(self) -> types.Integer:
@@ -69,7 +69,7 @@ class Histp(_option.DataOption):
         self._lhist: types.Integer = lhist
 
     @property
-    def cells(self) -> types.Tuple[types.Integer]:
+    def cells(self) -> types.Tuple(types.Integer):
         """
         Cell numbers
 
@@ -102,6 +102,6 @@ class Histp(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-            cells = types.Tuple(array)
+            cells = types.Tuple(types.Integer)(array)
 
-        self._cells: types.Tuple[types.Integer] = cells
+        self._cells: types.Tuple(types.Integer) = cells

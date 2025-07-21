@@ -15,7 +15,7 @@ class C(_option.DataOption):
     _ATTRS = {
         'prefix': types.String,
         'suffix': types.Integer,
-        'bounds': types.Tuple[types.Real],
+        'bounds': types.Tuple(types.Real),
         't': types.String,
         'c': types.String,
     }
@@ -41,7 +41,7 @@ class C(_option.DataOption):
 
         self.prefix: types.String = prefix
         self.suffix: types.Integer = suffix
-        self.bounds: types.Tuple[types.Real] = bounds
+        self.bounds: types.Tuple(types.Real) = bounds
         self.t: types.String = t
         self.c: types.String = c
 
@@ -120,7 +120,7 @@ class C(_option.DataOption):
         self._suffix: types.Integer = suffix
 
     @property
-    def bounds(self) -> types.Tuple[types.Real]:
+    def bounds(self) -> types.Tuple(types.Real):
         """
         Upper cosine bounds for bin
 
@@ -153,12 +153,12 @@ class C(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            bounds = types.Tuple(array)
+            bounds = types.Tuple(types.Real)(array)
 
         if bounds is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bounds)
 
-        self._bounds: types.Tuple[types.Real] = bounds
+        self._bounds: types.Tuple(types.Real) = bounds
 
     @property
     def t(self) -> types.String:

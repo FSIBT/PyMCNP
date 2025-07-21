@@ -12,7 +12,7 @@ class Nonu(_option.DataOption):
     _KEYWORD = 'nonu'
 
     _ATTRS = {
-        'settings': types.Tuple[types.Integer],
+        'settings': types.Tuple(types.Integer),
     }
 
     _REGEX = re.compile(rf'\Anonu((?: {types.Integer._REGEX.pattern[2:-2]})+?)?\Z')
@@ -28,10 +28,10 @@ class Nonu(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.settings: types.Tuple[types.Integer] = settings
+        self.settings: types.Tuple(types.Integer) = settings
 
     @property
-    def settings(self) -> types.Tuple[types.Integer]:
+    def settings(self) -> types.Tuple(types.Integer):
         """
         Tuple of fission settings
 
@@ -64,6 +64,6 @@ class Nonu(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-            settings = types.Tuple(array)
+            settings = types.Tuple(types.Integer)(array)
 
-        self._settings: types.Tuple[types.Integer] = settings
+        self._settings: types.Tuple(types.Integer) = settings

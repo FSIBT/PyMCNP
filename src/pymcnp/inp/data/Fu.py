@@ -14,7 +14,7 @@ class Fu(_option.DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'bounds': types.Tuple[types.Real],
+        'bounds': types.Tuple(types.Real),
         'nt': types.String,
         'c': types.String,
     }
@@ -36,7 +36,7 @@ class Fu(_option.DataOption):
         """
 
         self.suffix: types.Integer = suffix
-        self.bounds: types.Tuple[types.Real] = bounds
+        self.bounds: types.Tuple(types.Real) = bounds
         self.nt: types.String = nt
         self.c: types.String = c
 
@@ -79,7 +79,7 @@ class Fu(_option.DataOption):
         self._suffix: types.Integer = suffix
 
     @property
-    def bounds(self) -> types.Tuple[types.Real]:
+    def bounds(self) -> types.Tuple(types.Real):
         """
         Input parameters for user bins
 
@@ -112,12 +112,12 @@ class Fu(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            bounds = types.Tuple(array)
+            bounds = types.Tuple(types.Real)(array)
 
         if bounds is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bounds)
 
-        self._bounds: types.Tuple[types.Real] = bounds
+        self._bounds: types.Tuple(types.Real) = bounds
 
     @property
     def nt(self) -> types.String:
