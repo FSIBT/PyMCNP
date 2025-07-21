@@ -2175,7 +2175,7 @@ class ast:
 
     class ptrac:
         HEADER = pymcnp.ptrac.Header.from_mcnp(string.ptrac.HEADER)
-        HISTORY = pymcnp.ptrac.History.from_mcnp(string.ptrac.HISTORY, HEADER)
+        HISTORY = pymcnp.ptrac.History.from_mcnp(string.ptrac.HISTORY)
 
         class header:
             V = pymcnp.ptrac.header.V.from_mcnp(string.ptrac.header.V)
@@ -2184,7 +2184,7 @@ class ast:
 
         class history:
             I = pymcnp.ptrac.history.I.from_mcnp(string.ptrac.history.I)
-            EVENT = pymcnp.ptrac.history.Event.from_mcnp(string.ptrac.history.EVENT, I.event_type, pymcnp.ptrac.Header.from_mcnp(string.ptrac.HEADER))
+            EVENT = pymcnp.ptrac.history.Event.from_mcnp(string.ptrac.history.EVENT)
 
             class event:
                 J_0 = pymcnp.ptrac.history.event.J_0.from_mcnp(string.ptrac.history.event.J_0)
