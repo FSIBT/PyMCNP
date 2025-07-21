@@ -16,7 +16,7 @@ class F_0(_option.DataOption):
         'prefix': types.String,
         'suffix': types.Integer,
         'designator': types.Designator,
-        'problems': types.Tuple[types.Integer],
+        'problems': types.Tuple(types.Integer),
         't': types.String,
     }
 
@@ -47,7 +47,7 @@ class F_0(_option.DataOption):
         self.prefix: types.String = prefix
         self.suffix: types.Integer = suffix
         self.designator: types.Designator = designator
-        self.problems: types.Tuple[types.Integer] = problems
+        self.problems: types.Tuple(types.Integer) = problems
         self.t: types.String = t
 
     @property
@@ -158,7 +158,7 @@ class F_0(_option.DataOption):
         self._designator: types.Designator = designator
 
     @property
-    def problems(self) -> types.Tuple[types.Integer]:
+    def problems(self) -> types.Tuple(types.Integer):
         """
         Problem numbers of surface or cell
 
@@ -191,12 +191,12 @@ class F_0(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-            problems = types.Tuple(array)
+            problems = types.Tuple(types.Integer)(array)
 
         if problems is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, problems)
 
-        self._problems: types.Tuple[types.Integer] = problems
+        self._problems: types.Tuple(types.Integer) = problems
 
     @property
     def t(self) -> types.String:

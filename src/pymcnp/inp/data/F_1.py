@@ -17,7 +17,7 @@ class F_1(_option.DataOption):
         'prefix': types.String,
         'suffix': types.Integer,
         'designator': types.Designator,
-        'spheres': types.Tuple[f_1.Sphere],
+        'spheres': types.Tuple(f_1.Sphere),
         'nd': types.String,
     }
 
@@ -43,7 +43,7 @@ class F_1(_option.DataOption):
         self.prefix: types.String = prefix
         self.suffix: types.Integer = suffix
         self.designator: types.Designator = designator
-        self.spheres: types.Tuple[f_1.Sphere] = spheres
+        self.spheres: types.Tuple(f_1.Sphere) = spheres
         self.nd: types.String = nd
 
     @property
@@ -154,7 +154,7 @@ class F_1(_option.DataOption):
         self._designator: types.Designator = designator
 
     @property
-    def spheres(self) -> types.Tuple[f_1.Sphere]:
+    def spheres(self) -> types.Tuple(f_1.Sphere):
         """
         Detector points
 
@@ -185,12 +185,12 @@ class F_1(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(f_1.Sphere.from_mcnp(item))
-            spheres = types.Tuple(array)
+            spheres = types.Tuple(f_1.Sphere)(array)
 
         if spheres is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres)
 
-        self._spheres: types.Tuple[f_1.Sphere] = spheres
+        self._spheres: types.Tuple(f_1.Sphere) = spheres
 
     @property
     def nd(self) -> types.String:

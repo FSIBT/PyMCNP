@@ -18,7 +18,7 @@ class F_2(_option.DataOption):
         'suffix': types.Integer,
         'a': types.String,
         'designator': types.Designator,
-        'rings': types.Tuple[f_2.Ring],
+        'rings': types.Tuple(f_2.Ring),
         'nd': types.String,
     }
 
@@ -52,7 +52,7 @@ class F_2(_option.DataOption):
         self.suffix: types.Integer = suffix
         self.a: types.String = a
         self.designator: types.Designator = designator
-        self.rings: types.Tuple[f_2.Ring] = rings
+        self.rings: types.Tuple(f_2.Ring) = rings
         self.nd: types.String = nd
 
     def to_mcnp(self):
@@ -209,7 +209,7 @@ class F_2(_option.DataOption):
         self._designator: types.Designator = designator
 
     @property
-    def rings(self) -> types.Tuple[f_2.Ring]:
+    def rings(self) -> types.Tuple(f_2.Ring):
         """
         Detector points
 
@@ -240,12 +240,12 @@ class F_2(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(f_2.Ring.from_mcnp(item))
-            rings = types.Tuple(array)
+            rings = types.Tuple(f_2.Ring)(array)
 
         if rings is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, rings)
 
-        self._rings: types.Tuple[f_2.Ring] = rings
+        self._rings: types.Tuple(f_2.Ring) = rings
 
     @property
     def nd(self) -> types.String:

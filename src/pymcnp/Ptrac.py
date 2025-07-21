@@ -65,7 +65,7 @@ class Ptrac(_object.McnpFile):
             raise errors.PtracError(errors.PtracCode.SYNTAX_FILE, source)
 
         header = ptrac.Header.from_mcnp(tokens[1])
-        histories = types.Tuple(ptrac.History.from_mcnp(match[0]) for match in re.finditer(ptrac.History._REGEX.pattern[2:-2], tokens[2]))
+        histories = types.Tuple(ptrac.History)([ptrac.History.from_mcnp(match[0]) for match in re.finditer(ptrac.History._REGEX.pattern[2:-2], tokens[2])])
 
         return Ptrac(header, histories)
 
@@ -77,4 +77,4 @@ class Ptrac(_object.McnpFile):
             PTRAC for ``Ptrac``.
         """
 
-        return self.header.to_mcnp() + ''.join(map(str, self.histories))
+        return self.header.to_mcnp() + ''.join(history.to_mcnp() for history in self.histories)

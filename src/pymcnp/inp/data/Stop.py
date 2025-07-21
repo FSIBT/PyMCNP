@@ -13,7 +13,7 @@ class Stop(_option.DataOption):
     _KEYWORD = 'stop'
 
     _ATTRS = {
-        'options': types.Tuple[stop.StopOption],
+        'options': types.Tuple(stop.StopOption),
     }
 
     _REGEX = re.compile(rf'\Astop((?: (?:{stop.StopOption._REGEX.pattern[2:-2]}))+?)?\Z')
@@ -29,10 +29,10 @@ class Stop(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.options: types.Tuple[stop.StopOption] = options
+        self.options: types.Tuple(stop.StopOption) = options
 
     @property
-    def options(self) -> types.Tuple[stop.StopOption]:
+    def options(self) -> types.Tuple(stop.StopOption):
         """
         Dictionary of options
 
@@ -63,6 +63,6 @@ class Stop(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(stop.StopOption.from_mcnp(item))
-            options = types.Tuple(array)
+            options = types.Tuple(stop.StopOption)(array)
 
-        self._options: types.Tuple[stop.StopOption] = options
+        self._options: types.Tuple(stop.StopOption) = options

@@ -18,9 +18,9 @@ class Inp(_object.McnpFile):
     def __init__(
         self,
         title: types.String,
-        cells: types.Tuple[inp.Cell | inp.Like],
-        surfaces: types.Tuple[inp.Surface],
-        data: types.Tuple[inp.Data],
+        cells: types.Tuple(inp.Cell | inp.Like),
+        surfaces: types.Tuple(inp.Surface),
+        data: types.Tuple(inp.Data),
         message: types.String = None,
         other: types.String = None,
     ):
@@ -43,9 +43,9 @@ class Inp(_object.McnpFile):
         """
 
         self.title: types.String = title
-        self.cells: types.Tuple[inp.Cell | inp.Like | inp.Comment] = cells
-        self.surfaces: types.Tuple[inp.Surface | inp.Comment] = surfaces
-        self.data: types.Tuple[inp.Data | inp.Comment] = data
+        self.cells: types.Tuple(inp.Cell | inp.Like | inp.Comment) = cells
+        self.surfaces: types.Tuple(inp.Surface | inp.Comment) = surfaces
+        self.data: types.Tuple(inp.Data | inp.Comment) = data
         self.message: types.String = message
         self.other: types.String = other
 
@@ -242,7 +242,7 @@ class Inp(_object.McnpFile):
                     else:
                         array.append(inp.Cell.from_mcnp(item))
 
-            cells = types.Tuple(array)
+            cells = types.Tuple(inp.Card)(array)
 
         if cells is None or None in cells:
             raise errors.InpError(errors.InpCode.SEMANTICS_FILE, cells)
@@ -289,7 +289,7 @@ class Inp(_object.McnpFile):
                         pass
                     array.append(inp.Surface.from_mcnp(item))
 
-            surfaces = types.Tuple(array)
+            surfaces = types.Tuple(inp.Card)(array)
 
         if surfaces is None or None in surfaces:
             raise errors.InpError(errors.InpCode.SEMANTICS_FILE, surfaces)
@@ -337,7 +337,7 @@ class Inp(_object.McnpFile):
 
                     array.append(inp.Data.from_mcnp(item))
 
-            data = types.Tuple(array)
+            data = types.Tuple(inp.Card)(array)
 
         if data is None or None in data:
             raise errors.InpError(errors.InpCode.SEMANTICS_FILE, data)

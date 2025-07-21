@@ -13,7 +13,7 @@ class Pwt(_option.DataOption):
     _KEYWORD = 'pwt'
 
     _ATTRS = {
-        'weights': types.Tuple[types.Real],
+        'weights': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Apwt((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Pwt(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.weights: types.Tuple[types.Real] = weights
+        self.weights: types.Tuple(types.Real) = weights
 
     @property
-    def weights(self) -> types.Tuple[types.Real]:
+    def weights(self) -> types.Tuple(types.Real):
         """
         Relative threshold weight of photons produced at neutron collisions in cell
 
@@ -65,9 +65,9 @@ class Pwt(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            weights = types.Tuple(array)
+            weights = types.Tuple(types.Real)(array)
 
         if weights is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, weights)
 
-        self._weights: types.Tuple[types.Real] = weights
+        self._weights: types.Tuple(types.Real) = weights

@@ -15,7 +15,7 @@ class De(_option.DataOption):
     _ATTRS = {
         'suffix': types.Integer,
         'method': types.String,
-        'values': types.Tuple[types.Real],
+        'values': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Ade(\d+)( (?:log|lin))?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -35,7 +35,7 @@ class De(_option.DataOption):
 
         self.suffix: types.Integer = suffix
         self.method: types.String = method
-        self.values: types.Tuple[types.Real] = values
+        self.values: types.Tuple(types.Real) = values
 
     @property
     def suffix(self) -> types.Integer:
@@ -112,7 +112,7 @@ class De(_option.DataOption):
         self._method: types.String = method
 
     @property
-    def values(self) -> types.Tuple[types.Real]:
+    def values(self) -> types.Tuple(types.Real):
         """
         Energy values
 
@@ -145,9 +145,9 @@ class De(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            values = types.Tuple(array)
+            values = types.Tuple(types.Real)(array)
 
         if values is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, values)
 
-        self._values: types.Tuple[types.Real] = values
+        self._values: types.Tuple(types.Real) = values

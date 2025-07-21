@@ -15,7 +15,7 @@ class Kpert(_option.DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'options': types.Tuple[kpert.KpertOption],
+        'options': types.Tuple(kpert.KpertOption),
     }
 
     _REGEX = re.compile(rf'\Akpert(\d+)((?: (?:{kpert.KpertOption._REGEX.pattern[2:-2]}))+?)?\Z')
@@ -33,7 +33,7 @@ class Kpert(_option.DataOption):
         """
 
         self.suffix: types.Integer = suffix
-        self.options: types.Tuple[kpert.KpertOption] = options
+        self.options: types.Tuple(kpert.KpertOption) = options
 
     @property
     def suffix(self) -> types.Integer:
@@ -74,7 +74,7 @@ class Kpert(_option.DataOption):
         self._suffix: types.Integer = suffix
 
     @property
-    def options(self) -> types.Tuple[kpert.KpertOption]:
+    def options(self) -> types.Tuple(kpert.KpertOption):
         """
         Dictionary of options
 
@@ -105,6 +105,6 @@ class Kpert(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(kpert.KpertOption.from_mcnp(item))
-            options = types.Tuple(array)
+            options = types.Tuple(kpert.KpertOption)(array)
 
-        self._options: types.Tuple[kpert.KpertOption] = options
+        self._options: types.Tuple(kpert.KpertOption) = options

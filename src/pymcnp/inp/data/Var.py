@@ -13,7 +13,7 @@ class Var(_option.DataOption):
     _KEYWORD = 'var'
 
     _ATTRS = {
-        'options': types.Tuple[var.VarOption],
+        'options': types.Tuple(var.VarOption),
     }
 
     _REGEX = re.compile(rf'\Avar((?: (?:{var.VarOption._REGEX.pattern[2:-2]}))+?)?\Z')
@@ -29,10 +29,10 @@ class Var(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.options: types.Tuple[var.VarOption] = options
+        self.options: types.Tuple(var.VarOption) = options
 
     @property
-    def options(self) -> types.Tuple[var.VarOption]:
+    def options(self) -> types.Tuple(var.VarOption):
         """
         Dictionary of options
 
@@ -63,6 +63,6 @@ class Var(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(var.VarOption.from_mcnp(item))
-            options = types.Tuple(array)
+            options = types.Tuple(var.VarOption)(array)
 
-        self._options: types.Tuple[var.VarOption] = options
+        self._options: types.Tuple(var.VarOption) = options

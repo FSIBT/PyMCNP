@@ -13,7 +13,7 @@ class Ssr(_option.DataOption):
     _KEYWORD = 'ssr'
 
     _ATTRS = {
-        'options': types.Tuple[ssr.SsrOption],
+        'options': types.Tuple(ssr.SsrOption),
     }
 
     _REGEX = re.compile(rf'\Assr((?: (?:{ssr.SsrOption._REGEX.pattern[2:-2]}))+?)?\Z')
@@ -29,10 +29,10 @@ class Ssr(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.options: types.Tuple[ssr.SsrOption] = options
+        self.options: types.Tuple(ssr.SsrOption) = options
 
     @property
-    def options(self) -> types.Tuple[ssr.SsrOption]:
+    def options(self) -> types.Tuple(ssr.SsrOption):
         """
         Dictionary of options
 
@@ -63,6 +63,6 @@ class Ssr(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(ssr.SsrOption.from_mcnp(item))
-            options = types.Tuple(array)
+            options = types.Tuple(ssr.SsrOption)(array)
 
-        self._options: types.Tuple[ssr.SsrOption] = options
+        self._options: types.Tuple(ssr.SsrOption) = options

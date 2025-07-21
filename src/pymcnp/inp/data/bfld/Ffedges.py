@@ -13,7 +13,7 @@ class Ffedges(_option.BfldOption):
     _KEYWORD = 'ffedges'
 
     _ATTRS = {
-        'numbers': types.Tuple[types.Real],
+        'numbers': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Affedges((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Ffedges(_option.BfldOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.numbers: types.Tuple[types.Real] = numbers
+        self.numbers: types.Tuple(types.Real) = numbers
 
     @property
-    def numbers(self) -> types.Tuple[types.Real]:
+    def numbers(self) -> types.Tuple(types.Real):
         """
         Surface numbers to apply field fringe edges
 
@@ -65,9 +65,9 @@ class Ffedges(_option.BfldOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            numbers = types.Tuple(array)
+            numbers = types.Tuple(types.Real)(array)
 
         if numbers is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
 
-        self._numbers: types.Tuple[types.Real] = numbers
+        self._numbers: types.Tuple(types.Real) = numbers

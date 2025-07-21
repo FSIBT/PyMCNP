@@ -15,7 +15,7 @@ class Df_1(_option.DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'options': types.Tuple[df_1.DfOption_1],
+        'options': types.Tuple(df_1.DfOption_1),
     }
 
     _REGEX = re.compile(rf'\Adf(\d+)((?: (?:{df_1.DfOption_1._REGEX.pattern[2:-2]}))+?)\Z')
@@ -33,7 +33,7 @@ class Df_1(_option.DataOption):
         """
 
         self.suffix: types.Integer = suffix
-        self.options: types.Tuple[df_1.DfOption_1] = options
+        self.options: types.Tuple(df_1.DfOption_1) = options
 
     @property
     def suffix(self) -> types.Integer:
@@ -74,7 +74,7 @@ class Df_1(_option.DataOption):
         self._suffix: types.Integer = suffix
 
     @property
-    def options(self) -> types.Tuple[df_1.DfOption_1]:
+    def options(self) -> types.Tuple(df_1.DfOption_1):
         """
         Dictionary of options
 
@@ -105,9 +105,9 @@ class Df_1(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(df_1.DfOption_1.from_mcnp(item))
-            options = types.Tuple(array)
+            options = types.Tuple(df_1.DfOption_1)(array)
 
         if options is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, options)
 
-        self._options: types.Tuple[df_1.DfOption_1] = options
+        self._options: types.Tuple(df_1.DfOption_1) = options

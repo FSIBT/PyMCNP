@@ -14,9 +14,9 @@ class Ssw(_option.DataOption):
     _KEYWORD = 'ssw'
 
     _ATTRS = {
-        'surfaces': types.Tuple[types.Integer],
-        'cells': types.Tuple[types.Integer],
-        'options': types.Tuple[ssw.SswOption],
+        'surfaces': types.Tuple(types.Integer),
+        'cells': types.Tuple(types.Integer),
+        'options': types.Tuple(ssw.SswOption),
     }
 
     _REGEX = re.compile(rf'\Assw((?: {types.Integer._REGEX.pattern[2:-2]})+?)((?: {types.Integer._REGEX.pattern[2:-2]})+?)?((?: (?:{ssw.SswOption._REGEX.pattern[2:-2]}))+?)?\Z')
@@ -34,12 +34,12 @@ class Ssw(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.surfaces: types.Tuple[types.Integer] = surfaces
-        self.cells: types.Tuple[types.Integer] = cells
-        self.options: types.Tuple[ssw.SswOption] = options
+        self.surfaces: types.Tuple(types.Integer) = surfaces
+        self.cells: types.Tuple(types.Integer) = cells
+        self.options: types.Tuple(ssw.SswOption) = options
 
     @property
-    def surfaces(self) -> types.Tuple[types.Integer]:
+    def surfaces(self) -> types.Tuple(types.Integer):
         """
         Problem surfaces
 
@@ -72,15 +72,15 @@ class Ssw(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-            surfaces = types.Tuple(array)
+            surfaces = types.Tuple(types.Integer)(array)
 
         if surfaces is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, surfaces)
 
-        self._surfaces: types.Tuple[types.Integer] = surfaces
+        self._surfaces: types.Tuple(types.Integer) = surfaces
 
     @property
-    def cells(self) -> types.Tuple[types.Integer]:
+    def cells(self) -> types.Tuple(types.Integer):
         """
         Problem cells
 
@@ -113,12 +113,12 @@ class Ssw(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-            cells = types.Tuple(array)
+            cells = types.Tuple(types.Integer)(array)
 
-        self._cells: types.Tuple[types.Integer] = cells
+        self._cells: types.Tuple(types.Integer) = cells
 
     @property
-    def options(self) -> types.Tuple[ssw.SswOption]:
+    def options(self) -> types.Tuple(ssw.SswOption):
         """
         Dictionary of options
 
@@ -149,6 +149,6 @@ class Ssw(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(ssw.SswOption.from_mcnp(item))
-            options = types.Tuple(array)
+            options = types.Tuple(ssw.SswOption)(array)
 
-        self._options: types.Tuple[ssw.SswOption] = options
+        self._options: types.Tuple(ssw.SswOption) = options

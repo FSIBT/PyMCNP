@@ -15,7 +15,7 @@ class Like(_card.Card):
     _ATTRS = {
         'number': types.Integer,
         'cell': types.Integer,
-        'options': types.Tuple[like.LikeOption],
+        'options': types.Tuple(like.LikeOption),
     }
 
     _REGEX = re.compile(rf'\A(\S+) like (\S+) but((?: (?:{like.LikeOption._REGEX.pattern[2:-2]}))+?)?\Z')
@@ -24,7 +24,7 @@ class Like(_card.Card):
         self,
         number: types.Integer,
         cell: types.Integer,
-        options: types.Tuple[like.LikeOption] = None,
+        options: types.Tuple(like.LikeOption) = None,
     ):
         """
         Initializes ``Like``.
@@ -40,7 +40,7 @@ class Like(_card.Card):
 
         self.number: types.Integer = number
         self.cell: types.Integer = cell
-        self.options: types.Tuple[like.LikeOption] = options
+        self.options: types.Tuple(like.LikeOption) = options
 
     def to_mcnp(self):
         """
@@ -133,7 +133,7 @@ class Like(_card.Card):
         self._cell: types.Integer = cell
 
     @property
-    def options(self) -> types.Tuple[like.LikeOption]:
+    def options(self) -> types.Tuple(like.LikeOption):
         """
         Cell options.
 
@@ -165,6 +165,6 @@ class Like(_card.Card):
                 elif isinstance(item, str):
                     array.append(like.LikeOption.from_mcnp(item))
 
-            options = types.Tuple(array)
+            options = types.Tuple(like.LikeOption)(array)
 
-        self._options: types.Tuple[like.LikeOption] = options
+        self._options: types.Tuple(like.LikeOption) = options

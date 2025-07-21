@@ -15,7 +15,7 @@ class Block(_option.DawwgOption):
 
     _ATTRS = {
         'setting': types.Integer,
-        'options': types.Tuple[block.BlockOption],
+        'options': types.Tuple(block.BlockOption),
     }
 
     _REGEX = re.compile(rf'\Ablock( {types.Integer._REGEX.pattern[2:-2]})((?: (?:{block.BlockOption._REGEX.pattern[2:-2]}))+?)?\Z')
@@ -33,7 +33,7 @@ class Block(_option.DawwgOption):
         """
 
         self.setting: types.Integer = setting
-        self.options: types.Tuple[block.BlockOption] = options
+        self.options: types.Tuple(block.BlockOption) = options
 
     @property
     def setting(self) -> types.Integer:
@@ -74,7 +74,7 @@ class Block(_option.DawwgOption):
         self._setting: types.Integer = setting
 
     @property
-    def options(self) -> types.Tuple[block.BlockOption]:
+    def options(self) -> types.Tuple(block.BlockOption):
         """
         Dictionary of options
 
@@ -105,6 +105,6 @@ class Block(_option.DawwgOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(block.BlockOption.from_mcnp(item))
-            options = types.Tuple(array)
+            options = types.Tuple(block.BlockOption)(array)
 
-        self._options: types.Tuple[block.BlockOption] = options
+        self._options: types.Tuple(block.BlockOption) = options

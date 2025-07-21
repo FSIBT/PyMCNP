@@ -15,7 +15,7 @@ class T_1(_option.DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'options': types.Tuple[t_1.TOption_1],
+        'options': types.Tuple(t_1.TOption_1),
     }
 
     _REGEX = re.compile(rf'\At(\d+)((?: (?:{t_1.TOption_1._REGEX.pattern[2:-2]}))+?)\Z')
@@ -33,7 +33,7 @@ class T_1(_option.DataOption):
         """
 
         self.suffix: types.Integer = suffix
-        self.options: types.Tuple[t_1.TOption_1] = options
+        self.options: types.Tuple(t_1.TOption_1) = options
 
     @property
     def suffix(self) -> types.Integer:
@@ -74,7 +74,7 @@ class T_1(_option.DataOption):
         self._suffix: types.Integer = suffix
 
     @property
-    def options(self) -> types.Tuple[t_1.TOption_1]:
+    def options(self) -> types.Tuple(t_1.TOption_1):
         """
         Dictionary of options
 
@@ -105,9 +105,9 @@ class T_1(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(t_1.TOption_1.from_mcnp(item))
-            options = types.Tuple(array)
+            options = types.Tuple(t_1.TOption_1)(array)
 
         if options is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, options)
 
-        self._options: types.Tuple[t_1.TOption_1] = options
+        self._options: types.Tuple(t_1.TOption_1) = options

@@ -13,7 +13,7 @@ class Area(_option.DataOption):
     _KEYWORD = 'area'
 
     _ATTRS = {
-        'areas': types.Tuple[types.Real],
+        'areas': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Aarea((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Area(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.areas: types.Tuple[types.Real] = areas
+        self.areas: types.Tuple(types.Real) = areas
 
     @property
-    def areas(self) -> types.Tuple[types.Real]:
+    def areas(self) -> types.Tuple(types.Real):
         """
         Tuple of surface areas
 
@@ -65,9 +65,9 @@ class Area(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            areas = types.Tuple(array)
+            areas = types.Tuple(types.Real)(array)
 
         if areas is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, areas)
 
-        self._areas: types.Tuple[types.Real] = areas
+        self._areas: types.Tuple(types.Real) = areas

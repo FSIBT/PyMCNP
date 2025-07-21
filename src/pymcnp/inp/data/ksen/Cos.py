@@ -13,7 +13,7 @@ class Cos(_option.KsenOption):
     _KEYWORD = 'cos'
 
     _ATTRS = {
-        'cosines': types.Tuple[types.Real],
+        'cosines': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Acos((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Cos(_option.KsenOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.cosines: types.Tuple[types.Real] = cosines
+        self.cosines: types.Tuple(types.Real) = cosines
 
     @property
-    def cosines(self) -> types.Tuple[types.Real]:
+    def cosines(self) -> types.Tuple(types.Real):
         """
         Range of direction-change cosines
 
@@ -65,9 +65,9 @@ class Cos(_option.KsenOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            cosines = types.Tuple(array)
+            cosines = types.Tuple(types.Real)(array)
 
         if cosines is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cosines)
 
-        self._cosines: types.Tuple[types.Real] = cosines
+        self._cosines: types.Tuple(types.Real) = cosines

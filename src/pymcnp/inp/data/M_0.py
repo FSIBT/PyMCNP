@@ -18,8 +18,8 @@ class M_0(_option.DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'substances': types.Tuple[types.Substance],
-        'options': types.Tuple[m_0.MOption_0],
+        'substances': types.Tuple(types.Substance),
+        'options': types.Tuple(m_0.MOption_0),
     }
 
     _REGEX = re.compile(rf'\Am(\d+)((?: {types.Substance._REGEX.pattern[2:-2]})+?)((?: (?:{m_0.MOption_0._REGEX.pattern[2:-2]}))+?)?\Z')
@@ -38,8 +38,8 @@ class M_0(_option.DataOption):
         """
 
         self.suffix: types.Integer = suffix
-        self.substances: types.Tuple[types.Substance] = substances
-        self.options: types.Tuple[m_0.MOption_0] = options
+        self.substances: types.Tuple(types.Substance) = substances
+        self.options: types.Tuple(m_0.MOption_0) = options
 
     @property
     def suffix(self) -> types.Integer:
@@ -80,7 +80,7 @@ class M_0(_option.DataOption):
         self._suffix: types.Integer = suffix
 
     @property
-    def substances(self) -> types.Tuple[types.Substance]:
+    def substances(self) -> types.Tuple(types.Substance):
         """
         Tuple of material constituents
 
@@ -111,15 +111,15 @@ class M_0(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Substance.from_mcnp(item))
-            substances = types.Tuple(array)
+            substances = types.Tuple(types.Substance)(array)
 
         if substances is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, substances)
 
-        self._substances: types.Tuple[types.Substance] = substances
+        self._substances: types.Tuple(types.Substance) = substances
 
     @property
-    def options(self) -> types.Tuple[m_0.MOption_0]:
+    def options(self) -> types.Tuple(m_0.MOption_0):
         """
         Dictionary of options
 
@@ -150,9 +150,9 @@ class M_0(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(m_0.MOption_0.from_mcnp(item))
-            options = types.Tuple(array)
+            m_0.MOption_0 = types.Tuple(m_0.MOption_0)(array)
 
-        self._options: types.Tuple[m_0.MOption_0] = options
+        self._options: types.Tuple(m_0.MOption_0) = options
 
     @staticmethod
     def from_formula(number: int, formulas: dict[str, float], is_weight: bool = True):
@@ -196,7 +196,7 @@ class M_0(_option.DataOption):
                 comments += subcomments
                 substances += entries
 
-        material = M_0(types.Integer(number), types.Tuple(substances))
+        material = M_0(types.Integer(number), types.Tuple(types.Substance)(substances))
         material.comment = tuple(comments)
 
         return material

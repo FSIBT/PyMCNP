@@ -15,7 +15,7 @@ class Embedded(_entry.TmeEntry_1):
 
     _REGEX = re.compile(rf'\A({types.Distribution._REGEX.pattern[2:-2]}(?: ?< ?{types.Distribution._REGEX.pattern[2:-2]})*)\Z')
 
-    def __init__(self, distributions: types.Tuple[types.Distribution]):
+    def __init__(self, distributions: types.Tuple(types.Distribution)):
         """
         Initializes ``Embedded``.
 
@@ -29,7 +29,7 @@ class Embedded(_entry.TmeEntry_1):
         if distributions is None or None in distributions:
             raise errors.TypesError(errors.TypesCode.SEMANTICS_TYPE, distributions)
 
-        self.distributions: types.Tuple[types.Distribution] = distributions
+        self.distributions: types.Tuple(types.Distribution) = distributions
 
     @staticmethod
     def from_mcnp(source: str):
@@ -51,7 +51,7 @@ class Embedded(_entry.TmeEntry_1):
         if not tokens:
             raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source)
 
-        distributions = types.Tuple([types.Distribution.from_mcnp(token.strip()) for token in source.split('<')])
+        distributions = types.Tuple(types.Distribution).from_mcnp(' '.join(source.split('<')))
 
         return Embedded(distributions)
 

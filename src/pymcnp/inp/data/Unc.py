@@ -14,7 +14,7 @@ class Unc(_option.DataOption):
 
     _ATTRS = {
         'designator': types.Designator,
-        'settings': types.Tuple[types.Integer],
+        'settings': types.Tuple(types.Integer),
     }
 
     _REGEX = re.compile(rf'\Aunc:(\S+)((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z')
@@ -32,7 +32,7 @@ class Unc(_option.DataOption):
         """
 
         self.designator: types.Designator = designator
-        self.settings: types.Tuple[types.Integer] = settings
+        self.settings: types.Tuple(types.Integer) = settings
 
     @property
     def designator(self) -> types.Designator:
@@ -71,7 +71,7 @@ class Unc(_option.DataOption):
         self._designator: types.Designator = designator
 
     @property
-    def settings(self) -> types.Tuple[types.Integer]:
+    def settings(self) -> types.Tuple(types.Integer):
         """
         Tuple of uncollided secondary settings
 
@@ -104,9 +104,9 @@ class Unc(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-            settings = types.Tuple(array)
+            settings = types.Tuple(types.Integer)(array)
 
         if settings is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, settings)
 
-        self._settings: types.Tuple[types.Integer] = settings
+        self._settings: types.Tuple(types.Integer) = settings

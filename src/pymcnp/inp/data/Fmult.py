@@ -15,7 +15,7 @@ class Fmult(_option.DataOption):
 
     _ATTRS = {
         'zaid': types.Zaid,
-        'options': types.Tuple[fmult.FmultOption],
+        'options': types.Tuple(fmult.FmultOption),
     }
 
     _REGEX = re.compile(rf'\Afmult( {types.Zaid._REGEX.pattern[2:-2]})((?: (?:{fmult.FmultOption._REGEX.pattern[2:-2]}))+?)?\Z')
@@ -33,7 +33,7 @@ class Fmult(_option.DataOption):
         """
 
         self.zaid: types.Zaid = zaid
-        self.options: types.Tuple[fmult.FmultOption] = options
+        self.options: types.Tuple(fmult.FmultOption) = options
 
     @property
     def zaid(self) -> types.Zaid:
@@ -72,7 +72,7 @@ class Fmult(_option.DataOption):
         self._zaid: types.Zaid = zaid
 
     @property
-    def options(self) -> types.Tuple[fmult.FmultOption]:
+    def options(self) -> types.Tuple(fmult.FmultOption):
         """
         Dictionary of options
 
@@ -103,6 +103,6 @@ class Fmult(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(fmult.FmultOption.from_mcnp(item))
-            options = types.Tuple(array)
+            options = types.Tuple(fmult.FmultOption)(array)
 
-        self._options: types.Tuple[fmult.FmultOption] = options
+        self._options: types.Tuple(fmult.FmultOption) = options

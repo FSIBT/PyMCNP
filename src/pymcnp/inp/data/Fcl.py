@@ -14,7 +14,7 @@ class Fcl(_option.DataOption):
 
     _ATTRS = {
         'designator': types.Designator,
-        'control': types.Tuple[types.Real],
+        'control': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Afcl:(\S+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -32,7 +32,7 @@ class Fcl(_option.DataOption):
         """
 
         self.designator: types.Designator = designator
-        self.control: types.Tuple[types.Real] = control
+        self.control: types.Tuple(types.Real) = control
 
     @property
     def designator(self) -> types.Designator:
@@ -71,7 +71,7 @@ class Fcl(_option.DataOption):
         self._designator: types.Designator = designator
 
     @property
-    def control(self) -> types.Tuple[types.Real]:
+    def control(self) -> types.Tuple(types.Real):
         """
         Forced-collision control for cell
 
@@ -104,9 +104,9 @@ class Fcl(_option.DataOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            control = types.Tuple(array)
+            control = types.Tuple(types.Real)(array)
 
         if control is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, control)
 
-        self._control: types.Tuple[types.Real] = control
+        self._control: types.Tuple(types.Real) = control

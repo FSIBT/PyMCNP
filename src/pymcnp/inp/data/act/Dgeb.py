@@ -14,7 +14,7 @@ class Dgeb(_option.ActOption):
     _KEYWORD = 'dgeb'
 
     _ATTRS = {
-        'biases': types.Tuple[dgeb.Bias],
+        'biases': types.Tuple(dgeb.Bias),
     }
 
     _REGEX = re.compile(rf'\Adgeb((?: {dgeb.Bias._REGEX.pattern[2:-2]})+?)\Z')
@@ -30,10 +30,10 @@ class Dgeb(_option.ActOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.biases: types.Tuple[dgeb.Bias] = biases
+        self.biases: types.Tuple(dgeb.Bias) = biases
 
     @property
-    def biases(self) -> types.Tuple[dgeb.Bias]:
+    def biases(self) -> types.Tuple(dgeb.Bias):
         """
         Delayed neutron energy biases
 
@@ -64,9 +64,9 @@ class Dgeb(_option.ActOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(dgeb.Bias.from_mcnp(item))
-            biases = types.Tuple(array)
+            biases = types.Tuple(dgeb.Bias)(array)
 
         if biases is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, biases)
 
-        self._biases: types.Tuple[dgeb.Bias] = biases
+        self._biases: types.Tuple(dgeb.Bias) = biases

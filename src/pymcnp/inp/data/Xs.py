@@ -14,7 +14,7 @@ class Xs(_option.DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'weight_ratios': types.Tuple[types.Substance],
+        'weight_ratios': types.Tuple(types.Substance),
     }
 
     _REGEX = re.compile(rf'\Axs(\d+)((?: {types.Substance._REGEX.pattern[2:-2]})+?)\Z')
@@ -32,7 +32,7 @@ class Xs(_option.DataOption):
         """
 
         self.suffix: types.Integer = suffix
-        self.weight_ratios: types.Tuple[types.Substance] = weight_ratios
+        self.weight_ratios: types.Tuple(types.Substance) = weight_ratios
 
     @property
     def suffix(self) -> types.Integer:
@@ -73,7 +73,7 @@ class Xs(_option.DataOption):
         self._suffix: types.Integer = suffix
 
     @property
-    def weight_ratios(self) -> types.Tuple[types.Substance]:
+    def weight_ratios(self) -> types.Tuple(types.Substance):
         """
         Tuple of atomic weight ratios
 
@@ -104,9 +104,9 @@ class Xs(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(types.Substance.from_mcnp(item))
-            weight_ratios = types.Tuple(array)
+            weight_ratios = types.Tuple(types.Substance)(array)
 
         if weight_ratios is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, weight_ratios)
 
-        self._weight_ratios: types.Tuple[types.Substance] = weight_ratios
+        self._weight_ratios: types.Tuple(types.Substance) = weight_ratios

@@ -17,7 +17,7 @@ class V(_line.HeaderLine):
 
     _REGEX = re.compile(r'\A((?:.{5,121}?\n)+)\Z')
 
-    def __init__(self, variables: types.Tuple[types.Real]):
+    def __init__(self, variables: types.Tuple(types.Real)):
         """
         Initializes ``V``.
 
@@ -52,7 +52,7 @@ class V(_line.HeaderLine):
         if not tokens:
             raise errors.PtracError(errors.PtracCode.SYNTAX_LINE, source)
 
-        variables = types.Tuple.from_mcnp(tokens[1], types.Real)
+        variables = types.Tuple(types.Real).from_mcnp(tokens[1])
 
         return V(
             variables,

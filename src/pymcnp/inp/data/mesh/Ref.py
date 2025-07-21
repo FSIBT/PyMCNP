@@ -13,7 +13,7 @@ class Ref(_option.MeshOption):
     _KEYWORD = 'ref'
 
     _ATTRS = {
-        'point': types.Tuple[types.Real],
+        'point': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Aref((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -29,10 +29,10 @@ class Ref(_option.MeshOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.point: types.Tuple[types.Real] = point
+        self.point: types.Tuple(types.Real) = point
 
     @property
-    def point(self) -> types.Tuple[types.Real]:
+    def point(self) -> types.Tuple(types.Real):
         """
         Mesh reference point
 
@@ -65,9 +65,9 @@ class Ref(_option.MeshOption):
                     array.append(types.Real(item))
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
-            point = types.Tuple(array)
+            point = types.Tuple(types.Real)(array)
 
         if point is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, point)
 
-        self._point: types.Tuple[types.Real] = point
+        self._point: types.Tuple(types.Real) = point

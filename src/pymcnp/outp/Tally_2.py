@@ -59,7 +59,7 @@ class Tally_2(_block.Block):
         particles: types.String,
         surface: types.String,
         surface_value: types.String,
-        subtallies: types.Tuple[tally.Subtally_1],
+        subtallies: types.Tuple(tally.Subtally_1),
         stats_desired: types.String,
         stats_observed: types.String,
         stats_passed: types.String,
@@ -118,7 +118,7 @@ class Tally_2(_block.Block):
         self.particles: typing.Final[types.String] = particles
         self.surface: typing.Final[types.String] = surface
         self.surface_value: typing.Final[types.String] = surface_value
-        self.subtallies: typing.Final[types.Tuple[tally.Subtally_1]] = subtallies
+        self.subtallies: typing.Final[types.Tuple(tally.Subtally_1)] = subtallies
         self.stats_desired: typing.Final[types.String] = stats_desired
         self.stats_observed: typing.Final[types.String] = stats_observed
         self.stats_passed: typing.Final[types.String] = stats_passed
@@ -148,7 +148,7 @@ class Tally_2(_block.Block):
         particles = types.String.from_mcnp(tokens[4])
         surface = types.String.from_mcnp(tokens[5])
         surface_value = types.String.from_mcnp(tokens[6])
-        subtallies = types.Tuple([tally.Subtally_2.from_mcnp(token[0]) for token in tally.Subtally_2._REGEX.finditer(tokens[7])])
+        subtallies = types.Tuple(tally.Subtally_2).from_mcnp(tokens[7])
         offset = tally.Subtally_2._REGEX.groups
         stats_desired = types.String.from_mcnp(tokens[8 + offset])
         stats_observed = types.String.from_mcnp(tokens[9 + offset])

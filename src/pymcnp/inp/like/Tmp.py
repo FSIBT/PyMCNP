@@ -14,7 +14,7 @@ class Tmp(_option.LikeOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'temperature': types.Tuple[types.Real],
+        'temperature': types.Tuple(types.Real),
     }
 
     _REGEX = re.compile(rf'\Atmp(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
@@ -32,7 +32,7 @@ class Tmp(_option.LikeOption):
         """
 
         self.suffix: types.Integer = suffix
-        self.temperature: types.Tuple[types.Real] = temperature
+        self.temperature: types.Tuple(types.Real) = temperature
 
     @property
     def suffix(self) -> types.Integer:
@@ -69,7 +69,7 @@ class Tmp(_option.LikeOption):
         self._suffix: types.Integer = suffix
 
     @property
-    def temperature(self) -> types.Tuple[types.Real]:
+    def temperature(self) -> types.Tuple(types.Real):
         """
         Gets ``temperature``.
 
@@ -102,9 +102,9 @@ class Tmp(_option.LikeOption):
                 elif isinstance(item, str):
                     array.append(types.Real.from_mcnp(item))
 
-            temperature = types.Tuple(array)
+            temperature = types.Tuple(types.Real)(array)
 
         if temperature is None or not (min(map(lambda temp: temp, temperature)) > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, temperature)
 
-        self._temperature: types.Tuple[types.Real] = temperature
+        self._temperature: types.Tuple(types.Real) = temperature

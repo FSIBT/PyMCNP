@@ -16,7 +16,7 @@ class L(_line.HeaderLine):
 
     _REGEX = re.compile(r'\A((?:\s(?:.{4})+\n)+)\Z')
 
-    def __init__(self, variables: types.Tuple[types.Integer]):
+    def __init__(self, variables: types.Tuple(types.Integer)):
         """
         Initializes ``L``.
 
@@ -51,7 +51,7 @@ class L(_line.HeaderLine):
         if not tokens:
             raise errors.PtracError(errors.PtracCode.SYNTAX_LINE, source)
 
-        variables = types.Tuple.from_mcnp(tokens[1], types.Integer)
+        variables = types.Tuple(types.Integer).from_mcnp(tokens[1])
 
         return L(
             variables,

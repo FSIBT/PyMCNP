@@ -12,7 +12,7 @@ class Print(_option.DataOption):
     _KEYWORD = 'print'
 
     _ATTRS = {
-        'tables': types.Tuple[types.Integer],
+        'tables': types.Tuple(types.Integer),
     }
 
     _REGEX = re.compile(rf'\Aprint((?: {types.Integer._REGEX.pattern[2:-2]})+?)?\Z')
@@ -28,10 +28,10 @@ class Print(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.tables: types.Tuple[types.Integer] = tables
+        self.tables: types.Tuple(types.Integer) = tables
 
     @property
-    def tables(self) -> types.Tuple[types.Integer]:
+    def tables(self) -> types.Tuple(types.Integer):
         """
         Tables to print
 
@@ -64,6 +64,6 @@ class Print(_option.DataOption):
                     array.append(types.Integer(item))
                 elif isinstance(item, str):
                     array.append(types.Integer.from_mcnp(item))
-            tables = types.Tuple(array)
+            tables = types.Tuple(types.Integer)(array)
 
-        self._tables: types.Tuple[types.Integer] = tables
+        self._tables: types.Tuple(types.Integer) = tables
