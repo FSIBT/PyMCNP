@@ -21,17 +21,17 @@ class Tally(_line.Line):
         error: Tally relative error.
     """
 
-    _REGEX = re.compile(r'\A\s(.+)\n?\Z', re.IGNORECASE)
+    _REGEX = re.compile(r'\A  ([^\n]{9})?([^\n]{11})?([^\n]{9})?([^\n]{10})?([^\n]{10})?([^\n]{12})([^\n]{12})\n?\Z', re.IGNORECASE)
 
     def __init__(
         self,
-        result: types.Real,
-        error: types.Real,
-        x: types.Real = None,
-        y: types.Real = None,
-        z: types.Real = None,
-        energy: types.Real = None,
-        time: types.Real = None,
+        result: types.String,
+        error: types.String,
+        x: types.String = None,
+        y: types.String = None,
+        z: types.String = None,
+        energy: types.String = None,
+        time: types.String = None,
     ):
         """
         Initializes ``Tally``.
@@ -52,16 +52,16 @@ class Tally(_line.Line):
         if error is None:
             raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_LINE, error)
 
-        self.result: typing.Final[types.Real] = result
-        self.error: typing.Final[types.Real] = error
-        self.x: typing.Final[types.Real] = x
-        self.y: typing.Final[types.Real] = y
-        self.z: typing.Final[types.Real] = z
-        self.energy: typing.Final[types.Real] = energy
-        self.time: typing.Final[types.Real] = time
+        self.result: typing.Final[types.String] = result
+        self.error: typing.Final[types.String] = error
+        self.x: typing.Final[types.String] = x
+        self.y: typing.Final[types.String] = y
+        self.z: typing.Final[types.String] = z
+        self.energy: typing.Final[types.String] = energy
+        self.time: typing.Final[types.String] = time
 
     @staticmethod
-    def from_mcnp(source: str, header: Header):
+    def from_mcnp(source: str):
         """
         Generates ``Tally`` from MESHTAL.
 
@@ -71,40 +71,17 @@ class Tally(_line.Line):
         """
 
         tokens = Tally._REGEX.match(source)
-        headings = re.split(r'\s+', header.columns.strip())
 
         if not tokens:
             raise errors.MeshtalError(errors.MeshtalCode.SYNTAX_LINE, source)
 
-        x = None
-        y = None
-        z = None
-        energy = None
-        time = None
-        result = None
-        error = None
-
-        tokens = re.split(r'\s+', tokens[1].strip())
-
-        for i, heading in enumerate(headings):
-            if heading == 'X':
-                x = tokens[i]
-            elif heading == 'Y':
-                y = tokens[i]
-            elif heading == 'Z':
-                z = tokens[i]
-            elif heading == 'Energy':
-                energy = tokens[i]
-            elif heading == 'Time':
-                time = tokens[i]
-            elif heading == 'Result':
-                result = tokens[i]
-            elif heading == 'Rel':
-                error = tokens[i]
-            elif heading == 'Error':
-                pass
-            else:
-                raise errors.MeshtalError(errors.MeshtalCode.SYNTAX_LINE, source)
+        energy = types.String.from_mcnp(tokens[1]) if tokens[1] else None
+        time = types.String.from_mcnp(tokens[2]) if tokens[2] else None
+        x = types.String.from_mcnp(tokens[3]) if tokens[3] else None
+        y = types.String.from_mcnp(tokens[4]) if tokens[4] else None
+        z = types.String.from_mcnp(tokens[5]) if tokens[5] else None
+        result = types.String.from_mcnp(tokens[6])
+        error = types.String.from_mcnp(tokens[7])
 
         return Tally(
             result,
@@ -124,13 +101,4 @@ class Tally(_line.Line):
             INP for ``Tally``.
         """
 
-        line = ''
-        line += f'{self.energy:>11}' if self.energy else ''
-        line += f'{self.time:>11}' if self.time else ''
-        line += f'{self.x:>10}' if self.x else ''
-        line += f'{self.y:>10}' if self.y else ''
-        line += f'{self.z:>10}' if self.z else ''
-        line += f'{self.result:>12}' if self.result else ''
-        line += f'{self.error:>12}' if self.error else ''
-
-        return line
+        return f'  {self.energy if self.energy is not None else ""}{self.time if self.time is not None else ""}{self.x if self.x is not None else ""}{self.y if self.y is not None else ""}{self.z if self.z is not None else ""}{self.result}{self.error}'
