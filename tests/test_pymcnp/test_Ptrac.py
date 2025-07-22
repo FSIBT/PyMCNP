@@ -14,24 +14,24 @@ class Test_Ptrac:
         element = pymcnp.Ptrac
         EXAMPLES_VALID = [
             {
-                'header': consts.string.types.STRING,
-                'histories': [consts.string.types.STRING],
+                'header': consts.string.ptrac.HEADER,
+                'histories': [consts.string.ptrac.HISTORY],
             },
         ]
         EXAMPLES_INVALID = [
             {
                 'header': None,
-                'histories': [consts.string.types.STRING],
+                'histories': [consts.string.ptrac.HISTORY],
             },
             {
-                'header': consts.string.types.STRING,
+                'header': consts.string.ptrac.HEADER,
                 'histories': None,
             },
         ]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.Ptrac
-        EXAMPLES_VALID = []
+        EXAMPLES_VALID = [consts.string.PTRAC]
         EXAMPLES_INVALID = ['hello']
 
     class Test_File(classes.Test_File):

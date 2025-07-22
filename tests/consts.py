@@ -6,6 +6,8 @@ import pymcnp
 class string:
     INP = (pathlib.Path(__file__).parent.parent / 'files' / 'inp' / 'valid_10.inp').read_text()
     OUTP = (pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'example_00.outp').read_text()
+    PTRAC = (pathlib.Path(__file__).parent.parent / 'files' / 'ptrac' / 'valid_00.ptrac').read_text()
+    MESHTAL = (pathlib.Path(__file__).parent.parent / 'files' / 'meshtal' / 'valid_40.meshtal').read_text()
 
     class types:
         REPEAT = '10r'
@@ -1407,6 +1409,25 @@ Pulsed neutron source over lunar regolith with a neutron detector
                 class j:
                     EVENT_TYPE = '9000'
 
+    class meshtal:
+        HEADER = """
+mcnp   version 6     ld=02/20/18  probid =  11/01/24 10:26:01 
+ Isotropic neutron source over lunar regolith with two gamma detectors
+ Number of histories used for normalizing tallies =      10000000.00
+
+ Mesh Tally Number         4
+ neutron  mesh tally.
+
+ Tally bin boundaries:
+    X direction:   -100.00    -80.00    -60.00    -40.00    -20.00      0.00     20.00     40.00     60.00     80.00    100.00
+    Y direction:   -100.00    -80.00    -60.00    -40.00    -20.00      0.00     20.00     40.00     60.00     80.00    100.00
+    Z direction:   -150.00   -149.00   -148.00   -147.00   -146.00   -145.00   -144.00   -143.00   -142.00   -141.00   -140.00   -139.00   -138.00   -137.00   -136.00   -135.00   -134.00   -133.00   -132.00   -131.00   -130.00   -129.00   -128.00   -127.00   -126.00   -125.00   -124.00   -123.00   -122.00   -121.00   -120.00   -119.00   -118.00   -117.00   -116.00   -115.00   -114.00   -113.00   -112.00   -111.00   -110.00   -109.00   -108.00   -107.00   -106.00   -105.00   -104.00   -103.00   -102.00   -101.00   -100.00    -99.00    -98.00    -97.00    -96.00    -95.00    -94.00    -93.00    -92.00    -91.00    -90.00    -89.00    -88.00    -87.00    -86.00    -85.00    -84.00    -83.00    -82.00    -81.00    -80.00    -79.00    -78.00    -77.00    -76.00    -75.00    -74.00    -73.00    -72.00    -71.00    -70.00    -69.00    -68.00    -67.00    -66.00    -65.00    -64.00    -63.00    -62.00    -61.00    -60.00    -59.00    -58.00    -57.00    -56.00    -55.00    -54.00    -53.00    -52.00    -51.00    -50.00
+    Energy bin boundaries: 0.00E+00 1.00E+36
+
+        X         Y         Z     Result     Rel Error
+"""[1:]
+        TALLY = '    -90.000   -90.000  -149.500 3.99211E+00 3.16463E-02'
+
 
 class ast:
     INP = pymcnp.Inp.from_mcnp(string.INP)
@@ -2200,3 +2221,7 @@ class ast:
 
                 class j:
                     EVENT_TYPE = pymcnp.ptrac.history.event.j.EventType.from_mcnp(string.ptrac.history.event.j.EVENT_TYPE)
+
+    class meshtal:
+        HEADER = pymcnp.meshtal.Header.from_mcnp(string.meshtal.HEADER)
+        TALLY = pymcnp.meshtal.Tally.from_mcnp(string.meshtal.TALLY)

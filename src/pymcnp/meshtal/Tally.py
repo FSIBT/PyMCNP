@@ -2,7 +2,6 @@ import re
 import typing
 
 from . import _line
-from .Header import Header
 from .. import types
 from .. import errors
 
