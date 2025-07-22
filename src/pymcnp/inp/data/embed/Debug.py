@@ -16,7 +16,7 @@ class Debug(_option.EmbedOption):
         'parameter': types.String,
     }
 
-    _REGEX = re.compile(rf'\Adebug( {types.String._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Adebug( {types.String._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, parameter: str | types.String):
         """
@@ -62,7 +62,7 @@ class Debug(_option.EmbedOption):
             elif isinstance(parameter, str):
                 parameter = types.String.from_mcnp(parameter)
 
-        if parameter is None or parameter not in {'echomesh'}:
+        if parameter is None or parameter.value.lower() not in {'echomesh'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, parameter)
 
         self._parameter: types.String = parameter

@@ -21,7 +21,7 @@ class Fill_0(_option.CellOption):
         'm': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\A([*])?fill (\S+:\S+) (\S+:\S+) (\S+:\S+)((?: {types.Integer._REGEX.pattern[2:-2]})+?)(?: [(]({types.Integer._REGEX.pattern[2:-2]})[)])?\Z')
+    _REGEX = re.compile(rf'\A([*])?fill (\S+:\S+) (\S+:\S+) (\S+:\S+)((?: {types.Integer._REGEX.pattern[2:-2]})+?)(?: [(]({types.Integer._REGEX.pattern[2:-2]})[)])?\Z', re.IGNORECASE)
 
     def __init__(
         self,
@@ -85,7 +85,7 @@ class Fill_0(_option.CellOption):
             elif isinstance(prefix, str):
                 prefix = types.String.from_mcnp(prefix)
 
-        if prefix is not None and prefix not in {'*'}:
+        if prefix is not None and prefix.value.lower() not in {'*'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
 
         self._prefix: types.String = prefix

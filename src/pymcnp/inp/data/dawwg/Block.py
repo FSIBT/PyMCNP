@@ -18,7 +18,7 @@ class Block(_option.DawwgOption):
         'options': types.Tuple(block.BlockOption),
     }
 
-    _REGEX = re.compile(rf'\Ablock( {types.Integer._REGEX.pattern[2:-2]})((?: (?:{block.BlockOption._REGEX.pattern[2:-2]}))+?)?\Z')
+    _REGEX = re.compile(rf'\Ablock( {types.Integer._REGEX.pattern[2:-2]})((?: (?:{block.BlockOption._REGEX.pattern[2:-2]}))+?)?\Z', re.IGNORECASE)
 
     def __init__(self, setting: str | int | types.Integer, options: list[str] | list[block.BlockOption] = None):
         """

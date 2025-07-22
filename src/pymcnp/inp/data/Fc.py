@@ -17,7 +17,7 @@ class Fc(_option.DataOption):
         'info': types.String,
     }
 
-    _REGEX = re.compile(r'\Afc(\d+)( [\S\s]+)\Z')
+    _REGEX = re.compile(r'\Afc(\d+)( [\S\s]+)\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, info: str | types.String):
         """

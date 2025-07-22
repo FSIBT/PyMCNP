@@ -19,7 +19,9 @@ class Cosyp(_option.DataOption):
         'emaps': types.Tuple(types.Real),
     }
 
-    _REGEX = re.compile(rf'\Acosyp( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(
+        rf'\Acosyp( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE
+    )
 
     def __init__(self, pre: str | int | types.Integer, axsh: str | int | types.Integer, axsv: str | int | types.Integer, emaps: list[str] | list[float] | list[types.Real]):
         """

@@ -22,7 +22,7 @@ class M_0(_option.DataOption):
         'options': types.Tuple(m_0.MOption_0),
     }
 
-    _REGEX = re.compile(rf'\Am(\d+)((?: {types.Substance._REGEX.pattern[2:-2]})+?)((?: (?:{m_0.MOption_0._REGEX.pattern[2:-2]}))+?)?\Z')
+    _REGEX = re.compile(rf'\Am(\d+)((?: {types.Substance._REGEX.pattern[2:-2]})+?)((?: (?:{m_0.MOption_0._REGEX.pattern[2:-2]}))+?)?\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, substances: list[str] | list[types.Substance], options: list[str] | list[m_0.MOption_0] = None):
         """
@@ -150,7 +150,7 @@ class M_0(_option.DataOption):
                     array.append(item)
                 elif isinstance(item, str):
                     array.append(m_0.MOption_0.from_mcnp(item))
-            m_0.MOption_0 = types.Tuple(m_0.MOption_0)(array)
+            options = types.Tuple(m_0.MOption_0)(array)
 
         self._options: types.Tuple(m_0.MOption_0) = options
 

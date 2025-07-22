@@ -13,7 +13,7 @@ class Designator(_type.Type):
         particles: Particle formula.
     """
 
-    _REGEX = re.compile(r'\A([nqpef|!u<v>hglb+_-~xcywo@/*zk?%^dtsa#](?:,[nqpef|!u<v>hglb+_-~xcywo@/*zk?%^dtsa#])*)\Z')
+    _REGEX = re.compile(r'\A([nqpef|!u<v>hglb+_-~xcywo@/*zk?%^dtsa#](?:,[nqpef|!u<v>hglb+_-~xcywo@/*zk?%^dtsa#])*)\Z', re.IGNORECASE)
 
     def __init__(self, particles: str):
         """

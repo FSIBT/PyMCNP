@@ -19,7 +19,7 @@ class I(_line.HistoryLine):
         tfc: TFC bin tally.
     """
 
-    _REGEX = re.compile(r'\A\s(.{10})(.{10})(.{10})?(.{13})?\Z')
+    _REGEX = re.compile(r'\A\s(.{10})(.{10})(.{10})?(.{13})?\Z', re.IGNORECASE)
 
     def __init__(
         self,

@@ -12,7 +12,7 @@ class Nonorm(_option.MplotOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Anonorm\Z')
+    _REGEX = re.compile(r'\Anonorm\Z', re.IGNORECASE)
 
     def __init__(
         self,

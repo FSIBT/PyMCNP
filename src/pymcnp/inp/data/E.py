@@ -19,7 +19,7 @@ class E(_option.DataOption):
         'c': types.String,
     }
 
-    _REGEX = re.compile(rf'\Ae(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?\Z')
+    _REGEX = re.compile(rf'\Ae(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, bounds: list[str] | list[float] | list[types.Real], nt: str | types.String = None, c: str | types.String = None):
         """

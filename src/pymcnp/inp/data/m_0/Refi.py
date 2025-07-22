@@ -16,7 +16,7 @@ class Refi(_option.MOption_0):
         'refractive_index': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Arefi( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Arefi( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, refractive_index: str | int | float | types.Real):
         """

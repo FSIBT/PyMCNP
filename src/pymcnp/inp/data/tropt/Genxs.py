@@ -15,7 +15,7 @@ class Genxs(_option.TroptOption):
         'filename': types.String,
     }
 
-    _REGEX = re.compile(rf'\Agenxs( {types.String._REGEX.pattern[2:-2]})?\Z')
+    _REGEX = re.compile(rf'\Agenxs( {types.String._REGEX.pattern[2:-2]})?\Z', re.IGNORECASE)
 
     def __init__(self, filename: str | types.String = None):
         """

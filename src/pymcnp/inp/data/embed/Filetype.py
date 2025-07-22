@@ -16,7 +16,7 @@ class Filetype(_option.EmbedOption):
         'kind': types.String,
     }
 
-    _REGEX = re.compile(rf'\Afiletype( {types.String._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Afiletype( {types.String._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, kind: str | types.String):
         """
@@ -62,7 +62,7 @@ class Filetype(_option.EmbedOption):
             elif isinstance(kind, str):
                 kind = types.String.from_mcnp(kind)
 
-        if kind is None or kind not in {'ascii', 'binary'}:
+        if kind is None or kind.value.lower() not in {'ascii', 'binary'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kind)
 
         self._kind: types.String = kind

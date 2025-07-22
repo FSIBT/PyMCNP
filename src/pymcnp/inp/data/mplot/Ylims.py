@@ -18,7 +18,7 @@ class Ylims(_option.MplotOption):
         'nsteps': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Aylims( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?\Z')
+    _REGEX = re.compile(rf'\Aylims( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?\Z', re.IGNORECASE)
 
     def __init__(self, lower: str | int | float | types.Real, upper: str | int | float | types.Real, nsteps: str | int | float | types.Real = None):
         """

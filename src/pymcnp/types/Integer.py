@@ -20,7 +20,7 @@ class Integer(_type.Type):
         value: Integer value or jump.
     """
 
-    _REGEX = re.compile(r'\A(?:\d*j|\d*log|\d*ilog|\d*m|\d*i|\d*r|[-+0-9.eEdD]+)\Z')
+    _REGEX = re.compile(r'\A(?:\d*j|\d*log|\d*ilog|\d*m|\d*i|\d*r|[-+0-9.eEdD]+)\Z', re.IGNORECASE)
 
     def __init__(self, value: int | Horizontal):
         """
@@ -81,7 +81,7 @@ class Integer(_type.Type):
         except errors.TypesError:
             pass
 
-        source = re.sub(r'd', 'e', source)
+        source = re.sub(r'[dD]', 'e', source)
         if source[0] == 'e':
             source = '1' + source
 

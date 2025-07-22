@@ -18,7 +18,7 @@ class Line(_subblock.LineSubblock):
         error: Tally count error.
     """
 
-    _REGEX = re.compile(r'\A    (\S+)   (\S+) (\S+)\n\Z')
+    _REGEX = re.compile(r'\A    (\S+)   (\S+) (\S+)\n\Z', re.IGNORECASE)
 
     def __init__(
         self,

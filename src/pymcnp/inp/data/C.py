@@ -20,7 +20,7 @@ class C(_option.DataOption):
         'c': types.String,
     }
 
-    _REGEX = re.compile(rf'\A([*]?)c(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?\Z')
+    _REGEX = re.compile(rf'\A([*]?)c(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?\Z', re.IGNORECASE)
 
     def __init__(
         self, suffix: str | int | types.Integer, bounds: list[str] | list[float] | list[types.Real], prefix: str | types.String = None, t: str | types.String = None, c: str | types.String = None
@@ -76,7 +76,7 @@ class C(_option.DataOption):
             elif isinstance(prefix, str):
                 prefix = types.String.from_mcnp(prefix)
 
-        if prefix is not None and prefix not in {'*', '+'}:
+        if prefix is not None and prefix.value.lower() not in {'*', '+'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
 
         self._prefix: types.String = prefix

@@ -18,7 +18,7 @@ class Embed(_option.DataOption):
         'options': types.Tuple(embed.EmbedOption),
     }
 
-    _REGEX = re.compile(rf'\Aembed(\d+)?((?: (?:{embed.EmbedOption._REGEX.pattern[2:-2]}))+?)?\Z')
+    _REGEX = re.compile(rf'\Aembed(\d+)?((?: (?:{embed.EmbedOption._REGEX.pattern[2:-2]}))+?)?\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, options: list[str] | list[embed.EmbedOption] = None):
         """

@@ -19,7 +19,7 @@ class Fs(_option.DataOption):
         'c': types.String,
     }
 
-    _REGEX = re.compile(rf'\Afs(\d+)((?: {types.Integer._REGEX.pattern[2:-2]})+?)( t)?( c)?\Z')
+    _REGEX = re.compile(rf'\Afs(\d+)((?: {types.Integer._REGEX.pattern[2:-2]})+?)( t)?( c)?\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, numbers: list[str] | list[int] | list[types.Integer], t: str | types.String = None, c: str | types.String = None):
         """
@@ -150,7 +150,7 @@ class Fs(_option.DataOption):
             elif isinstance(t, str):
                 t = types.String.from_mcnp(t)
 
-        if t is not None and t not in {'t'}:
+        if t is not None and t.value.lower() not in {'t'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, t)
 
         self._t: types.String = t
@@ -186,7 +186,7 @@ class Fs(_option.DataOption):
             elif isinstance(c, str):
                 c = types.String.from_mcnp(c)
 
-        if c is not None and c not in {'c'}:
+        if c is not None and c.value.lower() not in {'c'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, c)
 
         self._c: types.String = c

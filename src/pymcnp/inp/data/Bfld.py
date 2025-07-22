@@ -19,7 +19,7 @@ class Bfld(_option.DataOption):
         'options': types.Tuple(bfld.BfldOption),
     }
 
-    _REGEX = re.compile(rf'\Abfld(\d+)( {types.String._REGEX.pattern[2:-2]})((?: (?:{bfld.BfldOption._REGEX.pattern[2:-2]}))+?)?\Z')
+    _REGEX = re.compile(rf'\Abfld(\d+)( {types.String._REGEX.pattern[2:-2]})((?: (?:{bfld.BfldOption._REGEX.pattern[2:-2]}))+?)?\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, kind: str | types.String, options: list[str] | list[bfld.BfldOption] = None):
         """
@@ -107,7 +107,7 @@ class Bfld(_option.DataOption):
             elif isinstance(kind, str):
                 kind = types.String.from_mcnp(kind)
 
-        if kind is None or kind not in {'const', 'quad', 'quadff'}:
+        if kind is None or kind.value.lower() not in {'const', 'quad', 'quadff'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kind)
 
         self._kind: types.String = kind

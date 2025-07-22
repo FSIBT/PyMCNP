@@ -16,7 +16,7 @@ class Lat(_option.DataOption):
         'type': types.Tuple(types.Integer),
     }
 
-    _REGEX = re.compile(rf'\Alat((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Alat((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
 
     def __init__(self, type: list[str] | list[int] | list[types.Integer]):
         """

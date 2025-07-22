@@ -16,7 +16,7 @@ class Xsec(_option.DawwgOption):
         'name': types.String,
     }
 
-    _REGEX = re.compile(rf'\Axsec( {types.String._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Axsec( {types.String._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, name: str | types.String):
         """

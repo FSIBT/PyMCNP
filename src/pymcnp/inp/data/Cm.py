@@ -17,7 +17,7 @@ class Cm(_option.DataOption):
         'multipliers': types.Tuple(types.Real),
     }
 
-    _REGEX = re.compile(rf'\Acm(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Acm(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, multipliers: list[str] | list[float] | list[types.Real]):
         """

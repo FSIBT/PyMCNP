@@ -16,7 +16,7 @@ class Area(_option.DataOption):
         'areas': types.Tuple(types.Real),
     }
 
-    _REGEX = re.compile(rf'\Aarea((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Aarea((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
 
     def __init__(self, areas: list[str] | list[float] | list[types.Real]):
         """

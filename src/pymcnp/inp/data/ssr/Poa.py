@@ -16,7 +16,7 @@ class Poa(_option.SsrOption):
         'angle': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Apoa( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Apoa( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, angle: str | int | float | types.Real):
         """

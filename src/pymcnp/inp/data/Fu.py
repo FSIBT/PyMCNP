@@ -19,7 +19,7 @@ class Fu(_option.DataOption):
         'c': types.String,
     }
 
-    _REGEX = re.compile(rf'\Afu(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)(?: (nt))?(?: (c))?\Z')
+    _REGEX = re.compile(rf'\Afu(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)(?: (nt))?(?: (c))?\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, bounds: list[str] | list[float] | list[types.Real], nt: str | types.String = None, c: str | types.String = None):
         """
@@ -150,7 +150,7 @@ class Fu(_option.DataOption):
             elif isinstance(nt, str):
                 nt = types.String.from_mcnp(nt)
 
-        if nt is not None and nt not in {'nt'}:
+        if nt is not None and nt.value.lower() not in {'nt'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nt)
 
         self._nt: types.String = nt
@@ -186,7 +186,7 @@ class Fu(_option.DataOption):
             elif isinstance(c, str):
                 c = types.String.from_mcnp(c)
 
-        if c is not None and c not in {'c'}:
+        if c is not None and c.value.lower() not in {'c'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, c)
 
         self._c: types.String = c

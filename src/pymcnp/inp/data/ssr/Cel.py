@@ -16,7 +16,7 @@ class Cel(_option.SsrOption):
         'numbers': types.Tuple(types.Integer),
     }
 
-    _REGEX = re.compile(rf'\Acel((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Acel((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
 
     def __init__(self, numbers: list[str] | list[int] | list[types.Integer]):
         """

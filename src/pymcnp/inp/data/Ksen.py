@@ -19,7 +19,7 @@ class Ksen(_option.DataOption):
         'options': types.Tuple(ksen.KsenOption),
     }
 
-    _REGEX = re.compile(rf'\Aksen(\d+)( {types.String._REGEX.pattern[2:-2]})((?: (?:{ksen.KsenOption._REGEX.pattern[2:-2]}))+?)?\Z')
+    _REGEX = re.compile(rf'\Aksen(\d+)( {types.String._REGEX.pattern[2:-2]})((?: (?:{ksen.KsenOption._REGEX.pattern[2:-2]}))+?)?\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, sen: str | types.String, options: list[str] | list[ksen.KsenOption] = None):
         """

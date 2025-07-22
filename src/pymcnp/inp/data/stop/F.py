@@ -17,7 +17,7 @@ class F(_option.StopOption):
         'e': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Af(\d+)( {types.Integer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Af(\d+)( {types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, e: str | int | types.Integer):
         """

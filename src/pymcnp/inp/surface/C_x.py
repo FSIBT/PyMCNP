@@ -19,7 +19,7 @@ class C_x(_option.SurfaceOption):
         'r': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Ac/x( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Ac/x( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, y: str | int | float | types.Real, z: str | int | float | types.Real, r: str | int | float | types.Real):
         """

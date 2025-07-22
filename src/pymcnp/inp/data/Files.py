@@ -17,7 +17,7 @@ class Files(_option.DataOption):
         'creations': types.Tuple(files.File),
     }
 
-    _REGEX = re.compile(rf'\Afiles((?: {files.File._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Afiles((?: {files.File._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
 
     def __init__(self, creations: list[str] | list[files.File]):
         """

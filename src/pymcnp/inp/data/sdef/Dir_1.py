@@ -15,7 +15,7 @@ class Dir_1(_option.SdefOption):
         'cosine': types.Distribution,
     }
 
-    _REGEX = re.compile(rf'\Adir( {types.Distribution._REGEX.pattern[2:-2]})?\Z')
+    _REGEX = re.compile(rf'\Adir( {types.Distribution._REGEX.pattern[2:-2]})?\Z', re.IGNORECASE)
 
     def __init__(self, cosine: str | types.Distribution = None):
         """

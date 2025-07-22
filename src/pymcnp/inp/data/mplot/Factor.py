@@ -18,7 +18,7 @@ class Factor(_option.MplotOption):
         's': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Afactor( {types.String._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?\Z')
+    _REGEX = re.compile(rf'\Afactor( {types.String._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?\Z', re.IGNORECASE)
 
     def __init__(self, a: str | types.String, f: str | int | float | types.Real, s: str | int | float | types.Real = None):
         """
@@ -68,7 +68,7 @@ class Factor(_option.MplotOption):
             elif isinstance(a, str):
                 a = types.String.from_mcnp(a)
 
-        if a is None or a not in {'x', 'y', 'z'}:
+        if a is None or a.value.lower() not in {'x', 'y', 'z'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
 
         self._a: types.String = a

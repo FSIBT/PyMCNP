@@ -18,7 +18,7 @@ class Dxc(_option.LikeOption):
         'probability': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Adxc(\d+):(\S+)( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Adxc(\d+):(\S+)( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, designator: str | types.Designator, probability: str | int | float | types.Real):
         """

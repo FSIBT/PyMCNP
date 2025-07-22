@@ -16,7 +16,7 @@ class Ctme(_option.StopOption):
         'tme': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Actme( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Actme( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, tme: str | int | float | types.Real):
         """

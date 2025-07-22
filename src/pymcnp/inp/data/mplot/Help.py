@@ -12,7 +12,7 @@ class Help(_option.MplotOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Ahelp\Z')
+    _REGEX = re.compile(r'\Ahelp\Z', re.IGNORECASE)
 
     def __init__(
         self,

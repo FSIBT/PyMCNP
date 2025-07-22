@@ -16,7 +16,7 @@ class Geom(_option.FmeshOption):
         'geometry': types.String,
     }
 
-    _REGEX = re.compile(r'\Ageom(?: (xyz|rec|rzt|cyl))\Z')
+    _REGEX = re.compile(r'\Ageom(?: (xyz|rec|rzt|cyl))\Z', re.IGNORECASE)
 
     def __init__(self, geometry: str | types.String):
         """
@@ -62,7 +62,7 @@ class Geom(_option.FmeshOption):
             elif isinstance(geometry, str):
                 geometry = types.String.from_mcnp(geometry)
 
-        if geometry is None or geometry not in {'xyz', 'rec', 'rzt', 'cyl'}:
+        if geometry is None or geometry.value.lower() not in {'xyz', 'rec', 'rzt', 'cyl'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, geometry)
 
         self._geometry: types.String = geometry

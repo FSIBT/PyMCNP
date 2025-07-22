@@ -17,7 +17,7 @@ class Imp(_option.LikeOption):
         'importance': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Aimp:(\S+)( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Aimp:(\S+)( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, designator: str | types.Designator, importance: str | int | float | types.Real):
         """

@@ -19,7 +19,9 @@ class Wwg(_option.DataOption):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Awwg( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?\Z')
+    _REGEX = re.compile(
+        rf'\Awwg( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?\Z', re.IGNORECASE
+    )
 
     def __init__(self, tally: str | int | types.Integer, cell: str | int | types.Integer, lower: str | int | float | types.Real, setting: str | int | types.Integer = None):
         """

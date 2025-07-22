@@ -14,7 +14,7 @@ class L(_line.HeaderLine):
         variables: Variable for lines/events.
     """
 
-    _REGEX = re.compile(r'\A((?:\s(?:.{4})+\n)+)\Z')
+    _REGEX = re.compile(r'\A((?:\s(?:.{4})+\n)+)\Z', re.IGNORECASE)
 
     def __init__(self, variables: types.Tuple(types.Integer)):
         """

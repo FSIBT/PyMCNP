@@ -16,7 +16,7 @@ class Geom(_option.MeshOption):
         'geometry': types.String,
     }
 
-    _REGEX = re.compile(rf'\Ageom( {types.String._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Ageom( {types.String._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, geometry: str | types.String):
         """
@@ -62,7 +62,7 @@ class Geom(_option.MeshOption):
             elif isinstance(geometry, str):
                 geometry = types.String.from_mcnp(geometry)
 
-        if geometry is None or geometry not in {'xyz', 'rzt', 'rpt', 'cyl', 'rec', 'sph'}:
+        if geometry is None or geometry.value.lower() not in {'xyz', 'rzt', 'rpt', 'cyl', 'rec', 'sph'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, geometry)
 
         self._geometry: types.String = geometry

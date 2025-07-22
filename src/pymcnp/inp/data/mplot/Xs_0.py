@@ -16,7 +16,7 @@ class Xs_0(_option.MplotOption):
         'm': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Axs( {types.Integer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Axs( {types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, m: str | int | types.Integer):
         """

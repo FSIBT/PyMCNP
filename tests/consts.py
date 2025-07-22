@@ -180,7 +180,7 @@ class string:
             MODE = 'mode @ @ @'
             PHYS_0 = 'phys:n 3.1 3.1 1 3.1 1 1 1 1'
             PHYS_1 = 'phys:p 3.1 1 1 1 1 1'
-            PHYS_2 = 'phys:e 3.1 1 1 1 1 3.1 3.1 1 1 1 -1 0.8 3.1 0.8'
+            PHYS_2 = 'phys:e 3.1 1 1 1 1 3.1 3.1 1 1 1 -1 j j 0.8 3.1 0.8'
             PHYS_3 = 'phys:h 3.1 3.1 3.1 1 0.8 1 1 -1 0.8 0.8 3.1'
             PHYS_4 = 'phys:@ 3.1 1 1 3.1 1 1 -1 0.8 0.8 3.1'
             ACT = 'act fission none'

@@ -20,7 +20,7 @@ class Cell(_card.Card):
         'options': types.Tuple(cell.CellOption),
     }
 
-    _REGEX = re.compile(rf'\A(\S+)( \S+)((?<! 0) \S+|(?<= 0))( [^a-z]+)((?: (?:{cell.CellOption._REGEX.pattern[2:-2]}))+?)?\Z')
+    _REGEX = re.compile(rf'\A(\S+)( \S+)((?<! 0) \S+|(?<= 0))( [^a-z]+)((?: (?:{cell.CellOption._REGEX.pattern[2:-2]}))+?)?\Z', re.IGNORECASE)
 
     def __init__(
         self,
@@ -60,7 +60,7 @@ class Cell(_card.Card):
 
         print(type(self.options))
 
-        source = f'{self.number} {self.material} {self.density or ""} {self.geometry} {self.options or ""}'
+        source = f'{self.number} {self.material} {self.density if self.density is not None else ""} {self.geometry} {self.options if self.options is not None else ""}'
         source, comments = _parser.preprocess_inp(source)
         source = _parser.postprocess_inp(source)
 

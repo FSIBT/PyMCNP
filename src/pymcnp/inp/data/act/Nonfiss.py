@@ -16,7 +16,7 @@ class Nonfiss(_option.ActOption):
         'kind': types.String,
     }
 
-    _REGEX = re.compile(rf'\Anonfiss( {types.String._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Anonfiss( {types.String._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, kind: str | types.String):
         """
@@ -62,7 +62,7 @@ class Nonfiss(_option.ActOption):
             elif isinstance(kind, str):
                 kind = types.String.from_mcnp(kind)
 
-        if kind is None or kind not in {'none', 'n,p,e,f,a', 'all'}:
+        if kind is None or kind.value.lower() not in {'none', 'n,p,e,f,a', 'all'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kind)
 
         self._kind: types.String = kind

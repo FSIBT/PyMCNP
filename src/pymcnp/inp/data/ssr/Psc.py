@@ -16,7 +16,7 @@ class Psc(_option.SsrOption):
         'constant': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Apsc( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Apsc( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, constant: str | int | float | types.Real):
         """

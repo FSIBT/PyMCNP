@@ -21,7 +21,7 @@ class J_5(_line.EventLine):
         ncp: Count of collisions per track.
     """
 
-    _REGEX = re.compile(r'\A\s(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})\Z')
+    _REGEX = re.compile(r'\A\s(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})\Z', re.IGNORECASE)
 
     def __init__(
         self,

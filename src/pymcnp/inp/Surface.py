@@ -20,7 +20,7 @@ class Surface(_card.Card):
         'option': surface.SurfaceOption,
     }
 
-    _REGEX = re.compile(rf'\A(\+|\*)?(\S+)( \S+)?( ({surface.SurfaceOption._REGEX.pattern[2:-2]}))\Z')
+    _REGEX = re.compile(rf'\A(\+|\*)?(\S+)( \S+)?( ({surface.SurfaceOption._REGEX.pattern[2:-2]}))\Z', re.IGNORECASE)
 
     def __init__(
         self,
@@ -58,7 +58,7 @@ class Surface(_card.Card):
             INP surface card.
         """
 
-        source = f'{self.prefix or ""}{self.number} {self.transform or ""} {self.option}'
+        source = f'{self.prefix if self.prefix is not None else ""}{self.number} {self.transform if self.transform is not None else ""} {self.option}'
         source, comments = _parser.preprocess_inp(source)
         source = _parser.postprocess_inp(source)
 
@@ -275,7 +275,7 @@ class Surface(_card.Card):
             elif isinstance(prefix, str):
                 prefix = types.String.from_mcnp(prefix)
 
-        if prefix is not None and prefix not in {'*', '+'}:
+        if prefix is not None and prefix.value.lower() not in {'*', '+'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_CARD, prefix)
 
         self._prefix: types.String = prefix

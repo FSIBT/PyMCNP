@@ -16,7 +16,7 @@ class Wash(_option.MplotOption):
         'aa': types.String,
     }
 
-    _REGEX = re.compile(rf'\Awash( {types.String._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Awash( {types.String._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, aa: str | types.String):
         """
@@ -62,7 +62,7 @@ class Wash(_option.MplotOption):
             elif isinstance(aa, str):
                 aa = types.String.from_mcnp(aa)
 
-        if aa is None or aa not in {'on', 'off'}:
+        if aa is None or aa.value.lower() not in {'on', 'off'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, aa)
 
         self._aa: types.String = aa

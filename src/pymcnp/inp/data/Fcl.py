@@ -17,7 +17,7 @@ class Fcl(_option.DataOption):
         'control': types.Tuple(types.Real),
     }
 
-    _REGEX = re.compile(rf'\Afcl:(\S+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Afcl:(\S+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
 
     def __init__(self, designator: str | types.Designator, control: list[str] | list[float] | list[types.Real]):
         """

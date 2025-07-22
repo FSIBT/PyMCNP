@@ -16,7 +16,7 @@ class Lib(_option.BlockOption):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'\Alib( {types.String._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Alib( {types.String._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, setting: str | types.String):
         """

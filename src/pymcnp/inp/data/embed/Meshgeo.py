@@ -16,7 +16,7 @@ class Meshgeo(_option.EmbedOption):
         'form': types.String,
     }
 
-    _REGEX = re.compile(rf'\Ameshgeo( {types.String._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Ameshgeo( {types.String._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, form: str | types.String):
         """
@@ -62,7 +62,7 @@ class Meshgeo(_option.EmbedOption):
             elif isinstance(form, str):
                 form = types.String.from_mcnp(form)
 
-        if form is None or form not in {'lnk3dnt', 'abaqus', 'mcnpum'}:
+        if form is None or form.value.lower() not in {'lnk3dnt', 'abaqus', 'mcnpum'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, form)
 
         self._form: types.String = form

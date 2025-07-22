@@ -16,7 +16,7 @@ class Par(_option.MplotOption):
         'particle': types.Designator,
     }
 
-    _REGEX = re.compile(rf'\Apar( {types.Designator._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Apar( {types.Designator._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, particle: str | types.Designator):
         """

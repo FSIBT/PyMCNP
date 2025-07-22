@@ -17,7 +17,7 @@ class Ext(_option.DataOption):
         'stretching': types.Tuple(types.String),
     }
 
-    _REGEX = re.compile(rf'\Aext:(\S+)((?: {types.String._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Aext:(\S+)((?: {types.String._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
 
     def __init__(self, designator: str | types.Designator, stretching: list[str] | list[types.String]):
         """

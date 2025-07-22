@@ -16,7 +16,7 @@ class Erg_1(_option.SdefOption):
         'energy': types.Distribution,
     }
 
-    _REGEX = re.compile(rf'\Aerg( {types.Distribution._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Aerg( {types.Distribution._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, energy: str | types.Distribution):
         """

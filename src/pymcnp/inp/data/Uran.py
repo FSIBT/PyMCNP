@@ -17,7 +17,7 @@ class Uran(_option.DataOption):
         'transformations': types.Tuple(uran.Stochastic),
     }
 
-    _REGEX = re.compile(r'\Auran((?: \S+ \S+ \S+ \S+)+?)\Z')
+    _REGEX = re.compile(r'\Auran((?: \S+ \S+ \S+ \S+)+?)\Z', re.IGNORECASE)
 
     def __init__(self, transformations: list[str] | list[uran.Stochastic]):
         """

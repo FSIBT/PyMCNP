@@ -16,7 +16,7 @@ class Fac(_option.DfOption_1):
         'normalization': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Afac( {types.Integer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Afac( {types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, normalization: str | int | types.Integer):
         """
