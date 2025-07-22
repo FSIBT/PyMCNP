@@ -23,7 +23,8 @@ class Mgopt(_option.DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Amgopt( {types.String._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
+        rf'\Amgopt( {types.String._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z',
+        re.IGNORECASE,
     )
 
     def __init__(
@@ -91,7 +92,7 @@ class Mgopt(_option.DataOption):
             elif isinstance(mcal, str):
                 mcal = types.String.from_mcnp(mcal)
 
-        if mcal is None or mcal not in {'f', 'a'}:
+        if mcal is None or mcal.value.lower() not in {'f', 'a'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mcal)
 
         self._mcal: types.String = mcal

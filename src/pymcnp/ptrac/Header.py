@@ -24,7 +24,7 @@ class Header(_object.McnpNonterminal):
         ids: PTRAC event variable identifiers by type.
     """
 
-    _REGEX = re.compile(r'\A   -1\n' r'(.{8})(.{25})(.{9})(.{18})\n' r'(.{80})\n((?:\s.{120}\n)+)(\s.{100}\n)((?:\s(?:.{4})+\n)+)\Z')
+    _REGEX = re.compile(r'\A   -1\n' r'(.{8})(.{25})(.{9})(.{18})\n' r'(.{80})\n((?:\s.{120}\n)+)(\s.{100}\n)((?:\s(?:.{4})+\n)+)\Z', re.IGNORECASE)
 
     def __init__(
         self,

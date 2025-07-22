@@ -17,7 +17,7 @@ class Pikmt(_option.DataOption):
         'biases': types.Tuple(pikmt.Photonbias),
     }
 
-    _REGEX = re.compile(rf'\Apikmt((?: {pikmt.Photonbias._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Apikmt((?: {pikmt.Photonbias._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
 
     def __init__(self, biases: list[str] | list[pikmt.Photonbias]):
         """

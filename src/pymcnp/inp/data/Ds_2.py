@@ -18,7 +18,7 @@ class Ds_2(_option.DataOption):
         'vss': types.Tuple(ds_2.Variables),
     }
 
-    _REGEX = re.compile(rf'\Ads(\d+) q((?: {ds_2.Variables._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Ads(\d+) q((?: {ds_2.Variables._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, vss: list[str] | list[ds_2.Variables]):
         """

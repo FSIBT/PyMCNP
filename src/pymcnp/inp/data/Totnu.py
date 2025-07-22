@@ -16,7 +16,7 @@ class Totnu(_option.DataOption):
         'no': types.String,
     }
 
-    _REGEX = re.compile(rf'\Atotnu( {types.String._REGEX.pattern[2:-2]})?\Z')
+    _REGEX = re.compile(rf'\Atotnu( {types.String._REGEX.pattern[2:-2]})?\Z', re.IGNORECASE)
 
     def __init__(self, no: str | types.String = None):
         """

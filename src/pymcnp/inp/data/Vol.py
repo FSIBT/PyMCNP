@@ -17,7 +17,7 @@ class Vol(_option.DataOption):
         'volumes': types.Tuple(types.Real),
     }
 
-    _REGEX = re.compile(rf'\Avol(?: (no))?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Avol(?: (no))?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
 
     def __init__(self, volumes: list[str] | list[float] | list[types.Real], no: str | types.String = None):
         """
@@ -65,7 +65,7 @@ class Vol(_option.DataOption):
             elif isinstance(no, str):
                 no = types.String.from_mcnp(no)
 
-        if no is not None and no not in {'no'}:
+        if no is not None and no.value.lower() not in {'no'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, no)
 
         self._no: types.String = no

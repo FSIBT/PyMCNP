@@ -18,7 +18,7 @@ class Sb_0(_option.DataOption):
         'biases': types.Tuple(types.Real),
     }
 
-    _REGEX = re.compile(rf'\Asb(\d+)( [dcvw])?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Asb(\d+)( [dcvw])?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, biases: list[str] | list[float] | list[types.Real], option: str | types.String = None):
         """
@@ -106,7 +106,7 @@ class Sb_0(_option.DataOption):
             elif isinstance(option, str):
                 option = types.String.from_mcnp(option)
 
-        if option is not None and option not in {'d', 'c', 'v', 'w'}:
+        if option is not None and option.value.lower() not in {'d', 'c', 'v', 'w'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, option)
 
         self._option: types.String = option

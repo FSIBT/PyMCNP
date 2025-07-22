@@ -21,7 +21,7 @@ class Tally(_line.Line):
         error: Tally relative error.
     """
 
-    _REGEX = re.compile(r'\A\s(.+)\n?\Z')
+    _REGEX = re.compile(r'\A\s(.+)\n?\Z', re.IGNORECASE)
 
     def __init__(
         self,

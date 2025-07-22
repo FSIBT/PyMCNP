@@ -17,7 +17,7 @@ class Diagnostic(_entry.DdEntry):
         'printing_setting': types.Real,
     }
 
-    _REGEX = re.compile(rf'\A({types.Real._REGEX.pattern[2:-2]}) ({types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\A({types.Real._REGEX.pattern[2:-2]}) ({types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, playing_setting: str | int | float | types.Real, printing_setting: str | int | float | types.Real):
         """

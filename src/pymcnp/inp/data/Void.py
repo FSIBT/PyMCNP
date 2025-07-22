@@ -15,7 +15,7 @@ class Void(_option.DataOption):
         'numbers': types.Tuple(types.Integer),
     }
 
-    _REGEX = re.compile(rf'\Avoid((?: {types.Integer._REGEX.pattern[2:-2]})+?)?\Z')
+    _REGEX = re.compile(rf'\Avoid((?: {types.Integer._REGEX.pattern[2:-2]})+?)?\Z', re.IGNORECASE)
 
     def __init__(self, numbers: list[str] | list[int] | list[types.Integer] = None):
         """

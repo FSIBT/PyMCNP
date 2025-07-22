@@ -12,7 +12,7 @@ class Loglog(_option.MplotOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Aloglog\Z')
+    _REGEX = re.compile(r'\Aloglog\Z', re.IGNORECASE)
 
     def __init__(
         self,

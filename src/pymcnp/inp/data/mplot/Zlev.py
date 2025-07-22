@@ -16,7 +16,7 @@ class Zlev(_option.MplotOption):
         'n': types.Tuple(types.String),
     }
 
-    _REGEX = re.compile(rf'\Azlev((?: {types.String._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Azlev((?: {types.String._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
 
     def __init__(self, n: list[str] | list[types.String]):
         """

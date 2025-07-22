@@ -25,7 +25,8 @@ class Fq(_option.DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Afq(\d+)?( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?\Z'
+        rf'\Afq(\d+)?( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?\Z',
+        re.IGNORECASE,
     )
 
     def __init__(
@@ -137,7 +138,7 @@ class Fq(_option.DataOption):
             elif isinstance(a1, str):
                 a1 = types.String.from_mcnp(a1)
 
-        if a1 is not None and a1 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
+        if a1 is not None and a1.value.lower() not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a1)
 
         self._a1: types.String = a1
@@ -173,7 +174,7 @@ class Fq(_option.DataOption):
             elif isinstance(a2, str):
                 a2 = types.String.from_mcnp(a2)
 
-        if a2 is not None and a2 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
+        if a2 is not None and a2.value.lower() not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a2)
 
         self._a2: types.String = a2
@@ -209,7 +210,7 @@ class Fq(_option.DataOption):
             elif isinstance(a3, str):
                 a3 = types.String.from_mcnp(a3)
 
-        if a3 is not None and a3 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
+        if a3 is not None and a3.value.lower() not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a3)
 
         self._a3: types.String = a3
@@ -245,7 +246,7 @@ class Fq(_option.DataOption):
             elif isinstance(a4, str):
                 a4 = types.String.from_mcnp(a4)
 
-        if a4 is not None and a4 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
+        if a4 is not None and a4.value.lower() not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a4)
 
         self._a4: types.String = a4
@@ -281,7 +282,7 @@ class Fq(_option.DataOption):
             elif isinstance(a5, str):
                 a5 = types.String.from_mcnp(a5)
 
-        if a5 is not None and a5 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
+        if a5 is not None and a5.value.lower() not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a5)
 
         self._a5: types.String = a5
@@ -317,7 +318,7 @@ class Fq(_option.DataOption):
             elif isinstance(a6, str):
                 a6 = types.String.from_mcnp(a6)
 
-        if a6 is not None and a6 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
+        if a6 is not None and a6.value.lower() not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a6)
 
         self._a6: types.String = a6
@@ -353,7 +354,7 @@ class Fq(_option.DataOption):
             elif isinstance(a7, str):
                 a7 = types.String.from_mcnp(a7)
 
-        if a7 is not None and a7 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
+        if a7 is not None and a7.value.lower() not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a7)
 
         self._a7: types.String = a7
@@ -389,7 +390,7 @@ class Fq(_option.DataOption):
             elif isinstance(a8, str):
                 a8 = types.String.from_mcnp(a8)
 
-        if a8 is not None and a8 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
+        if a8 is not None and a8.value.lower() not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a8)
 
         self._a8: types.String = a8

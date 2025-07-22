@@ -24,13 +24,15 @@ class Phys_2(_option.DataOption):
         'enum': types.Integer,
         'numb': types.Integer,
         'i_mcs_model': types.Integer,
+        'j': types.String,
         'efac': types.Real,
         'electron_method_boundary': types.Real,
         'ckvnum': types.Real,
     }
 
     _REGEX = re.compile(
-        r'\Aphys:e(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?\Z'
+        r'\Aphys:e(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (j j))?(?: (\S+))?(?: (\S+))?(?: (\S+))?\Z',
+        re.IGNORECASE,
     )
 
     def __init__(
@@ -46,6 +48,7 @@ class Phys_2(_option.DataOption):
         enum: str | int | types.Integer = None,
         numb: str | int | types.Integer = None,
         i_mcs_model: str | int | types.Integer = None,
+        j: str | types.String = None,
         efac: str | int | float | types.Real = None,
         electron_method_boundary: str | int | float | types.Real = None,
         ckvnum: str | int | float | types.Real = None,
@@ -65,6 +68,7 @@ class Phys_2(_option.DataOption):
             enum: Photon-induced secondary electron creation controls.
             numb: Bremsstrahlung electron creation controls.
             i_mcs_model: Choice of Coulomb scattering model controls.
+            j: Not used.
             efac: Stopping power energy spacing controls.
             electron_method_boundary: Single-event transport start sontrols.
             ckvnum: Crenkov photon emission scalar.
@@ -84,6 +88,7 @@ class Phys_2(_option.DataOption):
         self.enum: types.Integer = enum
         self.numb: types.Integer = numb
         self.i_mcs_model: types.Integer = i_mcs_model
+        self.j = j
         self.efac: types.Real = efac
         self.electron_method_boundary: types.Real = electron_method_boundary
         self.ckvnum: types.Real = ckvnum
@@ -499,6 +504,42 @@ class Phys_2(_option.DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_mcs_model)
 
         self._i_mcs_model: types.Integer = i_mcs_model
+
+    @property
+    def j(self) -> types.Real:
+        """
+        Not used.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        return self._j
+
+    @j.setter
+    def j(self, j: str | types.String) -> None:
+        """
+        Sets ``j``.
+
+        Parameters:
+            j: Not used.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if j is not None:
+            if isinstance(j, types.String):
+                j = j
+            elif isinstance(j, str):
+                j = types.String.from_mcnp(j)
+
+        if j is not None and j.value.lower() not in {'j j'}:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, j)
+
+        self._j: types.String = j
 
     @property
     def efac(self) -> types.Real:

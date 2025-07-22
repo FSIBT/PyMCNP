@@ -12,7 +12,7 @@ class Lethargy(_option.MplotOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Alethargy\Z')
+    _REGEX = re.compile(r'\Alethargy\Z', re.IGNORECASE)
 
     def __init__(
         self,

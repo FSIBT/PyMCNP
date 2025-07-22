@@ -12,7 +12,7 @@ class Iptal(_option.MplotOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Aiptal\Z')
+    _REGEX = re.compile(r'\Aiptal\Z', re.IGNORECASE)
 
     def __init__(
         self,

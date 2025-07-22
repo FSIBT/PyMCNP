@@ -18,7 +18,7 @@ class Fmult(_option.DataOption):
         'options': types.Tuple(fmult.FmultOption),
     }
 
-    _REGEX = re.compile(rf'\Afmult( {types.Zaid._REGEX.pattern[2:-2]})((?: (?:{fmult.FmultOption._REGEX.pattern[2:-2]}))+?)?\Z')
+    _REGEX = re.compile(rf'\Afmult( {types.Zaid._REGEX.pattern[2:-2]})((?: (?:{fmult.FmultOption._REGEX.pattern[2:-2]}))+?)?\Z', re.IGNORECASE)
 
     def __init__(self, zaid: str | types.Zaid, options: list[str] | list[fmult.FmultOption] = None):
         """

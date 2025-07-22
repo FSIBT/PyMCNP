@@ -29,7 +29,8 @@ class Transformation_0(_type.Type):
     """
 
     _REGEX = re.compile(
-        r'\A(?:[(])?([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]*)(?: ([\d.ed+-]*))?(?:[)])?\Z'
+        r'\A(?:[(])?([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]*)(?: ([\d.ed+-]*))?(?:[)])?\Z',
+        re.IGNORECASE,
     )
 
     def __init__(
@@ -158,7 +159,7 @@ class Transformation_0(_type.Type):
             INP for ``Transformation_0``.
         """
 
-        return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.yx} {self.yy} {self.yz} {self.zx} {self.zy} {self.zz} {self.m or ""}'
+        return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.yx} {self.yy} {self.yz} {self.zx} {self.zy} {self.zz} {self.m if self.m is not None else ""}'
 
 
 class Transformation_1(_type.Type):
@@ -178,7 +179,7 @@ class Transformation_1(_type.Type):
         m: Transformation coordinate system setting.
     """
 
-    _REGEX = re.compile(r'\A(?:[(])?([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]*)(?: ([\d.ed+-]*))?(?:[)])?\Z')
+    _REGEX = re.compile(r'\A(?:[(])?([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]*)(?: ([\d.ed+-]*))?(?:[)])?\Z', re.IGNORECASE)
 
     def __init__(
         self,
@@ -289,7 +290,7 @@ class Transformation_1(_type.Type):
             INP for ``Transformation_1``.
         """
 
-        return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.yx} {self.yy} {self.yz} {self.m or ""}'
+        return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.yx} {self.yy} {self.yz} {self.m if self.m is not None else ""}'
 
 
 class Transformation_2(_type.Type):
@@ -308,7 +309,7 @@ class Transformation_2(_type.Type):
         m: Transformation coordinate system setting.
     """
 
-    _REGEX = re.compile(r'\A(?:[(])?([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]*)(?: ([\d.ed+-]*))?(?:[)])?\Z')
+    _REGEX = re.compile(r'\A(?:[(])?([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]*)(?: ([\d.ed+-]*))?(?:[)])?\Z', re.IGNORECASE)
 
     def __init__(
         self,
@@ -413,7 +414,7 @@ class Transformation_2(_type.Type):
             INP for ``Transformation_2``.
         """
 
-        return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.yx} {self.yy} {self.m or ""}'
+        return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.yx} {self.yy} {self.m if self.m is not None else ""}'
 
 
 class Transformation_3(_type.Type):
@@ -430,7 +431,7 @@ class Transformation_3(_type.Type):
         m: Transformation coordinate system setting.
     """
 
-    _REGEX = re.compile(r'\A(?:[(])?([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]*)(?: ([\d.ed+-]*))?(?:[)])?\Z')
+    _REGEX = re.compile(r'\A(?:[(])?([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]*)(?: ([\d.ed+-]*))?(?:[)])?\Z', re.IGNORECASE)
 
     def __init__(
         self,
@@ -523,7 +524,7 @@ class Transformation_3(_type.Type):
             INP for ``Transformation_3``.
         """
 
-        return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.m or ""}'
+        return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.m if self.m is not None else ""}'
 
 
 class Transformation_4(_type.Type):
@@ -537,7 +538,7 @@ class Transformation_4(_type.Type):
         m: Transformation coordinate system setting.
     """
 
-    _REGEX = re.compile(r'\A(?:[(])?([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]*)(?: ([\d.ed+-]*))?(?:[)])?\Z')
+    _REGEX = re.compile(r'\A(?:[(])?([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]*)(?: ([\d.ed+-]*))?(?:[)])?\Z', re.IGNORECASE)
 
     def __init__(
         self,
@@ -612,4 +613,4 @@ class Transformation_4(_type.Type):
             INP for ``Transformation_4``.
         """
 
-        return f'{self.o1} {self.o2} {self.o3} {self.m or ""}'
+        return f'{self.o1} {self.o2} {self.o3} {self.m if self.m is not None else ""}'

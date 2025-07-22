@@ -16,7 +16,7 @@ class Spdtl(_option.DataOption):
         'keyword': types.String,
     }
 
-    _REGEX = re.compile(rf'\Aspdtl( {types.String._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Aspdtl( {types.String._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, keyword: str | types.String):
         """

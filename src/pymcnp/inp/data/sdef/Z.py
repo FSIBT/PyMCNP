@@ -16,7 +16,7 @@ class Z(_option.SdefOption):
         'z_coordinate': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Az( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Az( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, z_coordinate: str | int | float | types.Real):
         """

@@ -16,7 +16,7 @@ class Conic(_option.PtracOption):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(r'\Aconic(?: (col|lin))\Z')
+    _REGEX = re.compile(r'\Aconic(?: (col|lin))\Z', re.IGNORECASE)
 
     def __init__(self, setting: str | types.String):
         """
@@ -62,7 +62,7 @@ class Conic(_option.PtracOption):
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
 
-        if setting is None or setting not in {'col', 'lin'}:
+        if setting is None or setting.value.lower() not in {'col', 'lin'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self._setting: types.String = setting

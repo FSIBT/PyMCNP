@@ -17,7 +17,7 @@ class Nps(_option.DataOption):
         'npsmg': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Anps( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?\Z')
+    _REGEX = re.compile(rf'\Anps( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?\Z', re.IGNORECASE)
 
     def __init__(self, npp: str | int | types.Integer, npsmg: str | int | types.Integer = None):
         """

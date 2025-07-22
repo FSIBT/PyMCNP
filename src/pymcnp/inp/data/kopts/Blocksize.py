@@ -16,7 +16,7 @@ class Blocksize(_option.KoptsOption):
         'ncy': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Ablocksize( {types.Integer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Ablocksize( {types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, ncy: str | int | types.Integer):
         """

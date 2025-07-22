@@ -19,7 +19,7 @@ class Subtally_4(_subblock.TallySubblock):
         total: Total line.
     """
 
-    _REGEX = re.compile(r'\A cell  (.+)\n' r'      energy   \n' r'((?:.+\n)+)' r'      total      (.+)\n\n\Z')
+    _REGEX = re.compile(r'\A cell  (.+)\n' r'      energy   \n' r'((?:.+\n)+)' r'      total      (.+)\n\n\Z', re.IGNORECASE)
 
     def __init__(
         self,

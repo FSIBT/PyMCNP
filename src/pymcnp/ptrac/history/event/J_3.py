@@ -21,7 +21,7 @@ class J_3(_line.EventLine):
         mat: Material numbers of the cells.
     """
 
-    _REGEX = re.compile(r'\A\s(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})\Z')
+    _REGEX = re.compile(r'\A\s(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})\Z', re.IGNORECASE)
 
     def __init__(
         self,

@@ -17,7 +17,7 @@ class Ft(_option.DataOption):
         'treatments': types.String,
     }
 
-    _REGEX = re.compile(r'\Aft(\d+)( [\S\s]+)\Z')
+    _REGEX = re.compile(r'\Aft(\d+)( [\S\s]+)\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, treatments: str | types.String):
         """

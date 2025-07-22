@@ -19,7 +19,7 @@ class Leb(_option.DataOption):
         'bzero': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Aleb( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z')
+    _REGEX = re.compile(rf'\Aleb( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z', re.IGNORECASE)
 
     def __init__(
         self, yzere: str | int | float | types.Real = None, bzere: str | int | float | types.Real = None, yzero: str | int | float | types.Real = None, bzero: str | int | float | types.Real = None

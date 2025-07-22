@@ -14,7 +14,7 @@ class Data(_card.Card):
 
     _ATTRS = {'option': data.DataOption}
 
-    _REGEX = re.compile(rf'\A({data.DataOption._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\A({data.DataOption._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, option: data.DataOption):
         """

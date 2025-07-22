@@ -17,7 +17,7 @@ class Mt(_option.DataOption):
         'identifiers': types.Tuple(types.String),
     }
 
-    _REGEX = re.compile(rf'\Amt(\d+)((?: {types.String._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Amt(\d+)((?: {types.String._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, identifiers: list[str] | list[types.String]):
         """

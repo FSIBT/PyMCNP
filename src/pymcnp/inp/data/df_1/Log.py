@@ -12,7 +12,7 @@ class Log(_option.DfOption_1):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Alog\Z')
+    _REGEX = re.compile(r'\Alog\Z', re.IGNORECASE)
 
     def __init__(
         self,

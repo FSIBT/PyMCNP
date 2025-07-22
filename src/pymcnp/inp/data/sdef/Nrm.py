@@ -16,7 +16,7 @@ class Nrm(_option.SdefOption):
         'sign': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Anrm( {types.Integer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Anrm( {types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, sign: str | int | types.Integer):
         """

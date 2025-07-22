@@ -18,7 +18,7 @@ class De(_option.DataOption):
         'values': types.Tuple(types.Real),
     }
 
-    _REGEX = re.compile(rf'\Ade(\d+)( (?:log|lin))?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Ade(\d+)( (?:log|lin))?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, values: list[str] | list[float] | list[types.Real], method: str | types.String = None):
         """
@@ -106,7 +106,7 @@ class De(_option.DataOption):
             elif isinstance(method, str):
                 method = types.String.from_mcnp(method)
 
-        if method is not None and method not in {'log', 'lin'}:
+        if method is not None and method.value.lower() not in {'log', 'lin'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, method)
 
         self._method: types.String = method

@@ -16,7 +16,7 @@ class Tr_0(_option.SsrOption):
         'number': types.Distribution,
     }
 
-    _REGEX = re.compile(rf'\Atr( {types.Distribution._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Atr( {types.Distribution._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, number: str | types.Distribution):
         """

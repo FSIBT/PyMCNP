@@ -12,7 +12,7 @@ class Comment(_card.Card):
 
     _ATTRS = {'text': types.String}
 
-    _REGEX = re.compile(r'c(.*)')
+    _REGEX = re.compile(r'c(.*)', re.IGNORECASE)
 
     def __init__(self, text: types.String):
         """

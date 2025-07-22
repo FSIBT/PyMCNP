@@ -16,7 +16,7 @@ class Act(_option.DataOption):
         'options': types.Tuple(act.ActOption),
     }
 
-    _REGEX = re.compile(rf'\Aact((?: (?:{act.ActOption._REGEX.pattern[2:-2]}))+?)?\Z')
+    _REGEX = re.compile(rf'\Aact((?: (?:{act.ActOption._REGEX.pattern[2:-2]}))+?)?\Z', re.IGNORECASE)
 
     def __init__(self, options: list[str] | list[act.ActOption] = None):
         """

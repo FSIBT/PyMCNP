@@ -19,7 +19,7 @@ class Sphere(_entry.FEntry_1):
         'ro': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\A({types.Real._REGEX.pattern[2:-2]}) ({types.Real._REGEX.pattern[2:-2]}) ({types.Integer._REGEX.pattern[2:-2]}) ({types.Integer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\A({types.Real._REGEX.pattern[2:-2]}) ({types.Real._REGEX.pattern[2:-2]}) ({types.Integer._REGEX.pattern[2:-2]}) ({types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, x: str | int | float | types.Real, y: str | int | float | types.Real, z: str | int | types.Integer, ro: str | int | types.Integer):
         """

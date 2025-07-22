@@ -15,7 +15,7 @@ class Substance(_type.Type):
         weight_ratio: Atomic weight ratios.
     """
 
-    _REGEX = re.compile(r'\A(\S+) (\S+)\Z')
+    _REGEX = re.compile(r'\A(\S+) (\S+)\Z', re.IGNORECASE)
 
     def __init__(self, zaid: types.Zaid, weight_ratio: types.Real):
         """

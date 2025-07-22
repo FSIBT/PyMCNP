@@ -12,7 +12,7 @@ class Plot(_option.MplotOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Aplot\Z')
+    _REGEX = re.compile(r'\Aplot\Z', re.IGNORECASE)
 
     def __init__(
         self,

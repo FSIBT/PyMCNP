@@ -20,7 +20,7 @@ class F_3(_option.DataOption):
         't': types.String,
     }
 
-    _REGEX = re.compile(rf'\A([*+])?f(\d*[8])(?::(\S+))?((?: {types.Integer._REGEX.pattern[2:-2]})+?)( t)?\Z')
+    _REGEX = re.compile(rf'\A([*+])?f(\d*[8])(?::(\S+))?((?: {types.Integer._REGEX.pattern[2:-2]})+?)( t)?\Z', re.IGNORECASE)
 
     def __init__(
         self,
@@ -81,7 +81,7 @@ class F_3(_option.DataOption):
             elif isinstance(prefix, str):
                 prefix = types.String.from_mcnp(prefix)
 
-        if prefix is not None and prefix not in {'*', '+'}:
+        if prefix is not None and prefix.value.lower() not in {'*', '+'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
 
         self._prefix: types.String = prefix

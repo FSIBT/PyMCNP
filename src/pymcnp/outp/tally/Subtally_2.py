@@ -19,7 +19,7 @@ class Subtally_2(_subblock.TallySubblock):
         total: Total line.
     """
 
-    _REGEX = re.compile(r'\A      surface:  (.+)\n' r'        time   \n' r'((?:.+\n)+)' r'      total      (.+)\n\n\Z')
+    _REGEX = re.compile(r'\A      surface:  (.+)\n' r'        time   \n' r'((?:.+\n)+)' r'      total      (.+)\n\n\Z', re.IGNORECASE)
 
     def __init__(
         self,

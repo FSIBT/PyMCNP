@@ -16,7 +16,7 @@ class Seed(_option.RandOption):
         'seed': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Aseed( {types.Integer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Aseed( {types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, seed: str | int | types.Integer):
         """

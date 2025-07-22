@@ -18,7 +18,7 @@ class Entry(_entry.FilterEntry):
         'upper': types.Real,
     }
 
-    _REGEX = re.compile(r'\A([^\s,]+),([^\s,]+)(?:,([^\s,]+))?\Z')
+    _REGEX = re.compile(r'\A([^\s,]+),([^\s,]+)(?:,([^\s,]+))?\Z', re.IGNORECASE)
 
     def __init__(self, lower: str | int | float | types.Real, upper: str | int | float | types.Real, variable: str | types.String = None):
         """
@@ -45,7 +45,7 @@ class Entry(_entry.FilterEntry):
             INP for ``Entry``.
         """
 
-        return f'{self.lower},{self.variable}{f",{self.upper}" or ""}'
+        return f'{self.lower},{self.variable}{f",{self.upper}" if self.upper is not None else ""}'
 
     @property
     def lower(self) -> types.Real:

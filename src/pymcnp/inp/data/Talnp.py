@@ -15,7 +15,7 @@ class Talnp(_option.DataOption):
         'tallies': types.Tuple(types.Integer),
     }
 
-    _REGEX = re.compile(rf'\Atalnp((?: {types.Integer._REGEX.pattern[2:-2]})+?)?\Z')
+    _REGEX = re.compile(rf'\Atalnp((?: {types.Integer._REGEX.pattern[2:-2]})+?)?\Z', re.IGNORECASE)
 
     def __init__(self, tallies: list[str] | list[int] | list[types.Integer] = None):
         """

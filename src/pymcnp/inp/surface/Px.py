@@ -17,7 +17,7 @@ class Px(_option.SurfaceOption):
         'd': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Apx( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Apx( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, d: str | int | float | types.Real):
         """

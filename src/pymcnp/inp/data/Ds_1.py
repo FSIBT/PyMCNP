@@ -18,7 +18,7 @@ class Ds_1(_option.DataOption):
         'ijs': types.Tuple(ds_1.Variables),
     }
 
-    _REGEX = re.compile(rf'\Ads(\d+) t((?: {ds_1.Variables._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Ads(\d+) t((?: {ds_1.Variables._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, ijs: list[str] | list[ds_1.Variables]):
         """

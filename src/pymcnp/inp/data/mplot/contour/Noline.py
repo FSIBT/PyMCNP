@@ -12,7 +12,7 @@ class Noline(_option.ContourOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Anoline\Z')
+    _REGEX = re.compile(r'\Anoline\Z', re.IGNORECASE)
 
     def __init__(
         self,

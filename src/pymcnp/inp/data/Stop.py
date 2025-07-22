@@ -16,7 +16,7 @@ class Stop(_option.DataOption):
         'options': types.Tuple(stop.StopOption),
     }
 
-    _REGEX = re.compile(rf'\Astop((?: (?:{stop.StopOption._REGEX.pattern[2:-2]}))+?)?\Z')
+    _REGEX = re.compile(rf'\Astop((?: (?:{stop.StopOption._REGEX.pattern[2:-2]}))+?)?\Z', re.IGNORECASE)
 
     def __init__(self, options: list[str] | list[stop.StopOption] = None):
         """

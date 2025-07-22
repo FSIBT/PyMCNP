@@ -18,7 +18,7 @@ class Fm(_option.DataOption):
         'bins': types.String,
     }
 
-    _REGEX = re.compile(r'\A([+*])?fm(\d+)( [\S\s]+)\Z')
+    _REGEX = re.compile(r'\A([+*])?fm(\d+)( [\S\s]+)\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, bins: str | types.String, prefix: str | types.String = None):
         """
@@ -68,7 +68,7 @@ class Fm(_option.DataOption):
             elif isinstance(prefix, str):
                 prefix = types.String.from_mcnp(prefix)
 
-        if prefix is not None and prefix not in {'*', '+'}:
+        if prefix is not None and prefix.value.lower() not in {'*', '+'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
 
         self._prefix: types.String = prefix

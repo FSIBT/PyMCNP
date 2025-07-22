@@ -16,7 +16,7 @@ class Iu(_option.DfOption_1):
         'units': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Aiu( {types.Integer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Aiu( {types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, units: str | int | types.Integer):
         """

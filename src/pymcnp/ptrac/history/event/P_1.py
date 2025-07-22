@@ -24,7 +24,7 @@ class P_1(_line.EventLine):
         tme: Time at the particles position.
     """
 
-    _REGEX = re.compile(r'\A\s(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})\Z')
+    _REGEX = re.compile(r'\A\s(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})\Z', re.IGNORECASE)
 
     def __init__(
         self,

@@ -18,7 +18,7 @@ class Wwn(_option.LikeOption):
         'bound': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Awwn(\d+):(\S+)( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Awwn(\d+):(\S+)( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, designator: str | types.Designator, bound: str | int | float | types.Real):
         """

@@ -16,7 +16,7 @@ class Axs(_option.BfldOption):
         'vector': types.Tuple(types.Real),
     }
 
-    _REGEX = re.compile(rf'\Aaxs((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Aaxs((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
 
     def __init__(self, vector: list[str] | list[float] | list[types.Real]):
         """

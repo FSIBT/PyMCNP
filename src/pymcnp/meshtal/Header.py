@@ -29,7 +29,8 @@ class Header(_block.Block):
     """
 
     _REGEX = re.compile(
-        r'\A(.{7})version (.{6})ld=(.{10})probid =(.{20})\n\s(.{80})\n\sNumber of histories used for normalizing tallies =(.{17})\n\n\sMesh Tally Number(.{10})\n\s(.{8}) mesh tally[.]\n This mesh tally is modified by a dose response function[.]\n\n Tally bin boundaries:\n((?:    .+\n)+)\n(.+)\n\Z'
+        r'\A(.{7})version (.{6})ld=(.{10})probid =(.{20})\n\s(.{80})\n\sNumber of histories used for normalizing tallies =(.{17})\n\n\sMesh Tally Number(.{10})\n\s(.{8}) mesh tally[.]\n This mesh tally is modified by a dose response function[.]\n\n Tally bin boundaries:\n((?:    .+\n)+)\n(.+)\n\Z',
+        re.IGNORECASE,
     )
 
     def __init__(

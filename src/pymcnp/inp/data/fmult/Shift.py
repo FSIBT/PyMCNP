@@ -16,7 +16,7 @@ class Shift(_option.FmultOption):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Ashift( {types.Integer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Ashift( {types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, setting: str | int | types.Integer):
         """

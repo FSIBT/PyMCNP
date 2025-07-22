@@ -17,7 +17,7 @@ class Cf(_option.DataOption):
         'numbers': types.Tuple(types.Integer),
     }
 
-    _REGEX = re.compile(rf'\Acf(\d+)((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Acf(\d+)((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, numbers: list[str] | list[int] | list[types.Integer]):
         """

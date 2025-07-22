@@ -12,7 +12,7 @@ class Coplot(_option.MplotOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Acoplot\Z')
+    _REGEX = re.compile(r'\Acoplot\Z', re.IGNORECASE)
 
     def __init__(
         self,

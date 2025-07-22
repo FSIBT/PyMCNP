@@ -20,7 +20,7 @@ class P_0(_option.SurfaceOption):
         'd': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Ap( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Ap( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, a: str | int | float | types.Real, b: str | int | float | types.Real, c: str | int | float | types.Real, d: str | int | float | types.Real):
         """

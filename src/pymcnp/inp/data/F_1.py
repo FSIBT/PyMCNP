@@ -21,7 +21,7 @@ class F_1(_option.DataOption):
         'nd': types.String,
     }
 
-    _REGEX = re.compile(r'\A([*+])?f(\d*[5])(?::(\S+))?((?: \S+ \S+ \S+ \S+)+?)( nd)?\Z')
+    _REGEX = re.compile(r'\A([*+])?f(\d*[5])(?::(\S+))?((?: \S+ \S+ \S+ \S+)+?)( nd)?\Z', re.IGNORECASE)
 
     def __init__(
         self, suffix: str | int | types.Integer, spheres: list[str] | list[f_1.Sphere], prefix: str | types.String = None, designator: str | types.Designator = None, nd: str | types.String = None
@@ -77,7 +77,7 @@ class F_1(_option.DataOption):
             elif isinstance(prefix, str):
                 prefix = types.String.from_mcnp(prefix)
 
-        if prefix is not None and prefix not in {'*', '+'}:
+        if prefix is not None and prefix.value.lower() not in {'*', '+'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
 
         self._prefix: types.String = prefix

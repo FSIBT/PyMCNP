@@ -18,7 +18,7 @@ class Bcw(_option.SsrOption):
         'ze': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Abcw( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Abcw( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, radius: str | int | float | types.Real, zb: str | int | float | types.Real, ze: str | int | float | types.Real):
         """

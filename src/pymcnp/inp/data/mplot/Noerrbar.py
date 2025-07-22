@@ -12,7 +12,7 @@ class Noerrbar(_option.MplotOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Anoerrbar\Z')
+    _REGEX = re.compile(r'\Anoerrbar\Z', re.IGNORECASE)
 
     def __init__(
         self,

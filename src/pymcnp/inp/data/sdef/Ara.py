@@ -16,7 +16,7 @@ class Ara(_option.SdefOption):
         'area': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Aara( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Aara( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, area: str | int | float | types.Real):
         """

@@ -16,7 +16,7 @@ class Value(_option.PtracOption):
         'cutoff': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Avalue( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Avalue( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, cutoff: str | int | float | types.Real):
         """

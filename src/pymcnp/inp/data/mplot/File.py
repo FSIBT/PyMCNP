@@ -16,7 +16,7 @@ class File(_option.MplotOption):
         'aa': types.String,
     }
 
-    _REGEX = re.compile(r'\Afile(?: (all|none))?\Z')
+    _REGEX = re.compile(r'\Afile(?: (all|none))?\Z', re.IGNORECASE)
 
     def __init__(self, aa: str | types.String = None):
         """
@@ -62,7 +62,7 @@ class File(_option.MplotOption):
             elif isinstance(aa, str):
                 aa = types.String.from_mcnp(aa)
 
-        if aa is not None and aa not in {'all', 'none'}:
+        if aa is not None and aa.value.lower() not in {'all', 'none'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, aa)
 
         self._aa: types.String = aa

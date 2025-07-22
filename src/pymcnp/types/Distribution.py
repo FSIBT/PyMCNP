@@ -14,7 +14,7 @@ class Distribution(_type.Type):
         n: Distribution identifier.
     """
 
-    _REGEX = re.compile(r'\A[dD](\d+)\Z')
+    _REGEX = re.compile(r'\A[dD](\d+)\Z', re.IGNORECASE)
 
     def __init__(self, n: Integer):
         """

@@ -16,7 +16,7 @@ class Tmesh(_option.FmeshOption):
         'time': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Atmesh( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Atmesh( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, time: str | int | float | types.Real):
         """

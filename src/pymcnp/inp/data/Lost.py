@@ -17,7 +17,7 @@ class Lost(_option.DataOption):
         'lost2': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Alost( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Alost( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, lost1: str | int | types.Integer, lost2: str | int | types.Integer):
         """

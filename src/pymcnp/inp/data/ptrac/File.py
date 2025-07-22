@@ -16,7 +16,7 @@ class File(_option.PtracOption):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(r'\Afile(?: (asc|bin|aov|bov))\Z')
+    _REGEX = re.compile(r'\Afile(?: (asc|bin|aov|bov))\Z', re.IGNORECASE)
 
     def __init__(self, setting: str | types.String):
         """
@@ -62,7 +62,7 @@ class File(_option.PtracOption):
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
 
-        if setting is None or setting not in {'asc', 'bin', 'aov', 'bov'}:
+        if setting is None or setting.value.lower() not in {'asc', 'bin', 'aov', 'bov'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self._setting: types.String = setting

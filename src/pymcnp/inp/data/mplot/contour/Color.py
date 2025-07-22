@@ -12,7 +12,7 @@ class Color(_option.ContourOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Acolor\Z')
+    _REGEX = re.compile(r'\Acolor\Z', re.IGNORECASE)
 
     def __init__(
         self,

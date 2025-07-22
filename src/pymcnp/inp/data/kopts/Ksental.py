@@ -16,7 +16,7 @@ class Ksental(_option.KoptsOption):
         'fileopt': types.String,
     }
 
-    _REGEX = re.compile(rf'\Aksental( {types.String._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Aksental( {types.String._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, fileopt: str | types.String):
         """
@@ -62,7 +62,7 @@ class Ksental(_option.KoptsOption):
             elif isinstance(fileopt, str):
                 fileopt = types.String.from_mcnp(fileopt)
 
-        if fileopt is None or fileopt not in {'mctal', 'tsunami-b'}:
+        if fileopt is None or fileopt.value.lower() not in {'mctal', 'tsunami-b'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fileopt)
 
         self._fileopt: types.String = fileopt

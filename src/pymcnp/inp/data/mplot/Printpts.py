@@ -12,7 +12,7 @@ class Printpts(_option.MplotOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Aprintpts\Z')
+    _REGEX = re.compile(r'\Aprintpts\Z', re.IGNORECASE)
 
     def __init__(
         self,

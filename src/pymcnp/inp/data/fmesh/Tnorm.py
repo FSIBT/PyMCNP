@@ -16,7 +16,7 @@ class Tnorm(_option.FmeshOption):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'\Atnorm( {types.String._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Atnorm( {types.String._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, setting: str | types.String):
         """
@@ -62,7 +62,7 @@ class Tnorm(_option.FmeshOption):
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
 
-        if setting is None or setting not in {'yes', 'no'}:
+        if setting is None or setting.value.lower() not in {'yes', 'no'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self._setting: types.String = setting
