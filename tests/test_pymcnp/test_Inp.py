@@ -125,7 +125,7 @@ class Test_Inp:
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.Inp
-        EXAMPLES_VALID = []
+        EXAMPLES_VALID = [consts.string.INP]
         EXAMPLES_INVALID = ['hello']
 
     class Test_File(classes.Test_File):

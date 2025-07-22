@@ -16,7 +16,10 @@ class Meshtal(_object.McnpFile):
         tallies: MESTHAL tallies.
     """
 
-    _REGEX = re.compile(r'\A([^\n]{7}version [^\n]{6}ld=[^\n]{10}probid =[^\n]{20}\n\s[^\n]+\n\sNumber of histories used for normalizing tallies =[^\n]{17}\n\n\sMesh Tally Number[^\n]{10}\n\s[^\n]{8} mesh tally[.]\n\n Tally bin boundaries:\n(?:    .+\n)+\n[^\n]+\n)([\n\s\S]+)\Z', re.IGNORECASE)
+    _REGEX = re.compile(
+        r'\A([^\n]{7}version [^\n]{6}ld=[^\n]{10}probid =[^\n]{20}\n\s[^\n]+\n\sNumber of histories used for normalizing tallies =[^\n]{17}\n\n\sMesh Tally Number[^\n]{10}\n\s[^\n]{8} mesh tally[.]\n\n Tally bin boundaries:\n(?:    .+\n)+\n[^\n]+\n)([\n\s\S]+)\Z',
+        re.IGNORECASE,
+    )
 
     def __init__(self, header: meshtal.Header, tallies: typing.Generator[meshtal.Tally, None, None]):
         """

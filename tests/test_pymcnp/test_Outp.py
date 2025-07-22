@@ -31,7 +31,7 @@ class Test_Outp:
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.Outp
-        EXAMPLES_VALID = []
+        EXAMPLES_VALID = [consts.string.OUTP]
         EXAMPLES_INVALID = ['hello']
 
     class Test_File(classes.Test_File):
