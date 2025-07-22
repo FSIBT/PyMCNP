@@ -58,8 +58,6 @@ class Cell(_card.Card):
             INP cell card.
         """
 
-        print(type(self.options))
-
         source = f'{self.number} {self.material} {self.density if self.density is not None else ""} {self.geometry} {self.options if self.options is not None else ""}'
         source, comments = _parser.preprocess_inp(source)
         source = _parser.postprocess_inp(source)

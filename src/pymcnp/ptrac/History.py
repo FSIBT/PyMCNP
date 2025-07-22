@@ -82,6 +82,4 @@ class History(_object.McnpNonterminal):
             PTRAC for ``History``.
         """
 
-        print(repr(self.events))
-        print(self.events)
         return f'{self.i_line}\n{''.join(map(str, self.events))}'
