@@ -29,7 +29,7 @@ class Header(_block.Block):
     """
 
     _REGEX = re.compile(
-        r'\A(.{7})version (.{6})ld=(.{10})probid =(.{20})\n\s(.{80})\n\sNumber of histories used for normalizing tallies =(.{17})\n\n\sMesh Tally Number(.{10})\n\s(.{8}) mesh tally[.]\n This mesh tally is modified by a dose response function[.]\n\n Tally bin boundaries:\n((?:    .+\n)+)\n(.+)\n\Z',
+        r'\A(.{7})version (.{6})ld=(.{10})probid =(.{20})\n\s([^\n]+)\n\sNumber of histories used for normalizing tallies =(.{17})\n\n\sMesh Tally Number(.{10})\n\s(.{8}) mesh tally[.]\n\n Tally bin boundaries:\n((?:    .+\n)+)\n(.+)\n\Z',
         re.IGNORECASE,
     )
 
@@ -43,12 +43,12 @@ class Header(_block.Block):
         histories: types.Integer,
         number: types.Integer,
         particle: types.String,
-        bins_x: types.Tuple(types.Real),
-        bins_y: types.Tuple(types.Real),
-        bins_z: types.Tuple(types.Real),
-        bins_energy: types.Tuple(types.Real),
-        bins_time: types.Tuple(types.Real),
         columns: types.String,
+        bins_x: types.String = None,
+        bins_y: types.String = None,
+        bins_z: types.String = None,
+        bins_energy: types.String = None,
+        bins_time: types.String = None,
     ):
         """
         Initializes ``Header``.
@@ -108,11 +108,11 @@ class Header(_block.Block):
         self.histories: typing.Final[types.Integer] = histories
         self.number: typing.Final[types.Integer] = number
         self.particle: typing.Final[types.String] = particle
-        self.bins_x: typing.Final[types.Tuple(types.Real)] = bins_x
-        self.bins_y: typing.Final[types.Tuple(types.Real)] = bins_y
-        self.bins_z: typing.Final[types.Tuple(types.Real)] = bins_z
-        self.bins_energy: typing.Final[types.Tuple(types.Real)] = bins_energy
-        self.bins_time: typing.Final[types.Tuple(types.Real)] = bins_time
+        self.bins_x: typing.Final[types.String] = bins_x
+        self.bins_y: typing.Final[types.String] = bins_y
+        self.bins_z: typing.Final[types.String] = bins_z
+        self.bins_energy: typing.Final[types.String] = bins_energy
+        self.bins_time: typing.Final[types.String] = bins_time
         self.columns: typing.Final[types.String] = columns
 
     @staticmethod
@@ -144,16 +144,24 @@ class Header(_block.Block):
         number = types.Integer.from_mcnp(tokens[7])
         particle = types.String.from_mcnp(tokens[8])
 
-        bins = {}
-        for line in filter(lambda token: token != '', tokens[9].split('\n')):
-            first, second = line.split(':')
-            bins[first] = second
-
-        bins_x = bins['    X direction'] if '    X direction' in bins else None
-        bins_y = bins['    Y direction'] if '    Y direction' in bins else None
-        bins_z = bins['    Z direction'] if '    Z direction' in bins else None
-        bins_energy = bins['    Energy bin boundaries'] if '    Energy bin boundaries' in bins else None
-        bins_time = bins['    Time bin boundaries'] if '    Time bin boundaries' in bins else None
+        bins_x = None
+        bins_y = None
+        bins_z = None
+        bins_energy = None
+        bins_time = None
+        for match in re.findall(r'\s+([^\n:]+):([^\n]+)(?:\n|\Z)', tokens[9]):
+            if match[0] == 'X direction':
+                bins_x = match[1]
+            elif match[0] == 'Y direction':
+                bins_y = match[1]
+            elif match[0] == 'Z direction':
+                bins_z = match[1]
+            elif match[0] == 'Energy bin boundaries':
+                bins_energy = match[1]
+            elif match[0] == 'Time bin boundaries':
+                bins_time = match[1]
+            else:
+                raise errors.MeshtalError(errors.MeshtalCode.SYNTAX_BLOCK, source)
 
         columns = types.String.from_mcnp(tokens[10])
 
@@ -166,12 +174,12 @@ class Header(_block.Block):
             histories,
             number,
             particle,
-            bins_x,
-            bins_y,
-            bins_z,
-            bins_energy,
-            bins_time,
             columns,
+            bins_x=bins_x,
+            bins_y=bins_y,
+            bins_z=bins_z,
+            bins_energy=bins_energy,
+            bins_time=bins_time,
         )
 
     def to_mcnp(self):
@@ -186,7 +194,7 @@ class Header(_block.Block):
         bins += f"    X direction:{''.join(map(str, self.bins_x))}\n" if self.bins_x else ''
         bins += f"    Y direction:{''.join(map(str, self.bins_y))}\n" if self.bins_y else ''
         bins += f"    Z direction:{''.join(map(str, self.bins_z))}\n" if self.bins_z else ''
-        bins += f"    Energy bin boundaries:{''.join(map(str, self.bins_energy))}\n" if self.bins_energy else ''
         bins += f"    Time bin boundaries:{''.join(map(str, self.bins_time))}\n" if self.bins_time else ''
+        bins += f"    Energy bin boundaries:{''.join(map(str, self.bins_energy))}\n" if self.bins_energy else ''
 
-        return f'{self.code:>7}version {self.version:>6}ld={self.ld:>10}probid ={self.probid:>20}\n {self.title:>80}\n Number of histories used for normalizing tallies ={self.histories:>17.2F}\n\n Mesh Tally Number{self.number:>10}\n {self.particle:>8} mesh tally.\n This mesh tally is modified by a dose response function.\n\n Tally bin boundaries:\n{bins}\n{self.columns}\n'
+        return f'{self.code:>7}version {self.version:>6}ld={self.ld:>10}probid ={self.probid:>20}\n {self.title}\n Number of histories used for normalizing tallies ={self.histories:>17.2F}\n\n Mesh Tally Number{self.number:>10}\n {self.particle:>8} mesh tally.\n\n Tally bin boundaries:\n{bins}\n{self.columns}\n'

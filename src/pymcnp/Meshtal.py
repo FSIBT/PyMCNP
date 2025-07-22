@@ -1,8 +1,9 @@
 import re
 import typing
 
-from . import meshtal
+from . import types
 from . import errors
+from . import meshtal
 from .utils import _object
 
 
@@ -15,7 +16,7 @@ class Meshtal(_object.McnpFile):
         tallies: MESTHAL tallies.
     """
 
-    _REGEX = re.compile(rf'\A({meshtal.Header._REGEX.pattern[2:-2]})((?:{meshtal.Tally._REGEX.pattern[2:-2]})+)\Z', re.IGNORECASE)
+    _REGEX = re.compile(r'\A([^\n]{7}version [^\n]{6}ld=[^\n]{10}probid =[^\n]{20}\n\s[^\n]+\n\sNumber of histories used for normalizing tallies =[^\n]{17}\n\n\sMesh Tally Number[^\n]{10}\n\s[^\n]{8} mesh tally[.]\n\n Tally bin boundaries:\n(?:    .+\n)+\n[^\n]+\n)([\n\s\S]+)\Z', re.IGNORECASE)
 
     def __init__(self, header: meshtal.Header, tallies: typing.Generator[meshtal.Tally, None, None]):
         """
@@ -34,10 +35,10 @@ class Meshtal(_object.McnpFile):
         """
 
         if header is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_FILE)
+            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_FILE, header)
 
         if tallies is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_FILE)
+            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_FILE, tallies)
 
         self.header: typing.Final[meshtal.Header] = header
         self.tallies: typing.Final[typing.Generator[typing.Generator[meshtal.Tally, None, None]]] = tallies
@@ -60,7 +61,7 @@ class Meshtal(_object.McnpFile):
             raise errors.MeshtalError(errors.MeshtalCode.SYNTAX_FILE, source)
 
         header = meshtal.Header.from_mcnp(tokens[1])
-        tallies = (meshtal.Tally.from_mcnp(match[0], header) for match in meshtal.Tally._REGEX.finditer(tokens[12]))
+        tallies = types.Tuple(meshtal.Tally).from_mcnp(tokens[2])
 
         return Meshtal(header, tallies)
 
@@ -72,4 +73,4 @@ class Meshtal(_object.McnpFile):
             INP for ``Meshtal``.
         """
 
-        return self.header.to_mcnp() + ' ' + '\n '.join(tally.to_mcnp() for tally in self.tallies)
+        return self.header.to_mcnp() + '\n'.join(tally.to_mcnp() for tally in self.tallies)
