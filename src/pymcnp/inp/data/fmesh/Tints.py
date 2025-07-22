@@ -16,7 +16,7 @@ class Tints(_option.FmeshOption):
         'count': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Atints( {types.Integer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Atints( {types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, count: str | int | types.Integer):
         """

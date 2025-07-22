@@ -27,7 +27,8 @@ class Tr_2(_option.DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\A([*])?tr(\d+)( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?\Z'
+        rf'\A([*])?tr(\d+)( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?\Z',
+        re.IGNORECASE,
     )
 
     def __init__(
@@ -107,7 +108,7 @@ class Tr_2(_option.DataOption):
             elif isinstance(prefix, str):
                 prefix = types.String.from_mcnp(prefix)
 
-        if prefix is not None and prefix not in {'*'}:
+        if prefix is not None and prefix.value.lower() not in {'*'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
 
         self._prefix: types.String = prefix

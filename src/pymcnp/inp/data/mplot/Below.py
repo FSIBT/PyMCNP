@@ -12,7 +12,7 @@ class Below(_option.MplotOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Abelow\Z')
+    _REGEX = re.compile(r'\Abelow\Z', re.IGNORECASE)
 
     def __init__(
         self,

@@ -12,7 +12,7 @@ class Lin(_option.ContourOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Alin\Z')
+    _REGEX = re.compile(r'\Alin\Z', re.IGNORECASE)
 
     def __init__(
         self,

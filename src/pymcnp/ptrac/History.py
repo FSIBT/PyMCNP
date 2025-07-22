@@ -16,7 +16,7 @@ class History(_object.McnpNonterminal):
         events: PTRAC history events.
     """
 
-    _REGEX = re.compile(r'\A(.+)\n' rf'((?:{history.Event._REGEX.pattern[2:-2]})+)\Z')
+    _REGEX = re.compile(r'\A(.+)\n' rf'((?:{history.Event._REGEX.pattern[2:-2]})+)\Z', re.IGNORECASE)
 
     def __init__(
         self,

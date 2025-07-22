@@ -14,7 +14,7 @@ class Index(_type.Type):
         upper: Upper index.
     """
 
-    _REGEX = re.compile(r'\A(\S+):(\S+)\Z')
+    _REGEX = re.compile(r'\A(\S+):(\S+)\Z', re.IGNORECASE)
 
     def __init__(self, lower: Integer, upper: Integer):
         """

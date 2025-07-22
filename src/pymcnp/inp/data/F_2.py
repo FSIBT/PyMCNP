@@ -22,7 +22,7 @@ class F_2(_option.DataOption):
         'nd': types.String,
     }
 
-    _REGEX = re.compile(r'\A([*+])?f(\d*[5])([xyz])(?::(\S+))?((?: \S+ \S+ \S+)+?)( nd)?\Z')
+    _REGEX = re.compile(r'\A([*+])?f(\d*[5])([xyz])(?::(\S+))?((?: \S+ \S+ \S+)+?)( nd)?\Z', re.IGNORECASE)
 
     def __init__(
         self,
@@ -63,7 +63,7 @@ class F_2(_option.DataOption):
             INP for ``F_2``.
         """
 
-        return f'{self.prefix or ""}f{self.suffix}{self.a}{f":{self.designator}" if self.designator else ""} {self.rings} {self.nd or ""}'
+        return f'{self.prefix if self.prefix is not None else ""}f{self.suffix}{self.a}{f":{self.designator}" if self.designator is not None else ""} {self.rings} {self.nd if self.nd is not None else ""}'
 
     @property
     def prefix(self) -> types.String:
@@ -96,7 +96,7 @@ class F_2(_option.DataOption):
             elif isinstance(prefix, str):
                 prefix = types.String.from_mcnp(prefix)
 
-        if prefix is not None and prefix not in {'*', '+'}:
+        if prefix is not None and prefix.value.lower() not in {'*', '+'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
 
         self._prefix: types.String = prefix
@@ -170,7 +170,7 @@ class F_2(_option.DataOption):
             elif isinstance(a, str):
                 a = types.String.from_mcnp(a)
 
-        if a is None or a not in {'x', 'y', 'z'}:
+        if a is None or a.value.lower() not in {'x', 'y', 'z'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
 
         self._a: types.String = a

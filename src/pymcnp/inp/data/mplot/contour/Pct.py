@@ -12,7 +12,7 @@ class Pct(_option.ContourOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Apct\Z')
+    _REGEX = re.compile(r'\Apct\Z', re.IGNORECASE)
 
     def __init__(
         self,

@@ -20,7 +20,7 @@ class File(_entry.FilesEntry):
         'length': types.Integer,
     }
 
-    _REGEX = re.compile(r'\A(\S+) (\S+)(?: (\S+))?(?: (\S+))?(?: (\S+))?\Z')
+    _REGEX = re.compile(r'\A(\S+) (\S+)(?: (\S+))?(?: (\S+))?(?: (\S+))?\Z', re.IGNORECASE)
 
     def __init__(
         self, unit: str | int | types.Integer, filename: str | int | types.String, access: str | types.String = None, form: str | types.String = None, length: str | int | types.Integer = None
@@ -150,7 +150,7 @@ class File(_entry.FilesEntry):
             elif isinstance(access, str):
                 access = types.String.from_mcnp(access)
 
-        if access is not None and access.value not in {'sequential', 'direct', 's', 'd'}:
+        if access is not None and access.value.lower() not in {'sequential', 'direct', 's', 'd'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, access)
 
         self._access: types.String = access
@@ -186,7 +186,7 @@ class File(_entry.FilesEntry):
             elif isinstance(form, str):
                 form = types.String.from_mcnp(form)
 
-        if form is not None and form.value not in {'formatted', 'unformatted', 'f', 'u'}:
+        if form is not None and form.value.lower() not in {'formatted', 'unformatted', 'f', 'u'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, form)
 
         self._form: types.String = form

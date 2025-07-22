@@ -16,7 +16,7 @@ class Fmatny(_option.KoptsOption):
         'fmat_ny': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Afmatny( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Afmatny( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, fmat_ny: str | int | float | types.Real):
         """

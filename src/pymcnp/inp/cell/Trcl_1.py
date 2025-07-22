@@ -17,7 +17,7 @@ class Trcl_1(_option.CellOption):
         'transformation': types.Transformation_0,
     }
 
-    _REGEX = re.compile(rf'\A([*])?trcl( {types.Transformation_0._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\A([*])?trcl( {types.Transformation_0._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, transformation: str | types.Transformation_0, prefix: str | types.String = None):
         """
@@ -65,7 +65,7 @@ class Trcl_1(_option.CellOption):
             elif isinstance(prefix, str):
                 prefix = types.String.from_mcnp(prefix)
 
-        if prefix is not None and prefix not in {'*'}:
+        if prefix is not None and prefix.value.lower() not in {'*'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
 
         self._prefix: types.String = prefix

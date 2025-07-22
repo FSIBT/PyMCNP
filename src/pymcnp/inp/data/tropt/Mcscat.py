@@ -16,7 +16,7 @@ class Mcscat(_option.TroptOption):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'\Amcscat( {types.String._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Amcscat( {types.String._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, setting: str | types.String):
         """
@@ -62,7 +62,7 @@ class Mcscat(_option.TroptOption):
             elif isinstance(setting, str):
                 setting = types.String.from_mcnp(setting)
 
-        if setting is None or setting not in {'off', 'fnal1', 'gaussian', 'fnal2'}:
+        if setting is None or setting.value.lower() not in {'off', 'fnal1', 'gaussian', 'fnal2'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self._setting: types.String = setting

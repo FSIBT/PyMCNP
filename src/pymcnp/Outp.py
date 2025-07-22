@@ -18,7 +18,7 @@ class Outp(_object.McnpFile):
         footer: OUTP footer.
     """
 
-    _REGEX = re.compile(rf'\A({outp.Header._REGEX.pattern[2:-2]})([\s\S]*)\Z')
+    _REGEX = re.compile(rf'\A({outp.Header._REGEX.pattern[2:-2]})([\s\S]*)\Z', re.IGNORECASE)
 
     def __init__(
         self,

@@ -12,7 +12,7 @@ class Line(_option.ContourOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Aline\Z')
+    _REGEX = re.compile(r'\Aline\Z', re.IGNORECASE)
 
     def __init__(
         self,

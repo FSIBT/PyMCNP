@@ -16,7 +16,7 @@ class Mat(_option.PertOption):
         'material': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Amat( {types.Integer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Amat( {types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, material: str | int | types.Integer):
         """

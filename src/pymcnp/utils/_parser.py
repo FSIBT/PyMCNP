@@ -32,22 +32,14 @@ def _preprocess_vertical(string: str):
 def _preprocess_horizontal(string: str):
     """ """
 
-    tokens = re.split(r'( \d+j)', string)
+    tokens = re.split(r'( \d+[jJ])', string)
 
     string = ''
     for token in tokens:
-        if match := re.match(r'( \d+)j', token):
+        if match := re.match(r'( \d+)[jJ]', token):
             string += int(match[1]) * ' j'
         else:
             string += token
-
-    return string
-
-
-def _preprocess_case(string: str):
-    """ """
-
-    string = string.lower()
 
     return string
 
@@ -97,7 +89,7 @@ def preprocess_inp(string: str):
 
     string = _preprocess_vertical(string)
     string, comments = _preprocess_comments(string)
-    string = _preprocess_case(string)
+    # string = _preprocess_case(string)
     string = _preprocess_whitespace(string)
     string = _preprocess_continuation(string)
     string = _preprocess_whitespace(string)

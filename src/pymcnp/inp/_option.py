@@ -53,7 +53,7 @@ class Option(_object.McnpNonterminal):
         """
 
         value = []
-        for name in filter(lambda name: name not in {'prefix', 'suffix', 'designator'}, self._ATTRS.keys()):
+        for name in filter(lambda name: name.lower() not in {'prefix', 'suffix', 'designator'}, self._ATTRS.keys()):
             if (attribute := getattr(type(self), name).__get__(self)) is not None:
                 value.append(attribute)
         value = ' '.join(map(str, value))

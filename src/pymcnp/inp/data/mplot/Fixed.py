@@ -17,7 +17,7 @@ class Fixed(_option.MplotOption):
         'n': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Afixed( {types.String._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Afixed( {types.String._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, q: str | types.String, n: str | int | types.Integer):
         """
@@ -65,7 +65,7 @@ class Fixed(_option.MplotOption):
             elif isinstance(q, str):
                 q = types.String.from_mcnp(q)
 
-        if q is None or q not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't', 'i', 'j', 'k'}:
+        if q is None or q.value.lower() not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't', 'i', 'j', 'k'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, q)
 
         self._q: types.String = q

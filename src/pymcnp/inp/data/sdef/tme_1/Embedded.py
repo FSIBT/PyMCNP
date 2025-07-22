@@ -13,7 +13,7 @@ class Embedded(_entry.TmeEntry_1):
         distributions: Distribution distributions.
     """
 
-    _REGEX = re.compile(rf'\A({types.Distribution._REGEX.pattern[2:-2]}(?: ?< ?{types.Distribution._REGEX.pattern[2:-2]})*)\Z')
+    _REGEX = re.compile(rf'\A({types.Distribution._REGEX.pattern[2:-2]}(?: ?< ?{types.Distribution._REGEX.pattern[2:-2]})*)\Z', re.IGNORECASE)
 
     def __init__(self, distributions: types.Tuple(types.Distribution)):
         """

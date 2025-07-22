@@ -16,7 +16,7 @@ class Dg(_option.ActOption):
         'source': types.String,
     }
 
-    _REGEX = re.compile(rf'\Adg( {types.String._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Adg( {types.String._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, source: str | types.String):
         """
@@ -62,7 +62,7 @@ class Dg(_option.ActOption):
             elif isinstance(source, str):
                 source = types.String.from_mcnp(source)
 
-        if source is None or source not in {'line', 'mg', 'none'}:
+        if source is None or source.value.lower() not in {'line', 'mg', 'none'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, source)
 
         self._source: types.String = source

@@ -15,7 +15,7 @@ class V(_line.HeaderLine):
         variables: Variable for lines/events.
     """
 
-    _REGEX = re.compile(r'\A((?:.{5,121}?\n)+)\Z')
+    _REGEX = re.compile(r'\A((?:.{5,121}?\n)+)\Z', re.IGNORECASE)
 
     def __init__(self, variables: types.Tuple(types.Real)):
         """

@@ -12,7 +12,7 @@ class Plinear(_option.MplotOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Aplinear\Z')
+    _REGEX = re.compile(r'\Aplinear\Z', re.IGNORECASE)
 
     def __init__(
         self,

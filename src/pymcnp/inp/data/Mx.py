@@ -18,7 +18,7 @@ class Mx(_option.DataOption):
         'zaids': types.Tuple(types.String),
     }
 
-    _REGEX = re.compile(rf'\Amx(\d+):(\S+)((?: (?:{types.Zaid._REGEX.pattern[2:-2]}|j|model|0))+?)\Z')
+    _REGEX = re.compile(rf'\Amx(\d+):(\S+)((?: (?:{types.Zaid._REGEX.pattern[2:-2]}|j|model|0))+?)\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, designator: str | types.Designator, zaids: list[str] | list[types.String]):
         """

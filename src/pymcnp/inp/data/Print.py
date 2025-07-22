@@ -15,7 +15,7 @@ class Print(_option.DataOption):
         'tables': types.Tuple(types.Integer),
     }
 
-    _REGEX = re.compile(rf'\Aprint((?: {types.Integer._REGEX.pattern[2:-2]})+?)?\Z')
+    _REGEX = re.compile(rf'\Aprint((?: {types.Integer._REGEX.pattern[2:-2]})+?)?\Z', re.IGNORECASE)
 
     def __init__(self, tables: list[str] | list[int] | list[types.Integer] = None):
         """

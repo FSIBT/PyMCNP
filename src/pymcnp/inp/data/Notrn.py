@@ -12,7 +12,7 @@ class Notrn(_option.DataOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Anotrn\Z')
+    _REGEX = re.compile(r'\Anotrn\Z', re.IGNORECASE)
 
     def __init__(
         self,

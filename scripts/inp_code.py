@@ -289,7 +289,7 @@ class {CAMEL(element.name)}(_option.{CAMEL(parent_name, 'Option')}):
 
     _ATTRS = {{{ATTRS_DICT(element)}}}
 
-    _REGEX = re.compile(rf"\\A{GET_REGEX(element)}\\Z")
+    _REGEX = re.compile(rf"\\A{GET_REGEX(element)}\\Z", re.IGNORECASE)
     
     def __init__(self, {ATTRS_PARAM(element)}):
         """

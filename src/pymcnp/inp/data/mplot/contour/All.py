@@ -12,7 +12,7 @@ class All(_option.ContourOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Aall\Z')
+    _REGEX = re.compile(r'\Aall\Z', re.IGNORECASE)
 
     def __init__(
         self,

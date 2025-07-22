@@ -17,7 +17,7 @@ class Pd(_option.CellOption):
         'probability': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Apd(\d+)( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Apd(\d+)( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, probability: str | int | float | types.Real):
         """

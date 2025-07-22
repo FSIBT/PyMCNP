@@ -17,7 +17,7 @@ class Entry(_entry.MatcellEntry):
         'cell': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\A({types.Integer._REGEX.pattern[2:-2]}) ({types.Integer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\A({types.Integer._REGEX.pattern[2:-2]}) ({types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, material: str | int | types.Integer, cell: str | int | types.Integer):
         """

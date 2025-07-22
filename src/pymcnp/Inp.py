@@ -13,7 +13,7 @@ class Inp(_object.McnpFile):
     Represents INP files.
     """
 
-    _REGEX = re.compile(r'\A((?:message:).+\n)?(.+(?:\n))([\s\S]+?(?:\n\n))([\s\S]+?(?:\n\n))([\s\S]+?(?:\n\n|\Z))([\S\s]+)?\Z')
+    _REGEX = re.compile(r'\A((?:message:).+\n)?(.+(?:\n))([\s\S]+?(?:\n\n))([\s\S]+?(?:\n\n))([\s\S]+?(?:\n\n|\Z))([\S\s]+)?\Z', re.IGNORECASE)
 
     def __init__(
         self,
@@ -138,7 +138,7 @@ class Inp(_object.McnpFile):
 
 {'\n'.join(map(str, self.data))}
 
-{self.other or ""}
+{self.other if self.other is not None else ""}
 """[1:-1]
 
     def draw(self) -> _visualization.Visualization:

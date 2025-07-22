@@ -17,7 +17,7 @@ class Photonbias(_entry.PikmtEntry):
         'ipiki': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\A({types.Zaid._REGEX.pattern[2:-2]}) ({types.Integer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\A({types.Zaid._REGEX.pattern[2:-2]}) ({types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, zaid: str | types.Zaid, ipiki: str | int | types.Integer):
         """

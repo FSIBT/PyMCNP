@@ -7492,7 +7492,7 @@ cards = ElementScheme(
             INP for ``F_2``.
         """
 
-        return f'{self.prefix or ""}f{self.suffix}{self.a}{f":{self.designator}" if self.designator else ""} {self.rings} {self.nd or ""}'
+        return f'{self.prefix if self.prefix is not None else ""}f{self.suffix}{self.a}{f":{self.designator}" if self.designator is not None else ""} {self.rings} {self.nd if self.nd is not None else ""}'
     ''',
                     attributes=[
                         AttributeScheme(
@@ -12595,14 +12595,14 @@ cards = ElementScheme(
                                     name='access',
                                     type='types.String',
                                     description='access of file to create',
-                                    restriction="access.value not in {'sequential', 'direct', 's', 'd'}",
+                                    restriction="access.value.lower() not in {'sequential', 'direct', 's', 'd'}",
                                     optional=True,
                                 ),
                                 AttributeScheme(
                                     name='form',
                                     type='types.String',
                                     description='Format of file to create',
-                                    restriction="form.value not in {'formatted', 'unformatted', 'f', 'u'}",
+                                    restriction="form.value.lower() not in {'formatted', 'unformatted', 'f', 'u'}",
                                     optional=True,
                                 ),
                                 AttributeScheme(

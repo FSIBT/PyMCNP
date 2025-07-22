@@ -17,7 +17,7 @@ class P_0(_line.EventLine):
         z: Z coordinate of the particle position.
     """
 
-    _REGEX = re.compile(r'\A\s(.{13})(.{13})(.{13})\Z')
+    _REGEX = re.compile(r'\A\s(.{13})(.{13})(.{13})\Z', re.IGNORECASE)
 
     def __init__(
         self,

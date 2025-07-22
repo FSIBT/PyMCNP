@@ -14,7 +14,7 @@ class Geometry(_entry.CellEntry):
         infix: Geometry infix formula.
     """
 
-    _REGEX = re.compile(r'\A(.+)\Z')
+    _REGEX = re.compile(r'\A(.+)\Z', re.IGNORECASE)
 
     def __init__(self, infix: types.String):
         """

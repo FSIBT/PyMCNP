@@ -16,7 +16,7 @@ class Ptrac(_option.DataOption):
         'options': types.Tuple(ptrac.PtracOption),
     }
 
-    _REGEX = re.compile(rf'\Aptrac((?: (?:{ptrac.PtracOption._REGEX.pattern[2:-2]}))+?)?\Z')
+    _REGEX = re.compile(rf'\Aptrac((?: (?:{ptrac.PtracOption._REGEX.pattern[2:-2]}))+?)?\Z', re.IGNORECASE)
 
     def __init__(self, options: list[str] | list[ptrac.PtracOption] = None):
         """

@@ -16,7 +16,7 @@ class Pty(_option.SsrOption):
         'particles': types.Tuple(types.Designator),
     }
 
-    _REGEX = re.compile(rf'\Apty((?: {types.Designator._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Apty((?: {types.Designator._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
 
     def __init__(self, particles: list[str] | list[types.Designator]):
         """

@@ -22,7 +22,7 @@ class Repeat(Horizontal):
         n: Repetition number.
     """
 
-    _REGEX = re.compile(r'\A(\d+)?r\Z')
+    _REGEX = re.compile(r'\A(\d+)?r\Z', re.IGNORECASE)
 
     def __init__(self, n: int = None):
         """
@@ -86,7 +86,7 @@ class Insert(Horizontal):
         n: Repetition number.
     """
 
-    _REGEX = re.compile(r'\A(\d+)?i\Z')
+    _REGEX = re.compile(r'\A(\d+)?i\Z', re.IGNORECASE)
 
     def __init__(self, n: int = None):
         """
@@ -150,7 +150,7 @@ class Multiply(Horizontal):
         x: Multiply number.
     """
 
-    _REGEX = re.compile(r'\A(\d+)m\Z')
+    _REGEX = re.compile(r'\A(\d+)m\Z', re.IGNORECASE)
 
     def __init__(self, x: float):
         """
@@ -214,7 +214,7 @@ class Jump(_object.McnpNonterminal):
         n: Repetition number.
     """
 
-    _REGEX = re.compile(r'\A(\d+)?j\Z')
+    _REGEX = re.compile(r'\A(\d+)?j\Z', re.IGNORECASE)
 
     def __init__(self, n: int = None):
         """
@@ -267,7 +267,7 @@ class Jump(_object.McnpNonterminal):
             MCNP jumps.
         """
 
-        return f'{self.n or ""}j'
+        return f'{self.n if self.n is not None else ""}j'
 
 
 class Log(Horizontal):
@@ -278,7 +278,7 @@ class Log(Horizontal):
         n: Repetition number.
     """
 
-    _REGEX = re.compile(r'\A(\d+)?(log|ilog)\Z')
+    _REGEX = re.compile(r'\A(\d+)?(log|ilog)\Z', re.IGNORECASE)
 
     def __init__(self, n: int = None):
         """

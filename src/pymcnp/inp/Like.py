@@ -18,7 +18,7 @@ class Like(_card.Card):
         'options': types.Tuple(like.LikeOption),
     }
 
-    _REGEX = re.compile(rf'\A(\S+) like (\S+) but((?: (?:{like.LikeOption._REGEX.pattern[2:-2]}))+?)?\Z')
+    _REGEX = re.compile(rf'\A(\S+) like (\S+) but((?: (?:{like.LikeOption._REGEX.pattern[2:-2]}))+?)?\Z', re.IGNORECASE)
 
     def __init__(
         self,
@@ -50,7 +50,7 @@ class Like(_card.Card):
             INP cell card.
         """
 
-        source = f'{self.number} like {self.cell} but {self.options or ""}'
+        source = f'{self.number} like {self.cell} but {self.options if self.options is not None else ""}'
         source, comments = _parser.preprocess_inp(source)
         source = _parser.postprocess_inp(source)
 

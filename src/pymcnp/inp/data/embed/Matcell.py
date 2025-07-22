@@ -17,7 +17,7 @@ class Matcell(_option.EmbedOption):
         'pairs': types.Tuple(matcell.Entry),
     }
 
-    _REGEX = re.compile(rf'\Amatcell((?: {matcell.Entry._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Amatcell((?: {matcell.Entry._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
 
     def __init__(self, pairs: list[str] | list[matcell.Entry]):
         """

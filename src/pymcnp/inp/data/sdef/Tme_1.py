@@ -16,7 +16,7 @@ class Tme_1(_option.SdefOption):
         'time': tme_1.Embedded,
     }
 
-    _REGEX = re.compile(rf'\Atme( {tme_1.Embedded._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Atme( {tme_1.Embedded._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, time: str | tme_1.Embedded):
         """

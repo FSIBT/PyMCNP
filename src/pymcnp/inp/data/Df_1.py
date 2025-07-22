@@ -18,7 +18,7 @@ class Df_1(_option.DataOption):
         'options': types.Tuple(df_1.DfOption_1),
     }
 
-    _REGEX = re.compile(rf'\Adf(\d+)((?: (?:{df_1.DfOption_1._REGEX.pattern[2:-2]}))+?)\Z')
+    _REGEX = re.compile(rf'\Adf(\d+)((?: (?:{df_1.DfOption_1._REGEX.pattern[2:-2]}))+?)\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, options: list[str] | list[df_1.DfOption_1]):
         """

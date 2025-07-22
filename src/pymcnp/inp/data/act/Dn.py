@@ -16,7 +16,7 @@ class Dn(_option.ActOption):
         'source': types.String,
     }
 
-    _REGEX = re.compile(rf'\Adn( {types.String._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Adn( {types.String._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, source: str | types.String):
         """
@@ -62,7 +62,7 @@ class Dn(_option.ActOption):
             elif isinstance(source, str):
                 source = types.String.from_mcnp(source)
 
-        if source is None or source not in {'model', 'library', 'both', 'prompt'}:
+        if source is None or source.value.lower() not in {'model', 'library', 'both', 'prompt'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, source)
 
         self._source: types.String = source

@@ -16,7 +16,7 @@ class Emesh(_option.FmeshOption):
         'energy': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Aemesh( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Aemesh( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, energy: str | int | float | types.Real):
         """

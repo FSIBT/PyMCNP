@@ -16,7 +16,7 @@ class Estep(_option.MOption_0):
         'step': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Aestep( {types.Integer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Aestep( {types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, step: str | int | types.Integer):
         """

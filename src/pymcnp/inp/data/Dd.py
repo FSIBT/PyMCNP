@@ -18,7 +18,7 @@ class Dd(_option.DataOption):
         'diagnostics': types.Tuple(dd.Diagnostic),
     }
 
-    _REGEX = re.compile(rf'\Add(\d+)?((?: {dd.Diagnostic._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Add(\d+)?((?: {dd.Diagnostic._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
 
     def __init__(self, diagnostics: list[str] | list[dd.Diagnostic], suffix: str | int | types.Integer = None):
         """

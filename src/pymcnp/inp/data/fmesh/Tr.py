@@ -16,7 +16,7 @@ class Tr(_option.FmeshOption):
         'number': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Atr( {types.Integer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Atr( {types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, number: str | int | types.Integer):
         """

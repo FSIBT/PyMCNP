@@ -12,7 +12,7 @@ class Linlog(_option.MplotOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Alinlog\Z')
+    _REGEX = re.compile(r'\Alinlog\Z', re.IGNORECASE)
 
     def __init__(
         self,

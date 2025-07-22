@@ -14,7 +14,7 @@ class String(_type.Type):
         value: String value.
     """
 
-    _REGEX = re.compile(r'\A\S+\Z')
+    _REGEX = re.compile(r'\A\S+\Z', re.IGNORECASE)
 
     def __init__(self, value: str):
         """

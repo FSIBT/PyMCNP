@@ -18,7 +18,7 @@ class Bem(_option.SdefOption):
         'bml': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Abem( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Abem( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, exn: str | int | float | types.Real, eyn: str | int | float | types.Real, bml: str | int | float | types.Real):
         """

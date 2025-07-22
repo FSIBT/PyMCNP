@@ -15,7 +15,7 @@ class Zd(_option.DataOption):
         'anything': types.String,
     }
 
-    _REGEX = re.compile(rf'\Azd( {types.String._REGEX.pattern[2:-2]})?\Z')
+    _REGEX = re.compile(rf'\Azd( {types.String._REGEX.pattern[2:-2]})?\Z', re.IGNORECASE)
 
     def __init__(self, anything: str | types.String = None):
         """

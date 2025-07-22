@@ -12,7 +12,7 @@ class Linlin(_option.MplotOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Alinlin\Z')
+    _REGEX = re.compile(r'\Alinlin\Z', re.IGNORECASE)
 
     def __init__(
         self,

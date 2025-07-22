@@ -21,7 +21,8 @@ class Contour(_option.MplotOption):
     }
 
     _REGEX = re.compile(
-        rf'\Acontour( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})((?: (?:{contour.ContourOption._REGEX.pattern[2:-2]}))+?)?\Z'
+        rf'\Acontour( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})((?: (?:{contour.ContourOption._REGEX.pattern[2:-2]}))+?)?\Z',
+        re.IGNORECASE,
     )
 
     def __init__(self, cmin: str | int | float | types.Real, cmax: str | int | float | types.Real, cstep: str | int | float | types.Real, options: list[str] | list[contour.ContourOption] = None):

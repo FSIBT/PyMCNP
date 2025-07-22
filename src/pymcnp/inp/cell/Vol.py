@@ -16,7 +16,7 @@ class Vol(_option.CellOption):
         'volume': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Avol( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Avol( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, volume: str | int | float | types.Real):
         """

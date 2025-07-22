@@ -12,7 +12,7 @@ class Noall(_option.FreeOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Anoall\Z')
+    _REGEX = re.compile(r'\Anoall\Z', re.IGNORECASE)
 
     def __init__(
         self,

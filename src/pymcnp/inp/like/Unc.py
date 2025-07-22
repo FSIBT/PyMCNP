@@ -17,7 +17,7 @@ class Unc(_option.LikeOption):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Aunc:(\S+)( {types.Integer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Aunc:(\S+)( {types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, designator: str | types.Designator, setting: str | int | types.Integer):
         """

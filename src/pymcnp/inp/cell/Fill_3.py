@@ -18,7 +18,7 @@ class Fill_3(_option.CellOption):
         'transformation': types.Transformation_2,
     }
 
-    _REGEX = re.compile(rf'\A([*])?fill( {types.Integer._REGEX.pattern[2:-2]})( {types.Transformation_2._REGEX.pattern[2:-2]}| [(]{types.Transformation_2._REGEX.pattern[2:-2]}[)])?\Z')
+    _REGEX = re.compile(rf'\A([*])?fill( {types.Integer._REGEX.pattern[2:-2]})( {types.Transformation_2._REGEX.pattern[2:-2]}| [(]{types.Transformation_2._REGEX.pattern[2:-2]}[)])?\Z', re.IGNORECASE)
 
     def __init__(self, universe: str | int | types.Integer, prefix: str | types.String = None, transformation: str | types.Transformation_2 = None):
         """
@@ -68,7 +68,7 @@ class Fill_3(_option.CellOption):
             elif isinstance(prefix, str):
                 prefix = types.String.from_mcnp(prefix)
 
-        if prefix is not None and prefix not in {'*'}:
+        if prefix is not None and prefix.value.lower() not in {'*'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
 
         self._prefix: types.String = prefix

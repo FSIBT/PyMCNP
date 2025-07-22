@@ -16,7 +16,7 @@ class Tme_0(_option.SdefOption):
         'time': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Atme( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Atme( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, time: str | int | float | types.Real):
         """

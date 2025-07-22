@@ -17,7 +17,8 @@ class Event(_block.HistoryBlock):
     """
 
     _REGEX = re.compile(
-        rf'\A((?:{event.J_0._REGEX.pattern[2:-2]})|(?:{event.J_1._REGEX.pattern[2:-2]})|(?:{event.J_2._REGEX.pattern[2:-2]})|(?:{event.J_3._REGEX.pattern[2:-2]})|(?:{event.J_4._REGEX.pattern[2:-2]})|(?:{event.J_5._REGEX.pattern[2:-2]})|(?:{event.J_6._REGEX.pattern[2:-2]})|(?:{event.J_7._REGEX.pattern[2:-2]}))\n((?:{event.P_0._REGEX.pattern[2:-2]})|(?:{event.P_1._REGEX.pattern[2:-2]}))\n\Z'
+        rf'\A((?:{event.J_0._REGEX.pattern[2:-2]})|(?:{event.J_1._REGEX.pattern[2:-2]})|(?:{event.J_2._REGEX.pattern[2:-2]})|(?:{event.J_3._REGEX.pattern[2:-2]})|(?:{event.J_4._REGEX.pattern[2:-2]})|(?:{event.J_5._REGEX.pattern[2:-2]})|(?:{event.J_6._REGEX.pattern[2:-2]})|(?:{event.J_7._REGEX.pattern[2:-2]}))\n((?:{event.P_0._REGEX.pattern[2:-2]})|(?:{event.P_1._REGEX.pattern[2:-2]}))\n\Z',
+        re.IGNORECASE,
     )
 
     def __init__(

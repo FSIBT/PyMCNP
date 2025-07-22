@@ -21,7 +21,7 @@ class Subtally_1(_subblock.TallySubblock):
         total: Total line.
     """
 
-    _REGEX = re.compile(r'\A surface {2}([^\n]+)\n angle {2}bin: {2}([^\n]{12}) to {2}([^\n]{11}) degrees {85}\n {6}energy {3}\n((?:[^\n]+\n)+?) {6}total {6}([^\n]+)\n ?\n\Z')
+    _REGEX = re.compile(r'\A surface {2}([^\n]+)\n angle {2}bin: {2}([^\n]{12}) to {2}([^\n]{11}) degrees {85}\n {6}energy {3}\n((?:[^\n]+\n)+?) {6}total {6}([^\n]+)\n ?\n\Z', re.IGNORECASE)
 
     def __init__(
         self,

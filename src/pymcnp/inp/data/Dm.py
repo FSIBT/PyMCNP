@@ -17,7 +17,7 @@ class Dm(_option.DataOption):
         'zaids': types.Tuple(types.Zaid),
     }
 
-    _REGEX = re.compile(rf'\Adm(\d+)((?: {types.Zaid._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(rf'\Adm(\d+)((?: {types.Zaid._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, zaids: list[str] | list[types.Zaid]):
         """

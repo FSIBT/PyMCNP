@@ -19,7 +19,7 @@ class Ssw(_option.DataOption):
         'options': types.Tuple(ssw.SswOption),
     }
 
-    _REGEX = re.compile(rf'\Assw((?: {types.Integer._REGEX.pattern[2:-2]})+?)((?: {types.Integer._REGEX.pattern[2:-2]})+?)?((?: (?:{ssw.SswOption._REGEX.pattern[2:-2]}))+?)?\Z')
+    _REGEX = re.compile(rf'\Assw((?: {types.Integer._REGEX.pattern[2:-2]})+?)((?: {types.Integer._REGEX.pattern[2:-2]})+?)?((?: (?:{ssw.SswOption._REGEX.pattern[2:-2]}))+?)?\Z', re.IGNORECASE)
 
     def __init__(self, surfaces: list[str] | list[int] | list[types.Integer], cells: list[str] | list[int] | list[types.Integer] = None, options: list[str] | list[ssw.SswOption] = None):
         """

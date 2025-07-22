@@ -19,7 +19,7 @@ class Free(_option.MplotOption):
         'option': free.FreeOption,
     }
 
-    _REGEX = re.compile(rf'\Afree( {types.String._REGEX.pattern[2:-2]})( {types.String._REGEX.pattern[2:-2]})( (?:{free.FreeOption._REGEX.pattern[2:-2]}))?\Z')
+    _REGEX = re.compile(rf'\Afree( {types.String._REGEX.pattern[2:-2]})( {types.String._REGEX.pattern[2:-2]})( (?:{free.FreeOption._REGEX.pattern[2:-2]}))?\Z', re.IGNORECASE)
 
     def __init__(self, x: str | types.String, y: str | types.String, option: str | free.FreeOption = None):
         """
@@ -69,7 +69,7 @@ class Free(_option.MplotOption):
             elif isinstance(x, str):
                 x = types.String.from_mcnp(x)
 
-        if x is None or x not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't', 'i', 'j', 'k'}:
+        if x is None or x.value.lower() not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't', 'i', 'j', 'k'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
 
         self._x: types.String = x
@@ -105,7 +105,7 @@ class Free(_option.MplotOption):
             elif isinstance(y, str):
                 y = types.String.from_mcnp(y)
 
-        if y is None or y not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't', 'i', 'j', 'k'}:
+        if y is None or y.value.lower() not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't', 'i', 'j', 'k'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y)
 
         self._y: types.String = y

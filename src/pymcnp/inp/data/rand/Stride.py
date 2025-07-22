@@ -16,7 +16,7 @@ class Stride(_option.RandOption):
         'stride': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Astride( {types.Integer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Astride( {types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, stride: str | int | types.Integer):
         """

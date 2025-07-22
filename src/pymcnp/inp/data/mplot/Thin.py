@@ -12,7 +12,7 @@ class Thin(_option.MplotOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Athin\Z')
+    _REGEX = re.compile(r'\Athin\Z', re.IGNORECASE)
 
     def __init__(
         self,

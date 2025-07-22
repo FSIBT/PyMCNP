@@ -12,7 +12,7 @@ class Cop(_option.MplotOption):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'\Acop\Z')
+    _REGEX = re.compile(r'\Acop\Z', re.IGNORECASE)
 
     def __init__(
         self,

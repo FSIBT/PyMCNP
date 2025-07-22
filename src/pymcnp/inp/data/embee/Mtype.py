@@ -16,7 +16,7 @@ class Mtype(_option.EmbeeOption):
         'kind': types.String,
     }
 
-    _REGEX = re.compile(rf'\Amtype( {types.String._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Amtype( {types.String._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, kind: str | types.String):
         """
@@ -62,7 +62,7 @@ class Mtype(_option.EmbeeOption):
             elif isinstance(kind, str):
                 kind = types.String.from_mcnp(kind)
 
-        if kind is None or kind not in {'flux', 'isotropic', 'population', 'reaction', 'source', 'track'}:
+        if kind is None or kind.value.lower() not in {'flux', 'isotropic', 'population', 'reaction', 'source', 'track'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kind)
 
         self._kind: types.String = kind

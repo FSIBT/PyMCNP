@@ -19,7 +19,7 @@ class Stochastic(_entry.UranEntry):
         'maximum_z': types.Real,
     }
 
-    _REGEX = re.compile(rf'\A({types.Integer._REGEX.pattern[2:-2]}) ({types.Real._REGEX.pattern[2:-2]}) ({types.Real._REGEX.pattern[2:-2]}) ({types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\A({types.Integer._REGEX.pattern[2:-2]}) ({types.Real._REGEX.pattern[2:-2]}) ({types.Real._REGEX.pattern[2:-2]}) ({types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, universe: str | int | types.Integer, maximum_x: str | int | float | types.Real, maximum_y: str | int | float | types.Real, maximum_z: str | int | float | types.Real):
         """

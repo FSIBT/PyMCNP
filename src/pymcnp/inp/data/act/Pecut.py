@@ -16,7 +16,7 @@ class Pecut(_option.ActOption):
         'cutoff': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Apecut( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Apecut( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
     def __init__(self, cutoff: str | int | float | types.Real):
         """
