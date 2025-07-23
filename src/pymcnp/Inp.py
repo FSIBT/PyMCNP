@@ -1,11 +1,11 @@
 import re
 
 from . import inp
+from . import _show
 from . import types
 from . import errors
 from .utils import _parser
 from .utils import _object
-from .utils import _visualization
 
 
 class Inp(_object.McnpFile):
@@ -141,7 +141,7 @@ class Inp(_object.McnpFile):
 {self.other if self.other is not None else ""}
 """[1:-1]
 
-    def draw(self) -> _visualization.Visualization:
+    def draw(self) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Inp``.
 
@@ -158,7 +158,7 @@ class Inp(_object.McnpFile):
                     vis += surface.draw()
             return vis
 
-        return _visualization.Visualization()
+        return None
 
     @property
     def title(self) -> types.Integer:

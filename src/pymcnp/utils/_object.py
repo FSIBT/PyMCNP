@@ -25,18 +25,18 @@ class McnpTerminal(enum.Enum, metaclass=McnpTerminalMeta):
 
     @classmethod
     @abc.abstractmethod
-    def from_mcnp(cls, source: str):
+    def from_mcnp(cls, source: str):  # pragma: no cover
         raise NotImplementedError
 
     @abc.abstractmethod
-    def to_mcnp(self):
+    def to_mcnp(self):  # pragma: no cover
         raise NotImplementedError
 
     def __str__(self):
         return self.to_mcnp()
 
     def __eq__(a, b):
-        return (a.__dict__ if a else None) == (b.__dict__ if b else None)
+        return (str(a) if a else None) == (str(b) if b else None)
 
 
 class McnpNonterminalMeta(abc.ABCMeta):
@@ -56,18 +56,18 @@ class McnpNonterminal(metaclass=McnpNonterminalMeta):
 
     @classmethod
     @abc.abstractmethod
-    def from_mcnp(cls, source: str):
+    def from_mcnp(cls, source: str):  # pragma: no cover
         raise NotImplementedError
 
     @abc.abstractmethod
-    def to_mcnp(self):
+    def to_mcnp(self):  # pragma: no cover
         raise NotImplementedError
 
     def __str__(self):
         return self.to_mcnp()
 
     def __eq__(a, b):
-        return (a.__dict__ if a else None) == (b.__dict__ if b else None)
+        return (str(a) if a else None) == (str(b) if b else None)
 
 
 class McnpFile(McnpNonterminal, metaclass=abc.ABCMeta):
@@ -106,9 +106,3 @@ class McnpFile(McnpNonterminal, metaclass=abc.ABCMeta):
 
         filename = pathlib.Path(filename)
         filename.write_text(self.to_mcnp())
-
-    def __str__(self):
-        return self.to_mcnp()
-
-    def __eq__(a, b):
-        return (a.__dict__ if a else None) == (b.__dict__ if b else None)

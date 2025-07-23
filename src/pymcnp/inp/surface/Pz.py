@@ -1,9 +1,10 @@
 import re
 
+
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
-from ...utils import _visualization
 
 
 class Pz(_option.SurfaceOption):
@@ -70,14 +71,14 @@ class Pz(_option.SurfaceOption):
 
         self._d: types.Real = d
 
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Pz``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Pz``
+            ``_show.Shape`` for ``Pz``
         """
 
-        vis = _visualization.Visualization.get_plane(0, 0, 1, float(self.d))
+        vis = shapes.Plane(0, 0, 1, float(self.d))
 
         return vis

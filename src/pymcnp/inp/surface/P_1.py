@@ -1,9 +1,11 @@
 import re
 
+import numpy
+
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
-from ...utils import _visualization
 
 
 class P_1(_option.SurfaceOption):
@@ -412,18 +414,18 @@ class P_1(_option.SurfaceOption):
 
         self._z3: types.Real = z3
 
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``P_1``.
 
         Returns:
-            ``pyvista.PolyData`` for ``P_1``
+            ``_show.Shape`` for ``P_1``
         """
 
-        a = _visualization.Vector(self.x2 - self.x1, self.y2 - self.y1, self.z2 - self.z1)
-        b = _visualization.Vector(self.x3 - self.x1, self.y3 - self.y1, self.z3 - self.z1)
-        n = a * b
+        a = numpy.array((float(self.x2 - self.x1), float(self.y2 - self.y1), float(self.z2 - self.z1)))
+        b = numpy.array((float(self.x3 - self.x1), float(self.y3 - self.y1), float(self.z3 - self.z1)))
+        n = numpy.cross(a, b)
 
-        vis = _visualization.Visualization.get_plane(float(n.x), float(n.y), float(n.z), float(n.x * self.x1) + float(n.y * self.y1) + float(n.z * self.z1))
+        vis = shapes.Plane(n[0], n[1], n[2], n[0] * float(self.x1) + n[1] * float(self.y1) + n[2] * float(self.z1))
 
         return vis

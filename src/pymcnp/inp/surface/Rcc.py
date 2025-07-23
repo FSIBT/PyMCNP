@@ -1,9 +1,11 @@
 import re
 
+import numpy
+
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
-from ...utils import _visualization
 
 
 class Rcc(_option.SurfaceOption):
@@ -328,22 +330,22 @@ class Rcc(_option.SurfaceOption):
 
         self._r: types.Real = r
 
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Rcc``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Rcc``
+            ``_show.Shape`` for ``Rcc``
         """
 
-        v = _visualization.Vector(self.vx, self.vy, self.vz)
-        h = _visualization.Vector(self.hx, self.hy, self.hz)
+        v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))
+        h = numpy.array((float(self.hx), float(self.hy), float(self.hz)))
 
-        cross = v * _visualization.Vector(0, 0, 1)
-        angle = v & _visualization.Vector(0, 0, 1)
+        cross = numpy.cross(v, numpy.array((0, 0, 1)))
+        angle = numpy.degrees(numpy.arccos(v[2] / numpy.linalg.norm(numpy.linalg.norm(v))))
 
-        vis = _visualization.Visualization.get_cylinder_circle(h.norm(), self.r)
-        vis = vis.add_rotation(cross, angle, (0, 0, 0))
-        vis = vis.add_translation(v)
+        vis = shapes.CylinderCircular(numpy.linalg.norm(h), float(self.r))
+        vis = vis.rotate(cross, angle, (0, 0, 0))
+        vis = vis.translate(v)
 
         return vis

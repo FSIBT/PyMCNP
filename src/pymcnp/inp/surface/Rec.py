@@ -1,9 +1,11 @@
 import re
 
+import numpy
+
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
-from ...utils import _visualization
 
 
 class Rec(_option.SurfaceOption):
@@ -532,24 +534,24 @@ class Rec(_option.SurfaceOption):
 
         self._v2z: types.Real = v2z
 
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Rec``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Rec``
+            ``_show.Shape`` for ``Rec``
         """
 
-        v = _visualization.Vector(self.vx, self.vy, self.vz)
-        h = _visualization.Vector(self.hx, self.hy, self.hz)
-        v1 = _visualization.Vector(self.v1x, self.v1y, self.v1z)
-        v2 = _visualization.Vector(self.v2x, self.v2y, self.v2z)
+        v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))
+        h = numpy.array((float(self.hx), float(self.hy), float(self.hz)))
+        v1 = numpy.array((float(self.v1x), float(self.v1y), float(self.v1z)))
+        v2 = numpy.array((float(self.v2x), float(self.v2y), float(self.v2z)))
 
-        cross = v * _visualization.Vector(0, 0, 1)
-        angle = v & _visualization.Vector(0, 0, 1)
+        cross = numpy.cross(v, numpy.array((0, 0, 1)))
+        angle = numpy.degrees(numpy.arccos(v[2] / numpy.linalg.norm(v)))
 
-        vis = _visualization.Visualization.get_cylinder_ellipse(h.norm(), v1.norm(), v2.norm())
-        vis = vis.add_rotation(cross, angle, (0, 0, 0))
-        vis = vis.add_translation(v)
+        vis = shapes.CylinderElliptical(numpy.linalg.norm(h), numpy.linalg.norm(v1), numpy.linalg.norm(v2))
+        vis = vis.rotate(cross, angle, (0, 0, 0))
+        vis = vis.translate(v)
 
         return vis

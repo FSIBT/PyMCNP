@@ -1,9 +1,11 @@
 import re
 
+import numpy
+
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
-from ...utils import _visualization
 
 
 class Px(_option.SurfaceOption):
@@ -70,15 +72,15 @@ class Px(_option.SurfaceOption):
 
         self._d: types.Real = d
 
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Px``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Px``
+            ``_show.Shape`` for ``Px``
         """
 
-        vis = _visualization.Visualization.get_plane(1, 0, 0, float(self.d))
-        vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
+        vis = shapes.Plane(1, 0, 0, float(self.d))
+        vis = vis.rotate(numpy.array((0, 1, 0)), 90, (0, 0, 0))
 
         return vis

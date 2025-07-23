@@ -1433,6 +1433,22 @@ class ast:
     INP = pymcnp.Inp.from_mcnp(string.INP)
     OUTP = pymcnp.Outp.from_mcnp(string.OUTP)
 
+    class _show:
+        class pyvista:
+            BOX = pymcnp._show.pyvista.Box(0.5, 0.5, 0.5)
+            CONETRUNCATED = pymcnp._show.pyvista.ConeTruncated(0.5, 0.5, 0.5)
+            CONEUNBOUNDED = pymcnp._show.pyvista.ConeUnbounded(0.5, 1)
+            CYLINDERCIRCULAR = pymcnp._show.pyvista.CylinderCircular(0.5, 0.5)
+            CYLINDERELLIPTICAL = pymcnp._show.pyvista.CylinderElliptical(0.5, 0.5, 0.5)
+            CYLINDERHEXAGONAL = pymcnp._show.pyvista.CylinderHexagonal(0.5, 0.5, 0.5, 0.5)
+            CYLINDERUNBOUNDED = pymcnp._show.pyvista.CylinderUnbounded(0.5)
+            ELLIPSOID = pymcnp._show.pyvista.Ellipsoid(0.5, 0.5)
+            PARALLELIPIPED = pymcnp._show.pyvista.Parallelipiped(0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
+            PLANE = pymcnp._show.pyvista.Plane(0.5, 0.5, 0.5, 0.5)
+            SPHERE = pymcnp._show.pyvista.Sphere(0.5)
+            TORUS = pymcnp._show.pyvista.Torus(0.5, 0.5, 0.5)
+            WEDGE = pymcnp._show.pyvista.Wedge(0.5, 0.5, 0.5)
+
     class types:
         REPEAT = pymcnp.types.Repeat.from_mcnp(string.types.REPEAT)
         INSERT = pymcnp.types.Insert.from_mcnp(string.types.INSERT)

@@ -16,8 +16,6 @@ class Test_Init:
         """
 
         for example in self.EXAMPLES_VALID:
-            print(repr(example))
-
             self.element(**example)
 
     def test_invalid(self):
@@ -27,8 +25,6 @@ class Test_Init:
 
         for example in self.EXAMPLES_INVALID:
             with pytest.raises((pymcnp.errors.Error)):
-                print(repr(example))
-
                 self.element(**example)
 
 
@@ -43,14 +39,10 @@ class Test_Mcnp:
         """
 
         for example in self.EXAMPLES_VALID:
-            print(repr(example))
-
             a = self.element.from_mcnp(example)
-            print(repr(a.to_mcnp()))
             b = self.element.from_mcnp(a.to_mcnp())
-            print(repr(b.to_mcnp()))
 
-            assert a.to_mcnp() == b.to_mcnp()
+            assert a == b
 
     def test_invalid(self):
         """
@@ -59,8 +51,6 @@ class Test_Mcnp:
 
         for example in self.EXAMPLES_INVALID:
             with pytest.raises((pymcnp.errors.Error)):
-                print(repr(example))
-
                 self.element.from_mcnp(example)
 
 
@@ -75,15 +65,10 @@ class Test_File:
         """
 
         for example in self.EXAMPLES_VALID:
-            print(repr(example))
-
-            print(repr(example.read_text()))
             a = self.element.from_file(example)
-            print(repr(a.to_mcnp()))
             b = self.element.from_mcnp(a.to_mcnp())
-            print(repr(b.to_mcnp()))
 
-            assert a.to_mcnp() == b.to_mcnp()
+            assert a == b
 
     def test_invalid(self):
         """
@@ -92,7 +77,6 @@ class Test_File:
 
         for example in self.EXAMPLES_INVALID:
             with pytest.raises((pymcnp.errors.Error)):
-                print(repr(example))
                 self.element.from_file(example)
 
 
@@ -106,7 +90,6 @@ class Test_Draw:
         """
 
         for example in self.EXAMPLES:
-            print(repr(example))
             self.element.from_mcnp(example).draw()
 
 
@@ -120,5 +103,4 @@ class Test_Dataframe:
         """
 
         for example in self.EXAMPLES:
-            print(repr(example))
             self.element.from_mcnp(example).to_dataframe()
