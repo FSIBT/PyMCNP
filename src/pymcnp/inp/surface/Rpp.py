@@ -1,9 +1,10 @@
 import re
 
+
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
-from ...utils import _visualization
 
 
 class Rpp(_option.SurfaceOption):
@@ -280,15 +281,15 @@ class Rpp(_option.SurfaceOption):
 
         self._zmax: types.Real = zmax
 
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Rpp``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Rpp``
+            ``_show.Shape`` for ``Rpp``
         """
 
-        vis = _visualization.Visualization.get_parallelipiped(
+        vis = shapes.Parallelipiped(
             float(self.xmin),
             float(self.xmax),
             float(self.ymin),

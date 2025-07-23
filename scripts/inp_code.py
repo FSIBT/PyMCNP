@@ -277,7 +277,7 @@ from {"." * depth}utils import types
 from {"." * depth}utils import errors
 from {"." * depth}utils import _parser
 from {"." * depth}utils import _elements
-from {"." * depth}utils import _visualization
+from {"." * depth}utils import _show
 
 
 class {CAMEL(element.name)}(_option.{CAMEL(parent_name, 'Option')}):

@@ -1,9 +1,11 @@
 import re
 
+import numpy
+
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
-from ...utils import _visualization
 
 
 class Kz(_option.SurfaceOption):
@@ -152,15 +154,15 @@ class Kz(_option.SurfaceOption):
 
         self._plusminus_1: types.Real = plusminus_1
 
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Kz``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Kz``.
+            ``_show.Shape`` for ``Kz``.
         """
 
-        vis = _visualization.Visualization.get_cone_unbounded(float(self.t_squared) ** (1 / 2), float(self.plusminus_1))
-        vis = vis.add_translation(_visualization.Vector(0, 0, self.z))
+        vis = shapes.ConeUnbounded(float(self.t_squared) ** (1 / 2), float(self.plusminus_1))
+        vis = vis.translate(numpy.array((0, 0, float(self.z))))
 
         return vis

@@ -1,9 +1,10 @@
 import re
 
+
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
-from ...utils import _visualization
 
 
 class Cz(_option.SurfaceOption):
@@ -70,14 +71,14 @@ class Cz(_option.SurfaceOption):
 
         self._r: types.Real = r
 
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Cz``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Cz``.
+            ``_show.Shape`` for ``Cz``.
         """
 
-        vis = _visualization.Visualization.get_cylinder_unbounded(float(self.r))
+        vis = shapes.CylinderUnbounded(float(self.r))
 
         return vis

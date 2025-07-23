@@ -1,9 +1,11 @@
 import re
 
+import numpy
+
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
-from ...utils import _visualization
 
 
 class Sx(_option.SurfaceOption):
@@ -111,15 +113,15 @@ class Sx(_option.SurfaceOption):
 
         self._r: types.Real = r
 
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Sx``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Sx``
+            ``_show.Shape`` for ``Sx``
         """
 
-        vis = _visualization.Visualization.get_sphere(float(self.r))
-        vis = vis.add_translation(_visualization.Vector(self.x, 0, 0))
+        vis = shapes.Sphere(float(self.r))
+        vis = vis.translate(numpy.array((float(self.x), 0, 0)))
 
         return vis

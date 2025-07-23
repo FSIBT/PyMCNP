@@ -1,9 +1,11 @@
 import re
 
+import numpy
+
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
-from ...utils import _visualization
 
 
 class Cy(_option.SurfaceOption):
@@ -70,15 +72,15 @@ class Cy(_option.SurfaceOption):
 
         self._r: types.Real = r
 
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Cy``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Cy``.
+            ``_show.Shape`` for ``Cy``.
         """
 
-        vis = _visualization.Visualization.get_cylinder_unbounded(float(self.r))
-        vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
+        vis = shapes.CylinderUnbounded(float(self.r))
+        vis = vis.rotate(numpy.array((1, 0, 0)), 90, (0, 0, 0))
 
         return vis

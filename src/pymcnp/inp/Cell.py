@@ -64,7 +64,7 @@ class Cell(_card.Card):
 
         return source
 
-    #    def draw(self, surfaces: dict[int, _visualization.Visualization]):
+    #    def draw(self, surfaces: dict[int, _show.Visualization]):
     #        """
     #        Generates ``Visualization`` from ``Cell``.
     #
