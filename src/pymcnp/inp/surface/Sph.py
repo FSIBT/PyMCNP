@@ -1,9 +1,11 @@
 import re
 
+import numpy
+
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
-from ...utils import _visualization
 
 
 class Sph(_option.SurfaceOption):
@@ -193,15 +195,15 @@ class Sph(_option.SurfaceOption):
 
         self._r: types.Real = r
 
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Sph``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Sph``
+            ``_show.Shape`` for ``Sph``
         """
 
-        vis = _visualization.Visualization.get_sphere(float(self.r))
-        vis = vis.add_translation(_visualization.Vector(self.vx, self.vy, self.vz))
+        vis = shapes.Sphere(float(self.r))
+        vis = vis.translate(numpy.array((float(self.vx), float(self.vy), float(self.vz))))
 
         return vis

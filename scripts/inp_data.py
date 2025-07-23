@@ -757,15 +757,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Px``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Px``
+            ``_show.Shape`` for ``Px``
         """
 
-        vis = _visualization.Visualization.get_plane(
+        vis = shapes.Plane(
             float(self.a), float(self.b), float(self.c), float(self.d)
         )
 
@@ -823,19 +823,19 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``P_1``.
 
         Returns:
-            ``pyvista.PolyData`` for ``P_1``
+            ``_show.Shape`` for ``P_1``
         """
 
-        a = _visualization.Vector(self.x2 - self.x1, self.y2 - self.y1, self.z2 - self.z1)
-        b = _visualization.Vector(self.x3 - self.x1, self.y3 - self.y1, self.z3 - self.z1)
+        a = _show.Vector(self.x2 - self.x1, self.y2 - self.y1, self.z2 - self.z1)
+        b = _show.Vector(self.x3 - self.x1, self.y3 - self.y1, self.z3 - self.z1)
         n = a * b
 
-        vis = _visualization.Visualization.get_plane(
+        vis = shapes.Plane(
             float(n.x), float(n.y), float(n.z), float(n.x * self.x1) + float(n.y * self.y1) + float(n.z * self.z1)
         )
 
@@ -853,16 +853,16 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Px``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Px``
+            ``_show.Shape`` for ``Px``
         """
 
-        vis = _visualization.Visualization.get_plane(1, 0, 0, float(self.d))
-        vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
+        vis = shapes.Plane(1, 0, 0, float(self.d))
+        vis = vis.rotate(_show.Vector(0, 1, 0), 90, (0, 0, 0))
 
         return vis
     ''',
@@ -878,16 +878,16 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Py``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Py``
+            ``_show.Shape`` for ``Py``
         """
 
-        vis = _visualization.Visualization.get_plane(0, 1, 0, float(self.d))
-        vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
+        vis = shapes.Plane(0, 1, 0, float(self.d))
+        vis = vis.rotate(_show.Vector(1, 0, 0), 90, (0, 0, 0))
 
         return vis
     ''',
@@ -903,15 +903,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Pz``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Pz``
+            ``_show.Shape`` for ``Pz``
         """
 
-        vis = _visualization.Visualization.get_plane(0, 0, 1, float(self.d))
+        vis = shapes.Plane(0, 0, 1, float(self.d))
 
         return vis
     ''',
@@ -927,15 +927,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``So``.
 
         Returns:
-            ``pyvista.PolyData`` for ``So``
+            ``_show.Shape`` for ``So``
         """
 
-        vis = _visualization.Visualization.get_sphere(float(self.r))
+        vis = shapes.Sphere(float(self.r))
 
         return vis
     ''',
@@ -966,16 +966,16 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``S``.
 
         Returns:
-            ``pyvista.PolyData`` for ``S``
+            ``_show.Shape`` for ``S``
         """
 
-        vis = _visualization.Visualization.get_sphere(float(self.r))
-        vis = vis.add_translation(_visualization.Vector(self.x, self.y, self.z))
+        vis = shapes.Sphere(float(self.r))
+        vis = vis.translate(_show.Vector(self.x, self.y, self.z))
 
         return vis
     ''',
@@ -996,16 +996,16 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Sx``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Sx``
+            ``_show.Shape`` for ``Sx``
         """
 
-        vis = _visualization.Visualization.get_sphere(float(self.r))
-        vis = vis.add_translation(_visualization.Vector(self.x, 0, 0))
+        vis = shapes.Sphere(float(self.r))
+        vis = vis.translate(_show.Vector(self.x, 0, 0))
 
         return vis
     ''',
@@ -1026,17 +1026,17 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Sy``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Sy``
+            ``_show.Shape`` for ``Sy``
         """
 
-        vis = _visualization.Visualization.get_sphere(float(self.r))
-        vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(0, self.y, 0))
+        vis = shapes.Sphere(float(self.r))
+        vis = vis.rotate(_show.Vector(1, 0, 0), 90, (0, 0, 0))
+        vis = vis.translate(_show.Vector(0, self.y, 0))
 
         return vis
     ''',
@@ -1057,16 +1057,16 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Sz``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Sz``
+            ``_show.Shape`` for ``Sz``
         """
 
-        vis = _visualization.Visualization.get_sphere(float(self.r))
-        vis = vis.add_translation(_visualization.Vector(0, 0, self.z))
+        vis = shapes.Sphere(float(self.r))
+        vis = vis.translate(_show.Vector(0, 0, self.z))
 
         return vis
     ''',
@@ -1092,17 +1092,17 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``C_x``.
 
         Returns:
-            ``pyvista.PolyData`` for ``C_x``.
+            ``_show.Shape`` for ``C_x``.
         """
 
-        vis = _visualization.Visualization.get_cylinder_unbounded(float(self.r))
-        vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(0, self.y, self.z))
+        vis = shapes.CylinderUnbounded(float(self.r))
+        vis = vis.rotate(_show.Vector(0, 1, 0), 90, (0, 0, 0))
+        vis = vis.translate(_show.Vector(0, self.y, self.z))
 
         return vis
     ''',
@@ -1128,17 +1128,17 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``C_y``.
 
         Returns:
-            ``pyvista.PolyData`` for ``C_y``.
+            ``_show.Shape`` for ``C_y``.
         """
 
-        vis = _visualization.Visualization.get_cylinder_unbounded(float(self.r))
-        vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(self.x, 0, self.z))
+        vis = shapes.CylinderUnbounded(float(self.r))
+        vis = vis.rotate(_show.Vector(1, 0, 0), 90, (0, 0, 0))
+        vis = vis.translate(_show.Vector(self.x, 0, self.z))
 
         return vis
     ''',
@@ -1164,16 +1164,16 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``C_z``.
         Returns:
-            ``pyvista.PolyData`` for ``C_z``.
+            ``_show.Shape`` for ``C_z``.
         """
 
-        vis = _visualization.Visualization.get_cylinder_unbounded(float(self.r))
-        vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(self.x, self.y, 0))
+        vis = shapes.CylinderUnbounded(float(self.r))
+        vis = vis.rotate(_show.Vector(0, 1, 0), 90, (0, 0, 0))
+        vis = vis.translate(_show.Vector(self.x, self.y, 0))
 
         return vis
     ''',
@@ -1189,16 +1189,16 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Cx``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Cx``.
+            ``_show.Shape`` for ``Cx``.
         """
 
-        vis = _visualization.Visualization.get_cylinder_unbounded(float(self.r))
-        vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
+        vis = shapes.CylinderUnbounded(float(self.r))
+        vis = vis.rotate(_show.Vector(0, 1, 0), 90, (0, 0, 0))
 
         return vis
     ''',
@@ -1214,16 +1214,16 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Cy``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Cy``.
+            ``_show.Shape`` for ``Cy``.
         """
 
-        vis = _visualization.Visualization.get_cylinder_unbounded(float(self.r))
-        vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
+        vis = shapes.CylinderUnbounded(float(self.r))
+        vis = vis.rotate(_show.Vector(1, 0, 0), 90, (0, 0, 0))
 
         return vis
     ''',
@@ -1239,15 +1239,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Cz``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Cz``.
+            ``_show.Shape`` for ``Cz``.
         """
 
-        vis = _visualization.Visualization.get_cylinder_unbounded(float(self.r))
+        vis = shapes.CylinderUnbounded(float(self.r))
 
         return vis
     ''',
@@ -1283,19 +1283,19 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``K_x``.
 
         Returns:
-            ``pyvista.PolyData`` for ``K_x``.
+            ``_show.Shape`` for ``K_x``.
         """
 
-        vis = _visualization.Visualization.get_cone_unbounded(
+        vis = shapes.ConeUnbounded(
             float(self.t_squared) ** (1 / 2), float(self.plusminus_1)
         )
-        vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(self.x, self.y, self.z))
+        vis = vis.rotate(_show.Vector(0, 1, 0), 90, (0, 0, 0))
+        vis = vis.translate(_show.Vector(self.x, self.y, self.z))
 
         return vis
     ''',
@@ -1331,19 +1331,19 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``K_y``.
 
         Returns:
-            ``pyvista.PolyData`` for ``K_y``.
+            ``_show.Shape`` for ``K_y``.
         """
 
-        vis = _visualization.Visualization.get_cone_unbounded(
+        vis = shapes.ConeUnbounded(
             float(self.t_squared) ** (1 / 2), float(self.plusminus_1)
         )
-        vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(self.x, self.y, self.z))
+        vis = vis.rotate(_show.Vector(1, 0, 0), 90, (0, 0, 0))
+        vis = vis.translate(_show.Vector(self.x, self.y, self.z))
 
         return vis
     ''',
@@ -1379,18 +1379,18 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``K_z``.
 
         Returns:
-            ``pyvista.PolyData`` for ``K_z``.
+            ``_show.Shape`` for ``K_z``.
         """
 
-        vis = _visualization.Visualization.get_cone_unbounded(
+        vis = shapes.ConeUnbounded(
             float(self.t_squared) ** (1 / 2), float(self.plusminus_1)
         )
-        vis = vis.add_translation(_visualization.Vector(self.x, self.y, self.z))
+        vis = vis.translate(_show.Vector(self.x, self.y, self.z))
 
         return vis
     ''',
@@ -1416,19 +1416,19 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Kx``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Kx``.
+            ``_show.Shape`` for ``Kx``.
         """
 
-        vis = _visualization.Visualization.get_cone_unbounded(
+        vis = shapes.ConeUnbounded(
             float(self.t_squared) ** (1 / 2), float(self.plusminus_1)
         )
-        vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(self.x, 0, 0))
+        vis = vis.rotate(_show.Vector(0, 1, 0), 90, (0, 0, 0))
+        vis = vis.translate(_show.Vector(self.x, 0, 0))
 
         return vis
     ''',
@@ -1454,19 +1454,19 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Ky``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Ky``.
+            ``_show.Shape`` for ``Ky``.
         """
 
-        vis = _visualization.Visualization.get_cone_unbounded(
+        vis = shapes.ConeUnbounded(
             float(self.t_squared) ** (1 / 2), float(self.plusminus_1)
         )
-        vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(0, self.y, 0))
+        vis = vis.rotate(_show.Vector(1, 0, 0), 90, (0, 0, 0))
+        vis = vis.translate(_show.Vector(0, self.y, 0))
 
         return vis
     ''',
@@ -1492,18 +1492,18 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Kz``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Kz``.
+            ``_show.Shape`` for ``Kz``.
         """
 
-        vis = _visualization.Visualization.get_cone_unbounded(
+        vis = shapes.ConeUnbounded(
             float(self.t_squared) ** (1 / 2), float(self.plusminus_1)
         )
-        vis = vis.add_translation(_visualization.Vector(0, 0, self.z))
+        vis = vis.translate(_show.Vector(0, 0, self.z))
 
         return vis
     ''',
@@ -1656,17 +1656,17 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Tx``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Tx``
+            ``_show.Shape`` for ``Tx``
         """
 
-        vis = _visualization.Visualization.get_torus(float(self.b), float(self.c), float(self.a))
-        vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(self.x, self.y, self.z))
+        vis = shapes.Torus(float(self.b), float(self.c), float(self.a))
+        vis = vis.rotate(_show.Vector(0, 1, 0), 90, (0, 0, 0))
+        vis = vis.translate(_show.Vector(self.x, self.y, self.z))
 
         return vis
     ''',
@@ -1707,17 +1707,17 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Ty``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Ty``
+            ``_show.Shape`` for ``Ty``
         """
 
-        vis = _visualization.Visualization.get_torus(float(self.b), float(self.c), float(self.a))
-        vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(self.x, self.y, self.z))
+        vis = shapes.Torus(float(self.b), float(self.c), float(self.a))
+        vis = vis.rotate(_show.Vector(1, 0, 0), 90, (0, 0, 0))
+        vis = vis.translate(_show.Vector(self.x, self.y, self.z))
 
         return vis
     ''',
@@ -1758,16 +1758,16 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Tz``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Tz``
+            ``_show.Shape`` for ``Tz``
         """
 
-        vis = _visualization.Visualization.get_torus(float(self.b), float(self.c), float(self.a))
-        vis = vis.add_translation(_visualization.Vector(self.x, self.y, self.z))
+        vis = shapes.Torus(float(self.b), float(self.c), float(self.a))
+        vis = vis.translate(_show.Vector(self.x, self.y, self.z))
 
         return vis
     ''',
@@ -1958,24 +1958,24 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Box``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Box``.
+            ``_show.Shape`` for ``Box``.
         """
 
-        v = _visualization.Vector(self.vx, self.vy, self.vz)
-        a1 = _visualization.Vector(self.a1x, self.a1y, self.a1z)
-        a2 = _visualization.Vector(self.a2x, self.a2y, self.a2z)
-        a3 = _visualization.Vector(self.a3x, self.a3y, self.a3z)
-        cross = _visualization.Vector(1, 0, 0) * a1
-        angle = _visualization.Vector(1, 0, 0) & a1
+        v = _show.Vector(self.vx, self.vy, self.vz)
+        a1 = _show.Vector(self.a1x, self.a1y, self.a1z)
+        a2 = _show.Vector(self.a2x, self.a2y, self.a2z)
+        a3 = _show.Vector(self.a3x, self.a3y, self.a3z)
+        cross = _show.Vector(1, 0, 0) * a1
+        angle = _show.Vector(1, 0, 0) & a1
 
-        vis = _visualization.Visualization.get_box(a1.norm(), a2.norm(), a3.norm())
-        vis = vis.add_rotation(cross, angle, (0, 0, 0))
-        vis = vis.add_translation(v)
+        vis = shapes.Box(a1.norm(), a2.norm(), a3.norm())
+        vis = vis.rotate(cross, angle, (0, 0, 0))
+        vis = vis.translate(v)
 
         return vis
     ''',
@@ -2018,15 +2018,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Rpp``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Rpp``
+            ``_show.Shape`` for ``Rpp``
         """
 
-        vis = _visualization.Visualization.get_parallelipiped(
+        vis = shapes.Parallelipiped(
             float(self.xmin),
             float(self.xmax),
             float(self.ymin),
@@ -2064,17 +2064,17 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Sph``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Sph``
+            ``_show.Shape`` for ``Sph``
         """
 
-        vis = _visualization.Visualization.get_sphere(float(self.r))
-        vis = vis.add_translation(
-            _visualization.Vector(self.vx, self.vy, self.vz)
+        vis = shapes.Sphere(float(self.r))
+        vis = vis.translate(
+            _show.Vector(self.vx, self.vy, self.vz)
         )
 
         return vis
@@ -2121,23 +2121,23 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Rcc``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Rcc``
+            ``_show.Shape`` for ``Rcc``
         """
 
-        v = _visualization.Vector(self.vx, self.vy, self.vz)
-        h = _visualization.Vector(self.hx, self.hy, self.hz)
+        v = _show.Vector(self.vx, self.vy, self.vz)
+        h = _show.Vector(self.hx, self.hy, self.hz)
 
-        cross = v * _visualization.Vector(0, 0, 1)
-        angle = v & _visualization.Vector(0, 0, 1)
+        cross = v * _show.Vector(0, 0, 1)
+        angle = v & _show.Vector(0, 0, 1)
 
-        vis = _visualization.Visualization.get_cylinder_circle(h.norm(), self.r)
-        vis = vis.add_rotation(cross, angle, (0, 0, 0))
-        vis = vis.add_translation(v)
+        vis = shapes.CylinderCircular(h.norm(), self.r)
+        vis = vis.rotate(cross, angle, (0, 0, 0))
+        vis = vis.translate(v)
 
         return vis
     ''',
@@ -2229,28 +2229,28 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Rhp``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Rhp``
+            ``_show.Shape`` for ``Rhp``
         """
 
-        v = _visualization.Vector(self.vx, self.vy, self.vz)
-        h = _visualization.Vector(self.hx, self.hy, self.hz)
-        r = _visualization.Vector(self.r1, self.r2, self.r3)
-        s = _visualization.Vector(self.s1, self.s2, self.s3)
-        t = _visualization.Vector(self.t1, self.t2, self.t3)
+        v = _show.Vector(self.vx, self.vy, self.vz)
+        h = _show.Vector(self.hx, self.hy, self.hz)
+        r = _show.Vector(self.r1, self.r2, self.r3)
+        s = _show.Vector(self.s1, self.s2, self.s3)
+        t = _show.Vector(self.t1, self.t2, self.t3)
 
-        cross = v * _visualization.Vector(0, 0, 1)
-        angle = v & _visualization.Vector(0, 0, 1)
+        cross = v * _show.Vector(0, 0, 1)
+        angle = v & _show.Vector(0, 0, 1)
 
-        vis = _visualization.Visualization.get_cylinder_hexagon(
+        vis = shapes.CylinderHexagonal(
             h.norm(), r.apothem(), s.apothem(), t.apothem()
         )
-        vis = vis.add_rotation(cross, angle, (0, 0, 0))
-        vis = vis.add_translation(v)
+        vis = vis.rotate(cross, angle, (0, 0, 0))
+        vis = vis.translate(v)
 
         return vis
     ''',
@@ -2323,25 +2323,25 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Rec``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Rec``
+            ``_show.Shape`` for ``Rec``
         """
 
-        v = _visualization.Vector(self.vx, self.vy, self.vz)
-        h = _visualization.Vector(self.hx, self.hy, self.hz)
-        v1 = _visualization.Vector(self.v1x, self.v1y, self.v1z)
-        v2 = _visualization.Vector(self.v2x, self.v2y, self.v2z)
+        v = _show.Vector(self.vx, self.vy, self.vz)
+        h = _show.Vector(self.hx, self.hy, self.hz)
+        v1 = _show.Vector(self.v1x, self.v1y, self.v1z)
+        v2 = _show.Vector(self.v2x, self.v2y, self.v2z)
 
-        cross = v * _visualization.Vector(0, 0, 1)
-        angle = v & _visualization.Vector(0, 0, 1)
+        cross = v * _show.Vector(0, 0, 1)
+        angle = v & _show.Vector(0, 0, 1)
 
-        vis = _visualization.Visualization.get_cylinder_ellipse(h.norm(), v1.norm(), v2.norm())
-        vis = vis.add_rotation(cross, angle, (0, 0, 0))
-        vis = vis.add_translation(v)
+        vis = shapes.CylinderElliptical(h.norm(), v1.norm(), v2.norm())
+        vis = vis.rotate(cross, angle, (0, 0, 0))
+        vis = vis.translate(v)
 
         return vis
     ''',
@@ -2392,25 +2392,25 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Trc``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Trc``
+            ``_show.Shape`` for ``Trc``
         """
 
-        h = _visualization.Vector(self.hx, self.hy, self.hz)
+        h = _show.Vector(self.hx, self.hy, self.hz)
 
-        cross = h * _visualization.Vector(0, 0, 1)
-        angle = h & _visualization.Vector(0, 0, 1)
+        cross = h * _show.Vector(0, 0, 1)
+        angle = h & _show.Vector(0, 0, 1)
 
-        vis = _visualization.Visualization.get_cone_truncated(
+        vis = shapes.ConeTruncated(
             h.norm(), float(self.r1), float(self.r2)
         )
-        vis = vis.add_rotation(cross, angle, (0, 0, 0))
-        vis = vis.add_translation(
-            _visualization.Vector(self.vx, self.vy, self.vz)
+        vis = vis.rotate(cross, angle, (0, 0, 0))
+        vis = vis.translate(
+            _show.Vector(self.vx, self.vy, self.vz)
         )
 
         return vis
@@ -2457,35 +2457,35 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Ell``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Ell``.
+            ``_show.Shape`` for ``Ell``.
         """
 
-        v1 = _visualization.Vector(self.v1x, self.v1y, self.v1z)
-        v2 = _visualization.Vector(self.v2x, self.v2y, self.v2z)
+        v1 = _show.Vector(self.v1x, self.v1y, self.v1z)
+        v2 = _show.Vector(self.v2x, self.v2y, self.v2z)
 
         if self.rm > 0:
-            center = _visualization.Vector(
+            center = _show.Vector(
                 (v2 - v1).x / 2 + v1.x, (v2 - v1).y / 2 + v1.y, (v2 - v1).z / 2 + v1.z
             )
             major_length = float(self.rm)
             minor_length = 2 * (((major_length / 2) ** 2 - ((v2 - v1).norm() / 2) ** 2) ** 0.5)
-            cross = (v2 - v1) * _visualization.Vector(1, 0, 0)
-            angle = (v2 - v1) & _visualization.Vector(1, 0, 0)
+            cross = (v2 - v1) * _show.Vector(1, 0, 0)
+            angle = (v2 - v1) & _show.Vector(1, 0, 0)
         elif self.rm < 0:
             center = v1
             major_length = v2.norm()
             minor_length = -float(self.rm)
-            cross = v2 * _visualization.Vector(1, 0, 0)
-            angle = v2 & _visualization.Vector(1, 0, 0)
+            cross = v2 * _show.Vector(1, 0, 0)
+            angle = v2 & _show.Vector(1, 0, 0)
 
-        vis = _visualization.Visualization.get_ellipsoid(major_length, minor_length)
-        vis = vis.add_rotation(cross, angle, (0, 0, 0))
-        vis = vis.add_translation(center)
+        vis = shapes.Ellipsoid(major_length, minor_length)
+        vis = vis.rotate(cross, angle, (0, 0, 0))
+        vis = vis.translate(center)
 
         return vis
     ''',
@@ -2556,25 +2556,25 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Wed``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Wed``
+            ``_show.Shape`` for ``Wed``
         """
 
-        v = _visualization.Vector(self.vx, self.vy, self.vz)
-        v1 = _visualization.Vector(self.v1x, self.v1y, self.v1z)
-        v2 = _visualization.Vector(self.v2x, self.v2y, self.v2z)
-        v3 = _visualization.Vector(self.v3x, self.v3y, self.v3z)
+        v = _show.Vector(self.vx, self.vy, self.vz)
+        v1 = _show.Vector(self.v1x, self.v1y, self.v1z)
+        v2 = _show.Vector(self.v2x, self.v2y, self.v2z)
+        v3 = _show.Vector(self.v3x, self.v3y, self.v3z)
 
-        cross = _visualization.Vector(1, 0, 0) * v1
-        angle = _visualization.Vector(1, 0, 0) & v1
+        cross = _show.Vector(1, 0, 0) * v1
+        angle = _show.Vector(1, 0, 0) & v1
 
-        vis = _visualization.Visualization.get_wedge(v1.norm(), v2.norm(), v3.norm())
-        vis = vis.add_rotation(cross, angle, (0, 0, 0))
-        vis = vis.add_translation(v)
+        vis = shapes.Wedge(v1.norm(), v2.norm(), v3.norm())
+        vis = vis.rotate(cross, angle, (0, 0, 0))
+        vis = vis.translate(v)
 
         return vis
     ''',

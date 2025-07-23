@@ -3,6 +3,7 @@ import re
 from . import cell
 from . import surface
 from . import _card
+from .. import _show
 from .. import types
 from .. import errors
 from ..utils import _parser
@@ -64,15 +65,15 @@ class Surface(_card.Card):
 
         return source
 
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Surface``.
 
         Returns:
-            ``pyvista.PolySurface`` for ``Surface``
+            ``pyvista.PolySurface`` for ``Surface``.
         """
 
-        return self.option.draw()
+        return self.option.draw(shapes)
 
     def __and__(a, b):
         """

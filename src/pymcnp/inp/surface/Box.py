@@ -1,9 +1,11 @@
 import re
 
+import numpy
+
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
-from ...utils import _visualization
 
 
 class Box(_option.SurfaceOption):
@@ -538,23 +540,27 @@ class Box(_option.SurfaceOption):
 
         self._a3z: types.Real = a3z
 
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Box``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
-            ``pyvista.PolyData`` for ``Box``.
+            ``_show.Shape`` for ``Box``.
         """
 
-        v = _visualization.Vector(self.vx, self.vy, self.vz)
-        a1 = _visualization.Vector(self.a1x, self.a1y, self.a1z)
-        a2 = _visualization.Vector(self.a2x, self.a2y, self.a2z)
-        a3 = _visualization.Vector(self.a3x, self.a3y, self.a3z)
-        cross = _visualization.Vector(1, 0, 0) * a1
-        angle = _visualization.Vector(1, 0, 0) & a1
+        v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))
+        a1 = numpy.array((float(self.a1x), float(self.a1y), float(self.a1z)))
+        a2 = numpy.array((float(self.a2x), float(self.a2y), float(self.a2z)))
+        a3 = numpy.array((float(self.a3x), float(self.a3y), float(self.a3z)))
 
-        vis = _visualization.Visualization.get_box(a1.norm(), a2.norm(), a3.norm())
-        vis = vis.add_rotation(cross, angle, (0, 0, 0))
-        vis = vis.add_translation(v)
+        cross = numpy.cross(numpy.array((1, 0, 0)), a1)
+        angle = numpy.degrees(numpy.arccos(a1[0] / numpy.linalg.norm(a1)))
+
+        vis = shapes.Box(numpy.linalg.norm(a1), numpy.linalg.norm(a2), numpy.linalg.norm(a3))
+        vis = vis.rotate(cross, angle, (0, 0, 0))
+        vis = vis.translate(v)
 
         return vis

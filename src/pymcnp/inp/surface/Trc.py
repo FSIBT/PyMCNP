@@ -1,9 +1,11 @@
 import re
 
+import numpy
+
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
-from ...utils import _visualization
 
 
 class Trc(_option.SurfaceOption):
@@ -370,21 +372,21 @@ class Trc(_option.SurfaceOption):
 
         self._r2: types.Real = r2
 
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Trc``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Trc``
+            ``_show.Shape`` for ``Trc``
         """
 
-        h = _visualization.Vector(self.hx, self.hy, self.hz)
+        h = numpy.array((float(self.hx), float(self.hy), float(self.hz)))
 
-        cross = h * _visualization.Vector(0, 0, 1)
-        angle = h & _visualization.Vector(0, 0, 1)
+        cross = numpy.cross(h, numpy.array((0, 0, 1)))
+        angle = numpy.degrees(numpy.arccos(h[2] / numpy.linalg.norm(h)))
 
-        vis = _visualization.Visualization.get_cone_truncated(h.norm(), float(self.r1), float(self.r2))
-        vis = vis.add_rotation(cross, angle, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(self.vx, self.vy, self.vz))
+        vis = shapes.ConeTruncated(numpy.linalg.norm(h), float(self.r1), float(self.r2))
+        vis = vis.rotate(cross, angle, (0, 0, 0))
+        vis = vis.translate(numpy.array((float(self.vx), float(self.vy), float(self.vz))))
 
         return vis

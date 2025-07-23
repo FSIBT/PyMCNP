@@ -1,9 +1,11 @@
 import re
 
+import numpy
+
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
-from ...utils import _visualization
 
 
 class Tz(_option.SurfaceOption):
@@ -286,15 +288,15 @@ class Tz(_option.SurfaceOption):
 
         self._c: types.Real = c
 
-    def draw(self):
+    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Tz``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Tz``
+            ``_show.Shape`` for ``Tz``
         """
 
-        vis = _visualization.Visualization.get_torus(float(self.b), float(self.c), float(self.a))
-        vis = vis.add_translation(_visualization.Vector(self.x, self.y, self.z))
+        vis = shapes.Torus(float(self.b), float(self.c), float(self.a))
+        vis = vis.translate(numpy.array((float(self.x), float(self.y), float(self.z))))
 
         return vis
