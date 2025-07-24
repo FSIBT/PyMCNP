@@ -1,7 +1,7 @@
-from ..utils import _object
+from .. import _symbol
 
 
-class Line(_object.McnpNonterminal):
+class Line(_symbol.Nonterminal):
     """
     Represents generic PTRAC lines.
     """

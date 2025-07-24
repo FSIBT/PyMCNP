@@ -6,10 +6,10 @@ import typing
 from . import header
 from .. import types
 from .. import errors
-from ..utils import _object
+from .. import _symbol
 
 
-class Header(_object.McnpNonterminal):
+class Header(_symbol.Nonterminal):
     """
     Represents PTRAC header blocks.
 

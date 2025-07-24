@@ -3,7 +3,7 @@ import typing
 
 from . import _type
 from .. import errors
-from ..utils import _object
+from .. import _symbol
 
 
 class Horizontal(_type.Type):
@@ -206,7 +206,7 @@ class Multiply(Horizontal):
         return f'{self.x}m'
 
 
-class Jump(_object.McnpNonterminal):
+class Jump(_symbol.Nonterminal):
     """
     Represents MCNP jumps.
 

@@ -2,13 +2,13 @@ import re
 
 from . import inp
 from . import _show
+from . import _file
 from . import types
 from . import errors
 from .utils import _parser
-from .utils import _object
 
 
-class Inp(_object.McnpFile):
+class Inp(_file.File):
     """
     Represents INP files.
     """

@@ -1,9 +1,6 @@
 import re
 import abc
 import enum
-import pathlib
-
-from .. import errors
 
 
 class classproperty:
@@ -14,11 +11,11 @@ class classproperty:
         return self.func(owner)
 
 
-class McnpTerminalMeta(enum.EnumMeta, abc.ABCMeta):
+class TerminalMeta(enum.EnumMeta, abc.ABCMeta):
     pass
 
 
-class McnpTerminal(enum.Enum, metaclass=McnpTerminalMeta):
+class Terminal(enum.Enum, metaclass=TerminalMeta):
     """
     Represents generic MCNP terminal symbols.
     """
@@ -39,11 +36,7 @@ class McnpTerminal(enum.Enum, metaclass=McnpTerminalMeta):
         return (str(a) if a else None) == (str(b) if b else None)
 
 
-class McnpNonterminalMeta(abc.ABCMeta):
-    pass
-
-
-class McnpNonterminal(metaclass=McnpNonterminalMeta):
+class Nonterminal(metaclass=abc.ABCMeta):
     """
     Represents generic MCNP nonterminal symbols.
     """
@@ -68,41 +61,3 @@ class McnpNonterminal(metaclass=McnpNonterminalMeta):
 
     def __eq__(a, b):
         return (str(a) if a else None) == (str(b) if b else None)
-
-
-class McnpFile(McnpNonterminal, metaclass=abc.ABCMeta):
-    """
-    Represents generic MCNP files.
-    """
-
-    @classmethod
-    def from_file(cls, filename: pathlib.Path | str):
-        """
-        Generates ``McnpFile`` from MCNP files.
-
-        Parameters:
-            filename: MCNP file path.
-
-        Raises:
-            CliError: RUNTIME_PATH.
-        """
-
-        filename = pathlib.Path(filename)
-
-        if not filename.is_file():
-            raise errors.CliError(errors.CliCode.RUNTIME_PATH, filename)
-
-        source = filename.read_text()
-
-        return cls.from_mcnp(source)
-
-    def to_file(self, filename: str | pathlib.Path):
-        """
-        Generates MCNP files from ``McnpFile``.
-
-        Parameters:
-            filename: new MCNP file path.
-        """
-
-        filename = pathlib.Path(filename)
-        filename.write_text(self.to_mcnp())

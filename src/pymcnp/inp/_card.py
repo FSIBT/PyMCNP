@@ -1,9 +1,9 @@
 from .. import errors
-from ..utils import _object
+from .. import _symbol
 from ..utils import _parser
 
 
-class Card(_object.McnpNonterminal):
+class Card(_symbol.Nonterminal):
     """
     Represents generic INP cards.
     """

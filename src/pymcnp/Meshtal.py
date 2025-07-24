@@ -1,13 +1,13 @@
 import re
 import typing
 
+from . import _file
 from . import types
 from . import errors
 from . import meshtal
-from .utils import _object
 
 
-class Meshtal(_object.McnpFile):
+class Meshtal(_file.File):
     """
     Represents MESTHAL files.
 

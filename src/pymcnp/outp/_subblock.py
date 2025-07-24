@@ -1,7 +1,7 @@
-from ..utils import _object
+from .. import _symbol
 
 
-class Subblock(_object.McnpNonterminal):
+class Subblock(_symbol.Nonterminal):
     """
     Represents generic PTRAC subblocks.
     """

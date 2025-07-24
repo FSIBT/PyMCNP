@@ -6,7 +6,7 @@ import pymcnp
 
 
 class Test_Init:
-    element: pymcnp.utils._object.McnpNonterminal
+    element: pymcnp._symbol.Nonterminal
     EXAMPLES_VALID: list[str] = []
     EXAMPLES_INVALID: list[str] = []
 
@@ -29,7 +29,7 @@ class Test_Init:
 
 
 class Test_Mcnp:
-    element: pymcnp.utils._object.McnpNonterminal
+    element: pymcnp._symbol.Nonterminal
     EXAMPLES_VALID: list[str] = []
     EXAMPLES_INVALID: list[str] = []
 
@@ -55,7 +55,7 @@ class Test_Mcnp:
 
 
 class Test_File:
-    element: pymcnp.utils._object.McnpNonterminal
+    element: pymcnp._symbol.Nonterminal
     EXAMPLES_VALID: list[pathlib.Path] = []
     EXAMPLES_INVALID: list[pathlib.Path] = []
 
@@ -81,7 +81,7 @@ class Test_File:
 
 
 class Test_Draw:
-    element: pymcnp.utils._object.McnpNonterminal
+    element: pymcnp._symbol.Nonterminal
     EXAMPLES: list[str] = []
 
     def test(self):
@@ -94,7 +94,7 @@ class Test_Draw:
 
 
 class Test_Dataframe:
-    element: pymcnp.utils._object.McnpNonterminal
+    element: pymcnp._symbol.Nonterminal
     EXAMLPES: list[str] = []
 
     def test(self):

@@ -1,9 +1,9 @@
 from .. import errors
-from ..utils import _object
+from .. import _symbol
 from ..utils import _parser
 
 
-class Entry(_object.McnpNonterminal):
+class Entry(_symbol.Nonterminal):
     """
     Represents generic INP entries.
     """

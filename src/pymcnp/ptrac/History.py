@@ -4,10 +4,10 @@ import typing
 from . import history
 from .. import types
 from .. import errors
-from ..utils import _object
+from .. import _symbol
 
 
-class History(_object.McnpNonterminal):
+class History(_symbol.Nonterminal):
     """
     Represents PTRAC history blocks.
 
