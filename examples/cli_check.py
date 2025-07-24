@@ -10,7 +10,7 @@ import pymcnp
 path = pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'example_00.outp'
 
 # Checking.
-checker = pymcnp.cli.Check(path)
+checker = pymcnp.Check(path)
 checker.check()
 
 # Fixing.

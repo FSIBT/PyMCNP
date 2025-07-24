@@ -21,12 +21,12 @@ for vy in [-2, -1, 0, 1, 2]:
 
 # Visualizing.
 for inp in inps:
-    visualizer = pymcnp.cli.Visualize(inp)
+    visualizer = pymcnp.Visualize(inp)
     visualization = visualizer.to_show_surfaces()
     visualization.show()
 
 
-class MyRun(pymcnp.cli.Run):
+class MyRun(pymcnp.Run):
     def posthook_file(self, path, index):
         # Copying OUTP (ECHO used for demo).
         path_copy = pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'example_01.outp'
@@ -39,7 +39,7 @@ class MyRun(pymcnp.cli.Run):
 
         # Plotting.
         path_pdf = path / '..' / f'run-{index}.pdf'
-        plotter = pymcnp.cli.Plot(outp)
+        plotter = pymcnp.Plot(outp)
         plotter.to_pdf('1', path_pdf)
 
         # Deleting Run.

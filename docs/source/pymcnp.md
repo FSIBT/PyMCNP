@@ -8,8 +8,8 @@ MCNP. This package supports INP, PTRAC, and MESHTAL parsing and the CLI backend 
 
 * [inp subpackage](/pymcnp/inp): INP parsing.
 * [meshtal subpackage](/pymcnp/meshtal): MESHTAL parsing.
+* [outp subpackage](/pymcnp/outp): OUTP parsing. 
 * [ptrac subpackage](/pymcnp/ptrac): PTRAC parsing. 
-* [cli subpackage](/pymcnp/cli): CLI backend.
 
 ## Table of Contents
 
@@ -17,7 +17,6 @@ MCNP. This package supports INP, PTRAC, and MESHTAL parsing and the CLI backend 
 .. toctree::
    :maxdepth: 1
 
-   pymcnp/cli
    pymcnp/inp
    pymcnp/meshtal
    pymcnp/outp
@@ -74,7 +73,7 @@ PyMCNP represents MCNP files using the ``Inp``, ``Meshtal``, and ``Ptrac`` AST c
 
 [meshtal subpackage](pymcnp/meshtal)
 
-## Filter & Processor Classes
+## Doer Classes
 
 The ``*Filter`` and ``*Processor`` classes help handle large ``Meshtal`` and ``Ptrac`` using generators.
 ``PtracFilter`` and ``MeshtalFilter`` have overridable methods for filtering data, ``PtracProcessor``
@@ -112,6 +111,58 @@ and ``MeshtalProcessor`` have overridable methods for processing data, and all c
 
 ```{eval-rst}
 .. autoclass:: pymcnp.PtracProcessor
+   :members:
+   :inherited-members:
+```
+
+The following classes provide the underlying functionality of the CLI.
+
+### ``Check`` Class
+
+``Check`` compares and fixes MCNP files, using ``difflib``,
+
+```{eval-rst}
+.. autoclass:: pymcnp.Check
+   :members:
+   :inherited-members:
+```
+
+### ``Convert`` Class
+
+``Convert`` converts OUTP files to csv or parquet files, using ``pandas``.
+
+```{eval-rst}
+.. autoclass:: pymcnp.Convert
+   :members:
+   :inherited-members:
+```
+
+### ``Plot`` Class
+
+``Plot`` plots OUTP files, using ``matplotlib``.
+
+```{eval-rst}
+.. autoclass:: pymcnp.Plot
+   :members:
+   :inherited-members:
+```
+
+### ``Run`` Class
+
+``Run`` runs MCNP simulations in parallel, using ``subprocess``.
+
+```{eval-rst}
+.. autoclass:: pymcnp.Run
+   :members:
+   :inherited-members:
+```
+
+### ``Visualize`` Class
+
+``Visualize`` visualizes INP surfaces and cell geometries, using ``pyvista``.
+
+```{eval-rst}
+.. autoclass:: pymcnp.Visualize
    :members:
    :inherited-members:
 ```

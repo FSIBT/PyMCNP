@@ -1,8 +1,9 @@
+from . import _doer
 from . import meshtal
 from .Meshtal import Meshtal
 
 
-class MeshtalProcessor:
+class MeshtalProcessor(_doer.Doer):
     """
     Processes ``Meshtal``.
     """

@@ -11,7 +11,7 @@ path = pathlib.Path(__file__).parent.parent / 'files' / 'inp' / 'example_00.inp'
 inp = pymcnp.Inp.from_file(path)
 
 # Visualizing surfaces using ``Visualize``.
-visualizer = pymcnp.cli.Visualize(inp)
+visualizer = pymcnp.Visualize(inp)
 visualizer.to_show_surfaces().show()
 
 # Converting to PDF.

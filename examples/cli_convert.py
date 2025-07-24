@@ -13,6 +13,6 @@ path = pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'example_00.out
 outp = pymcnp.Outp.from_file(path)
 
 # Converting.
-converter = pymcnp.cli.Convert(outp)
+converter = pymcnp.Convert(outp)
 converter.to_csv(TALLY, f'example_00-{TALLY}.csv')
 converter.to_parquet(TALLY, f'example_00-{TALLY}.parquet')
