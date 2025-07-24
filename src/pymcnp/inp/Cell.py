@@ -4,7 +4,6 @@ from . import cell
 from . import _card
 from .. import types
 from .. import errors
-from ..utils import _parser
 
 
 class Cell(_card.Card):
@@ -59,8 +58,7 @@ class Cell(_card.Card):
         """
 
         source = f'{self.number} {self.material} {self.density if self.density is not None else ""} {self.geometry} {self.options if self.options is not None else ""}'
-        source, comments = _parser.preprocess_inp(source)
-        source = _parser.postprocess_inp(source)
+        source = _card.Card._postprocess(source)
 
         return source
 

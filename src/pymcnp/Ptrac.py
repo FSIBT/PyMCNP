@@ -1,13 +1,13 @@
 import re
 import typing
 
+from . import _file
 from . import ptrac
 from . import types
 from . import errors
-from .utils import _object
 
 
-class Ptrac(_object.McnpFile):
+class Ptrac(_file.File):
     """
     Represents PTRAC files.
 

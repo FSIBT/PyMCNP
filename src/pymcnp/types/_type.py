@@ -1,5 +1,5 @@
-from ..utils import _object
+from .. import _symbol
 
 
-class Type(_object.McnpNonterminal):
+class Type(_symbol.Nonterminal):
     pass

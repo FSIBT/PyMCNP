@@ -5,7 +5,6 @@ from . import _type
 from .Real import Real
 from .Integer import Integer
 from .. import errors
-from ..utils import _parser
 
 
 class Transformation_0(_type.Type):
@@ -263,7 +262,6 @@ class Transformation_1(_type.Type):
             TypesError: SYNTAX_TYPE.
         """
 
-        source, comments = _parser.preprocess_inp(source)
         tokens = Transformation_1._REGEX.match(source)
 
         if not tokens:
@@ -388,7 +386,6 @@ class Transformation_2(_type.Type):
             TypesError: SYNTAX_TYPE.
         """
 
-        source, comments = _parser.preprocess_inp(source)
         tokens = Transformation_2._REGEX.match(source)
 
         if not tokens:
@@ -500,7 +497,6 @@ class Transformation_3(_type.Type):
             TypesError: SYNTAX_TYPE.
         """
 
-        source, comments = _parser.preprocess_inp(source)
         tokens = Transformation_3._REGEX.match(source)
 
         if not tokens:
@@ -592,7 +588,6 @@ class Transformation_4(_type.Type):
             TypesError: SYNTAX_TYPE.
         """
 
-        source, comments = _parser.preprocess_inp(source)
         tokens = Transformation_4._REGEX.match(source)
 
         if not tokens:

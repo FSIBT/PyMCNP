@@ -1,7 +1,7 @@
-from ..utils import _object
+from .. import _symbol
 
 
-class Block(_object.McnpNonterminal):
+class Block(_symbol.Nonterminal):
     """
     Represents generic PTRAC blocks.
     """

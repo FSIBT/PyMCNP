@@ -1,9 +1,8 @@
+from . import _symbol
 from .. import errors
-from ..utils import _object
-from ..utils import _parser
 
 
-class Entry(_object.McnpNonterminal):
+class Entry(_symbol.InpNonterminal):
     """
     Represents generic INP entries.
     """
@@ -26,8 +25,7 @@ class Entry(_object.McnpNonterminal):
             InpError: SYNTAX_OPTION.
         """
 
-        source, comments = _parser.preprocess_inp(source)
-
+        source = cls._preprocess(source)
         subclasses = cls.__subclasses__() or [cls]
 
         for subclass in subclasses:
@@ -58,7 +56,4 @@ class Entry(_object.McnpNonterminal):
                 value.append(attribute)
         value = ' '.join(map(str, value))
 
-        source, comments = _parser.preprocess_inp(value)
-        source = _parser.postprocess_inp(source)
-
-        return source
+        return value

@@ -1,7 +1,7 @@
-from ..utils import _object
+from .. import _symbol
 
 
-class Keyword(_object.McnpTerminal):
+class Keyword(_symbol.Terminal):
     """
     Represents generic PTRAC keywords.
     """

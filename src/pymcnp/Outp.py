@@ -1,14 +1,13 @@
 import re
 import typing
 
-
 from . import outp
+from . import _file
 from . import types
 from . import errors
-from .utils import _object
 
 
-class Outp(_object.McnpFile):
+class Outp(_file.File):
     """
     Represents OUTP files.
 
