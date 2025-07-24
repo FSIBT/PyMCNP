@@ -3,7 +3,7 @@ import typing
 
 from . import _type
 from .. import errors
-from ..utils import _object
+from .. import _symbol
 
 
 class Horizontal(_type.Type):
@@ -75,7 +75,7 @@ class Repeat(Horizontal):
             MCNP repeats.
         """
 
-        return f'{self.n or ''}r'
+        return f'{self.n or ""}r'
 
 
 class Insert(Horizontal):
@@ -139,7 +139,7 @@ class Insert(Horizontal):
             MCNP inserts.
         """
 
-        return f'{self.n or ''}i'
+        return f'{self.n or ""}i'
 
 
 class Multiply(Horizontal):
@@ -206,7 +206,7 @@ class Multiply(Horizontal):
         return f'{self.x}m'
 
 
-class Jump(_object.McnpNonterminal):
+class Jump(_symbol.Nonterminal):
     """
     Represents MCNP jumps.
 
@@ -331,4 +331,4 @@ class Log(Horizontal):
             MCNP logs.
         """
 
-        return f'{self.n or ''}log'
+        return f'{self.n or ""}log'

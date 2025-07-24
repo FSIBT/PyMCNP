@@ -1,9 +1,8 @@
+from . import _symbol
 from .. import errors
-from ..utils import _object
-from ..utils import _parser
 
 
-class Option(_object.McnpNonterminal):
+class Option(_symbol.InpNonterminal):
     """
     Represents generic INP options.
     """
@@ -26,8 +25,7 @@ class Option(_object.McnpNonterminal):
             InpError: SYNTAX_OPTION.
         """
 
-        source, comments = _parser.preprocess_inp(source)
-
+        source = Option._preprocess(source)
         subclasses = cls.__subclasses__() or [cls]
 
         for subclass in subclasses:
@@ -59,7 +57,5 @@ class Option(_object.McnpNonterminal):
         value = ' '.join(map(str, value))
 
         source = f"{self.prefix if hasattr(self, 'prefix') and self.prefix is not None else ''}{self._KEYWORD}{self.suffix if hasattr(self, 'suffix') and self.suffix is not None else ''}{(f':{self.designator}' if self.designator else '') if hasattr(self, 'designator') else ''} {value}"
-        source, comments = _parser.preprocess_inp(source)
-        source = _parser.postprocess_inp(source)
 
         return source

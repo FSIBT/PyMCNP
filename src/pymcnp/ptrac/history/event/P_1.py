@@ -1,11 +1,9 @@
 import re
 import typing
-import decimal
 
 from . import _line
 from .... import types
 from .... import errors
-from ....utils import _parser
 
 
 class P_1(_line.EventLine):
@@ -142,14 +140,14 @@ class P_1(_line.EventLine):
             PTRAC for ``P_1``.
         """
 
-        x = _parser.postprocess_exponenet(decimal.Decimal(self.x.value), 5)
-        y = _parser.postprocess_exponenet(decimal.Decimal(self.y.value), 5)
-        z = _parser.postprocess_exponenet(decimal.Decimal(self.z.value), 5)
-        u = _parser.postprocess_exponenet(decimal.Decimal(self.u.value), 5)
-        v = _parser.postprocess_exponenet(decimal.Decimal(self.v.value), 5)
-        w = _parser.postprocess_exponenet(decimal.Decimal(self.w.value), 5)
-        erg = _parser.postprocess_exponenet(decimal.Decimal(self.erg.value), 5)
-        wgt = _parser.postprocess_exponenet(decimal.Decimal(self.wgt.value), 5)
-        tme = _parser.postprocess_exponenet(decimal.Decimal(self.tme.value), 5)
+        x = f'{self.x:5.1a}'
+        y = f'{self.y:5.1a}'
+        z = f'{self.z:5.1a}'
+        u = f'{self.u:5.1a}'
+        v = f'{self.v:5.1a}'
+        w = f'{self.w:5.1a}'
+        erg = f'{self.erg:5.1a}'
+        wgt = f'{self.wgt:5.1a}'
+        tme = f'{self.tme:5.1a}'
 
         return f'  {x} {y} {z} {u} {v} {w} {erg} {wgt} {tme}'

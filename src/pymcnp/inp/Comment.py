@@ -2,7 +2,6 @@ import re
 
 from . import _card
 from .. import types
-from ..utils import _parser
 
 
 class Comment(_card.Card):
@@ -12,9 +11,9 @@ class Comment(_card.Card):
 
     _ATTRS = {'text': types.String}
 
-    _REGEX = re.compile(r'c(.*)', re.IGNORECASE)
+    _REGEX = re.compile(r'c(?: (.*))?', re.IGNORECASE)
 
-    def __init__(self, text: types.String):
+    def __init__(self, text: types.String = None):
         """
         Initializes ``Comment``.
 
@@ -35,9 +34,8 @@ class Comment(_card.Card):
             INP comment card.
         """
 
-        source = f'c {self.text}'
-        source, comments = _parser.preprocess_inp(source)
-        source = _parser.postprocess_inp(source)
+        source = f'c{f" {self.text}" if self.text else ""}'
+        source = _card.Card._postprocess(source)
 
         return source
 
