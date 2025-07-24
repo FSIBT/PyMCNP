@@ -1,8 +1,9 @@
+from . import _doer
 from . import ptrac
 from .Ptrac import Ptrac
 
 
-class PtracProcessor:
+class PtracProcessor(_doer.Doer):
     """
     Processes ``Ptrac``.
     """

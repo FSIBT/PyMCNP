@@ -1,8 +1,9 @@
+from . import _doer
 from . import ptrac
 from .Ptrac import Ptrac
 
 
-class PtracFilter:
+class PtracFilter(_doer.Doer):
     """
     Filters PTRAC files.
     """

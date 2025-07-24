@@ -1,15 +1,14 @@
 import shutil
 import pathlib
-import subprocess
 
 import pymcnp
-from ... import consts
-from ... import classes
+from .. import consts
+from .. import classes
 
 
 class Test_Run:
     class Test_Init(classes.Test_Init):
-        element = pymcnp.cli.Run
+        element = pymcnp.Run
         EXAMPLES_VALID = [{'inps': [consts.ast.INP], 'command': 'echo'}]
         EXAMPLES_INVALID = [
             {'inps': [None], 'command': 'echo'},
@@ -17,7 +16,7 @@ class Test_Run:
         ]
 
     class Test_Methods:
-        element = pymcnp.cli.Run
+        element = pymcnp.Run
         PATH = pathlib.Path('.')
         EXAMPLES = [{'inps': [consts.ast.INP], 'command': 'echo'}]
 
@@ -46,13 +45,3 @@ class Test_Run:
                 element = self.element(**example)
                 directory = element.run(self.PATH)
                 shutil.rmtree(directory)
-
-
-class Test_Main:
-    class Test_Main:
-        def test_valid(self):
-            subprocess.run(['pymcnp', 'run', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'valid_00.inp')])
-
-        def test_invalid(self):
-            subprocess.run(['pymcnp', 'run', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'invalid_00.inp')])
-            subprocess.run(['pymcnp', 'run', 'hello'])

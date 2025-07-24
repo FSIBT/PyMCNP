@@ -8,7 +8,7 @@ MCNP simulations using the ``pymcnp`` CLI.
 The manual page for ``pymcnp``:
 
 ```{eval-rst}
-.. literalinclude:: ../../src/pymcnp/main.py
+.. literalinclude:: ../../src/pymcnp/_cli/main.py
    :language: python
    :start-after: """
    :end-before: """
@@ -19,7 +19,7 @@ The manual page for ``pymcnp``:
 The manual page for ``pymcnp check``:
 
 ```{eval-rst}
-.. literalinclude:: ../../src/pymcnp/cli/check.py
+.. literalinclude:: ../../src/pymcnp/_cli/check.py
    :language: python
    :start-after: """
    :end-before: """
@@ -30,7 +30,7 @@ The manual page for ``pymcnp check``:
 The manual page for ``pymcnp convert``:
 
 ```{eval-rst}
-.. literalinclude:: ../../src/pymcnp/cli/convert.py
+.. literalinclude:: ../../src/pymcnp/_cli/convert.py
    :language: python
    :start-after: """
    :end-before: """
@@ -41,7 +41,7 @@ The manual page for ``pymcnp convert``:
 The manual page for ``pymcnp plot``:
 
 ```{eval-rst}
-.. literalinclude:: ../../src/pymcnp/cli/plot.py
+.. literalinclude:: ../../src/pymcnp/_cli/plot.py
    :language: python
    :start-after: """
    :end-before: """
@@ -52,7 +52,7 @@ The manual page for ``pymcnp plot``:
 The manual page for ``pymcnp run``:
 
 ```{eval-rst}
-.. literalinclude:: ../../src/pymcnp/cli/run.py
+.. literalinclude:: ../../src/pymcnp/_cli/run.py
    :language: python
    :start-after: """
    :end-before: """
@@ -63,7 +63,7 @@ The manual page for ``pymcnp run``:
 The manual page for ``pymcnp visualize``:
 
 ```{eval-rst}
-.. literalinclude:: ../../src/pymcnp/cli/visualize.py
+.. literalinclude:: ../../src/pymcnp/_cli/visualize.py
    :language: python
    :start-after: """
    :end-before: """

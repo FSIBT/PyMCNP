@@ -1,5 +1,5 @@
 .pymcnp
-src/pymcnp/version.py
+src/version.py
 .ruff_cache
 
 # Editor backups
