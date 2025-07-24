@@ -6,10 +6,6 @@ from .. import classes
 
 
 class Test_Outp:
-    """
-    Tests ``Outp``.
-    """
-
     class Test_Init(classes.Test_Init):
         element = pymcnp.Outp
         EXAMPLES_VALID = [

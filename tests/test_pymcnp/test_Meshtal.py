@@ -6,10 +6,6 @@ from .. import classes
 
 
 class Test_Meshtal:
-    """
-    Tests ``Meshtal``.
-    """
-
     class Test_Init(classes.Test_Init):
         element = pymcnp.Meshtal
         EXAMPLES_VALID = [

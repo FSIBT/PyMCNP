@@ -6,7 +6,7 @@ import pymcnp
 class string:
     INP = (pathlib.Path(__file__).parent.parent / 'files' / 'inp' / 'valid_10.inp').read_text()
     OUTP = (pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'example_00.outp').read_text()
-    PTRAC = (pathlib.Path(__file__).parent.parent / 'files' / 'ptrac' / 'valid_00.ptrac').read_text()
+    PTRAC = (pathlib.Path(__file__).parent.parent / 'files' / 'ptrac' / 'valid_27.ptrac').read_text()
     MESHTAL = (pathlib.Path(__file__).parent.parent / 'files' / 'meshtal' / 'valid_40.meshtal').read_text()
 
     class types:
@@ -1432,6 +1432,8 @@ mcnp   version 6     ld=02/20/18  probid =  11/01/24 10:26:01
 class ast:
     INP = pymcnp.Inp.from_mcnp(string.INP)
     OUTP = pymcnp.Outp.from_mcnp(string.OUTP)
+    PTRAC = pymcnp.Ptrac.from_mcnp(string.PTRAC)
+    MESHTAL = pymcnp.Meshtal.from_mcnp(string.MESHTAL)
 
     class _show:
         class pyvista:

@@ -24,7 +24,7 @@ class Subtally_4(_subblock.TallySubblock):
     def __init__(
         self,
         cell: types.String,
-        lines: types.Tuple(types.String),
+        lines: types.Generator(types.String),
         total: types.String,
     ):
         """
@@ -68,7 +68,7 @@ class Subtally_4(_subblock.TallySubblock):
             raise errors.OutpError(errors.OutpCode.SYNTAX_TABLE, source)
 
         cell = types.String.from_mcnp(tokens[1])
-        lines = types.Tuple(subtally.Line).from_mcnp(tokens[2])
+        lines = types.Generator(subtally.Line).from_mcnp(tokens[2])
         total = types.String.from_mcnp(tokens[3])
 
         return Subtally_4(

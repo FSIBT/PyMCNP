@@ -9,10 +9,10 @@ from .Inp import Inp
 from .Meshtal import Meshtal
 from .Outp import Outp
 from .Ptrac import Ptrac
-from .PtracFiltered import PtracFiltered
-from .PtracProcessed import PtracProcessed
-from .MeshtalFiltered import MeshtalFiltered
-from .MeshtalProcessed import MeshtalProcessed
+from .PtracFilter import PtracFilter
+from .PtracProcessor import PtracProcessor
+from .MeshtalFilter import MeshtalFilter
+from .MeshtalProcessor import MeshtalProcessor
 
 __all__ = [
     'cli',
@@ -26,8 +26,8 @@ __all__ = [
     'Meshtal',
     'Outp',
     'Ptrac',
-    'PtracFiltered',
-    'PtracProcessed',
-    'MeshtalFiltered',
-    'MeshtalProcessed',
+    'PtracFilter',
+    'PtracProcessor',
+    'MeshtalFilter',
+    'MeshtalProcessor',
 ]

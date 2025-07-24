@@ -64,13 +64,7 @@ class History(_object.McnpNonterminal):
             raise errors.PtracError(errors.PtracCode.SYNTAX_BLOCK, source)
 
         i_line = history.I.from_mcnp(tokens[1])
-
-        events = []
-        for match in re.finditer(history.Event._REGEX.pattern[2:-2], tokens[2]):
-            event = history.Event.from_mcnp(match[0])
-            events.append(event)
-
-        events = types.Tuple(history.Event)(events)
+        events = types.Generator(history.Event).from_mcnp(tokens[2])
 
         return History(i_line, events)
 

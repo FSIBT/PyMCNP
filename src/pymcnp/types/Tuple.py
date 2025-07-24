@@ -6,7 +6,17 @@ from .. import errors
 
 
 def Tuple(element: typing.Type) -> object:
-    class _Tuple(tuple, _type.Type):
+    """
+    Curries tuples and inner type.
+
+    Parametres:
+        element: Inner type.
+
+    Returns:
+        ``_Tuple`` with inner type.
+    """
+
+    class _Tuple(_type.Type):
         """
         Represents generic MCNP collections.
 
@@ -19,7 +29,7 @@ def Tuple(element: typing.Type) -> object:
             Initializes ``Tuple``.
 
             Parameters:
-                value: Tuple value.
+                value: Tuple object.
 
             Returns:
                 ``Tuple``.
