@@ -53,13 +53,13 @@ Issues = "https://github.com/mauricioAyllon/PyMCNP/issues"
 Changelog = "https://github.com/mauricioAyllon/PyMCNP/blob/master/CHANGELOG.md"
 
 [project.scripts]
-pymcnp = "pymcnp.main:main"
+pymcnp = "pymcnp._cli.main:main"
 
 [tool.setuptools.packages.find]
 where = ["./src"]
 
 [tool.setuptools_scm]
-write_to = "./src/pymcnp/version.py"
+write_to = "./src/version.py"
 
 [tool.ruff]
 line-length = 200

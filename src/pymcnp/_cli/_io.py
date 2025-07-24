@@ -1,5 +1,4 @@
 import pathlib
-import datetime
 
 import rich
 import rich.panel
@@ -10,17 +9,6 @@ def get_outfile(path: str | pathlib.Path, ext: str, i: int = None) -> str:
     path, _ = path.rsplit('.', maxsplit=1)
 
     return pathlib.Path(path + f'{f"-{i}" if i else ""}.' + ext)
-
-
-def get_timestamp() -> str:
-    """
-    Gets current timestamp.
-
-    Returns:
-        Current timestamp "YYYY-MM-DD--HH-MM-SS".
-    """
-
-    return datetime.datetime.today().strftime('%Y-%m-%d--%H-%M-%S')
 
 
 def info(msg: str):

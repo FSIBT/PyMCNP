@@ -1,23 +1,11 @@
-"""
-Usage:
-    pymcnp run <inp>... [ options ]
-
-Options:
-    -c --command=<command>        Command to run.
-    -p --path=<path>              Working directory.
-"""
-
-import os
 import shutil
 import pathlib
+import datetime
 import subprocess
 
-from docopt import docopt
-
-from . import _io
 from . import _doer
-from .. import errors
-from ..Inp import Inp
+from . import errors
+from .Inp import Inp
 
 
 class Run(_doer.Doer):
@@ -100,7 +88,7 @@ class Run(_doer.Doer):
             path: Directory for run.
         """
 
-        directory = pathlib.Path(path) / f'pymcnp-{_io.get_timestamp()}'
+        directory = pathlib.Path(path) / f'pymcnp-{datetime.datetime.today().strftime('%Y-%m-%d--%H-%M-%S')}'
         directory.mkdir()
 
         self.prehook_batch(directory)
@@ -126,34 +114,3 @@ class Run(_doer.Doer):
         self.posthook_batch(directory)
 
         return directory
-
-
-def main() -> None:
-    """
-    Executes the ``pymcnp run`` command.
-    """
-
-    _io.disclaimer()
-
-    # Processing CLI arguments.
-    args = docopt(__doc__)
-    path = args['--path'] if args['--path'] else os.getcwd()
-    command = args['--command'] if args['--command'] else 'mcnp6'
-
-    # Reading INP.
-    try:
-        inps = list(map(Inp.from_file, map(pathlib.Path, args['<inp>'])))
-    except errors.InpError as err:
-        _io.error(str(err))
-        exit(1)
-    except errors.CliError as err:
-        _io.error(str(err))
-        exit(2)
-
-    # Running!
-    try:
-        Run(inps, command=command).run(pathlib.Path(path))
-    except errors.CliError as err:
-        _io.error(err.__str__())
-
-    _io.done()

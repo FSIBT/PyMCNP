@@ -1,8 +1,9 @@
+from . import _doer
 from . import meshtal
 from .Meshtal import Meshtal
 
 
-class MeshtalFilter:
+class MeshtalFilter(_doer.Doer):
     """
     Filters ``Meshtal``.
     """

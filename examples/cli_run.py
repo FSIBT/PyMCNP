@@ -8,7 +8,7 @@ import pymcnp
 
 
 # Creating ``Run`` subclass.
-class MyRun(pymcnp.cli.Run):
+class MyRun(pymcnp.Run):
     def prehook_file(self, path, index):
         print(f'Calling ``prehook_file`` {path} {index}')
 

@@ -15,7 +15,7 @@ path = pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'example_00.out
 outp = pymcnp.Outp.from_file(path)
 
 # Plotting.
-plotter = pymcnp.cli.Plot(outp)
+plotter = pymcnp.Plot(outp)
 plotter.to_show(TALLY)
 matplotlib.pyplot.show()
 
