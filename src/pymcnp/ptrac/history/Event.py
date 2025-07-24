@@ -65,50 +65,6 @@ class Event(_block.HistoryBlock):
         if not tokens:
             raise errors.PtracError(errors.PtracCode.SYNTAX_LINE, source)
 
-        # if next_type == event.j.EventType.SOURCE:
-        #     if (header.n_line, header.n_line) == (5, 3):
-        #         j_line = event.J_0.from_mcnp(tokens[1])
-        #         p_line = event.P_0.from_mcnp(tokens[54])
-        #     elif (header.n_line, header.n_line) == (6, 3):
-        #         j_line = event.J_2.from_mcnp(tokens[1])
-        #         p_line = event.P_0.from_mcnp(tokens[54])
-        #     elif (header.n_line, header.n_line) == (6, 9):
-        #         j_line = event.J_4.from_mcnp(tokens[1])
-        #         p_line = event.P_1.from_mcnp(tokens[54])
-        #     elif (header.n_line, header.n_line) == (7, 9):
-        #         j_line = event.J_6.from_mcnp(tokens[1])
-        #         p_line = event.P_1.from_mcnp(tokens[54])
-        #     else:
-        #         assert False
-        # else:
-        #     if next_type == event.j.EventType.SURFACE:
-        #         na = header.n_line.n6
-        #         nb = header.n_line.n7
-        #     elif next_type == event.j.EventType.COLLISION:
-        #         na = header.n_line.n8
-        #         nb = header.n_line.n9
-        #     elif next_type == event.j.EventType.TERMINAL:
-        #         na = header.n_line.n10
-        #         nb = header.n_line.n11
-        #     else:
-        #         na = header.n_line.n4
-        #         nb = header.n_line.n5
-
-        #     if (na, nb) == (5, 3):
-        #         j_line = event.J_0.from_mcnp(tokens[1])
-        #         p_line = event.P_0.from_mcnp(tokens[54])
-        #     elif (na, nb) == (6, 3):
-        #         j_line = event.J_2.from_mcnp(tokens[1])
-        #         p_line = event.P_0.from_mcnp(tokens[54])
-        #     elif (na, nb) == (6, 9):
-        #         j_line = event.J_4.from_mcnp(tokens[1])
-        #         p_line = event.P_1.from_mcnp(tokens[54])
-        #     elif (na, nb) == (7, 9):
-        #         j_line = event.J_6.from_mcnp(tokens[1])
-        #         p_line = event.P_1.from_mcnp(tokens[54])
-        #     else:
-        #         assert False
-
         for variation in [event.J_0, event.J_1, event.J_2, event.J_3, event.J_4, event.J_5, event.J_6, event.J_7]:
             try:
                 j_line = variation.from_mcnp(tokens[1])

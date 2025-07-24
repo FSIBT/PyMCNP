@@ -2,99 +2,97 @@ from . import ptrac
 from .Ptrac import Ptrac
 
 
-class PtracFiltered:
+class PtracFilter:
     """
     Filters PTRAC files.
-
-    Attributes:
-        ptrac: ``Ptrac`` to filter.
     """
-
-    def __init__(self, ptrac: Ptrac):
-        """
-        Initializes ``PtracFiltered``.
-
-        Parameters:
-            ptrac: ``Ptrac`` to filter.
-        """
-
-        self.ptrac: Ptrac = ptrac
 
     @staticmethod
     def check_source(event: ptrac.history.event.j.EventType) -> bool:
         """
-        Runs when ``run`` filters PTRAC source events.
+        Runs when filtering source events.
+
+        Parameters:
+            event: Event to filter.
 
         Returns:
             True/False if the given event should/shouldn't be kept.
         """
 
-        raise NotImplementedError
+        return True
 
     @staticmethod
     def check_bank(event: ptrac.history.event.j.EventType) -> bool:
         """
-        Runs when ``run`` filters PTRAC bank events.
+        Runs when filtering bank events.
+
+        Parameters:
+            event: Event to filter.
 
         Returns:
             True/False if the given event should/shouldn't be kept.
         """
 
-        raise NotImplementedError
+        return True
 
     @staticmethod
     def check_surface(event: ptrac.history.event.j.EventType) -> bool:
         """
-        Runs when ``run`` filters PTRAC surface events.
+        Runs when filtering surface events.
+
+        Parameters:
+            event: Event to filter.
 
         Returns:
             True/False if the given event should/shouldn't be kept.
         """
 
-        raise NotImplementedError
+        return True
 
     @staticmethod
     def check_collision(event: ptrac.history.event.j.EventType) -> bool:
         """
-        Runs when ``run`` filters PTRAC collision events.
+        Runs when filtering collision events.
+
+        Parameters:
+            event: Event to filter.
 
         Returns:
             True/False if the given event should/shouldn't be kept.
         """
 
-        raise NotImplementedError
+        return True
 
     @staticmethod
     def check_terminal(event: ptrac.history.event.j.EventType) -> bool:
         """
-        Runs when ``run`` filters PTRAC terminal events.
+        Runs when filtering terminal events.
+
+        Parameters:
+            event: Event to filter.
 
         Returns:
             True/False if the given event should/shouldn't be kept.
         """
 
-        raise NotImplementedError
+        return True
 
-    @staticmethod
-    def check_flag(event: ptrac.history.event.j.EventType) -> bool:
+    def __call__(self, file: Ptrac):
         """
-        Runs when ``run`` filters PTRAC flag events.
+        Filters ``Ptrac``.
 
-        Returns:
-            True/False if the given event should/shouldn't be kept.
-        """
+        Parameters:
+            file: File to filter.
 
-        raise NotImplementedError
-
-    def run(self):
-        """
-        Filters PTRAC.
+        Yields:
+            Accepted events.
         """
 
         def histories():
-            for history in self.ptrac.histories:
-                for event in self.ptracFile.history.events:
-                    match event.event_type:
+            for history in file.histories:
+                kind = history.i_line.event_type
+                for event in history.events:
+                    match kind:
                         case ptrac.history.event.j.EventType.SOURCE:
                             check = self.check_source
                         case ptrac.history.event.j.EventType.SURFACE:
@@ -103,14 +101,14 @@ class PtracFiltered:
                             check = self.check_collision
                         case ptrac.history.event.j.EventType.TERMINAL:
                             check = self.check_terminal
-                        case ptrac.history.event.j.EventType.FLAG:
-                            check = self.check_flag
                         case _:
                             check = self.check_bank
+
+                    kind = event.j_line.next_type
 
                     if check(event):
                         yield event
                     else:
                         continue
 
-        return histories
+        return histories()

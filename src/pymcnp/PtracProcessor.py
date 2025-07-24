@@ -2,90 +2,89 @@ from . import ptrac
 from .Ptrac import Ptrac
 
 
-class PtracProcessed:
+class PtracProcessor:
     """
-    Processes PTRAC.
-
-    Attributes:
-        ptrac: ``Ptrac`` to process.
+    Processes ``Ptrac``.
     """
-
-    def __init__(self, ptrac: Ptrac):
-        """
-        Initializes ``PtracProcessed``.
-
-        Parameters:
-            ptrac: ``Ptrac`` to process.
-        """
-
-        self.ptrac: Ptrac = ptrac
 
     def prehook(self):
         """
-        Runs before ``run``.
+        Runs before processing.
         """
 
         pass
 
     def posthook(self):
         """
-        Runs after ``run``.
+        Runs after processing.
         """
 
         pass
 
     def process_source(self, event: ptrac.history.event.j.EventType):
         """
-        Runs when ``run`` processes PTRAC source events.
+        Runs when processing source events.
+
+        Parameters:
+            event: Event to process.
         """
 
-        raise NotImplementedError
+        pass
 
     def process_bank(self, event: ptrac.history.event.j.EventType):
         """
-        Runs when ``run`` processes PTRAC bank events.
+        Runs when processing bank events.
+
+        Parameters:
+            event: Event to process.
         """
 
-        raise NotImplementedError
+        pass
 
     def process_surface(self, event: ptrac.history.event.j.EventType):
         """
-        Runs when ``run`` processes PTRAC surface events.
+        Runs when processing surface events.
+
+        Parameters:
+            event: Event to process.
         """
 
-        raise NotImplementedError
+        pass
 
     def process_collision(self, event: ptrac.history.event.j.EventType):
         """
-        Runs when ``run`` processes PTRAC collision events.
+        Runs when processing collision events.
+
+        Parameters:
+            event: Event to process.
         """
 
-        raise NotImplementedError
+        pass
 
     def process_terminal(self, event: ptrac.history.event.j.EventType):
         """
-        Runs when ``run`` processes PTRAC termianl events.
+        Runs when processing termianl events.
+
+        Parameters:
+            event: Event to process.
         """
 
-        raise NotImplementedError
+        pass
 
-    def process_flag(self, event: ptrac.history.event.j.EventType):
+    def __call__(self, file: Ptrac):
         """
-        Runs when ``run`` processes PTRAC source events.
-        """
+        Processes ``Ptrac``.
 
-        raise NotImplementedError
-
-    def run(self):
-        """
-        Processes PTRAC.
+        Parameters:
+            file: File to process.
         """
 
         self.prehook()
 
-        for history in self.ptrac.history:
-            for event in history:
-                match event.event_type:
+        for history in file.histories:
+            kind = history.i_line.event_type
+            for event in history.events:
+                match kind:
                     case ptrac.history.event.j.EventType.SOURCE:
                         self.process_source(event)
                     case ptrac.history.event.j.EventType.SURFACE:
@@ -94,9 +93,9 @@ class PtracProcessed:
                         self.process_collision(event)
                     case ptrac.history.event.j.EventType.TERMINAL:
                         self.process_terminal(event)
-                    case ptrac.history.event.j.EventType.FLAG:
-                        self.process_flag(event)
                     case _:
                         self.process_bank(event)
+
+                kind = event.j_line.next_type
 
         self.posthook()

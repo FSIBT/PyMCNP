@@ -76,42 +76,42 @@ PyMCNP represents MCNP files using the ``Inp``, ``Meshtal``, and ``Ptrac`` AST c
 
 ## Filter & Processor Classes
 
-The ``*Filtered`` and ``*Processed`` classes help handle large ``Meshtal`` and ``Ptrac`` using generators.
-``PtracFiltered`` and ``MeshtalFiltered`` have overridable methods for filtering data, ``PtracProcessed``
-and ``MeshtalProcessed`` have overridable methods for processing data, and all can be run:
+The ``*Filter`` and ``*Processor`` classes help handle large ``Meshtal`` and ``Ptrac`` using generators.
+``PtracFilter`` and ``MeshtalFilter`` have overridable methods for filtering data, ``PtracProcessor``
+and ``MeshtalProcessor`` have overridable methods for processing data, and all can be run:
 
 * ``check_*``. Returns ``True``/``False`` if data should be kept/removed.
 * ``process_*``. Operates with side effects on data.
 * ``run``. Runs the filter or processor.
 
-### ``MeshtalFiltered`` Class
+### ``MeshtalFilter`` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.MeshtalFiltered
+.. autoclass:: pymcnp.MeshtalFilter
    :members:
    :inherited-members:
 ```
 
-### ``PtracFiltered`` Class
+### ``PtracFilter`` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.PtracFiltered
+.. autoclass:: pymcnp.PtracFilter
    :members:
    :inherited-members:
 ```
 
-### ``MeshtalProcessed`` Class
+### ``MeshtalProcessor`` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.MeshtalProcessed
+.. autoclass:: pymcnp.MeshtalProcessor
    :members:
    :inherited-members:
 ```
 
-### ``PtracProcessed`` Class
+### ``PtracProcessor`` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.PtracProcessed
+.. autoclass:: pymcnp.PtracProcessor
    :members:
    :inherited-members:
 ```

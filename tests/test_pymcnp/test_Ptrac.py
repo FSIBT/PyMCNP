@@ -6,10 +6,6 @@ from .. import classes
 
 
 class Test_Ptrac:
-    """
-    Tests ``Ptrac``.
-    """
-
     class Test_Init(classes.Test_Init):
         element = pymcnp.Ptrac
         EXAMPLES_VALID = [
