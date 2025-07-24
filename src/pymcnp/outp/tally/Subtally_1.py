@@ -28,7 +28,7 @@ class Subtally_1(_subblock.TallySubblock):
         surface: types.String,
         angle_from: types.String,
         angle_to: types.String,
-        lines: types.Tuple(types.String),
+        lines: types.Generator(types.String),
         total: types.String,
     ):
         """
@@ -82,7 +82,7 @@ class Subtally_1(_subblock.TallySubblock):
         surface = types.String.from_mcnp(tokens[1])
         angle_from = types.String.from_mcnp(tokens[2])
         angle_to = types.String.from_mcnp(tokens[3])
-        lines = types.Tuple(subtally.Line).from_mcnp(tokens[4])
+        lines = types.Generator(subtally.Line).from_mcnp(tokens[4])
         total = types.String.from_mcnp(tokens[5])
 
         return Subtally_1(

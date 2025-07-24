@@ -1,6 +1,7 @@
 from ._type import Type
 from .Designator import Designator
 from .Distribution import Distribution
+from .Generator import Generator
 from .Horizontal import Horizontal
 from .Horizontal import Repeat
 from .Horizontal import Insert
@@ -24,6 +25,7 @@ __all__ = [
     'Type',
     'Primitive',
     'Designator',
+    'Generator',
     'Particle',
     'Distribution',
     'Horizontal',

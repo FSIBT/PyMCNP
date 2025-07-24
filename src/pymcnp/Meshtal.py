@@ -21,7 +21,7 @@ class Meshtal(_object.McnpFile):
         re.IGNORECASE,
     )
 
-    def __init__(self, header: meshtal.Header, tallies: typing.Generator[meshtal.Tally, None, None]):
+    def __init__(self, header: meshtal.Header, tallies: types.Generator(meshtal.Tally)):
         """
         Initializes ``Meshtal``.
 
@@ -64,7 +64,7 @@ class Meshtal(_object.McnpFile):
             raise errors.MeshtalError(errors.MeshtalCode.SYNTAX_FILE, source)
 
         header = meshtal.Header.from_mcnp(tokens[1])
-        tallies = types.Tuple(meshtal.Tally).from_mcnp(tokens[2])
+        tallies = types.Generator(meshtal.Tally).from_mcnp(tokens[2])
 
         return Meshtal(header, tallies)
 
