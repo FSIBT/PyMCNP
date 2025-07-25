@@ -76,4 +76,4 @@ class History(_symbol.Nonterminal):
             PTRAC for ``History``.
         """
 
-        return f'{self.i_line}\n{''.join(map(str, self.events))}'
+        return f'{self.i_line}\n{"".join(map(str, self.events))}'
