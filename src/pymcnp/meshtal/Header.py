@@ -191,10 +191,10 @@ class Header(_block.Block):
         """
 
         bins = ''
-        bins += f"    X direction:{''.join(map(str, self.bins_x))}\n" if self.bins_x else ''
-        bins += f"    Y direction:{''.join(map(str, self.bins_y))}\n" if self.bins_y else ''
-        bins += f"    Z direction:{''.join(map(str, self.bins_z))}\n" if self.bins_z else ''
-        bins += f"    Time bin boundaries:{''.join(map(str, self.bins_time))}\n" if self.bins_time else ''
-        bins += f"    Energy bin boundaries:{''.join(map(str, self.bins_energy))}\n" if self.bins_energy else ''
+        bins += f'    X direction:{"".join(map(str, self.bins_x))}\n' if self.bins_x else ''
+        bins += f'    Y direction:{"".join(map(str, self.bins_y))}\n' if self.bins_y else ''
+        bins += f'    Z direction:{"".join(map(str, self.bins_z))}\n' if self.bins_z else ''
+        bins += f'    Time bin boundaries:{"".join(map(str, self.bins_time))}\n' if self.bins_time else ''
+        bins += f'    Energy bin boundaries:{"".join(map(str, self.bins_energy))}\n' if self.bins_energy else ''
 
         return f'{self.code:>7}version {self.version:>6}ld={self.ld:>10}probid ={self.probid:>20}\n {self.title}\n Number of histories used for normalizing tallies ={self.histories:>17.2F}\n\n Mesh Tally Number{self.number:>10}\n {self.particle:>8} mesh tally.\n\n Tally bin boundaries:\n{bins}\n{self.columns}\n'

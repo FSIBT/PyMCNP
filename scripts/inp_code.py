@@ -41,7 +41,7 @@ def SNAKE(name: str) -> str:
 # ATTRIBUTE FUNCTIONS #
 def ATTRS_REGEX(element):
     def _REGEX(element):
-        return f"{"(\\d+?)" if has_suffix(element) else ""}{":(\\S+?)" if has_designator(element) else ""}{ATTRS_REGEX(element)}"
+        return f'{"(\\d+?)" if has_suffix(element) else ""}{":(\\S+?)" if has_designator(element) else ""}{ATTRS_REGEX(element)}'
 
     o = ''
 
@@ -77,7 +77,7 @@ def GET_REGEX(element):
     if element.regex:
         return element.regex
     else:
-        return rf"{element.mnemonic}{r"(\d+)" if has_suffix(element) else ""}{r":(\S+)" if has_designator(element) else ""}{ATTRS_REGEX(element)}"
+        return rf'{element.mnemonic}{r"(\d+)" if has_suffix(element) else ""}{r":(\S+)" if has_designator(element) else ""}{ATTRS_REGEX(element)}'
 
 
 def ATTRS_DICT(element):
@@ -123,14 +123,14 @@ def ATTRS_PARAM(element):
 def ATTR_CHECK(attribute, parent_name, t):
     if attribute.restriction:
         if attribute.optional:
-            return f'if {attribute.name} is not None and not ({attribute.restriction}):\n{TABS(t+1)}raise {f"errors.InpError(errors.InpCode.SEMANTICS_OPTION, {attribute.name})" if parent_name else f"errors.InpError(errors.InpCode.SEMANTICS_CARD, {attribute.name})"}'
+            return f'if {attribute.name} is not None and not ({attribute.restriction}):\n{TABS(t + 1)}raise {f"errors.InpError(errors.InpCode.SEMANTICS_OPTION, {attribute.name})" if parent_name else f"errors.InpError(errors.InpCode.SEMANTICS_CARD, {attribute.name})"}'
         else:
-            return f'if {attribute.name} is None or not ({attribute.restriction}):\n{TABS(t+1)}raise {f"errors.InpError(errors.InpCode.SEMANTICS_OPTION, {attribute.name})" if parent_name else f"errors.InpError(errors.InpCode.SEMANTICS_CARD, {attribute.name})"}'
+            return f'if {attribute.name} is None or not ({attribute.restriction}):\n{TABS(t + 1)}raise {f"errors.InpError(errors.InpCode.SEMANTICS_OPTION, {attribute.name})" if parent_name else f"errors.InpError(errors.InpCode.SEMANTICS_CARD, {attribute.name})"}'
     else:
         if attribute.optional:
             return ''
         else:
-            return f'if {attribute.name} is None:\n{TABS(t+1)}raise {f"errors.InpError(errors.InpCode.SEMANTICS_OPTION, {attribute.name})" if parent_name else f"errors.InpError(errors.InpCode.SEMANTICS_CARD, {attribute.name})"}'
+            return f'if {attribute.name} is None:\n{TABS(t + 1)}raise {f"errors.InpError(errors.InpCode.SEMANTICS_OPTION, {attribute.name})" if parent_name else f"errors.InpError(errors.InpCode.SEMANTICS_CARD, {attribute.name})"}'
 
 
 def ATTRS_STORE(element, t):
@@ -191,13 +191,13 @@ def ATTR_BUILDER(element, attribute, t):
 
 def INIT(element):
     return f"""
-from ._option import {CAMEL(element.name, "Option")}
-{''.join(f"from . import {SNAKE(option.name)}\n" if option.options else "" for option in element.options)[:-1]}
+from ._option import {CAMEL(element.name, 'Option')}
+{''.join(f'from . import {SNAKE(option.name)}\n' if option.options else '' for option in element.options)[:-1]}
 {''.join(f'from .{CAMEL(option.name)} import {CAMEL(option.name)}\n' for option in element.options)[:-1]}
 
 __all__ = [
-    "{CAMEL(element.name, "Option")}",
-    {''.join(f'\t"{SNAKE(option.name)}",\n' if option.options else "" for option in element.options).strip()}
+    "{CAMEL(element.name, 'Option')}",
+    {''.join(f'\t"{SNAKE(option.name)}",\n' if option.options else '' for option in element.options).strip()}
     {''.join(f'\t"{CAMEL(option.name)}",\n' for option in element.options).strip()}
 ]
 """[1:-1]
@@ -208,14 +208,14 @@ def OPTION(element, depth):
 import re
 import typing
 
-{''.join(f"from . import {SNAKE(option.name)}\n" if option.options else "" for option in element.options)}
-from {"." * (depth - 1)} import _option
-from {"." * depth}utils import types
-from {"." * depth}utils import errors
-from {"." * depth}utils import _parser
+{''.join(f'from . import {SNAKE(option.name)}\n' if option.options else '' for option in element.options)}
+from {'.' * (depth - 1)} import _option
+from {'.' * depth}utils import types
+from {'.' * depth}utils import errors
+from {'.' * depth}utils import _parser
 
 
-class {CAMEL(element.name, "Option")}(_option.Option):
+class {CAMEL(element.name, 'Option')}(_option.Option):
     """
     Represents generic INP {element.name} options.
     """
@@ -271,18 +271,18 @@ import dataclasses
 
 import molmass
 
-{f"from . import {SNAKE(element.name)}" if element.options else ""}
-{"from . import _option" if parent_name else "from . import _card"}
-from {"." * depth}utils import types
-from {"." * depth}utils import errors
-from {"." * depth}utils import _parser
-from {"." * depth}utils import _elements
-from {"." * depth}utils import _show
+{f'from . import {SNAKE(element.name)}' if element.options else ''}
+{'from . import _option' if parent_name else 'from . import _card'}
+from {'.' * depth}utils import types
+from {'.' * depth}utils import errors
+from {'.' * depth}utils import _parser
+from {'.' * depth}utils import _elements
+from {'.' * depth}utils import _show
 
 
 class {CAMEL(element.name)}(_option.{CAMEL(parent_name, 'Option')}):
     """
-    Represents INP {element.name.split('_')[0]}{f" variation #{element.name.split('_')[1]}"if len(element.name.split('_')) - 1 else ""} elements.
+    Represents INP {element.name.split('_')[0]}{f' variation #{element.name.split("_")[1]}' if len(element.name.split('_')) - 1 else ''} elements.
     """
 
     _KEYWORD = "{element.mnemonic}"

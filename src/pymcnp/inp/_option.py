@@ -56,6 +56,6 @@ class Option(_symbol.InpNonterminal):
                 value.append(attribute)
         value = ' '.join(map(str, value))
 
-        source = f"{self.prefix if hasattr(self, 'prefix') and self.prefix is not None else ''}{self._KEYWORD}{self.suffix if hasattr(self, 'suffix') and self.suffix is not None else ''}{(f':{self.designator}' if self.designator else '') if hasattr(self, 'designator') else ''} {value}"
+        source = f'{self.prefix if hasattr(self, "prefix") and self.prefix is not None else ""}{self._KEYWORD}{self.suffix if hasattr(self, "suffix") and self.suffix is not None else ""}{(f":{self.designator}" if self.designator else "") if hasattr(self, "designator") else ""} {value}'
 
         return source
