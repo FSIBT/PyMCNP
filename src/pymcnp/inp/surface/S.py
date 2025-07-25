@@ -199,6 +199,9 @@ class S(_option.SurfaceOption):
         """
         Generates ``Visualization`` from ``S``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``S``
         """

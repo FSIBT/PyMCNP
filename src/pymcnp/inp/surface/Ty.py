@@ -292,6 +292,9 @@ class Ty(_option.SurfaceOption):
         """
         Generates ``Visualization`` from ``Ty``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Ty``
         """

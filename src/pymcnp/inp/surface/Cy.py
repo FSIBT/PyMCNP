@@ -76,6 +76,9 @@ class Cy(_option.SurfaceOption):
         """
         Generates ``Visualization`` from ``Cy``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Cy``.
         """

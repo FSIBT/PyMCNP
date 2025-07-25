@@ -538,6 +538,9 @@ class Rec(_option.SurfaceOption):
         """
         Generates ``Visualization`` from ``Rec``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Rec``
         """

@@ -376,6 +376,9 @@ class Trc(_option.SurfaceOption):
         """
         Generates ``Visualization`` from ``Trc``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Trc``
         """

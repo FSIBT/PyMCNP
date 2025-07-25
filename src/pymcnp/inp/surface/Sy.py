@@ -117,6 +117,9 @@ class Sy(_option.SurfaceOption):
         """
         Generates ``Visualization`` from ``Sy``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Sy``
         """

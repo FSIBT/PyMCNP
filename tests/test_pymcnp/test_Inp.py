@@ -91,8 +91,6 @@ class Test_Inp:
 
         def test_nps(self):
             for example in self.EXAMPLES:
-                print(example)
-
                 inp = pymcnp.Inp(**example)
                 inp.nps
 
@@ -103,8 +101,6 @@ class Test_Inp:
 
         def test_seed(self):
             for example in self.EXAMPLES:
-                print(example)
-
                 inp = pymcnp.Inp(**example)
                 inp.seed
 

@@ -76,6 +76,9 @@ class Py(_option.SurfaceOption):
         """
         Generates ``Visualization`` from ``Py``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Py``
         """
