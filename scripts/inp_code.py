@@ -1,4 +1,5 @@
 import re
+import os
 import pathlib
 
 import inp_data
@@ -51,12 +52,12 @@ def ATTRS_REGEX(element):
 
         if 'Tuple' in attribute.type:
             if 'Option' in attribute.type:
-                o += f'((?: (?:{{{SNAKE(element.name)}.{CAMEL(element.name, "Option")}._REGEX.pattern[2:-2]}}))+?)'
+                o += f'((?: (?:{{{attribute.type[12:-1]}._REGEX.pattern[2:-2]}}))+?)'
             else:
                 o += f'((?: {{{attribute.type[12:-1]}._REGEX.pattern[2:-2]}})+?)'
         else:
             if 'Option' in attribute.type:
-                o += f'( (?:{{{SNAKE(element.name)}.{CAMEL(element.name, "Option")}._REGEX.pattern[2:-2]}}))'
+                o += f'( (?:{{{attribute.type}._REGEX.pattern[2:-2]}}))'
             elif attribute.type == 'types.Boolean':
                 o += f'( {attribute.restriction})'
             else:
@@ -171,7 +172,7 @@ def ATTR_BUILDER(element, attribute, t):
 
         o += f'{TABS(t)}        elif isinstance(item, str):\n'
         o += f'{TABS(t)}            array.append({attribute.type[12:-1]}.from_mcnp(item))\n'
-        o += f'{TABS(t)}    {attribute.name} = types.Tuple(array)\n'
+        o += f'{TABS(t)}    {attribute.name} = types.Tuple({attribute.type[12:-1]})(array)\n'
     else:
         o += f'{TABS(t)}    if isinstance({attribute.name}, {attribute.type}):\n'
         o += f'{TABS(t)}        {attribute.name} = {attribute.name}\n'
@@ -210,9 +211,9 @@ import typing
 
 {''.join(f'from . import {SNAKE(option.name)}\n' if option.options else '' for option in element.options)}
 from {'.' * (depth - 1)} import _option
-from {'.' * depth}utils import types
-from {'.' * depth}utils import errors
-from {'.' * depth}utils import _parser
+from {'.' * depth} import types
+from {'.' * depth} import errors
+from {'.' * depth} import _parser
 
 
 class {CAMEL(element.name, 'Option')}(_option.Option):
@@ -265,19 +266,22 @@ def ATTRS_PROPS(element, parent_name):
 def ELEMENT(element, parent_name, depth):
     return f'''
 import re
+import math
 import copy
 import typing
 import dataclasses
 
+import numpy
 import molmass
 
+{'from . import f' if parent_name == "sdef" else ""}
 {f'from . import {SNAKE(element.name)}' if element.options else ''}
 {'from . import _option' if parent_name else 'from . import _card'}
-from {'.' * depth}utils import types
-from {'.' * depth}utils import errors
-from {'.' * depth}utils import _parser
-from {'.' * depth}utils import _elements
-from {'.' * depth}utils import _show
+from {'.' * depth} import _show
+from {'.' * depth} import types
+from {'.' * depth} import errors
+from {'.' * depth} import _parser
+from {'.' * depth} import _elements
 
 
 class {CAMEL(element.name)}(_option.{CAMEL(parent_name, 'Option')}):
@@ -311,6 +315,68 @@ class {CAMEL(element.name)}(_option.{CAMEL(parent_name, 'Option')}):
 
 
 # SCRIPT #
+paths = []
+delete = [
+    'src/pymcnp/inp/data/act/dgeb/_option.py',
+    'src/pymcnp/inp/data/act/dneb/_option.py',
+    'src/pymcnp/inp/data/dd/_option.py',
+    'src/pymcnp/inp/data/ds_1/_option.py',
+    'src/pymcnp/inp/data/ds_2/_option.py',
+    'src/pymcnp/inp/data/dxt/_option.py',
+    'src/pymcnp/inp/data/embed/matcell/_option.py',
+    'src/pymcnp/inp/data/f_1/_option.py',
+    'src/pymcnp/inp/data/f_2/_option.py',
+    'src/pymcnp/inp/data/files/_option.py',
+    'src/pymcnp/inp/data/ksrc/_option.py',
+    'src/pymcnp/inp/data/pikmt/_option.py',
+    'src/pymcnp/inp/data/ptrac/filter/_option.py',
+    'src/pymcnp/inp/data/uran/_option.py',
+    'src/pymcnp/inp/data/sdef/F.py',
+]
+restore = [
+    'src/pymcnp/inp/cell/__init__.py',
+    'src/pymcnp/inp/data/Ds_1.py',
+    'src/pymcnp/inp/data/Ds_2.py',
+    'src/pymcnp/inp/data/F_0.py',
+    'src/pymcnp/inp/data/F_2.py',
+    'src/pymcnp/inp/data/M_0.py',
+    'src/pymcnp/inp/data/Phys_2.py',
+    'src/pymcnp/inp/data/Spdtl.py',
+    'src/pymcnp/inp/data/act/dgeb/Bias.py',
+    'src/pymcnp/inp/data/act/dgeb/__init__.py',
+    'src/pymcnp/inp/data/act/dneb/Bias.py',
+    'src/pymcnp/inp/data/act/dneb/__init__.py',
+    'src/pymcnp/inp/data/dd/Diagnostic.py',
+    'src/pymcnp/inp/data/dd/__init__.py',
+    'src/pymcnp/inp/data/ds_1/Variables.py',
+    'src/pymcnp/inp/data/ds_1/__init__.py',
+    'src/pymcnp/inp/data/ds_2/Variables.py',
+    'src/pymcnp/inp/data/ds_2/__init__.py',
+    'src/pymcnp/inp/data/dxt/Shell.py',
+    'src/pymcnp/inp/data/dxt/__init__.py',
+    'src/pymcnp/inp/data/embed/Calcvols.py',
+    'src/pymcnp/inp/data/embed/matcell/Entry.py',
+    'src/pymcnp/inp/data/embed/matcell/__init__.py',
+    'src/pymcnp/inp/data/f_1/Sphere.py',
+    'src/pymcnp/inp/data/f_1/__init__.py',
+    'src/pymcnp/inp/data/f_2/Ring.py',
+    'src/pymcnp/inp/data/f_2/__init__.py',
+    'src/pymcnp/inp/data/files/File.py',
+    'src/pymcnp/inp/data/files/__init__.py',
+    'src/pymcnp/inp/data/ksrc/Location.py',
+    'src/pymcnp/inp/data/ksrc/__init__.py',
+    'src/pymcnp/inp/data/pikmt/Photonbias.py',
+    'src/pymcnp/inp/data/pikmt/__init__.py',
+    'src/pymcnp/inp/data/ptrac/filter/Entry.py',
+    'src/pymcnp/inp/data/ptrac/filter/__init__.py',
+    'src/pymcnp/inp/data/sdef/__init__.py',
+    'src/pymcnp/inp/data/sdef/tme_1/Embedded.py',
+    'src/pymcnp/inp/data/sdef/tme_1/__init__.py',
+    'src/pymcnp/inp/data/uran/Stochastic.py',
+    'src/pymcnp/inp/data/uran/__init__.py',
+]
+
+
 def build_element(element, parent_name, path_dir, depth):
     if element.options:
         for option in element.options:
@@ -329,9 +395,27 @@ def build_element(element, parent_name, path_dir, depth):
 
     if parent_name != 'alsdkjfhalsdkjf':
         path_file = path_dir / f'{CAMEL(element.name)}.py'
+        paths.append(path_file)
         with path_file.open('w') as file:
             file.write(ELEMENT(element, parent_name, depth - 1))
 
 
 for card in inp_data.cards.options:
     build_element(card, 'alsdkjfhalsdkjf', pathlib.Path(__file__).parent.parent / 'src/pymcnp/inp', 3)
+
+os.system('ruff check --fix')
+os.system('ruff format')
+
+for path in paths:
+    with path.open('r') as file:
+        text = file.read()
+    text = re.sub(r'import numpy\n\n\n', 'import numpy\n\n', text)
+    text = re.sub(r'import re\n\n\n', 'import re\n\n', text)
+    text = re.sub(r'from [.] import f\n\n', 'from . import f\n', text)
+    with path.open('w') as file:
+        file.write(text)
+
+for path in restore:
+    os.system(f'git restore {path}')
+for path in delete:
+    os.system(f'rm {path}')

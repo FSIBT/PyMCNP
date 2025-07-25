@@ -199,6 +199,9 @@ class Sph(_option.SurfaceOption):
         """
         Generates ``Visualization`` from ``Sph``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Sph``
         """

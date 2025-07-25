@@ -39,12 +39,8 @@ class Test_Mcnp:
         """
 
         for example in self.EXAMPLES_VALID:
-            print(repr(str(example)))
             a = self.element.from_mcnp(example)
-            print(repr(str(a.to_mcnp())))
             b = self.element.from_mcnp(a.to_mcnp())
-            print(repr(str(a)))
-            print(repr(str(b)))
 
             assert a == b
 

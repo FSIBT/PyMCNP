@@ -158,6 +158,9 @@ class Kx(_option.SurfaceOption):
         """
         Generates ``Visualization`` from ``Kx``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Kx``.
         """

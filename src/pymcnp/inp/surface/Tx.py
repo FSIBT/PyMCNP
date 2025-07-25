@@ -292,6 +292,9 @@ class Tx(_option.SurfaceOption):
         """
         Generates ``Visualization`` from ``Tx``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Tx``
         """

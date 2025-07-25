@@ -319,7 +319,7 @@ cards = ElementScheme(
                             name='prefix',
                             type='types.String',
                             description='Star prefix',
-                            restriction='prefix in {"*"}',
+                            restriction='prefix.value.lower() in {"*"}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -339,7 +339,7 @@ cards = ElementScheme(
                             name='prefix',
                             type='types.String',
                             description='Star prefix',
-                            restriction='prefix in {"*"}',
+                            restriction='prefix.value.lower() in {"*"}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -358,7 +358,7 @@ cards = ElementScheme(
                             name='prefix',
                             type='types.String',
                             description='Star prefix',
-                            restriction='prefix in {"*"}',
+                            restriction='prefix.value.lower() in {"*"}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -377,7 +377,7 @@ cards = ElementScheme(
                             name='prefix',
                             type='types.String',
                             description='Star prefix',
-                            restriction='prefix in {"*"}',
+                            restriction='prefix.value.lower() in {"*"}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -396,7 +396,7 @@ cards = ElementScheme(
                             name='prefix',
                             type='types.String',
                             description='Star prefix',
-                            restriction='prefix in {"*"}',
+                            restriction='prefix.value.lower() in {"*"}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -415,7 +415,7 @@ cards = ElementScheme(
                             name='prefix',
                             type='types.String',
                             description='Star prefix',
-                            restriction='prefix in {"*"}',
+                            restriction='prefix.value.lower() in {"*"}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -446,7 +446,7 @@ cards = ElementScheme(
                             name='prefix',
                             type='types.String',
                             description='Star prefix',
-                            restriction='prefix in {"*"}',
+                            restriction='prefix.value.lower() in {"*"}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -487,7 +487,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix in {"*"}',
+                            restriction='prefix.value.lower() in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -514,7 +514,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix in {"*"}',
+                            restriction='prefix.value.lower() in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -541,7 +541,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix in {"*"}',
+                            restriction='prefix.value.lower() in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -568,7 +568,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix in {"*"}',
+                            restriction='prefix.value.lower() in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -595,7 +595,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix in {"*"}',
+                            restriction='prefix.value.lower() in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -622,7 +622,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix in {"*"}',
+                            restriction='prefix.value.lower() in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -761,6 +761,9 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Px``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Px``
         """
@@ -827,17 +830,18 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``P_1``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``P_1``
         """
 
-        a = _show.Vector(self.x2 - self.x1, self.y2 - self.y1, self.z2 - self.z1)
-        b = _show.Vector(self.x3 - self.x1, self.y3 - self.y1, self.z3 - self.z1)
-        n = a * b
+        a = numpy.array((float(self.x2 - self.x1), float(self.y2 - self.y1), float(self.z2 - self.z1)))
+        b = numpy.array((float(self.x3 - self.x1), float(self.y3 - self.y1), float(self.z3 - self.z1)))
+        n = numpy.cross(a, b)
 
-        vis = shapes.Plane(
-            float(n.x), float(n.y), float(n.z), float(n.x * self.x1) + float(n.y * self.y1) + float(n.z * self.z1)
-        )
+        vis = shapes.Plane(n[0], n[1], n[2], n[0] * float(self.x1) + n[1] * float(self.y1) + n[2] * float(self.z1))
 
         return vis
     ''',
@@ -857,12 +861,15 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Px``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Px``
         """
 
         vis = shapes.Plane(1, 0, 0, float(self.d))
-        vis = vis.rotate(_show.Vector(0, 1, 0), 90, (0, 0, 0))
+        vis = vis.rotate(numpy.array((0, 1, 0)), 90, (0, 0, 0))
 
         return vis
     ''',
@@ -882,12 +889,15 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Py``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Py``
         """
 
         vis = shapes.Plane(0, 1, 0, float(self.d))
-        vis = vis.rotate(_show.Vector(1, 0, 0), 90, (0, 0, 0))
+        vis = vis.rotate(numpy.array((1, 0, 0)), 90, (0, 0, 0))
 
         return vis
     ''',
@@ -906,6 +916,9 @@ cards = ElementScheme(
     def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Pz``.
+
+        Parameters:
+            shapes: Collection of shapes.
 
         Returns:
             ``_show.Shape`` for ``Pz``
@@ -930,6 +943,9 @@ cards = ElementScheme(
     def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``So``.
+
+        Parameters:
+            shapes: Collection of shapes.
 
         Returns:
             ``_show.Shape`` for ``So``
@@ -970,12 +986,15 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``S``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``S``
         """
 
         vis = shapes.Sphere(float(self.r))
-        vis = vis.translate(_show.Vector(self.x, self.y, self.z))
+        vis = vis.translate(numpy.array((float(self.x), float(self.y), float(self.z))))
 
         return vis
     ''',
@@ -1000,12 +1019,15 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Sx``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Sx``
         """
 
         vis = shapes.Sphere(float(self.r))
-        vis = vis.translate(_show.Vector(self.x, 0, 0))
+        vis = vis.translate(numpy.array((float(self.x), 0, 0)))
 
         return vis
     ''',
@@ -1030,13 +1052,16 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Sy``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Sy``
         """
 
         vis = shapes.Sphere(float(self.r))
-        vis = vis.rotate(_show.Vector(1, 0, 0), 90, (0, 0, 0))
-        vis = vis.translate(_show.Vector(0, self.y, 0))
+        vis = vis.rotate(numpy.array((1, 0, 0)), 90, (0, 0, 0))
+        vis = vis.translate(numpy.array((0, float(self.y), 0)))
 
         return vis
     ''',
@@ -1061,12 +1086,15 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Sz``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Sz``
         """
 
         vis = shapes.Sphere(float(self.r))
-        vis = vis.translate(_show.Vector(0, 0, self.z))
+        vis = vis.translate(numpy.array((0, 0, float(self.z))))
 
         return vis
     ''',
@@ -1096,13 +1124,16 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``C_x``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``C_x``.
         """
 
         vis = shapes.CylinderUnbounded(float(self.r))
-        vis = vis.rotate(_show.Vector(0, 1, 0), 90, (0, 0, 0))
-        vis = vis.translate(_show.Vector(0, self.y, self.z))
+        vis = vis.rotate(numpy.array((0, 1, 0)), 90, (0, 0, 0))
+        vis = vis.translate(numpy.array((0, float(self.y), float(self.z))))
 
         return vis
     ''',
@@ -1132,13 +1163,16 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``C_y``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``C_y``.
         """
 
         vis = shapes.CylinderUnbounded(float(self.r))
-        vis = vis.rotate(_show.Vector(1, 0, 0), 90, (0, 0, 0))
-        vis = vis.translate(_show.Vector(self.x, 0, self.z))
+        vis = vis.rotate(numpy.array((1, 0, 0)), 90, (0, 0, 0))
+        vis = vis.translate(numpy.array((float(self.x), 0, float(self.z))))
 
         return vis
     ''',
@@ -1167,13 +1201,17 @@ cards = ElementScheme(
     def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``C_z``.
+
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``C_z``.
         """
 
         vis = shapes.CylinderUnbounded(float(self.r))
-        vis = vis.rotate(_show.Vector(0, 1, 0), 90, (0, 0, 0))
-        vis = vis.translate(_show.Vector(self.x, self.y, 0))
+        vis = vis.rotate(numpy.array((0, 1, 0)), 90, (0, 0, 0))
+        vis = vis.translate(numpy.array((float(self.x), float(self.y), 0)))
 
         return vis
     ''',
@@ -1193,12 +1231,15 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Cx``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Cx``.
         """
 
         vis = shapes.CylinderUnbounded(float(self.r))
-        vis = vis.rotate(_show.Vector(0, 1, 0), 90, (0, 0, 0))
+        vis = vis.rotate(numpy.array((0, 1, 0)), 90, (0, 0, 0))
 
         return vis
     ''',
@@ -1218,12 +1259,15 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Cy``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Cy``.
         """
 
         vis = shapes.CylinderUnbounded(float(self.r))
-        vis = vis.rotate(_show.Vector(1, 0, 0), 90, (0, 0, 0))
+        vis = vis.rotate(numpy.array((1, 0, 0)), 90, (0, 0, 0))
 
         return vis
     ''',
@@ -1242,6 +1286,9 @@ cards = ElementScheme(
     def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Cz``.
+
+        Parameters:
+            shapes: Collection of shapes.
 
         Returns:
             ``_show.Shape`` for ``Cz``.
@@ -1287,6 +1334,9 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``K_x``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``K_x``.
         """
@@ -1294,8 +1344,8 @@ cards = ElementScheme(
         vis = shapes.ConeUnbounded(
             float(self.t_squared) ** (1 / 2), float(self.plusminus_1)
         )
-        vis = vis.rotate(_show.Vector(0, 1, 0), 90, (0, 0, 0))
-        vis = vis.translate(_show.Vector(self.x, self.y, self.z))
+        vis = vis.rotate(numpy.array((0, 1, 0)), 90, (0, 0, 0))
+        vis = vis.translate(numpy.array((float(self.x), float(self.y), float(self.z))))
 
         return vis
     ''',
@@ -1335,6 +1385,9 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``K_y``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``K_y``.
         """
@@ -1342,8 +1395,8 @@ cards = ElementScheme(
         vis = shapes.ConeUnbounded(
             float(self.t_squared) ** (1 / 2), float(self.plusminus_1)
         )
-        vis = vis.rotate(_show.Vector(1, 0, 0), 90, (0, 0, 0))
-        vis = vis.translate(_show.Vector(self.x, self.y, self.z))
+        vis = vis.rotate(numpy.array((1, 0, 0)), 90, (0, 0, 0))
+        vis = vis.translate(numpy.array((float(self.x), float(self.y), float(self.z))))
 
         return vis
     ''',
@@ -1383,6 +1436,9 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``K_z``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``K_z``.
         """
@@ -1390,7 +1446,7 @@ cards = ElementScheme(
         vis = shapes.ConeUnbounded(
             float(self.t_squared) ** (1 / 2), float(self.plusminus_1)
         )
-        vis = vis.translate(_show.Vector(self.x, self.y, self.z))
+        vis = vis.translate(numpy.array((float(self.x), float(self.y), float(self.z))))
 
         return vis
     ''',
@@ -1420,6 +1476,9 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Kx``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Kx``.
         """
@@ -1427,8 +1486,8 @@ cards = ElementScheme(
         vis = shapes.ConeUnbounded(
             float(self.t_squared) ** (1 / 2), float(self.plusminus_1)
         )
-        vis = vis.rotate(_show.Vector(0, 1, 0), 90, (0, 0, 0))
-        vis = vis.translate(_show.Vector(self.x, 0, 0))
+        vis = vis.rotate(numpy.array((0, 1, 0)), 90, (0, 0, 0))
+        vis = vis.translate(numpy.array((float(self.x), 0, 0)))
 
         return vis
     ''',
@@ -1458,6 +1517,9 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Ky``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Ky``.
         """
@@ -1465,8 +1527,8 @@ cards = ElementScheme(
         vis = shapes.ConeUnbounded(
             float(self.t_squared) ** (1 / 2), float(self.plusminus_1)
         )
-        vis = vis.rotate(_show.Vector(1, 0, 0), 90, (0, 0, 0))
-        vis = vis.translate(_show.Vector(0, self.y, 0))
+        vis = vis.rotate(numpy.array((1, 0, 0)), 90, (0, 0, 0))
+        vis = vis.translate(numpy.array((0, float(self.y), 0)))
 
         return vis
     ''',
@@ -1496,6 +1558,9 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Kz``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Kz``.
         """
@@ -1503,7 +1568,7 @@ cards = ElementScheme(
         vis = shapes.ConeUnbounded(
             float(self.t_squared) ** (1 / 2), float(self.plusminus_1)
         )
-        vis = vis.translate(_show.Vector(0, 0, self.z))
+        vis = vis.translate(numpy.array((0, 0, float(self.z))))
 
         return vis
     ''',
@@ -1660,13 +1725,16 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Tx``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Tx``
         """
 
         vis = shapes.Torus(float(self.b), float(self.c), float(self.a))
-        vis = vis.rotate(_show.Vector(0, 1, 0), 90, (0, 0, 0))
-        vis = vis.translate(_show.Vector(self.x, self.y, self.z))
+        vis = vis.rotate(numpy.array((0, 1, 0)), 90, (0, 0, 0))
+        vis = vis.translate(numpy.array((float(self.x), float(self.y), float(self.z))))
 
         return vis
     ''',
@@ -1711,13 +1779,16 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Ty``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Ty``
         """
 
         vis = shapes.Torus(float(self.b), float(self.c), float(self.a))
-        vis = vis.rotate(_show.Vector(1, 0, 0), 90, (0, 0, 0))
-        vis = vis.translate(_show.Vector(self.x, self.y, self.z))
+        vis = vis.rotate(numpy.array((1, 0, 0)), 90, (0, 0, 0))
+        vis = vis.translate(numpy.array((float(self.x), float(self.y), float(self.z))))
 
         return vis
     ''',
@@ -1762,12 +1833,15 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Tz``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Tz``
         """
 
         vis = shapes.Torus(float(self.b), float(self.c), float(self.a))
-        vis = vis.translate(_show.Vector(self.x, self.y, self.z))
+        vis = vis.translate(numpy.array((float(self.x), float(self.y), float(self.z))))
 
         return vis
     ''',
@@ -1962,18 +2036,22 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Box``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Box``.
         """
 
-        v = _show.Vector(self.vx, self.vy, self.vz)
-        a1 = _show.Vector(self.a1x, self.a1y, self.a1z)
-        a2 = _show.Vector(self.a2x, self.a2y, self.a2z)
-        a3 = _show.Vector(self.a3x, self.a3y, self.a3z)
-        cross = _show.Vector(1, 0, 0) * a1
-        angle = _show.Vector(1, 0, 0) & a1
+        v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))
+        a1 = numpy.array((float(self.a1x), float(self.a1y), float(self.a1z)))
+        a2 = numpy.array((float(self.a2x), float(self.a2y), float(self.a2z)))
+        a3 = numpy.array((float(self.a3x), float(self.a3y), float(self.a3z)))
 
-        vis = shapes.Box(a1.norm(), a2.norm(), a3.norm())
+        cross = numpy.cross(numpy.array((1, 0, 0)), a1)
+        angle = numpy.degrees(numpy.arccos(a1[0] / numpy.linalg.norm(a1)))
+
+        vis = shapes.Box(numpy.linalg.norm(a1), numpy.linalg.norm(a2), numpy.linalg.norm(a3))
         vis = vis.rotate(cross, angle, (0, 0, 0))
         vis = vis.translate(v)
 
@@ -2022,6 +2100,9 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Rpp``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Rpp``
         """
@@ -2068,13 +2149,16 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Sph``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Sph``
         """
 
         vis = shapes.Sphere(float(self.r))
         vis = vis.translate(
-            _show.Vector(self.vx, self.vy, self.vz)
+            numpy.array((float(self.vx), float(self.vy), float(self.vz)))
         )
 
         return vis
@@ -2125,17 +2209,20 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Rcc``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Rcc``
         """
 
-        v = _show.Vector(self.vx, self.vy, self.vz)
-        h = _show.Vector(self.hx, self.hy, self.hz)
+        v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))
+        h = numpy.array((float(self.hx), float(self.hy), float(self.hz)))
 
-        cross = v * _show.Vector(0, 0, 1)
-        angle = v & _show.Vector(0, 0, 1)
+        cross = numpy.cross(v, numpy.array((0, 0, 1)))
+        angle = numpy.degrees(numpy.arccos(v[2] / numpy.linalg.norm(numpy.linalg.norm(v))))
 
-        vis = shapes.CylinderCircular(h.norm(), self.r)
+        vis = shapes.CylinderCircular(numpy.linalg.norm(h), float(self.r))
         vis = vis.rotate(cross, angle, (0, 0, 0))
         vis = vis.translate(v)
 
@@ -2233,22 +2320,26 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Rhp``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Rhp``
         """
 
-        v = _show.Vector(self.vx, self.vy, self.vz)
-        h = _show.Vector(self.hx, self.hy, self.hz)
-        r = _show.Vector(self.r1, self.r2, self.r3)
-        s = _show.Vector(self.s1, self.s2, self.s3)
-        t = _show.Vector(self.t1, self.t2, self.t3)
+        v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))
+        h = numpy.array((float(self.hx), float(self.hy), float(self.hz)))
+        r = numpy.array((float(self.r1), float(self.r2), float(self.r3)))
+        s = numpy.array((float(self.s1), float(self.s2), float(self.s3)))
+        t = numpy.array((float(self.t1), float(self.t2), float(self.t3)))
 
-        cross = v * _show.Vector(0, 0, 1)
-        angle = v & _show.Vector(0, 0, 1)
+        cross = numpy.cross(v, numpy.array((0, 0, 1)))
+        angle = numpy.degrees(numpy.arccos(v[2] / numpy.linalg.norm(v)))
+        apothem_r = numpy.linalg.norm(r) * 2 / math.sqrt(3)
+        apothem_s = numpy.linalg.norm(s) * 2 / math.sqrt(3)
+        apothem_t = numpy.linalg.norm(t) * 2 / math.sqrt(3)
 
-        vis = shapes.CylinderHexagonal(
-            h.norm(), r.apothem(), s.apothem(), t.apothem()
-        )
+        vis = shapes.CylinderHexagonal(numpy.linalg.norm(h), apothem_r, apothem_s, apothem_t)
         vis = vis.rotate(cross, angle, (0, 0, 0))
         vis = vis.translate(v)
 
@@ -2327,19 +2418,22 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Rec``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Rec``
         """
 
-        v = _show.Vector(self.vx, self.vy, self.vz)
-        h = _show.Vector(self.hx, self.hy, self.hz)
-        v1 = _show.Vector(self.v1x, self.v1y, self.v1z)
-        v2 = _show.Vector(self.v2x, self.v2y, self.v2z)
+        v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))
+        h = numpy.array((float(self.hx), float(self.hy), float(self.hz)))
+        v1 = numpy.array((float(self.v1x), float(self.v1y), float(self.v1z)))
+        v2 = numpy.array((float(self.v2x), float(self.v2y), float(self.v2z)))
 
-        cross = v * _show.Vector(0, 0, 1)
-        angle = v & _show.Vector(0, 0, 1)
+        cross = numpy.cross(v, numpy.array((0, 0, 1)))
+        angle = numpy.degrees(numpy.arccos(v[2] / numpy.linalg.norm(v)))
 
-        vis = shapes.CylinderElliptical(h.norm(), v1.norm(), v2.norm())
+        vis = shapes.CylinderElliptical(numpy.linalg.norm(h), numpy.linalg.norm(v1), numpy.linalg.norm(v2))
         vis = vis.rotate(cross, angle, (0, 0, 0))
         vis = vis.translate(v)
 
@@ -2396,21 +2490,24 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Trc``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Trc``
         """
 
-        h = _show.Vector(self.hx, self.hy, self.hz)
+        h = numpy.array((float(self.hx), float(self.hy), float(self.hz)))
 
-        cross = h * _show.Vector(0, 0, 1)
-        angle = h & _show.Vector(0, 0, 1)
+        cross = numpy.cross(h, numpy.array((0, 0, 1)))
+        angle = numpy.degrees(numpy.arccos(h[2] / numpy.linalg.norm(h)))
 
         vis = shapes.ConeTruncated(
-            h.norm(), float(self.r1), float(self.r2)
+            numpy.linalg.norm(h), float(self.r1), float(self.r2)
         )
         vis = vis.rotate(cross, angle, (0, 0, 0))
         vis = vis.translate(
-            _show.Vector(self.vx, self.vy, self.vz)
+            numpy.array((float(self.vx), float(self.vy), float(self.vz)))
         )
 
         return vis
@@ -2461,30 +2558,37 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Ell``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Ell``.
         """
 
-        v1 = _show.Vector(self.v1x, self.v1y, self.v1z)
-        v2 = _show.Vector(self.v2x, self.v2y, self.v2z)
+        v1 = numpy.array((float(self.v1x), float(self.v1y), float(self.v1z)))
+        v2 = numpy.array((float(self.v2x), float(self.v2y), float(self.v2z)))
 
         if self.rm > 0:
-            center = _show.Vector(
-                (v2 - v1).x / 2 + v1.x, (v2 - v1).y / 2 + v1.y, (v2 - v1).z / 2 + v1.z
-            )
+            center = numpy.array(((v2 - v1)[0] / 2 + v1[0], (v2 - v1)[1] / 2 + v1[1], (v2 - v1)[2] / 2 + v1[2]))
             major_length = float(self.rm)
-            minor_length = 2 * (((major_length / 2) ** 2 - ((v2 - v1).norm() / 2) ** 2) ** 0.5)
-            cross = (v2 - v1) * _show.Vector(1, 0, 0)
-            angle = (v2 - v1) & _show.Vector(1, 0, 0)
-        elif self.rm < 0:
+            minor_length = 2 * (((major_length / 2) ** 2 - (numpy.linalg.norm(v2 - v1) / 2) ** 2) ** 0.5)
+
+            if numpy.linalg.norm(v2 - v1):
+                cross = numpy.cross(v2 - v1, numpy.array((1, 0, 0)))
+                angle = numpy.degrees(numpy.arccos((v2 - v1)[0] / numpy.linalg.norm(v2 - v1)))
+            else:
+                cross = None
+                angle = 0
+        if self.rm < 0:
             center = v1
-            major_length = v2.norm()
+            major_length = numpy.linalg.norm(v2)
             minor_length = -float(self.rm)
-            cross = v2 * _show.Vector(1, 0, 0)
-            angle = v2 & _show.Vector(1, 0, 0)
+            cross = numpy.cross(v2, numpy.array((1, 0, 0)))
+            angle = numpy.degrees(numpy.arccos(v2[0] / numpy.linalg.norm(v2)))
 
         vis = shapes.Ellipsoid(major_length, minor_length)
-        vis = vis.rotate(cross, angle, (0, 0, 0))
+        if cross is not None:
+            vis = vis.rotate(cross, angle, (0, 0, 0))
         vis = vis.translate(center)
 
         return vis
@@ -2560,19 +2664,22 @@ cards = ElementScheme(
         """
         Generates ``Visualization`` from ``Wed``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Wed``
         """
 
-        v = _show.Vector(self.vx, self.vy, self.vz)
-        v1 = _show.Vector(self.v1x, self.v1y, self.v1z)
-        v2 = _show.Vector(self.v2x, self.v2y, self.v2z)
-        v3 = _show.Vector(self.v3x, self.v3y, self.v3z)
+        v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))
+        v1 = numpy.array((float(self.v1x), float(self.v1y), float(self.v1z)))
+        v2 = numpy.array((float(self.v2x), float(self.v2y), float(self.v2z)))
+        v3 = numpy.array((float(self.v3x), float(self.v3y), float(self.v3z)))
 
-        cross = _show.Vector(1, 0, 0) * v1
-        angle = _show.Vector(1, 0, 0) & v1
+        cross = numpy.cross(numpy.array((1, 0, 0)), v1)
+        angle = numpy.degrees(numpy.arccos(v1[0] / numpy.linalg.norm(v1)))
 
-        vis = shapes.Wedge(v1.norm(), v2.norm(), v3.norm())
+        vis = shapes.Wedge(numpy.linalg.norm(v1), numpy.linalg.norm(v2), numpy.linalg.norm(v3))
         vis = vis.rotate(cross, angle, (0, 0, 0))
         vis = vis.translate(v)
 
@@ -2758,7 +2865,7 @@ cards = ElementScheme(
                             name='no',
                             type='types.String',
                             description='Volume calculation on/off',
-                            restriction='no in {"no"}',
+                            restriction='no.value.lower() in {"no"}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -2787,7 +2894,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix in {"*"}',
+                            restriction='prefix.value.lower() in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -2874,7 +2981,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix in {"*"}',
+                            restriction='prefix.value.lower() in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -2946,7 +3053,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix in {"*"}',
+                            restriction='prefix.value.lower() in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -3013,7 +3120,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix in {"*"}',
+                            restriction='prefix.value.lower() in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -3070,7 +3177,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix in {"*"}',
+                            restriction='prefix.value.lower() in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -3527,7 +3634,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.String',
                                             description='Trcor',
-                                            restriction='setting in {"diag"}',
+                                            restriction='setting.value.lower() in {"diag"}',
                                         ),
                                     ],
                                 ),
@@ -3639,7 +3746,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.String',
                                             description='Transport accelerations',
-                                            restriction='setting in {"dsa", "tsa", "no"}',
+                                            restriction='setting.value.lower() in {"dsa", "tsa", "no"}',
                                         ),
                                     ],
                                 ),
@@ -4054,7 +4161,7 @@ cards = ElementScheme(
                                     name='form',
                                     type='types.String',
                                     description='Format specification of the embedded mesh input file',
-                                    restriction='form in {"lnk3dnt", "abaqus", "mcnpum"}',
+                                    restriction='form.value.lower() in {"lnk3dnt", "abaqus", "mcnpum"}',
                                 ),
                             ],
                         ),
@@ -4099,7 +4206,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Yes/no calculate the inferred geometry cell information',
-                                    restriction='setting in {"yes", "no"}',
+                                    restriction='setting.value.lower() in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -4111,7 +4218,7 @@ cards = ElementScheme(
                                     name='parameter',
                                     type='types.String',
                                     description='Debug parameter',
-                                    restriction='parameter in {"echomesh"}',
+                                    restriction='parameter.value.lower() in {"echomesh"}',
                                 ),
                             ],
                         ),
@@ -4123,7 +4230,7 @@ cards = ElementScheme(
                                     name='kind',
                                     type='types.String',
                                     description='File type for the elemental edit output file',
-                                    restriction='kind in {"ascii", "binary"}',
+                                    restriction='kind.value.lower() in {"ascii", "binary"}',
                                 ),
                             ],
                         ),
@@ -4229,7 +4336,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Flag to multiply by atom density',
-                                    restriction='setting in {"yes", "no"}',
+                                    restriction='setting.value.lower() in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -4275,7 +4382,7 @@ cards = ElementScheme(
                                     name='kind',
                                     type='types.String',
                                     description='Multiplier type',
-                                    restriction='kind in {"flux", "isotropic", "population", "reaction", "source", "track"}',
+                                    restriction='kind.value.lower() in {"flux", "isotropic", "population", "reaction", "source", "track"}',
                                 ),
                             ],
                         ),
@@ -4407,7 +4514,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Flag for density-effect correction to electron stopping power',
-                                    restriction='setting in {"yes", "no"}',
+                                    restriction='setting.value.lower() in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -4774,7 +4881,7 @@ cards = ElementScheme(
                             name='mcal',
                             type='types.String',
                             description='Problem type setting',
-                            restriction='mcal in {"f", "a"}',
+                            restriction='mcal.value.lower() in {"f", "a"}',
                         ),
                         AttributeScheme(
                             name='igm',
@@ -5231,7 +5338,7 @@ cards = ElementScheme(
                                     name='kind',
                                     type='types.String',
                                     description='Type of delayed particle(s) to be produced from residuals created by fission',
-                                    restriction='kind in {"none", "n,p,e,f,a", "all"}',
+                                    restriction='kind.value.lower() in {"none", "n,p,e,f,a", "all"}',
                                 ),
                             ],
                         ),
@@ -5243,7 +5350,7 @@ cards = ElementScheme(
                                     name='kind',
                                     type='types.String',
                                     description='Type of delayed particle(s) to be produced by simple multi-particle reaction',
-                                    restriction='kind in {"none", "n,p,e,f,a", "all"}',
+                                    restriction='kind.value.lower() in {"none", "n,p,e,f,a", "all"}',
                                 ),
                             ],
                         ),
@@ -5255,7 +5362,7 @@ cards = ElementScheme(
                                     name='source',
                                     type='types.String',
                                     description='Delayed neutron data source',
-                                    restriction='source in {"model", "library", "both", "prompt"}',
+                                    restriction='source.value.lower() in {"model", "library", "both", "prompt"}',
                                 ),
                             ],
                         ),
@@ -5267,7 +5374,7 @@ cards = ElementScheme(
                                     name='source',
                                     type='types.String',
                                     description='Delayed gamma data source',
-                                    restriction='source in {"line", "mg", "none"}',
+                                    restriction='source.value.lower() in {"line", "mg", "none"}',
                                 ),
                             ],
                         ),
@@ -5395,7 +5502,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Flag for correlated or uncorrelated',
-                                    restriction='setting in {"correlate", "nonfiss_cor"}',
+                                    restriction='setting.value.lower() in {"correlate", "nonfiss_cor"}',
                                 ),
                             ],
                         ),
@@ -5490,7 +5597,7 @@ cards = ElementScheme(
                             name='setting',
                             type='types.String',
                             description='Physics models on/off',
-                            restriction='setting in {"on", "off"}',
+                            restriction='setting.value.lower() in {"on", "off"}',
                             optional=True,
                         ),
                     ],
@@ -5906,7 +6013,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Multiple coulomb scattering setting',
-                                    restriction='setting in {"off", "fnal1", "gaussian", "fnal2"}',
+                                    restriction='setting.value.lower() in {"off", "fnal1", "gaussian", "fnal2"}',
                                 ),
                             ],
                         ),
@@ -5918,7 +6025,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Slowing down energy losses setting',
-                                    restriction='setting in {"off", "strag1", "csda"}',
+                                    restriction='setting.value.lower() in {"off", "strag1", "csda"}',
                                 ),
                             ],
                         ),
@@ -5930,7 +6037,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Nuclear reactions setting',
-                                    restriction='setting in {"off", "on", "atten", "remove"}',
+                                    restriction='setting.value.lower() in {"off", "on", "atten", "remove"}',
                                 ),
                             ],
                         ),
@@ -5942,7 +6049,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Nuclear elastic scattering setting',
-                                    restriction='setting in {"off", "on"}',
+                                    restriction='setting.value.lower() in {"off", "on"}',
                                 ),
                             ],
                         ),
@@ -6029,7 +6136,7 @@ cards = ElementScheme(
                             name='kind',
                             type='types.String',
                             description='Magnetic field type',
-                            restriction='kind in {"const", "quad", "quadff"}',
+                            restriction='kind.value.lower() in {"const", "quad", "quadff"}',
                         ),
                         AttributeScheme(
                             name='options',
@@ -6142,7 +6249,7 @@ cards = ElementScheme(
                     ],
                     options=[
                         ElementScheme(
-                            name='cel',
+                            name='cel_0',
                             mnemonic='cel',
                             attributes=[
                                 AttributeScheme(
@@ -6154,7 +6261,7 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='sur',
+                            name='sur_0',
                             mnemonic='sur',
                             attributes=[
                                 AttributeScheme(
@@ -6166,7 +6273,7 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='erg_0',
+                            name='erg_2',
                             mnemonic='erg',
                             attributes=[
                                 AttributeScheme(
@@ -6177,18 +6284,7 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='erg_1',
-                            mnemonic='erg',
-                            attributes=[
-                                AttributeScheme(
-                                    name='energy',
-                                    type='types.Distribution',
-                                    description='Kinetic energy',
-                                ),
-                            ],
-                        ),
-                        ElementScheme(
-                            name='tme_1',
+                            name='tme_2',
                             mnemonic='tme',
                             attributes=[
                                 AttributeScheme(
@@ -6199,18 +6295,7 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='tme_1',
-                            mnemonic='tme',
-                            attributes=[
-                                AttributeScheme(
-                                    name='time',
-                                    type='types.EmbeddedDistribution',
-                                    description='Time in shakes',
-                                ),
-                            ],
-                        ),
-                        ElementScheme(
-                            name='dir_0',
+                            name='dir_2',
                             mnemonic='dir',
                             attributes=[
                                 AttributeScheme(
@@ -6222,19 +6307,7 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='dir_1',
-                            mnemonic='dir',
-                            attributes=[
-                                AttributeScheme(
-                                    name='cosine',
-                                    type='types.Distribution',
-                                    description='Cosine of the angle between VEC and particle',
-                                    optional=True,
-                                ),
-                            ],
-                        ),
-                        ElementScheme(
-                            name='vec',
+                            name='vec_0',
                             mnemonic='vec',
                             attributes=[
                                 AttributeScheme(
@@ -6255,7 +6328,7 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='nrm',
+                            name='nrm_0',
                             mnemonic='nrm',
                             attributes=[
                                 AttributeScheme(
@@ -6266,7 +6339,7 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='pos',
+                            name='pos_0',
                             mnemonic='pos',
                             attributes=[
                                 AttributeScheme(
@@ -6277,7 +6350,7 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='rad_0',
+                            name='rad_2',
                             mnemonic='rad',
                             attributes=[
                                 AttributeScheme(
@@ -6299,7 +6372,7 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='ext',
+                            name='ext_0',
                             mnemonic='ext',
                             attributes=[
                                 AttributeScheme(
@@ -6310,7 +6383,7 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='axs',
+                            name='axs_0',
                             mnemonic='axs',
                             attributes=[
                                 AttributeScheme(
@@ -6331,40 +6404,7 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='x',
-                            mnemonic='x',
-                            attributes=[
-                                AttributeScheme(
-                                    name='x_coordinate',
-                                    type='types.Real',
-                                    description='X-cordinate of position',
-                                ),
-                            ],
-                        ),
-                        ElementScheme(
-                            name='y',
-                            mnemonic='y',
-                            attributes=[
-                                AttributeScheme(
-                                    name='y_coordinate',
-                                    type='types.Real',
-                                    description='Y-cordinate of position',
-                                ),
-                            ],
-                        ),
-                        ElementScheme(
-                            name='z',
-                            mnemonic='z',
-                            attributes=[
-                                AttributeScheme(
-                                    name='z_coordinate',
-                                    type='types.Real',
-                                    description='Z-cordinate of position',
-                                ),
-                            ],
-                        ),
-                        ElementScheme(
-                            name='ccc',
+                            name='ccc_0',
                             mnemonic='ccc',
                             attributes=[
                                 AttributeScheme(
@@ -6376,7 +6416,7 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='ara',
+                            name='ara_0',
                             mnemonic='ara',
                             attributes=[
                                 AttributeScheme(
@@ -6387,7 +6427,7 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='wgt',
+                            name='wgt_0',
                             mnemonic='wgt',
                             attributes=[
                                 AttributeScheme(
@@ -6398,7 +6438,7 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='tr_0',
+                            name='tr_2',
                             mnemonic='tr',
                             attributes=[
                                 AttributeScheme(
@@ -6420,7 +6460,7 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='eff',
+                            name='eff_0',
                             mnemonic='eff',
                             attributes=[
                                 AttributeScheme(
@@ -6431,7 +6471,7 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='par',
+                            name='par_0',
                             mnemonic='par',
                             attributes=[
                                 AttributeScheme(
@@ -6442,7 +6482,7 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='dat',
+                            name='dat_0',
                             mnemonic='dat',
                             attributes=[
                                 AttributeScheme(
@@ -6466,7 +6506,7 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='loc',
+                            name='loc_0',
                             mnemonic='loc',
                             attributes=[
                                 AttributeScheme(
@@ -6490,7 +6530,7 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='bem',
+                            name='bem_0',
                             mnemonic='bem',
                             attributes=[
                                 AttributeScheme(
@@ -6512,7 +6552,7 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='bap',
+                            name='bap_0',
                             mnemonic='bap',
                             attributes=[
                                 AttributeScheme(
@@ -6529,6 +6569,574 @@ cards = ElementScheme(
                                     name='u',
                                     type='types.Real',
                                     description='Unused, arrbirary value',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='cel_1',
+                            mnemonic='cel',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='sur_1',
+                            mnemonic='sur',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='erg_2',
+                            mnemonic='erg',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='tme_2',
+                            mnemonic='tme',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='dir_2',
+                            mnemonic='dir',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='vec_1',
+                            mnemonic='vec',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='nrm_1',
+                            mnemonic='nrm',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='pos_1',
+                            mnemonic='pos',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='rad_2',
+                            mnemonic='rad',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='ext_1',
+                            mnemonic='ext',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='axs_1',
+                            mnemonic='axs',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='x_0',
+                            mnemonic='x',
+                            attributes=[
+                                AttributeScheme(
+                                    name='position',
+                                    type='types.Real',
+                                    description='Position x-component',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='y_0',
+                            mnemonic='y',
+                            attributes=[
+                                AttributeScheme(
+                                    name='position',
+                                    type='types.Real',
+                                    description='Position y-component',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='z_0',
+                            mnemonic='z',
+                            attributes=[
+                                AttributeScheme(
+                                    name='position',
+                                    type='types.Real',
+                                    description='Position z-component',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='x_1',
+                            mnemonic='x',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='y_1',
+                            mnemonic='y',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='z_1',
+                            mnemonic='z',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='ccc_1',
+                            mnemonic='ccc',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='ara_1',
+                            mnemonic='ara',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='wgt_1',
+                            mnemonic='wgt',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='tr_2',
+                            mnemonic='tr',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='eff_1',
+                            mnemonic='eff',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='par_1',
+                            mnemonic='par',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='dat_1',
+                            mnemonic='dat',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='loc_1',
+                            mnemonic='loc',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='bem_1',
+                            mnemonic='bem',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='bap_1',
+                            mnemonic='bap',
+                            attributes=[
+                                AttributeScheme(
+                                    name='option',
+                                    type='f.FOption',
+                                    description='Dependent distribution option',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='f',
+                            mnemonic='',
+                            attributes=[],
+                            options=[
+                                ElementScheme(
+                                    name='fcel',
+                                    mnemonic='fcel',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='fsur',
+                                    mnemonic='fsur',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='ferg',
+                                    mnemonic='ferg',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='ftme',
+                                    mnemonic='ftme',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='fdir',
+                                    mnemonic='fdir',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='fvec',
+                                    mnemonic='fvec',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='fnrm',
+                                    mnemonic='fnrm',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='fpos',
+                                    mnemonic='fpos',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='frad',
+                                    mnemonic='frad',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='fext',
+                                    mnemonic='fext',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='faxs',
+                                    mnemonic='faxs',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='fx',
+                                    mnemonic='fx',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='fy',
+                                    mnemonic='fy',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='fz',
+                                    mnemonic='fz',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='fccc',
+                                    mnemonic='fccc',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='fara',
+                                    mnemonic='fara',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='fwgt',
+                                    mnemonic='fwgt',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='ftr',
+                                    mnemonic='ftr',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='feff',
+                                    mnemonic='feff',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='fpar',
+                                    mnemonic='fpar',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='fdat',
+                                    mnemonic='fdat',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='floc',
+                                    mnemonic='floc',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='fbem',
+                                    mnemonic='fbem',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
+                                ),
+                                ElementScheme(
+                                    name='fbap',
+                                    mnemonic='fbap',
+                                    attributes=[
+                                        AttributeScheme(
+                                            name='distribution',
+                                            type='types.Distribution',
+                                            description='Dependent distribution',
+                                        ),
+                                    ],
                                 ),
                             ],
                         ),
@@ -6615,7 +7223,7 @@ cards = ElementScheme(
                             name='option',
                             type='types.String',
                             description='Probability kind setting',
-                            restriction='option in {"d", "c", "v", "w"}',
+                            restriction='option.value.lower() in {"d", "c", "v", "w"}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -6663,7 +7271,7 @@ cards = ElementScheme(
                             name='option',
                             type='types.String',
                             description='Bias kind setting',
-                            restriction='option in {"d", "c", "v", "w"}',
+                            restriction='option.value.lower() in {"d", "c", "v", "w"}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -6711,7 +7319,7 @@ cards = ElementScheme(
                             name='option',
                             type='types.String',
                             description='Dependent variable setting',
-                            restriction='option in {"h", "l", "s"}',
+                            restriction='option.value.lower() in {"h", "l", "s"}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -7189,7 +7797,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Yes/No calculate point-kinetics parameters',
-                                    restriction='setting in {"yes", "no"}',
+                                    restriction='setting.value.lower() in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -7201,7 +7809,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Yes/No detailed precursor information',
-                                    restriction='setting in {"yes", "no"}',
+                                    restriction='setting.value.lower() in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -7213,7 +7821,7 @@ cards = ElementScheme(
                                     name='fileopt',
                                     type='types.String',
                                     description='Format of sensity profiles output file',
-                                    restriction='fileopt in {"mctal", "tsunami-b"}',
+                                    restriction='fileopt.value.lower() in {"mctal", "tsunami-b"}',
                                 ),
                             ],
                         ),
@@ -7225,7 +7833,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Yes/No FMAT',
-                                    restriction='setting in {"yes", "no"}',
+                                    restriction='setting.value.lower() in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -7270,7 +7878,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='fmataccel',
-                                    restriction='setting in {"yes", "no"}',
+                                    restriction='setting.value.lower() in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -7282,7 +7890,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='fmatreduce',
-                                    restriction='setting in {"yes", "no"}',
+                                    restriction='setting.value.lower() in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -7383,7 +7991,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix in {"*", "+"}',
+                            restriction='prefix.value.lower() in {"*", "+"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -7421,7 +8029,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix in {"*", "+"}',
+                            restriction='prefix.value.lower() in {"*", "+"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -7498,7 +8106,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix in {"*", "+"}',
+                            restriction='prefix.value.lower() in {"*", "+"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -7512,7 +8120,7 @@ cards = ElementScheme(
                             name='a',
                             type='types.String',
                             description='Letter',
-                            restriction='a in {"x", "y", "z"}',
+                            restriction='a.value.lower() in {"x", "y", "z"}',
                         ),
                         AttributeScheme(
                             name='designator',
@@ -7779,7 +8387,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix in {"*", "+"}',
+                            restriction='prefix.value.lower() in {"*", "+"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -7974,7 +8582,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix in {"*", "+"}',
+                            restriction='prefix.value.lower() in {"*", "+"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -8018,56 +8626,56 @@ cards = ElementScheme(
                             name='a1',
                             type='types.String',
                             description='Letters representing tally bin types',
-                            restriction='a1 in {"f", "d", "u", "s", "m", "c", "e", "t"}',
+                            restriction='a1.value.lower() in {"f", "d", "u", "s", "m", "c", "e", "t"}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='a2',
                             type='types.String',
                             description='Letters representing tally bin types',
-                            restriction='a2 in {"f", "d", "u", "s", "m", "c", "e", "t"}',
+                            restriction='a2.value.lower() in {"f", "d", "u", "s", "m", "c", "e", "t"}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='a3',
                             type='types.String',
                             description='Letters representing tally bin types',
-                            restriction='a3 in {"f", "d", "u", "s", "m", "c", "e", "t"}',
+                            restriction='a3.value.lower() in {"f", "d", "u", "s", "m", "c", "e", "t"}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='a4',
                             type='types.String',
                             description='Letters representing tally bin types',
-                            restriction='a4 in {"f", "d", "u", "s", "m", "c", "e", "t"}',
+                            restriction='a4.value.lower() in {"f", "d", "u", "s", "m", "c", "e", "t"}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='a5',
                             type='types.String',
                             description='Letters representing tally bin types',
-                            restriction='a5 in {"f", "d", "u", "s", "m", "c", "e", "t"}',
+                            restriction='a5.value.lower() in {"f", "d", "u", "s", "m", "c", "e", "t"}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='a6',
                             type='types.String',
                             description='Letters representing tally bin types',
-                            restriction='a6 in {"f", "d", "u", "s", "m", "c", "e", "t"}',
+                            restriction='a6.value.lower() in {"f", "d", "u", "s", "m", "c", "e", "t"}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='a7',
                             type='types.String',
                             description='Letters representing tally bin types',
-                            restriction='a7 in {"f", "d", "u", "s", "m", "c", "e", "t"}',
+                            restriction='a7.value.lower() in {"f", "d", "u", "s", "m", "c", "e", "t"}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='a8',
                             type='types.String',
                             description='Letters representing tally bin types',
-                            restriction='a8 in {"f", "d", "u", "s", "m", "c", "e", "t"}',
+                            restriction='a8.value.lower() in {"f", "d", "u", "s", "m", "c", "e", "t"}',
                             optional=True,
                         ),
                     ],
@@ -8080,7 +8688,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix in {"*", "+"}',
+                            restriction='prefix.value.lower() in {"*", "+"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -8112,7 +8720,7 @@ cards = ElementScheme(
                             name='method',
                             type='types.String',
                             description='Interpolation method for energy table',
-                            restriction='method in {"log", "lin"}',
+                            restriction='method.value.lower() in {"log", "lin"}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -8137,7 +8745,7 @@ cards = ElementScheme(
                             name='method',
                             type='types.String',
                             description='Interpolation method for dose function table',
-                            restriction='method in {"log", "lin"}',
+                            restriction='method.value.lower() in {"log", "lin"}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -8317,14 +8925,14 @@ cards = ElementScheme(
                             name='t',
                             type='types.String',
                             description='Notation to provide totals',
-                            restriction='t in {"t"}',
+                            restriction='t.value.lower() in {"t"}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='c',
                             type='types.String',
                             description='Notation to make bin values cumulative',
-                            restriction='c in {"c"}',
+                            restriction='c.value.lower() in {"c"}',
                             optional=True,
                         ),
                     ],
@@ -8366,14 +8974,14 @@ cards = ElementScheme(
                             name='nt',
                             type='types.String',
                             description='Notation to inhibit automatic totaling',
-                            restriction='nt in {"nt"}',
+                            restriction='nt.value.lower() in {"nt"}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='c',
                             type='types.String',
                             description='Notation to make bin values cumulative',
-                            restriction='c in {"c"}',
+                            restriction='c.value.lower() in {"c"}',
                             optional=True,
                         ),
                     ],
@@ -8759,7 +9367,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Pertubated fission source on/off',
-                                    restriction='setting in {"yes", "no"}',
+                                    restriction='setting.value.lower() in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -8873,7 +9481,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Renormalize sensitivity distribution on/off',
-                                    restriction='setting in {"yes", "no"}',
+                                    restriction='setting.value.lower() in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -8911,7 +9519,7 @@ cards = ElementScheme(
                                     name='geometry',
                                     type='types.String',
                                     description='Mesh geometry',
-                                    restriction='geometry in {"xyz", "rec", "rzt", "cyl"}',
+                                    restriction='geometry.value.lower() in {"xyz", "rec", "rzt", "cyl"}',
                                 ),
                             ],
                         ),
@@ -9074,7 +9682,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Tally results divided by energy yes/no',
-                                    restriction='setting in {"yes", "no"}',
+                                    restriction='setting.value.lower() in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -9108,7 +9716,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Tally results divided by time yes/no',
-                                    restriction='setting in {"yes", "no"}',
+                                    restriction='setting.value.lower() in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -9131,7 +9739,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Output format',
-                                    restriction='setting in {"col", "cf", "ij", "ik", "jk", "none"}',
+                                    restriction='setting.value.lower() in {"col", "cf", "ij", "ik", "jk", "none"}',
                                 ),
                             ],
                         ),
@@ -9172,7 +9780,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Tally quantity',
-                                    restriction='setting in {"flux", "source"}',
+                                    restriction='setting.value.lower() in {"flux", "source"}',
                                 ),
                             ],
                         ),
@@ -9222,7 +9830,8 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='keyword',
                             type='types.String',
-                            description='keyword in {"force", "off"}',
+                            description='Lattice tally speed enhancement setting',
+                            restriction='keyword.value.lower() in {"force", "off"}',
                         ),
                     ],
                 ),
@@ -9262,7 +9871,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Roulette game for weight windows and cell/energy/time importance off/no',
-                                    restriction='setting in {"no", "off"}',
+                                    restriction='setting.value.lower() in {"no", "off"}',
                                 ),
                             ],
                         ),
@@ -9479,7 +10088,7 @@ cards = ElementScheme(
                                     name='geometry',
                                     type='types.String',
                                     description='Controls mesh geometry type',
-                                    restriction='geometry in {"xyz", "rzt", "rpt", "cyl", "rec", "sph"}',
+                                    restriction='geometry.value.lower() in {"xyz", "rzt", "rpt", "cyl", "rec", "sph"}',
                                 ),
                             ],
                         ),
@@ -10809,7 +11418,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='PTRAC file type',
-                                    restriction='setting in {"asc", "bin", "aov", "bov"}',
+                                    restriction='setting.value.lower() in {"asc", "bin", "aov", "bov"}',
                                 ),
                             ],
                         ),
@@ -10846,7 +11455,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Controls what particle parameters are written',
-                                    restriction='setting in {"pos", "all"}',
+                                    restriction='setting.value.lower() in {"pos", "all"}',
                                 ),
                             ],
                         ),
@@ -10859,7 +11468,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Activates a PTRAC file format specifically for coincidence tally scoring',
-                                    restriction='setting in {"col", "lin"}',
+                                    restriction='setting.value.lower() in {"col", "lin"}',
                                 ),
                             ],
                         ),
@@ -11010,7 +11619,7 @@ cards = ElementScheme(
                                     name='aa',
                                     type='types.String',
                                     description='Graphics metafile on/off',
-                                    restriction='aa in {"all", "none"}',
+                                    restriction='aa.value.lower() in {"all", "none"}',
                                     optional=True,
                                 ),
                             ],
@@ -11181,7 +11790,7 @@ cards = ElementScheme(
                                     name='a',
                                     type='types.String',
                                     description='Multiplication axis',
-                                    restriction='a in {"x", "y", "z"}',
+                                    restriction='a.value.lower() in {"x", "y", "z"}',
                                 ),
                                 AttributeScheme(
                                     name='f',
@@ -11205,7 +11814,7 @@ cards = ElementScheme(
                                     name='aa',
                                     type='types.String',
                                     description='Command parameter reset',
-                                    restriction='aa in {"all", "coplot"}',
+                                    restriction='aa.value.lower() in {"all", "coplot"}',
                                     optional=True,
                                 ),
                             ],
@@ -11317,13 +11926,13 @@ cards = ElementScheme(
                                     name='x',
                                     type='types.String',
                                     description='Independent variable',
-                                    restriction='x in {"f", "d", "u", "s", "m", "c", "e", "t", "i", "j", "k"}',
+                                    restriction='x.value.lower() in {"f", "d", "u", "s", "m", "c", "e", "t", "i", "j", "k"}',
                                 ),
                                 AttributeScheme(
                                     name='y',
                                     type='types.String',
                                     description='Dependent variable',
-                                    restriction='y in {"f", "d", "u", "s", "m", "c", "e", "t", "i", "j", "k"}',
+                                    restriction='y.value.lower() in {"f", "d", "u", "s", "m", "c", "e", "t", "i", "j", "k"}',
                                 ),
                                 AttributeScheme(
                                     name='option',
@@ -11353,7 +11962,7 @@ cards = ElementScheme(
                                     name='q',
                                     type='types.String',
                                     description='Fixed variable',
-                                    restriction='q in {"f", "d", "u", "s", "m", "c", "e", "t", "i", "j", "k"}',
+                                    restriction='q.value.lower() in {"f", "d", "u", "s", "m", "c", "e", "t", "i", "j", "k"}',
                                 ),
                                 AttributeScheme(
                                     name='n',
@@ -11715,7 +12324,7 @@ cards = ElementScheme(
                                     name='aa',
                                     type='types.String',
                                     description='Color-wash on/offs',
-                                    restriction='aa in {"on", "off"}',
+                                    restriction='aa.value.lower() in {"on", "off"}',
                                 ),
                             ],
                         ),

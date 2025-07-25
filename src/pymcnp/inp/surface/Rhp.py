@@ -653,6 +653,9 @@ class Rhp(_option.SurfaceOption):
         """
         Generates ``Visualization`` from ``Rhp``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Rhp``
         """

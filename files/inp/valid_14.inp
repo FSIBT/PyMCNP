@@ -41,8 +41,8 @@ c     fill=0:1 0:3 0:0 4 4 4(5 0 0) 4 0 5 4 4
 m1 6000 0.4 8016 0.2 11023 0.2 29000 0.2
 m2 92238 0.98 92235 0.02
 m3 1001 1
-c sdef erg fcel d1 x fcel d11 y fcel d13 z fcel d15 cel d6
-c     rad fcel d17 ext fcel d19 pos fcel d21 axs fcel d23
+sdef erg fcel d1 x fcel d11 y fcel d13 z fcel d15 cel d6
+     rad fcel d17 ext fcel d19 pos fcel d21 axs fcel d23
 ds1 s d2 d3 d4 d5
 sp2 -2 1.2
 sp3 -2 1.3
