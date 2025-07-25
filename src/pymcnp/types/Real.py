@@ -129,7 +129,25 @@ class Real(_type.Type):
         return self.value.__round__()
 
     def __format__(self, spec):
-        return self.value.__format__(spec)
+        print(spec)
+        if match := re.match(r'\A(\d+)[.](\d+)a\Z', spec):
+            e = self.value.adjusted() + int(match[2])
+
+            s, d, _ = self.value.as_tuple()
+            s = '-' if s else ' '
+            d = ''.join(map(str, d[: int(match[1]) - int(match[2]) + 1]))
+
+            if d == '0':
+                return f'{s}0.{"0" * (int(match[1]))}E+00'
+            else:
+                d = int(match[2]) * '0' + d
+
+                a = d[:1]
+                b = d[1:]
+
+                return f'{s}{a}.{b}E{e:+03}'
+        else:
+            return self.value.__format__(spec)
 
     def __lt__(a, b):
         if isinstance(b, Real):

@@ -4,7 +4,6 @@ import typing
 from . import _line
 from .... import types
 from .... import errors
-from ....utils import _parser
 
 
 class P_0(_line.EventLine):
@@ -87,8 +86,8 @@ class P_0(_line.EventLine):
             PTRAC for ``P_0``.
         """
 
-        x = _parser.postprocess_exponenet(self.x.value, 5)
-        y = _parser.postprocess_exponenet(self.y.value, 5)
-        z = _parser.postprocess_exponenet(self.z.value, 5)
+        x = f'{self.x:5.1a}'
+        y = f'{self.y:5.1a}'
+        z = f'{self.z:5.1a}'
 
         return f'  {x} {y} {z}'

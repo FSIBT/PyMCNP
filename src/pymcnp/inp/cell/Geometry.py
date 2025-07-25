@@ -3,7 +3,6 @@ import re
 from . import _entry
 from ... import types
 from ... import errors
-from ...utils import _parser
 
 
 class Geometry(_entry.CellEntry):
@@ -47,8 +46,7 @@ class Geometry(_entry.CellEntry):
             TypesError: SYNTAX_TYPE.
         """
 
-        source, comments = _parser.preprocess_inp(source)
-        tokens = Geometry._REGEX.match(source)
+        tokens = Geometry._REGEX.match(source.strip())
 
         if not tokens:
             raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source)

@@ -5,7 +5,6 @@ from . import event
 from . import _line
 from ... import types
 from ... import errors
-from ...utils import _parser
 
 
 class I(_line.HistoryLine):
@@ -92,7 +91,7 @@ class I(_line.HistoryLine):
         """
 
         if self.tfc:
-            tfc = ' ' + _parser.postprocess_exponenet(self.tfc.value, 5, offset=0)
+            tfc = f' {self.tfc:5.0a}'
         else:
             tfc = ''
 

@@ -75,7 +75,7 @@ class Repeat(Horizontal):
             MCNP repeats.
         """
 
-        return f'{self.n or ''}r'
+        return f'{self.n or ""}r'
 
 
 class Insert(Horizontal):
@@ -139,7 +139,7 @@ class Insert(Horizontal):
             MCNP inserts.
         """
 
-        return f'{self.n or ''}i'
+        return f'{self.n or ""}i'
 
 
 class Multiply(Horizontal):
@@ -331,4 +331,4 @@ class Log(Horizontal):
             MCNP logs.
         """
 
-        return f'{self.n or ''}log'
+        return f'{self.n or ""}log'

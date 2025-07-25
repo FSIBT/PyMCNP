@@ -6,7 +6,6 @@ from . import _card
 from .. import _show
 from .. import types
 from .. import errors
-from ..utils import _parser
 
 
 class Surface(_card.Card):
@@ -60,8 +59,7 @@ class Surface(_card.Card):
         """
 
         source = f'{self.prefix if self.prefix is not None else ""}{self.number} {self.transform if self.transform is not None else ""} {self.option}'
-        source, comments = _parser.preprocess_inp(source)
-        source = _parser.postprocess_inp(source)
+        source = _card.Card._postprocess(source)
 
         return source
 

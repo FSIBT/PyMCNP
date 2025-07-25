@@ -5,7 +5,6 @@ from . import _show
 from . import _file
 from . import types
 from . import errors
-from .utils import _parser
 
 
 class Inp(_file.File):
@@ -64,7 +63,7 @@ class Inp(_file.File):
             InpError: SYNTAX_FILE.
         """
 
-        source, comments = _parser.preprocess_inp(source)
+        source = Inp._preprocess(source)
         tokens = Inp._REGEX.match(source)
 
         if not tokens:
@@ -159,6 +158,37 @@ class Inp(_file.File):
             return vis
 
         return None
+
+    @staticmethod
+    def _preprocess(source: str):
+        """
+        Preprocess INP for ``from_mcnp``.
+
+        Parameters:
+            source: INP to preprocess.
+        """
+
+        tokens = re.split(r'\n(#(?: \S+)+\n(?: *\d\S*(?: +\S+)+\n)+)', source)
+
+        source = ''
+        for token in tokens:
+            if match := re.match(r'#((?: \S+)+)\n((?: *\d\S*(?: +\S+)+\n)+)', token):
+                cards = re.split(r'\s+', match[1])[1:]
+                rows = [[card] for card in cards]
+
+                lines = match[2].split('\n')[:-1]
+                for line in lines:
+                    parameters = re.split(r'\s+', line)
+                    for parameter, row in zip(parameters, rows):
+                        row.append(parameter)
+
+                source += '\n' + '\n'.join([' '.join(row) for row in rows]) + '\n'
+            else:
+                source += token
+
+        source = re.sub(r'\n +|& *\n *', ' ', source)
+
+        return source
 
     @property
     def title(self) -> types.Integer:

@@ -4,7 +4,6 @@ from . import like
 from . import _card
 from .. import types
 from .. import errors
-from ..utils import _parser
 
 
 class Like(_card.Card):
@@ -51,8 +50,7 @@ class Like(_card.Card):
         """
 
         source = f'{self.number} like {self.cell} but {self.options if self.options is not None else ""}'
-        source, comments = _parser.preprocess_inp(source)
-        source = _parser.postprocess_inp(source)
+        source = _card.Card._postprocess(source)
 
         return source
 

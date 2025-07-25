@@ -4,7 +4,6 @@ import typing
 from . import _line
 from ... import types
 from ... import errors
-from ...utils import _parser
 
 
 class V(_line.HeaderLine):
@@ -69,8 +68,7 @@ class V(_line.HeaderLine):
         v_line = ' '
 
         for i, v in enumerate(self.variables):
-            v_line += ' ' + _parser.postprocess_exponenet(v.value, 4, offset=0)
-
+            v_line += f' {v:4.0a}'
             if (i + 1) % 10 == 0 and i != 0:
                 v_line += '\n '
 
