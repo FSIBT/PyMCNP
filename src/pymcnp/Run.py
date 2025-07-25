@@ -88,7 +88,7 @@ class Run(_doer.Doer):
             path: Directory for run.
         """
 
-        directory = pathlib.Path(path) / f'pymcnp-{datetime.datetime.today().strftime('%Y-%m-%d--%H-%M-%S')}'
+        directory = pathlib.Path(path) / f'pymcnp-{datetime.datetime.today().strftime("%Y-%m-%d--%H-%M-%S")}'
         directory.mkdir()
 
         self.prehook_batch(directory)

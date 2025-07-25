@@ -130,7 +130,7 @@ class Inp(_file.File):
         # source += DELIMITER
 
         return (
-            (self.message + '\n' if self.message else '')
+            (self.message.value + '\n' if self.message else '')
             + self.title.value
             + '\n'
             + '\n'.join(map(str, self.cells))
@@ -139,7 +139,7 @@ class Inp(_file.File):
             + '\n\n'
             + '\n'.join(map(str, self.data))
             + '\n\n'
-            + (self.other if self.other is not None else '')
+            + (self.other.value if self.other is not None else '')
         )
 
     def draw(self) -> _show.Shape:

@@ -920,20 +920,24 @@ def TEST(element, mod):
 class Test_{CAMEL(element.name)}:
 
     class Test_Init(classes.Test_Init):
-        element = pymcnp.inp.{f"{mod}." if mod else ""}{CAMEL(element.name)}
+        element = pymcnp.inp.{f'{mod}.' if mod else ''}{CAMEL(element.name)}
         EXAMPLES_VALID = [{', '.join(f'{{{", ".join(f"'{key}':{val}" for key, val in example.items())}}}' for example in valid_build)}]
         EXAMPLES_INVALID = [{', '.join(f'{{{", ".join(f"'{key}':{val}" for key, val in example.items())}}}' for example in invalid_build)}]
 
     class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.{f"{mod}." if mod else ""}{CAMEL(element.name)}
-        EXAMPLES_VALID = [consts.string.inp.{f"{mod}." if mod else ""}{UPPER(element.name)}]
+        element = pymcnp.inp.{f'{mod}.' if mod else ''}{CAMEL(element.name)}
+        EXAMPLES_VALID = [consts.string.inp.{f'{mod}.' if mod else ''}{UPPER(element.name)}]
         EXAMPLES_INVALID = ['hello']
 
-{f'''
+{
+        f'''
     class Test_Draw(classes.Test_Draw):
-        element = pymcnp.inp.{f"{mod}." if mod else ""}{CAMEL(element.name)}
-        EXAMPLES = [consts.string.inp.{f"{mod}." if mod else ""}{UPPER(element.name)}]
-''' if "def draw" in element.extra else ""}
+        element = pymcnp.inp.{f'{mod}.' if mod else ''}{CAMEL(element.name)}
+        EXAMPLES = [consts.string.inp.{f'{mod}.' if mod else ''}{UPPER(element.name)}]
+'''
+        if 'def draw' in element.extra
+        else ''
+    }
 """[1:]
 
 
@@ -942,8 +946,8 @@ def helper(element, mod, path):
 
     res = f"""
 import pymcnp
-{f"from {'.' * (str(path).count('/') - 6)} import consts" if str(path).count('/') > 6 else 'import consts'}
-{f"from {'.' * (str(path).count('/') - 6)} import classes" if str(path).count('/') > 6 else 'import classes'}
+{f'from {"." * (str(path).count("/") - 6)} import consts' if str(path).count('/') > 6 else 'import consts'}
+{f'from {"." * (str(path).count("/") - 6)} import classes' if str(path).count('/') > 6 else 'import classes'}
 
 
 {TEST(element, mod)}

@@ -138,7 +138,7 @@ class Test_Data:
             'TR22 -2 0 0 0 1 0 0 0 1 1 0 0',
             'TR33 0 -2 0 0.707107 0 0.707107 0.707107 0 -0.707107 0 1 0',
             'm1 1001 1\n    8016 1\n    7016 1e-4 $ Unstable isotope N-16\n    25054 1e-2 $ Unstable isotope Mn-54',
-            'sdef par=sp pos= 0 0 0 $ Location of material 1' 'mode p #',
+            'sdef par=sp pos= 0 0 0 $ Location of material 1mode p #',
             'sdef par=7016 erg=0 pos= 0 0 0',
             #'sdef erg d21 cel=d11 tme=d41',
             #'si41 S 52<51 (D31<32<d33) 61',
