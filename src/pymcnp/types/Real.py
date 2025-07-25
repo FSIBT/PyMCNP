@@ -129,7 +129,6 @@ class Real(_type.Type):
         return self.value.__round__()
 
     def __format__(self, spec):
-        print(spec)
         if match := re.match(r'\A(\d+)[.](\d+)a\Z', spec):
             e = self.value.adjusted() + int(match[2])
 

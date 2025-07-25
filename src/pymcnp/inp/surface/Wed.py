@@ -544,6 +544,9 @@ class Wed(_option.SurfaceOption):
         """
         Generates ``Visualization`` from ``Wed``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Wed``
         """
@@ -555,6 +558,7 @@ class Wed(_option.SurfaceOption):
 
         cross = numpy.cross(numpy.array((1, 0, 0)), v1)
         angle = numpy.degrees(numpy.arccos(v1[0] / numpy.linalg.norm(v1)))
+
         vis = shapes.Wedge(numpy.linalg.norm(v1), numpy.linalg.norm(v2), numpy.linalg.norm(v3))
         vis = vis.rotate(cross, angle, (0, 0, 0))
         vis = vis.translate(v)

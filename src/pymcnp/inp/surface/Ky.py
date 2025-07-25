@@ -158,6 +158,9 @@ class Ky(_option.SurfaceOption):
         """
         Generates ``Visualization`` from ``Ky``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Ky``.
         """

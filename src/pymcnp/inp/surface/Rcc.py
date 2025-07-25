@@ -334,6 +334,9 @@ class Rcc(_option.SurfaceOption):
         """
         Generates ``Visualization`` from ``Rcc``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Rcc``
         """

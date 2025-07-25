@@ -334,6 +334,9 @@ class Ell(_option.SurfaceOption):
         """
         Generates ``Visualization`` from ``Ell``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Ell``.
         """

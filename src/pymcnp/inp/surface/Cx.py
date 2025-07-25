@@ -76,6 +76,9 @@ class Cx(_option.SurfaceOption):
         """
         Generates ``Visualization`` from ``Cx``.
 
+        Parameters:
+            shapes: Collection of shapes.
+
         Returns:
             ``_show.Shape`` for ``Cx``.
         """

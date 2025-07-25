@@ -57,7 +57,7 @@ nps 1e6
 rand seed = 71129329235055
 c source definition
 c
-c sdef par=n erg=14 TME=D1<D2
+sdef par=n erg=14 TME=D1<D2
 # SI1 SP1
 0 0
 1000 1

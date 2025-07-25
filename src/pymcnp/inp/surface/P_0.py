@@ -1,6 +1,5 @@
 import re
 
-
 from . import _option
 from ... import _show
 from ... import types
@@ -197,6 +196,9 @@ class P_0(_option.SurfaceOption):
     def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Px``.
+
+        Parameters:
+            shapes: Collection of shapes.
 
         Returns:
             ``_show.Shape`` for ``Px``
