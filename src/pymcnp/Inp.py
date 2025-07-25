@@ -129,16 +129,18 @@ class Inp(_file.File):
         # source += f'c {"cells":^76.76}\n'
         # source += DELIMITER
 
-        return f"""
-{self.message + "\n" if self.message else ""}{self.title}
-{'\n'.join(map(str, self.cells))}
-
-{'\n'.join(map(str, self.surfaces))}
-
-{'\n'.join(map(str, self.data))}
-
-{self.other if self.other is not None else ""}
-"""[1:-1]
+        return (
+            (self.message + '\n' if self.message else '')
+            + self.title.value
+            + '\n'
+            + '\n'.join(map(str, self.cells))
+            + '\n\n'
+            + '\n'.join(map(str, self.surfaces))
+            + '\n\n'
+            + '\n'.join(map(str, self.data))
+            + '\n\n'
+            + (self.other if self.other is not None else '')
+        )
 
     def draw(self) -> _show.Shape:
         """

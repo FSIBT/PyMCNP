@@ -12,4 +12,4 @@ class Test_Main:
 
         def test_invalid(self):
             os.system(f"pymcnp visualize {pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'invalid_00.inp'}")
-            os.system(f"pymcnp visualize hello")
+            os.system('pymcnp visualize hello')
