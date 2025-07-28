@@ -101,6 +101,7 @@ from .Sb_1 import Sb_1
 from .Ds_0 import Ds_0
 from .Ds_1 import Ds_1
 from .Ds_2 import Ds_2
+from .Ds_3 import Ds_3
 from .Sc import Sc
 from .Ssw import Ssw
 from .Ssr import Ssr
@@ -287,6 +288,7 @@ __all__ = [
     'Ds_0',
     'Ds_1',
     'Ds_2',
+    'Ds_3',
     'Sc',
     'Ssw',
     'Ssr',

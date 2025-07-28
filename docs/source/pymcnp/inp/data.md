@@ -251,6 +251,14 @@
 
 [ds_2 subpackage](data/ds_2)
 
+### ``Ds_3`` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.data.Ds_3
+   :members:
+   :inherited-members:
+```
+
 ### ``Dxc`` Class
 
 ```{eval-rst}

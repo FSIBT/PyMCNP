@@ -213,7 +213,8 @@ class string:
             SB_1 = 'sb -2 3.1 3.1'
             DS_0 = 'ds1 h 3.1 3.1 3.1'
             DS_1 = 'ds1 t 3.1 3.1 3.1 3.1 3.1 3.1'
-            DS_2 = 'ds1 q 3.1 3.1 3.1 3.1 3.1 3.1'
+            DS_2 = 'ds1 q d1 3.1 d2 3.1 d3 3.1'
+            DS_3 = 'ds1 s d1 0 0 d2'
             SC = 'sc1 hello hello hello'
             SSW = 'ssw 1 1 1 1 1 1 sym=1'
             SSR = 'ssr old 1 1 1'
@@ -303,7 +304,7 @@ class string:
                 VARIABLES = '3.1 4.1'
 
             class ds_2:
-                VARIABLES = '3.1 4.1'
+                VARIABLES = 'd1 4.1'
 
             class dxt:
                 SHELL = '3.1 4.1 5.9 1 2'
@@ -1710,6 +1711,7 @@ class ast:
             DS_0 = pymcnp.inp.data.Ds_0.from_mcnp(string.inp.data.DS_0)
             DS_1 = pymcnp.inp.data.Ds_1.from_mcnp(string.inp.data.DS_1)
             DS_2 = pymcnp.inp.data.Ds_2.from_mcnp(string.inp.data.DS_2)
+            DS_3 = pymcnp.inp.data.Ds_3.from_mcnp(string.inp.data.DS_3)
             SC = pymcnp.inp.data.Sc.from_mcnp(string.inp.data.SC)
             SSW = pymcnp.inp.data.Ssw.from_mcnp(string.inp.data.SSW)
             SSR = pymcnp.inp.data.Ssr.from_mcnp(string.inp.data.SSR)
