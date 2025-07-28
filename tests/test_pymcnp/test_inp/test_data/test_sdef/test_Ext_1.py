@@ -6,8 +6,8 @@ from ..... import classes
 class Test_Ext_1:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.sdef.Ext_1
-        EXAMPLES_VALID = [{'option': consts.string.inp.data.sdef.f.FARA}, {'option': consts.ast.inp.data.sdef.f.FARA}]
-        EXAMPLES_INVALID = [{'option': None}]
+        EXAMPLES_VALID = [{'distance_cosine': consts.string.types.DISTRIBUTION}, {'distance_cosine': consts.ast.types.DISTRIBUTION}]
+        EXAMPLES_INVALID = [{'distance_cosine': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.data.sdef.Ext_1

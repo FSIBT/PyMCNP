@@ -2,6 +2,7 @@ import re
 
 from . import _option
 from .... import types
+from .... import errors
 
 
 class Dir_1(_option.SdefOption):
@@ -15,9 +16,9 @@ class Dir_1(_option.SdefOption):
         'cosine': types.Distribution,
     }
 
-    _REGEX = re.compile(rf'\Adir( {types.Distribution._REGEX.pattern[2:-2]})?\Z', re.IGNORECASE)
+    _REGEX = re.compile(rf'\Adir( {types.Distribution._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
-    def __init__(self, cosine: str | types.Distribution = None):
+    def __init__(self, cosine: str | types.Distribution):
         """
         Initializes ``Dir_1``.
 
@@ -60,5 +61,8 @@ class Dir_1(_option.SdefOption):
                 cosine = cosine
             elif isinstance(cosine, str):
                 cosine = types.Distribution.from_mcnp(cosine)
+
+        if cosine is None:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cosine)
 
         self._cosine: types.Distribution = cosine

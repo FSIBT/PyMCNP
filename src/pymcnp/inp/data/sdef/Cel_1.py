@@ -1,7 +1,7 @@
 import re
 
-from . import f
 from . import _option
+from .... import types
 from .... import errors
 
 
@@ -13,56 +13,58 @@ class Cel_1(_option.SdefOption):
     _KEYWORD = 'cel'
 
     _ATTRS = {
-        'option': f.FOption,
+        'number': types.Distribution,
     }
 
-    _REGEX = re.compile(rf'\Acel( (?:{f.FOption._REGEX.pattern[2:-2]}))\Z', re.IGNORECASE)
+    _REGEX = re.compile(rf'\Acel( {types.Distribution._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
-    def __init__(self, option: str | f.FOption):
+    def __init__(self, number: str | int | types.Distribution):
         """
         Initializes ``Cel_1``.
 
         Parameters:
-            option: Dependent distribution option.
+            number: Cell number.
 
         Raises:
             InpError: SEMANTICS_OPTION.
         """
 
-        self.option: f.FOption = option
+        self.number: types.Distribution = number
 
     @property
-    def option(self) -> f.FOption:
+    def number(self) -> types.Distribution:
         """
-        Dependent distribution option
+        Cell number
 
         Raises:
             InpError: SEMANTICS_OPTION.
             TypeError:
         """
 
-        return self._option
+        return self._number
 
-    @option.setter
-    def option(self, option: str | f.FOption) -> None:
+    @number.setter
+    def number(self, number: str | int | types.Distribution) -> None:
         """
-        Sets ``option``.
+        Sets ``number``.
 
         Parameters:
-            option: Dependent distribution option.
+            number: Cell number.
 
         Raises:
             InpError: SEMANTICS_OPTION.
             TypeError:
         """
 
-        if option is not None:
-            if isinstance(option, f.FOption):
-                option = option
-            elif isinstance(option, str):
-                option = f.FOption.from_mcnp(option)
+        if number is not None:
+            if isinstance(number, types.Distribution):
+                number = number
+            elif isinstance(number, int):
+                number = types.Distribution(number)
+            elif isinstance(number, str):
+                number = types.Distribution.from_mcnp(number)
 
-        if option is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, option)
+        if number is None:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)
 
-        self._option: f.FOption = option
+        self._number: types.Distribution = number

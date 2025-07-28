@@ -6,8 +6,8 @@ from ..... import classes
 class Test_Z_1:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.sdef.Z_1
-        EXAMPLES_VALID = [{'option': consts.string.inp.data.sdef.f.FARA}, {'option': consts.ast.inp.data.sdef.f.FARA}]
-        EXAMPLES_INVALID = [{'option': None}]
+        EXAMPLES_VALID = [{'position': consts.string.types.DISTRIBUTION}, {'position': consts.ast.types.DISTRIBUTION}]
+        EXAMPLES_INVALID = [{'position': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.data.sdef.Z_1

@@ -490,7 +490,8 @@ class string:
 
             class sdef:
                 CEL_0 = 'cel 1'
-                CEL_1 = 'cel fara d1'
+                CEL_1 = 'cel d1'
+                CEL_2 = 'cel fara d1'
                 SUR_0 = 'sur 1'
                 SUR_1 = 'sur fara d1'
                 ERG_0 = 'erg 3.1'
@@ -507,20 +508,25 @@ class string:
                 NRM_0 = 'nrm 1'
                 NRM_1 = 'nrm fara d1'
                 POS_0 = 'pos 3.1 3.1 3.1'
-                POS_1 = 'pos fara d1'
+                POS_1 = 'pos d1'
+                POS_2 = 'pos fara d1'
                 RAD_0 = 'rad 3.1'
                 RAD_1 = 'rad d1'
                 RAD_2 = 'rad fara d1'
                 EXT_0 = 'ext 3.1'
-                EXT_1 = 'ext fara d1'
+                EXT_1 = 'ext d1'
+                EXT_2 = 'ext fara d1'
                 AXS_0 = 'axs 3.1 3.1 3.1'
                 AXS_1 = 'axs fara d1'
                 X_0 = 'x 3.1'
-                X_1 = 'x fara d1'
+                X_1 = 'x d1'
+                X_2 = 'x fara d1'
                 Y_0 = 'y 3.1'
-                Y_1 = 'y fara d1'
+                Y_1 = 'y d1'
+                Y_2 = 'y fara d1'
                 Z_0 = 'z 3.1'
-                Z_1 = 'z fara d1'
+                Z_1 = 'z d1'
+                Z_2 = 'z fara d1'
                 CCC_0 = 'ccc 1'
                 CCC_1 = 'ccc fara d1'
                 ARA_0 = 'ara 3.1'
@@ -528,7 +534,7 @@ class string:
                 WGT_0 = 'wgt 3.1'
                 WGT_1 = 'wgt fara d1'
                 TR_0 = 'tr 1'
-                TR_1 = 'tr 1'
+                TR_1 = 'tr d1'
                 TR_2 = 'tr fara d1'
                 EFF_0 = 'eff 3.1'
                 EFF_1 = 'eff fara d1'
@@ -1981,6 +1987,7 @@ class ast:
             class sdef:
                 CEL_0 = pymcnp.inp.data.sdef.Cel_0.from_mcnp(string.inp.data.sdef.CEL_0)
                 CEL_1 = pymcnp.inp.data.sdef.Cel_1.from_mcnp(string.inp.data.sdef.CEL_1)
+                CEL_2 = pymcnp.inp.data.sdef.Cel_2.from_mcnp(string.inp.data.sdef.CEL_2)
                 SUR_0 = pymcnp.inp.data.sdef.Sur_0.from_mcnp(string.inp.data.sdef.SUR_0)
                 SUR_1 = pymcnp.inp.data.sdef.Sur_1.from_mcnp(string.inp.data.sdef.SUR_1)
                 ERG_0 = pymcnp.inp.data.sdef.Erg_0.from_mcnp(string.inp.data.sdef.ERG_0)
@@ -1998,19 +2005,24 @@ class ast:
                 NRM_1 = pymcnp.inp.data.sdef.Nrm_1.from_mcnp(string.inp.data.sdef.NRM_1)
                 POS_0 = pymcnp.inp.data.sdef.Pos_0.from_mcnp(string.inp.data.sdef.POS_0)
                 POS_1 = pymcnp.inp.data.sdef.Pos_1.from_mcnp(string.inp.data.sdef.POS_1)
+                POS_2 = pymcnp.inp.data.sdef.Pos_2.from_mcnp(string.inp.data.sdef.POS_2)
                 RAD_0 = pymcnp.inp.data.sdef.Rad_0.from_mcnp(string.inp.data.sdef.RAD_0)
                 RAD_1 = pymcnp.inp.data.sdef.Rad_1.from_mcnp(string.inp.data.sdef.RAD_1)
                 RAD_2 = pymcnp.inp.data.sdef.Rad_2.from_mcnp(string.inp.data.sdef.RAD_2)
                 EXT_0 = pymcnp.inp.data.sdef.Ext_0.from_mcnp(string.inp.data.sdef.EXT_0)
                 EXT_1 = pymcnp.inp.data.sdef.Ext_1.from_mcnp(string.inp.data.sdef.EXT_1)
+                EXT_2 = pymcnp.inp.data.sdef.Ext_2.from_mcnp(string.inp.data.sdef.EXT_2)
                 AXS_0 = pymcnp.inp.data.sdef.Axs_0.from_mcnp(string.inp.data.sdef.AXS_0)
                 AXS_1 = pymcnp.inp.data.sdef.Axs_1.from_mcnp(string.inp.data.sdef.AXS_1)
                 X_0 = pymcnp.inp.data.sdef.X_0.from_mcnp(string.inp.data.sdef.X_0)
                 X_1 = pymcnp.inp.data.sdef.X_1.from_mcnp(string.inp.data.sdef.X_1)
+                X_2 = pymcnp.inp.data.sdef.X_2.from_mcnp(string.inp.data.sdef.X_2)
                 Y_0 = pymcnp.inp.data.sdef.Y_0.from_mcnp(string.inp.data.sdef.Y_0)
                 Y_1 = pymcnp.inp.data.sdef.Y_1.from_mcnp(string.inp.data.sdef.Y_1)
+                Y_2 = pymcnp.inp.data.sdef.Y_2.from_mcnp(string.inp.data.sdef.Y_2)
                 Z_0 = pymcnp.inp.data.sdef.Z_0.from_mcnp(string.inp.data.sdef.Z_0)
                 Z_1 = pymcnp.inp.data.sdef.Z_1.from_mcnp(string.inp.data.sdef.Z_1)
+                Z_2 = pymcnp.inp.data.sdef.Z_2.from_mcnp(string.inp.data.sdef.Z_2)
                 CCC_0 = pymcnp.inp.data.sdef.Ccc_0.from_mcnp(string.inp.data.sdef.CCC_0)
                 CCC_1 = pymcnp.inp.data.sdef.Ccc_1.from_mcnp(string.inp.data.sdef.CCC_1)
                 ARA_0 = pymcnp.inp.data.sdef.Ara_0.from_mcnp(string.inp.data.sdef.ARA_0)

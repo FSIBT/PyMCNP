@@ -1,7 +1,7 @@
 import re
 
-from . import f
 from . import _option
+from .... import types
 from .... import errors
 
 
@@ -13,56 +13,58 @@ class Ext_1(_option.SdefOption):
     _KEYWORD = 'ext'
 
     _ATTRS = {
-        'option': f.FOption,
+        'distance_cosine': types.Distribution,
     }
 
-    _REGEX = re.compile(rf'\Aext( (?:{f.FOption._REGEX.pattern[2:-2]}))\Z', re.IGNORECASE)
+    _REGEX = re.compile(rf'\Aext( {types.Distribution._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
-    def __init__(self, option: str | f.FOption):
+    def __init__(self, distance_cosine: str | types.Distribution):
         """
         Initializes ``Ext_1``.
 
         Parameters:
-            option: Dependent distribution option.
+            distance_cosine: Distance for POS along AXS or Cosine of angle from AXS.
 
         Raises:
             InpError: SEMANTICS_OPTION.
         """
 
-        self.option: f.FOption = option
+        self.distance_cosine: types.Distribution = distance_cosine
 
     @property
-    def option(self) -> f.FOption:
+    def distance_cosine(self) -> types.Distribution:
         """
-        Dependent distribution option
+        Distance for POS along AXS or Cosine of angle from AXS
 
         Raises:
             InpError: SEMANTICS_OPTION.
             TypeError:
         """
 
-        return self._option
+        return self._distance_cosine
 
-    @option.setter
-    def option(self, option: str | f.FOption) -> None:
+    @distance_cosine.setter
+    def distance_cosine(self, distance_cosine: str | types.Distribution) -> None:
         """
-        Sets ``option``.
+        Sets ``distance_cosine``.
 
         Parameters:
-            option: Dependent distribution option.
+            distance_cosine: Distance for POS along AXS or Cosine of angle from AXS.
 
         Raises:
             InpError: SEMANTICS_OPTION.
             TypeError:
         """
 
-        if option is not None:
-            if isinstance(option, f.FOption):
-                option = option
-            elif isinstance(option, str):
-                option = f.FOption.from_mcnp(option)
+        if distance_cosine is not None:
+            if isinstance(distance_cosine, types.Distribution):
+                distance_cosine = distance_cosine
+            elif isinstance(distance_cosine, int) or isinstance(distance_cosine, float):
+                distance_cosine = types.Distribution(distance_cosine)
+            elif isinstance(distance_cosine, str):
+                distance_cosine = types.Distribution.from_mcnp(distance_cosine)
 
-        if option is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, option)
+        if distance_cosine is None:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, distance_cosine)
 
-        self._option: f.FOption = option
+        self._distance_cosine: types.Distribution = distance_cosine
