@@ -498,6 +498,7 @@
 ### ``Y_2`` Class
 
 ```{eval-rst}
+.. autoclass:: pymcnp.inp.data.sdef.Y_2
    :members:
    :inherited-members:
 ```

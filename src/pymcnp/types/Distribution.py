@@ -14,7 +14,7 @@ class Distribution(_type.Type):
         n: Distribution identifier.
     """
 
-    _REGEX = re.compile(r'\A[dD](\d+)\Z', re.IGNORECASE)
+    _REGEX = re.compile(r'\A(?:(?:[dD](\d+))|0)\Z', re.IGNORECASE)
 
     def __init__(self, n: Integer):
         """
@@ -30,7 +30,7 @@ class Distribution(_type.Type):
             TypesError: SEMANTICS_TYPE.
         """
 
-        if n is None or not (1 <= n <= 999):
+        if n is None or not (0 <= n <= 999):
             raise errors.TypesError(errors.TypesCode.SEMANTICS_TYPE, n)
 
         self.n: typing.Final[Integer] = n
@@ -50,12 +50,12 @@ class Distribution(_type.Type):
             TypesError: SYNTAX_TYPE.
         """
 
-        tokens = re.match(r'\A[dD](\d|\d\d|\d\d\d)\Z', source)
+        tokens = re.match(r'\A(?:[dD](\d|\d\d|\d\d\d))|(?:0)\Z', source)
 
         if tokens is None:
             raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source)
 
-        n = Integer.from_mcnp(tokens[1])
+        n = Integer.from_mcnp(tokens[1]) if tokens[1] else Integer(0)
 
         return Distribution(n)
 

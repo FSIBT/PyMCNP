@@ -13,13 +13,13 @@ class Variables(_entry.DsEntry_2):
     _KEYWORD = ''
 
     _ATTRS = {
-        'independent': types.Real,
+        'independent': types.Distribution,
         'dependent': types.Real,
     }
 
-    _REGEX = re.compile(rf'\A({types.Real._REGEX.pattern[2:-2]}) ({types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
+    _REGEX = re.compile(rf'\A({types.Distribution._REGEX.pattern[2:-2]}) ({types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
-    def __init__(self, independent: str | int | float | types.Real, dependent: str | int | float | types.Real):
+    def __init__(self, independent: str | types.Distribution, dependent: str | int | float | types.Real):
         """
         Initializes ``Variables``.
 
@@ -31,7 +31,7 @@ class Variables(_entry.DsEntry_2):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.independent: types.Real = independent
+        self.independent: types.Distribution = independent
         self.dependent: types.Real = dependent
 
     @property
@@ -47,7 +47,7 @@ class Variables(_entry.DsEntry_2):
         return self._independent
 
     @independent.setter
-    def independent(self, independent: str | int | float | types.Real) -> None:
+    def independent(self, independent: str | types.Distribution) -> None:
         """
         Sets ``independent``.
 
@@ -60,17 +60,15 @@ class Variables(_entry.DsEntry_2):
         """
 
         if independent is not None:
-            if isinstance(independent, types.Real):
+            if isinstance(independent, types.Distribution):
                 independent = independent
-            elif isinstance(independent, int) or isinstance(independent, float):
-                independent = types.Real(independent)
             elif isinstance(independent, str):
-                independent = types.Real.from_mcnp(independent)
+                independent = types.Distribution.from_mcnp(independent)
 
         if independent is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, independent)
 
-        self._independent: types.Real = independent
+        self._independent: types.Distribution = independent
 
     @property
     def dependent(self) -> types.Real:
