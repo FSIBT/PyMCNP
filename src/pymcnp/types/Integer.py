@@ -20,7 +20,7 @@ class Integer(_type.Type):
         value: Integer value or jump.
     """
 
-    _REGEX = re.compile(r'\A(?:\d*j|\d*log|\d*ilog|\d*m|\d*i|\d*r|[-+0-9.eEdD]+)\Z', re.IGNORECASE)
+    _REGEX = re.compile(r'\A(?:j|log|ilog|\d*m|i|r|(?:[-+0-9.eE][-+0-9.eEdD]*))\Z', re.IGNORECASE)
 
     def __init__(self, value: int | Horizontal):
         """

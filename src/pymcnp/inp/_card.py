@@ -1,5 +1,3 @@
-import re
-
 from . import _symbol
 from .. import errors
 
@@ -65,21 +63,7 @@ class Card(_symbol.InpNonterminal):
                 lines.append(line)
 
         source = '\n'.join(lines)
-        source = re.sub(r'\n +|& *\n *', ' ', source)
-        source = re.sub(r' +', ' ', source)
-        source = re.sub(r'[(] ', '(', source)
-        source = re.sub(r' [)]', ')', source)
-        source = re.sub(r'\n \n', '\n\n', source)
-        source = re.sub(r' = | =|= |=', ' ', source)
-        source = re.sub(r'\t', '    ', source)
-        source = source.strip()
-
-        source = re.sub(r'((?: [jJ]){2,})(\s|\Z|\n)', lambda match: f' {len(match[1].strip().split())}j' + match[2], source)
-        source = re.sub(r'((?: [rR]){2,})(\s|\Z|\n)', lambda match: f' {len(match[1].strip().split())}r' + match[2], source)
-        source = re.sub(r'((?: [iI]){2,})(\s|\Z|\n)', lambda match: f' {len(match[1].strip().split())}i' + match[2], source)
-        source = re.sub(r' (\d+)[jJ](\s|\Z|\n)', lambda match: int(match[1]) * ' j' + match[2], source)
-        source = re.sub(r' (\d+)[rR](\s|\Z|\n)', lambda match: int(match[1]) * ' r' + match[2], source)
-        source = re.sub(r' (\d+)[iI](\s|\Z|\n)', lambda match: int(match[1]) * ' I' + match[2], source)
+        source = _symbol.InpNonterminal._preprocess(source)
 
         return source, comments
 

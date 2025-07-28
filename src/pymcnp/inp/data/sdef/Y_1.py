@@ -1,7 +1,7 @@
 import re
 
-from . import f
 from . import _option
+from .... import types
 from .... import errors
 
 
@@ -13,56 +13,58 @@ class Y_1(_option.SdefOption):
     _KEYWORD = 'y'
 
     _ATTRS = {
-        'option': f.FOption,
+        'position': types.Distribution,
     }
 
-    _REGEX = re.compile(rf'\Ay( (?:{f.FOption._REGEX.pattern[2:-2]}))\Z', re.IGNORECASE)
+    _REGEX = re.compile(rf'\Ay( {types.Distribution._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
-    def __init__(self, option: str | f.FOption):
+    def __init__(self, position: str | types.Distribution):
         """
         Initializes ``Y_1``.
 
         Parameters:
-            option: Dependent distribution option.
+            position: Position y-component.
 
         Raises:
             InpError: SEMANTICS_OPTION.
         """
 
-        self.option: f.FOption = option
+        self.position: types.Distribution = position
 
     @property
-    def option(self) -> f.FOption:
+    def position(self) -> types.Distribution:
         """
-        Dependent distribution option
+        Position y-component
 
         Raises:
             InpError: SEMANTICS_OPTION.
             TypeError:
         """
 
-        return self._option
+        return self._position
 
-    @option.setter
-    def option(self, option: str | f.FOption) -> None:
+    @position.setter
+    def position(self, position: str | types.Distribution) -> None:
         """
-        Sets ``option``.
+        Sets ``position``.
 
         Parameters:
-            option: Dependent distribution option.
+            position: Position y-component.
 
         Raises:
             InpError: SEMANTICS_OPTION.
             TypeError:
         """
 
-        if option is not None:
-            if isinstance(option, f.FOption):
-                option = option
-            elif isinstance(option, str):
-                option = f.FOption.from_mcnp(option)
+        if position is not None:
+            if isinstance(position, types.Distribution):
+                position = position
+            elif isinstance(position, int) or isinstance(position, float):
+                position = types.Distribution(position)
+            elif isinstance(position, str):
+                position = types.Distribution.from_mcnp(position)
 
-        if option is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, option)
+        if position is None:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, position)
 
-        self._option: f.FOption = option
+        self._position: types.Distribution = position

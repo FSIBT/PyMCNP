@@ -117,6 +117,14 @@
    :inherited-members:
 ```
 
+### ``Cel_2`` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.data.sdef.Cel_2
+   :members:
+   :inherited-members:
+```
+
 [f subpackage](sdef/f)
 
 ### ``Dat_0`` Class
@@ -223,6 +231,14 @@
    :inherited-members:
 ```
 
+### ``Ext_2`` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.data.sdef.Ext_2
+   :members:
+   :inherited-members:
+```
+
 [f subpackage](sdef/f)
 
 ### ``Loc_0`` Class
@@ -291,6 +307,14 @@
 
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.sdef.Pos_1
+   :members:
+   :inherited-members:
+```
+
+### ``Pos_2`` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.data.sdef.Pos_2
    :members:
    :inherited-members:
 ```
@@ -445,6 +469,14 @@
    :inherited-members:
 ```
 
+### ``X_2`` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.data.sdef.X_2
+   :members:
+   :inherited-members:
+```
+
 [f subpackage](sdef/f)
 
 ### ``Y_0`` Class
@@ -463,6 +495,13 @@
    :inherited-members:
 ```
 
+### ``Y_2`` Class
+
+```{eval-rst}
+   :members:
+   :inherited-members:
+```
+
 [f subpackage](sdef/f)
 
 ### ``Z_0`` Class
@@ -477,6 +516,14 @@
 
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.sdef.Z_1
+   :members:
+   :inherited-members:
+```
+
+### ``Z_2`` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.data.sdef.Z_2
    :members:
    :inherited-members:
 ```

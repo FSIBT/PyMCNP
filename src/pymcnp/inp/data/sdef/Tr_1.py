@@ -13,12 +13,12 @@ class Tr_1(_option.SdefOption):
     _KEYWORD = 'tr'
 
     _ATTRS = {
-        'number': types.Integer,
+        'number': types.Distribution,
     }
 
-    _REGEX = re.compile(rf'\Atr( {types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
+    _REGEX = re.compile(rf'\Atr( {types.Distribution._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
-    def __init__(self, number: str | int | types.Integer):
+    def __init__(self, number: str | int | types.Distribution):
         """
         Initializes ``Tr_1``.
 
@@ -29,10 +29,10 @@ class Tr_1(_option.SdefOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.number: types.Integer = number
+        self.number: types.Distribution = number
 
     @property
-    def number(self) -> types.Integer:
+    def number(self) -> types.Distribution:
         """
         Particle weight
 
@@ -44,7 +44,7 @@ class Tr_1(_option.SdefOption):
         return self._number
 
     @number.setter
-    def number(self, number: str | int | types.Integer) -> None:
+    def number(self, number: str | int | types.Distribution) -> None:
         """
         Sets ``number``.
 
@@ -57,14 +57,14 @@ class Tr_1(_option.SdefOption):
         """
 
         if number is not None:
-            if isinstance(number, types.Integer):
+            if isinstance(number, types.Distribution):
                 number = number
             elif isinstance(number, int):
-                number = types.Integer(number)
+                number = types.Distribution(number)
             elif isinstance(number, str):
-                number = types.Integer.from_mcnp(number)
+                number = types.Distribution.from_mcnp(number)
 
         if number is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)
 
-        self._number: types.Integer = number
+        self._number: types.Distribution = number

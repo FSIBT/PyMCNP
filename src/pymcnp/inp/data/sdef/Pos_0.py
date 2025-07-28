@@ -13,61 +13,140 @@ class Pos_0(_option.SdefOption):
     _KEYWORD = 'pos'
 
     _ATTRS = {
-        'vector': types.Tuple(types.Real),
+        'x': types.Real,
+        'y': types.Real,
+        'z': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Apos((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
+    _REGEX = re.compile(rf'\Apos( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
-    def __init__(self, vector: list[str] | list[float] | list[types.Real]):
+    def __init__(self, x: str | int | float | types.Real, y: str | int | float | types.Real, z: str | int | float | types.Real):
         """
         Initializes ``Pos_0``.
 
         Parameters:
-            vector: Reference point for position sampling in vector notation.
+            x: Position sampling x-coordinate.
+            y: Position sampling x-coordinate.
+            z: Position sampling x-coordinate.
 
         Raises:
             InpError: SEMANTICS_OPTION.
         """
 
-        self.vector: types.Tuple(types.Real) = vector
+        self.x: types.Real = x
+        self.y: types.Real = y
+        self.z: types.Real = z
 
     @property
-    def vector(self) -> types.Tuple(types.Real):
+    def x(self) -> types.Tuple(types.Real):
         """
-        Reference point for position sampling in vector notation
+        Position sampling x-coordinate.
 
         Raises:
             InpError: SEMANTICS_OPTION.
             TypeError:
         """
 
-        return self._vector
+        return self._x
 
-    @vector.setter
-    def vector(self, vector: list[str] | list[float] | list[types.Real]) -> None:
+    @x.setter
+    def x(self, x: str | int | float | types.Real) -> None:
         """
-        Sets ``vector``.
+        Sets ``x``.
 
         Parameters:
-            vector: Reference point for position sampling in vector notation.
+            x: Position sampling x-coordinate.
 
         Raises:
             InpError: SEMANTICS_OPTION.
             TypeError:
         """
 
-        if vector is not None:
-            array = []
-            for item in vector:
-                if isinstance(item, types.Real):
-                    array.append(item)
-                elif isinstance(item, int) or isinstance(item, float):
-                    array.append(types.Real(item))
-                elif isinstance(item, str):
-                    array.append(types.Real.from_mcnp(item))
-            vector = types.Tuple(types.Real)(array)
+        if x is not None:
+            if isinstance(x, types.Real):
+                x = x
+            elif isinstance(x, int) or isinstance(x, float):
+                x = types.Real(x)
+            elif isinstance(x, str):
+                x = types.Real.from_mcnp(x)
 
-        if vector is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vector)
+        if x is None:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
 
-        self._vector: types.Tuple(types.Real) = vector
+        self._x: types.Real = x
+
+    @property
+    def y(self) -> types.Tuple(types.Real):
+        """
+        Position sampling y-coordinate.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        return self._y
+
+    @y.setter
+    def y(self, y: str | int | float | types.Real) -> None:
+        """
+        Sets ``y``.
+
+        Parameters:
+            y: Position sampling y-coordinate.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if y is not None:
+            if isinstance(y, types.Real):
+                y = y
+            elif isinstance(y, int) or isinstance(y, float):
+                y = types.Real(y)
+            elif isinstance(y, str):
+                y = types.Real.from_mcnp(y)
+
+        if y is None:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y)
+
+        self._y: types.Real = y
+
+    @property
+    def z(self) -> types.Tuple(types.Real):
+        """
+        Position sampling z-coordinate.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        return self._z
+
+    @z.setter
+    def z(self, z: str | int | float | types.Real) -> None:
+        """
+        Sets ``z``.
+
+        Parameters:
+            z: Position sampling z-coordinate.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if z is not None:
+            if isinstance(z, types.Real):
+                z = z
+            elif isinstance(z, int) or isinstance(z, float):
+                z = types.Real(z)
+            elif isinstance(z, str):
+                z = types.Real.from_mcnp(z)
+
+        if z is None:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z)
+
+        self._z: types.Real = z
