@@ -1,7 +1,7 @@
 import re
 
-from . import f
 from . import _option
+from .... import types
 from .... import errors
 
 
@@ -13,56 +13,57 @@ class Pos_1(_option.SdefOption):
     _KEYWORD = 'pos'
 
     _ATTRS = {
-        'option': f.FOption,
+        'vector': types.Distribution,
     }
 
-    _REGEX = re.compile(rf'\Apos( (?:{f.FOption._REGEX.pattern[2:-2]}))\Z', re.IGNORECASE)
+    _REGEX = re.compile(rf'\Apos( {types.Distribution._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
-    def __init__(self, option: str | f.FOption):
+    def __init__(self, vector: str | types.Distribution):
         """
         Initializes ``Pos_1``.
 
         Parameters:
-            option: Dependent distribution option.
-
+            vector: Position sampling vector.
         Raises:
             InpError: SEMANTICS_OPTION.
         """
 
-        self.option: f.FOption = option
+        self.vector: types.Distribution = vector
 
     @property
-    def option(self) -> f.FOption:
+    def vector(self) -> types.Tuple(types.Distribution):
         """
-        Dependent distribution option
+        Position sampling vector-coordinate.
 
         Raises:
             InpError: SEMANTICS_OPTION.
             TypeError:
         """
 
-        return self._option
+        return self._vector
 
-    @option.setter
-    def option(self, option: str | f.FOption) -> None:
+    @vector.setter
+    def vector(self, vector: str | int | float | types.Distribution) -> None:
         """
-        Sets ``option``.
+        Sets ``vector``.
 
         Parameters:
-            option: Dependent distribution option.
+            vector: Position sampling vector-coordinate.
 
         Raises:
             InpError: SEMANTICS_OPTION.
             TypeError:
         """
 
-        if option is not None:
-            if isinstance(option, f.FOption):
-                option = option
-            elif isinstance(option, str):
-                option = f.FOption.from_mcnp(option)
+        if vector is not None:
+            if isinstance(vector, types.Distribution):
+                vector = vector
+            elif isinstance(vector, int) or isinstance(vector, float):
+                vector = types.Distribution(vector)
+            elif isinstance(vector, str):
+                vector = types.Distribution.from_mcnp(vector)
 
-        if option is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, option)
+        if vector is None:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vector)
 
-        self._option: f.FOption = option
+        self._vector: types.Distribution = vector
