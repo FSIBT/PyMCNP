@@ -18,7 +18,7 @@ class Tr_1(_option.SdefOption):
 
     _REGEX = re.compile(rf'\Atr( {types.Distribution._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
 
-    def __init__(self, number: str | int | types.Distribution):
+    def __init__(self, number: str | types.Distribution):
         """
         Initializes ``Tr_1``.
 
@@ -44,7 +44,7 @@ class Tr_1(_option.SdefOption):
         return self._number
 
     @number.setter
-    def number(self, number: str | int | types.Distribution) -> None:
+    def number(self, number: str | types.Distribution) -> None:
         """
         Sets ``number``.
 
@@ -59,8 +59,6 @@ class Tr_1(_option.SdefOption):
         if number is not None:
             if isinstance(number, types.Distribution):
                 number = number
-            elif isinstance(number, int):
-                number = types.Distribution(number)
             elif isinstance(number, str):
                 number = types.Distribution.from_mcnp(number)
 

@@ -59,8 +59,6 @@ class Ext_1(_option.SdefOption):
         if distance_cosine is not None:
             if isinstance(distance_cosine, types.Distribution):
                 distance_cosine = distance_cosine
-            elif isinstance(distance_cosine, int) or isinstance(distance_cosine, float):
-                distance_cosine = types.Distribution(distance_cosine)
             elif isinstance(distance_cosine, str):
                 distance_cosine = types.Distribution.from_mcnp(distance_cosine)
 
