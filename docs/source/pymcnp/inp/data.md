@@ -421,6 +421,14 @@
    :inherited-members:
 ```
 
+### ``F_4`` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.data.F_4
+   :members:
+   :inherited-members:
+```
+
 ### ``Fc`` Class
 
 ```{eval-rst}

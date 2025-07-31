@@ -470,10 +470,10 @@ def TEST(element, mod):
             valid_build[2][attribute.name] = 'consts.ast.types.DESIGNATOR'
             valid_init[0][attribute.name] = 'consts.ast.types.DESIGNATOR'
         elif attribute.type == 'cell.Geometry':
-            valid_build[0][attribute.name] = 'consts.string.inp.cell.GEOMETRY'
-            valid_build[1][attribute.name] = 'consts.string.inp.cell.GEOMETRY'
-            valid_build[2][attribute.name] = 'consts.ast.inp.cell.GEOMETRY'
-            valid_init[0][attribute.name] = 'consts.ast.inp.cell.GEOMETRY'
+            valid_build[0][attribute.name] = 'consts.string.types.GEOMETRY'
+            valid_build[1][attribute.name] = 'consts.string.types.GEOMETRY'
+            valid_build[2][attribute.name] = 'consts.ast.types.GEOMETRY'
+            valid_init[0][attribute.name] = 'consts.ast.types.GEOMETRY'
         elif attribute.type == 'types.Substance':
             valid_build[0][attribute.name] = 'consts.string.types.SUBSTANCE'
             valid_build[1][attribute.name] = 'consts.string.types.SUBSTANCE'
@@ -635,10 +635,10 @@ def TEST(element, mod):
             valid_build[2][attribute.name] = '[consts.ast.types.DESIGNATOR]'
             valid_init[0][attribute.name] = '[consts.ast.types.DESIGNATOR]'
         elif attribute.type == 'types.Tuple(cell.Geometry)':
-            valid_build[0][attribute.name] = '[consts.string.inp.cell.GEOMETRY]'
-            valid_build[1][attribute.name] = '[consts.string.inp.cell.GEOMETRY]'
-            valid_build[2][attribute.name] = '[consts.ast.inp.cell.GEOMETRY]'
-            valid_init[0][attribute.name] = '[consts.ast.inp.cell.GEOMETRY]'
+            valid_build[0][attribute.name] = '[consts.string.types.GEOMETRY]'
+            valid_build[1][attribute.name] = '[consts.string.types.GEOMETRY]'
+            valid_build[2][attribute.name] = '[consts.ast.types.GEOMETRY]'
+            valid_init[0][attribute.name] = '[consts.ast.types.GEOMETRY]'
         elif attribute.type == 'types.Tuple(types.Substance)':
             valid_build[0][attribute.name] = '[consts.string.types.SUBSTANCE]'
             valid_build[1][attribute.name] = '[consts.string.types.SUBSTANCE]'

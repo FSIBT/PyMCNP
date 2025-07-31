@@ -1,6 +1,7 @@
 from ._type import Type
 from .Designator import Designator
 from .Distribution import Distribution
+from .Geometry import Geometry
 from .Generator import Generator
 from .Horizontal import Horizontal
 from .Horizontal import Repeat
@@ -10,6 +11,7 @@ from .Horizontal import Jump
 from .Horizontal import Log
 from .Index import Index
 from .Integer import Integer
+from .Lattice import Lattice
 from .Real import Real
 from .String import String
 from .Transformation import Transformation_0
@@ -28,6 +30,7 @@ __all__ = [
     'Generator',
     'Particle',
     'Distribution',
+    'Geometry',
     'Horizontal',
     'Repeat',
     'Insert',
@@ -36,6 +39,7 @@ __all__ = [
     'Log',
     'Index',
     'Integer',
+    'Lattice',
     'Real',
     'String',
     'Transformation_0',

@@ -3,7 +3,12 @@ import typing
 import decimal
 
 from . import _type
-from .. import types
+from .Horizontal import Horizontal
+from .Horizontal import Repeat
+from .Horizontal import Insert
+from .Horizontal import Multiply
+from .Horizontal import Jump
+from .Horizontal import Log
 from .. import errors
 
 
@@ -17,7 +22,7 @@ class Real(_type.Type):
 
     _REGEX = re.compile(r'\A(?:j|log|ilog|\d*m|i|r|(?:[-+0-9.eE][-+0-9.eEdD]*))\Z', re.IGNORECASE)
 
-    def __init__(self, value: int | types.Horizontal):
+    def __init__(self, value: int | Horizontal):
         """
         Initializes ``Real``.
 
@@ -52,27 +57,27 @@ class Real(_type.Type):
         """
 
         try:
-            return Real(types.Repeat.from_mcnp(source))
+            return Real(Repeat.from_mcnp(source))
         except errors.TypesError:
             pass
 
         try:
-            return Real(types.Insert.from_mcnp(source))
+            return Real(Insert.from_mcnp(source))
         except errors.TypesError:
             pass
 
         try:
-            return Real(types.Multiply.from_mcnp(source))
+            return Real(Multiply.from_mcnp(source))
         except errors.TypesError:
             pass
 
         try:
-            return Real(types.Jump.from_mcnp(source))
+            return Real(Jump.from_mcnp(source))
         except errors.TypesError:
             pass
 
         try:
-            return Real(types.Log.from_mcnp(source))
+            return Real(Log.from_mcnp(source))
         except errors.TypesError:
             pass
 

@@ -65,6 +65,7 @@ class Test_File:
         """
 
         for example in self.EXAMPLES_VALID:
+            print(example)
             a = self.element.from_file(example)
             b = self.element.from_mcnp(a.to_mcnp())
 
