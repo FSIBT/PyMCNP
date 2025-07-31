@@ -112,10 +112,11 @@ from .Hsrc import Hsrc
 from .F_0 import F_0
 from .F_1 import F_1
 from .F_2 import F_2
+from .F_3 import F_3
+from .F_4 import F_4
 from .Fip import Fip
 from .Fir import Fir
 from .Fic import Fic
-from .F_3 import F_3
 from .Fc import Fc
 from .E import E
 from .T_0 import T_0
@@ -299,10 +300,11 @@ __all__ = [
     'F_0',
     'F_1',
     'F_2',
+    'F_3',
+    'F_4',
     'Fip',
     'Fir',
     'Fic',
-    'F_3',
     'Fc',
     'E',
     'T_0',

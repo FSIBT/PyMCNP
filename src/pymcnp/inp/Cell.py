@@ -15,7 +15,7 @@ class Cell(_card.Card):
         'number': types.Integer,
         'material': types.Integer,
         'density': types.Real,
-        'geometry': cell.Geometry,
+        'geometry': types.Geometry,
         'options': types.Tuple(cell.CellOption),
     }
 
@@ -25,7 +25,7 @@ class Cell(_card.Card):
         self,
         number: types.Integer,
         material: types.Integer,
-        geometry: cell.Geometry,
+        geometry: types.Geometry,
         density: types.Real = None,
         options: types.Tuple(cell.CellOption) = None,
     ):
@@ -46,7 +46,7 @@ class Cell(_card.Card):
         self.number: types.Integer = number
         self.material: types.Integer = material
         self.density: types.Real = density
-        self.geometry: cell.Geometry = geometry
+        self.geometry: types.Geometry = geometry
         self.options: types.Tuple(cell.CellOption) = options
 
     def to_mcnp(self):
@@ -197,7 +197,7 @@ class Cell(_card.Card):
         self._density: types.Real = density
 
     @property
-    def geometry(self) -> cell.Geometry:
+    def geometry(self) -> types.Geometry:
         """
         Cell geometry.
 
@@ -209,7 +209,7 @@ class Cell(_card.Card):
         return self._geometry
 
     @geometry.setter
-    def geometry(self, geometry: str | cell.Geometry) -> None:
+    def geometry(self, geometry: str | types.Geometry) -> None:
         """
         Sets ``geometry``.
 
@@ -222,15 +222,15 @@ class Cell(_card.Card):
         """
 
         if geometry is not None:
-            if isinstance(geometry, cell.Geometry):
+            if isinstance(geometry, types.Geometry):
                 geometry = geometry
             elif isinstance(geometry, str):
-                geometry = cell.Geometry.from_mcnp(geometry)
+                geometry = types.Geometry.from_mcnp(geometry)
 
         if geometry is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, geometry)
 
-        self._geometry: cell.Geometry = geometry
+        self._geometry: types.Geometry = geometry
 
     @property
     def options(self) -> types.Tuple(cell.CellOption):
