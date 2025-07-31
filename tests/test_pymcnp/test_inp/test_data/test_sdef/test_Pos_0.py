@@ -11,7 +11,11 @@ class Test_Pos_0:
             {'x': 3.1, 'y': 3.1, 'z': 3.1},
             {'x': consts.ast.types.REAL, 'y': consts.ast.types.REAL, 'z': consts.ast.types.REAL},
         ]
-        EXAMPLES_INVALID = [{'x': None, 'y': None, 'z': None}]
+        EXAMPLES_INVALID = [
+            {'x': None, 'y': consts.string.types.REAL, 'z': consts.string.types.REAL},
+            {'x': consts.string.types.REAL, 'y': None, 'z': consts.string.types.REAL},
+            {'x': consts.string.types.REAL, 'y': consts.string.types.REAL, 'z': None},
+        ]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.data.sdef.Pos_0

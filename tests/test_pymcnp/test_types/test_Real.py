@@ -25,6 +25,7 @@ class Test_Real:
             '10m',
             '10log',
             '10ilog',
+            'e2',
         ]
         EXAMPLES_INVALID = [
             'hello',

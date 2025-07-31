@@ -59,8 +59,6 @@ class Y_1(_option.SdefOption):
         if position is not None:
             if isinstance(position, types.Distribution):
                 position = position
-            elif isinstance(position, int) or isinstance(position, float):
-                position = types.Distribution(position)
             elif isinstance(position, str):
                 position = types.Distribution.from_mcnp(position)
 

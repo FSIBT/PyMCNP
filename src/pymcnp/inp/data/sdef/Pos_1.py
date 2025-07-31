@@ -43,7 +43,7 @@ class Pos_1(_option.SdefOption):
         return self._vector
 
     @vector.setter
-    def vector(self, vector: str | int | float | types.Distribution) -> None:
+    def vector(self, vector: str | types.Distribution) -> None:
         """
         Sets ``vector``.
 
@@ -58,8 +58,6 @@ class Pos_1(_option.SdefOption):
         if vector is not None:
             if isinstance(vector, types.Distribution):
                 vector = vector
-            elif isinstance(vector, int) or isinstance(vector, float):
-                vector = types.Distribution(vector)
             elif isinstance(vector, str):
                 vector = types.Distribution.from_mcnp(vector)
 
