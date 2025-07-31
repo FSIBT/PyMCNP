@@ -10,6 +10,8 @@ class string:
     MESHTAL = (pathlib.Path(__file__).parent.parent / 'files' / 'meshtal' / 'valid_40.meshtal').read_text()
 
     class types:
+        GEOMETRY = '1 (2:(+3 -4) #5)'
+        LATTICE = '2<3[-3:+3 -2:3 0:0]<(4<7)'
         REPEAT = '10r'
         INSERT = '10i'
         MULTIPLY = '10m'
@@ -39,7 +41,6 @@ class string:
         COMMENT = 'c hello'
 
         class cell:
-            GEOMETRY = '1 (2:(+3 -4) #5)'
             IMP = 'imp:@=1'
             VOL = 'vol=1'
             PWT = 'pwt=3.1'
@@ -225,10 +226,11 @@ class string:
             F_0 = '+f1:@ 1 1 1 t'
             F_1 = '+f5:@ 3.1 3.1 3.1 3.1 3.1 3.1 3.1 3.1 3.1 3.1 3.1 3.1 nd'
             F_2 = '+f5x:@ 3.1 3.1 3.1 3.1 3.1 3.1 3.1 3.1 3.1 nd'
+            F_3 = '+f8:@ 1 1 1 t'
+            F_4 = '+f4:@ 2<3'
             FIP = 'fip5:@ 3.1 3.1 3.1 0 3.1 3.1 3.1 3.1 3.1 3.1'
             FIR = 'fir5:@ 3.1 3.1 3.1 0 3.1 3.1 3.1 1 3.1 1'
             FIC = 'fic5:@ 3.1 3.1 3.1 0 3.1 3.1 3.1 -1 3.1 -1'
-            F_3 = '+f8:@ 1 1 1 t'
             FC = 'fc1 hello'
             E = 'e1 3.1 3.1 3.1 nt c'
             T_0 = 't1 3.1 3.1 3.1 nt c'
@@ -1509,6 +1511,8 @@ class ast:
             WEDGE = pymcnp._show.pyvista.Wedge(0.5, 0.5, 0.5)
 
     class types:
+        LATTICE = pymcnp.types.Lattice.from_mcnp(string.types.LATTICE)
+        GEOMETRY = pymcnp.types.Geometry.from_mcnp(string.types.GEOMETRY)
         REPEAT = pymcnp.types.Repeat.from_mcnp(string.types.REPEAT)
         INSERT = pymcnp.types.Insert.from_mcnp(string.types.INSERT)
         MULTIPLY = pymcnp.types.Multiply.from_mcnp(string.types.MULTIPLY)
@@ -1536,7 +1540,6 @@ class ast:
         COMMENT = pymcnp.inp.Comment.from_mcnp(string.inp.COMMENT)
 
         class cell:
-            GEOMETRY = pymcnp.inp.cell.Geometry.from_mcnp(string.inp.cell.GEOMETRY)
             IMP = pymcnp.inp.cell.Imp.from_mcnp(string.inp.cell.IMP)
             VOL = pymcnp.inp.cell.Vol.from_mcnp(string.inp.cell.VOL)
             PWT = pymcnp.inp.cell.Pwt.from_mcnp(string.inp.cell.PWT)
@@ -1722,10 +1725,11 @@ class ast:
             F_0 = pymcnp.inp.data.F_0.from_mcnp(string.inp.data.F_0)
             F_1 = pymcnp.inp.data.F_1.from_mcnp(string.inp.data.F_1)
             F_2 = pymcnp.inp.data.F_2.from_mcnp(string.inp.data.F_2)
+            F_3 = pymcnp.inp.data.F_3.from_mcnp(string.inp.data.F_3)
+            F_4 = pymcnp.inp.data.F_4.from_mcnp(string.inp.data.F_4)
             FIP = pymcnp.inp.data.Fip.from_mcnp(string.inp.data.FIP)
             FIR = pymcnp.inp.data.Fir.from_mcnp(string.inp.data.FIR)
             FIC = pymcnp.inp.data.Fic.from_mcnp(string.inp.data.FIC)
-            F_3 = pymcnp.inp.data.F_3.from_mcnp(string.inp.data.F_3)
             FC = pymcnp.inp.data.Fc.from_mcnp(string.inp.data.FC)
             E = pymcnp.inp.data.E.from_mcnp(string.inp.data.E)
             T_0 = pymcnp.inp.data.T_0.from_mcnp(string.inp.data.T_0)

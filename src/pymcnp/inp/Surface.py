@@ -1,6 +1,5 @@
 import re
 
-from . import cell
 from . import surface
 from . import _card
 from .. import _show
@@ -85,7 +84,7 @@ class Surface(_card.Card):
             ``Surface`` union.
         """
 
-        return cell.Geometry(infix=types.String(f'{a.number}:{b.number}'))
+        return types.Geometry.from_mcnp(f'{a.number}:{b.number}')
 
     def __or__(a, b):
         """
@@ -99,7 +98,7 @@ class Surface(_card.Card):
             ``Surface`` intersection.
         """
 
-        return cell.Geometry(infix=types.String(f'{a.number} {b.number}'))
+        return types.Geometry.from_mcnp(f'{a.number} {b.number}')
 
     def __neg__(self):
         """
@@ -109,7 +108,7 @@ class Surface(_card.Card):
             ``Surface`` negative.
         """
 
-        return cell.Geometry(infix=types.String(f'-{self.number}'))
+        return types.Geometry.from_mcnp(f'-{self.number}')
 
     def __pos__(self):
         """
@@ -119,7 +118,7 @@ class Surface(_card.Card):
             ``Surface`` positive.
         """
 
-        return cell.Geometry(infix=types.String(f'+{self.number}'))
+        return types.Geometry.from_mcnp(f'+{self.number}')
 
     def __invert__(self):
         """
@@ -129,7 +128,7 @@ class Surface(_card.Card):
             ``Surface`` complement.
         """
 
-        return cell.Geometry(infix=types.String(f'#{self.number}'))
+        return types.Geometry.from_mcnp(f'#{self.number}')
 
     @property
     def number(self) -> types.Integer:

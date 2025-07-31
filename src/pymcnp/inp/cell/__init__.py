@@ -25,7 +25,6 @@ from .Fill_4 import Fill_4
 from .Fill_5 import Fill_5
 from .Fill_6 import Fill_6
 from .Elpt import Elpt
-from .Geometry import Geometry
 from .Tmp import Tmp
 from .Cosy import Cosy
 from .Bflcl import Bflcl
@@ -58,7 +57,6 @@ __all__ = [
     'Fill_5',
     'Fill_6',
     'Elpt',
-    'Geometry',
     'Tmp',
     'Cosy',
     'Bflcl',
