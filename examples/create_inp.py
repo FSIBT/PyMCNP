@@ -9,10 +9,10 @@ RADIUS_SHIELD: float = 5
 RADIUS_LEAD: float = 1
 
 # Creating cell geometries.
-geometry_air = pymcnp.inp.cell.Geometry('11')
-geometry_shield = pymcnp.inp.cell.Geometry('12')
-geometry_lead = pymcnp.inp.cell.Geometry('13')
-geometry_world = pymcnp.inp.cell.Geometry('14')
+geometry_air = pymcnp.types.Geometry.from_mcnp('11')
+geometry_shield = pymcnp.types.Geometry.from_mcnp('12')
+geometry_lead = pymcnp.types.Geometry.from_mcnp('13')
+geometry_world = pymcnp.types.Geometry.from_mcnp('14')
 
 # Creating cells.
 cell_air = pymcnp.inp.Cell(number=1, material=21, density=0.5, geometry=geometry_air)

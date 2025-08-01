@@ -57,13 +57,15 @@ class Plot(_doer.Doer):
                 subtally['counts'],
                 yerr=subtally['errors'] * subtally['counts'],
                 label='Error',
-                color='orange',
+                color='c',
                 zorder=1,
+                fmt='none',
             )
-            ax.set_title(f'Counts vs Bins: {" ".join(f"{name}: {ident}" for name, ident in zip(names, idents))}', fontsize=12)
+            ax.set_title(f'Counts vs Bins\n{" ".join(f"{name}: {ident}" for name, ident in zip(names, idents))}', fontsize=12)
             ax.set_xlabel('Bins', fontsize=12)
             ax.set_ylabel('Counts', fontsize=12)
-            ax.step(subtally['bins'], subtally['counts'], color='blue', where='mid', zorder=2)
+            ax.step(subtally['bins'], subtally['counts'], color='blue', where='mid', zorder=2, label='Tally')
+            ax.legend()
 
             figures.append(fig)
 

@@ -1,49 +1,48 @@
 # Contributing
 
-We welcome contributions. Either in code, documentation, or input
-files that do not currenlty work with PyMCNP.
+We welcome contributions to code, documentation, tests, and files, just create a [GitHub issue](https://github.com/FSIBT/PyMCNP/issues).
 
-The best way to connect with us is to create a github issue.
+## Contributing
 
+PyMCNP source code is accessable for contributions, suggestions, and bug reports on [GitHub](https://github.com/FSIBT/PyMCNP):
 
-## Installing
-
-PyMCNP source code is accessable for contributions, suggestions, and
-bug reports on [GitHub](https://github.com/FSIBT/PyMCNP). The
-following command downloads PyMCNP source code and installs `pymcnp`
-and its dependencies in editable mode:
-
+    # Installing
     git clone https://github.com/FSIBT/PyMCNP
     cd PyMCNP
-    pip install -e .[docs]
+    pip install -e .
 
-## Code formatting, pre-commit, etc.
+    # Running
+    pymcnp
 
-If you plan to contribute, you should also enable [pre-commit](https://pre-commit.com/):
+To contribute, use [pre-commit](https://pre-commit.com) and [ruff](https://docs.astral.sh/ruff/):
 
-    pip install pre-commit
-    # cd into repo
+    # Installing
+    pip install pre-commit ruff
+    cd PyMCNP
     pre-commit install
 
-from within the top level directory in the git repository. Pre-commit
-will ensure that the code is formatted using ruff and that it will
-match the coding style in our repository.
+    # Running
+    pre-commit
 
-We are happy to receive pull requests on github.
+## Testing
 
-## Testings
+To run the PyMCNP test suite, after cloning the PyMCNP GitHub repository, use the following commands to install [pytest](https://docs.pytest.org/en/stable/) with [pytest-cov](https://pytest-cov.readthedocs.io/en/latest/) inside the PyMCNP directory:
 
-To run the PyMCNP test suite, after clone the PyMCNP GitHub
-repository, use the following commands to install Pytest
-([Docs](https://docs.pytest.org/en/stable/)) inside the PyMCNP
-directory:
-
-    pip install pytest
-
-After instaling `pytest`, test the `pymcnp` package by calling the
-following commands inside the PyMCNP directory:
-
+    # Installing
+    pip install pytest-cov
     cd PyMCNP
     python -m pytest
 
+    # Running
+    pytest --cov --cov-report term-missing:skip-covered
 
+## Documenting
+
+To rebuild the documentation using [Sphinx](https://www.sphinx-doc.org/en/master/) and [Napolean](https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html):
+
+    # Installing
+    pip install sphinx
+
+    # Running
+    cd docs
+    make html

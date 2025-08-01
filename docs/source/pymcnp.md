@@ -1,15 +1,17 @@
-# PyMCNP Package
+# PyMCNP Library
 
 > [!WARNING]
 > Warning: PyMCNP is in active development! Please, double check eveything works. Reports error on [GitHub](https://github.com/FSIBT/PyMCNP).
 
 PyMCNP provides the backend for the CLI and useful tools for programatically interfacing with
-MCNP. This package supports INP, PTRAC, and MESHTAL parsing and the CLI backend using subpackages:
+MCNP. This package supports INP, OUTP, PTRAC, and MESHTAL parsing using subpackages:
 
 * [inp subpackage](/pymcnp/inp): INP parsing.
 * [meshtal subpackage](/pymcnp/meshtal): MESHTAL parsing.
 * [outp subpackage](/pymcnp/outp): OUTP parsing. 
 * [ptrac subpackage](/pymcnp/ptrac): PTRAC parsing. 
+* [types subpackage](/pymcnp/types): Shared parsing, data types.
+* [errors subpackage](/pymcnp/errors): Error handling.
 
 ## Table of Contents
 
@@ -21,6 +23,8 @@ MCNP. This package supports INP, PTRAC, and MESHTAL parsing and the CLI backend 
    pymcnp/meshtal
    pymcnp/outp
    pymcnp/ptrac
+   pymcnp/types
+   pymcnp/errors
 ```
 
 ## AST Classes
@@ -114,8 +118,6 @@ and ``MeshtalProcessor`` have overridable methods for processing data, and all c
    :members:
    :inherited-members:
 ```
-
-The following classes provide the underlying functionality of the CLI.
 
 ### ``Check`` Class
 
