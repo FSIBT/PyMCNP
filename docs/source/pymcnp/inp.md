@@ -13,7 +13,7 @@
 > * data.Ft (3.3.5.18)
 
 ``pymcnp.inp`` contains the INP parser. PyMCNP implements an object-oriented recursive
-descent parser, approximates INP as the following context-free-grammar described in modified Bakus-Naur form:
+descent parser, approximating INP as the following context-free-grammar described in modified Bakus-Naur form:
 
 ```
 <CellOption> = ...;
@@ -41,7 +41,7 @@ descent parser, approximates INP as the following context-free-grammar described
 ## AST Classes
 
 PyMCNP represents INP non-terminals with AST classes and stores them in nested subpackages.
-These AST class have methods for translating PyMCNP and INP:
+These AST class have methods for translating between PyMCNP and INP:
 
 * ``from_mcnp``. Parses INP source, checking for syntax and semantic errors.
 * ``to_mcnp``. Generates INP source from PyMCNP objects, reformatting.

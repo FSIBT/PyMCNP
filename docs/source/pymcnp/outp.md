@@ -1,7 +1,7 @@
 # ``pymcnp.outp`` Subpackage
 
 ``pymcnp.outp`` contains the OUTP parser. PyMCNP implements an object-oriented recursive
-descent parser, approximates OUTP as the following context-free-grammar described in modified Bakus-Naur form:
+descent parser, approximating OUTP as the following context-free-grammar described in modified Bakus-Naur form:
 
 ```
 ...
@@ -17,6 +17,12 @@ descent parser, approximates OUTP as the following context-free-grammar describe
 ```
 
 ## AST Classes
+
+PyMCNP represents OUTP non-terminals with AST classes and stores them in nested subpackages.
+These AST class have methods for translating between PyMCNP and OUTP:
+
+* ``from_mcnp``. Parses OUTP source, checking for syntax and semantic errors.
+* ``to_mcnp``. Generates OUTP source from PyMCNP objects, reformatting.
 
 ### ``AnalysisTallyFluctuation`` Class
 

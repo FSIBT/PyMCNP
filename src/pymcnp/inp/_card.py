@@ -1,3 +1,5 @@
+import re
+
 from . import _symbol
 from .. import errors
 
@@ -78,6 +80,12 @@ class Card(_symbol.InpNonterminal):
         Returns:
             Postprocessed INP.
         """
+
+        source = re.sub(r'((?: [jJ]){2,})(\s|\Z|\n)', lambda match: f' {len(match[1].strip().split())}j' + match[2], source)
+        source = re.sub(r'((?: [rR]){2,})(\s|\Z|\n)', lambda match: f' {len(match[1].strip().split())}r' + match[2], source)
+        source = re.sub(r'((?: [iI]){2,})(\s|\Z|\n)', lambda match: f' {len(match[1].strip().split())}i' + match[2], source)
+        source = re.sub(r'((?: [lL][oO][gG]){2,})(\s|\Z|\n)', lambda match: f' {len(match[1].strip().split())}log' + match[2], source)
+        source = re.sub(r'((?: [iI][lL][oO][gG]){2,})(\s|\Z|\n)', lambda match: f' {len(match[1].strip().split())}ilog' + match[2], source)
 
         lines = []
         length = 0
