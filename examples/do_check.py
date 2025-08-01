@@ -1,5 +1,5 @@
 """
-Example converting INP files using ``Convert``.
+Example checking INP files using ``Check``.
 """
 
 import pathlib
@@ -7,7 +7,7 @@ import pathlib
 import pymcnp
 
 # Getting INP path.
-path = pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'example_00.outp'
+path = pathlib.Path(__file__).parent.parent / 'files' / 'inp' / 'example_00.inp'
 
 # Checking.
 checker = pymcnp.Check(path)
