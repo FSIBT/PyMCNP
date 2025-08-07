@@ -18,8 +18,9 @@ class ConeTruncated(_shape.PyvistaShape):
             r2: Truncated cone radius #2.
         """
 
-        points = [[0, 0, 0], [r1, 0, 0], [r2, 0, h], [0, 0, h]]
-        cells = [len(points), *list(range(len(points)))]
-        trapazoid = pyvista.UnstructuredGrid(cells, [pyvista.CellType.QUAD], points)
-
-        super().__init__(trapazoid.extract_surface().extrude_rotate(capping=True, resolution=_shape.RESOLUTION))
+        super().__init__(
+            pyvista.UnstructuredGrid([4, 0, 1, 2, 3], [pyvista.CellType.QUAD], [[0, 0, 0], [r1, 0, 0], [r2, 0, h], [0, 0, h]])
+            .extract_surface()
+            .extrude_rotate(capping=True, resolution=_shape.RESOLUTION),
+            lambda p: ~(p[:, 2] <= h) & (p[:, 2] >= 0) & (p[:, 0] ** 2 + p[:, 1] ** 2 <= (r1 + p[:, 2] / h * (r2 - r1)) ** 2),
+        )

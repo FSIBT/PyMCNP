@@ -133,10 +133,3 @@ class Test_Inp:
         EXAMPLES_INVALID = [
             *(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp').glob('invalid*.inp'),
         ]
-
-    class Test_Draw(classes.Test_Draw):
-        element = pymcnp.Inp
-        EXAMPLES = [
-            'Hi\n1 0 99 imp:n=1\n\n99 SO 1\n\nnps 1e5\n',
-            'Hi\n1 0 99 imp:n=1\n\nc 99 SO 1\n\nnps 1e5\n',
-        ]

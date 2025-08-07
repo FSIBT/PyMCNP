@@ -106,7 +106,7 @@ class string:
 
         class surface:
             P_0 = 'p 1 1 1 1'
-            P_1 = 'p 1 1 1 1 1 1 1 1 1'
+            P_1 = 'p 1 0 0 0 1 0 0 0 1'
             PX = 'px 1'
             PY = 'py 1'
             PZ = 'pz 1'
@@ -1497,6 +1497,7 @@ class ast:
     class _show:
         class pyvista:
             BOX = pymcnp._show.pyvista.Box(0.5, 0.5, 0.5)
+            EMPTY = pymcnp._show.pyvista.Empty()
             CONETRUNCATED = pymcnp._show.pyvista.ConeTruncated(0.5, 0.5, 0.5)
             CONEUNBOUNDED = pymcnp._show.pyvista.ConeUnbounded(0.5, 1)
             CYLINDERCIRCULAR = pymcnp._show.pyvista.CylinderCircular(0.5, 0.5)

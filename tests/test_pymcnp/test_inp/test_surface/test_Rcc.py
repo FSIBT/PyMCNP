@@ -98,6 +98,6 @@ class Test_Rcc:
         EXAMPLES_VALID = [consts.string.inp.surface.RCC]
         EXAMPLES_INVALID = ['hello']
 
-    class Test_Draw(classes.Test_Draw):
+    class Test_Show(classes.Test_Show):
         element = pymcnp.inp.surface.Rcc
         EXAMPLES = [consts.string.inp.surface.RCC]

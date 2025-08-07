@@ -19,10 +19,6 @@ class CylinderElliptical(_shape.PyvistaShape):
         """
 
         super().__init__(
-            pyvista.ParametricSuperEllipsoid(
-                xradius=a,
-                yradius=b,
-                zradius=h,
-                n1=0.001,
-            )
+            pyvista.ParametricSuperEllipsoid(xradius=a, yradius=b, zradius=h, n1=0.001),
+            lambda p: ~((p[:, 2] >= 0) & (p[:, 2] <= h) & ((p[:, 0] / a) ** 2 + (p[:, 1] / b) ** 2 <= 1)),
         )

@@ -1,7 +1,5 @@
 import re
 
-import numpy
-
 from . import _option
 from ... import _show
 from ... import types
@@ -72,7 +70,7 @@ class Px(_option.SurfaceOption):
 
         self._d: types.Real = d
 
-    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Px``.
 
@@ -84,6 +82,5 @@ class Px(_option.SurfaceOption):
         """
 
         vis = shapes.Plane(1, 0, 0, float(self.d))
-        vis = vis.rotate(numpy.array((0, 1, 0)), 90, (0, 0, 0))
 
         return vis

@@ -1,3 +1,4 @@
+import numpy
 import pyvista
 
 from . import _shape
@@ -19,7 +20,6 @@ class Box(_shape.PyvistaShape):
         """
 
         super().__init__(
-            pyvista.Box(
-                bounds=(0, a, 0, b, 0, c),
-            )
+            pyvista.Box((0, a, 0, b, 0, c)),
+            lambda p: ~numpy.all((p >= 0) & (p <= [a, b, c]), axis=1),
         )

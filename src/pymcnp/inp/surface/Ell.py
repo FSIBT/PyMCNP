@@ -330,7 +330,7 @@ class Ell(_option.SurfaceOption):
 
         self._rm: types.Real = rm
 
-    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Ell``.
 

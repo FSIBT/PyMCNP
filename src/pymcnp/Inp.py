@@ -1,7 +1,6 @@
 import re
 
 from . import inp
-from . import _show
 from . import _file
 from . import types
 from . import errors
@@ -141,25 +140,6 @@ class Inp(_file.File):
             + '\n\n'
             + (self.other.value if self.other is not None else '')
         )
-
-    def draw(self) -> _show.Shape:
-        """
-        Generates ``Visualization`` from ``Inp``.
-
-        Returns:
-            ``Visualization`` for ``Inp``.
-        """
-
-        surfaces = list(filter(lambda surface: isinstance(surface, inp.Surface), self.surfaces))
-
-        if surfaces:
-            vis = surfaces[0].draw()
-            for surface in surfaces[1:]:
-                if isinstance(surface, inp.Surface):
-                    vis += surface.draw()
-            return vis
-
-        return None
 
     @staticmethod
     def _preprocess(source: str):

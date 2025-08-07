@@ -35,13 +35,9 @@ class CylinderHexagonal(_shape.PyvistaShape):
             [c * math.cos((math.pi / 3) * 4), c * math.sin((math.pi / 3) * 4), h],
             [c * math.cos((math.pi / 3) * 5), c * math.sin((math.pi / 3) * 5), h],
         ]
-
         cells = [len(points), *list(range(len(points)))]
 
         super().__init__(
-            pyvista.UnstructuredGrid(
-                cells,
-                [pyvista.CellType.HEXAGONAL_PRISM],
-                points,
-            )
+            pyvista.UnstructuredGrid(cells, [pyvista.CellType.HEXAGONAL_PRISM], points),
+            lambda p: 0 <= p[:, 2] <= h and all(abs(p[:, 0] * math.cos(i * math.pi / 3) + p[:, 1] * math.sin(i * math.pi / 3)) <= (a, b, c)[i % 3] for i in range(6)),
         )

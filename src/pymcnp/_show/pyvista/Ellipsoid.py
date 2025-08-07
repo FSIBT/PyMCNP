@@ -17,10 +17,4 @@ class Ellipsoid(_shape.PyvistaShape):
             b: Ellipsoid minor axis length.
         """
 
-        super().__init__(
-            pyvista.ParametricEllipsoid(
-                xradius=a,
-                yradius=b,
-                zradius=b,
-            )
-        )
+        super().__init__(pyvista.ParametricEllipsoid(xradius=a, yradius=b, zradius=b), lambda p: (p[:, 0] / a) ** 2 + (p[:, 1] / b) ** 2 + (p[:, 2] / b) ** 2 <= 1)

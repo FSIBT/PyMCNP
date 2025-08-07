@@ -98,7 +98,7 @@ class Test_Ell:
         EXAMPLES_VALID = [consts.string.inp.surface.ELL]
         EXAMPLES_INVALID = ['hello']
 
-    class Test_Draw(classes.Test_Draw):
+    class Test_Show(classes.Test_Show):
         element = pymcnp.inp.surface.Ell
         EXAMPLES = [
             consts.string.inp.surface.ELL,
