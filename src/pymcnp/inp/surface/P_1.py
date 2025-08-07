@@ -108,6 +108,23 @@ class P_1(_option.SurfaceOption):
         if x1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x1)
 
+        if (
+            hasattr(self, '_x2')
+            and hasattr(self, '_x3')
+            and hasattr(self, '_y1')
+            and hasattr(self, '_y2')
+            and hasattr(self, '_y3')
+            and hasattr(self, '_z1')
+            and hasattr(self, '_z2')
+            and hasattr(self, '_z3')
+        ):
+            a = numpy.array((float(self._x2 - x1), float(self._y2 - self._y1), float(self._z2 - self._z1)))
+            b = numpy.array((float(self._x3 - x1), float(self._y3 - self._y1), float(self._z3 - self._z1)))
+            n = numpy.cross(a, b)
+
+            if not (n[0] or n[1] or n[2]):
+                raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x1)
+
         self._x1: types.Real = x1
 
     @property
@@ -145,6 +162,23 @@ class P_1(_option.SurfaceOption):
 
         if y1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y1)
+
+        if (
+            hasattr(self, '_x1')
+            and hasattr(self, '_x2')
+            and hasattr(self, '_x3')
+            and hasattr(self, '_y2')
+            and hasattr(self, '_y3')
+            and hasattr(self, '_z1')
+            and hasattr(self, '_z2')
+            and hasattr(self, '_z3')
+        ):
+            a = numpy.array((float(self._x2 - self._x1), float(self._y2 - y1), float(self._z2 - self._z1)))
+            b = numpy.array((float(self._x3 - self._x1), float(self._y3 - y1), float(self._z3 - self._z1)))
+            n = numpy.cross(a, b)
+
+            if not (n[0] or n[1] or n[2]):
+                raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y1)
 
         self._y1: types.Real = y1
 
@@ -184,6 +218,23 @@ class P_1(_option.SurfaceOption):
         if z1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z1)
 
+        if (
+            hasattr(self, '_x1')
+            and hasattr(self, '_x2')
+            and hasattr(self, '_x3')
+            and hasattr(self, '_y1')
+            and hasattr(self, '_y2')
+            and hasattr(self, '_y3')
+            and hasattr(self, '_z2')
+            and hasattr(self, '_z3')
+        ):
+            a = numpy.array((float(self._x2 - self._x1), float(self._y2 - self._y1), float(self._z2 - z1)))
+            b = numpy.array((float(self._x3 - self._x1), float(self._y3 - self._y1), float(self._z3 - z1)))
+            n = numpy.cross(a, b)
+
+            if not (n[0] or n[1] or n[2]):
+                raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z1)
+
         self._z1: types.Real = z1
 
     @property
@@ -221,6 +272,23 @@ class P_1(_option.SurfaceOption):
 
         if x2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x2)
+
+        if (
+            hasattr(self, '_x1')
+            and hasattr(self, '_x3')
+            and hasattr(self, '_y1')
+            and hasattr(self, '_y2')
+            and hasattr(self, '_y3')
+            and hasattr(self, '_z1')
+            and hasattr(self, '_z2')
+            and hasattr(self, '_z3')
+        ):
+            a = numpy.array((float(x2 - self._x1), float(self._y2 - self._y1), float(self._z2 - self._z1)))
+            b = numpy.array((float(self._x3 - self._x1), float(self._y3 - self._y1), float(self._z3 - self._z1)))
+            n = numpy.cross(a, b)
+
+            if not (n[0] or n[1] or n[2]):
+                raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x2)
 
         self._x2: types.Real = x2
 
@@ -260,6 +328,23 @@ class P_1(_option.SurfaceOption):
         if y2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y2)
 
+        if (
+            hasattr(self, '_x1')
+            and hasattr(self, '_x2')
+            and hasattr(self, '_x3')
+            and hasattr(self, '_y1')
+            and hasattr(self, '_y3')
+            and hasattr(self, '_z1')
+            and hasattr(self, '_z2')
+            and hasattr(self, '_z3')
+        ):
+            a = numpy.array((float(self._x2 - self._x1), float(y2 - self._y1), float(self._z2 - self._z1)))
+            b = numpy.array((float(self._x3 - self._x1), float(self._y3 - self._y1), float(self._z3 - self._z1)))
+            n = numpy.cross(a, b)
+
+            if not (n[0] or n[1] or n[2]):
+                raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y2)
+
         self._y2: types.Real = y2
 
     @property
@@ -297,6 +382,23 @@ class P_1(_option.SurfaceOption):
 
         if z2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z2)
+
+        if (
+            hasattr(self, '_x1')
+            and hasattr(self, '_x2')
+            and hasattr(self, '_x3')
+            and hasattr(self, '_y1')
+            and hasattr(self, '_y2')
+            and hasattr(self, '_y3')
+            and hasattr(self, '_z1')
+            and hasattr(self, '_z3')
+        ):
+            a = numpy.array((float(self._x2 - self._x1), float(self._y2 - self._y1), float(z2 - self._z1)))
+            b = numpy.array((float(self._x3 - self._x1), float(self._y3 - self._y1), float(self._z3 - self._z1)))
+            n = numpy.cross(a, b)
+
+            if not (n[0] or n[1] or n[2]):
+                raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z2)
 
         self._z2: types.Real = z2
 
@@ -336,6 +438,23 @@ class P_1(_option.SurfaceOption):
         if x3 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x3)
 
+        if (
+            hasattr(self, '_x1')
+            and hasattr(self, '_x2')
+            and hasattr(self, '_y1')
+            and hasattr(self, '_y2')
+            and hasattr(self, '_y3')
+            and hasattr(self, '_z1')
+            and hasattr(self, '_z2')
+            and hasattr(self, '_z3')
+        ):
+            a = numpy.array((float(self._x2 - self._x1), float(self._y2 - self._y1), float(self._z2 - self._z1)))
+            b = numpy.array((float(x3 - self._x1), float(self._y3 - self._y1), float(self._z3 - self._z1)))
+            n = numpy.cross(a, b)
+
+            if not (n[0] or n[1] or n[2]):
+                raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x3)
+
         self._x3: types.Real = x3
 
     @property
@@ -373,6 +492,23 @@ class P_1(_option.SurfaceOption):
 
         if y3 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y3)
+
+        if (
+            hasattr(self, '_x1')
+            and hasattr(self, '_x2')
+            and hasattr(self, '_x3')
+            and hasattr(self, '_y1')
+            and hasattr(self, '_y2')
+            and hasattr(self, '_z1')
+            and hasattr(self, '_z2')
+            and hasattr(self, '_z3')
+        ):
+            a = numpy.array((float(self._x2 - self._x1), float(self._y2 - self._y1), float(self._z2 - self._z1)))
+            b = numpy.array((float(self._x3 - self._x1), float(y3 - self._y1), float(self._z3 - self._z1)))
+            n = numpy.cross(a, b)
+
+            if not (n[0] or n[1] or n[2]):
+                raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y3)
 
         self._y3: types.Real = y3
 
@@ -412,9 +548,26 @@ class P_1(_option.SurfaceOption):
         if z3 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z3)
 
+        if (
+            hasattr(self, '_x1')
+            and hasattr(self, '_x2')
+            and hasattr(self, '_x3')
+            and hasattr(self, '_y1')
+            and hasattr(self, '_y2')
+            and hasattr(self, '_y3')
+            and hasattr(self, '_z1')
+            and hasattr(self, '_z2')
+        ):
+            a = numpy.array((float(self._x2 - self._x1), float(self._y2 - self._y1), float(self._z2 - self._z1)))
+            b = numpy.array((float(self._x3 - self._x1), float(self._y3 - self._y1), float(z3 - self._z1)))
+            n = numpy.cross(a, b)
+
+            if not (n[0] or n[1] or n[2]):
+                raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z3)
+
         self._z3: types.Real = z3
 
-    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``P_1``.
 
@@ -425,10 +578,10 @@ class P_1(_option.SurfaceOption):
             ``_show.Shape`` for ``P_1``
         """
 
-        a = numpy.array((float(self.x2 - self.x1), float(self.y2 - self.y1), float(self.z2 - self.z1)))
-        b = numpy.array((float(self.x3 - self.x1), float(self.y3 - self.y1), float(self.z3 - self.z1)))
+        a = numpy.array((float(self._x2 - self._x1), float(self._y2 - self._y1), float(self._z2 - self._z1)))
+        b = numpy.array((float(self._x3 - self._x1), float(self._y3 - self._y1), float(self._z3 - self._z1)))
         n = numpy.cross(a, b)
 
-        vis = shapes.Plane(n[0], n[1], n[2], n[0] * float(self.x1) + n[1] * float(self.y1) + n[2] * float(self.z1))
+        vis = shapes.Plane(n[0], n[1], n[2], n[0] * float(self._x1) + n[1] * float(self._y1) + n[2] * float(self._z1))
 
         return vis

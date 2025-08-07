@@ -8,21 +8,24 @@ class Shape(metaclass=abc.ABCMeta):
     Represents generic visualizations.
 
     Attributes:
-        data: Underlying visualization.
+        surface: Underlying surface visualization.
+        cell: Underlying cell visualization.
     """
 
-    def __init__(self, data):
+    def __init__(self, surface, cell):
         """
         Initializes ``Shape``.
 
         Parameters:
-            data: Underlying visualization.
+            surface: Underlying surface visualization.
+            cell: Underlying cell visualization.
 
         Returns:
             ``Shape``
         """
 
-        self.data = data
+        self.surface = surface
+        self.cell = cell
 
     @abc.abstractmethod
     def __add__(a, b):  # pragma: no cover
@@ -54,34 +57,34 @@ class Shape(metaclass=abc.ABCMeta):
 
         raise NotImplementedError
 
-    # @abc.abstractmethod
-    # def __or__(a, b):  # pragma: no cover
-    # """
-    # Intersects ``Shape``.
+    @abc.abstractmethod
+    def __or__(a, b):  # pragma: no cover
+        """
+        Intersects ``Shape``.
 
-    # Parameters:
-    # a: Operand #1.
-    # b: Operand #2.
+        Parameters:
+            a: Operand #1.
+            b: Operand #2.
 
-    # Returns:
-    # ``Shape`` intersection.
-    # """
+        Returns:
+        ``Shape`` intersection.
+        """
 
-    # raise NotImplementedError
+        raise NotImplementedError
 
-    # @abc.abstractmethod
-    # def __invert__(a):  # pragma: no cover
-    # """
-    # Inverts ``Shape``.
+    @abc.abstractmethod
+    def __invert__(a):  # pragma: no cover
+        """
+        Complements ``Shape``.
 
-    # Parameters:
-    # a: Operand #1.
+        Parameters:
+            a: Operand #1.
 
-    # Returns:
-    # ``Shape`` complement.
-    # """
+        Returns:
+        ``Shape`` complement.
+        """
 
-    # raise NotImplementedError
+        raise NotImplementedError
 
     @abc.abstractmethod
     def rotate(self, axis: numpy.ndarray):  # pragma: no cover

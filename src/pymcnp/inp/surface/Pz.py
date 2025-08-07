@@ -70,7 +70,7 @@ class Pz(_option.SurfaceOption):
 
         self._d: types.Real = d
 
-    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Pz``.
 

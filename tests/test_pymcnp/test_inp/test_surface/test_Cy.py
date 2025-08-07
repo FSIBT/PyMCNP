@@ -14,6 +14,6 @@ class Test_Cy:
         EXAMPLES_VALID = [consts.string.inp.surface.CY]
         EXAMPLES_INVALID = ['hello']
 
-    class Test_Draw(classes.Test_Draw):
+    class Test_Show(classes.Test_Show):
         element = pymcnp.inp.surface.Cy
         EXAMPLES = [consts.string.inp.surface.CY]

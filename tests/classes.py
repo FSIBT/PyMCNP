@@ -65,7 +65,6 @@ class Test_File:
         """
 
         for example in self.EXAMPLES_VALID:
-            print(example)
             a = self.element.from_file(example)
             b = self.element.from_mcnp(a.to_mcnp())
 
@@ -81,17 +80,17 @@ class Test_File:
                 self.element.from_file(example)
 
 
-class Test_Draw:
+class Test_Show:
     element: pymcnp._symbol.Nonterminal
     EXAMPLES: list[str] = []
 
     def test(self):
         """
-        Tests ``EXAMPLES`` on ``draw``.
+        Tests ``EXAMPLES`` on ``to_show``.
         """
 
         for example in self.EXAMPLES:
-            self.element.from_mcnp(example).draw()
+            self.element.from_mcnp(example).to_show()
 
 
 class Test_Dataframe:

@@ -1,9 +1,11 @@
+import pytest
+
 import pymcnp
 from ... import consts
 from ... import classes
 
 
-class Test_Imp:
+class Test_Geometry:
     class Test_Init(classes.Test_Init):
         element = pymcnp.types.Geometry
         EXAMPLES_VALID = []
@@ -11,10 +13,7 @@ class Test_Imp:
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.types.Geometry
-        EXAMPLES_VALID = [
-            consts.string.types.GEOMETRY,
-            '1(+2 (3 4)):3',
-        ]
+        EXAMPLES_VALID = [consts.string.types.GEOMETRY, '1(+2 (3 4)):3', '+2', '(3 4)']
         EXAMPLES_INVALID = [
             'hello',
             '',
@@ -22,6 +21,32 @@ class Test_Imp:
             '%1',
             'a',
         ]
+
+    class Test_Show:
+        EXAMPLES: list[str] = [
+            '+1',
+            '(1)',
+            '1',
+            '#1',
+            '#(1)',
+        ]
+
+        def test_valid(self):
+            """
+            Tests ``EXAMPLES`` on ``to_show``.
+            """
+
+            for example in self.EXAMPLES:
+                pymcnp.types.Geometry.from_mcnp(example).ast.to_show({'1': consts.ast._show.pyvista.SPHERE}, {})
+
+        def test_invalid(self):
+            """
+            Tests ``EXAMPLES`` on ``to_show``.
+            """
+
+            for example in self.EXAMPLES:
+                with pytest.raises(pymcnp.errors.TypesError):
+                    pymcnp.types.Geometry.from_mcnp(example).ast.to_show({}, {})
 
     class Test_Operations:
         EXAMPLES = [

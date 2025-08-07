@@ -1,4 +1,3 @@
-import copy
 import typing
 
 import numpy
@@ -7,9 +6,8 @@ import pyvista
 from .. import _shape
 
 
-BOUND: typing.Final[float] = 500
-RESOLUTION: typing.Final[int] = 100
-UNBOUNDED_SIZE: typing.Final[float] = 1000
+BOUND: typing.Final[float] = 100
+RESOLUTION: typing.Final[int] = 256
 
 
 class PyvistaShape(_shape.Shape):
@@ -29,11 +27,11 @@ class PyvistaShape(_shape.Shape):
             Merged ``PyvistaShape``.
         """
 
-        return PyvistaShape(a.data.merge([b.data], merge_points=False))
+        return PyvistaShape(a.surface.merge(b.surface), lambda p: a.cell(p) | b.cell(p))
 
     def __and__(a, b):
         """
-        Unites ``PyvistaShape``.
+        Intersects ``PyvistaShape``.
 
         Parameters:
             a: Operand #1.
@@ -43,36 +41,31 @@ class PyvistaShape(_shape.Shape):
             ``PyvistaShape`` union.
         """
 
-        return PyvistaShape(a.data.merge([b.data], merge_points=True))
+        return PyvistaShape(a.surface.merge(b.surface), lambda p: a.cell(p) & b.cell(p))
 
-    #     def __or__(a, b):
-    #         """
-    #         Intersects ``PyvistaShape``.
-    #
-    #         Parameters:
-    #             a: Operand #1.
-    #             b: Operand #2.
-    #
-    #         Returns:
-    #             ``PyvistaShape`` intersection.
-    #         """
-    #
-    #         if not a.data.is_all_triangles:
-    #             a.data = a.data.triangulate()
-    #         if not b.data.is_all_triangles:
-    #             b.data = b.data.triangulate()
-    #
-    #         return PyvistaShape(a.data.intersection(b.data)[0])
+    def __or__(a, b):
+        """
+        Unites ``PyvistaShape``.
 
-    # def __invert__(self):
-    # """
-    # Inverts ``PyvistaShape``.
+        Parameters:
+            a: Operand #1.
+            b: Operand #2.
 
-    # Returns:
-    # ``PyvistaShape`` complement.
-    # """
+        Returns:
+            ``PyvistaShape`` intersection.
+        """
 
-    # return PyvistaShape(self.data.flip_normals())
+        return PyvistaShape(a.surface.merge(b.surface), lambda p: a.cell(p) | b.cell(p))
+
+    def __invert__(self):
+        """
+        Negates ``PyvistaShape``.
+
+        Returns:
+            ``PyvistaShape`` complement.
+        """
+
+        return PyvistaShape(self.surface, lambda p: ~self.cell(p))
 
     def rotate(self, axis: numpy.ndarray, angle: float, center: tuple[float]):
         """
@@ -87,16 +80,9 @@ class PyvistaShape(_shape.Shape):
             ``PyvistaShape`` rotated.
         """
 
-        if axis[0] == 0 and axis[1] == 0 and axis[2] == 0:
-            return copy.deepcopy(self)
-        else:
-            return PyvistaShape(
-                self.data.rotate_vector(
-                    vector=(axis[0], axis[1], axis[2]),
-                    angle=angle,
-                    point=center,
-                )
-            )
+        axis = axis / numpy.linalg.norm(axis)
+
+        return PyvistaShape(self.surface.rotate_vector(vector=(axis[0], axis[1], axis[2]), angle=angle, point=center), lambda p: self.cell(p))
 
     def translate(self, vector: numpy.ndarray):
         """
@@ -109,7 +95,7 @@ class PyvistaShape(_shape.Shape):
             ``PyvistaShape`` translated.
         """
 
-        return PyvistaShape(self.data.translate(xyz=(vector[0], vector[1], vector[2])))
+        return PyvistaShape(self.surface.translate(xyz=(vector[0], vector[1], vector[2])), lambda p: self.cell(p - vector))
 
 
 pyvista.global_theme.allow_empty_mesh = True

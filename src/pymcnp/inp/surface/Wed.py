@@ -540,7 +540,7 @@ class Wed(_option.SurfaceOption):
 
         self._v3z: types.Real = v3z
 
-    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Wed``.
 

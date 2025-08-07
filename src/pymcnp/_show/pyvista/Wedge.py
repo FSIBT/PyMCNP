@@ -26,12 +26,8 @@ class Wedge(_shape.PyvistaShape):
             [a, 0, h],
             [0, b, h],
         ]
-        cells = [len(points), *list(range(len(points)))]
 
         super().__init__(
-            pyvista.UnstructuredGrid(
-                cells,
-                [pyvista.CellType.WEDGE],
-                points,
-            )
+            pyvista.UnstructuredGrid([len(points), *list(range(len(points)))], [pyvista.CellType.WEDGE], points),
+            lambda p: 0 <= p[:, 0] <= a and 0 <= p[:, 1] <= b and 0 <= p[:, 2] <= h and p[:, 0] / a + p[:1] / b <= 1,
         )

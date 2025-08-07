@@ -2,79 +2,13 @@ import re
 import typing
 
 from . import _type
+from .. import _show
 from .. import errors
-
-
-class _Union(_type._Nonterminal):
-    """
-    Represents MCNP geometry union expressions.
-
-    Attributes:
-        left: Left abstract syntax tree.
-        right: Right abstract syntax tree.
-    """
-
-    def __init__(self, left: _type._Nonterminal, right: _type._Nonterminal):
-        """
-        Initializes ``_Union``.
-
-        Parameters:
-            left: Left abstract syntax tree.
-            right: Right abstract syntax tree.
-
-        Returns:
-            ``_Union``.
-
-        Raises:
-            TypesError: SEMANTICS_TYPE.
-        """
-
-        assert left is not None
-        assert right is not None
-
-        self.left: typing.Final[_type._Nonterminal] = left
-        self.right: typing.Final[_type._Nonterminal] = right
-
-    @staticmethod
-    def from_mcnp(tokens: list[str]):
-        """
-        Generates ``_Union`` from INP.
-
-        Parameters:
-            tokens: Geometry tokens.
-
-        Returns:
-            ``_Union``, tokens
-
-        Raises:
-            SyntaxError: SYNTAX_TYPE.
-        """
-
-        left, tokens = _Intersection.from_mcnp(tokens)
-
-        while tokens and tokens[0] in {'', ' ', '('}:
-            if tokens[0] == '(':
-                right, tokens = _Intersection.from_mcnp(tokens)
-            else:
-                right, tokens = _Intersection.from_mcnp(tokens[1:])
-            left = _Union(left, right)
-
-        return left, tokens
-
-    def to_mcnp(self):
-        """
-        Generates INP from ``_Union``.
-
-        Returns:
-            INP for ``_Union``.
-        """
-
-        return f'{self.left} {self.right}'
 
 
 class _Intersection(_type._Nonterminal):
     """
-    Represents MCNP geometry intersection expressions.
+    Represents MCNP geometry union expressions.
 
     Attributes:
         left: Left abstract syntax tree.
@@ -99,8 +33,8 @@ class _Intersection(_type._Nonterminal):
         assert left is not None
         assert right is not None
 
-        self.left: typing.Tokens[_type._Nonterminal] = left
-        self.right: typing.Tokens[_type._Nonterminal] = right
+        self.left: typing.Final[_type._Nonterminal] = left
+        self.right: typing.Final[_type._Nonterminal] = right
 
     @staticmethod
     def from_mcnp(tokens: list[str]):
@@ -112,6 +46,87 @@ class _Intersection(_type._Nonterminal):
 
         Returns:
             ``_Intersection``, tokens
+
+        Raises:
+            SyntaxError: SYNTAX_TYPE.
+        """
+
+        left, tokens = _Union.from_mcnp(tokens)
+
+        while tokens and tokens[0] in {'', ' ', '('}:
+            if tokens[0] == '(':
+                right, tokens = _Union.from_mcnp(tokens)
+            else:
+                right, tokens = _Union.from_mcnp(tokens[1:])
+            left = _Intersection(left, right)
+
+        return left, tokens
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``_Intersection``.
+
+        Returns:
+            INP for ``_Intersection``.
+        """
+
+        return f'{self.left} {self.right}'
+
+    def to_show(self, surfaces: dict[str, _show.Shape], cells: dict[str, _show.Shape], shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+        """
+        Generates ``Visualization`` from ``_Intersection``.
+
+        Paramaters:
+            surfaces: Dictionary of surfaces and visualizations.
+            shapes: Collection of shapes.
+
+        Returns:
+            ``Visualization`` for ``_Intersection``
+        """
+
+        return self.left.to_show(surfaces, cells, shapes) & self.right.to_show(surfaces, cells, shapes)
+
+
+class _Union(_type._Nonterminal):
+    """
+    Represents MCNP geometry intersection expressions.
+
+    Attributes:
+        left: Left abstract syntax tree.
+        right: Right abstract syntax tree.
+    """
+
+    def __init__(self, left: _type._Nonterminal, right: _type._Nonterminal):
+        """
+        Initializes ``_Union``.
+
+        Parameters:
+            left: Left abstract syntax tree.
+            right: Right abstract syntax tree.
+
+        Returns:
+            ``_Union``.
+
+        Raises:
+            TypesError: SEMANTICS_TYPE.
+        """
+
+        assert left is not None
+        assert right is not None
+
+        self.left: typing.Tokens[_type._Nonterminal] = left
+        self.right: typing.Tokens[_type._Nonterminal] = right
+
+    @staticmethod
+    def from_mcnp(tokens: list[str]):
+        """
+        Generates ``_Union`` from INP.
+
+        Parameters:
+            tokens: Geometry tokens.
+
+        Returns:
+            ``_Union``, tokens
 
         Raises:
             SyntaxError: SYNTAX_TYPE.
@@ -135,19 +150,33 @@ class _Intersection(_type._Nonterminal):
             else:
                 right, tokens = _Digit.from_mcnp(tokens[1:])
 
-            left = _Intersection(left, right)
+            left = _Union(left, right)
 
         return left, tokens
 
     def to_mcnp(self):
         """
-        Generates INP from ``_Intersection``.
+        Generates INP from ``_Union``.
 
         Returns:
-            INP for ``_Intersection``.
+            INP for ``_Union``.
         """
 
         return f'{self.left}:{self.right}'
+
+    def to_show(self, surfaces: dict[str, _show.Shape], cells: dict[str, _show.Shape], shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+        """
+        Generates ``Visualization`` from ``_Union``.
+
+        Paramaters:
+            surfaces: Dictionary of surfaces and visualizations.
+            shapes: Collection of shapes.
+
+        Returns:
+            ``Visualization`` for ``_Union``
+        """
+
+        return self.left.to_show(surfaces, cells, shapes) | self.right.to_show(surfaces, cells, shapes)
 
 
 class _Unary(_type._Nonterminal):
@@ -198,7 +227,10 @@ class _Unary(_type._Nonterminal):
         assert tokens[0] in {'+', '-', '#'}
 
         operator = tokens[0]
-        ast, tokens = _Union.from_mcnp(tokens[1:])
+        if tokens[1:] and tokens[1] == '(':
+            ast, tokens = _Paren.from_mcnp(tokens[1:])
+        else:
+            ast, tokens = _Digit.from_mcnp(tokens[1:])
 
         return _Unary(operator, ast), tokens
 
@@ -211,6 +243,33 @@ class _Unary(_type._Nonterminal):
         """
 
         return f'{self.operator}{self.operand}'
+
+    def to_show(self, surfaces: dict[str, _show.Shape], cells: dict[str, _show.Shape], shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+        """
+        Generates ``Visualization`` from ``_Unary``.
+
+        Paramaters:
+            surfaces: Dictionary of surfaces and visualizations.
+            shapes: Collection of shapes.
+
+        Returns:
+            ``Visualization`` for ``_Unary``
+        """
+
+        if self.operator == '+':
+            return self.operand.to_show(surfaces, cells, shapes)
+        elif self.operator == '-':
+            return ~self.operand.to_show(surfaces, cells, shapes)
+        else:
+            if isinstance(self.operand, _Digit):
+                if self.operand.value in cells:
+                    return cells[self.operand.value]
+                elif self.operand.value in surfaces:
+                    return surfaces[self.operand.value]
+                else:
+                    raise errors.TypesError(errors.TypesCode.SEMANTICS_TYPE, self.operand.value)
+            else:
+                return ~self.operand.to_show(surfaces, cells, shapes)
 
 
 class _Paren(_type._Nonterminal):
@@ -256,7 +315,7 @@ class _Paren(_type._Nonterminal):
 
         assert tokens[0] == '('
 
-        ast, tokens = _Union.from_mcnp(tokens[1:])
+        ast, tokens = _Intersection.from_mcnp(tokens[1:])
 
         if not tokens or tokens[0] != ')':
             raise SyntaxError
@@ -272,6 +331,20 @@ class _Paren(_type._Nonterminal):
         """
 
         return f'({self.ast})'
+
+    def to_show(self, surfaces: dict[str, _show.Shape], cells: dict[str, _show.Shape], shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+        """
+        Generates ``Visualization`` from ``_Paren``.
+
+        Paramaters:
+            surfaces: Dictionary of surfaces and visualizations.
+            shapes: Collection of shapes.
+
+        Returns:
+            ``Visualization`` for ``_Paren``
+        """
+
+        return self.ast.to_show(surfaces, cells, shapes)
 
 
 class _Digit(_type._Nonterminal):
@@ -331,6 +404,23 @@ class _Digit(_type._Nonterminal):
 
         return self.value
 
+    def to_show(self, surfaces: dict[str, _show.Shape], cells: dict[str, _show.Shape], shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+        """
+        Generates ``Visualization`` from ``_Digit``.
+
+        Paramaters:
+            surfaces: Dictionary of surfaces and visualizations.
+            shapes: Collection of shapes.
+
+        Returns:
+            ``Visualization`` for ``_Digit``
+        """
+
+        if self.value in surfaces:
+            return surfaces[self.value]
+        else:
+            raise errors.TypesError(errors.TypesCode.SEMANTICS_TYPE, self.value)
+
 
 class Geometry(_type.Type):
     """
@@ -386,7 +476,7 @@ class Geometry(_type.Type):
         tokens = [(token.strip() or ' ') for token in tokens]
 
         try:
-            ast, tokens = _Union.from_mcnp(tokens)
+            ast, tokens = _Intersection.from_mcnp(tokens)
         except SyntaxError:
             raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source)
 
@@ -416,7 +506,7 @@ class Geometry(_type.Type):
             ``Geometry`` union.
         """
 
-        return Geometry(_Intersection(a.ast, b.ast))
+        return Geometry(_Union(a.ast, b.ast))
 
     def __or__(a, b):
         """
@@ -430,7 +520,7 @@ class Geometry(_type.Type):
             ``Geometry`` intersection.
         """
 
-        return Geometry(_Union(a.ast, b.ast))
+        return Geometry(_Intersection(a.ast, b.ast))
 
     def __neg__(self):
         """
