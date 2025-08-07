@@ -62,7 +62,7 @@ class Surface(_card.Card):
 
         return source
 
-    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Surface``.
 
@@ -70,7 +70,7 @@ class Surface(_card.Card):
             ``pyvista.PolySurface`` for ``Surface``.
         """
 
-        return self.option.draw(shapes)
+        return self.option.to_show(shapes)
 
     def __and__(a, b):
         """

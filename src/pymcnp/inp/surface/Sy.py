@@ -113,7 +113,7 @@ class Sy(_option.SurfaceOption):
 
         self._r: types.Real = r
 
-    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Sy``.
 

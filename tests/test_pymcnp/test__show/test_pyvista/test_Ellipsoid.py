@@ -22,18 +22,18 @@ class Test_Ellipsoid:
             for a, b in self.EXAMPLES:
                 a & b
 
-        # def test__or__(self):
-        #     for a, b in self.EXAMPLES:
-        #         a | b
+        def test__or__(self):
+            for a, b in self.EXAMPLES:
+                a | b
 
-        # def test__invert__(self):
-        # for a, b in self.EXAMPLES:
-        # ~a
+        def test__invert__(self):
+            for a, b in self.EXAMPLES:
+                ~a
 
         def test_rotate(self):
             for a, b in self.EXAMPLES:
                 a.rotate(numpy.array((1, 1, 1)), 0.5, (1, 1, 1))
-                a.rotate(numpy.array((0, 0, 0)), 0.5, (1, 1, 1))
+                # a.rotate(numpy.array((0, 0, 0)), 0.5, (1, 1, 1))
 
         def test_translate(self):
             for a, b in self.EXAMPLES:

@@ -23,6 +23,6 @@ class Test_P_0:
         EXAMPLES_VALID = [consts.string.inp.surface.P_0]
         EXAMPLES_INVALID = ['hello']
 
-    class Test_Draw(classes.Test_Draw):
+    class Test_Show(classes.Test_Show):
         element = pymcnp.inp.surface.P_0
         EXAMPLES = [consts.string.inp.surface.P_0]

@@ -213,6 +213,6 @@ class Test_Rec:
         EXAMPLES_VALID = [consts.string.inp.surface.REC]
         EXAMPLES_INVALID = ['hello']
 
-    class Test_Draw(classes.Test_Draw):
+    class Test_Show(classes.Test_Show):
         element = pymcnp.inp.surface.Rec
         EXAMPLES = [consts.string.inp.surface.REC]

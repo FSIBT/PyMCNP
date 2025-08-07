@@ -17,12 +17,9 @@ class ConeUnbounded(_shape.PyvistaShape):
             sign: Cone sheet.
         """
 
-        points = [(0, 0, 0), (_shape.UNBOUNDED_SIZE, 0, _shape.UNBOUNDED_SIZE * sign / m)]
-        cells = [len(points), *list(range(len(points)))]
-        line = pyvista.UnstructuredGrid(
-            cells,
-            [pyvista.CellType.LINE],
-            points,
+        super().__init__(
+            pyvista.UnstructuredGrid([2, 0, 1], [pyvista.CellType.LINE], [(0, 0, 0), (_shape.BOUND, 0, _shape.BOUND * sign / m)])
+            .extract_surface()
+            .extrude_rotate(resolution=_shape.RESOLUTION, capping=False),
+            lambda p: ~(p[:, 0] ** 2 + p[:, 1] ** 2 == sign * m**2 * p[:, 2] ** 2),
         )
-
-        super().__init__(line.extract_surface().extrude_rotate(resolution=_shape.RESOLUTION, capping=False))

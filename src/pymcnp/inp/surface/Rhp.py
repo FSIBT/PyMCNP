@@ -649,7 +649,7 @@ class Rhp(_option.SurfaceOption):
 
         self._t3: types.Real = t3
 
-    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Rhp``.
 

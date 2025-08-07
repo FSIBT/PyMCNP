@@ -22,12 +22,12 @@ class Torus(_shape.PyvistaShape):
 
         alpha = 2 * math.pi / _shape.RESOLUTION
         points = [[a * math.cos(alpha * i) + r, 0, b * math.sin(alpha * i)] for i in range(_shape.RESOLUTION)]
-        cells = [len(points), *list(range(len(points)))]
-        ellipse = pyvista.UnstructuredGrid(cells, [pyvista.CellType.POLYGON], points)
+        ellipse = pyvista.UnstructuredGrid([len(points), *list(range(len(points)))], [pyvista.CellType.POLYGON], points)
 
         super().__init__(
             ellipse.extract_surface().extrude_rotate(
                 capping=False,
                 resolution=_shape.RESOLUTION,
-            )
+            ),
+            lambda p: (p[:, 0] ** 2 + (a - (p[:, 1] ** 2 / a**2 + p[:, 2] ** 2 / b**2) ** 0.5 * a) ** 2 - r**2) ** 2,
         )

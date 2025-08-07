@@ -1,3 +1,5 @@
+import pytest
+
 import pymcnp
 from ... import consts
 from ... import classes
@@ -160,3 +162,27 @@ class Test_Cell:
         EXAMPLES_INVALID = [
             'hello',
         ]
+
+    class Test_Show:
+        EXAMPLES: list[str] = [
+            '1 0 +1',
+            '1 0 (1)',
+            '1 0 1',
+        ]
+
+        def test_valid(self):
+            """
+            Tests ``EXAMPLES`` on ``to_show``.
+            """
+
+            for example in self.EXAMPLES:
+                pymcnp.inp.Cell.from_mcnp(example).to_show({'1': consts.ast._show.pyvista.SPHERE}, {})
+
+        def test_invalid(self):
+            """
+            Tests ``EXAMPLES`` on ``to_show``.
+            """
+
+            for example in self.EXAMPLES:
+                with pytest.raises(pymcnp.errors.TypesError):
+                    pymcnp.inp.Cell.from_mcnp(example).to_show({}, {})

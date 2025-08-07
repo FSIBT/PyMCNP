@@ -288,7 +288,7 @@ class Ty(_option.SurfaceOption):
 
         self._c: types.Real = c
 
-    def draw(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
         Generates ``Visualization`` from ``Ty``.
 

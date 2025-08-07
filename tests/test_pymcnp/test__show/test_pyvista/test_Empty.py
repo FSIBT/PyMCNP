@@ -5,14 +5,14 @@ from .... import consts
 from .... import classes
 
 
-class Test_ConeUnbounded:
+class Test_Empty:
     class Test_Init(classes.Test_Init):
-        element = pymcnp._show.pyvista.ConeUnbounded
-        EXAMPLES_VALID = [{'m': 0.5, 'sign': 1}]
+        element = pymcnp._show.pyvista.Empty
+        EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
     class Test_Dunder:
-        EXAMPLES = [(consts.ast._show.pyvista.CONEUNBOUNDED, consts.ast._show.pyvista.CONEUNBOUNDED)]
+        EXAMPLES = [(consts.ast._show.pyvista.EMPTY, consts.ast._show.pyvista.EMPTY)]
 
         def test__add__(self):
             for a, b in self.EXAMPLES:

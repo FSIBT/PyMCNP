@@ -1,3 +1,4 @@
+import numpy
 import pyvista
 
 from . import _shape
@@ -22,7 +23,6 @@ class Parallelipiped(_shape.PyvistaShape):
         """
 
         super().__init__(
-            pyvista.Box(
-                bounds=(xmin, xmax, ymin, ymax, zmin, zmax),
-            )
+            pyvista.Box(bounds=(xmin, xmax, ymin, ymax, zmin, zmax)),
+            lambda p: ~numpy.all((p >= [xmin, ymin, zmin]) & (p <= [xmax, ymax, zmax]), axis=1),
         )

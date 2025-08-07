@@ -2,6 +2,7 @@ import re
 
 from . import cell
 from . import _card
+from .. import _show
 from .. import types
 from .. import errors
 
@@ -62,25 +63,19 @@ class Cell(_card.Card):
 
         return source
 
-    #    def draw(self, surfaces: dict[int, _show.Visualization]):
-    #        """
-    #        Generates ``Visualization`` from ``Cell``.
-    #
-    #        Returns:
-    #            ``Visualization`` for ``Cell``
-    #        """
-    #
-    #        temp = re.sub(r' 0+', '', self.geometry.infix)
-    #        temp = re.sub(r' +', ' ', temp)
-    #        temp = re.sub(r'\+', '', temp)
-    #        temp = re.sub(r' ?: ?', '|', temp)
-    #        temp = re.sub(r' ', '&', temp)
-    #        temp = re.sub(r'(\d+)', r'surfaces[\1]', temp)
-    #
-    #        if '-' in temp or '#' in temp:
-    #            assert False, "I'm working on it!"
-    #
-    #        return eval(temp)
+    def to_show(self, surfaces: dict[str, _show.Shape], cells: dict[str, _show.Shape], shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+        """
+        Generates ``Visualization`` from ``Cell``.
+
+        Paramaters:
+            surfaces: Dictionary of surfaces and visualizations.
+            shapes: Collection of shapes.
+
+        Returns:
+            ``Visualization`` for ``Cell``
+        """
+
+        return self.geometry.ast.to_show(surfaces, cells)
 
     @property
     def number(self) -> types.Integer:
