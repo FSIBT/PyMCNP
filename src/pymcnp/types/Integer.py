@@ -81,6 +81,7 @@ class Integer(_type.Type):
         except errors.TypesError:
             pass
 
+        source = re.sub(r'([-+0-9.]+)([-+])([0-9]+)', r'\1e\2\3', source)
         source = re.sub(r'[dD]', 'e', source)
         if source[0] == 'e':
             source = '1' + source

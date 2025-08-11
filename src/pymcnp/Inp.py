@@ -1,4 +1,5 @@
 import re
+import collections
 
 from . import inp
 from . import _file
@@ -11,7 +12,7 @@ class Inp(_file.File):
     Represents INP files.
     """
 
-    _REGEX = re.compile(r'\A((?:message:).+\n)?(.+(?:\n))([\s\S]+?(?:\n\n))([\s\S]+?(?:\n\n))([\s\S]+?(?:\n\n|\Z))([\S\s]+)?\Z', re.IGNORECASE)
+    _REGEX = re.compile(r'\A((?:message:).+\n)?(.+)(?:\n)([\s\S]+?(?:\n\n))([\s\S]+?(?:\n\n))([\s\S]+?(?:\n\n|\Z))([\S\s]+)?\Z', re.IGNORECASE)
 
     def __init__(
         self,
@@ -150,8 +151,10 @@ class Inp(_file.File):
             source: INP to preprocess.
         """
 
-        tokens = re.split(r'\n(#(?: \S+)+\n(?: *\d\S*(?: +\S+)+\n)+)', source)
+        source = re.sub(r'\n +\n', '\n\n', source)
 
+        # Preprocessing vertical data format.
+        tokens = re.split(r'\n(#(?: \S+)+\n(?: *\d\S*(?: +\S+)+\n)+)', source)
         source = ''
         for token in tokens:
             if match := re.match(r'#((?: \S+)+)\n((?: *\d\S*(?: +\S+)+\n)+)', token):
@@ -168,7 +171,40 @@ class Inp(_file.File):
             else:
                 source += token
 
-        source = re.sub(r'\n +|& *\n *', ' ', source)
+        source = re.sub(r'& *\n *', '\n    ', source)
+
+        # Preproessing inline comments.
+        tokens = collections.deque(source.split('\n'))
+        source = ''
+        while tokens:
+            token = tokens.popleft()
+
+            comments = ['']
+
+            split = token.split('$', maxsplit=1)
+            source += split[0]
+            if len(split) == 2:
+                comments.append(split[1])
+
+            while tokens and re.match(r'\s+.+', tokens[0]):
+                token = tokens.popleft()
+
+                split = token.split('$', maxsplit=1)
+                source += split[0]
+                if len(split) == 2:
+                    comments.append(split[1])
+
+            source += ' $'.join(comments) + '\n'
+
+        source = re.sub(r' +', ' ', source)
+        source = re.sub(r'[(] ', '(', source)
+        source = re.sub(r' [)]', ')', source)
+        source = re.sub(r'\n \n', '\n\n', source)
+        source = re.sub(r' = | =|= |=', ' ', source)
+        source = re.sub(r'\t', '    ', source)
+        source = source.strip()
+
+        print(repr(source))
 
         return source
 
