@@ -21,4 +21,11 @@ class TypesError(_error.Error):
     Represents ``types`` errors.
     """
 
-    pass
+    def __str__(self):
+        info = str(self.info).split('\n')
+        info = '\n> '.join(info[: _error.CUTOFF] + ['...'] if len(info) > _error.CUTOFF else info)
+
+        if self.code == TypesCode.SYNTAX_TYPE:
+            return f'MCNP data type not recognized.\n> {info}'
+        if self.code == TypesCode.SEMANTICS_TYPE:
+            return f'Invalid MCNP data type.\n> {info}'
