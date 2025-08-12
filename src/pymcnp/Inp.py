@@ -204,8 +204,6 @@ class Inp(_file.File):
         source = re.sub(r'\t', '    ', source)
         source = source.strip()
 
-        print(repr(source))
-
         return source
 
     @property

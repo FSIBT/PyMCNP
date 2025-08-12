@@ -2,6 +2,9 @@ import enum
 import typing
 
 
+CUTOFF: typing.Final[int] = 4
+
+
 class Code(enum.EnumMeta):
     """
     Represents generic PyMCNP error codes.

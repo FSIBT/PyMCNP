@@ -30,4 +30,23 @@ class InpError(_error.Error):
     Represents ``inp`` errors.
     """
 
-    pass
+    def __str__(self):
+        info = str(self.info).split('\n')
+        info = '\n> '.join(info[: _error.CUTOFF] + ['...'] if len(info) > _error.CUTOFF else info)
+
+        if self.code == InpCode.SYNTAX_FILE:
+            return f'INP file not recognized.\n> {info}'
+        if self.code == InpCode.SYNTAX_CARD:
+            return f'INP card not recognized.\n> {info}'
+        if self.code == InpCode.SYNTAX_OPTION:
+            return f'INP option not recognized.\n> {info}'
+        if self.code == InpCode.SYNTAX_ENTRY:
+            return f'INP entry not recognized.\n> {info}'
+        if self.code == InpCode.SEMANTICS_FILE:
+            return f'Invalid INP file.\n> {info}'
+        if self.code == InpCode.SEMANTICS_CARD:
+            return f'Invalid INP card.\n> {info}'
+        if self.code == InpCode.SEMANTICS_OPTION:
+            return f'Invalid INP option.\n> {info}'
+        if self.code == InpCode.SEMANTICS_ENTRY:
+            return f'Invalid INP entry.\n> {info}'
