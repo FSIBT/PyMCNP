@@ -1,4 +1,5 @@
 import re
+import math
 
 import molmass
 
@@ -155,7 +156,7 @@ class M_0(_option.DataOption):
         self._options: types.Tuple(m_0.MOption_0) = options
 
     @staticmethod
-    def from_formula(number: int, formulas: dict[str, float], is_weight: bool = True):
+    def from_formula(number: int, formulas: dict[str, float], is_weight: bool = True, cutoff: float = 0.01):
         """
         Generates ``M_0`` from INP.
 
@@ -163,6 +164,7 @@ class M_0(_option.DataOption):
             number: Arbitrary material number.
             formulas: Dictionary of formulas and atomic/weight fractions.
             is_weight: Weight (atomic) fraction true (false) flag.
+            cutoff: Nuclide fraction cutoff.
 
         Returns:
             ``M_0`` object.
@@ -184,16 +186,14 @@ class M_0(_option.DataOption):
                     )
                     for a, isotropic_fraction in _elements.ELEMENTS[element]['fraction'].items()
                 ]
-                subcomments = [f'{element}-{zaid.a:03}' for zaid, _ in zaids]
                 entries = [
                     types.Substance(
                         zaid,
                         types.Real((-1 if is_weight else 1) * mixture_fraction * compound_fraction * isotropic_fraction),
                     )
-                    for zaid, isotropic_fraction in zaids
+                    for zaid, isotropic_fraction in zaids if mixture_fraction * compound_fraction * isotropic_fraction > cutoff
                 ]
 
-                comments += subcomments
                 substances += entries
 
         material = M_0(types.Integer(number), types.Tuple(types.Substance)(substances))
