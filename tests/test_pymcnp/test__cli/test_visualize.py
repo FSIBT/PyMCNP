@@ -18,4 +18,7 @@ class Test_Main:
 
         def test_invalid(self):
             os.system(f'pymcnp visualize {pathlib.Path(__file__).parent.parent.parent.parent / "files" / "inp" / "invalid_00.inp"}')
+            os.system(f'pymcnp visualize {pathlib.Path(__file__).parent.parent.parent.parent / "files" / "inp" / "invalid_01.inp"}')
+            os.system(f'pymcnp visualize {pathlib.Path(__file__).parent.parent.parent.parent / "files" / "inp" / "invalid_02.inp"}')
+            os.system(f'pymcnp visualize {pathlib.Path(__file__).parent.parent.parent.parent / "files" / "inp" / "valid_00.inp"} --cell=934587439')
             os.system('pymcnp visualize hello')

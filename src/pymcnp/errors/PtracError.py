@@ -26,4 +26,23 @@ class PtracError(_error.Error):
     Represents ``ptrac`` errors.
     """
 
-    pass
+    def __str__(self):
+        info = str(self.info).split('\n')
+        info = '\n> '.join(info[: _error.CUTOFF] + ['...'] if len(info) > _error.CUTOFF else info)
+
+        if self.code == PtracCode.SYNTAX_FILE:
+            return f'PTRAC file not recognized.\n> {info}'
+        if self.code == PtracCode.SYNTAX_BLOCK:
+            return f'PTRAC table not recognized.\n> {info}'
+        if self.code == PtracCode.SYNTAX_LINE:
+            return f'PTRAC line not recognized.\n> {info}'
+        if self.code == PtracCode.SYNTAX_KEYWORD:
+            return f'PTRAC keyword not recognized.\n> {info}'
+        if self.code == PtracCode.SEMANTICS_FILE:
+            return f'Invalid PTRAC file.\n> {info}'
+        if self.code == PtracCode.SEMANTICS_BLOCK:
+            return f'Invalid PTRAC table.\n> {info}'
+        if self.code == PtracCode.SEMANTICS_LINE:
+            return f'Invalid PTRAC line.\n> {info}'
+        if self.code == PtracCode.SEMANTICS_KEYWORD:
+            return f'Invalid PTRAC keyword.\n> {info}'

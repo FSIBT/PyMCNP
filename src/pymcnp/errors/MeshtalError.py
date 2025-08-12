@@ -24,4 +24,19 @@ class MeshtalError(_error.Error):
     Represents ``meshtal`` errors.
     """
 
-    pass
+    def __str__(self):
+        info = str(self.info).split('\n')
+        info = '\n> '.join(info[: _error.CUTOFF] + ['...'] if len(info) > _error.CUTOFF else info)
+
+        if self.code == MeshtalCode.SYNTAX_FILE:
+            return f'MESHTAL file not recognized.\n> {info}'
+        if self.code == MeshtalCode.SYNTAX_BLOCK:
+            return f'MESHTAL table not recognized.\n> {info}'
+        if self.code == MeshtalCode.SYNTAX_LINE:
+            return f'MESHTAL line not recognized.\n> {info}'
+        if self.code == MeshtalCode.SEMANTICS_FILE:
+            return f'Invalid MESHTAL file.\n> {info}'
+        if self.code == MeshtalCode.SEMANTICS_BLOCK:
+            return f'Invalid MESHTAL table.\n> {info}'
+        if self.code == MeshtalCode.SEMANTICS_LINE:
+            return f'Invalid MESHTAL line.\n> {info}'
