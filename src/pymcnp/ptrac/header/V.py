@@ -18,7 +18,7 @@ class V(_line.HeaderLine):
 
     def __init__(self, variables: types.Tuple(types.Real)):
         """
-        Initializes ``V``.
+        Initializes `V`.
 
         Parameters:
             variables: Variable for lines/events.
@@ -34,13 +34,13 @@ class V(_line.HeaderLine):
 
     def from_mcnp(source: str):
         """
-        Generates ``V`` from PTRAC.
+        Generates `V` from PTRAC.
 
         Parameters:
-            source: PTRAC for ``V``.
+            source: PTRAC for `V`.
 
         Returns:
-            ``V``.
+            `V`.
 
         Raises:
             PtracError: SYNTAX_HISTORY_LINE.
@@ -59,10 +59,10 @@ class V(_line.HeaderLine):
 
     def to_mcnp(self):
         """
-        Generates PTRAC from ``V``.
+        Generates PTRAC from `V`.
 
         Returns:
-            PTRAC for ``V``.
+            PTRAC for `V`.
         """
 
         v_line = ' '

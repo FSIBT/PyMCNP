@@ -14,36 +14,55 @@ class Card(_symbol.InpNonterminal):
     @classmethod
     def from_mcnp(cls, source: str):
         """
-        Generates ``Card`` from INP.
+        Generates `Card` from INP.
 
         Parameters:
-            source: ``Card`` for INP.
+            source: `Card` for INP.
 
         Returns:
-            ``Card``.
+            `Card`.
 
         Raises:
-            InpError: SYNTAX_OPTION.
+            InpError: SYNTAX_CARD.
         """
 
-        source, comments = cls._preprocess(source)
+        source, comments = Card._preprocess(source)
         tokens = cls._REGEX.match(source)
 
         if not tokens:
-            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_CARD, source)
 
         attrs = {}
         for i, (name, attr) in enumerate(cls._ATTRS.items()):
-            attrs[name] = attr.from_mcnp(tokens[i + 1]) if tokens[i + 1] else None
+            attrs[name] = attr.from_mcnp(tokens[i + 1].strip()) if tokens[i + 1] else None
 
         card = cls(**attrs)
         card.comments = comments
         return card
 
+    def to_mcnp(self):
+        """
+        Generates INP from `Option`.
+
+        Returns:
+            INP for `Option`.
+        """
+
+        value = []
+        for name in filter(lambda name: name.lower() not in {'prefix', 'suffix', 'designator'}, self._ATTRS.keys()):
+            if (attribute := getattr(type(self), name).__get__(self)) is not None:
+                value.append(attribute)
+        value = ' '.join(map(str, value))
+
+        source = f'{self.prefix if hasattr(self, "prefix") and self.prefix is not None else ""}{self._KEYWORD}{self.suffix if hasattr(self, "suffix") and self.suffix is not None else ""}{(f":{self.designator}" if self.designator else "") if hasattr(self, "designator") else ""} {value}'
+        source = Card._postprocess(source.strip())
+
+        return source
+
     @staticmethod
     def _preprocess(source: str) -> tuple[str, tuple[str]]:
         """
-        Preprocess INP for ``from_mcnp``.
+        Preprocess INP for `from_mcnp`.
 
         Parameters:
             source: INP to preprocess.
@@ -72,7 +91,7 @@ class Card(_symbol.InpNonterminal):
     @staticmethod
     def _postprocess(source: str) -> str:
         """
-        Postprocesses INP for ``to_mcnp``.
+        Postprocesses INP for `to_mcnp`.
 
         Parameters:
             source: INP to postprocess.

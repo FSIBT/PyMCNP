@@ -10,7 +10,7 @@ from ... import errors
 
 class S(_option.SurfaceOption):
     """
-    Represents INP s elements.
+    Represents INP `s` elements.
     """
 
     _KEYWORD = 's'
@@ -26,7 +26,7 @@ class S(_option.SurfaceOption):
 
     def __init__(self, x: str | int | float | types.Real, y: str | int | float | types.Real, z: str | int | float | types.Real, r: str | int | float | types.Real):
         """
-        Initializes ``S``.
+        Initializes `S`.
 
         Parameters:
             x: General sphere center x component.
@@ -58,7 +58,7 @@ class S(_option.SurfaceOption):
     @x.setter
     def x(self, x: str | int | float | types.Real) -> None:
         """
-        Sets ``x``.
+        Sets `x`.
 
         Parameters:
             x: General sphere center x component.
@@ -96,7 +96,7 @@ class S(_option.SurfaceOption):
     @y.setter
     def y(self, y: str | int | float | types.Real) -> None:
         """
-        Sets ``y``.
+        Sets `y`.
 
         Parameters:
             y: General sphere center y component.
@@ -134,7 +134,7 @@ class S(_option.SurfaceOption):
     @z.setter
     def z(self, z: str | int | float | types.Real) -> None:
         """
-        Sets ``z``.
+        Sets `z`.
 
         Parameters:
             z: General sphere center z component.
@@ -172,7 +172,7 @@ class S(_option.SurfaceOption):
     @r.setter
     def r(self, r: str | int | float | types.Real) -> None:
         """
-        Sets ``r``.
+        Sets `r`.
 
         Parameters:
             r: General sphere radius.
@@ -197,13 +197,13 @@ class S(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``S``.
+        Generates `Visualization` from `S`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``S``
+            `_show.Shape` for `S`
         """
 
         vis = shapes.Sphere(float(self.r))

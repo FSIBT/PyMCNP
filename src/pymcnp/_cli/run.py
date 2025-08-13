@@ -20,7 +20,7 @@ from ..Run import Run
 
 def main() -> None:
     """
-    Executes the ``pymcnp run`` command.
+    Executes the `pymcnp run` command.
     """
 
     _io.disclaimer()

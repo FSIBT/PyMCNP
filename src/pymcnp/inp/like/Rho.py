@@ -7,7 +7,7 @@ from ... import errors
 
 class Rho(_option.LikeOption):
     """
-    Represents INP rho elements.
+    Represents INP `rho` elements.
     """
 
     _KEYWORD = 'rho'
@@ -20,7 +20,7 @@ class Rho(_option.LikeOption):
 
     def __init__(self, density: types.Real):
         """
-        Initializes ``Rho``.
+        Initializes `Rho`.
 
         Parameters:
             density: Cell density.
@@ -34,10 +34,10 @@ class Rho(_option.LikeOption):
     @property
     def density(self) -> types.Real:
         """
-        Gets ``density``.
+        Gets `density`.
 
         Returns:
-            ``density``.
+            `density`.
         """
 
         return self._density
@@ -45,7 +45,7 @@ class Rho(_option.LikeOption):
     @density.setter
     def density(self, density: str | int | float | types.Real) -> None:
         """
-        Sets ``density``.
+        Sets `density`.
 
         Parameters:
             density: Cell density.

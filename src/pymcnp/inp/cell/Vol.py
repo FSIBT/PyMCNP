@@ -7,7 +7,7 @@ from ... import errors
 
 class Vol(_option.CellOption):
     """
-    Represents INP vol elements.
+    Represents INP `vol` elements.
     """
 
     _KEYWORD = 'vol'
@@ -20,7 +20,7 @@ class Vol(_option.CellOption):
 
     def __init__(self, volume: str | int | float | types.Real):
         """
-        Initializes ``Vol``.
+        Initializes `Vol`.
 
         Parameters:
             volume: Cell volume.
@@ -46,7 +46,7 @@ class Vol(_option.CellOption):
     @volume.setter
     def volume(self, volume: str | int | float | types.Real) -> None:
         """
-        Sets ``volume``.
+        Sets `volume`.
 
         Parameters:
             volume: Cell volume.

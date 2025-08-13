@@ -7,7 +7,7 @@ from ... import errors
 
 class Elpt(_option.LikeOption):
     """
-    Represents INP elpt elements.
+    Represents INP `elpt` elements.
     """
 
     _KEYWORD = 'elpt'
@@ -21,7 +21,7 @@ class Elpt(_option.LikeOption):
 
     def __init__(self, designator: str | types.Designator, cutoff: str | int | float | types.Real):
         """
-        Initializes ``Elpt``.
+        Initializes `Elpt`.
 
         Parameters:
             designator: Cell particle designator.
@@ -37,10 +37,10 @@ class Elpt(_option.LikeOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Gets `designator`.
 
         Returns:
-            ``designator``.
+            `designator`.
         """
 
         return self._designator
@@ -48,7 +48,7 @@ class Elpt(_option.LikeOption):
     @designator.setter
     def designator(self, designator: str | types.Designator) -> None:
         """
-        Sets ``designator``.
+        Sets `designator`.
 
         Parameters:
             designator: Cell particle designator.
@@ -72,10 +72,10 @@ class Elpt(_option.LikeOption):
     @property
     def cutoff(self) -> types.Real:
         """
-        Gets ``cutoff``.
+        Gets `cutoff`.
 
         Returns:
-            ``cutoff``.
+            `cutoff`.
         """
 
         return self._cutoff
@@ -83,7 +83,7 @@ class Elpt(_option.LikeOption):
     @cutoff.setter
     def cutoff(self, cutoff: str | int | float | types.Real) -> None:
         """
-        Sets ``cutoff``.
+        Sets `cutoff`.
 
         Parameters:
             cutoff: Cell energy cutoff.

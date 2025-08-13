@@ -10,7 +10,7 @@ from ... import errors
 
 class Wed(_option.SurfaceOption):
     """
-    Represents INP wed elements.
+    Represents INP `wed` elements.
     """
 
     _KEYWORD = 'wed'
@@ -51,7 +51,7 @@ class Wed(_option.SurfaceOption):
         v3z: str | int | float | types.Real,
     ):
         """
-        Initializes ``Wed``.
+        Initializes `Wed`.
 
         Parameters:
             vx: Wedge position vector x component.
@@ -99,7 +99,7 @@ class Wed(_option.SurfaceOption):
     @vx.setter
     def vx(self, vx: str | int | float | types.Real) -> None:
         """
-        Sets ``vx``.
+        Sets `vx`.
 
         Parameters:
             vx: Wedge position vector x component.
@@ -137,7 +137,7 @@ class Wed(_option.SurfaceOption):
     @vy.setter
     def vy(self, vy: str | int | float | types.Real) -> None:
         """
-        Sets ``vy``.
+        Sets `vy`.
 
         Parameters:
             vy: Wedge position vector y component.
@@ -175,7 +175,7 @@ class Wed(_option.SurfaceOption):
     @vz.setter
     def vz(self, vz: str | int | float | types.Real) -> None:
         """
-        Sets ``vz``.
+        Sets `vz`.
 
         Parameters:
             vz: Wedge position vector z component.
@@ -213,7 +213,7 @@ class Wed(_option.SurfaceOption):
     @v1x.setter
     def v1x(self, v1x: str | int | float | types.Real) -> None:
         """
-        Sets ``v1x``.
+        Sets `v1x`.
 
         Parameters:
             v1x: Wedge side vector #1 x component.
@@ -251,7 +251,7 @@ class Wed(_option.SurfaceOption):
     @v1y.setter
     def v1y(self, v1y: str | int | float | types.Real) -> None:
         """
-        Sets ``v1y``.
+        Sets `v1y`.
 
         Parameters:
             v1y: Wedge side vector #1 y component.
@@ -289,7 +289,7 @@ class Wed(_option.SurfaceOption):
     @v1z.setter
     def v1z(self, v1z: str | int | float | types.Real) -> None:
         """
-        Sets ``v1z``.
+        Sets `v1z`.
 
         Parameters:
             v1z: Wedge side vector #1 z component.
@@ -327,7 +327,7 @@ class Wed(_option.SurfaceOption):
     @v2x.setter
     def v2x(self, v2x: str | int | float | types.Real) -> None:
         """
-        Sets ``v2x``.
+        Sets `v2x`.
 
         Parameters:
             v2x: Wedge side vector #2 x component.
@@ -365,7 +365,7 @@ class Wed(_option.SurfaceOption):
     @v2y.setter
     def v2y(self, v2y: str | int | float | types.Real) -> None:
         """
-        Sets ``v2y``.
+        Sets `v2y`.
 
         Parameters:
             v2y: Wedge side vector #2 y component.
@@ -403,7 +403,7 @@ class Wed(_option.SurfaceOption):
     @v2z.setter
     def v2z(self, v2z: str | int | float | types.Real) -> None:
         """
-        Sets ``v2z``.
+        Sets `v2z`.
 
         Parameters:
             v2z: Wedge side vector #2 z component.
@@ -441,7 +441,7 @@ class Wed(_option.SurfaceOption):
     @v3x.setter
     def v3x(self, v3x: str | int | float | types.Real) -> None:
         """
-        Sets ``v3x``.
+        Sets `v3x`.
 
         Parameters:
             v3x: Wedge height vector x component.
@@ -479,7 +479,7 @@ class Wed(_option.SurfaceOption):
     @v3y.setter
     def v3y(self, v3y: str | int | float | types.Real) -> None:
         """
-        Sets ``v3y``.
+        Sets `v3y`.
 
         Parameters:
             v3y: Wedge height vector y component.
@@ -517,7 +517,7 @@ class Wed(_option.SurfaceOption):
     @v3z.setter
     def v3z(self, v3z: str | int | float | types.Real) -> None:
         """
-        Sets ``v3z``.
+        Sets `v3z`.
 
         Parameters:
             v3z: Wedge height vector z component.
@@ -542,13 +542,13 @@ class Wed(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Wed``.
+        Generates `Visualization` from `Wed`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``Wed``
+            `_show.Shape` for `Wed`
         """
 
         v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))

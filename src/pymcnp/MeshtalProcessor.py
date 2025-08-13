@@ -5,7 +5,7 @@ from .Meshtal import Meshtal
 
 class MeshtalProcessor(_doer.Doer):
     """
-    Processes ``Meshtal``.
+    Processes `Meshtal`.
     """
 
     def prehook(self):
@@ -34,7 +34,7 @@ class MeshtalProcessor(_doer.Doer):
 
     def __call__(self, file: Meshtal):
         """
-        Processes ``Meshtal``.
+        Processes `Meshtal`.
 
         Parameter:
             file: File to process.

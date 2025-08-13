@@ -19,7 +19,7 @@ class Zaid(_type.Type):
 
     def __init__(self, z: int, a: int, abx: str = None):
         """
-        Initializes ``Zaid``.
+        Initializes `Zaid`.
 
         Parameters:
             z: ZAID atomic number.
@@ -27,7 +27,7 @@ class Zaid(_type.Type):
             abx: ZAID cross-section evaluation & class information.
 
         Returns:
-            ``Zaid``.
+            `Zaid`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -46,13 +46,13 @@ class Zaid(_type.Type):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Zaid`` from MCNP.
+        Generates `Zaid` from MCNP.
 
         Parameters:
-            source: MCNP for ``Zaid``.
+            source: MCNP for `Zaid`.
 
         Returns:
-            ``Zaid`` object.
+            `Zaid` object.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -67,7 +67,7 @@ class Zaid(_type.Type):
 
     def to_mcnp(self) -> str:
         """
-        Generates MCNP from ``Zaid``.
+        Generates MCNP from `Zaid`.
 
         Returns:
             MCNP Zaid.

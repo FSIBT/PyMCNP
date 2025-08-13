@@ -7,7 +7,7 @@ from ... import errors
 
 class Wwn(_option.LikeOption):
     """
-    Represents INP wwn elements.
+    Represents INP `wwn` elements.
     """
 
     _KEYWORD = 'wwn'
@@ -22,7 +22,7 @@ class Wwn(_option.LikeOption):
 
     def __init__(self, suffix: str | int | types.Integer, designator: str | types.Designator, bound: str | int | float | types.Real):
         """
-        Initializes ``Wwn``.
+        Initializes `Wwn`.
 
         Parameters:
             suffix: Cell option suffix.
@@ -40,10 +40,10 @@ class Wwn(_option.LikeOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Gets `suffix`.
 
         Returns:
-            ``suffix``.
+            `suffix`.
         """
 
         return self._suffix
@@ -51,7 +51,7 @@ class Wwn(_option.LikeOption):
     @suffix.setter
     def suffix(self, suffix: str | int | types.Integer) -> None:
         """
-        Sets ``suffix``.
+        Sets `suffix`.
 
         Parameters:
             suffix: Cell option suffix.
@@ -77,10 +77,10 @@ class Wwn(_option.LikeOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Gets `designator`.
 
         Returns:
-            ``designator``.
+            `designator`.
         """
 
         return self._designator
@@ -88,7 +88,7 @@ class Wwn(_option.LikeOption):
     @designator.setter
     def designator(self, designator: str | types.Designator) -> None:
         """
-        Sets ``designator``.
+        Sets `designator`.
 
         Parameters:
             designator: Cell particle designator.
@@ -112,10 +112,10 @@ class Wwn(_option.LikeOption):
     @property
     def bound(self) -> types.Real:
         """
-        Gets ``bound``.
+        Gets `bound`.
 
         Returns:
-            ``bound``.
+            `bound`.
         """
 
         return self._bound
@@ -123,7 +123,7 @@ class Wwn(_option.LikeOption):
     @bound.setter
     def bound(self, bound: str | int | float | types.Real) -> None:
         """
-        Sets ``bound``.
+        Sets `bound`.
 
         Parameters:
             bound: Cell weight-window space, time, or energy lower bound.

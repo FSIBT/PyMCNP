@@ -25,7 +25,7 @@ class Outp(_file.File):
         blocks: types.Tuple(outp.Block),
     ):
         """
-        Initializes ``Outp``.
+        Initializes `Outp`.
 
         Parameters:
             header: OUPT header.
@@ -48,13 +48,13 @@ class Outp(_file.File):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Outp`` from OUTP.
+        Generates `Outp` from OUTP.
 
         Parameters:
-            source: OUTP for ``Outp``.
+            source: OUTP for `Outp`.
 
         Returns:
-            ``Outp``.
+            `Outp`.
         """
 
         tokens = re.split(r'(\n\d)', source)
@@ -86,20 +86,20 @@ class Outp(_file.File):
 
     def to_mcnp(self):
         """
-        Generates OUTP from ``Outp``.
+        Generates OUTP from `Outp`.
 
         Returns:
-            OUTP for ``Outp``.
+            OUTP for `Outp`.
         """
 
         return self.header.to_mcnp() + '\n'.join(map(str, self.blocks))
 
     def to_dataframe(self):
         """
-        Generates ``pandas.DataFrame`` from ``Outp``.
+        Generates `pandas.DataFrame` from `Outp`.
 
         Returns:
-            Tuple of ``pandas.DataFrame``.
+            Tuple of `pandas.DataFrame`.
         """
 
         tallies = {}

@@ -11,7 +11,7 @@ from .. import errors
 
 class Tally_1B(_block.Block):
     """
-    Represents OUTP ``1tally 1 nps`` blocks.
+    Represents OUTP `1tally 1 nps` blocks.
 
     Attributes:
         number: Tally number.
@@ -55,7 +55,7 @@ class Tally_1B(_block.Block):
         fails: types.String,
     ):
         """
-        Initializes ``Tally_1B``.
+        Initializes `Tally_1B`.
 
         Parameters:
             number: Tally number.
@@ -104,13 +104,13 @@ class Tally_1B(_block.Block):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Tally_1B`` from OUTP.
+        Generates `Tally_1B` from OUTP.
 
         Parameters:
-            source: OUTP for ``Tally_1B``.
+            source: OUTP for `Tally_1B`.
 
         Returns:
-            ``Tally_1B``.
+            `Tally_1B`.
         """
 
         tokens = Tally_1B._REGEX.match(source)
@@ -143,10 +143,10 @@ class Tally_1B(_block.Block):
 
     def to_mcnp(self):
         """
-        Generates OUTP from ``Tally_1B``.
+        Generates OUTP from `Tally_1B`.
 
         Returns:
-            OUTP for ``Tally_1B``.
+            OUTP for `Tally_1B`.
         """
 
         return f"""
@@ -175,10 +175,10 @@ class Tally_1B(_block.Block):
 
     def to_dataframe(self):
         """
-        Generates ``pandas.DataFrame`` from ``Tally_1B``.
+        Generates `pandas.DataFrame` from `Tally_1B`.
 
         Returns:
-            ``pandas.DataFrame``.
+            `pandas.DataFrame`.
         """
 
         df = pandas.concat((subtally.to_dataframe() for subtally in self.subtallies), ignore_index=True)

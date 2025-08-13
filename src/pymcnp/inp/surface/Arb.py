@@ -7,7 +7,7 @@ from ... import errors
 
 class Arb(_option.SurfaceOption):
     """
-    Represents INP arb elements.
+    Represents INP `arb` elements.
     """
 
     _KEYWORD = 'arb'
@@ -84,7 +84,7 @@ class Arb(_option.SurfaceOption):
         n6: str | int | float | types.Real,
     ):
         """
-        Initializes ``Arb``.
+        Initializes `Arb`.
 
         Parameters:
             ax: Polyhedron corner #1 x component.
@@ -168,7 +168,7 @@ class Arb(_option.SurfaceOption):
     @ax.setter
     def ax(self, ax: str | int | float | types.Real) -> None:
         """
-        Sets ``ax``.
+        Sets `ax`.
 
         Parameters:
             ax: Polyhedron corner #1 x component.
@@ -206,7 +206,7 @@ class Arb(_option.SurfaceOption):
     @ay.setter
     def ay(self, ay: str | int | float | types.Real) -> None:
         """
-        Sets ``ay``.
+        Sets `ay`.
 
         Parameters:
             ay: Polyhedron corner #1 y component.
@@ -244,7 +244,7 @@ class Arb(_option.SurfaceOption):
     @az.setter
     def az(self, az: str | int | float | types.Real) -> None:
         """
-        Sets ``az``.
+        Sets `az`.
 
         Parameters:
             az: Polyhedron corner #1 z component.
@@ -282,7 +282,7 @@ class Arb(_option.SurfaceOption):
     @bx.setter
     def bx(self, bx: str | int | float | types.Real) -> None:
         """
-        Sets ``bx``.
+        Sets `bx`.
 
         Parameters:
             bx: Polyhedron corner #2 x component.
@@ -320,7 +320,7 @@ class Arb(_option.SurfaceOption):
     @by.setter
     def by(self, by: str | int | float | types.Real) -> None:
         """
-        Sets ``by``.
+        Sets `by`.
 
         Parameters:
             by: Polyhedron corner #2 y component.
@@ -358,7 +358,7 @@ class Arb(_option.SurfaceOption):
     @bz.setter
     def bz(self, bz: str | int | float | types.Real) -> None:
         """
-        Sets ``bz``.
+        Sets `bz`.
 
         Parameters:
             bz: Polyhedron corner #2 z component.
@@ -396,7 +396,7 @@ class Arb(_option.SurfaceOption):
     @cx.setter
     def cx(self, cx: str | int | float | types.Real) -> None:
         """
-        Sets ``cx``.
+        Sets `cx`.
 
         Parameters:
             cx: Polyhedron corner #3 x component.
@@ -434,7 +434,7 @@ class Arb(_option.SurfaceOption):
     @cy.setter
     def cy(self, cy: str | int | float | types.Real) -> None:
         """
-        Sets ``cy``.
+        Sets `cy`.
 
         Parameters:
             cy: Polyhedron corner #3 y component.
@@ -472,7 +472,7 @@ class Arb(_option.SurfaceOption):
     @cz.setter
     def cz(self, cz: str | int | float | types.Real) -> None:
         """
-        Sets ``cz``.
+        Sets `cz`.
 
         Parameters:
             cz: Polyhedron corner #3 z component.
@@ -510,7 +510,7 @@ class Arb(_option.SurfaceOption):
     @dx.setter
     def dx(self, dx: str | int | float | types.Real) -> None:
         """
-        Sets ``dx``.
+        Sets `dx`.
 
         Parameters:
             dx: Polyhedron corner #4 x component.
@@ -548,7 +548,7 @@ class Arb(_option.SurfaceOption):
     @dy.setter
     def dy(self, dy: str | int | float | types.Real) -> None:
         """
-        Sets ``dy``.
+        Sets `dy`.
 
         Parameters:
             dy: Polyhedron corner #4 y component.
@@ -586,7 +586,7 @@ class Arb(_option.SurfaceOption):
     @dz.setter
     def dz(self, dz: str | int | float | types.Real) -> None:
         """
-        Sets ``dz``.
+        Sets `dz`.
 
         Parameters:
             dz: Polyhedron corner #4 z component.
@@ -624,7 +624,7 @@ class Arb(_option.SurfaceOption):
     @ex.setter
     def ex(self, ex: str | int | float | types.Real) -> None:
         """
-        Sets ``ex``.
+        Sets `ex`.
 
         Parameters:
             ex: Polyhedron corner #5 x component.
@@ -662,7 +662,7 @@ class Arb(_option.SurfaceOption):
     @ey.setter
     def ey(self, ey: str | int | float | types.Real) -> None:
         """
-        Sets ``ey``.
+        Sets `ey`.
 
         Parameters:
             ey: Polyhedron corner #5 y component.
@@ -700,7 +700,7 @@ class Arb(_option.SurfaceOption):
     @ez.setter
     def ez(self, ez: str | int | float | types.Real) -> None:
         """
-        Sets ``ez``.
+        Sets `ez`.
 
         Parameters:
             ez: Polyhedron corner #5 z component.
@@ -738,7 +738,7 @@ class Arb(_option.SurfaceOption):
     @fx.setter
     def fx(self, fx: str | int | float | types.Real) -> None:
         """
-        Sets ``fx``.
+        Sets `fx`.
 
         Parameters:
             fx: Polyhedron corner #6 x component.
@@ -776,7 +776,7 @@ class Arb(_option.SurfaceOption):
     @fy.setter
     def fy(self, fy: str | int | float | types.Real) -> None:
         """
-        Sets ``fy``.
+        Sets `fy`.
 
         Parameters:
             fy: Polyhedron corner #6 y component.
@@ -814,7 +814,7 @@ class Arb(_option.SurfaceOption):
     @fz.setter
     def fz(self, fz: str | int | float | types.Real) -> None:
         """
-        Sets ``fz``.
+        Sets `fz`.
 
         Parameters:
             fz: Polyhedron corner #6 z component.
@@ -852,7 +852,7 @@ class Arb(_option.SurfaceOption):
     @gx.setter
     def gx(self, gx: str | int | float | types.Real) -> None:
         """
-        Sets ``gx``.
+        Sets `gx`.
 
         Parameters:
             gx: Polyhedron corner #7 x component.
@@ -890,7 +890,7 @@ class Arb(_option.SurfaceOption):
     @gy.setter
     def gy(self, gy: str | int | float | types.Real) -> None:
         """
-        Sets ``gy``.
+        Sets `gy`.
 
         Parameters:
             gy: Polyhedron corner #7 y component.
@@ -928,7 +928,7 @@ class Arb(_option.SurfaceOption):
     @gz.setter
     def gz(self, gz: str | int | float | types.Real) -> None:
         """
-        Sets ``gz``.
+        Sets `gz`.
 
         Parameters:
             gz: Polyhedron corner #7 z component.
@@ -966,7 +966,7 @@ class Arb(_option.SurfaceOption):
     @hx.setter
     def hx(self, hx: str | int | float | types.Real) -> None:
         """
-        Sets ``hx``.
+        Sets `hx`.
 
         Parameters:
             hx: Polyhedron corner #8 x component.
@@ -1004,7 +1004,7 @@ class Arb(_option.SurfaceOption):
     @hy.setter
     def hy(self, hy: str | int | float | types.Real) -> None:
         """
-        Sets ``hy``.
+        Sets `hy`.
 
         Parameters:
             hy: Polyhedron corner #8 y component.
@@ -1042,7 +1042,7 @@ class Arb(_option.SurfaceOption):
     @hz.setter
     def hz(self, hz: str | int | float | types.Real) -> None:
         """
-        Sets ``hz``.
+        Sets `hz`.
 
         Parameters:
             hz: Polyhedron corner #8 z component.
@@ -1080,7 +1080,7 @@ class Arb(_option.SurfaceOption):
     @n1.setter
     def n1(self, n1: str | int | float | types.Real) -> None:
         """
-        Sets ``n1``.
+        Sets `n1`.
 
         Parameters:
             n1: Polyhedron four-digit side specificer #1.
@@ -1118,7 +1118,7 @@ class Arb(_option.SurfaceOption):
     @n2.setter
     def n2(self, n2: str | int | float | types.Real) -> None:
         """
-        Sets ``n2``.
+        Sets `n2`.
 
         Parameters:
             n2: Polyhedron four-digit side specificer #2.
@@ -1156,7 +1156,7 @@ class Arb(_option.SurfaceOption):
     @n3.setter
     def n3(self, n3: str | int | float | types.Real) -> None:
         """
-        Sets ``n3``.
+        Sets `n3`.
 
         Parameters:
             n3: Polyhedron four-digit side specificer #3.
@@ -1194,7 +1194,7 @@ class Arb(_option.SurfaceOption):
     @n4.setter
     def n4(self, n4: str | int | float | types.Real) -> None:
         """
-        Sets ``n4``.
+        Sets `n4`.
 
         Parameters:
             n4: Polyhedron four-digit side specificer #4.
@@ -1232,7 +1232,7 @@ class Arb(_option.SurfaceOption):
     @n5.setter
     def n5(self, n5: str | int | float | types.Real) -> None:
         """
-        Sets ``n5``.
+        Sets `n5`.
 
         Parameters:
             n5: Polyhedron four-digit side specificer #5.
@@ -1270,7 +1270,7 @@ class Arb(_option.SurfaceOption):
     @n6.setter
     def n6(self, n6: str | int | float | types.Real) -> None:
         """
-        Sets ``n6``.
+        Sets `n6`.
 
         Parameters:
             n6: Polyhedron four-digit side specificer #6.

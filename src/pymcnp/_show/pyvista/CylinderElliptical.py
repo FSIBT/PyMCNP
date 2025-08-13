@@ -10,7 +10,7 @@ class CylinderElliptical(_shape.PyvistaShape):
 
     def __init__(self, h: float, a: float, b: float):
         """
-        Initializes ``CylinderElliptical``.
+        Initializes `CylinderElliptical`.
 
         Paremeters:
             a: Elliptical cylinder major axis length.

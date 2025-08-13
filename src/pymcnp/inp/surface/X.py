@@ -7,7 +7,7 @@ from ... import errors
 
 class X(_option.SurfaceOption):
     """
-    Represents INP x elements.
+    Represents INP `x` elements.
     """
 
     _KEYWORD = 'x'
@@ -36,7 +36,7 @@ class X(_option.SurfaceOption):
         r3: str | int | float | types.Real = None,
     ):
         """
-        Initializes ``X``.
+        Initializes `X`.
 
         Parameters:
             x1: X-axisymmetric point-defined surface point #1 x component.
@@ -72,7 +72,7 @@ class X(_option.SurfaceOption):
     @x1.setter
     def x1(self, x1: str | int | float | types.Real) -> None:
         """
-        Sets ``x1``.
+        Sets `x1`.
 
         Parameters:
             x1: X-axisymmetric point-defined surface point #1 x component.
@@ -110,7 +110,7 @@ class X(_option.SurfaceOption):
     @r1.setter
     def r1(self, r1: str | int | float | types.Real) -> None:
         """
-        Sets ``r1``.
+        Sets `r1`.
 
         Parameters:
             r1: X-axisymmetric point-defined surface point #1 radius.
@@ -148,7 +148,7 @@ class X(_option.SurfaceOption):
     @x2.setter
     def x2(self, x2: str | int | float | types.Real) -> None:
         """
-        Sets ``x2``.
+        Sets `x2`.
 
         Parameters:
             x2: X-axisymmetric point-defined surface point #2 x component.
@@ -183,7 +183,7 @@ class X(_option.SurfaceOption):
     @r2.setter
     def r2(self, r2: str | int | float | types.Real) -> None:
         """
-        Sets ``r2``.
+        Sets `r2`.
 
         Parameters:
             r2: X-axisymmetric point-defined surface point #2 radius.
@@ -218,7 +218,7 @@ class X(_option.SurfaceOption):
     @x3.setter
     def x3(self, x3: str | int | float | types.Real) -> None:
         """
-        Sets ``x3``.
+        Sets `x3`.
 
         Parameters:
             x3: X-axisymmetric point-defined surface point #3 x component.
@@ -253,7 +253,7 @@ class X(_option.SurfaceOption):
     @r3.setter
     def r3(self, r3: str | int | float | types.Real) -> None:
         """
-        Sets ``r3``.
+        Sets `r3`.
 
         Parameters:
             r3: X-axisymmetric point-defined surface point #3 radius.

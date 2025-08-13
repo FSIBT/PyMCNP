@@ -29,7 +29,7 @@ class Surface(_card.Card):
         prefix: str = None,
     ):
         """
-        Initializes ``Surface``.
+        Initializes `Surface`.
 
         Parameters:
             number: surface number.
@@ -38,7 +38,7 @@ class Surface(_card.Card):
             prefix: surface whitebody flag.
 
         Returns:
-            ``Surface``.
+            `Surface`.
 
         Raises:
             InpError: SEMANTICS_CARD.
@@ -51,7 +51,7 @@ class Surface(_card.Card):
 
     def to_mcnp(self):
         """
-        Generates INP from ``Surface``.
+        Generates INP from `Surface`.
 
         Returns:
             INP surface card.
@@ -64,68 +64,68 @@ class Surface(_card.Card):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Surface``.
+        Generates `Visualization` from `Surface`.
 
         Returns:
-            ``pyvista.PolySurface`` for ``Surface``.
+            `pyvista.PolySurface` for `Surface`.
         """
 
         return self.option.to_show(shapes)
 
     def __and__(a, b):
         """
-        Unites ``Surface``.
+        Unites `Surface`.
 
         Parameters:
             a: Operand #1.
             b: Operand #2.
 
         Returns:
-            ``Surface`` union.
+            `Surface` union.
         """
 
         return types.Geometry.from_mcnp(f'{a.number}:{b.number}')
 
     def __or__(a, b):
         """
-        Intersects ``Surface``.
+        Intersects `Surface`.
 
         Parameters:
             a: Operand #1.
             b: Operand #2.
 
         Returns:
-            ``Surface`` intersection.
+            `Surface` intersection.
         """
 
         return types.Geometry.from_mcnp(f'{a.number} {b.number}')
 
     def __neg__(self):
         """
-        Negatives ``Surface``.
+        Negatives `Surface`.
 
         Returns:
-            ``Surface`` negative.
+            `Surface` negative.
         """
 
         return types.Geometry.from_mcnp(f'-{self.number}')
 
     def __pos__(self):
         """
-        Positives ``Surface``.
+        Positives `Surface`.
 
         Returns:
-            ``Surface`` positive.
+            `Surface` positive.
         """
 
         return types.Geometry.from_mcnp(f'+{self.number}')
 
     def __invert__(self):
         """
-        Inverts ``Surface``.
+        Inverts `Surface`.
 
         Returns:
-            ``Surface`` complement.
+            `Surface` complement.
         """
 
         return types.Geometry.from_mcnp(f'#{self.number}')
@@ -136,7 +136,7 @@ class Surface(_card.Card):
         Surface number.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 
@@ -145,13 +145,13 @@ class Surface(_card.Card):
     @number.setter
     def number(self, number: str | int | types.Integer) -> None:
         """
-        Sets ``number``.
+        Sets `number`.
 
         Parameters:
             number: Surface number.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 
@@ -174,7 +174,7 @@ class Surface(_card.Card):
         Surface transform.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 
@@ -183,13 +183,13 @@ class Surface(_card.Card):
     @transform.setter
     def transform(self, transform: str | int | types.Integer = None) -> None:
         """
-        Sets ``transform``.
+        Sets `transform`.
 
         Parameters:
             transform: Surface transform.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 
@@ -212,7 +212,7 @@ class Surface(_card.Card):
         Surface option.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 
@@ -221,13 +221,13 @@ class Surface(_card.Card):
     @option.setter
     def option(self, option: str | surface.SurfaceOption) -> None:
         """
-        Sets ``option``.
+        Sets `option`.
 
         Parameters:
             option: Surface option.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 
@@ -248,7 +248,7 @@ class Surface(_card.Card):
         Surface whitebody/reflecting flag.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 
@@ -257,13 +257,13 @@ class Surface(_card.Card):
     @prefix.setter
     def prefix(self, prefix: str | types.String) -> None:
         """
-        Sets ``prefix``.
+        Sets `prefix`.
 
         Parameters:
             prefix: Surface whitebody/reflecting flag.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 

@@ -7,7 +7,7 @@ from ... import errors
 
 class Unc(_option.CellOption):
     """
-    Represents INP unc elements.
+    Represents INP `unc` elements.
     """
 
     _KEYWORD = 'unc'
@@ -21,7 +21,7 @@ class Unc(_option.CellOption):
 
     def __init__(self, designator: str | types.Designator, setting: str | int | types.Integer):
         """
-        Initializes ``Unc``.
+        Initializes `Unc`.
 
         Parameters:
             designator: Cell particle designator.
@@ -49,7 +49,7 @@ class Unc(_option.CellOption):
     @designator.setter
     def designator(self, designator: str | types.Designator) -> None:
         """
-        Sets ``designator``.
+        Sets `designator`.
 
         Parameters:
             designator: Cell particle designator.
@@ -85,7 +85,7 @@ class Unc(_option.CellOption):
     @setting.setter
     def setting(self, setting: str | int | types.Integer) -> None:
         """
-        Sets ``setting``.
+        Sets `setting`.
 
         Parameters:
             setting: Cell uncollided secondaries setting.

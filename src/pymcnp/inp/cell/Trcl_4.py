@@ -7,7 +7,7 @@ from ... import errors
 
 class Trcl_4(_option.CellOption):
     """
-    Represents INP trcl variation #4 elements.
+    Represents INP `trcl` elements variation #4.
     """
 
     _KEYWORD = 'trcl'
@@ -21,7 +21,7 @@ class Trcl_4(_option.CellOption):
 
     def __init__(self, transformation: str | types.Transformation_3, prefix: str | types.String = None):
         """
-        Initializes ``Trcl_4``.
+        Initializes `Trcl_4`.
 
         Parameters:
             prefix: Star prefix.
@@ -49,7 +49,7 @@ class Trcl_4(_option.CellOption):
     @prefix.setter
     def prefix(self, prefix: str | types.String) -> None:
         """
-        Sets ``prefix``.
+        Sets `prefix`.
 
         Parameters:
             prefix: Star prefix.
@@ -85,7 +85,7 @@ class Trcl_4(_option.CellOption):
     @transformation.setter
     def transformation(self, transformation: str | types.Transformation_3) -> None:
         """
-        Sets ``transformation``.
+        Sets `transformation`.
 
         Parameters:
             transformation: Cell transformation..

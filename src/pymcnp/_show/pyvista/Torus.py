@@ -12,7 +12,7 @@ class Torus(_shape.PyvistaShape):
 
     def __init__(self, a: float, b: float, r: float):
         """
-        Initializes ``Torus``.
+        Initializes `Torus`.
 
         Parameters:
             a: Torus tube semi-major axis length.

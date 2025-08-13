@@ -78,13 +78,13 @@ class EventType(_keyword.JKeyword):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``EventType`` from PTRAC.
+        Generates `EventType` from PTRAC.
 
         Parameters:
-            source: PTRAC for ``EventType``.
+            source: PTRAC for `EventType`.
 
         Returns:
-            ``EventType``.
+            `EventType`.
 
         Raises:
             PtracError: SYNTAX_KEYWORD.

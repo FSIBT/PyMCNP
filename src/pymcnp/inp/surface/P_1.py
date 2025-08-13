@@ -10,7 +10,7 @@ from ... import errors
 
 class P_1(_option.SurfaceOption):
     """
-    Represents INP p variation #1 elements.
+    Represents INP `p` elements variation #1.
     """
 
     _KEYWORD = 'p'
@@ -45,7 +45,7 @@ class P_1(_option.SurfaceOption):
         z3: str | int | float | types.Real,
     ):
         """
-        Initializes ``P_1``.
+        Initializes `P_1`.
 
         Parameters:
             x1: point-defined general plane x-coordinate #1.
@@ -87,7 +87,7 @@ class P_1(_option.SurfaceOption):
     @x1.setter
     def x1(self, x1: str | int | float | types.Real) -> None:
         """
-        Sets ``x1``.
+        Sets `x1`.
 
         Parameters:
             x1: point-defined general plane x-coordinate #1.
@@ -142,7 +142,7 @@ class P_1(_option.SurfaceOption):
     @y1.setter
     def y1(self, y1: str | int | float | types.Real) -> None:
         """
-        Sets ``y1``.
+        Sets `y1`.
 
         Parameters:
             y1: point-defined general plane y-coordinate #1.
@@ -197,7 +197,7 @@ class P_1(_option.SurfaceOption):
     @z1.setter
     def z1(self, z1: str | int | float | types.Real) -> None:
         """
-        Sets ``z1``.
+        Sets `z1`.
 
         Parameters:
             z1: point-defined general plane z-coordinate #1.
@@ -252,7 +252,7 @@ class P_1(_option.SurfaceOption):
     @x2.setter
     def x2(self, x2: str | int | float | types.Real) -> None:
         """
-        Sets ``x2``.
+        Sets `x2`.
 
         Parameters:
             x2: point-defined general plane x-coordinate #2.
@@ -307,7 +307,7 @@ class P_1(_option.SurfaceOption):
     @y2.setter
     def y2(self, y2: str | int | float | types.Real) -> None:
         """
-        Sets ``y2``.
+        Sets `y2`.
 
         Parameters:
             y2: point-defined general plane y-coordinate #2.
@@ -362,7 +362,7 @@ class P_1(_option.SurfaceOption):
     @z2.setter
     def z2(self, z2: str | int | float | types.Real) -> None:
         """
-        Sets ``z2``.
+        Sets `z2`.
 
         Parameters:
             z2: point-defined general plane z-coordinate #2.
@@ -417,7 +417,7 @@ class P_1(_option.SurfaceOption):
     @x3.setter
     def x3(self, x3: str | int | float | types.Real) -> None:
         """
-        Sets ``x3``.
+        Sets `x3`.
 
         Parameters:
             x3: point-defined general plane x-coordinate #3.
@@ -472,7 +472,7 @@ class P_1(_option.SurfaceOption):
     @y3.setter
     def y3(self, y3: str | int | float | types.Real) -> None:
         """
-        Sets ``y3``.
+        Sets `y3`.
 
         Parameters:
             y3: point-defined general plane y-coordinate #3.
@@ -527,7 +527,7 @@ class P_1(_option.SurfaceOption):
     @z3.setter
     def z3(self, z3: str | int | float | types.Real) -> None:
         """
-        Sets ``z3``.
+        Sets `z3`.
 
         Parameters:
             z3: point-defined general plane z-coordinate #3.
@@ -569,13 +569,13 @@ class P_1(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``P_1``.
+        Generates `Visualization` from `P_1`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``P_1``
+            `_show.Shape` for `P_1`
         """
 
         a = numpy.array((float(self._x2 - self._x1), float(self._y2 - self._y1), float(self._z2 - self._z1)))

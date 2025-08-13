@@ -17,7 +17,7 @@ class Check(_doer.Doer):
 
     def __init__(self, path: str | pathlib.Path):
         """
-        Initializes ``Check``.
+        Initializes `Check`.
 
         Attribute:
             path: File to check.

@@ -25,7 +25,7 @@ class Header(_block.Block):
 
     def __init__(self, name: types.String, logo: types.String, box: types.String):
         """
-        Initializes ``Header``.
+        Initializes `Header`.
 
         Parameters:
             name: Simulation name.
@@ -52,13 +52,13 @@ class Header(_block.Block):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Header`` from OUTP.
+        Generates `Header` from OUTP.
 
         Parameters:
-            source: OUTP for ``Header``.
+            source: OUTP for `Header`.
 
         Returns:
-            ``Header``.
+            `Header`.
 
         Raises:
             OutpError: SYNTAX_TABLE.
@@ -81,10 +81,10 @@ class Header(_block.Block):
 
     def to_mcnp(self):
         """
-        Generates OUTP from ``Header``.
+        Generates OUTP from `Header`.
 
         Returns:
-            OUTP for ``Header``.
+            OUTP for `Header`.
         """
 
         return f"""

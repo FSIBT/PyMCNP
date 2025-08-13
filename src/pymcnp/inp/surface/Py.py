@@ -8,7 +8,7 @@ from ... import errors
 
 class Py(_option.SurfaceOption):
     """
-    Represents INP py elements.
+    Represents INP `py` elements.
     """
 
     _KEYWORD = 'py'
@@ -21,7 +21,7 @@ class Py(_option.SurfaceOption):
 
     def __init__(self, d: str | int | float | types.Real):
         """
-        Initializes ``Py``.
+        Initializes `Py`.
 
         Parameters:
             d: Normal-to-the-y-axis plane D coefficent.
@@ -47,7 +47,7 @@ class Py(_option.SurfaceOption):
     @d.setter
     def d(self, d: str | int | float | types.Real) -> None:
         """
-        Sets ``d``.
+        Sets `d`.
 
         Parameters:
             d: Normal-to-the-y-axis plane D coefficent.
@@ -72,13 +72,13 @@ class Py(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Py``.
+        Generates `Visualization` from `Py`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``Py``
+            `_show.Shape` for `Py`
         """
 
         vis = shapes.Plane(0, 1, 0, float(self.d))

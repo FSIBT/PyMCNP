@@ -1,4 +1,4 @@
-# ``pymcnp.ptrac.history`` Subpackage
+# `pymcnp.ptrac.history` Subpackage
 
 ## Table of Contents
 
@@ -11,7 +11,7 @@
 
 ## AST Classes
 
-### ``Event`` Class
+### `Event` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.ptrac.history.Event
@@ -21,7 +21,7 @@
 
 [event subpackage](history/event)
 
-### ``I`` Class
+### `I` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.ptrac.history.I

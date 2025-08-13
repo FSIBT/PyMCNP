@@ -29,15 +29,15 @@ MCNP. This package supports INP, OUTP, PTRAC, and MESHTAL parsing using subpacka
 
 ## AST Classes
 
-PyMCNP represents MCNP files using the ``Inp``, ``Meshtal``, and ``Ptrac`` AST classes and
-``inp``, ``meshtal``, and ``ptrac`` subpackages. These classes have important methods for translating PyMCNP and MCNP:
+PyMCNP represents MCNP files using the `Inp`, `Meshtal`, and `Ptrac` AST classes and
+`inp`, `meshtal`, and `ptrac` subpackages. These classes have important methods for translating PyMCNP and MCNP:
 
-* ``from_mcnp``. Parses MCNP source, checking for syntax and semantic errors.
-* ``to_mcnp``. Generates MCNP source from PyMCNP objects, reformatting.
-* ``from_file``. Parses MCNP file.
-* ``to_file``. Generates MCNP file from PyMCNP objects.
+* `from_mcnp`. Parses MCNP source, checking for syntax and semantic errors.
+* `to_mcnp`. Generates MCNP source from PyMCNP objects, reformatting.
+* `from_file`. Parses MCNP file.
+* `to_file`. Generates MCNP file from PyMCNP objects.
 
-### ``Inp`` Class
+### `Inp` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.Inp
@@ -47,7 +47,7 @@ PyMCNP represents MCNP files using the ``Inp``, ``Meshtal``, and ``Ptrac`` AST c
 
 [inp subpackage](pymcnp/inp)
 
-### ``Outp`` Class
+### `Outp` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.Outp
@@ -57,7 +57,7 @@ PyMCNP represents MCNP files using the ``Inp``, ``Meshtal``, and ``Ptrac`` AST c
 
 [meshtal subpackage](pymcnp/outp)
 
-### ``Ptrac`` Class
+### `Ptrac` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.Ptrac
@@ -67,7 +67,7 @@ PyMCNP represents MCNP files using the ``Inp``, ``Meshtal``, and ``Ptrac`` AST c
 
 [ptrac subpackage](pymcnp/ptrac)
 
-### ``Meshtal`` Class
+### `Meshtal` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.Meshtal
@@ -79,15 +79,15 @@ PyMCNP represents MCNP files using the ``Inp``, ``Meshtal``, and ``Ptrac`` AST c
 
 ## Doer Classes
 
-The ``*Filter`` and ``*Processor`` classes help handle large ``Meshtal`` and ``Ptrac`` using generators.
-``PtracFilter`` and ``MeshtalFilter`` have overridable methods for filtering data, ``PtracProcessor``
-and ``MeshtalProcessor`` have overridable methods for processing data, and all can be run:
+The `*Filter` and `*Processor` classes help handle large `Meshtal` and `Ptrac` using generators.
+`PtracFilter` and `MeshtalFilter` have overridable methods for filtering data, `PtracProcessor`
+and `MeshtalProcessor` have overridable methods for processing data, and all can be run:
 
-* ``check_*``. Returns ``True``/``False`` if data should be kept/removed.
-* ``process_*``. Operates with side effects on data.
-* ``run``. Runs the filter or processor.
+* `check_*`. Returns `True`/`False` if data should be kept/removed.
+* `process_*`. Operates with side effects on data.
+* `run`. Runs the filter or processor.
 
-### ``MeshtalFilter`` Class
+### `MeshtalFilter` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.MeshtalFilter
@@ -95,7 +95,7 @@ and ``MeshtalProcessor`` have overridable methods for processing data, and all c
    :inherited-members:
 ```
 
-### ``PtracFilter`` Class
+### `PtracFilter` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.PtracFilter
@@ -103,7 +103,7 @@ and ``MeshtalProcessor`` have overridable methods for processing data, and all c
    :inherited-members:
 ```
 
-### ``MeshtalProcessor`` Class
+### `MeshtalProcessor` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.MeshtalProcessor
@@ -111,7 +111,7 @@ and ``MeshtalProcessor`` have overridable methods for processing data, and all c
    :inherited-members:
 ```
 
-### ``PtracProcessor`` Class
+### `PtracProcessor` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.PtracProcessor
@@ -119,9 +119,9 @@ and ``MeshtalProcessor`` have overridable methods for processing data, and all c
    :inherited-members:
 ```
 
-### ``Check`` Class
+### `Check` Class
 
-``Check`` compares and fixes MCNP files, using ``difflib``,
+`Check` compares and fixes MCNP files, using `difflib`,
 
 ```{eval-rst}
 .. autoclass:: pymcnp.Check
@@ -129,9 +129,9 @@ and ``MeshtalProcessor`` have overridable methods for processing data, and all c
    :inherited-members:
 ```
 
-### ``Convert`` Class
+### `Convert` Class
 
-``Convert`` converts OUTP files to csv or parquet files, using ``pandas``.
+`Convert` converts OUTP files to csv or parquet files, using `pandas`.
 
 ```{eval-rst}
 .. autoclass:: pymcnp.Convert
@@ -139,9 +139,9 @@ and ``MeshtalProcessor`` have overridable methods for processing data, and all c
    :inherited-members:
 ```
 
-### ``Plot`` Class
+### `Plot` Class
 
-``Plot`` plots OUTP files, using ``matplotlib``.
+`Plot` plots OUTP files, using `matplotlib`.
 
 ```{eval-rst}
 .. autoclass:: pymcnp.Plot
@@ -149,9 +149,9 @@ and ``MeshtalProcessor`` have overridable methods for processing data, and all c
    :inherited-members:
 ```
 
-### ``Run`` Class
+### `Run` Class
 
-``Run`` runs MCNP simulations in parallel, using ``subprocess``.
+`Run` runs MCNP simulations in parallel, using `subprocess`.
 
 ```{eval-rst}
 .. autoclass:: pymcnp.Run
@@ -159,9 +159,9 @@ and ``MeshtalProcessor`` have overridable methods for processing data, and all c
    :inherited-members:
 ```
 
-### ``Visualize`` Class
+### `Visualize` Class
 
-``Visualize`` visualizes INP surfaces and cell geometries, using ``pyvista``.
+`Visualize` visualizes INP surfaces and cell geometries, using `pyvista`.
 
 ```{eval-rst}
 .. autoclass:: pymcnp.Visualize

@@ -10,7 +10,7 @@ from ... import errors
 
 class Tx(_option.SurfaceOption):
     """
-    Represents INP tx elements.
+    Represents INP `tx` elements.
     """
 
     _KEYWORD = 'tx'
@@ -39,7 +39,7 @@ class Tx(_option.SurfaceOption):
         c: str | int | float | types.Real,
     ):
         """
-        Initializes ``Tx``.
+        Initializes `Tx`.
 
         Parameters:
             x: Parallel-to-x-axis tori center x component.
@@ -75,7 +75,7 @@ class Tx(_option.SurfaceOption):
     @x.setter
     def x(self, x: str | int | float | types.Real) -> None:
         """
-        Sets ``x``.
+        Sets `x`.
 
         Parameters:
             x: Parallel-to-x-axis tori center x component.
@@ -113,7 +113,7 @@ class Tx(_option.SurfaceOption):
     @y.setter
     def y(self, y: str | int | float | types.Real) -> None:
         """
-        Sets ``y``.
+        Sets `y`.
 
         Parameters:
             y: Parallel-to-x-axis tori center y component.
@@ -151,7 +151,7 @@ class Tx(_option.SurfaceOption):
     @z.setter
     def z(self, z: str | int | float | types.Real) -> None:
         """
-        Sets ``z``.
+        Sets `z`.
 
         Parameters:
             z: Parallel-to-x-axis tori center z component.
@@ -189,7 +189,7 @@ class Tx(_option.SurfaceOption):
     @a.setter
     def a(self, a: str | int | float | types.Real) -> None:
         """
-        Sets ``a``.
+        Sets `a`.
 
         Parameters:
             a: Parallel-to-x-axis tori A coefficent.
@@ -227,7 +227,7 @@ class Tx(_option.SurfaceOption):
     @b.setter
     def b(self, b: str | int | float | types.Real) -> None:
         """
-        Sets ``b``.
+        Sets `b`.
 
         Parameters:
             b: Parallel-to-x-axis tori B coefficent.
@@ -265,7 +265,7 @@ class Tx(_option.SurfaceOption):
     @c.setter
     def c(self, c: str | int | float | types.Real) -> None:
         """
-        Sets ``c``.
+        Sets `c`.
 
         Parameters:
             c: Parallel-to-x-axis tori C coefficent.
@@ -290,13 +290,13 @@ class Tx(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Tx``.
+        Generates `Visualization` from `Tx`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``Tx``
+            `_show.Shape` for `Tx`
         """
 
         vis = shapes.Torus(float(self.b), float(self.c), float(self.a))

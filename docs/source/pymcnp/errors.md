@@ -1,47 +1,47 @@
-# ``pymcnp.errors`` Subpackage
+# `pymcnp.errors` Subpackage
 
-``pymcnp.errors`` contains wrappers for Python exceptions and errors codes. 
+`pymcnp.errors` contains wrappers for Python exceptions and errors codes. 
 
 ## Error Classes
 
 PyMCNP represents errors with error classes.
 
-### ``CliError`` Class
+### `CliError` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.errors.CliError
    :members:
 ```
 
-### ``InpError`` Class
+### `InpError` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.errors.InpError
    :members:
 ```
 
-### ``MeshtalError`` Class
+### `MeshtalError` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.errors.MeshtalError
    :members:
 ```
 
-### ``OutpError`` Class
+### `OutpError` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.errors.OutpError
    :members:
 ```
 
-### ``PtracError`` Class
+### `PtracError` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.errors.PtracError
    :members:
 ```
 
-### ``TypesError`` Class
+### `TypesError` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.errors.TypesError
@@ -52,42 +52,42 @@ PyMCNP represents errors with error classes.
 
 PyMCNP represents error codes with code classes.
 
-### ``CliCode`` Class
+### `CliCode` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.errors.CliCode
    :members:
 ```
 
-### ``InpCode`` Class
+### `InpCode` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.errors.InpCode
    :members:
 ```
 
-### ``MeshtalCode`` Class
+### `MeshtalCode` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.errors.MeshtalCode
    :members:
 ```
 
-### ``OutpCode`` Class
+### `OutpCode` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.errors.OutpCode
    :members:
 ```
 
-### ``PtracCode`` Class
+### `PtracCode` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.errors.PtracCode
    :members:
 ```
 
-### ``TypesCode`` Class
+### `TypesCode` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.errors.TypesCode

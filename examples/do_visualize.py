@@ -1,5 +1,5 @@
 """
-Example visualizing INP files using ``Visualize``.
+Example visualizing INP files using `Visualize`.
 """
 
 import pathlib
@@ -10,7 +10,7 @@ import pymcnp
 path = pathlib.Path(__file__).parent.parent / 'files' / 'inp' / 'valid_29.inp'
 inp = pymcnp.Inp.from_file(path)
 
-# Visualizing surfaces using ``Visualize``.
+# Visualizing surfaces using `Visualize`.
 visualizer = pymcnp.Visualize(inp)
 visualizer.to_show_surfaces().show()
 

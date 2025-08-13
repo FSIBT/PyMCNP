@@ -7,7 +7,7 @@ from ... import errors
 
 class Vol(_option.LikeOption):
     """
-    Represents INP vol elements.
+    Represents INP `vol` elements.
     """
 
     _KEYWORD = 'vol'
@@ -20,7 +20,7 @@ class Vol(_option.LikeOption):
 
     def __init__(self, volume: str | int | float | types.Real):
         """
-        Initializes ``Vol``.
+        Initializes `Vol`.
 
         Parameters:
             volume: Cell volume.
@@ -34,10 +34,10 @@ class Vol(_option.LikeOption):
     @property
     def volume(self) -> types.Real:
         """
-        Gets ``volume``.
+        Gets `volume`.
 
         Returns:
-            ``volume``.
+            `volume`.
         """
 
         return self._volume
@@ -45,7 +45,7 @@ class Vol(_option.LikeOption):
     @volume.setter
     def volume(self, volume: str | int | float | types.Real) -> None:
         """
-        Sets ``volume``.
+        Sets `volume`.
 
         Parameters:
             volume: Cell volume.

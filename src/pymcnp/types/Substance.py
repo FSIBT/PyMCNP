@@ -19,14 +19,14 @@ class Substance(_type.Type):
 
     def __init__(self, zaid: types.Zaid, weight_ratio: types.Real):
         """
-        Initializes ``Substance``.
+        Initializes `Substance`.
 
         Parameters:
             zaid: Zaid alias for nuclide.
             weight_ratio: Atomic weight ratios.
 
         Returns:
-            ``Substance``.
+            `Substance`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -43,13 +43,13 @@ class Substance(_type.Type):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Substance`` from MCNP.
+        Generates `Substance` from MCNP.
 
         Parameters:
-            MCNP for ``Substance``.
+            MCNP for `Substance`.
 
         Returns:
-            ``Substance``.
+            `Substance`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -67,10 +67,10 @@ class Substance(_type.Type):
 
     def to_mcnp(self):
         """
-        Generates INP from ``Substance``.
+        Generates INP from `Substance`.
 
         Returns:
-            INP for ``Substance``.
+            INP for `Substance`.
         """
 
         return f'{self.zaid} {self.weight_ratio}'

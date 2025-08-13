@@ -17,59 +17,59 @@ class PyvistaShape(_shape.Shape):
 
     def __add__(a, b):
         """
-        Adds ``PyvistaShape`` instances.
+        Adds `PyvistaShape` instances.
 
         Parameters:
             a: Addend #1.
             b: Addend #2.
 
         Returns:
-            Merged ``PyvistaShape``.
+            Merged `PyvistaShape`.
         """
 
         return PyvistaShape(a.surface.merge(b.surface), lambda p: a.cell(p) | b.cell(p))
 
     def __and__(a, b):
         """
-        Intersects ``PyvistaShape``.
+        Intersects `PyvistaShape`.
 
         Parameters:
             a: Operand #1.
             b: Operand #2.
 
         Returns:
-            ``PyvistaShape`` union.
+            `PyvistaShape` union.
         """
 
         return PyvistaShape(a.surface.merge(b.surface), lambda p: a.cell(p) & b.cell(p))
 
     def __or__(a, b):
         """
-        Unites ``PyvistaShape``.
+        Unites `PyvistaShape`.
 
         Parameters:
             a: Operand #1.
             b: Operand #2.
 
         Returns:
-            ``PyvistaShape`` intersection.
+            `PyvistaShape` intersection.
         """
 
         return PyvistaShape(a.surface.merge(b.surface), lambda p: a.cell(p) | b.cell(p))
 
     def __invert__(self):
         """
-        Negates ``PyvistaShape``.
+        Negates `PyvistaShape`.
 
         Returns:
-            ``PyvistaShape`` complement.
+            `PyvistaShape` complement.
         """
 
         return PyvistaShape(self.surface, lambda p: ~self.cell(p))
 
     def rotate(self, axis: numpy.ndarray, angle: float, center: tuple[float]):
         """
-        Rotates ``PyvistaShape``.
+        Rotates `PyvistaShape`.
 
         Parameters:
             axis: Axis of rotation.
@@ -77,7 +77,7 @@ class PyvistaShape(_shape.Shape):
             center: Center of rotation.
 
         Returns:
-            ``PyvistaShape`` rotated.
+            `PyvistaShape` rotated.
         """
 
         axis = axis / numpy.linalg.norm(axis)
@@ -86,13 +86,13 @@ class PyvistaShape(_shape.Shape):
 
     def translate(self, vector: numpy.ndarray):
         """
-        Rotates ``PyvistaShape``.
+        Rotates `PyvistaShape`.
 
         Parameters:
             vector: Translation of translation.
 
         Returns:
-            ``PyvistaShape`` translated.
+            `PyvistaShape` translated.
         """
 
         return PyvistaShape(self.surface.translate(xyz=(vector[0], vector[1], vector[2])), lambda p: self.cell(p - vector))

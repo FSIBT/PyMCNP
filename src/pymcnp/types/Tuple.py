@@ -13,7 +13,7 @@ def Tuple(element: typing.Type) -> object:
         element: Inner type.
 
     Returns:
-        ``_Tuple`` with inner type.
+        `_Tuple` with inner type.
     """
 
     class _Tuple(_type.Type):
@@ -26,13 +26,13 @@ def Tuple(element: typing.Type) -> object:
 
         def __init__(self, value: tuple[element]):
             """
-            Initializes ``Tuple``.
+            Initializes `Tuple`.
 
             Parameters:
                 value: Tuple object.
 
             Returns:
-                ``Tuple``.
+                `Tuple`.
 
             Raises:
                 TypesError: SEMANTICS_TYPE.
@@ -46,14 +46,14 @@ def Tuple(element: typing.Type) -> object:
         @classmethod
         def from_mcnp(cls, source: str):
             """
-            Generates ``Tuple`` from MCNP.
+            Generates `Tuple` from MCNP.
 
             Parameters:
                 source: MCNP tuple.
                 T: Inner type.
 
             Returns:
-                ``Tuple``.
+                `Tuple`.
 
             Raises:
                 TypesError: SYNTAX_TYPE.
@@ -64,10 +64,10 @@ def Tuple(element: typing.Type) -> object:
 
         def to_mcnp(self):
             """
-            Generates MCNP from ``Tuple``.
+            Generates MCNP from `Tuple`.
 
             Returns:
-                MCNP for ``Tuple``.
+                MCNP for `Tuple`.
             """
 
             return ' '.join(val.to_mcnp() if val is not None else '' for val in self.value)

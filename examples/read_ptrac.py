@@ -6,13 +6,13 @@ import pathlib
 
 import pymcnp
 
-# Reading PTRAC using ``from_file``.
+# Reading PTRAC using `from_file`.
 path = pathlib.Path(__file__).parent.parent / 'files' / 'ptrac' / 'example_02.ptrac'
 ptrac = pymcnp.Ptrac.from_file(path)
 
 print(ptrac)
 
-# Reading PTRAC using ``from_mcnp``.
+# Reading PTRAC using `from_mcnp`.
 ptrac = pymcnp.Ptrac.from_mcnp("""   -1
 mcnp    6                        05/08/13 07/14/25 11:39:04 
 Sample Problem Input Deck                                                       

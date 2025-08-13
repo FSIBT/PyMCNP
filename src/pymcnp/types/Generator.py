@@ -14,7 +14,7 @@ def Generator(element: typing.Type) -> object:
         element: Inner type.
 
     Returns:
-        ``_Generator`` with inner type.
+        `_Generator` with inner type.
     """
 
     class _Generator(_type.Type):
@@ -27,13 +27,13 @@ def Generator(element: typing.Type) -> object:
 
         def __init__(self, value: typing.Generator[element, None, None]):
             """
-            Initializes ``Generator``.
+            Initializes `Generator`.
 
             Parameters:
                 value: Generator object.
 
             Returns:
-                ``Generator``.
+                `Generator`.
 
             Raises:
                 TypesError: SEMANTICS_TYPE.
@@ -47,14 +47,14 @@ def Generator(element: typing.Type) -> object:
         @classmethod
         def from_mcnp(cls, source: str):
             """
-            Generates ``Generator`` from MCNP.
+            Generates `Generator` from MCNP.
 
             Parameters:
                 source: MCNP tuple.
                 T: Inner type.
 
             Returns:
-                ``Generator``.
+                `Generator`.
 
             Raises:
                 TypesError: SYNTAX_TYPE.
@@ -65,10 +65,10 @@ def Generator(element: typing.Type) -> object:
 
         def to_mcnp(self):
             """
-            Generates MCNP from ``Generator``.
+            Generates MCNP from `Generator`.
 
             Returns:
-                MCNP for ``Generator``.
+                MCNP for `Generator`.
             """
 
             return ' '.join(val.to_mcnp() for val in self.__iter__())

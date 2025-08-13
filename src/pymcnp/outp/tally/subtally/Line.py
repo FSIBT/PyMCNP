@@ -10,7 +10,7 @@ from .... import errors
 
 class Line(_subblock.LineSubblock):
     """
-    Represents OUTP ``1tally 1 nps`` subtally.
+    Represents OUTP `1tally 1 nps` subtally.
 
     Attributes:
         bucket: Tally bucket.
@@ -27,7 +27,7 @@ class Line(_subblock.LineSubblock):
         error: types.String,
     ):
         """
-        Initializes ``Line``.
+        Initializes `Line`.
 
         Parameters:
             bucket: Tally bucket.
@@ -52,13 +52,13 @@ class Line(_subblock.LineSubblock):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Line`` from OUTP.
+        Generates `Line` from OUTP.
 
         Parameters:
-            source: OUTP for ``Line``.
+            source: OUTP for `Line`.
 
         Returns:
-            ``Line``.
+            `Line`.
         """
 
         tokens = Line._REGEX.match(source)
@@ -78,20 +78,20 @@ class Line(_subblock.LineSubblock):
 
     def to_mcnp(self):
         """
-        Generates OUTP from ``Line``.
+        Generates OUTP from `Line`.
 
         Returns:
-            OUTP for ``Line``.
+            OUTP for `Line`.
         """
 
         return f'    {self.bucket}   {self.count} {self.error}\n'
 
     def to_dataframe(self):
         """
-        Generates ``pandas.DataFrame`` from ``Line``.
+        Generates `pandas.DataFrame` from `Line`.
 
         Returns:
-            ``pandas.DataFrame``.
+            `pandas.DataFrame`.
         """
 
         return pandas.DataFrame(

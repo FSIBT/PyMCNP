@@ -13,13 +13,13 @@ class Option(_symbol.InpNonterminal):
     @classmethod
     def from_mcnp(cls, source: str):
         """
-        Generates ``Option`` from INP.
+        Generates `Option` from INP.
 
         Parameters:
-            source: ``Option`` for INP.
+            source: `Option` for INP.
 
         Returns:
-            ``Option``.
+            `Option`.
 
         Raises:
             InpError: SYNTAX_OPTION.
@@ -44,10 +44,10 @@ class Option(_symbol.InpNonterminal):
 
     def to_mcnp(self):
         """
-        Generates INP from ``Option``.
+        Generates INP from `Option`.
 
         Returns:
-            INP for ``Option``.
+            INP for `Option`.
         """
 
         value = []

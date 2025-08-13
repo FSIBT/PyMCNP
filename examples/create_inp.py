@@ -65,22 +65,17 @@ surface_world = pymcnp.inp.Surface(
     option=so_world,
 )
 
-# Creating data options.
-material_air = pymcnp.inp.data.M_0.from_formula(number=21, formulas={'N2': 0.8, 'O2': 0.2})
-material_shield = pymcnp.inp.data.M_0.from_formula(number=22, formulas={'TiO2': 0.5, 'PbO': 0.5})
-material_lead = pymcnp.inp.data.M_0.from_formula(number=23, formulas={'Pb': 1})
-
-# Creating data.
-data_air = pymcnp.inp.Data(material_air)
-data_shield = pymcnp.inp.Data(material_shield)
-data_lead = pymcnp.inp.Data(material_lead)
+# Creating materials.
+material_air = pymcnp.inp.M_0.from_formula(number=21, formulas={'N2': 0.8, 'O2': 0.2})
+material_shield = pymcnp.inp.M_0.from_formula(number=22, formulas={'TiO2': 0.5, 'PbO': 0.5})
+material_lead = pymcnp.inp.M_0.from_formula(number=23, formulas={'Pb': 1})
 
 # Creating inp.
 inp = pymcnp.Inp(
-    title='Create ``Inp``\n',
+    title='Create `Inp`\n',
     cells=[cell_air, cell_shield, cell_lead, cell_world],
     surfaces=[surface_air, surface_shield, surface_lead, surface_world],
-    data=[data_air, data_shield, data_lead],
+    data=[material_air, material_shield, material_lead],
 )
 
 print(inp)

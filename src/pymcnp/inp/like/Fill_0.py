@@ -7,7 +7,7 @@ from ... import errors
 
 class Fill_0(_option.LikeOption):
     """
-    Represents INP fill variation #0 elements.
+    Represents INP `fill` elements variation #0.
     """
 
     _KEYWORD = 'fill'
@@ -33,7 +33,7 @@ class Fill_0(_option.LikeOption):
         m: str | int | types.Integer = None,
     ):
         """
-        Initializes ``Fill_0``.
+        Initializes `Fill_0`.
 
         Parameters:
             prefix: Star prefix.
@@ -57,10 +57,10 @@ class Fill_0(_option.LikeOption):
     @property
     def prefix(self) -> types.String:
         """
-        Gets ``prefix``.
+        Gets `prefix`.
 
         Returns:
-            ``prefix``.
+            `prefix`.
         """
 
         return self._prefix
@@ -68,7 +68,7 @@ class Fill_0(_option.LikeOption):
     @prefix.setter
     def prefix(self, prefix: str | types.String) -> None:
         """
-        Sets ``prefix``.
+        Sets `prefix`.
 
         Parameters:
             prefix: Star prefix.
@@ -92,10 +92,10 @@ class Fill_0(_option.LikeOption):
     @property
     def i(self) -> types.Index:
         """
-        Gets ``i``.
+        Gets `i`.
 
         Returns:
-            ``i``.
+            `i`.
         """
 
         return self._i
@@ -103,7 +103,7 @@ class Fill_0(_option.LikeOption):
     @i.setter
     def i(self, i: str | types.Index) -> None:
         """
-        Sets ``i``.
+        Sets `i`.
 
         Parameters:
             i: Lattice parameter #1.
@@ -127,10 +127,10 @@ class Fill_0(_option.LikeOption):
     @property
     def j(self) -> types.Index:
         """
-        Gets ``j``.
+        Gets `j`.
 
         Returns:
-            ``j``.
+            `j`.
         """
 
         return self._j
@@ -138,7 +138,7 @@ class Fill_0(_option.LikeOption):
     @j.setter
     def j(self, j: str | types.Index) -> None:
         """
-        Sets ``j``.
+        Sets `j`.
 
         Parameters:
             j: Lattice parameter #2.
@@ -162,10 +162,10 @@ class Fill_0(_option.LikeOption):
     @property
     def k(self) -> types.Index:
         """
-        Gets ``k``.
+        Gets `k`.
 
         Returns:
-            ``k``.
+            `k`.
         """
 
         return self._k
@@ -173,7 +173,7 @@ class Fill_0(_option.LikeOption):
     @k.setter
     def k(self, k: str | types.Index) -> None:
         """
-        Sets ``k``.
+        Sets `k`.
 
         Parameters:
             k: Lattice parameter #3.
@@ -197,10 +197,10 @@ class Fill_0(_option.LikeOption):
     @property
     def universes(self) -> types.Tuple(types.Integer):
         """
-        Gets ``universes``.
+        Gets `universes`.
 
         Returns:
-            ``universes``.
+            `universes`.
         """
 
         return self._universes
@@ -208,7 +208,7 @@ class Fill_0(_option.LikeOption):
     @universes.setter
     def universes(self, universes: list[str] | list[int] | list[types.Integer]) -> None:
         """
-        Sets ``universes``.
+        Sets `universes`.
 
         Parameters:
             universes: Fill universe numbers.
@@ -238,10 +238,10 @@ class Fill_0(_option.LikeOption):
     @property
     def m(self) -> types.Integer:
         """
-        Gets ``m``.
+        Gets `m`.
 
         Returns:
-            ``m``.
+            `m`.
         """
 
         return self._m
@@ -249,7 +249,7 @@ class Fill_0(_option.LikeOption):
     @m.setter
     def m(self, m: str | int | types.Integer) -> None:
         """
-        Sets ``m``.
+        Sets `m`.
 
         Parameters:
             m: Displacement vector origin.

@@ -24,7 +24,7 @@ class History(_symbol.Nonterminal):
         events: types.Tuple(history.Event),
     ):
         """
-        Initializes ``History``.
+        Initializes `History`.
 
         Parameters:
             i_line: PTRAC history i-line.
@@ -46,13 +46,13 @@ class History(_symbol.Nonterminal):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``History`` from PTRAC.
+        Generates `History` from PTRAC.
 
         Parameters:
-            source: PTRAC for ``History``.
+            source: PTRAC for `History`.
 
         Returns:
-            ``History``.
+            `History`.
 
         Raises:
             PtracError: SYNTAX_BLOCK.
@@ -70,10 +70,10 @@ class History(_symbol.Nonterminal):
 
     def to_mcnp(self):
         """
-        Generates PTRAC from ``History``.
+        Generates PTRAC from `History`.
 
         Returns:
-            PTRAC for ``History``.
+            PTRAC for `History`.
         """
 
         return f'{self.i_line}\n{"".join(map(str, self.events))}'

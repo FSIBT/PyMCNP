@@ -5,12 +5,12 @@ from .Meshtal import Meshtal
 
 class MeshtalFilter(_doer.Doer):
     """
-    Filters ``Meshtal``.
+    Filters `Meshtal`.
     """
 
     def check(self, tally: meshtal.Tally) -> bool:
         """
-        Runs when ``run`` filters MESHTAL source tallies.
+        Runs when `run` filters MESHTAL source tallies.
 
         Parameters:
             tally: Tally to check.
@@ -23,7 +23,7 @@ class MeshtalFilter(_doer.Doer):
 
     def __call__(self, file: Meshtal):
         """
-        Filters given ``Meshtal``.
+        Filters given `Meshtal`.
 
         Parameters:
             file: File to filter.

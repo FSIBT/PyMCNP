@@ -10,7 +10,7 @@ from ... import errors
 
 class Ky(_option.SurfaceOption):
     """
-    Represents INP ky elements.
+    Represents INP `ky` elements.
     """
 
     _KEYWORD = 'ky'
@@ -25,7 +25,7 @@ class Ky(_option.SurfaceOption):
 
     def __init__(self, y: str | int | float | types.Real, t_squared: str | int | float | types.Real, plusminus_1: str | int | float | types.Real):
         """
-        Initializes ``Ky``.
+        Initializes `Ky`.
 
         Parameters:
             y: On-y-axis cone center y component.
@@ -55,7 +55,7 @@ class Ky(_option.SurfaceOption):
     @y.setter
     def y(self, y: str | int | float | types.Real) -> None:
         """
-        Sets ``y``.
+        Sets `y`.
 
         Parameters:
             y: On-y-axis cone center y component.
@@ -93,7 +93,7 @@ class Ky(_option.SurfaceOption):
     @t_squared.setter
     def t_squared(self, t_squared: str | int | float | types.Real) -> None:
         """
-        Sets ``t_squared``.
+        Sets `t_squared`.
 
         Parameters:
             t_squared: On-y-axis cone t^2 coefficent.
@@ -131,7 +131,7 @@ class Ky(_option.SurfaceOption):
     @plusminus_1.setter
     def plusminus_1(self, plusminus_1: str | int | float | types.Real) -> None:
         """
-        Sets ``plusminus_1``.
+        Sets `plusminus_1`.
 
         Parameters:
             plusminus_1: On-y-axis cone sheet selector.
@@ -156,13 +156,13 @@ class Ky(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Ky``.
+        Generates `Visualization` from `Ky`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``Ky``.
+            `_show.Shape` for `Ky`.
         """
 
         vis = shapes.ConeUnbounded(float(self.t_squared) ** (1 / 2), float(self.plusminus_1))

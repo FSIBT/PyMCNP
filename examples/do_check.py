@@ -1,5 +1,5 @@
 """
-Example checking INP files using ``Check``.
+Example checking INP files using `Check`.
 """
 
 import pathlib

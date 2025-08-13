@@ -10,7 +10,7 @@ class Plane(_shape.PyvistaShape):
 
     def __init__(self, a: float, b: float, c: float, d: float):
         """
-        Initializes ``Plane``.
+        Initializes `Plane`.
 
         Paremeters:
             a: Plane equation parameter #1.

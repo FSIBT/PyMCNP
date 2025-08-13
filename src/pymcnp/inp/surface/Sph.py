@@ -10,7 +10,7 @@ from ... import errors
 
 class Sph(_option.SurfaceOption):
     """
-    Represents INP sph elements.
+    Represents INP `sph` elements.
     """
 
     _KEYWORD = 'sph'
@@ -26,7 +26,7 @@ class Sph(_option.SurfaceOption):
 
     def __init__(self, vx: str | int | float | types.Real, vy: str | int | float | types.Real, vz: str | int | float | types.Real, r: str | int | float | types.Real):
         """
-        Initializes ``Sph``.
+        Initializes `Sph`.
 
         Parameters:
             vx: Sphere macrobody position vector x component.
@@ -58,7 +58,7 @@ class Sph(_option.SurfaceOption):
     @vx.setter
     def vx(self, vx: str | int | float | types.Real) -> None:
         """
-        Sets ``vx``.
+        Sets `vx`.
 
         Parameters:
             vx: Sphere macrobody position vector x component.
@@ -96,7 +96,7 @@ class Sph(_option.SurfaceOption):
     @vy.setter
     def vy(self, vy: str | int | float | types.Real) -> None:
         """
-        Sets ``vy``.
+        Sets `vy`.
 
         Parameters:
             vy: Sphere macrobody position vector y component.
@@ -134,7 +134,7 @@ class Sph(_option.SurfaceOption):
     @vz.setter
     def vz(self, vz: str | int | float | types.Real) -> None:
         """
-        Sets ``vz``.
+        Sets `vz`.
 
         Parameters:
             vz: Sphere macrobody position vector z component.
@@ -172,7 +172,7 @@ class Sph(_option.SurfaceOption):
     @r.setter
     def r(self, r: str | int | float | types.Real) -> None:
         """
-        Sets ``r``.
+        Sets `r`.
 
         Parameters:
             r: Sphere macrobody radius.
@@ -197,13 +197,13 @@ class Sph(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Sph``.
+        Generates `Visualization` from `Sph`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``Sph``
+            `_show.Shape` for `Sph`
         """
 
         vis = shapes.Sphere(float(self.r))

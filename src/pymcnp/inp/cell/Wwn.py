@@ -7,7 +7,7 @@ from ... import errors
 
 class Wwn(_option.CellOption):
     """
-    Represents INP wwn elements.
+    Represents INP `wwn` elements.
     """
 
     _KEYWORD = 'wwn'
@@ -22,7 +22,7 @@ class Wwn(_option.CellOption):
 
     def __init__(self, suffix: str | int | types.Integer, designator: str | types.Designator, bound: str | int | float | types.Real):
         """
-        Initializes ``Wwn``.
+        Initializes `Wwn`.
 
         Parameters:
             suffix: Cell option suffix.
@@ -52,7 +52,7 @@ class Wwn(_option.CellOption):
     @suffix.setter
     def suffix(self, suffix: str | int | types.Integer) -> None:
         """
-        Sets ``suffix``.
+        Sets `suffix`.
 
         Parameters:
             suffix: Cell option suffix.
@@ -90,7 +90,7 @@ class Wwn(_option.CellOption):
     @designator.setter
     def designator(self, designator: str | types.Designator) -> None:
         """
-        Sets ``designator``.
+        Sets `designator`.
 
         Parameters:
             designator: Cell particle designator.
@@ -126,7 +126,7 @@ class Wwn(_option.CellOption):
     @bound.setter
     def bound(self, bound: str | int | float | types.Real) -> None:
         """
-        Sets ``bound``.
+        Sets `bound`.
 
         Parameters:
             bound: Cell weight-window space, time, or energy lower bound.

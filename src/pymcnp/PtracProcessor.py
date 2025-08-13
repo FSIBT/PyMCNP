@@ -5,7 +5,7 @@ from .Ptrac import Ptrac
 
 class PtracProcessor(_doer.Doer):
     """
-    Processes ``Ptrac``.
+    Processes `Ptrac`.
     """
 
     def prehook(self):
@@ -74,7 +74,7 @@ class PtracProcessor(_doer.Doer):
 
     def __call__(self, file: Ptrac):
         """
-        Processes ``Ptrac``.
+        Processes `Ptrac`.
 
         Parameters:
             file: File to process.

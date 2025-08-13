@@ -3,7 +3,7 @@ from . import _error
 
 class CliCode(_error.Code):
     """
-    Represents ``cli`` error codes.
+    Represents `cli` error codes.
     """
 
     RUNTIME_PATH = 0
@@ -12,7 +12,7 @@ class CliCode(_error.Code):
 
 class CliError(_error.Error):
     """
-    Represents ``cli`` errors.
+    Represents `cli` errors.
     """
 
     def __str__(self):

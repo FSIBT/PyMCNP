@@ -10,7 +10,7 @@ from ... import errors
 
 class Box(_option.SurfaceOption):
     """
-    Represents INP box elements.
+    Represents INP `box` elements.
     """
 
     _KEYWORD = 'box'
@@ -51,7 +51,7 @@ class Box(_option.SurfaceOption):
         a3z: str | int | float | types.Real,
     ):
         """
-        Initializes ``Box``.
+        Initializes `Box`.
 
         Parameters:
             vx: Box macrobody position vector x component.
@@ -99,7 +99,7 @@ class Box(_option.SurfaceOption):
     @vx.setter
     def vx(self, vx: str | int | float | types.Real) -> None:
         """
-        Sets ``vx``.
+        Sets `vx`.
 
         Parameters:
             vx: Box macrobody position vector x component.
@@ -137,7 +137,7 @@ class Box(_option.SurfaceOption):
     @vy.setter
     def vy(self, vy: str | int | float | types.Real) -> None:
         """
-        Sets ``vy``.
+        Sets `vy`.
 
         Parameters:
             vy: Box macrobody position vector y component.
@@ -175,7 +175,7 @@ class Box(_option.SurfaceOption):
     @vz.setter
     def vz(self, vz: str | int | float | types.Real) -> None:
         """
-        Sets ``vz``.
+        Sets `vz`.
 
         Parameters:
             vz: Box macrobody position vector z component.
@@ -213,7 +213,7 @@ class Box(_option.SurfaceOption):
     @a1x.setter
     def a1x(self, a1x: str | int | float | types.Real) -> None:
         """
-        Sets ``a1x``.
+        Sets `a1x`.
 
         Parameters:
             a1x: Box macrobody vector #1 x component.
@@ -251,7 +251,7 @@ class Box(_option.SurfaceOption):
     @a1y.setter
     def a1y(self, a1y: str | int | float | types.Real) -> None:
         """
-        Sets ``a1y``.
+        Sets `a1y`.
 
         Parameters:
             a1y: Box macrobody vector #1 y component.
@@ -289,7 +289,7 @@ class Box(_option.SurfaceOption):
     @a1z.setter
     def a1z(self, a1z: str | int | float | types.Real) -> None:
         """
-        Sets ``a1z``.
+        Sets `a1z`.
 
         Parameters:
             a1z: Box macrobody vector #1 z component.
@@ -327,7 +327,7 @@ class Box(_option.SurfaceOption):
     @a2x.setter
     def a2x(self, a2x: str | int | float | types.Real) -> None:
         """
-        Sets ``a2x``.
+        Sets `a2x`.
 
         Parameters:
             a2x: Box macrobody vector #2 x component.
@@ -365,7 +365,7 @@ class Box(_option.SurfaceOption):
     @a2y.setter
     def a2y(self, a2y: str | int | float | types.Real) -> None:
         """
-        Sets ``a2y``.
+        Sets `a2y`.
 
         Parameters:
             a2y: Box macrobody vector #2 y component.
@@ -403,7 +403,7 @@ class Box(_option.SurfaceOption):
     @a2z.setter
     def a2z(self, a2z: str | int | float | types.Real) -> None:
         """
-        Sets ``a2z``.
+        Sets `a2z`.
 
         Parameters:
             a2z: Box macrobody vector #2 z component.
@@ -441,7 +441,7 @@ class Box(_option.SurfaceOption):
     @a3x.setter
     def a3x(self, a3x: str | int | float | types.Real) -> None:
         """
-        Sets ``a3x``.
+        Sets `a3x`.
 
         Parameters:
             a3x: Box macrobody vector #3 x component.
@@ -479,7 +479,7 @@ class Box(_option.SurfaceOption):
     @a3y.setter
     def a3y(self, a3y: str | int | float | types.Real) -> None:
         """
-        Sets ``a3y``.
+        Sets `a3y`.
 
         Parameters:
             a3y: Box macrobody vector #3 y component.
@@ -517,7 +517,7 @@ class Box(_option.SurfaceOption):
     @a3z.setter
     def a3z(self, a3z: str | int | float | types.Real) -> None:
         """
-        Sets ``a3z``.
+        Sets `a3z`.
 
         Parameters:
             a3z: Box macrobody vector #3 z component.
@@ -542,13 +542,13 @@ class Box(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Box``.
+        Generates `Visualization` from `Box`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``Box``.
+            `_show.Shape` for `Box`.
         """
 
         v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))

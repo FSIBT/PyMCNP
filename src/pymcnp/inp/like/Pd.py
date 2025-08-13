@@ -7,7 +7,7 @@ from ... import errors
 
 class Pd(_option.LikeOption):
     """
-    Represents INP pd elements.
+    Represents INP `pd` elements.
     """
 
     _KEYWORD = 'pd'
@@ -21,7 +21,7 @@ class Pd(_option.LikeOption):
 
     def __init__(self, suffix: str | int | types.Integer, probability: str | int | float | types.Real):
         """
-        Initializes ``Pd``.
+        Initializes `Pd`.
 
         Parameters:
             suffix: Cell option suffix.
@@ -37,10 +37,10 @@ class Pd(_option.LikeOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Gets `suffix`.
 
         Returns:
-            ``suffix``.
+            `suffix`.
         """
 
         return self._suffix
@@ -48,7 +48,7 @@ class Pd(_option.LikeOption):
     @suffix.setter
     def suffix(self, suffix: str | int | types.Integer) -> None:
         """
-        Sets ``suffix``.
+        Sets `suffix`.
 
         Parameters:
             suffix: Cell option suffix.
@@ -74,10 +74,10 @@ class Pd(_option.LikeOption):
     @property
     def probability(self) -> types.Real:
         """
-        Gets ``probability``.
+        Gets `probability`.
 
         Returns:
-            ``probability``.
+            `probability`.
         """
 
         return self._probability
@@ -85,7 +85,7 @@ class Pd(_option.LikeOption):
     @probability.setter
     def probability(self, probability: str | int | float | types.Real) -> None:
         """
-        Sets ``probability``.
+        Sets `probability`.
 
         Parameters:
             probability: Cell probability of DXTRAN contribution.

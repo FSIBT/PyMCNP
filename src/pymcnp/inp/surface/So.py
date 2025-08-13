@@ -8,7 +8,7 @@ from ... import errors
 
 class So(_option.SurfaceOption):
     """
-    Represents INP so elements.
+    Represents INP `so` elements.
     """
 
     _KEYWORD = 'so'
@@ -21,7 +21,7 @@ class So(_option.SurfaceOption):
 
     def __init__(self, r: str | int | float | types.Real):
         """
-        Initializes ``So``.
+        Initializes `So`.
 
         Parameters:
             r: Origin-centered sphere radius.
@@ -47,7 +47,7 @@ class So(_option.SurfaceOption):
     @r.setter
     def r(self, r: str | int | float | types.Real) -> None:
         """
-        Sets ``r``.
+        Sets `r`.
 
         Parameters:
             r: Origin-centered sphere radius.
@@ -72,13 +72,13 @@ class So(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``So``.
+        Generates `Visualization` from `So`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``So``
+            `_show.Shape` for `So`
         """
 
         vis = shapes.Sphere(float(self.r))

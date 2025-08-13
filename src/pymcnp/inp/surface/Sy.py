@@ -10,7 +10,7 @@ from ... import errors
 
 class Sy(_option.SurfaceOption):
     """
-    Represents INP sy elements.
+    Represents INP `sy` elements.
     """
 
     _KEYWORD = 'sy'
@@ -24,7 +24,7 @@ class Sy(_option.SurfaceOption):
 
     def __init__(self, y: str | int | float | types.Real, r: str | int | float | types.Real):
         """
-        Initializes ``Sy``.
+        Initializes `Sy`.
 
         Parameters:
             y: On-y-axis sphere center y component.
@@ -52,7 +52,7 @@ class Sy(_option.SurfaceOption):
     @y.setter
     def y(self, y: str | int | float | types.Real) -> None:
         """
-        Sets ``y``.
+        Sets `y`.
 
         Parameters:
             y: On-y-axis sphere center y component.
@@ -90,7 +90,7 @@ class Sy(_option.SurfaceOption):
     @r.setter
     def r(self, r: str | int | float | types.Real) -> None:
         """
-        Sets ``r``.
+        Sets `r`.
 
         Parameters:
             r: On-y-axis sphere radius.
@@ -115,13 +115,13 @@ class Sy(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Sy``.
+        Generates `Visualization` from `Sy`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``Sy``
+            `_show.Shape` for `Sy`
         """
 
         vis = shapes.Sphere(float(self.r))

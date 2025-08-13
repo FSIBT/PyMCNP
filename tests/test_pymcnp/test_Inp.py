@@ -13,7 +13,7 @@ class Test_Inp:
                 'title': consts.string.types.STRING,
                 'cells': [consts.string.inp.CELL, consts.string.inp.COMMENT, consts.string.inp.LIKE],
                 'surfaces': [consts.string.inp.SURFACE, consts.string.inp.COMMENT],
-                'data': [consts.string.inp.DATA, consts.string.inp.COMMENT],
+                'data': [consts.string.inp.VOL, consts.string.inp.COMMENT],
                 'message': consts.string.types.STRING,
                 'other': consts.string.types.STRING,
             },
@@ -21,7 +21,7 @@ class Test_Inp:
                 'title': consts.ast.types.STRING,
                 'cells': [consts.ast.inp.CELL, consts.ast.inp.COMMENT, consts.ast.inp.LIKE],
                 'surfaces': [consts.ast.inp.SURFACE, consts.ast.inp.COMMENT],
-                'data': [consts.ast.inp.DATA, consts.ast.inp.COMMENT],
+                'data': [consts.ast.inp.VOL, consts.ast.inp.COMMENT],
                 'message': consts.ast.types.STRING,
                 'other': consts.ast.types.STRING,
             },
@@ -29,7 +29,7 @@ class Test_Inp:
                 'title': consts.string.types.STRING,
                 'cells': [consts.string.inp.CELL, consts.string.inp.COMMENT, consts.string.inp.LIKE],
                 'surfaces': [consts.string.inp.SURFACE, consts.string.inp.COMMENT],
-                'data': [consts.string.inp.DATA, consts.string.inp.COMMENT],
+                'data': [consts.string.inp.VOL, consts.string.inp.COMMENT],
                 'message': None,
                 'other': consts.string.types.STRING,
             },
@@ -37,7 +37,7 @@ class Test_Inp:
                 'title': consts.string.types.STRING,
                 'cells': [consts.string.inp.CELL, consts.string.inp.COMMENT, consts.string.inp.LIKE],
                 'surfaces': [consts.string.inp.SURFACE, consts.string.inp.COMMENT],
-                'data': [consts.string.inp.DATA, consts.string.inp.COMMENT],
+                'data': [consts.string.inp.VOL, consts.string.inp.COMMENT],
                 'message': consts.string.types.STRING,
                 'other': None,
             },
@@ -47,7 +47,7 @@ class Test_Inp:
                 'title': None,
                 'cells': [consts.string.inp.CELL, consts.string.inp.COMMENT, consts.string.inp.LIKE],
                 'surfaces': [consts.string.inp.SURFACE, consts.string.inp.COMMENT],
-                'data': [consts.string.inp.DATA, consts.string.inp.COMMENT],
+                'data': [consts.string.inp.VOL, consts.string.inp.COMMENT],
                 'message': consts.string.types.STRING,
                 'other': consts.string.types.STRING,
             },
@@ -55,7 +55,7 @@ class Test_Inp:
                 'title': consts.string.types.STRING,
                 'cells': None,
                 'surfaces': [consts.string.inp.SURFACE, consts.string.inp.COMMENT],
-                'data': [consts.string.inp.DATA, consts.string.inp.COMMENT],
+                'data': [consts.string.inp.VOL, consts.string.inp.COMMENT],
                 'message': consts.string.types.STRING,
                 'other': consts.string.types.STRING,
             },
@@ -63,7 +63,7 @@ class Test_Inp:
                 'title': consts.string.types.STRING,
                 'cells': [consts.string.inp.CELL, consts.string.inp.COMMENT, consts.string.inp.LIKE],
                 'surfaces': None,
-                'data': [consts.string.inp.DATA, consts.string.inp.COMMENT],
+                'data': [consts.string.inp.VOL, consts.string.inp.COMMENT],
                 'message': consts.string.types.STRING,
                 'other': consts.string.types.STRING,
             },
@@ -83,7 +83,7 @@ class Test_Inp:
                 'title': consts.string.types.STRING,
                 'cells': [consts.string.inp.CELL, consts.string.inp.COMMENT, consts.string.inp.LIKE],
                 'surfaces': [consts.string.inp.SURFACE, consts.string.inp.COMMENT],
-                'data': [consts.string.inp.DATA, consts.string.inp.COMMENT],
+                'data': [consts.string.inp.VOL, consts.string.inp.COMMENT],
                 'message': consts.string.types.STRING,
                 'other': consts.string.types.STRING,
             },
@@ -112,7 +112,7 @@ class Test_Inp:
                 inp.seed
 
                 inp.data = save
-                inp.data = [*inp.data, pymcnp.inp.Data(pymcnp.inp.data.Rand())]
+                inp.data = [*inp.data, pymcnp.inp.Rand()]
 
                 inp.seed = '11'
                 inp.seed = 11
