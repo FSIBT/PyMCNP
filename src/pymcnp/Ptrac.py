@@ -23,14 +23,14 @@ class Ptrac(_file.File):
 
     def __init__(self, header: ptrac.Header, histories: typing.Generator[ptrac.History, None, None]):
         """
-        Initializes ``Ptrac``.
+        Initializes `Ptrac`.
 
         Parameters:
             header: PTRAC header.
             histories: PTRAC histories.
 
         Returns:
-            ``Ptrac``.
+            `Ptrac`.
 
         Raises:
             PtracError: SEMANTICS_FILE.
@@ -48,13 +48,13 @@ class Ptrac(_file.File):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Ptrac`` from PTRAC.
+        Generates `Ptrac` from PTRAC.
 
         Parameters:
-            source: PTRAC for ``Ptrac``.
+            source: PTRAC for `Ptrac`.
 
         Returns:
-            ``Ptrac``.
+            `Ptrac`.
 
         Raises:
             PtracError: SYNTAX_FILE.
@@ -72,10 +72,10 @@ class Ptrac(_file.File):
 
     def to_mcnp(self):
         """
-        Generates PTRAC from ``Ptrac``.
+        Generates PTRAC from `Ptrac`.
 
         Returns:
-            PTRAC for ``Ptrac``.
+            PTRAC for `Ptrac`.
         """
 
         return self.header.to_mcnp() + ''.join(history.to_mcnp() for history in self.histories)

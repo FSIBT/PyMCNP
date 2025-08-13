@@ -23,14 +23,14 @@ class Meshtal(_file.File):
 
     def __init__(self, header: meshtal.Header, tallies: types.Generator(meshtal.Tally)):
         """
-        Initializes ``Meshtal``.
+        Initializes `Meshtal`.
 
         Parameters:
             header: MESHTAL header.
             tallies: MESTHAL tallies.
 
         Returns:
-            ``Meshtal``.
+            `Meshtal`.
 
         Raises:
             MeshtalError: SEMANTICS_FILE_HEADER.
@@ -49,13 +49,13 @@ class Meshtal(_file.File):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Meshtal`` from MESHTAL.
+        Generates `Meshtal` from MESHTAL.
 
         Parameters:
-            source: MESHTAL for ``Meshtal``.
+            source: MESHTAL for `Meshtal`.
 
         Returns:
-            ``Meshtal``.
+            `Meshtal`.
         """
 
         tokens = Meshtal._REGEX.match(source)
@@ -70,10 +70,10 @@ class Meshtal(_file.File):
 
     def to_mcnp(self):
         """
-        Generates MESHTAL from ``Meshtal``.
+        Generates MESHTAL from `Meshtal`.
 
         Returns:
-            INP for ``Meshtal``.
+            INP for `Meshtal`.
         """
 
         return self.header.to_mcnp() + '\n'.join(tally.to_mcnp() for tally in self.tallies)

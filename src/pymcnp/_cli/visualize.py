@@ -24,7 +24,7 @@ from ..Visualize import Visualize
 
 def main() -> None:
     """
-    Executes the ``pymcnp visualize`` command.
+    Executes the `pymcnp visualize` command.
     """
 
     _io.disclaimer()

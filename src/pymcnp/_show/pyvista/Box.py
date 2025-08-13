@@ -11,7 +11,7 @@ class Box(_shape.PyvistaShape):
 
     def __init__(self, a: float, b: float, c: float):
         """
-        Initializes ``Box``.
+        Initializes `Box`.
 
         Parameters:
             a: Side #1 length.

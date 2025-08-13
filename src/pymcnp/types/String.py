@@ -18,13 +18,13 @@ class String(_type.Type):
 
     def __init__(self, value: str):
         """
-        Initializes ``String``.
+        Initializes `String`.
 
         Parameters:
             value: String value.
 
         Returns:
-            ``String``.
+            `String`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -38,13 +38,13 @@ class String(_type.Type):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``String`` from MCNP.
+        Generates `String` from MCNP.
 
         Praameters:
             source: MCNP string.
 
         Returns:
-            ``String``.
+            `String`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -54,7 +54,7 @@ class String(_type.Type):
 
     def to_mcnp(self):
         """
-        Generates MCNP from ``String``.
+        Generates MCNP from `String`.
 
         Returns:
             MCNP string.

@@ -10,7 +10,7 @@ from ... import errors
 
 class Trc(_option.SurfaceOption):
     """
-    Represents INP trc elements.
+    Represents INP `trc` elements.
     """
 
     _KEYWORD = 'trc'
@@ -43,7 +43,7 @@ class Trc(_option.SurfaceOption):
         r2: str | int | float | types.Real,
     ):
         """
-        Initializes ``Trc``.
+        Initializes `Trc`.
 
         Parameters:
             vx: Truncated cone position vector x component.
@@ -83,7 +83,7 @@ class Trc(_option.SurfaceOption):
     @vx.setter
     def vx(self, vx: str | int | float | types.Real) -> None:
         """
-        Sets ``vx``.
+        Sets `vx`.
 
         Parameters:
             vx: Truncated cone position vector x component.
@@ -121,7 +121,7 @@ class Trc(_option.SurfaceOption):
     @vy.setter
     def vy(self, vy: str | int | float | types.Real) -> None:
         """
-        Sets ``vy``.
+        Sets `vy`.
 
         Parameters:
             vy: Truncated cone position vector y component.
@@ -159,7 +159,7 @@ class Trc(_option.SurfaceOption):
     @vz.setter
     def vz(self, vz: str | int | float | types.Real) -> None:
         """
-        Sets ``vz``.
+        Sets `vz`.
 
         Parameters:
             vz: Truncated cone position vector z component.
@@ -197,7 +197,7 @@ class Trc(_option.SurfaceOption):
     @hx.setter
     def hx(self, hx: str | int | float | types.Real) -> None:
         """
-        Sets ``hx``.
+        Sets `hx`.
 
         Parameters:
             hx: Truncated cone height vector x component.
@@ -235,7 +235,7 @@ class Trc(_option.SurfaceOption):
     @hy.setter
     def hy(self, hy: str | int | float | types.Real) -> None:
         """
-        Sets ``hy``.
+        Sets `hy`.
 
         Parameters:
             hy: Truncated cone height vector y component.
@@ -273,7 +273,7 @@ class Trc(_option.SurfaceOption):
     @hz.setter
     def hz(self, hz: str | int | float | types.Real) -> None:
         """
-        Sets ``hz``.
+        Sets `hz`.
 
         Parameters:
             hz: Truncated cone height vector z component.
@@ -311,7 +311,7 @@ class Trc(_option.SurfaceOption):
     @r1.setter
     def r1(self, r1: str | int | float | types.Real) -> None:
         """
-        Sets ``r1``.
+        Sets `r1`.
 
         Parameters:
             r1: Truncated cone lower cone radius.
@@ -349,7 +349,7 @@ class Trc(_option.SurfaceOption):
     @r2.setter
     def r2(self, r2: str | int | float | types.Real) -> None:
         """
-        Sets ``r2``.
+        Sets `r2`.
 
         Parameters:
             r2: Truncated cone upper cone radius.
@@ -374,13 +374,13 @@ class Trc(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Trc``.
+        Generates `Visualization` from `Trc`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``Trc``
+            `_show.Shape` for `Trc`
         """
 
         h = numpy.array((float(self.hx), float(self.hy), float(self.hz)))

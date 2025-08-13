@@ -24,13 +24,13 @@ class Real(_type.Type):
 
     def __init__(self, value: int | Horizontal):
         """
-        Initializes ``Real``.
+        Initializes `Real`.
 
         Parameters:
             value: Real or jump value.
 
         Returns:
-            ``Real``.
+            `Real`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -44,13 +44,13 @@ class Real(_type.Type):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Real`` from MCNP.
+        Generates `Real` from MCNP.
 
         Parameters:
             source: MCNP real or jump.
 
         Returns:
-            ``Real``.
+            `Real`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -93,7 +93,7 @@ class Real(_type.Type):
 
     def to_mcnp(self):
         """
-        Generates MCNP from ``Real``.
+        Generates MCNP from `Real`.
 
         Returns:
             MCNP real.

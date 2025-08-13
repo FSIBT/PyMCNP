@@ -7,7 +7,7 @@ from ... import errors
 
 class Lat(_option.CellOption):
     """
-    Represents INP lat elements.
+    Represents INP `lat` elements.
     """
 
     _KEYWORD = 'lat'
@@ -20,7 +20,7 @@ class Lat(_option.CellOption):
 
     def __init__(self, shape: str | int | types.Integer):
         """
-        Initializes ``Lat``.
+        Initializes `Lat`.
 
         Parameters:
             shape: Cell lattice shape.
@@ -46,7 +46,7 @@ class Lat(_option.CellOption):
     @shape.setter
     def shape(self, shape: str | int | types.Integer) -> None:
         """
-        Sets ``shape``.
+        Sets `shape`.
 
         Parameters:
             shape: Cell lattice shape.

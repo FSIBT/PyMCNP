@@ -1,5 +1,5 @@
 """
-Example converting OUTP files using ``Convert``.
+Example converting OUTP files using `Convert`.
 """
 
 import pathlib

@@ -7,7 +7,7 @@ from ... import errors
 
 class Fill_3(_option.LikeOption):
     """
-    Represents INP fill variation #3 elements.
+    Represents INP `fill` elements variation #3.
     """
 
     _KEYWORD = 'fill'
@@ -22,7 +22,7 @@ class Fill_3(_option.LikeOption):
 
     def __init__(self, universe: str | int | types.Integer, prefix: str | types.String = None, transformation: str | types.Transformation_2 = None):
         """
-        Initializes ``Fill_3``.
+        Initializes `Fill_3`.
 
         Parameters:
             prefix: Star prefix.
@@ -40,10 +40,10 @@ class Fill_3(_option.LikeOption):
     @property
     def prefix(self) -> types.String:
         """
-        Gets ``prefix``.
+        Gets `prefix`.
 
         Returns:
-            ``prefix``.
+            `prefix`.
         """
 
         return self._prefix
@@ -51,7 +51,7 @@ class Fill_3(_option.LikeOption):
     @prefix.setter
     def prefix(self, prefix: str | types.String) -> None:
         """
-        Sets ``prefix``.
+        Sets `prefix`.
 
         Parameters:
             prefix: Star prefix.
@@ -75,10 +75,10 @@ class Fill_3(_option.LikeOption):
     @property
     def universe(self) -> types.Integer:
         """
-        Gets ``universe``.
+        Gets `universe`.
 
         Returns:
-            ``universe``.
+            `universe`.
         """
 
         return self._universe
@@ -86,7 +86,7 @@ class Fill_3(_option.LikeOption):
     @universe.setter
     def universe(self, universe: str | int | types.Integer) -> None:
         """
-        Sets ``universe``.
+        Sets `universe`.
 
         Parameters:
             universe: Cell fill universe number.
@@ -112,10 +112,10 @@ class Fill_3(_option.LikeOption):
     @property
     def transformation(self) -> types.Transformation_2:
         """
-        Gets ``transformation``.
+        Gets `transformation`.
 
         Returns:
-            ``transformation``.
+            `transformation`.
         """
 
         return self._transformation
@@ -123,7 +123,7 @@ class Fill_3(_option.LikeOption):
     @transformation.setter
     def transformation(self, transformation: str | types.Transformation_2) -> None:
         """
-        Sets ``transformation``.
+        Sets `transformation`.
 
         Parameters:
             transformation: Cell fill transformation.

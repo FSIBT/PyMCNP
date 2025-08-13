@@ -27,7 +27,7 @@ class Event(_block.HistoryBlock):
         p_line: typing.Union[event.P_0, event.P_1],
     ):
         """
-        Initializes ``Event``.
+        Initializes `Event`.
 
         Parameters:
             j_line: Event j-line.
@@ -48,13 +48,13 @@ class Event(_block.HistoryBlock):
 
     def from_mcnp(source: str):
         """
-        Generates ``Event`` from PTRAC.
+        Generates `Event` from PTRAC.
 
         Parameters:
-            source: PTRAC for ``Event``.
+            source: PTRAC for `Event`.
 
         Returns:
-            ``Event``.
+            `Event`.
 
         Raises:
             PtracError: SYNTAX_LINE.
@@ -86,10 +86,10 @@ class Event(_block.HistoryBlock):
 
     def to_mcnp(self):
         """
-        Generates PTRAC from ``Event``.
+        Generates PTRAC from `Event`.
 
         Returns:
-            PTRAC for ``Event``.
+            PTRAC for `Event`.
         """
 
         return f'{self.j_line}\n{self.p_line}\n'

@@ -1,4 +1,4 @@
-# ``pymcnp.outp.tally`` Subpackage
+# `pymcnp.outp.tally` Subpackage
 
 ## Table of Contents
 
@@ -11,7 +11,7 @@
 
 ## AST Classes
 
-### ``Subtally_1`` Class
+### `Subtally_1` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.outp.tally.Subtally_1
@@ -19,7 +19,7 @@
    :inherited-members:
 ```
 
-### ``Subtally_2`` Class
+### `Subtally_2` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.outp.tally.Subtally_2
@@ -27,7 +27,7 @@
    :inherited-members:
 ```
 
-### ``Subtally_4`` Class
+### `Subtally_4` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.outp.tally.Subtally_4

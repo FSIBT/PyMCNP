@@ -18,13 +18,13 @@ class Distribution(_type.Type):
 
     def __init__(self, n: Integer):
         """
-        Initializes ``Distribution``.
+        Initializes `Distribution`.
 
         Parameters:
             n: Distribution identifier.
 
         Returns:
-            ``Distribution``.
+            `Distribution`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -38,13 +38,13 @@ class Distribution(_type.Type):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Distribution`` from MCNP.
+        Generates `Distribution` from MCNP.
 
         Parameters:
-            source: MCNP for ``Distribution``.
+            source: MCNP for `Distribution`.
 
         Returns:
-            ``Distribution``.
+            `Distribution`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -61,10 +61,10 @@ class Distribution(_type.Type):
 
     def to_mcnp(self):
         """
-        Generates MCNP from ``Distribution``.
+        Generates MCNP from `Distribution`.
 
         Returns:
-            MCNP for ``Distribution``.
+            MCNP for `Distribution`.
         """
 
         return f'd{self.n}'

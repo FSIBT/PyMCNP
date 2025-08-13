@@ -17,7 +17,7 @@ from ..Check import Check
 
 def main() -> None:
     """
-    Executes the ``pymcnp check`` command.
+    Executes the `pymcnp check` command.
     """
 
     _io.disclaimer()

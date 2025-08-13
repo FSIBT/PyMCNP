@@ -1,6 +1,6 @@
-# ``pymcnp.outp`` Subpackage
+# `pymcnp.outp` Subpackage
 
-``pymcnp.outp`` contains the OUTP parser. PyMCNP implements an object-oriented recursive
+`pymcnp.outp` contains the OUTP parser. PyMCNP implements an object-oriented recursive
 descent parser, approximating OUTP as the following context-free-grammar described in modified Bakus-Naur form:
 
 ```
@@ -21,10 +21,10 @@ descent parser, approximating OUTP as the following context-free-grammar describ
 PyMCNP represents OUTP non-terminals with AST classes and stores them in nested subpackages.
 These AST class have methods for translating between PyMCNP and OUTP:
 
-* ``from_mcnp``. Parses OUTP source, checking for syntax and semantic errors.
-* ``to_mcnp``. Generates OUTP source from PyMCNP objects, reformatting.
+* `from_mcnp`. Parses OUTP source, checking for syntax and semantic errors.
+* `to_mcnp`. Generates OUTP source from PyMCNP objects, reformatting.
 
-### ``AnalysisTallyFluctuation`` Class
+### `AnalysisTallyFluctuation` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.outp.AnalysisTallyFluctuation
@@ -32,7 +32,7 @@ These AST class have methods for translating between PyMCNP and OUTP:
    :inherited-members:
 ```
 
-### ``Header`` Class
+### `Header` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.outp.Header
@@ -40,7 +40,7 @@ These AST class have methods for translating between PyMCNP and OUTP:
    :inherited-members:
 ```
 
-### ``Mcnp`` Class
+### `Mcnp` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.outp.Mcnp
@@ -48,7 +48,7 @@ These AST class have methods for translating between PyMCNP and OUTP:
    :inherited-members:
 ```
 
-### ``NeutronActivity`` Class
+### `NeutronActivity` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.outp.NeutronActivity
@@ -56,7 +56,7 @@ These AST class have methods for translating between PyMCNP and OUTP:
    :inherited-members:
 ```
 
-### ``PhotonActivity`` Class
+### `PhotonActivity` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.outp.PhotonActivity
@@ -64,7 +64,7 @@ These AST class have methods for translating between PyMCNP and OUTP:
    :inherited-members:
 ```
 
-### ``ProblemSummary`` Class
+### `ProblemSummary` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.outp.ProblemSummary
@@ -72,7 +72,7 @@ These AST class have methods for translating between PyMCNP and OUTP:
    :inherited-members:
 ```
 
-### ``StartingMcrun`` Class
+### `StartingMcrun` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.outp.StartingMcrun
@@ -80,7 +80,7 @@ These AST class have methods for translating between PyMCNP and OUTP:
    :inherited-members:
 ```
 
-### ``Tally_1A`` Class
+### `Tally_1A` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.outp.Tally_1A
@@ -90,7 +90,7 @@ These AST class have methods for translating between PyMCNP and OUTP:
 
 [tally subpackage](outp/tally)
 
-### ``Tally_1B`` Class
+### `Tally_1B` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.outp.Tally_1B
@@ -100,7 +100,7 @@ These AST class have methods for translating between PyMCNP and OUTP:
 
 [tally subpackage](outp/tally)
 
-### ``Tally_2`` Class
+### `Tally_2` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.outp.Tally_2
@@ -110,7 +110,7 @@ These AST class have methods for translating between PyMCNP and OUTP:
 
 [tally subpackage](outp/tally)
 
-### ``Tally_4`` Class
+### `Tally_4` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.outp.Tally_4
@@ -120,7 +120,7 @@ These AST class have methods for translating between PyMCNP and OUTP:
 
 [tally subpackage](outp/tally)
 
-### ``Tally_8`` Class
+### `Tally_8` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.outp.Tally_8
@@ -130,7 +130,7 @@ These AST class have methods for translating between PyMCNP and OUTP:
 
 [tally subpackage](outp/tally)
 
-### ``UnnormedTallyDensity`` Class
+### `UnnormedTallyDensity` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.outp.UnnormedTallyDensity

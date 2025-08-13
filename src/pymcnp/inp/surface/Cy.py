@@ -10,7 +10,7 @@ from ... import errors
 
 class Cy(_option.SurfaceOption):
     """
-    Represents INP cy elements.
+    Represents INP `cy` elements.
     """
 
     _KEYWORD = 'cy'
@@ -23,7 +23,7 @@ class Cy(_option.SurfaceOption):
 
     def __init__(self, r: str | int | float | types.Real):
         """
-        Initializes ``Cy``.
+        Initializes `Cy`.
 
         Parameters:
             r: On-y-axis cylinder radius.
@@ -49,7 +49,7 @@ class Cy(_option.SurfaceOption):
     @r.setter
     def r(self, r: str | int | float | types.Real) -> None:
         """
-        Sets ``r``.
+        Sets `r`.
 
         Parameters:
             r: On-y-axis cylinder radius.
@@ -74,13 +74,13 @@ class Cy(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Cy``.
+        Generates `Visualization` from `Cy`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``Cy``.
+            `_show.Shape` for `Cy`.
         """
 
         vis = shapes.CylinderUnbounded(float(self.r))

@@ -8,7 +8,7 @@ from ... import errors
 
 class P_0(_option.SurfaceOption):
     """
-    Represents INP p variation #0 elements.
+    Represents INP `p` elements variation #0.
     """
 
     _KEYWORD = 'p'
@@ -24,7 +24,7 @@ class P_0(_option.SurfaceOption):
 
     def __init__(self, a: str | int | float | types.Real, b: str | int | float | types.Real, c: str | int | float | types.Real, d: str | int | float | types.Real):
         """
-        Initializes ``P_0``.
+        Initializes `P_0`.
 
         Parameters:
             a: Equation-defined general plane A coefficent.
@@ -56,7 +56,7 @@ class P_0(_option.SurfaceOption):
     @a.setter
     def a(self, a: str | int | float | types.Real) -> None:
         """
-        Sets ``a``.
+        Sets `a`.
 
         Parameters:
             a: Equation-defined general plane A coefficent.
@@ -94,7 +94,7 @@ class P_0(_option.SurfaceOption):
     @b.setter
     def b(self, b: str | int | float | types.Real) -> None:
         """
-        Sets ``b``.
+        Sets `b`.
 
         Parameters:
             b: Equation-defined general plane B coefficent.
@@ -132,7 +132,7 @@ class P_0(_option.SurfaceOption):
     @c.setter
     def c(self, c: str | int | float | types.Real) -> None:
         """
-        Sets ``c``.
+        Sets `c`.
 
         Parameters:
             c: Equation-defined general plane C coefficent.
@@ -170,7 +170,7 @@ class P_0(_option.SurfaceOption):
     @d.setter
     def d(self, d: str | int | float | types.Real) -> None:
         """
-        Sets ``d``.
+        Sets `d`.
 
         Parameters:
             d: Equation-defined general plane D coefficent.
@@ -195,13 +195,13 @@ class P_0(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Px``.
+        Generates `Visualization` from `Px`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``Px``
+            `_show.Shape` for `Px`
         """
 
         vis = shapes.Plane(float(self.a), float(self.b), float(self.c), float(self.d))

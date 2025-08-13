@@ -8,7 +8,7 @@ from .. import errors
 
 class StartingMcrun(_block.Block):
     """
-    Represents OUTP ``1starting mcrun`` blocks.
+    Represents OUTP `1starting mcrun` blocks.
 
     Attributes:
         cp0: Geometry error.
@@ -30,7 +30,7 @@ class StartingMcrun(_block.Block):
         data: types.String,
     ):
         """
-        Initializes ``StartingMcrun``.
+        Initializes `StartingMcrun`.
 
         Parameters:
             cp0: Geometry error.
@@ -55,13 +55,13 @@ class StartingMcrun(_block.Block):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``StartingMcrun`` from OUTP.
+        Generates `StartingMcrun` from OUTP.
 
         Parameters:
-            source: OUTP for ``StartingMcrun``.
+            source: OUTP for `StartingMcrun`.
 
         Returns:
-            ``StartingMcrun``.
+            `StartingMcrun`.
         """
 
         tokens = StartingMcrun._REGEX.match(source)
@@ -81,10 +81,10 @@ class StartingMcrun(_block.Block):
 
     def to_mcnp(self):
         """
-        Generates OUTP from ``StartingMcrun``.
+        Generates OUTP from `StartingMcrun`.
 
         Returns:
-            OUTP for ``StartingMcrun``.
+            OUTP for `StartingMcrun`.
         """
 
         return f"""

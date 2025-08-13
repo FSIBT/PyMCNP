@@ -7,7 +7,7 @@ from ... import errors
 
 class Nonu(_option.LikeOption):
     """
-    Represents INP nonu elements.
+    Represents INP `nonu` elements.
     """
 
     _KEYWORD = 'nonu'
@@ -20,7 +20,7 @@ class Nonu(_option.LikeOption):
 
     def __init__(self, setting: str | int | types.Integer):
         """
-        Initializes ``Nonu``.
+        Initializes `Nonu`.
 
         Parameters:
             setting: Cell fission setting.
@@ -34,10 +34,10 @@ class Nonu(_option.LikeOption):
     @property
     def setting(self) -> types.Integer:
         """
-        Gets ``setting``.
+        Gets `setting`.
 
         Returns:
-            ``setting``.
+            `setting`.
         """
 
         return self._setting
@@ -45,7 +45,7 @@ class Nonu(_option.LikeOption):
     @setting.setter
     def setting(self, setting: str | int | types.Integer) -> None:
         """
-        Sets ``setting``.
+        Sets `setting`.
 
         Parameters:
             setting: Cell fission setting.

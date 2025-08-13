@@ -10,7 +10,7 @@ class Ellipsoid(_shape.PyvistaShape):
 
     def __init__(self, a: float, b: float):
         """
-        Initializes ``Ellipsoid``.
+        Initializes `Ellipsoid`.
 
         Paremeters:
             a: Ellipsoid major axis length.

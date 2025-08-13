@@ -10,7 +10,7 @@ class ConeTruncated(_shape.PyvistaShape):
 
     def __init__(self, h: float, r1: float, r2: float):
         """
-        Initializes ``ConeTruncated``.
+        Initializes `ConeTruncated`.
 
         Parameters:
             h: Truncated cone height.

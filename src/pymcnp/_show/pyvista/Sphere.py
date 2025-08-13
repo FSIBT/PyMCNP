@@ -10,7 +10,7 @@ class Sphere(_shape.PyvistaShape):
 
     def __init__(self, r: float):
         """
-        Initializes ``Sphere``.
+        Initializes `Sphere`.
 
         Paremeters:
             r: Sphere radius.

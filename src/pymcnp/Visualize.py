@@ -27,7 +27,7 @@ class Visualize(_doer.Doer):
 
     def __init__(self, inpt: Inp):
         """
-        Initializes ``Visualize``.
+        Initializes `Visualize`.
 
         Parameters:
             inpt: Files to visualize.

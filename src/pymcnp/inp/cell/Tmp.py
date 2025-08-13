@@ -7,7 +7,7 @@ from ... import errors
 
 class Tmp(_option.CellOption):
     """
-    Represents INP tmp elements.
+    Represents INP `tmp` elements.
     """
 
     _KEYWORD = 'tmp'
@@ -21,7 +21,7 @@ class Tmp(_option.CellOption):
 
     def __init__(self, temperature: list[str] | list[float] | list[types.Real], suffix: str | int | types.Integer = None):
         """
-        Initializes ``Tmp``.
+        Initializes `Tmp`.
 
         Parameters:
             suffix: Thermal time index.
@@ -49,7 +49,7 @@ class Tmp(_option.CellOption):
     @suffix.setter
     def suffix(self, suffix: str | int | types.Integer) -> None:
         """
-        Sets ``suffix``.
+        Sets `suffix`.
 
         Parameters:
             suffix: Thermal time index.
@@ -84,7 +84,7 @@ class Tmp(_option.CellOption):
     @temperature.setter
     def temperature(self, temperature: list[str] | list[float] | list[types.Real]) -> None:
         """
-        Sets ``temperature``.
+        Sets `temperature`.
 
         Parameters:
             temperature: Temperature at time index.

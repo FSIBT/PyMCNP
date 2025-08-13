@@ -16,7 +16,7 @@ class Convert(_doer.Doer):
 
     def __init__(self, outp: Outp):
         """
-        Initializes ``Convert``.
+        Initializes `Convert`.
 
         Parameters:
             outp: OUTP to convert.

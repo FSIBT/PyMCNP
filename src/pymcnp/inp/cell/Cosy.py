@@ -7,7 +7,7 @@ from ... import errors
 
 class Cosy(_option.CellOption):
     """
-    Represents INP cosy elements.
+    Represents INP `cosy` elements.
     """
 
     _KEYWORD = 'cosy'
@@ -20,7 +20,7 @@ class Cosy(_option.CellOption):
 
     def __init__(self, number: str | int | types.Integer):
         """
-        Initializes ``Cosy``.
+        Initializes `Cosy`.
 
         Parameters:
             number: Cell cosy map number.
@@ -46,7 +46,7 @@ class Cosy(_option.CellOption):
     @number.setter
     def number(self, number: str | int | types.Integer) -> None:
         """
-        Sets ``number``.
+        Sets `number`.
 
         Parameters:
             number: Cell cosy map number.

@@ -7,7 +7,7 @@ from ... import errors
 
 class Mat(_option.LikeOption):
     """
-    Represents INP mat elements.
+    Represents INP `mat` elements.
     """
 
     _KEYWORD = 'mat'
@@ -20,7 +20,7 @@ class Mat(_option.LikeOption):
 
     def __init__(self, material: types.Integer):
         """
-        Initializes ``Mat``.
+        Initializes `Mat`.
 
         Parameters:
             material: Cell material.
@@ -34,10 +34,10 @@ class Mat(_option.LikeOption):
     @property
     def material(self) -> types.Integer:
         """
-        Gets ``material``.
+        Gets `material`.
 
         Returns:
-            ``material``.
+            `material`.
         """
 
         return self._material
@@ -45,7 +45,7 @@ class Mat(_option.LikeOption):
     @material.setter
     def material(self, material: str | int | types.Integer) -> None:
         """
-        Sets ``material``.
+        Sets `material`.
 
         Parameters:
             material: Cell material.

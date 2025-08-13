@@ -8,7 +8,7 @@ from ... import errors
 
 class Cz(_option.SurfaceOption):
     """
-    Represents INP cz elements.
+    Represents INP `cz` elements.
     """
 
     _KEYWORD = 'cz'
@@ -21,7 +21,7 @@ class Cz(_option.SurfaceOption):
 
     def __init__(self, r: str | int | float | types.Real):
         """
-        Initializes ``Cz``.
+        Initializes `Cz`.
 
         Parameters:
             r: On-z-axis cylinder radius.
@@ -47,7 +47,7 @@ class Cz(_option.SurfaceOption):
     @r.setter
     def r(self, r: str | int | float | types.Real) -> None:
         """
-        Sets ``r``.
+        Sets `r`.
 
         Parameters:
             r: On-z-axis cylinder radius.
@@ -72,13 +72,13 @@ class Cz(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Cz``.
+        Generates `Visualization` from `Cz`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``Cz``.
+            `_show.Shape` for `Cz`.
         """
 
         vis = shapes.CylinderUnbounded(float(self.r))

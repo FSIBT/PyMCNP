@@ -7,7 +7,7 @@ from ... import errors
 
 class Fcl(_option.CellOption):
     """
-    Represents INP fcl elements.
+    Represents INP `fcl` elements.
     """
 
     _KEYWORD = 'fcl'
@@ -21,7 +21,7 @@ class Fcl(_option.CellOption):
 
     def __init__(self, designator: str | types.Designator, control: str | int | float | types.Real):
         """
-        Initializes ``Fcl``.
+        Initializes `Fcl`.
 
         Parameters:
             designator: Cell particle designator.
@@ -49,7 +49,7 @@ class Fcl(_option.CellOption):
     @designator.setter
     def designator(self, designator: str | types.Designator) -> None:
         """
-        Sets ``designator``.
+        Sets `designator`.
 
         Parameters:
             designator: Cell particle designator.
@@ -85,7 +85,7 @@ class Fcl(_option.CellOption):
     @control.setter
     def control(self, control: str | int | float | types.Real) -> None:
         """
-        Sets ``control``.
+        Sets `control`.
 
         Parameters:
             control: Cell forced-collision control.

@@ -25,7 +25,7 @@ class P_0(_line.EventLine):
         z: types.Real,
     ):
         """
-        Initializes ``P_0``.
+        Initializes `P_0`.
 
         Parameters:
             x: X coordinate of the particle position.
@@ -51,13 +51,13 @@ class P_0(_line.EventLine):
 
     def from_mcnp(source: str):
         """
-        Generates ``P_0`` from PTRAC.
+        Generates `P_0` from PTRAC.
 
         Parameters:
-            source: PTRAC for ``P_0``.
+            source: PTRAC for `P_0`.
 
         Returns:
-            ``P_0``.
+            `P_0`.
 
         Raises:
             PtracError: SYNTAX_LINE.
@@ -80,10 +80,10 @@ class P_0(_line.EventLine):
 
     def to_mcnp(self):
         """
-        Generates PTRAC from ``P_0``.
+        Generates PTRAC from `P_0`.
 
         Returns:
-            PTRAC for ``P_0``.
+            PTRAC for `P_0`.
         """
 
         x = f'{self.x:5.1a}'

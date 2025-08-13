@@ -12,7 +12,7 @@ class CylinderHexagonal(_shape.PyvistaShape):
 
     def __init__(self, h: float, a: float, b: float, c: float):
         """
-        Initializes ``CylinderHexagonal``.
+        Initializes `CylinderHexagonal`.
 
         Paremeters:
             a: Hexagon apothem length #1.

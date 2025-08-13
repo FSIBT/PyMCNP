@@ -8,7 +8,7 @@ class Keyword(_symbol.Terminal):
 
     def to_mcnp(self):
         """
-        Generates PTRAC from ``Keyword``.
+        Generates PTRAC from `Keyword`.
 
         Returns:
             PTRAC keyword.

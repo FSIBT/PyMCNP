@@ -8,7 +8,7 @@ from .. import errors
 
 class Mcnp(_block.Block):
     """
-    Represents OUTP ``1mcnp`` tables.
+    Represents OUTP `1mcnp` tables.
 
     Attributes:
         version: Simulation version.
@@ -62,7 +62,7 @@ class Mcnp(_block.Block):
         messages: types.String,
     ):
         """
-        Initializes ``Mcnp``.
+        Initializes `Mcnp`.
 
         Parameters:
             version: Simulation version.
@@ -144,13 +144,13 @@ class Mcnp(_block.Block):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Mcnp`` from OUTP.
+        Generates `Mcnp` from OUTP.
 
         Parameters:
-            source: OUTP for ``Mcnp``.
+            source: OUTP for `Mcnp`.
 
         Returns:
-            ``Mcnp``.
+            `Mcnp`.
 
         Raises:
             OutpError: SYNTAX_TABLE.
@@ -195,10 +195,10 @@ class Mcnp(_block.Block):
 
     def to_mcnp(self):
         """
-        Generates OUTP from ``Mcnp``.
+        Generates OUTP from `Mcnp`.
 
         Returns:
-            OUTP for ``Mcnp``.
+            OUTP for `Mcnp`.
         """
 
         return f"""

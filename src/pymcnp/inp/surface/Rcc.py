@@ -10,7 +10,7 @@ from ... import errors
 
 class Rcc(_option.SurfaceOption):
     """
-    Represents INP rcc elements.
+    Represents INP `rcc` elements.
     """
 
     _KEYWORD = 'rcc'
@@ -41,7 +41,7 @@ class Rcc(_option.SurfaceOption):
         r: str | int | float | types.Real,
     ):
         """
-        Initializes ``Rcc``.
+        Initializes `Rcc`.
 
         Parameters:
             vx: Circular cylinder macrobody position vector x component.
@@ -79,7 +79,7 @@ class Rcc(_option.SurfaceOption):
     @vx.setter
     def vx(self, vx: str | int | float | types.Real) -> None:
         """
-        Sets ``vx``.
+        Sets `vx`.
 
         Parameters:
             vx: Circular cylinder macrobody position vector x component.
@@ -117,7 +117,7 @@ class Rcc(_option.SurfaceOption):
     @vy.setter
     def vy(self, vy: str | int | float | types.Real) -> None:
         """
-        Sets ``vy``.
+        Sets `vy`.
 
         Parameters:
             vy: Circular cylinder macrobody position vector y component.
@@ -155,7 +155,7 @@ class Rcc(_option.SurfaceOption):
     @vz.setter
     def vz(self, vz: str | int | float | types.Real) -> None:
         """
-        Sets ``vz``.
+        Sets `vz`.
 
         Parameters:
             vz: Circular cylinder macrobody position vector z component.
@@ -193,7 +193,7 @@ class Rcc(_option.SurfaceOption):
     @hx.setter
     def hx(self, hx: str | int | float | types.Real) -> None:
         """
-        Sets ``hx``.
+        Sets `hx`.
 
         Parameters:
             hx: Circular cylinder macrobody height vector x component.
@@ -231,7 +231,7 @@ class Rcc(_option.SurfaceOption):
     @hy.setter
     def hy(self, hy: str | int | float | types.Real) -> None:
         """
-        Sets ``hy``.
+        Sets `hy`.
 
         Parameters:
             hy: Circular cylinder macrobody height vector y component.
@@ -269,7 +269,7 @@ class Rcc(_option.SurfaceOption):
     @hz.setter
     def hz(self, hz: str | int | float | types.Real) -> None:
         """
-        Sets ``hz``.
+        Sets `hz`.
 
         Parameters:
             hz: Circular cylinder macrobody height vector z component.
@@ -307,7 +307,7 @@ class Rcc(_option.SurfaceOption):
     @r.setter
     def r(self, r: str | int | float | types.Real) -> None:
         """
-        Sets ``r``.
+        Sets `r`.
 
         Parameters:
             r: Circular cylinder macrobody radius.
@@ -332,13 +332,13 @@ class Rcc(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Rcc``.
+        Generates `Visualization` from `Rcc`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``Rcc``
+            `_show.Shape` for `Rcc`
         """
 
         v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))

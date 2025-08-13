@@ -8,7 +8,7 @@ from .. import errors
 
 class NeutronActivity(_block.Block):
     """
-    Represents OUTP ``1neutron activity in each cell`` blocks.
+    Represents OUTP `1neutron activity in each cell` blocks.
 
     Attributes:
         cells: Activity table.
@@ -36,7 +36,7 @@ class NeutronActivity(_block.Block):
         total_weighted_collisions: types.String,
     ):
         """
-        Initializes ``NeutronActivity``.
+        Initializes `NeutronActivity`.
 
         Parameters:
             cells: Activity table.
@@ -69,13 +69,13 @@ class NeutronActivity(_block.Block):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``NeutronActivity`` from OUTP.
+        Generates `NeutronActivity` from OUTP.
 
         Parameters:
-            source: OUTP for ``NeutronActivity``.
+            source: OUTP for `NeutronActivity`.
 
         Returns:
-            ``NeutronActivity``.
+            `NeutronActivity`.
         """
 
         tokens = NeutronActivity._REGEX.match(source)
@@ -99,10 +99,10 @@ class NeutronActivity(_block.Block):
 
     def to_mcnp(self):
         """
-        Generates OUTP from ``NeutronActivity``.
+        Generates OUTP from `NeutronActivity`.
 
         Returns:
-            OUTP for ``NeutronActivity``.
+            OUTP for `NeutronActivity`.
         """
 
         return f"""

@@ -23,7 +23,7 @@ from ..Convert import Convert
 
 def main() -> None:
     """
-    Executes the ``pymcnp convert`` command.
+    Executes the `pymcnp convert` command.
     """
 
     _io.disclaimer()

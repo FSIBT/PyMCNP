@@ -13,13 +13,13 @@ class Entry(_symbol.InpNonterminal):
     @classmethod
     def from_mcnp(cls, source: str):
         """
-        Generates ``Entry`` from INP.
+        Generates `Entry` from INP.
 
         Parameters:
-            source: ``Entry`` for INP.
+            source: `Entry` for INP.
 
         Returns:
-            ``Entry``.
+            `Entry`.
 
         Raises:
             InpError: SYNTAX_OPTION.
@@ -44,10 +44,10 @@ class Entry(_symbol.InpNonterminal):
 
     def to_mcnp(self):
         """
-        Generates INP from ``Entry``.
+        Generates INP from `Entry`.
 
         Returns:
-            INP for ``Entry``.
+            INP for `Entry`.
         """
 
         value = []

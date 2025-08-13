@@ -11,7 +11,7 @@ from ... import errors
 
 class Rhp(_option.SurfaceOption):
     """
-    Represents INP rhp elements.
+    Represents INP `rhp` elements.
     """
 
     _KEYWORD = 'rhp'
@@ -58,7 +58,7 @@ class Rhp(_option.SurfaceOption):
         t3: str | int | float | types.Real = None,
     ):
         """
-        Initializes ``Rhp``.
+        Initializes `Rhp`.
 
         Parameters:
             vx: Hexagonal prism position vector x component.
@@ -112,7 +112,7 @@ class Rhp(_option.SurfaceOption):
     @vx.setter
     def vx(self, vx: str | int | float | types.Real) -> None:
         """
-        Sets ``vx``.
+        Sets `vx`.
 
         Parameters:
             vx: Hexagonal prism position vector x component.
@@ -150,7 +150,7 @@ class Rhp(_option.SurfaceOption):
     @vy.setter
     def vy(self, vy: str | int | float | types.Real) -> None:
         """
-        Sets ``vy``.
+        Sets `vy`.
 
         Parameters:
             vy: Hexagonal prism position vector y component.
@@ -188,7 +188,7 @@ class Rhp(_option.SurfaceOption):
     @vz.setter
     def vz(self, vz: str | int | float | types.Real) -> None:
         """
-        Sets ``vz``.
+        Sets `vz`.
 
         Parameters:
             vz: Hexagonal prism position vector z component.
@@ -226,7 +226,7 @@ class Rhp(_option.SurfaceOption):
     @hx.setter
     def hx(self, hx: str | int | float | types.Real) -> None:
         """
-        Sets ``hx``.
+        Sets `hx`.
 
         Parameters:
             hx: Hexagonal prism height vector x component.
@@ -264,7 +264,7 @@ class Rhp(_option.SurfaceOption):
     @hy.setter
     def hy(self, hy: str | int | float | types.Real) -> None:
         """
-        Sets ``hy``.
+        Sets `hy`.
 
         Parameters:
             hy: Hexagonal prism height vector y component.
@@ -302,7 +302,7 @@ class Rhp(_option.SurfaceOption):
     @hz.setter
     def hz(self, hz: str | int | float | types.Real) -> None:
         """
-        Sets ``hz``.
+        Sets `hz`.
 
         Parameters:
             hz: Hexagonal prism height vector z component.
@@ -340,7 +340,7 @@ class Rhp(_option.SurfaceOption):
     @r1.setter
     def r1(self, r1: str | int | float | types.Real) -> None:
         """
-        Sets ``r1``.
+        Sets `r1`.
 
         Parameters:
             r1: Hexagonal prism facet #1 vector x component.
@@ -378,7 +378,7 @@ class Rhp(_option.SurfaceOption):
     @r2.setter
     def r2(self, r2: str | int | float | types.Real) -> None:
         """
-        Sets ``r2``.
+        Sets `r2`.
 
         Parameters:
             r2: Hexagonal prism facet #1 vector y component.
@@ -416,7 +416,7 @@ class Rhp(_option.SurfaceOption):
     @r3.setter
     def r3(self, r3: str | int | float | types.Real) -> None:
         """
-        Sets ``r3``.
+        Sets `r3`.
 
         Parameters:
             r3: Hexagonal prism facet #1 vector z component.
@@ -454,7 +454,7 @@ class Rhp(_option.SurfaceOption):
     @s1.setter
     def s1(self, s1: str | int | float | types.Real) -> None:
         """
-        Sets ``s1``.
+        Sets `s1`.
 
         Parameters:
             s1: Hexagonal prism facet #2 vector x component.
@@ -489,7 +489,7 @@ class Rhp(_option.SurfaceOption):
     @s2.setter
     def s2(self, s2: str | int | float | types.Real) -> None:
         """
-        Sets ``s2``.
+        Sets `s2`.
 
         Parameters:
             s2: Hexagonal prism facet #2 vector y component.
@@ -524,7 +524,7 @@ class Rhp(_option.SurfaceOption):
     @s3.setter
     def s3(self, s3: str | int | float | types.Real) -> None:
         """
-        Sets ``s3``.
+        Sets `s3`.
 
         Parameters:
             s3: Hexagonal prism facet #2 vector z component.
@@ -559,7 +559,7 @@ class Rhp(_option.SurfaceOption):
     @t1.setter
     def t1(self, t1: str | int | float | types.Real) -> None:
         """
-        Sets ``t1``.
+        Sets `t1`.
 
         Parameters:
             t1: Hexagonal prism facet #3 vector x component.
@@ -594,7 +594,7 @@ class Rhp(_option.SurfaceOption):
     @t2.setter
     def t2(self, t2: str | int | float | types.Real) -> None:
         """
-        Sets ``t2``.
+        Sets `t2`.
 
         Parameters:
             t2: Hexagonal prism facet #3 vector y component.
@@ -629,7 +629,7 @@ class Rhp(_option.SurfaceOption):
     @t3.setter
     def t3(self, t3: str | int | float | types.Real) -> None:
         """
-        Sets ``t3``.
+        Sets `t3`.
 
         Parameters:
             t3: Hexagonal prism facet #3 vector z component.
@@ -651,13 +651,13 @@ class Rhp(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Rhp``.
+        Generates `Visualization` from `Rhp`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``Rhp``
+            `_show.Shape` for `Rhp`
         """
 
         v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))

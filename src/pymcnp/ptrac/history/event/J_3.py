@@ -34,7 +34,7 @@ class J_3(_line.EventLine):
         mat: types.Integer,
     ):
         """
-        Initializes ``J_3``.
+        Initializes `J_3`.
 
         Parameters:
             next_type: Next event type.
@@ -80,13 +80,13 @@ class J_3(_line.EventLine):
 
     def from_mcnp(source: str):
         """
-        Generates ``J_3`` from PTRAC.
+        Generates `J_3` from PTRAC.
 
         Parameters:
-            source: PTRAC for ``J_3``.
+            source: PTRAC for `J_3`.
 
         Returns:
-            ``J_3``.
+            `J_3`.
 
         Raises:
             PtracError: SYNTAX_LINE.
@@ -117,10 +117,10 @@ class J_3(_line.EventLine):
 
     def to_mcnp(self):
         """
-        Generates PTRAC from ``J_3``.
+        Generates PTRAC from `J_3`.
 
         Returns:
-            PTRAC for ``J_3``.
+            PTRAC for `J_3`.
         """
 
         return f' {str(self.next_type):>10}{str(self.node):>10}{str(self.nsx_nsf_nter):>10}{str(self.ntyn_mtp_angle_branch):>10}{str(self.ipt):>10}{str(self.ncl):>10}{str(self.mat):>10}'

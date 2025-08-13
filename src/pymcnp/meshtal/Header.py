@@ -51,7 +51,7 @@ class Header(_block.Block):
         bins_time: types.String = None,
     ):
         """
-        Initializes ``Header``.
+        Initializes `Header`.
 
         Parameters:
             code: Simulation name.
@@ -118,13 +118,13 @@ class Header(_block.Block):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Header`` from MESHTAL.
+        Generates `Header` from MESHTAL.
 
         Parameters:
-            source: MESHTAL for ``Header``.
+            source: MESHTAL for `Header`.
 
         Returns:
-            ``Header``.
+            `Header`.
 
         Raises:
             PtracError: SYNTAX_BLOCK.
@@ -184,10 +184,10 @@ class Header(_block.Block):
 
     def to_mcnp(self):
         """
-        Generates MESTHAL from ``Header``.
+        Generates MESTHAL from `Header`.
 
         Returns:
-            INP for ``Header``.
+            INP for `Header`.
         """
 
         bins = ''

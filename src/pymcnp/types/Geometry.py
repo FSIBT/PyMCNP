@@ -17,14 +17,14 @@ class _Intersection(_type._Nonterminal):
 
     def __init__(self, left: _type._Nonterminal, right: _type._Nonterminal):
         """
-        Initializes ``_Intersection``.
+        Initializes `_Intersection`.
 
         Parameters:
             left: Left abstract syntax tree.
             right: Right abstract syntax tree.
 
         Returns:
-            ``_Intersection``.
+            `_Intersection`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -39,13 +39,13 @@ class _Intersection(_type._Nonterminal):
     @staticmethod
     def from_mcnp(tokens: list[str]):
         """
-        Generates ``_Intersection`` from INP.
+        Generates `_Intersection` from INP.
 
         Parameters:
             tokens: Geometry tokens.
 
         Returns:
-            ``_Intersection``, tokens
+            `_Intersection`, tokens
 
         Raises:
             SyntaxError: SYNTAX_TYPE.
@@ -64,24 +64,24 @@ class _Intersection(_type._Nonterminal):
 
     def to_mcnp(self):
         """
-        Generates INP from ``_Intersection``.
+        Generates INP from `_Intersection`.
 
         Returns:
-            INP for ``_Intersection``.
+            INP for `_Intersection`.
         """
 
         return f'{self.left} {self.right}'
 
     def to_show(self, surfaces: dict[str, _show.Shape], cells: dict[str, _show.Shape], shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``_Intersection``.
+        Generates `Visualization` from `_Intersection`.
 
         Paramaters:
             surfaces: Dictionary of surfaces and visualizations.
             shapes: Collection of shapes.
 
         Returns:
-            ``Visualization`` for ``_Intersection``
+            `Visualization` for `_Intersection`
         """
 
         return self.left.to_show(surfaces, cells, shapes) & self.right.to_show(surfaces, cells, shapes)
@@ -98,14 +98,14 @@ class _Union(_type._Nonterminal):
 
     def __init__(self, left: _type._Nonterminal, right: _type._Nonterminal):
         """
-        Initializes ``_Union``.
+        Initializes `_Union`.
 
         Parameters:
             left: Left abstract syntax tree.
             right: Right abstract syntax tree.
 
         Returns:
-            ``_Union``.
+            `_Union`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -120,13 +120,13 @@ class _Union(_type._Nonterminal):
     @staticmethod
     def from_mcnp(tokens: list[str]):
         """
-        Generates ``_Union`` from INP.
+        Generates `_Union` from INP.
 
         Parameters:
             tokens: Geometry tokens.
 
         Returns:
-            ``_Union``, tokens
+            `_Union`, tokens
 
         Raises:
             SyntaxError: SYNTAX_TYPE.
@@ -156,24 +156,24 @@ class _Union(_type._Nonterminal):
 
     def to_mcnp(self):
         """
-        Generates INP from ``_Union``.
+        Generates INP from `_Union`.
 
         Returns:
-            INP for ``_Union``.
+            INP for `_Union`.
         """
 
         return f'{self.left}:{self.right}'
 
     def to_show(self, surfaces: dict[str, _show.Shape], cells: dict[str, _show.Shape], shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``_Union``.
+        Generates `Visualization` from `_Union`.
 
         Paramaters:
             surfaces: Dictionary of surfaces and visualizations.
             shapes: Collection of shapes.
 
         Returns:
-            ``Visualization`` for ``_Union``
+            `Visualization` for `_Union`
         """
 
         return self.left.to_show(surfaces, cells, shapes) | self.right.to_show(surfaces, cells, shapes)
@@ -190,14 +190,14 @@ class _Unary(_type._Nonterminal):
 
     def __init__(self, operator: str, operand: _type._Nonterminal):
         """
-        Initializes ``_Unary``.
+        Initializes `_Unary`.
 
         Parameters:
             operator: Unary operator.
             operand: Operand abstract syntax tree.
 
         Returns:
-            ``_Unary``.
+            `_Unary`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -212,13 +212,13 @@ class _Unary(_type._Nonterminal):
     @staticmethod
     def from_mcnp(tokens: list[str]):
         """
-        Generates ``_Unary`` from INP.
+        Generates `_Unary` from INP.
 
         Parameters:
             tokens: Geometry tokens.
 
         Returns:
-            ``_Unary``, tokens
+            `_Unary`, tokens
 
         Raises:
             SyntaxError: SYNTAX_TYPE.
@@ -236,24 +236,24 @@ class _Unary(_type._Nonterminal):
 
     def to_mcnp(self):
         """
-        Generates INP from ``_Unary``.
+        Generates INP from `_Unary`.
 
         Returns:
-            INP for ``_Unary``.
+            INP for `_Unary`.
         """
 
         return f'{self.operator}{self.operand}'
 
     def to_show(self, surfaces: dict[str, _show.Shape], cells: dict[str, _show.Shape], shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``_Unary``.
+        Generates `Visualization` from `_Unary`.
 
         Paramaters:
             surfaces: Dictionary of surfaces and visualizations.
             shapes: Collection of shapes.
 
         Returns:
-            ``Visualization`` for ``_Unary``
+            `Visualization` for `_Unary`
         """
 
         if self.operator == '+':
@@ -282,13 +282,13 @@ class _Paren(_type._Nonterminal):
 
     def __init__(self, ast: _type._Nonterminal):
         """
-        Initializes ``_Paren``.
+        Initializes `_Paren`.
 
         Parameters:
             ast: Geometry abstract syntax tree.
 
         Returns:
-            ``_Paren``.
+            `_Paren`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -301,13 +301,13 @@ class _Paren(_type._Nonterminal):
     @staticmethod
     def from_mcnp(tokens: list[str]):
         """
-        Generates ``_Paren`` from INP.
+        Generates `_Paren` from INP.
 
         Parameters:
             tokens: Geometry tokens.
 
         Returns:
-            ``_Paren``, tokens
+            `_Paren`, tokens
 
         Raises:
             SyntaxError.
@@ -324,24 +324,24 @@ class _Paren(_type._Nonterminal):
 
     def to_mcnp(self):
         """
-        Generates INP from ``_Paren``.
+        Generates INP from `_Paren`.
 
         Returns:
-            INP for ``_Paren``.
+            INP for `_Paren`.
         """
 
         return f'({self.ast})'
 
     def to_show(self, surfaces: dict[str, _show.Shape], cells: dict[str, _show.Shape], shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``_Paren``.
+        Generates `Visualization` from `_Paren`.
 
         Paramaters:
             surfaces: Dictionary of surfaces and visualizations.
             shapes: Collection of shapes.
 
         Returns:
-            ``Visualization`` for ``_Paren``
+            `Visualization` for `_Paren`
         """
 
         return self.ast.to_show(surfaces, cells, shapes)
@@ -359,13 +359,13 @@ class _Digit(_type._Nonterminal):
 
     def __init__(self, value: str):
         """
-        Initializes ``_Digit``.
+        Initializes `_Digit`.
 
         Parameters:
             value: Surface or facet number.
 
         Returns:
-            ``_Digit``, tokens
+            `_Digit`, tokens
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -378,13 +378,13 @@ class _Digit(_type._Nonterminal):
     @staticmethod
     def from_mcnp(tokens: list[str]):
         """
-        Generates ``_Digit`` from INP.
+        Generates `_Digit` from INP.
 
         Parameters:
             tokens: Geometry tokens.
 
         Returns:
-            ``_Digit``, tokens
+            `_Digit`, tokens
 
         Raises:
             SyntaxError.
@@ -396,24 +396,24 @@ class _Digit(_type._Nonterminal):
 
     def to_mcnp(self):
         """
-        Generates INP from ``_Digit``.
+        Generates INP from `_Digit`.
 
         Returns:
-            INP for ``_Digit``.
+            INP for `_Digit`.
         """
 
         return self.value
 
     def to_show(self, surfaces: dict[str, _show.Shape], cells: dict[str, _show.Shape], shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``_Digit``.
+        Generates `Visualization` from `_Digit`.
 
         Paramaters:
             surfaces: Dictionary of surfaces and visualizations.
             shapes: Collection of shapes.
 
         Returns:
-            ``Visualization`` for ``_Digit``
+            `Visualization` for `_Digit`
         """
 
         if self.value in surfaces:
@@ -434,13 +434,13 @@ class Geometry(_type.Type):
 
     def __init__(self, ast: _type._Nonterminal):
         """
-        Initializes ``Geometry``.
+        Initializes `Geometry`.
 
         Parameters:
             ast: Geometry abstract syntax tree.
 
         Returns:
-            ``Geometry``.
+            `Geometry`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -454,13 +454,13 @@ class Geometry(_type.Type):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Geometry`` from INP.
+        Generates `Geometry` from INP.
 
         Parameters:
-            INP for ``Geometry``.
+            INP for `Geometry`.
 
         Returns:
-            ``Geometry``.
+            `Geometry`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -486,68 +486,68 @@ class Geometry(_type.Type):
 
     def to_mcnp(self):
         """
-        Generates INP from ``Geometry``.
+        Generates INP from `Geometry`.
 
         Returns:
-            INP for ``Geometry``.
+            INP for `Geometry`.
         """
 
         return self.ast.to_mcnp()
 
     def __and__(a, b):
         """
-        Unites ``Geometry``.
+        Unites `Geometry`.
 
         Parameters:
             a: Operand #1.
             b: Operand #2.
 
         Returns:
-            ``Geometry`` union.
+            `Geometry` union.
         """
 
         return Geometry(_Union(a.ast, b.ast))
 
     def __or__(a, b):
         """
-        Intersects ``Geometry``.
+        Intersects `Geometry`.
 
         Parameters:
             a: Operand #1.
             b: Operand #2.
 
         Returns:
-            ``Geometry`` intersection.
+            `Geometry` intersection.
         """
 
         return Geometry(_Intersection(a.ast, b.ast))
 
     def __neg__(self):
         """
-        Negatives ``Geometry``.
+        Negatives `Geometry`.
 
         Returns:
-            ``Geometry`` negative.
+            `Geometry` negative.
         """
 
         return Geometry(_Unary('-', self.ast))
 
     def __pos__(self):
         """
-        Positives ``Geometry``.
+        Positives `Geometry`.
 
         Returns:
-            ``Geometry`` positive.
+            `Geometry` positive.
         """
 
         return Geometry(_Unary('+', self.ast))
 
     def __invert__(self):
         """
-        Inverts ``Geometry``.
+        Inverts `Geometry`.
 
         Returns:
-            ``Geometry`` complement.
+            `Geometry` complement.
         """
 
         return Geometry(_Unary('#', self.ast))

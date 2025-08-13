@@ -7,7 +7,7 @@ from ... import errors
 
 class Dxc(_option.LikeOption):
     """
-    Represents INP dxc elements.
+    Represents INP `dxc` elements.
     """
 
     _KEYWORD = 'dxc'
@@ -22,7 +22,7 @@ class Dxc(_option.LikeOption):
 
     def __init__(self, suffix: str | int | types.Integer, designator: str | types.Designator, probability: str | int | float | types.Real):
         """
-        Initializes ``Dxc``.
+        Initializes `Dxc`.
 
         Parameters:
             suffix: Cell option suffix.
@@ -40,10 +40,10 @@ class Dxc(_option.LikeOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Gets `suffix`.
 
         Returns:
-            ``suffix``.
+            `suffix`.
         """
 
         return self._suffix
@@ -51,7 +51,7 @@ class Dxc(_option.LikeOption):
     @suffix.setter
     def suffix(self, suffix: str | int | types.Integer) -> None:
         """
-        Sets ``suffix``.
+        Sets `suffix`.
 
         Parameters:
             suffix: Cell option suffix.
@@ -77,10 +77,10 @@ class Dxc(_option.LikeOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Gets `designator`.
 
         Returns:
-            ``designator``.
+            `designator`.
         """
 
         return self._designator
@@ -88,7 +88,7 @@ class Dxc(_option.LikeOption):
     @designator.setter
     def designator(self, designator: str | types.Designator) -> None:
         """
-        Sets ``designator``.
+        Sets `designator`.
 
         Parameters:
             designator: Cell particle designator.
@@ -112,10 +112,10 @@ class Dxc(_option.LikeOption):
     @property
     def probability(self) -> types.Real:
         """
-        Gets ``probability``.
+        Gets `probability`.
 
         Returns:
-            ``probability``.
+            `probability`.
         """
 
         return self._probability
@@ -123,7 +123,7 @@ class Dxc(_option.LikeOption):
     @probability.setter
     def probability(self, probability: str | int | float | types.Real) -> None:
         """
-        Sets ``probability``.
+        Sets `probability`.
 
         Parameters:
             probability: Cell probability of DXTRAN contribution.

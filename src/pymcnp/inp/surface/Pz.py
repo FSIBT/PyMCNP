@@ -8,7 +8,7 @@ from ... import errors
 
 class Pz(_option.SurfaceOption):
     """
-    Represents INP pz elements.
+    Represents INP `pz` elements.
     """
 
     _KEYWORD = 'pz'
@@ -21,7 +21,7 @@ class Pz(_option.SurfaceOption):
 
     def __init__(self, d: str | int | float | types.Real):
         """
-        Initializes ``Pz``.
+        Initializes `Pz`.
 
         Parameters:
             d: Normal-to-the-z-axis plane D coefficent.
@@ -47,7 +47,7 @@ class Pz(_option.SurfaceOption):
     @d.setter
     def d(self, d: str | int | float | types.Real) -> None:
         """
-        Sets ``d``.
+        Sets `d`.
 
         Parameters:
             d: Normal-to-the-z-axis plane D coefficent.
@@ -72,13 +72,13 @@ class Pz(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Pz``.
+        Generates `Visualization` from `Pz`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``Pz``
+            `_show.Shape` for `Pz`
         """
 
         vis = shapes.Plane(0, 0, 1, float(self.d))

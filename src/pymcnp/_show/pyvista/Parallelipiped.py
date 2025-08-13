@@ -11,7 +11,7 @@ class Parallelipiped(_shape.PyvistaShape):
 
     def __init__(self, xmin: float, xmax: float, ymin: float, ymax: float, zmin: float, zmax: float):
         """
-        Initializes ``Parallelipiped``.
+        Initializes `Parallelipiped`.
 
         Paremeters:
             xmin: Parllelipied lower x bound.

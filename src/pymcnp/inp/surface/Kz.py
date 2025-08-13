@@ -10,7 +10,7 @@ from ... import errors
 
 class Kz(_option.SurfaceOption):
     """
-    Represents INP kz elements.
+    Represents INP `kz` elements.
     """
 
     _KEYWORD = 'kz'
@@ -25,7 +25,7 @@ class Kz(_option.SurfaceOption):
 
     def __init__(self, z: str | int | float | types.Real, t_squared: str | int | float | types.Real, plusminus_1: str | int | float | types.Real):
         """
-        Initializes ``Kz``.
+        Initializes `Kz`.
 
         Parameters:
             z: On-z-axis cone center z component.
@@ -55,7 +55,7 @@ class Kz(_option.SurfaceOption):
     @z.setter
     def z(self, z: str | int | float | types.Real) -> None:
         """
-        Sets ``z``.
+        Sets `z`.
 
         Parameters:
             z: On-z-axis cone center z component.
@@ -93,7 +93,7 @@ class Kz(_option.SurfaceOption):
     @t_squared.setter
     def t_squared(self, t_squared: str | int | float | types.Real) -> None:
         """
-        Sets ``t_squared``.
+        Sets `t_squared`.
 
         Parameters:
             t_squared: On-z-axis cone t^2 coefficent.
@@ -131,7 +131,7 @@ class Kz(_option.SurfaceOption):
     @plusminus_1.setter
     def plusminus_1(self, plusminus_1: str | int | float | types.Real) -> None:
         """
-        Sets ``plusminus_1``.
+        Sets `plusminus_1`.
 
         Parameters:
             plusminus_1: On-z-axis cone sheet selector.
@@ -156,13 +156,13 @@ class Kz(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Kz``.
+        Generates `Visualization` from `Kz`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``Kz``.
+            `_show.Shape` for `Kz`.
         """
 
         vis = shapes.ConeUnbounded(float(self.t_squared) ** (1 / 2), float(self.plusminus_1))

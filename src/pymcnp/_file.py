@@ -13,7 +13,7 @@ class File(_symbol.Nonterminal, metaclass=abc.ABCMeta):
     @classmethod
     def from_file(cls, filename: pathlib.Path | str):
         """
-        Generates ``McnpFile`` from MCNP files.
+        Generates `McnpFile` from MCNP files.
 
         Parameters:
             filename: MCNP file path.
@@ -33,7 +33,7 @@ class File(_symbol.Nonterminal, metaclass=abc.ABCMeta):
 
     def to_file(self, filename: str | pathlib.Path):
         """
-        Generates MCNP files from ``McnpFile``.
+        Generates MCNP files from `McnpFile`.
 
         Parameters:
             filename: new MCNP file path.

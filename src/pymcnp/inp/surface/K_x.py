@@ -10,7 +10,7 @@ from ... import errors
 
 class K_x(_option.SurfaceOption):
     """
-    Represents INP k/x elements.
+    Represents INP `k/x` elements.
     """
 
     _KEYWORD = 'k/x'
@@ -37,7 +37,7 @@ class K_x(_option.SurfaceOption):
         plusminus_1: str | int | float | types.Real,
     ):
         """
-        Initializes ``K_x``.
+        Initializes `K_x`.
 
         Parameters:
             x: Parallel-to-x-axis cone center x component.
@@ -71,7 +71,7 @@ class K_x(_option.SurfaceOption):
     @x.setter
     def x(self, x: str | int | float | types.Real) -> None:
         """
-        Sets ``x``.
+        Sets `x`.
 
         Parameters:
             x: Parallel-to-x-axis cone center x component.
@@ -109,7 +109,7 @@ class K_x(_option.SurfaceOption):
     @y.setter
     def y(self, y: str | int | float | types.Real) -> None:
         """
-        Sets ``y``.
+        Sets `y`.
 
         Parameters:
             y: Parallel-to-x-axis cone center y component.
@@ -147,7 +147,7 @@ class K_x(_option.SurfaceOption):
     @z.setter
     def z(self, z: str | int | float | types.Real) -> None:
         """
-        Sets ``z``.
+        Sets `z`.
 
         Parameters:
             z: Parallel-to-x-axis cone center z component.
@@ -185,7 +185,7 @@ class K_x(_option.SurfaceOption):
     @t_squared.setter
     def t_squared(self, t_squared: str | int | float | types.Real) -> None:
         """
-        Sets ``t_squared``.
+        Sets `t_squared`.
 
         Parameters:
             t_squared: Parallel-to-x-axis cone t^2 coefficent.
@@ -223,7 +223,7 @@ class K_x(_option.SurfaceOption):
     @plusminus_1.setter
     def plusminus_1(self, plusminus_1: str | int | float | types.Real) -> None:
         """
-        Sets ``plusminus_1``.
+        Sets `plusminus_1`.
 
         Parameters:
             plusminus_1: Parallel-to-x-axis cone sheet selector.
@@ -248,13 +248,13 @@ class K_x(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``K_x``.
+        Generates `Visualization` from `K_x`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``K_x``.
+            `_show.Shape` for `K_x`.
         """
 
         vis = shapes.ConeUnbounded(float(self.t_squared) ** (1 / 2), float(self.plusminus_1))

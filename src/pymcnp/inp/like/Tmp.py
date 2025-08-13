@@ -7,7 +7,7 @@ from ... import errors
 
 class Tmp(_option.LikeOption):
     """
-    Represents INP tmp elements.
+    Represents INP `tmp` elements.
     """
 
     _KEYWORD = 'tmp'
@@ -21,7 +21,7 @@ class Tmp(_option.LikeOption):
 
     def __init__(self, temperature: list[str] | list[float] | list[types.Real], suffix: str | int | types.Integer = None):
         """
-        Initializes ``Tmp``.
+        Initializes `Tmp`.
 
         Parameters:
             suffix: Thermal time index.
@@ -37,10 +37,10 @@ class Tmp(_option.LikeOption):
     @property
     def suffix(self) -> types.Integer:
         """
-        Gets ``suffix``.
+        Gets `suffix`.
 
         Returns:
-            ``suffix``.
+            `suffix`.
         """
 
         return self._suffix
@@ -48,7 +48,7 @@ class Tmp(_option.LikeOption):
     @suffix.setter
     def suffix(self, suffix: str | int | types.Integer) -> None:
         """
-        Sets ``suffix``.
+        Sets `suffix`.
 
         Parameters:
             suffix: Thermal time index.
@@ -71,10 +71,10 @@ class Tmp(_option.LikeOption):
     @property
     def temperature(self) -> types.Tuple(types.Real):
         """
-        Gets ``temperature``.
+        Gets `temperature`.
 
         Returns:
-            ``temperature``.
+            `temperature`.
         """
 
         return self._temperature
@@ -82,7 +82,7 @@ class Tmp(_option.LikeOption):
     @temperature.setter
     def temperature(self, temperature: list[str] | list[float] | list[types.Real]) -> None:
         """
-        Sets ``temperature``.
+        Sets `temperature`.
 
         Parameters:
             temperature: Temperature at time index.

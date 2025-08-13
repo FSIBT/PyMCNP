@@ -7,7 +7,7 @@ from ... import errors
 
 class Z(_option.SurfaceOption):
     """
-    Represents INP z elements.
+    Represents INP `z` elements.
     """
 
     _KEYWORD = 'z'
@@ -36,7 +36,7 @@ class Z(_option.SurfaceOption):
         r3: str | int | float | types.Real = None,
     ):
         """
-        Initializes ``Z``.
+        Initializes `Z`.
 
         Parameters:
             z1: Z-axisymmetric point-defined surface point #1 z component.
@@ -72,7 +72,7 @@ class Z(_option.SurfaceOption):
     @z1.setter
     def z1(self, z1: str | int | float | types.Real) -> None:
         """
-        Sets ``z1``.
+        Sets `z1`.
 
         Parameters:
             z1: Z-axisymmetric point-defined surface point #1 z component.
@@ -110,7 +110,7 @@ class Z(_option.SurfaceOption):
     @r1.setter
     def r1(self, r1: str | int | float | types.Real) -> None:
         """
-        Sets ``r1``.
+        Sets `r1`.
 
         Parameters:
             r1: Z-axisymmetric point-defined surface point #1 radius.
@@ -148,7 +148,7 @@ class Z(_option.SurfaceOption):
     @z2.setter
     def z2(self, z2: str | int | float | types.Real) -> None:
         """
-        Sets ``z2``.
+        Sets `z2`.
 
         Parameters:
             z2: Z-axisymmetric point-defined surface point #2 z component.
@@ -183,7 +183,7 @@ class Z(_option.SurfaceOption):
     @r2.setter
     def r2(self, r2: str | int | float | types.Real) -> None:
         """
-        Sets ``r2``.
+        Sets `r2`.
 
         Parameters:
             r2: Z-axisymmetric point-defined surface point #2 radius.
@@ -218,7 +218,7 @@ class Z(_option.SurfaceOption):
     @z3.setter
     def z3(self, z3: str | int | float | types.Real) -> None:
         """
-        Sets ``z3``.
+        Sets `z3`.
 
         Parameters:
             z3: Z-axisymmetric point-defined surface point #3 z component.
@@ -253,7 +253,7 @@ class Z(_option.SurfaceOption):
     @r3.setter
     def r3(self, r3: str | int | float | types.Real) -> None:
         """
-        Sets ``r3``.
+        Sets `r3`.
 
         Parameters:
             r3: Z-axisymmetric point-defined surface point #3 radius.

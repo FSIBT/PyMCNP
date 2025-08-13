@@ -3,7 +3,7 @@ from . import _error
 
 class MeshtalCode(_error.Code):
     """
-    Represents ``meshtal`` error codes.
+    Represents `meshtal` error codes.
 
     Notes:
         0x - Syntax
@@ -21,7 +21,7 @@ class MeshtalCode(_error.Code):
 
 class MeshtalError(_error.Error):
     """
-    Represents ``meshtal`` errors.
+    Represents `meshtal` errors.
     """
 
     def __str__(self):

@@ -7,7 +7,7 @@ from ... import errors
 
 class Bflcl(_option.LikeOption):
     """
-    Represents INP bflcl elements.
+    Represents INP `bflcl` elements.
     """
 
     _KEYWORD = 'bflcl'
@@ -20,7 +20,7 @@ class Bflcl(_option.LikeOption):
 
     def __init__(self, number: str | int | types.Integer):
         """
-        Initializes ``Bflcl``.
+        Initializes `Bflcl`.
 
         Parameters:
             number: Cell magnetic field number.
@@ -34,10 +34,10 @@ class Bflcl(_option.LikeOption):
     @property
     def number(self) -> types.Integer:
         """
-        Gets ``number``.
+        Gets `number`.
 
         Returns:
-            ``number``.
+            `number`.
         """
 
         return self._number
@@ -45,7 +45,7 @@ class Bflcl(_option.LikeOption):
     @number.setter
     def number(self, number: str | int | types.Integer) -> None:
         """
-        Sets ``number``.
+        Sets `number`.
 
         Parameters:
             number: Cell magnetic field number.

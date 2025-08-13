@@ -49,7 +49,7 @@ class Transformation_0(_type.Type):
         m: Integer = None,
     ):
         """
-        Initializes ``Transformation_0``.
+        Initializes `Transformation_0`.
 
         Parameters:
             o1: Transformation displacement vector x-coordinate.
@@ -67,7 +67,7 @@ class Transformation_0(_type.Type):
             m: Transformation coordinate system setting.
 
         Returns:
-            ``Transformation_0``.
+            `Transformation_0`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -117,13 +117,13 @@ class Transformation_0(_type.Type):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Transformation_0`` from INP.
+        Generates `Transformation_0` from INP.
 
         Parameters:
-            INP for ``Transformation_0``.
+            INP for `Transformation_0`.
 
         Returns:
-            ``Transformation_0``.
+            `Transformation_0`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -152,10 +152,10 @@ class Transformation_0(_type.Type):
 
     def to_mcnp(self):
         """
-        Generates INP from ``Transformation_0``.
+        Generates INP from `Transformation_0`.
 
         Returns:
-            INP for ``Transformation_0``.
+            INP for `Transformation_0`.
         """
 
         return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.yx} {self.yy} {self.yz} {self.zx} {self.zy} {self.zz} {self.m if self.m is not None else ""}'
@@ -194,7 +194,7 @@ class Transformation_1(_type.Type):
         m: Integer = None,
     ):
         """
-        Initializes ``Transformation_1``.
+        Initializes `Transformation_1`.
 
         Parameters:
             o1: Transformation displacement vector x-coordinate.
@@ -209,7 +209,7 @@ class Transformation_1(_type.Type):
             m: Transformation coordinate system setting.
 
         Returns:
-            ``Transformation_1``.
+            `Transformation_1`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -250,13 +250,13 @@ class Transformation_1(_type.Type):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Transformation_1`` from INP.
+        Generates `Transformation_1` from INP.
 
         Parameters:
-            INP for ``Transformation_1``.
+            INP for `Transformation_1`.
 
         Returns:
-            ``Transformation_1``.
+            `Transformation_1`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -282,10 +282,10 @@ class Transformation_1(_type.Type):
 
     def to_mcnp(self):
         """
-        Generates INP from ``Transformation_1``.
+        Generates INP from `Transformation_1`.
 
         Returns:
-            INP for ``Transformation_1``.
+            INP for `Transformation_1`.
         """
 
         return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.yx} {self.yy} {self.yz} {self.m if self.m is not None else ""}'
@@ -322,7 +322,7 @@ class Transformation_2(_type.Type):
         m: Integer = None,
     ):
         """
-        Initializes ``Transformation_2``.
+        Initializes `Transformation_2`.
 
         Parameters:
             o1: Transformation displacement vector x-coordinate.
@@ -336,7 +336,7 @@ class Transformation_2(_type.Type):
             m: Transformation coordinate system setting.
 
         Returns:
-            ``Transformation_2``.
+            `Transformation_2`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -374,13 +374,13 @@ class Transformation_2(_type.Type):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Transformation_2`` from INP.
+        Generates `Transformation_2` from INP.
 
         Parameters:
-            INP for ``Transformation_2``.
+            INP for `Transformation_2`.
 
         Returns:
-            ``Transformation_2``.
+            `Transformation_2`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -405,10 +405,10 @@ class Transformation_2(_type.Type):
 
     def to_mcnp(self):
         """
-        Generates INP from ``Transformation_2``.
+        Generates INP from `Transformation_2`.
 
         Returns:
-            INP for ``Transformation_2``.
+            INP for `Transformation_2`.
         """
 
         return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.yx} {self.yy} {self.m if self.m is not None else ""}'
@@ -441,7 +441,7 @@ class Transformation_3(_type.Type):
         m: Integer = None,
     ):
         """
-        Initializes ``Transformation_3``.
+        Initializes `Transformation_3`.
 
         Parameters:
             o1: Transformation displacement vector x-coordinate.
@@ -453,7 +453,7 @@ class Transformation_3(_type.Type):
             m: Transformation coordinate system setting.
 
         Returns:
-            ``Transformation_3``.
+            `Transformation_3`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -485,13 +485,13 @@ class Transformation_3(_type.Type):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Transformation_3`` from INP.
+        Generates `Transformation_3` from INP.
 
         Parameters:
-            INP for ``Transformation_3``.
+            INP for `Transformation_3`.
 
         Returns:
-            ``Transformation_3``.
+            `Transformation_3`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -514,10 +514,10 @@ class Transformation_3(_type.Type):
 
     def to_mcnp(self):
         """
-        Generates INP from ``Transformation_3``.
+        Generates INP from `Transformation_3`.
 
         Returns:
-            INP for ``Transformation_3``.
+            INP for `Transformation_3`.
         """
 
         return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.m if self.m is not None else ""}'
@@ -544,7 +544,7 @@ class Transformation_4(_type.Type):
         m: Integer = None,
     ):
         """
-        Initializes ``Transformation_4``.
+        Initializes `Transformation_4`.
 
         Parameters:
             o1: Transformation displacement vector x-coordinate.
@@ -553,7 +553,7 @@ class Transformation_4(_type.Type):
             m: Transformation coordinate system setting.
 
         Returns:
-            ``Transformation_4``.
+            `Transformation_4`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -576,13 +576,13 @@ class Transformation_4(_type.Type):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Transformation_4`` from INP.
+        Generates `Transformation_4` from INP.
 
         Parameters:
-            INP for ``Transformation_4``.
+            INP for `Transformation_4`.
 
         Returns:
-            ``Transformation_4``.
+            `Transformation_4`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -602,10 +602,10 @@ class Transformation_4(_type.Type):
 
     def to_mcnp(self):
         """
-        Generates INP from ``Transformation_4``.
+        Generates INP from `Transformation_4`.
 
         Returns:
-            INP for ``Transformation_4``.
+            INP for `Transformation_4`.
         """
 
         return f'{self.o1} {self.o2} {self.o3} {self.m if self.m is not None else ""}'

@@ -16,14 +16,14 @@ class _Embedded(_type._Nonterminal):
 
     def __init__(self, left: _type._Nonterminal, right: _type._Nonterminal):
         """
-        Initializes ``_Embedded``.
+        Initializes `_Embedded`.
 
         Parameters:
             left: Left abstract syntax tree.
             right: Right abstract syntax tree.
 
         Returns:
-            ``_Embedded``.
+            `_Embedded`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -38,14 +38,14 @@ class _Embedded(_type._Nonterminal):
     @staticmethod
     def from_mcnp(tokens):
         """
-        Initializes _Embedded``.
+        Initializes _Embedded`.
 
         Parameters:
             left: Left _Embedded syntax tree.
             right: Right abstract syntax tree.
 
         _Embeddedns:
-            ``_Embedded``.
+            `_Embedded`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -77,10 +77,10 @@ class _Embedded(_type._Nonterminal):
 
     def to_mcnp(self):
         """
-        Generates INP from ``_Embedded``.
+        Generates INP from `_Embedded`.
 
         Returns:
-            INP for ``_Embedded``.
+            INP for `_Embedded`.
         """
 
         return f'{self.left}<{self.right}'
@@ -99,7 +99,7 @@ class _Range(_type._Nonterminal):
 
     def __init__(self, cell: _type._Nonterminal, i: _type._Nonterminal, j: _type._Nonterminal, k: _type._Nonterminal):
         """
-        Initializes ``_Range``.
+        Initializes `_Range`.
 
         Parameters:
             cell: Cell number.
@@ -108,7 +108,7 @@ class _Range(_type._Nonterminal):
             j: Index in the k-direction.
 
         Returns:
-            ``_Range``.
+            `_Range`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -127,13 +127,13 @@ class _Range(_type._Nonterminal):
     @staticmethod
     def from_mcnp(tokens):
         """
-        Generates ``_Range`` from INP.
+        Generates `_Range` from INP.
 
         Parameters:
-            INP for ``_Range``.
+            INP for `_Range`.
 
         Returns:
-            ``_Range``.
+            `_Range`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -165,10 +165,10 @@ class _Range(_type._Nonterminal):
 
     def to_mcnp(self):
         """
-        Generates INP from ``_Range``.
+        Generates INP from `_Range`.
 
         Returns:
-            INP for ``_Range``.
+            INP for `_Range`.
         """
 
         return f'{self.cell}[{self.i} {self.j} {self.k}]'
@@ -184,13 +184,13 @@ class _Paren(_type._Nonterminal):
 
     def __init__(self, ast):
         """
-        Initializes ``_Paren``.
+        Initializes `_Paren`.
 
         Parameters:
             ast: Lattice abstract syntax tree.
 
         Returns:
-            ``_Paren``.
+            `_Paren`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -203,13 +203,13 @@ class _Paren(_type._Nonterminal):
     @staticmethod
     def from_mcnp(tokens):
         """
-        Generates ``_Paren`` from INP.
+        Generates `_Paren` from INP.
 
         Parameters:
-            INP for ``_Paren``.
+            INP for `_Paren`.
 
         Returns:
-            ``_Paren``.
+            `_Paren`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -225,10 +225,10 @@ class _Paren(_type._Nonterminal):
 
     def to_mcnp(self):
         """
-        Generates INP from ``_Paren``.
+        Generates INP from `_Paren`.
 
         Returns:
-            INP for ``_Paren``.
+            INP for `_Paren`.
         """
 
         return f'({self.ast})'
@@ -247,14 +247,14 @@ class _Index(_type._Nonterminal):
 
     def __init__(self, lower: _type._Nonterminal, upper: _type._Nonterminal):
         """
-        Initializes ``_Index``.
+        Initializes `_Index`.
 
         Parameters:
             lower: Lower bound.
             upper: Upper bound.
 
         Returns:
-            ``_Index``.
+            `_Index`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -269,13 +269,13 @@ class _Index(_type._Nonterminal):
     @staticmethod
     def from_mcnp(tokens):
         """
-        Generates ``_Index`` from INP.
+        Generates `_Index` from INP.
 
         Parameters:
-            INP for ``_Index``.
+            INP for `_Index`.
 
         Returns:
-            ``_Index``.
+            `_Index`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -291,10 +291,10 @@ class _Index(_type._Nonterminal):
 
     def to_mcnp(self):
         """
-        Generates INP from ``_Index``.
+        Generates INP from `_Index`.
 
         Returns:
-            INP for ``_Index``.
+            INP for `_Index`.
         """
 
         return f'{self.lower}:{self.upper}'
@@ -312,13 +312,13 @@ class _Digit(_type._Nonterminal):
 
     def __init__(self, value: str):
         """
-        Initializes ``_Digit``.
+        Initializes `_Digit`.
 
         Parameters:
             value: Surface or facet number.
 
         Returns:
-            ``_Digit``.
+            `_Digit`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -331,13 +331,13 @@ class _Digit(_type._Nonterminal):
     @staticmethod
     def from_mcnp(tokens):
         """
-        Generates ``_Digit`` from INP.
+        Generates `_Digit` from INP.
 
         Parameters:
-            INP for ``_Digit``.
+            INP for `_Digit`.
 
         Returns:
-            ``_Digit``.
+            `_Digit`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -350,10 +350,10 @@ class _Digit(_type._Nonterminal):
 
     def to_mcnp(self):
         """
-        Generates INP from ``_Digit``.
+        Generates INP from `_Digit`.
 
         Returns:
-            INP for ``_Digit``.
+            INP for `_Digit`.
         """
 
         return self.value
@@ -371,13 +371,13 @@ class Lattice(_type.Type):
 
     def __init__(self, ast: _type._Nonterminal):
         """
-        Initializes ``Lattice``.
+        Initializes `Lattice`.
 
         Parameters:
             ast: Lattice abstract syntax tree.
 
         Returns:
-            ``Lattice``.
+            `Lattice`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -391,13 +391,13 @@ class Lattice(_type.Type):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Lattice`` from INP.
+        Generates `Lattice` from INP.
 
         Parameters:
-            INP for ``Lattice``.
+            INP for `Lattice`.
 
         Returns:
-            ``Lattice``.
+            `Lattice`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -424,10 +424,10 @@ class Lattice(_type.Type):
 
     def to_mcnp(self):
         """
-        Generates INP from ``Lattice``.
+        Generates INP from `Lattice`.
 
         Returns:
-            INP for ``Lattice``.
+            INP for `Lattice`.
         """
 
         return self.ast.to_mcnp()

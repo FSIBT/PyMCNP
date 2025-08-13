@@ -10,7 +10,7 @@ from ... import errors
 
 class Sz(_option.SurfaceOption):
     """
-    Represents INP sz elements.
+    Represents INP `sz` elements.
     """
 
     _KEYWORD = 'sz'
@@ -24,7 +24,7 @@ class Sz(_option.SurfaceOption):
 
     def __init__(self, z: str | int | float | types.Real, r: str | int | float | types.Real):
         """
-        Initializes ``Sz``.
+        Initializes `Sz`.
 
         Parameters:
             z: On-z-axis sphere center z component.
@@ -52,7 +52,7 @@ class Sz(_option.SurfaceOption):
     @z.setter
     def z(self, z: str | int | float | types.Real) -> None:
         """
-        Sets ``z``.
+        Sets `z`.
 
         Parameters:
             z: On-z-axis sphere center z component.
@@ -90,7 +90,7 @@ class Sz(_option.SurfaceOption):
     @r.setter
     def r(self, r: str | int | float | types.Real) -> None:
         """
-        Sets ``r``.
+        Sets `r`.
 
         Parameters:
             r: On-z-axis sphere radius.
@@ -115,13 +115,13 @@ class Sz(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Sz``.
+        Generates `Visualization` from `Sz`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``Sz``
+            `_show.Shape` for `Sz`
         """
 
         vis = shapes.Sphere(float(self.r))

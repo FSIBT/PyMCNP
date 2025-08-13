@@ -18,7 +18,7 @@ class L(_line.HeaderLine):
 
     def __init__(self, variables: types.Tuple(types.Integer)):
         """
-        Initializes ``L``.
+        Initializes `L`.
 
         Parameters:
             variables: Variable for lines/events.
@@ -34,13 +34,13 @@ class L(_line.HeaderLine):
 
     def from_mcnp(source: str):
         """
-        Generates ``L`` from PTRAC.
+        Generates `L` from PTRAC.
 
         Parameters:
-            source: PTRAC for ``L``.
+            source: PTRAC for `L`.
 
         Returns:
-            ``L``.
+            `L`.
 
         Raises:
             PtracError: SYNTAX_LINE.
@@ -59,10 +59,10 @@ class L(_line.HeaderLine):
 
     def to_mcnp(self):
         """
-        Generates PTRAC from ``L``.
+        Generates PTRAC from `L`.
 
         Returns:
-            PTRAC for ``L``.
+            PTRAC for `L`.
         """
 
         l_line = ' '

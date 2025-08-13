@@ -10,7 +10,7 @@ from ... import errors
 
 class Sx(_option.SurfaceOption):
     """
-    Represents INP sx elements.
+    Represents INP `sx` elements.
     """
 
     _KEYWORD = 'sx'
@@ -24,7 +24,7 @@ class Sx(_option.SurfaceOption):
 
     def __init__(self, x: str | int | float | types.Real, r: str | int | float | types.Real):
         """
-        Initializes ``Sx``.
+        Initializes `Sx`.
 
         Parameters:
             x: On-x-axis sphere center x component.
@@ -52,7 +52,7 @@ class Sx(_option.SurfaceOption):
     @x.setter
     def x(self, x: str | int | float | types.Real) -> None:
         """
-        Sets ``x``.
+        Sets `x`.
 
         Parameters:
             x: On-x-axis sphere center x component.
@@ -90,7 +90,7 @@ class Sx(_option.SurfaceOption):
     @r.setter
     def r(self, r: str | int | float | types.Real) -> None:
         """
-        Sets ``r``.
+        Sets `r`.
 
         Parameters:
             r: On-x-axis sphere radius.
@@ -115,13 +115,13 @@ class Sx(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Sx``.
+        Generates `Visualization` from `Sx`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``Sx``
+            `_show.Shape` for `Sx`
         """
 
         vis = shapes.Sphere(float(self.r))

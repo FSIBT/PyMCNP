@@ -17,13 +17,13 @@ class Designator(_type.Type):
 
     def __init__(self, particles: str):
         """
-        Initializes ``Designator``.
+        Initializes `Designator`.
 
         Parameters:
             particles: Particle formula.
 
         Returns:
-            ``Designator``.
+            `Designator`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -37,13 +37,13 @@ class Designator(_type.Type):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Designator`` from MCNP.
+        Generates `Designator` from MCNP.
 
         Parameters:
-            source: MCNP for ``Designator``.
+            source: MCNP for `Designator`.
 
         Returns:
-            ``Designator``.
+            `Designator`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -58,7 +58,7 @@ class Designator(_type.Type):
 
     def to_mcnp(self) -> str:
         """
-        Generates MCNP from ``Designator``.
+        Generates MCNP from `Designator`.
 
         Returns:
             MCNP designator.

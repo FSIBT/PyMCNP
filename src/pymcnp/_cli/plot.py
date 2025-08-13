@@ -21,7 +21,7 @@ from ..Plot import Plot
 
 def main() -> None:
     """
-    Executes the ``pymcnp plot`` command.
+    Executes the `pymcnp plot` command.
     """
 
     _io.disclaimer()

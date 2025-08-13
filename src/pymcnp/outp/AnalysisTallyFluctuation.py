@@ -109,7 +109,7 @@ class AnalysisTallyFluctuation(_block.Block):
         fom: types.String,
     ):
         """
-        Initializes ``AnalysisTallyFluctuation``.
+        Initializes `AnalysisTallyFluctuation`.
 
         Parameters:
             tally: Tally number.
@@ -266,13 +266,13 @@ class AnalysisTallyFluctuation(_block.Block):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``AnalysisTallyFluctuation`` from OUTP.
+        Generates `AnalysisTallyFluctuation` from OUTP.
 
         Parameters:
-            source: OUTP for ``AnalysisTallyFluctuation``.
+            source: OUTP for `AnalysisTallyFluctuation`.
 
         Returns:
-            ``AnalysisTallyFluctuation``.
+            `AnalysisTallyFluctuation`.
         """
 
         tokens = AnalysisTallyFluctuation._REGEX.match(source)
@@ -358,10 +358,10 @@ class AnalysisTallyFluctuation(_block.Block):
 
     def to_mcnp(self):
         """
-        Generates OUTP from ``AnalysisTallyFluctuation``.
+        Generates OUTP from `AnalysisTallyFluctuation`.
 
         Returns:
-            OUTP for ``AnalysisTallyFluctuation``.
+            OUTP for `AnalysisTallyFluctuation`.
         """
 
         return f"""

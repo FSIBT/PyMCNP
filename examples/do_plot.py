@@ -1,5 +1,5 @@
 """
-Example plotting OUTP files using ``Plot``.
+Example plotting OUTP files using `Plot`.
 """
 
 import pathlib
