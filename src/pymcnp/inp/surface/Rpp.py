@@ -8,7 +8,7 @@ from ... import errors
 
 class Rpp(_option.SurfaceOption):
     """
-    Represents INP rpp elements.
+    Represents INP `rpp` elements.
     """
 
     _KEYWORD = 'rpp'
@@ -37,7 +37,7 @@ class Rpp(_option.SurfaceOption):
         zmax: str | int | float | types.Real = None,
     ):
         """
-        Initializes ``Rpp``.
+        Initializes `Rpp`.
 
         Parameters:
             xmin: Parallelepiped x termini minimum.
@@ -73,7 +73,7 @@ class Rpp(_option.SurfaceOption):
     @xmin.setter
     def xmin(self, xmin: str | int | float | types.Real) -> None:
         """
-        Sets ``xmin``.
+        Sets `xmin`.
 
         Parameters:
             xmin: Parallelepiped x termini minimum.
@@ -111,7 +111,7 @@ class Rpp(_option.SurfaceOption):
     @xmax.setter
     def xmax(self, xmax: str | int | float | types.Real) -> None:
         """
-        Sets ``xmax``.
+        Sets `xmax`.
 
         Parameters:
             xmax: Parallelepiped x termini maximum.
@@ -149,7 +149,7 @@ class Rpp(_option.SurfaceOption):
     @ymin.setter
     def ymin(self, ymin: str | int | float | types.Real) -> None:
         """
-        Sets ``ymin``.
+        Sets `ymin`.
 
         Parameters:
             ymin: Parallelepiped y termini minimum.
@@ -187,7 +187,7 @@ class Rpp(_option.SurfaceOption):
     @ymax.setter
     def ymax(self, ymax: str | int | float | types.Real) -> None:
         """
-        Sets ``ymax``.
+        Sets `ymax`.
 
         Parameters:
             ymax: Parallelepiped y termini maximum.
@@ -225,7 +225,7 @@ class Rpp(_option.SurfaceOption):
     @zmin.setter
     def zmin(self, zmin: str | int | float | types.Real) -> None:
         """
-        Sets ``zmin``.
+        Sets `zmin`.
 
         Parameters:
             zmin: Parallelepiped z termini minimum.
@@ -260,7 +260,7 @@ class Rpp(_option.SurfaceOption):
     @zmax.setter
     def zmax(self, zmax: str | int | float | types.Real) -> None:
         """
-        Sets ``zmax``.
+        Sets `zmax`.
 
         Parameters:
             zmax: Parallelepiped z termini maximum.
@@ -282,13 +282,13 @@ class Rpp(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Rpp``.
+        Generates `Visualization` from `Rpp`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``Rpp``
+            `_show.Shape` for `Rpp`
         """
 
         vis = shapes.Parallelipiped(

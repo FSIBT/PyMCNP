@@ -26,13 +26,13 @@ class Repeat(Horizontal):
 
     def __init__(self, n: int = None):
         """
-        Initializes ``Repeat``.
+        Initializes `Repeat`.
 
         Parameters:
             n: Repetition number.
 
         Returns:
-            ``Repeat``
+            `Repeat`
 
         Raises
             TypesError: SEMANTICS_TYPE.
@@ -46,13 +46,13 @@ class Repeat(Horizontal):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Repeat`` from MCNP.
+        Generates `Repeat` from MCNP.
 
         Parameters:
             source: MCNP repeats.
 
         Returns:
-            ``Repeat``.
+            `Repeat`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -69,7 +69,7 @@ class Repeat(Horizontal):
 
     def to_mcnp(self):
         """
-        Genereates MCNP repeats from ``Repeat``.
+        Genereates MCNP repeats from `Repeat`.
 
         Returns:
             MCNP repeats.
@@ -90,13 +90,13 @@ class Insert(Horizontal):
 
     def __init__(self, n: int = None):
         """
-        Initializes ``Insert``.
+        Initializes `Insert`.
 
         Parameters:
             n: Repetition number.
 
         Returns:
-            ``Insert``
+            `Insert`
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -110,13 +110,13 @@ class Insert(Horizontal):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Insert`` from MCNP.
+        Generates `Insert` from MCNP.
 
         Parameters:
             source: MCNP inserts.
 
         Returns:
-            ``Insert``.
+            `Insert`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -133,7 +133,7 @@ class Insert(Horizontal):
 
     def to_mcnp(self):
         """
-        Genereates MCNP inserts from ``Insert``.
+        Genereates MCNP inserts from `Insert`.
 
         Returns:
             MCNP inserts.
@@ -154,13 +154,13 @@ class Multiply(Horizontal):
 
     def __init__(self, x: float):
         """
-        Initializes ``Multiply``.
+        Initializes `Multiply`.
 
         Parameters:
             x: Multiply number.
 
         Returns:
-            ``Multiply``
+            `Multiply`
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -174,13 +174,13 @@ class Multiply(Horizontal):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Multiply`` from MCNP.
+        Generates `Multiply` from MCNP.
 
         Parameters:
             source: MCNP multiply.
 
         Returns:
-            ``Multiply``.
+            `Multiply`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -197,7 +197,7 @@ class Multiply(Horizontal):
 
     def to_mcnp(self):
         """
-        Genereates MCNP multiplies. from ``Multiply``.
+        Genereates MCNP multiplies. from `Multiply`.
 
         Returns:
             MCNP multiply.
@@ -218,13 +218,13 @@ class Jump(_symbol.Nonterminal):
 
     def __init__(self, n: int = None):
         """
-        Initializes ``Jump``.
+        Initializes `Jump`.
 
         Parameters:
             n: Repetition number.
 
         Returns:
-            ``Jump``
+            `Jump`
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -238,13 +238,13 @@ class Jump(_symbol.Nonterminal):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Jump`` from MCNP.
+        Generates `Jump` from MCNP.
 
         Parameters:
             source: MCNP jump.
 
         Returns:
-            ``Jump``.
+            `Jump`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -261,7 +261,7 @@ class Jump(_symbol.Nonterminal):
 
     def to_mcnp(self):
         """
-        Genereates MCNP from ``Jump``.
+        Genereates MCNP from `Jump`.
 
         Returns:
             MCNP jumps.
@@ -282,13 +282,13 @@ class Log(Horizontal):
 
     def __init__(self, n: int = None):
         """
-        Initializes ``Log``.
+        Initializes `Log`.
 
         Parameters:
             n: Repetition number.
 
         Returns:
-            ``Log``
+            `Log`
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -302,13 +302,13 @@ class Log(Horizontal):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Log`` from MCNP.
+        Generates `Log` from MCNP.
 
         Parameters:
             source: MCNP log.
 
         Returns:
-            ``Log``.
+            `Log`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -325,7 +325,7 @@ class Log(Horizontal):
 
     def to_mcnp(self):
         """
-        Genereates MCNP logs. from ``Logs``.
+        Genereates MCNP logs. from `Logs`.
 
         Returns:
             MCNP logs.

@@ -10,7 +10,7 @@ from ... import errors
 
 class Cx(_option.SurfaceOption):
     """
-    Represents INP cx elements.
+    Represents INP `cx` elements.
     """
 
     _KEYWORD = 'cx'
@@ -23,7 +23,7 @@ class Cx(_option.SurfaceOption):
 
     def __init__(self, r: str | int | float | types.Real):
         """
-        Initializes ``Cx``.
+        Initializes `Cx`.
 
         Parameters:
             r: On-x-axis cylinder radius.
@@ -49,7 +49,7 @@ class Cx(_option.SurfaceOption):
     @r.setter
     def r(self, r: str | int | float | types.Real) -> None:
         """
-        Sets ``r``.
+        Sets `r`.
 
         Parameters:
             r: On-x-axis cylinder radius.
@@ -74,13 +74,13 @@ class Cx(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Cx``.
+        Generates `Visualization` from `Cx`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``Cx``.
+            `_show.Shape` for `Cx`.
         """
 
         vis = shapes.CylinderUnbounded(float(self.r))

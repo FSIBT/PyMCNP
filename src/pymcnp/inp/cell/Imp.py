@@ -7,7 +7,7 @@ from ... import errors
 
 class Imp(_option.CellOption):
     """
-    Represents INP imp elements.
+    Represents INP `imp` elements.
     """
 
     _KEYWORD = 'imp'
@@ -21,7 +21,7 @@ class Imp(_option.CellOption):
 
     def __init__(self, designator: str | types.Designator, importance: str | int | float | types.Real):
         """
-        Initializes ``Imp``.
+        Initializes `Imp`.
 
         Parameters:
             designator: Data option particle designator.
@@ -49,7 +49,7 @@ class Imp(_option.CellOption):
     @designator.setter
     def designator(self, designator: str | types.Designator) -> None:
         """
-        Sets ``designator``.
+        Sets `designator`.
 
         Parameters:
             designator: Data option particle designator.
@@ -85,7 +85,7 @@ class Imp(_option.CellOption):
     @importance.setter
     def importance(self, importance: str | int | float | types.Real) -> None:
         """
-        Sets ``importance``.
+        Sets `importance`.
 
         Parameters:
             importance: Cell particle importance.

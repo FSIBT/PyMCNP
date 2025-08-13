@@ -24,13 +24,13 @@ class Integer(_type.Type):
 
     def __init__(self, value: int | Horizontal):
         """
-        Initializes ``Integer``.
+        Initializes `Integer`.
 
         Parameters:
             value: Integer or jump value.
 
         Returns:
-            ``Integer``.
+            `Integer`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -44,13 +44,13 @@ class Integer(_type.Type):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Integer`` from MCNP.
+        Generates `Integer` from MCNP.
 
         Parameters:
             source: MCNP value or jump.
 
         Returns:
-            ``Integer``.
+            `Integer`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -93,7 +93,7 @@ class Integer(_type.Type):
 
     def to_mcnp(self):
         """
-        Generates MCNP from ``Integer``.
+        Generates MCNP from `Integer`.
 
         Returns:
             MCNP value.

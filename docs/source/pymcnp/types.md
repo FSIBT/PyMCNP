@@ -1,6 +1,6 @@
-# ``pymcnp.types`` Subpackage
+# `pymcnp.types` Subpackage
 
-``pymcnp.types`` contains parsers for basic types, such as integers, zaids, and surface geometry formulas. PyMCNP
+`pymcnp.types` contains parsers for basic types, such as integers, zaids, and surface geometry formulas. PyMCNP
 implements classes for types to integrate them into the object-oriented recursive decent parsers.
 
 ## AST Classes
@@ -8,10 +8,10 @@ implements classes for types to integrate them into the object-oriented recursiv
 PyMCNP represents types with AST classes. These AST class have methods for translating
 between PyMCNP and MCNP:
 
-* ``from_mcnp``. Parses MCNP source, checking for syntax and semantic errors.
-* ``to_mcnp``. Generates MCNP source from PyMCNP objects, reformatting.
+* `from_mcnp`. Parses MCNP source, checking for syntax and semantic errors.
+* `to_mcnp`. Generates MCNP source from PyMCNP objects, reformatting.
 
-### ``Designator`` Classes
+### `Designator` Classes
 
 ```{eval-rst}
 .. autoclass:: pymcnp.types.Designator
@@ -19,7 +19,7 @@ between PyMCNP and MCNP:
    :inherited-members:
 ```
 
-### ``Distribution`` Classes
+### `Distribution` Classes
 
 ```{eval-rst}
 .. autoclass:: pymcnp.types.Distribution
@@ -27,7 +27,7 @@ between PyMCNP and MCNP:
    :inherited-members:
 ```
 
-### ``Generator`` Classes
+### `Generator` Classes
 
 ```{eval-rst}
 .. autoclass:: pymcnp.types.Generator
@@ -35,7 +35,7 @@ between PyMCNP and MCNP:
    :inherited-members:
 ```
 
-### ``Geometry`` Classes
+### `Geometry` Classes
 
 ```{eval-rst}
 .. autoclass:: pymcnp.types.Geometry
@@ -43,7 +43,7 @@ between PyMCNP and MCNP:
    :inherited-members:
 ```
 
-### ``Horizontal`` Classes
+### `Horizontal` Classes
 
 ```{eval-rst}
 .. autoclass:: pymcnp.types.Horizontal
@@ -51,7 +51,7 @@ between PyMCNP and MCNP:
    :inherited-members:
 ```
 
-### ``Index`` Classes
+### `Index` Classes
 
 ```{eval-rst}
 .. autoclass:: pymcnp.types.Index
@@ -59,7 +59,7 @@ between PyMCNP and MCNP:
    :inherited-members:
 ```
 
-### ``Integer`` Classes
+### `Integer` Classes
 
 ```{eval-rst}
 .. autoclass:: pymcnp.types.Integer
@@ -67,7 +67,7 @@ between PyMCNP and MCNP:
    :inherited-members:
 ```
 
-### ``Lattice`` Classes
+### `Lattice` Classes
 
 ```{eval-rst}
 .. autoclass:: pymcnp.types.Lattice
@@ -75,7 +75,7 @@ between PyMCNP and MCNP:
    :inherited-members:
 ```
 
-### ``Real`` Classes
+### `Real` Classes
 
 ```{eval-rst}
 .. autoclass:: pymcnp.types.Real
@@ -83,7 +83,7 @@ between PyMCNP and MCNP:
    :inherited-members:
 ```
 
-### ``String`` Classes
+### `String` Classes
 
 ```{eval-rst}
 .. autoclass:: pymcnp.types.String
@@ -91,7 +91,7 @@ between PyMCNP and MCNP:
    :inherited-members:
 ```
 
-### ``Substance`` Classes
+### `Substance` Classes
 
 ```{eval-rst}
 .. autoclass:: pymcnp.types.Substance
@@ -99,7 +99,7 @@ between PyMCNP and MCNP:
    :inherited-members:
 ```
 
-### ``Transformation`` Classes
+### `Transformation` Classes
 
 ```{eval-rst}
 .. autoclass:: pymcnp.types.Transformation
@@ -107,7 +107,7 @@ between PyMCNP and MCNP:
    :inherited-members:
 ```
 
-### ``Tuple`` Classes
+### `Tuple` Classes
 
 ```{eval-rst}
 .. autoclass:: pymcnp.types.Tuple
@@ -115,7 +115,7 @@ between PyMCNP and MCNP:
    :inherited-members:
 ```
 
-### ``Zaid`` Classes
+### `Zaid` Classes
 
 ```{eval-rst}
 .. autoclass:: pymcnp.types.Zaid

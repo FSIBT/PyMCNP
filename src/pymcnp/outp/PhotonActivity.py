@@ -8,7 +8,7 @@ from .. import errors
 
 class PhotonActivity(_block.Block):
     """
-    Represents OUTP ``1photon activity in each cell`` blocks.
+    Represents OUTP `1photon activity in each cell` blocks.
 
     Attributes:
         cells: Activity table.
@@ -36,7 +36,7 @@ class PhotonActivity(_block.Block):
         total_weighted_collisions: types.String,
     ):
         """
-        Initializes ``PhotonActivity``.
+        Initializes `PhotonActivity`.
 
         Parameters:
             cells: Activity table.
@@ -69,13 +69,13 @@ class PhotonActivity(_block.Block):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``PhotonActivity`` from OUTP.
+        Generates `PhotonActivity` from OUTP.
 
         Parameters:
-            source: OUTP for ``PhotonActivity``.
+            source: OUTP for `PhotonActivity`.
 
         Returns:
-            ``PhotonActivity``.
+            `PhotonActivity`.
         """
 
         tokens = PhotonActivity._REGEX.match(source)
@@ -99,10 +99,10 @@ class PhotonActivity(_block.Block):
 
     def to_mcnp(self):
         """
-        Generates OUTP from ``PhotonActivity``.
+        Generates OUTP from `PhotonActivity`.
 
         Returns:
-            OUTP for ``PhotonActivity``.
+            OUTP for `PhotonActivity`.
         """
 
         return f"""

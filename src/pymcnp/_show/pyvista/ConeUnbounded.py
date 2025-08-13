@@ -10,7 +10,7 @@ class ConeUnbounded(_shape.PyvistaShape):
 
     def __init__(self, m: float, sign: int):
         """
-        Initializes ``ConeUnbounded``.
+        Initializes `ConeUnbounded`.
 
         Parameters:
             m: Cone slope.

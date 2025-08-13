@@ -24,14 +24,14 @@ class Error(Exception):
 
     def __init__(self, code: enum.Enum, info: str):
         """
-        Initializes ``Error``
+        Initializes `Error`
 
         Parameters:
             code: Error code.
             info: Error string.
 
         Returns:
-            ``Error``.
+            `Error`.
         """
 
         self.code: typing.Final[Code] = code

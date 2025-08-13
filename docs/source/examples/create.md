@@ -53,7 +53,7 @@ Code:
 
 Output:
 
-	Create ``Inp``
+	Create `Inp`
 	
 	1 21 0.5 11 
 	2 22 0.5 12:11 

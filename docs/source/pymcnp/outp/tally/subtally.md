@@ -1,8 +1,8 @@
-# ``pymcnp.outp.tally.subtally`` Subpackage
+# `pymcnp.outp.tally.subtally` Subpackage
 
 ## AST Classes
 
-### ``Line`` Class
+### `Line` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.outp.tally.subtally.Line

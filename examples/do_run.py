@@ -1,5 +1,5 @@
 """
-Example running INP files using ``Run``.
+Example running INP files using `Run`.
 """
 
 import pathlib
@@ -7,19 +7,19 @@ import pathlib
 import pymcnp
 
 
-# Creating ``Run`` subclass.
+# Creating `Run` subclass.
 class MyRun(pymcnp.Run):
     def prehook_file(self, path, index):
-        print(f'Calling ``prehook_file`` {path} {index}')
+        print(f'Calling `prehook_file` {path} {index}')
 
     def posthook_file(self, path, index):
-        print(f'Calling ``posthook_file`` {path} {index}')
+        print(f'Calling `posthook_file` {path} {index}')
 
     def prehook_batch(self, path):
-        print(f'Calling ``prehook_batch`` {path}')
+        print(f'Calling `prehook_batch` {path}')
 
     def posthook_batch(self, path):
-        print(f'Calling ``posthook_batch`` {path}')
+        print(f'Calling `posthook_batch` {path}')
 
 
 # Reading INP.

@@ -11,7 +11,7 @@ from ... import errors
 
 class Subtally_2(_subblock.TallySubblock):
     """
-    Represents OUTP ``1tally 2 nps`` subtally.
+    Represents OUTP `1tally 2 nps` subtally.
 
     Attributes:
         surface: Surface number.
@@ -28,7 +28,7 @@ class Subtally_2(_subblock.TallySubblock):
         total: types.String,
     ):
         """
-        Initializes ``Subtally_2``.
+        Initializes `Subtally_2`.
 
         Parameters:
             surface: Surface number.
@@ -53,13 +53,13 @@ class Subtally_2(_subblock.TallySubblock):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Subtally_2`` from OUTP.
+        Generates `Subtally_2` from OUTP.
 
         Parameters:
-            source: OUTP for ``Subtally_2``.
+            source: OUTP for `Subtally_2`.
 
         Returns:
-            ``Subtally_2``.
+            `Subtally_2`.
         """
 
         tokens = Subtally_2._REGEX.match(source)
@@ -79,10 +79,10 @@ class Subtally_2(_subblock.TallySubblock):
 
     def to_mcnp(self):
         """
-        Generates OUTP from ``Subtally_2``.
+        Generates OUTP from `Subtally_2`.
 
         Returns:
-            OUTP for ``Subtally_2``.
+            OUTP for `Subtally_2`.
         """
 
         return f"""
@@ -94,10 +94,10 @@ class Subtally_2(_subblock.TallySubblock):
 
     def to_dataframe(self):
         """
-        Generates ``pandas.DataFrame`` from ``Subtally_2``.
+        Generates `pandas.DataFrame` from `Subtally_2`.
 
         Returns:
-            ``pandas.DataFrame``.
+            `pandas.DataFrame`.
         """
 
         df = pandas.concat((line.to_dataframe() for line in self.lines), ignore_index=True)

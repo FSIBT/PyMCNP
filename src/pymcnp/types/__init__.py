@@ -20,11 +20,13 @@ from .Transformation import Transformation_2
 from .Transformation import Transformation_3
 from .Transformation import Transformation_4
 from .Tuple import Tuple
+from .Union import Union
 from .Zaid import Zaid
 from .Substance import Substance
 
 __all__ = [
     'Type',
+    'Union',
     'Primitive',
     'Designator',
     'Generator',

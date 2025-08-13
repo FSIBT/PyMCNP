@@ -10,7 +10,7 @@ class CylinderCircular(_shape.PyvistaShape):
 
     def __init__(self, h: float, r: float):
         """
-        Initializes ``CylinderCircular``.
+        Initializes `CylinderCircular`.
 
         Paremeters:
             r: Circular cylinder radius.

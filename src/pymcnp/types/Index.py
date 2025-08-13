@@ -18,14 +18,14 @@ class Index(_type.Type):
 
     def __init__(self, lower: Integer, upper: Integer):
         """
-        Initializes ``Index``.
+        Initializes `Index`.
 
         Parameters:
             lower: Lower index.
             upper: Upper index.
 
         Returns:
-            ``Index``.
+            `Index`.
 
         Raises:
             TypesError: SEMANTICS_TYPE.
@@ -43,13 +43,13 @@ class Index(_type.Type):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Index`` from INP.
+        Generates `Index` from INP.
 
         Parameters:
-            INP for ``Index``.
+            INP for `Index`.
 
         Returns:
-            ``Index``.
+            `Index`.
 
         Raises:
             TypesError: SYNTAX_TYPE.
@@ -67,10 +67,10 @@ class Index(_type.Type):
 
     def to_mcnp(self):
         """
-        Generates INP from ``Index``.
+        Generates INP from `Index`.
 
         Returns:
-            INP for ``Index``.
+            INP for `Index`.
         """
 
         return f'{self.lower}:{self.upper}'

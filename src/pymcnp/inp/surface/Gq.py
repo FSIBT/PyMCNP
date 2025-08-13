@@ -7,7 +7,7 @@ from ... import errors
 
 class Gq(_option.SurfaceOption):
     """
-    Represents INP gq elements.
+    Represents INP `gq` elements.
     """
 
     _KEYWORD = 'gq'
@@ -44,7 +44,7 @@ class Gq(_option.SurfaceOption):
         k: str | int | float | types.Real,
     ):
         """
-        Initializes ``Gq``.
+        Initializes `Gq`.
 
         Parameters:
             a: Oblique special quadratic A coefficent.
@@ -88,7 +88,7 @@ class Gq(_option.SurfaceOption):
     @a.setter
     def a(self, a: str | int | float | types.Real) -> None:
         """
-        Sets ``a``.
+        Sets `a`.
 
         Parameters:
             a: Oblique special quadratic A coefficent.
@@ -126,7 +126,7 @@ class Gq(_option.SurfaceOption):
     @b.setter
     def b(self, b: str | int | float | types.Real) -> None:
         """
-        Sets ``b``.
+        Sets `b`.
 
         Parameters:
             b: Oblique special quadratic B coefficent.
@@ -164,7 +164,7 @@ class Gq(_option.SurfaceOption):
     @c.setter
     def c(self, c: str | int | float | types.Real) -> None:
         """
-        Sets ``c``.
+        Sets `c`.
 
         Parameters:
             c: Oblique special quadratic C coefficent.
@@ -202,7 +202,7 @@ class Gq(_option.SurfaceOption):
     @d.setter
     def d(self, d: str | int | float | types.Real) -> None:
         """
-        Sets ``d``.
+        Sets `d`.
 
         Parameters:
             d: Oblique special quadratic D coefficent.
@@ -240,7 +240,7 @@ class Gq(_option.SurfaceOption):
     @e.setter
     def e(self, e: str | int | float | types.Real) -> None:
         """
-        Sets ``e``.
+        Sets `e`.
 
         Parameters:
             e: Oblique special quadratic E coefficent.
@@ -278,7 +278,7 @@ class Gq(_option.SurfaceOption):
     @f.setter
     def f(self, f: str | int | float | types.Real) -> None:
         """
-        Sets ``f``.
+        Sets `f`.
 
         Parameters:
             f: Oblique special quadratic F coefficent.
@@ -316,7 +316,7 @@ class Gq(_option.SurfaceOption):
     @g.setter
     def g(self, g: str | int | float | types.Real) -> None:
         """
-        Sets ``g``.
+        Sets `g`.
 
         Parameters:
             g: Oblique special quadratic G coefficent.
@@ -354,7 +354,7 @@ class Gq(_option.SurfaceOption):
     @h.setter
     def h(self, h: str | int | float | types.Real) -> None:
         """
-        Sets ``h``.
+        Sets `h`.
 
         Parameters:
             h: Oblique special quadratic H coefficent.
@@ -392,7 +392,7 @@ class Gq(_option.SurfaceOption):
     @j.setter
     def j(self, j: str | int | float | types.Real) -> None:
         """
-        Sets ``j``.
+        Sets `j`.
 
         Parameters:
             j: Oblique special quadratic J coefficent.
@@ -430,7 +430,7 @@ class Gq(_option.SurfaceOption):
     @k.setter
     def k(self, k: str | int | float | types.Real) -> None:
         """
-        Sets ``k``.
+        Sets `k`.
 
         Parameters:
             k: Oblique special quadratic K coefficent.

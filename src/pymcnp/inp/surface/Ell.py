@@ -10,7 +10,7 @@ from ... import errors
 
 class Ell(_option.SurfaceOption):
     """
-    Represents INP ell elements.
+    Represents INP `ell` elements.
     """
 
     _KEYWORD = 'ell'
@@ -41,7 +41,7 @@ class Ell(_option.SurfaceOption):
         rm: str | int | float | types.Real,
     ):
         """
-        Initializes ``Ell``.
+        Initializes `Ell`.
 
         Parameters:
             v1x: Ellipsoid focus #1 or center x component.
@@ -79,7 +79,7 @@ class Ell(_option.SurfaceOption):
     @v1x.setter
     def v1x(self, v1x: str | int | float | types.Real) -> None:
         """
-        Sets ``v1x``.
+        Sets `v1x`.
 
         Parameters:
             v1x: Ellipsoid focus #1 or center x component.
@@ -117,7 +117,7 @@ class Ell(_option.SurfaceOption):
     @v1y.setter
     def v1y(self, v1y: str | int | float | types.Real) -> None:
         """
-        Sets ``v1y``.
+        Sets `v1y`.
 
         Parameters:
             v1y: Ellipsoid focus #1 or center y component.
@@ -155,7 +155,7 @@ class Ell(_option.SurfaceOption):
     @v1z.setter
     def v1z(self, v1z: str | int | float | types.Real) -> None:
         """
-        Sets ``v1z``.
+        Sets `v1z`.
 
         Parameters:
             v1z: Ellipsoid focus #1 or center z component.
@@ -193,7 +193,7 @@ class Ell(_option.SurfaceOption):
     @v2x.setter
     def v2x(self, v2x: str | int | float | types.Real) -> None:
         """
-        Sets ``v2x``.
+        Sets `v2x`.
 
         Parameters:
             v2x: Ellipsoid focus #2 or major axis x component.
@@ -231,7 +231,7 @@ class Ell(_option.SurfaceOption):
     @v2y.setter
     def v2y(self, v2y: str | int | float | types.Real) -> None:
         """
-        Sets ``v2y``.
+        Sets `v2y`.
 
         Parameters:
             v2y: Ellipsoid focus #2 or major axis y component.
@@ -269,7 +269,7 @@ class Ell(_option.SurfaceOption):
     @v2z.setter
     def v2z(self, v2z: str | int | float | types.Real) -> None:
         """
-        Sets ``v2z``.
+        Sets `v2z`.
 
         Parameters:
             v2z: Ellipsoid focus #2 or major axis z component.
@@ -307,7 +307,7 @@ class Ell(_option.SurfaceOption):
     @rm.setter
     def rm(self, rm: str | int | float | types.Real) -> None:
         """
-        Sets ``rm``.
+        Sets `rm`.
 
         Parameters:
             rm: Ellipsoid major/minor axis radius length.
@@ -332,13 +332,13 @@ class Ell(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Ell``.
+        Generates `Visualization` from `Ell`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``Ell``.
+            `_show.Shape` for `Ell`.
         """
 
         v1 = numpy.array((float(self.v1x), float(self.v1y), float(self.v1z)))

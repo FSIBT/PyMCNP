@@ -12,7 +12,7 @@ class Test_Init:
 
     def test_valid(self):
         """
-        Tests ``EXAMPLES_VALID`` on ``from_mcnp`` and ``to_mcnp``.
+        Tests `EXAMPLES_VALID` on `from_mcnp` and `to_mcnp`.
         """
 
         for example in self.EXAMPLES_VALID:
@@ -20,7 +20,7 @@ class Test_Init:
 
     def test_invalid(self):
         """
-        Tests ``EXAMPLES_INVALID`` on ``from_mcnp``.
+        Tests `EXAMPLES_INVALID` on `from_mcnp`.
         """
 
         for example in self.EXAMPLES_INVALID:
@@ -35,7 +35,7 @@ class Test_Mcnp:
 
     def test_valid(self):
         """
-        Tests ``EXAMPLES_VALID`` on ``from_mcnp`` and ``to_mcnp``.
+        Tests `EXAMPLES_VALID` on `from_mcnp` and `to_mcnp`.
         """
 
         for example in self.EXAMPLES_VALID:
@@ -46,7 +46,7 @@ class Test_Mcnp:
 
     def test_invalid(self):
         """
-        Tests ``EXAMPLES_INVALID`` on ``from_mcnp``.
+        Tests `EXAMPLES_INVALID` on `from_mcnp`.
         """
 
         for example in self.EXAMPLES_INVALID:
@@ -61,7 +61,7 @@ class Test_File:
 
     def test_valid(self):
         """
-        Tests ``EXAMPLES_VALID`` on ``from_file``.
+        Tests `EXAMPLES_VALID` on `from_file`.
         """
 
         for example in self.EXAMPLES_VALID:
@@ -72,7 +72,7 @@ class Test_File:
 
     def test_invalid(self):
         """
-        Tests ``EXAMPLES_INVALID`` on ``from_file``.
+        Tests `EXAMPLES_INVALID` on `from_file`.
         """
 
         for example in self.EXAMPLES_INVALID:
@@ -86,7 +86,7 @@ class Test_Show:
 
     def test(self):
         """
-        Tests ``EXAMPLES`` on ``to_show``.
+        Tests `EXAMPLES` on `to_show`.
         """
 
         for example in self.EXAMPLES:
@@ -99,7 +99,7 @@ class Test_Dataframe:
 
     def test(self):
         """
-        Tests ``EXAMPLES`` on ``to_dataframe``.
+        Tests `EXAMPLES` on `to_dataframe`.
         """
 
         for example in self.EXAMPLES:

@@ -10,14 +10,14 @@ RADIUS_AIR: float = 60
 RADIUS_SHIELD: float = 5
 RADIUS_LEAD: float = 1
 
-# Reading INP using ``from_file``.
+# Reading INP using `from_file`.
 path = pathlib.Path(__file__).parent.parent / 'files' / 'inp' / 'example_00.inp'
 inp = pymcnp.Inp.from_file(path)
 
 print(inp)
 
-# Reading INP using ``from_mcnp``.
-inp = pymcnp.Inp.from_mcnp(f"""Create ``Inp`` Using ``build``
+# Reading INP using `from_mcnp`.
+inp = pymcnp.Inp.from_mcnp(f"""Create `Inp` Using `build`
 c ============================================================================
 c                                    cells                                    
 c ============================================================================

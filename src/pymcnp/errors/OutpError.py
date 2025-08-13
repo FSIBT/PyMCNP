@@ -3,7 +3,7 @@ from . import _error
 
 class OutpCode(_error.Code):
     """
-    Represents ``outp`` error codes.
+    Represents `outp` error codes.
 
     Notes:
         0x - Syntax
@@ -21,7 +21,7 @@ class OutpCode(_error.Code):
 
 class OutpError(_error.Error):
     """
-    Represents ``outp`` errors.
+    Represents `outp` errors.
     """
 
     def __str__(self):

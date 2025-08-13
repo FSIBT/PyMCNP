@@ -7,7 +7,7 @@ from ... import errors
 
 class U(_option.LikeOption):
     """
-    Represents INP u elements.
+    Represents INP `u` elements.
     """
 
     _KEYWORD = 'u'
@@ -20,7 +20,7 @@ class U(_option.LikeOption):
 
     def __init__(self, number: str | int | types.Integer):
         """
-        Initializes ``U``.
+        Initializes `U`.
 
         Parameters:
             number: Cell universe number.
@@ -34,10 +34,10 @@ class U(_option.LikeOption):
     @property
     def number(self) -> types.Integer:
         """
-        Gets ``number``.
+        Gets `number`.
 
         Returns:
-            ``number``.
+            `number`.
         """
 
         return self._number
@@ -45,7 +45,7 @@ class U(_option.LikeOption):
     @number.setter
     def number(self, number: str | int | types.Integer) -> None:
         """
-        Sets ``number``.
+        Sets `number`.
 
         Parameters:
             number: Cell universe number.

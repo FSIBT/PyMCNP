@@ -6,16 +6,16 @@ from .. import types
 
 class Comment(_card.Card):
     """
-    Represents INP comment elements.
+    Represents INP comment cards.
     """
 
     _ATTRS = {'text': types.String}
 
-    _REGEX = re.compile(r'c(?: (.*))?', re.IGNORECASE)
+    _REGEX = re.compile(r'\Ac(?: (.*))?\Z', re.IGNORECASE)
 
     def __init__(self, text: types.String = None):
         """
-        Initializes ``Comment``.
+        Initializes `Comment`.
 
         Parameters:
             text: Comment text.
@@ -28,7 +28,7 @@ class Comment(_card.Card):
 
     def to_mcnp(self):
         """
-        Generates INP from ``Comment``.
+        Generates INP from `Comment`.
 
         Returns:
             INP comment card.
@@ -45,7 +45,7 @@ class Comment(_card.Card):
         Comment text.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 
@@ -54,13 +54,13 @@ class Comment(_card.Card):
     @text.setter
     def text(self, text: str | types.String) -> None:
         """
-        Sets ``text``.
+        Sets `text`.
 
         Parameters:
             text: Comment text.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 

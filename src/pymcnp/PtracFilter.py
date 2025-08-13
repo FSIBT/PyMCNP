@@ -80,7 +80,7 @@ class PtracFilter(_doer.Doer):
 
     def __call__(self, file: Ptrac):
         """
-        Filters ``Ptrac``.
+        Filters `Ptrac`.
 
         Parameters:
             file: File to filter.

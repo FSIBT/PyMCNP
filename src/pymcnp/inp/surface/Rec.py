@@ -10,7 +10,7 @@ from ... import errors
 
 class Rec(_option.SurfaceOption):
     """
-    Represents INP rec elements.
+    Represents INP `rec` elements.
     """
 
     _KEYWORD = 'rec'
@@ -51,7 +51,7 @@ class Rec(_option.SurfaceOption):
         v2z: str | int | float | types.Real = None,
     ):
         """
-        Initializes ``Rec``.
+        Initializes `Rec`.
 
         Parameters:
             vx: Elliptical cylinder position vector x component.
@@ -99,7 +99,7 @@ class Rec(_option.SurfaceOption):
     @vx.setter
     def vx(self, vx: str | int | float | types.Real) -> None:
         """
-        Sets ``vx``.
+        Sets `vx`.
 
         Parameters:
             vx: Elliptical cylinder position vector x component.
@@ -137,7 +137,7 @@ class Rec(_option.SurfaceOption):
     @vy.setter
     def vy(self, vy: str | int | float | types.Real) -> None:
         """
-        Sets ``vy``.
+        Sets `vy`.
 
         Parameters:
             vy: Elliptical cylinder position vector y component.
@@ -175,7 +175,7 @@ class Rec(_option.SurfaceOption):
     @vz.setter
     def vz(self, vz: str | int | float | types.Real) -> None:
         """
-        Sets ``vz``.
+        Sets `vz`.
 
         Parameters:
             vz: Elliptical cylinder position vector z component.
@@ -213,7 +213,7 @@ class Rec(_option.SurfaceOption):
     @hx.setter
     def hx(self, hx: str | int | float | types.Real) -> None:
         """
-        Sets ``hx``.
+        Sets `hx`.
 
         Parameters:
             hx: Elliptical cylinder height vector x component.
@@ -251,7 +251,7 @@ class Rec(_option.SurfaceOption):
     @hy.setter
     def hy(self, hy: str | int | float | types.Real) -> None:
         """
-        Sets ``hy``.
+        Sets `hy`.
 
         Parameters:
             hy: Elliptical cylinder height vector y component.
@@ -289,7 +289,7 @@ class Rec(_option.SurfaceOption):
     @hz.setter
     def hz(self, hz: str | int | float | types.Real) -> None:
         """
-        Sets ``hz``.
+        Sets `hz`.
 
         Parameters:
             hz: Elliptical cylinder height vector z component.
@@ -327,7 +327,7 @@ class Rec(_option.SurfaceOption):
     @v1x.setter
     def v1x(self, v1x: str | int | float | types.Real) -> None:
         """
-        Sets ``v1x``.
+        Sets `v1x`.
 
         Parameters:
             v1x: Elliptical cylinder major axis vector x component.
@@ -365,7 +365,7 @@ class Rec(_option.SurfaceOption):
     @v1y.setter
     def v1y(self, v1y: str | int | float | types.Real) -> None:
         """
-        Sets ``v1y``.
+        Sets `v1y`.
 
         Parameters:
             v1y: Elliptical cylinder major axis vector y component.
@@ -403,7 +403,7 @@ class Rec(_option.SurfaceOption):
     @v1z.setter
     def v1z(self, v1z: str | int | float | types.Real) -> None:
         """
-        Sets ``v1z``.
+        Sets `v1z`.
 
         Parameters:
             v1z: Elliptical cylinder major axis vector z component.
@@ -441,7 +441,7 @@ class Rec(_option.SurfaceOption):
     @v2x.setter
     def v2x(self, v2x: str | int | float | types.Real) -> None:
         """
-        Sets ``v2x``.
+        Sets `v2x`.
 
         Parameters:
             v2x: Elliptical cylinder minor axis vector x component.
@@ -479,7 +479,7 @@ class Rec(_option.SurfaceOption):
     @v2y.setter
     def v2y(self, v2y: str | int | float | types.Real) -> None:
         """
-        Sets ``v2y``.
+        Sets `v2y`.
 
         Parameters:
             v2y: Elliptical cylinder minor axis vector y component.
@@ -514,7 +514,7 @@ class Rec(_option.SurfaceOption):
     @v2z.setter
     def v2z(self, v2z: str | int | float | types.Real) -> None:
         """
-        Sets ``v2z``.
+        Sets `v2z`.
 
         Parameters:
             v2z: Elliptical cylinder minor axis vector z component.
@@ -536,13 +536,13 @@ class Rec(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Rec``.
+        Generates `Visualization` from `Rec`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``Rec``
+            `_show.Shape` for `Rec`
         """
 
         v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))

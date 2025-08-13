@@ -10,7 +10,7 @@ class Empty(_shape.PyvistaShape):
 
     def __init__(self):
         """
-        Initializes ``Empty``.
+        Initializes `Empty`.
         """
 
         super().__init__(pyvista.PolyData(), lambda p: False)

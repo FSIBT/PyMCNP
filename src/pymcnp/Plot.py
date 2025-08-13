@@ -19,7 +19,7 @@ class Plot(_doer.Doer):
 
     def __init__(self, outp: Outp):
         """
-        Initializes ``Plot``.
+        Initializes `Plot`.
 
         Parameters:
             path: File to plot.

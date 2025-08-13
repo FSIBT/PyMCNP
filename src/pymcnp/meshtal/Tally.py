@@ -33,7 +33,7 @@ class Tally(_line.Line):
         time: types.String = None,
     ):
         """
-        Initializes ``Tally``.
+        Initializes `Tally`.
 
         Parameters:
             x: Tally x direction.
@@ -62,10 +62,10 @@ class Tally(_line.Line):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Tally`` from MESHTAL.
+        Generates `Tally` from MESHTAL.
 
         Parameters:
-            source: MESHTAL for ``Tally``.
+            source: MESHTAL for `Tally`.
             header: MESHTAL header.
         """
 
@@ -94,10 +94,10 @@ class Tally(_line.Line):
 
     def to_mcnp(self):
         """
-        Generates MESTHAL from ``Tally``.
+        Generates MESTHAL from `Tally`.
 
         Returns:
-            INP for ``Tally``.
+            INP for `Tally`.
         """
 
         return f'  {self.energy if self.energy is not None else ""}{self.time if self.time is not None else ""}{self.x if self.x is not None else ""}{self.y if self.y is not None else ""}{self.z if self.z is not None else ""}{self.result}{self.error}'

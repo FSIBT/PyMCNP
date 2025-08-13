@@ -31,7 +31,7 @@ class Cell(_card.Card):
         options: types.Tuple(cell.CellOption) = None,
     ):
         """
-        Initializes ``Cell``.
+        Initializes `Cell`.
 
         Parameters:
             number: Cell number.
@@ -52,7 +52,7 @@ class Cell(_card.Card):
 
     def to_mcnp(self):
         """
-        Generates INP from ``Cell``.
+        Generates INP from `Cell`.
 
         Returns:
             INP cell card.
@@ -65,14 +65,14 @@ class Cell(_card.Card):
 
     def to_show(self, surfaces: dict[str, _show.Shape], cells: dict[str, _show.Shape], shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``Cell``.
+        Generates `Visualization` from `Cell`.
 
         Paramaters:
             surfaces: Dictionary of surfaces and visualizations.
             shapes: Collection of shapes.
 
         Returns:
-            ``Visualization`` for ``Cell``
+            `Visualization` for `Cell`
         """
 
         return self.geometry.ast.to_show(surfaces, cells)
@@ -83,7 +83,7 @@ class Cell(_card.Card):
         Cell number.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 
@@ -92,13 +92,13 @@ class Cell(_card.Card):
     @number.setter
     def number(self, number: str | int | types.Integer) -> None:
         """
-        Sets ``number``.
+        Sets `number`.
 
         Parameters:
             number: Cell number.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 
@@ -121,7 +121,7 @@ class Cell(_card.Card):
         Cell material.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 
@@ -130,13 +130,13 @@ class Cell(_card.Card):
     @material.setter
     def material(self, material: str | int | types.Integer) -> None:
         """
-        Sets ``material``.
+        Sets `material`.
 
         Parameters:
             material: Cell material.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 
@@ -159,7 +159,7 @@ class Cell(_card.Card):
         Cell density.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 
@@ -168,13 +168,13 @@ class Cell(_card.Card):
     @density.setter
     def density(self, density: str | int | float | types.Real) -> None:
         """
-        Sets ``density``.
+        Sets `density`.
 
         Parameters:
             density: Cell density.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 
@@ -197,7 +197,7 @@ class Cell(_card.Card):
         Cell geometry.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 
@@ -206,13 +206,13 @@ class Cell(_card.Card):
     @geometry.setter
     def geometry(self, geometry: str | types.Geometry) -> None:
         """
-        Sets ``geometry``.
+        Sets `geometry`.
 
         Parameters:
             geometry: Cell geometry.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 
@@ -223,7 +223,7 @@ class Cell(_card.Card):
                 geometry = types.Geometry.from_mcnp(geometry)
 
         if geometry is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, geometry)
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, geometry)
 
         self._geometry: types.Geometry = geometry
 
@@ -233,7 +233,7 @@ class Cell(_card.Card):
         Cell options.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 
@@ -242,13 +242,13 @@ class Cell(_card.Card):
     @options.setter
     def options(self, options: list[str] | list[cell.CellOption] = None) -> None:
         """
-        Sets ``options``.
+        Sets `options`.
 
         Parameters:
             options: Cell options.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 

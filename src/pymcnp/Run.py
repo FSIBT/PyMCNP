@@ -19,7 +19,7 @@ class Run(_doer.Doer):
 
     def __init__(self, inps: Inp, command='mcnp6'):
         """
-        Initializes ``Run``.
+        Initializes `Run`.
 
         Parameters:
             inps: Files to run.

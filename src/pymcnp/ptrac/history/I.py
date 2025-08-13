@@ -28,7 +28,7 @@ class I(_line.HistoryLine):
         tfc: types.Real = None,
     ):
         """
-        Initializes ``I``.
+        Initializes `I`.
 
         Parameters:
             nps: I nps.
@@ -53,13 +53,13 @@ class I(_line.HistoryLine):
 
     def from_mcnp(source: str):
         """
-        Generates ``I`` from PTRAC.
+        Generates `I` from PTRAC.
 
         Parameters:
-            source: PTRAC for ``I``.
+            source: PTRAC for `I`.
 
         Returns:
-            ``I``.
+            `I`.
 
         Raises:
             PtracError: SYNTAX_LINE.
@@ -84,10 +84,10 @@ class I(_line.HistoryLine):
 
     def to_mcnp(self):
         """
-        Generates PTRAC from ``I``.
+        Generates PTRAC from `I`.
 
         Returns:
-            PTRAC for ``I``.
+            PTRAC for `I`.
         """
 
         if self.tfc:

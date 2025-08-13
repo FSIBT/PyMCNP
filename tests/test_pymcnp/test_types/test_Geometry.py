@@ -33,7 +33,7 @@ class Test_Geometry:
 
         def test_valid(self):
             """
-            Tests ``EXAMPLES`` on ``to_show``.
+            Tests `EXAMPLES` on `to_show`.
             """
 
             for example in self.EXAMPLES:
@@ -41,7 +41,7 @@ class Test_Geometry:
 
         def test_invalid(self):
             """
-            Tests ``EXAMPLES`` on ``to_show``.
+            Tests `EXAMPLES` on `to_show`.
             """
 
             for example in self.EXAMPLES:
@@ -55,7 +55,7 @@ class Test_Geometry:
 
         def test_and(self):
             """
-            Tests ``EXAMPLES`` on ``__and__``.
+            Tests `EXAMPLES` on `__and__`.
             """
 
             for a, b in self.EXAMPLES:
@@ -63,7 +63,7 @@ class Test_Geometry:
 
         def test_or(self):
             """
-            Tests ``EXAMPLES`` on ``__or__``.
+            Tests `EXAMPLES` on `__or__`.
             """
 
             for a, b in self.EXAMPLES:
@@ -71,7 +71,7 @@ class Test_Geometry:
 
         def test_neg(self):
             """
-            Tests ``EXAMPLES`` on ``__neg__``.
+            Tests `EXAMPLES` on `__neg__`.
             """
 
             for a, b in self.EXAMPLES:
@@ -79,7 +79,7 @@ class Test_Geometry:
 
         def test_pos(self):
             """
-            Tests ``EXAMPLES`` on ``__pos__``.
+            Tests `EXAMPLES` on `__pos__`.
             """
 
             for a, b in self.EXAMPLES:
@@ -87,7 +87,7 @@ class Test_Geometry:
 
         def test_invert(self):
             """
-            Tests ``EXAMPLES`` on ``__invert__``.
+            Tests `EXAMPLES` on `__invert__`.
             """
 
             for a, b in self.EXAMPLES:

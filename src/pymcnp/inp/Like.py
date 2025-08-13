@@ -26,7 +26,7 @@ class Like(_card.Card):
         options: types.Tuple(like.LikeOption) = None,
     ):
         """
-        Initializes ``Like``.
+        Initializes `Like`.
 
         Parameters:
             number: Cell number.
@@ -43,7 +43,7 @@ class Like(_card.Card):
 
     def to_mcnp(self):
         """
-        Generates INP from ``Like``.
+        Generates INP from `Like`.
 
         Returns:
             INP cell card.
@@ -60,7 +60,7 @@ class Like(_card.Card):
         Cell number.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 
@@ -69,13 +69,13 @@ class Like(_card.Card):
     @number.setter
     def number(self, number: str | int | types.Integer) -> None:
         """
-        Sets ``number``.
+        Sets `number`.
 
         Parameters:
             number: Cell number.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 
@@ -98,7 +98,7 @@ class Like(_card.Card):
         Base cell number.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 
@@ -107,13 +107,13 @@ class Like(_card.Card):
     @cell.setter
     def cell(self, cell: str | int | types.Integer) -> None:
         """
-        Sets ``cell``.
+        Sets `cell`.
 
         Parameters:
             cell: Base cell number.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 
@@ -136,7 +136,7 @@ class Like(_card.Card):
         Cell options.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 
@@ -145,13 +145,13 @@ class Like(_card.Card):
     @options.setter
     def options(self, options: list[str] | list[like.LikeOption] = None) -> None:
         """
-        Sets ``options``.
+        Sets `options`.
 
         Parameters:
             options: Cell options.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
+            InpError: SEMANTICS_CARD.
             TypeError:
         """
 

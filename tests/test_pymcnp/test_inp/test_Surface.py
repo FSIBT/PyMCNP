@@ -107,7 +107,7 @@ class Test_Surface:
 
         def test_and(self):
             """
-            Tests ``EXAMPLES`` on ``__and__``.
+            Tests `EXAMPLES` on `__and__`.
             """
 
             for a, b in self.EXAMPLES:
@@ -115,7 +115,7 @@ class Test_Surface:
 
         def test_or(self):
             """
-            Tests ``EXAMPLES`` on ``__or__``.
+            Tests `EXAMPLES` on `__or__`.
             """
 
             for a, b in self.EXAMPLES:
@@ -123,7 +123,7 @@ class Test_Surface:
 
         def test_neg(self):
             """
-            Tests ``EXAMPLES`` on ``__neg__``.
+            Tests `EXAMPLES` on `__neg__`.
             """
 
             for a, b in self.EXAMPLES:
@@ -131,7 +131,7 @@ class Test_Surface:
 
         def test_pos(self):
             """
-            Tests ``EXAMPLES`` on ``__pos__``.
+            Tests `EXAMPLES` on `__pos__`.
             """
 
             for a, b in self.EXAMPLES:
@@ -139,7 +139,7 @@ class Test_Surface:
 
         def test_invert(self):
             """
-            Tests ``EXAMPLES`` on ``__or__``.
+            Tests `EXAMPLES` on `__or__`.
             """
 
             for a, b in self.EXAMPLES:

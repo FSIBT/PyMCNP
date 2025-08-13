@@ -7,7 +7,7 @@ from ... import errors
 
 class Ext(_option.CellOption):
     """
-    Represents INP ext elements.
+    Represents INP `ext` elements.
     """
 
     _KEYWORD = 'ext'
@@ -21,7 +21,7 @@ class Ext(_option.CellOption):
 
     def __init__(self, designator: str | types.Designator, stretch: str | types.String):
         """
-        Initializes ``Ext``.
+        Initializes `Ext`.
 
         Parameters:
             designator: Cell particle designator.
@@ -49,7 +49,7 @@ class Ext(_option.CellOption):
     @designator.setter
     def designator(self, designator: str | types.Designator) -> None:
         """
-        Sets ``designator``.
+        Sets `designator`.
 
         Parameters:
             designator: Cell particle designator.
@@ -85,7 +85,7 @@ class Ext(_option.CellOption):
     @stretch.setter
     def stretch(self, stretch: str | types.String) -> None:
         """
-        Sets ``stretch``.
+        Sets `stretch`.
 
         Parameters:
             stretch: Cell exponential transform stretching specifier.

@@ -7,7 +7,7 @@ from ... import errors
 
 class Dxc(_option.CellOption):
     """
-    Represents INP dxc elements.
+    Represents INP `dxc` elements.
     """
 
     _KEYWORD = 'dxc'
@@ -22,7 +22,7 @@ class Dxc(_option.CellOption):
 
     def __init__(self, suffix: str | int | types.Integer, designator: str | types.Designator, probability: str | int | float | types.Real):
         """
-        Initializes ``Dxc``.
+        Initializes `Dxc`.
 
         Parameters:
             suffix: Cell option suffix.
@@ -52,7 +52,7 @@ class Dxc(_option.CellOption):
     @suffix.setter
     def suffix(self, suffix: str | int | types.Integer) -> None:
         """
-        Sets ``suffix``.
+        Sets `suffix`.
 
         Parameters:
             suffix: Cell option suffix.
@@ -90,7 +90,7 @@ class Dxc(_option.CellOption):
     @designator.setter
     def designator(self, designator: str | types.Designator) -> None:
         """
-        Sets ``designator``.
+        Sets `designator`.
 
         Parameters:
             designator: Cell particle designator.
@@ -126,7 +126,7 @@ class Dxc(_option.CellOption):
     @probability.setter
     def probability(self, probability: str | int | float | types.Real) -> None:
         """
-        Sets ``probability``.
+        Sets `probability`.
 
         Parameters:
             probability: Cell probability of DXTRAN contribution.

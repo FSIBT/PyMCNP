@@ -8,7 +8,7 @@ from .. import errors
 
 class UnnormedTallyDensity(_block.Block):
     """
-    Represents ``1unnormed tally density`` blocks.
+    Represents `1unnormed tally density` blocks.
 
     Attributes:
         tally: Tally number.
@@ -31,7 +31,7 @@ class UnnormedTallyDensity(_block.Block):
         chart: types.String,
     ):
         """
-        Initializes ``UnnormedTallyDensity``.
+        Initializes `UnnormedTallyDensity`.
 
         Parameters:
             tally: Tally number.
@@ -60,13 +60,13 @@ class UnnormedTallyDensity(_block.Block):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``UnnormedTallyDensity`` from OUTP.
+        Generates `UnnormedTallyDensity` from OUTP.
 
         Parameters:
-            source: OUTP for ``UnnormedTallyDensity``.
+            source: OUTP for `UnnormedTallyDensity`.
 
         Returns:
-            ``UnnormedTallyDensity``.
+            `UnnormedTallyDensity`.
         """
 
         tokens = UnnormedTallyDensity._REGEX.match(source)
@@ -88,10 +88,10 @@ class UnnormedTallyDensity(_block.Block):
 
     def to_mcnp(self):
         """
-        Generates OUTP from ``UnnormedTallyDensity``.
+        Generates OUTP from `UnnormedTallyDensity`.
 
         Returns:
-            OUTP for ``UnnormedTallyDensity``.
+            OUTP for `UnnormedTallyDensity`.
         """
 
         return f"""

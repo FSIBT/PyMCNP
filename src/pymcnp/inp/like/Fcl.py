@@ -7,7 +7,7 @@ from ... import errors
 
 class Fcl(_option.LikeOption):
     """
-    Represents INP fcl elements.
+    Represents INP `fcl` elements.
     """
 
     _KEYWORD = 'fcl'
@@ -21,7 +21,7 @@ class Fcl(_option.LikeOption):
 
     def __init__(self, designator: str | types.Designator, control: str | int | float | types.Real):
         """
-        Initializes ``Fcl``.
+        Initializes `Fcl`.
 
         Parameters:
             designator: Cell particle designator.
@@ -37,10 +37,10 @@ class Fcl(_option.LikeOption):
     @property
     def designator(self) -> types.Designator:
         """
-        Gets ``designator``.
+        Gets `designator`.
 
         Returns:
-            ``designator``.
+            `designator`.
         """
 
         return self._designator
@@ -48,7 +48,7 @@ class Fcl(_option.LikeOption):
     @designator.setter
     def designator(self, designator: str | types.Designator) -> None:
         """
-        Sets ``designator``.
+        Sets `designator`.
 
         Parameters:
             designator: Cell particle designator.
@@ -72,10 +72,10 @@ class Fcl(_option.LikeOption):
     @property
     def control(self) -> types.Real:
         """
-        Gets ``control``.
+        Gets `control`.
 
         Returns:
-            ``control``.
+            `control`.
         """
 
         return self._control
@@ -83,7 +83,7 @@ class Fcl(_option.LikeOption):
     @control.setter
     def control(self, control: str | int | float | types.Real) -> None:
         """
-        Sets ``control``.
+        Sets `control`.
 
         Parameters:
             control: Cell forced-collision control.

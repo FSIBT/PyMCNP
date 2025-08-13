@@ -1,6 +1,6 @@
 # "Do" Examples
 
-PyMCNP enables common workflows using ``pyvista``, ``pandas``, ``subprocesss``, ``matplotlib``, and ``difflib``.
+PyMCNP enables common workflows using `pyvista`, `pandas`, `subprocesss`, `matplotlib`, and `difflib`.
 
 ## Checking INP Files
 

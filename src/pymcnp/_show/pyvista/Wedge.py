@@ -10,7 +10,7 @@ class Wedge(_shape.PyvistaShape):
 
     def __init__(self, a: float, b: float, h: float):
         """
-        Initializes ``Wedge``.
+        Initializes `Wedge`.
 
         Parameters:
             a: Wedge triangle base small side #1.

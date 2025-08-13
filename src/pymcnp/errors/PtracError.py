@@ -3,7 +3,7 @@ from . import _error
 
 class PtracCode(_error.Code):
     """
-    Represents ``ptrac`` error codes.
+    Represents `ptrac` error codes.
 
     Notes:
         0x - Syntax
@@ -23,7 +23,7 @@ class PtracCode(_error.Code):
 
 class PtracError(_error.Error):
     """
-    Represents ``ptrac`` errors.
+    Represents `ptrac` errors.
     """
 
     def __str__(self):

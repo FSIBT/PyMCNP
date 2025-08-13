@@ -59,7 +59,7 @@ class N(_line.HeaderLine):
         n20: types.Integer,
     ):
         """
-        Initializes ``N``.
+        Initializes `N`.
 
         Parameters:
             n1: Number of variables on the I line.
@@ -170,13 +170,13 @@ class N(_line.HeaderLine):
 
     def from_mcnp(source: str):
         """
-        Generates ``N`` from PTRAC.
+        Generates `N` from PTRAC.
 
         Parameters:
-            source: PTRAC for ``N``.
+            source: PTRAC for `N`.
 
         Returns:
-            ``N``.
+            `N`.
 
         Raises:
             PtracError: SYNTAX_LINE.
@@ -233,10 +233,10 @@ class N(_line.HeaderLine):
 
     def to_mcnp(self):
         """
-        Generates PTRAC from ``N``.
+        Generates PTRAC from `N`.
 
         Returns:
-            PTRAC for ``N``.
+            PTRAC for `N`.
         """
 
         n_line = ' '

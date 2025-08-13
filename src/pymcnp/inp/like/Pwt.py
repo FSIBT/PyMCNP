@@ -7,7 +7,7 @@ from ... import errors
 
 class Pwt(_option.LikeOption):
     """
-    Represents INP pwt elements.
+    Represents INP `pwt` elements.
     """
 
     _KEYWORD = 'pwt'
@@ -20,7 +20,7 @@ class Pwt(_option.LikeOption):
 
     def __init__(self, weight: str | int | float | types.Real):
         """
-        Initializes ``Pwt``.
+        Initializes `Pwt`.
 
         Parameters:
             weight: Cell weight of photons produced at neutron collisions.
@@ -34,10 +34,10 @@ class Pwt(_option.LikeOption):
     @property
     def weight(self) -> types.Real:
         """
-        Gets ``weight``.
+        Gets `weight`.
 
         Returns:
-            ``weight``.
+            `weight`.
         """
 
         return self._weight
@@ -45,7 +45,7 @@ class Pwt(_option.LikeOption):
     @weight.setter
     def weight(self, weight: str | int | float | types.Real) -> None:
         """
-        Sets ``weight``.
+        Sets `weight`.
 
         Parameters:
             weight: Cell weight of photons produced at neutron collisions.

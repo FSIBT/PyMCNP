@@ -10,7 +10,7 @@ class CylinderUnbounded(_shape.PyvistaShape):
 
     def __init__(self, r: float):
         """
-        Initializes ``CylinderUnbounded``.
+        Initializes `CylinderUnbounded`.
 
         Paremeters:
             r: Circular cylinder radius.

@@ -10,7 +10,7 @@ from ... import errors
 
 class C_y(_option.SurfaceOption):
     """
-    Represents INP c/y elements.
+    Represents INP `c/y` elements.
     """
 
     _KEYWORD = 'c/y'
@@ -25,7 +25,7 @@ class C_y(_option.SurfaceOption):
 
     def __init__(self, x: str | int | float | types.Real, z: str | int | float | types.Real, r: str | int | float | types.Real):
         """
-        Initializes ``C_y``.
+        Initializes `C_y`.
 
         Parameters:
             x: Parallel-to-y-axis cylinder center x component.
@@ -55,7 +55,7 @@ class C_y(_option.SurfaceOption):
     @x.setter
     def x(self, x: str | int | float | types.Real) -> None:
         """
-        Sets ``x``.
+        Sets `x`.
 
         Parameters:
             x: Parallel-to-y-axis cylinder center x component.
@@ -93,7 +93,7 @@ class C_y(_option.SurfaceOption):
     @z.setter
     def z(self, z: str | int | float | types.Real) -> None:
         """
-        Sets ``z``.
+        Sets `z`.
 
         Parameters:
             z: Parallel-to-y-axis cylinder center z component.
@@ -131,7 +131,7 @@ class C_y(_option.SurfaceOption):
     @r.setter
     def r(self, r: str | int | float | types.Real) -> None:
         """
-        Sets ``r``.
+        Sets `r`.
 
         Parameters:
             r: Parallel-to-y-axis cylinder radius.
@@ -156,13 +156,13 @@ class C_y(_option.SurfaceOption):
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
-        Generates ``Visualization`` from ``C_y``.
+        Generates `Visualization` from `C_y`.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            ``_show.Shape`` for ``C_y``.
+            `_show.Shape` for `C_y`.
         """
 
         vis = shapes.CylinderUnbounded(float(self.r))

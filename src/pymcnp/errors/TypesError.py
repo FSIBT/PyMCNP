@@ -3,7 +3,7 @@ from . import _error
 
 class TypesCode(_error.Code):
     """
-    Represents ``types`` error codes.
+    Represents `types` error codes.
 
     Notes:
         0x - Syntax
@@ -18,7 +18,7 @@ class TypesCode(_error.Code):
 
 class TypesError(_error.Error):
     """
-    Represents ``types`` errors.
+    Represents `types` errors.
     """
 
     def __str__(self):

@@ -38,7 +38,7 @@ class Header(_symbol.Nonterminal):
         l_line: header.L,
     ):
         """
-        Initializes ``Header``.
+        Initializes `Header`.
 
         Parameters:
             code: Simulation name.
@@ -90,13 +90,13 @@ class Header(_symbol.Nonterminal):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Header`` from PTRAC.
+        Generates `Header` from PTRAC.
 
         Parameters:
-            source: PTRAC for ``Header``.
+            source: PTRAC for `Header`.
 
         Returns:
-            ``Header``.
+            `Header`.
 
         Raises:
             PtracError: SYNTAX_BLOCK.
@@ -120,10 +120,10 @@ class Header(_symbol.Nonterminal):
 
     def to_mcnp(self):
         """
-        Generates PTRAC from ``Header``.
+        Generates PTRAC from `Header`.
 
         Returns:
-            PTRAC for ``Header``.
+            PTRAC for `Header`.
         """
 
         return f'   -1\n{self.code:<8}{self.version:<25}{self.code_date:<9}{self.run_datetime:<18}\n{self.title:<80}\n{self.v_line}{self.n_line}{self.l_line}'

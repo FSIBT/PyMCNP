@@ -7,7 +7,7 @@ from ... import errors
 
 class Cosy(_option.LikeOption):
     """
-    Represents INP cosy elements.
+    Represents INP `cosy` elements.
     """
 
     _KEYWORD = 'cosy'
@@ -20,7 +20,7 @@ class Cosy(_option.LikeOption):
 
     def __init__(self, number: str | int | types.Integer):
         """
-        Initializes ``Cosy``.
+        Initializes `Cosy`.
 
         Parameters:
             number: Cell cosy map number.
@@ -34,10 +34,10 @@ class Cosy(_option.LikeOption):
     @property
     def number(self) -> types.Integer:
         """
-        Gets ``number``.
+        Gets `number`.
 
         Returns:
-            ``number``.
+            `number`.
         """
 
         return self._number
@@ -45,7 +45,7 @@ class Cosy(_option.LikeOption):
     @number.setter
     def number(self, number: str | int | types.Integer) -> None:
         """
-        Sets ``number``.
+        Sets `number`.
 
         Parameters:
             number: Cell cosy map number.

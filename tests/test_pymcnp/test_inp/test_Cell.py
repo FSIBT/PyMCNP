@@ -172,7 +172,7 @@ class Test_Cell:
 
         def test_valid(self):
             """
-            Tests ``EXAMPLES`` on ``to_show``.
+            Tests `EXAMPLES` on `to_show`.
             """
 
             for example in self.EXAMPLES:
@@ -180,7 +180,7 @@ class Test_Cell:
 
         def test_invalid(self):
             """
-            Tests ``EXAMPLES`` on ``to_show``.
+            Tests `EXAMPLES` on `to_show`.
             """
 
             for example in self.EXAMPLES:

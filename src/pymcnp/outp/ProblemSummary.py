@@ -8,7 +8,7 @@ from .. import errors
 
 class ProblemSummary(_block.Block):
     """
-    Represents OUTP ``1starting mcrun`` blocks.
+    Represents OUTP `1starting mcrun` blocks.
 
     Attributes:
         histories: Particle histories done.
@@ -68,7 +68,7 @@ class ProblemSummary(_block.Block):
         range_upper: types.String,
     ):
         """
-        Initializes ``ProblemSummary``.
+        Initializes `ProblemSummary`.
 
         Parameters:
             histories: Particle histories done.
@@ -149,13 +149,13 @@ class ProblemSummary(_block.Block):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``ProblemSummary`` from OUTP.
+        Generates `ProblemSummary` from OUTP.
 
         Parameters:
-            source: OUTP for ``ProblemSummary``.
+            source: OUTP for `ProblemSummary`.
 
         Returns:
-            ``ProblemSummary``.
+            `ProblemSummary`.
         """
 
         tokens = ProblemSummary._REGEX.match(source)
@@ -203,10 +203,10 @@ class ProblemSummary(_block.Block):
 
     def to_mcnp(self):
         """
-        Generates OUTP from ``ProblemSummary``.
+        Generates OUTP from `ProblemSummary`.
 
         Returns:
-            OUTP for ``ProblemSummary``.
+            OUTP for `ProblemSummary`.
         """
 
         return f"""

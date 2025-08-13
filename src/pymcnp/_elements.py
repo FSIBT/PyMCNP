@@ -1,5 +1,5 @@
 """
-Contains the ``ELEMENTS`` constant of ``Istopes-NIST-2`` data.
+Contains the `ELEMENTS` constant of `Istopes-NIST-2` data.
 """
 
 import typing

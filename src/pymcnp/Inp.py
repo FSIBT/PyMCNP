@@ -7,6 +7,164 @@ from . import types
 from . import errors
 
 
+Cell = types.Union(inp.Cell, inp.Like, inp.Comment)
+Surface = types.Union(inp.Surface, inp.Comment)
+Data = types.Union(
+    inp.Act,
+    inp.Area,
+    inp.Awtab,
+    inp.Bbrem,
+    inp.Bflcl,
+    inp.Bfld,
+    inp.C,
+    inp.Cf,
+    inp.Cm,
+    inp.Cosy,
+    inp.Cosyp,
+    inp.Ctme,
+    inp.Cut,
+    inp.Dawwg,
+    inp.Dbcn,
+    inp.Dd,
+    inp.De,
+    inp.Df_0,
+    inp.Df_1,
+    inp.Dm,
+    inp.Drxs,
+    inp.Ds_0,
+    inp.Ds_1,
+    inp.Ds_2,
+    inp.Ds_3,
+    inp.Dxc,
+    inp.Dxt,
+    inp.E,
+    inp.Elpt,
+    inp.Em,
+    inp.Embdb,
+    inp.Embdf,
+    inp.Embeb,
+    inp.Embed,
+    inp.Embee,
+    inp.Embem,
+    inp.Embtb,
+    inp.Embtm,
+    inp.Esplt,
+    inp.Ext,
+    inp.F_0,
+    inp.F_1,
+    inp.F_2,
+    inp.F_3,
+    inp.F_4,
+    inp.Fc,
+    inp.Fcl,
+    inp.Fic,
+    inp.Files,
+    inp.Fill,
+    inp.Fip,
+    inp.Fir,
+    inp.Fm,
+    inp.Fmesh,
+    inp.Fmult,
+    inp.Fq,
+    inp.Fs,
+    inp.Ft,
+    inp.Fu,
+    inp.Histp,
+    inp.Hsrc,
+    inp.Idum,
+    inp.Imp,
+    inp.Kcode,
+    inp.Kopts,
+    inp.Kpert,
+    inp.Ksen,
+    inp.Ksrc,
+    inp.Lat,
+    inp.Lca,
+    inp.Lcb,
+    inp.Lcc,
+    inp.Lea,
+    inp.Leb,
+    inp.Lost,
+    inp.M_0,
+    inp.M_1,
+    inp.Mesh,
+    inp.Mgopt,
+    inp.Mode,
+    inp.Mphys,
+    inp.Mplot,
+    inp.Mt,
+    inp.Mx,
+    inp.Nonu,
+    inp.Notrn,
+    inp.Nps,
+    inp.Otfdb,
+    inp.Pd,
+    inp.Pert,
+    inp.Phys_0,
+    inp.Phys_1,
+    inp.Phys_2,
+    inp.Phys_3,
+    inp.Phys_4,
+    inp.Pikmt,
+    inp.Prdmp,
+    inp.Print,
+    inp.Ptrac,
+    inp.Pwt,
+    inp.Rand,
+    inp.Rdum,
+    inp.Sb_0,
+    inp.Sb_1,
+    inp.Sc,
+    inp.Sd,
+    inp.Sdef,
+    inp.Sf,
+    inp.Si_0,
+    inp.Si_1,
+    inp.Si_2,
+    inp.Sp_0,
+    inp.Sp_1,
+    inp.Spdtl,
+    inp.Ssr,
+    inp.Ssw,
+    inp.Stop,
+    inp.T_0,
+    inp.T_1,
+    inp.Talnp,
+    inp.Tf_0,
+    inp.Tf_1,
+    inp.Thtme,
+    inp.Tm,
+    inp.Tmp,
+    inp.Totnu,
+    inp.Tr_0,
+    inp.Tr_1,
+    inp.Tr_2,
+    inp.Tr_3,
+    inp.Tr_4,
+    inp.Tropt,
+    inp.Tsplt,
+    inp.U,
+    inp.Unc,
+    inp.Uran,
+    inp.Var,
+    inp.Void,
+    inp.Vol,
+    inp.Wwe,
+    inp.Wwg,
+    inp.Wwge,
+    inp.Wwgt,
+    inp.Wwn,
+    inp.Wwp,
+    inp.Wwt,
+    inp.Xs,
+    inp.Za,
+    inp.Zb,
+    inp.Zc,
+    inp.Zd,
+    inp.Comment,
+)
+
+
 class Inp(_file.File):
     """
     Represents INP files.
@@ -17,14 +175,14 @@ class Inp(_file.File):
     def __init__(
         self,
         title: types.String,
-        cells: types.Tuple(inp.Cell | inp.Like),
-        surfaces: types.Tuple(inp.Surface),
-        data: types.Tuple(inp.Data),
+        cells: types.Tuple(Cell),
+        surfaces: types.Tuple(Surface),
+        data: types.Tuple(Data),
         message: types.String = None,
         other: types.String = None,
     ):
         """
-        Initializes ``Inp``.
+        Initializes `Inp`.
 
         Parameters:
             title: File title.
@@ -35,29 +193,29 @@ class Inp(_file.File):
             other: File other block.
 
         Returns:
-            ``Inp``.
+            `Inp`.
 
         Raises:
             InpError: SEMATNICS_INP.
         """
 
         self.title: types.String = title
-        self.cells: types.Tuple(inp.Cell | inp.Like | inp.Comment) = cells
-        self.surfaces: types.Tuple(inp.Surface | inp.Comment) = surfaces
-        self.data: types.Tuple(inp.Data | inp.Comment) = data
+        self.cells: types.Tuple(Cell) = cells
+        self.surfaces: types.Tuple(Surface) = surfaces
+        self.data: types.Tuple(Data) = data
         self.message: types.String = message
         self.other: types.String = other
 
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Inp`` from INP.
+        Generates `Inp` from INP.
 
         Parameters:
-            source: INP for ``Inp``.
+            source: INP for `Inp`.
 
         Returns:
-            ``Inp``.
+            `Inp`.
 
         Raises:
             InpError: SYNTAX_FILE.
@@ -71,40 +229,9 @@ class Inp(_file.File):
 
         message = types.String.from_mcnp(tokens[1]) if tokens[1] else None
         title = types.String.from_mcnp(tokens[2])
-
-        cells = []
-        for line in tokens[3].strip().split('\n'):
-            try:
-                cells.append(inp.Comment.from_mcnp(line))
-                continue
-            except errors.InpError:
-                pass
-
-            if 'like' in line:
-                cells.append(inp.Like.from_mcnp(line))
-            else:
-                cells.append(inp.Cell.from_mcnp(line))
-
-        surfaces = []
-        for line in tokens[4].strip().split('\n'):
-            try:
-                surfaces.append(inp.Comment.from_mcnp(line))
-                continue
-            except errors.InpError:
-                pass
-
-            surfaces.append(inp.Surface.from_mcnp(line))
-
-        data = []
-        for line in tokens[5].strip().split('\n'):
-            try:
-                data.append(inp.Comment.from_mcnp(line))
-                continue
-            except errors.InpError:
-                pass
-
-            data.append(inp.Data.from_mcnp(line))
-
+        cells = types.Tuple(Cell)(tuple(Cell.from_mcnp(token) for token in tokens[3].strip().split('\n')))
+        surfaces = types.Tuple(Surface)(tuple(Surface.from_mcnp(token) for token in tokens[4].strip().split('\n')))
+        data = types.Tuple(Data)(tuple(Data.from_mcnp(token) for token in tokens[5].strip().split('\n')))
         other = types.String.from_mcnp(tokens[6]) if tokens[6] else None
 
         return Inp(
@@ -118,10 +245,10 @@ class Inp(_file.File):
 
     def to_mcnp(self):
         """
-        Generates INP from ``Inp``.
+        Generates INP from `Inp`.
 
         Returns:
-            INP for ``Inp``.
+            INP for `Inp`.
         """
 
         # DELIMITER = 'c ' + '=' * 76 + '\n'
@@ -145,7 +272,7 @@ class Inp(_file.File):
     @staticmethod
     def _preprocess(source: str):
         """
-        Preprocess INP for ``from_mcnp``.
+        Preprocess INP for `from_mcnp`.
 
         Parameters:
             source: INP to preprocess.
@@ -207,7 +334,7 @@ class Inp(_file.File):
         return source
 
     @property
-    def title(self) -> types.Integer:
+    def title(self) -> types.String:
         """
         File title.
 
@@ -221,7 +348,7 @@ class Inp(_file.File):
     @title.setter
     def title(self, title: str | types.String) -> None:
         """
-        Sets ``title``.
+        Sets `title`.
 
         Parameters:
             title: File title.
@@ -243,7 +370,7 @@ class Inp(_file.File):
         self._title: types.Integer = title
 
     @property
-    def cells(self) -> types.Integer:
+    def cells(self) -> types.Tuple(Cell):
         """
         File cells card block.
 
@@ -257,7 +384,7 @@ class Inp(_file.File):
     @cells.setter
     def cells(self, cells: list[str] | list[inp.Cell | inp.Like | inp.Comment]) -> None:
         """
-        Sets ``cells``.
+        Sets `cells`.
 
         Parameters:
             cells: File cells.
@@ -293,10 +420,10 @@ class Inp(_file.File):
         if cells is None or None in cells:
             raise errors.InpError(errors.InpCode.SEMANTICS_FILE, cells)
 
-        self._cells: types.Integer = cells
+        self._cells: types.Tuple(Cell) = cells
 
     @property
-    def surfaces(self) -> types.Integer:
+    def surfaces(self) -> types.Tuple(Surface):
         """
         File surfaces card block.
 
@@ -310,7 +437,7 @@ class Inp(_file.File):
     @surfaces.setter
     def surfaces(self, surfaces: list[str] | list[inp.Surface | inp.Comment]) -> None:
         """
-        Sets ``surfaces``.
+        Sets `surfaces`.
 
         Parameters:
             surfaces: File surfaces.
@@ -340,10 +467,10 @@ class Inp(_file.File):
         if surfaces is None or None in surfaces:
             raise errors.InpError(errors.InpCode.SEMANTICS_FILE, surfaces)
 
-        self._surfaces: types.Integer = surfaces
+        self._surfaces: types.Tuple(Surface) = surfaces
 
     @property
-    def data(self) -> types.Integer:
+    def data(self) -> types.Tuple(Data):
         """
         File data card block.
 
@@ -355,9 +482,166 @@ class Inp(_file.File):
         return self._data
 
     @data.setter
-    def data(self, data: list[str] | list[inp.Data | inp.Comment]) -> None:
+    def data(
+        self,
+        data: list[str]
+        | list[
+            inp.Act
+            | inp.Area
+            | inp.Awtab
+            | inp.Bbrem
+            | inp.Bflcl
+            | inp.Bfld
+            | inp.C
+            | inp.Cf
+            | inp.Cm
+            | inp.Cosy
+            | inp.Cosyp
+            | inp.Ctme
+            | inp.Cut
+            | inp.Dawwg
+            | inp.Dbcn
+            | inp.Dd
+            | inp.De
+            | inp.Df_0
+            | inp.Df_1
+            | inp.Dm
+            | inp.Drxs
+            | inp.Ds_0
+            | inp.Ds_1
+            | inp.Ds_2
+            | inp.Ds_3
+            | inp.Dxc
+            | inp.Dxt
+            | inp.E
+            | inp.Elpt
+            | inp.Em
+            | inp.Embdb
+            | inp.Embdf
+            | inp.Embeb
+            | inp.Embed
+            | inp.Embee
+            | inp.Embem
+            | inp.Embtb
+            | inp.Embtm
+            | inp.Esplt
+            | inp.Ext
+            | inp.F_0
+            | inp.F_1
+            | inp.F_2
+            | inp.F_3
+            | inp.F_4
+            | inp.Fc
+            | inp.Fcl
+            | inp.Fic
+            | inp.Files
+            | inp.Fill
+            | inp.Fip
+            | inp.Fir
+            | inp.Fm
+            | inp.Fmesh
+            | inp.Fmult
+            | inp.Fq
+            | inp.Fs
+            | inp.Ft
+            | inp.Fu
+            | inp.Histp
+            | inp.Hsrc
+            | inp.Idum
+            | inp.Imp
+            | inp.Kcode
+            | inp.Kopts
+            | inp.Kpert
+            | inp.Ksen
+            | inp.Ksrc
+            | inp.Lat
+            | inp.Lca
+            | inp.Lcb
+            | inp.Lcc
+            | inp.Lea
+            | inp.Leb
+            | inp.Lost
+            | inp.M_0
+            | inp.M_1
+            | inp.Mesh
+            | inp.Mgopt
+            | inp.Mode
+            | inp.Mphys
+            | inp.Mplot
+            | inp.Mt
+            | inp.Mx
+            | inp.Nonu
+            | inp.Notrn
+            | inp.Nps
+            | inp.Otfdb
+            | inp.Pd
+            | inp.Pert
+            | inp.Phys_0
+            | inp.Phys_1
+            | inp.Phys_2
+            | inp.Phys_3
+            | inp.Phys_4
+            | inp.Pikmt
+            | inp.Prdmp
+            | inp.Print
+            | inp.Ptrac
+            | inp.Pwt
+            | inp.Rand
+            | inp.Rdum
+            | inp.Sb_0
+            | inp.Sb_1
+            | inp.Sc
+            | inp.Sd
+            | inp.Sdef
+            | inp.Sf
+            | inp.Si_0
+            | inp.Si_1
+            | inp.Si_2
+            | inp.Sp_0
+            | inp.Sp_1
+            | inp.Spdtl
+            | inp.Ssr
+            | inp.Ssw
+            | inp.Stop
+            | inp.T_0
+            | inp.T_1
+            | inp.Talnp
+            | inp.Tf_0
+            | inp.Tf_1
+            | inp.Thtme
+            | inp.Tm
+            | inp.Tmp
+            | inp.Totnu
+            | inp.Tr_0
+            | inp.Tr_1
+            | inp.Tr_2
+            | inp.Tr_3
+            | inp.Tr_4
+            | inp.Tropt
+            | inp.Tsplt
+            | inp.U
+            | inp.Unc
+            | inp.Uran
+            | inp.Var
+            | inp.Void
+            | inp.Vol
+            | inp.Wwe
+            | inp.Wwg
+            | inp.Wwge
+            | inp.Wwgt
+            | inp.Wwn
+            | inp.Wwp
+            | inp.Wwt
+            | inp.Xs
+            | inp.Za
+            | inp.Zb
+            | inp.Zc
+            | inp.Zd
+            | inp.Comment
+        ],
+    ) -> None:
         """
-        Sets ``data``.
+        Sets `data`.
 
         Parameters:
             data: File data.
@@ -370,9 +654,7 @@ class Inp(_file.File):
         if data is not None:
             array = []
             for item in data:
-                if isinstance(item, inp.Data):
-                    array.append(item)
-                elif isinstance(item, inp.Comment):
+                if isinstance(item, inp.Card) and not (isinstance(item, inp.Surface) or isinstance(item, inp.Like) or isinstance(item, inp.Cell)):
                     array.append(item)
                 elif isinstance(item, str):
                     try:
@@ -381,17 +663,17 @@ class Inp(_file.File):
                     except errors.InpError:
                         pass
 
-                    array.append(inp.Data.from_mcnp(item))
+                    array.append(Data.from_mcnp(item))
 
-            data = types.Tuple(inp.Card)(array)
+            data = types.Tuple(Data)(array)
 
         if data is None or None in data:
             raise errors.InpError(errors.InpCode.SEMANTICS_FILE, data)
 
-        self._data: types.Integer = data
+        self._data: types.Tuple(Data) = data
 
     @property
-    def message(self) -> types.Integer:
+    def message(self) -> types.String:
         """
         File message.
 
@@ -405,7 +687,7 @@ class Inp(_file.File):
     @message.setter
     def message(self, message: str | types.String) -> None:
         """
-        Sets ``message``.
+        Sets `message`.
 
         Parameters:
             message: File message.
@@ -438,7 +720,7 @@ class Inp(_file.File):
     @other.setter
     def other(self, other: str | types.String) -> None:
         """
-        Sets ``other``.
+        Sets `other`.
 
         Parameters:
             other: File other.
@@ -467,15 +749,15 @@ class Inp(_file.File):
         """
 
         try:
-            card_nps = next(filter(lambda card: isinstance(card, inp.Data) and isinstance(card.option, inp.data.Nps), self.data))
-            return card_nps.option.npp
+            card_nps = next(filter(lambda card: isinstance(card, inp.Nps), self.data))
+            return card_nps.npp
         except StopIteration:
             return None
 
     @nps.setter
     def nps(self, nps: str | int | types.Integer) -> None:
         """
-        Sets ``nps``.
+        Sets `nps`.
 
         Parameters:
             nps: File nps.
@@ -494,11 +776,10 @@ class Inp(_file.File):
                 nps = types.Integer.from_mcnp(nps)
 
         try:
-            card_nps = next(filter(lambda card: isinstance(card, inp.Data) and isinstance(card.option, inp.data.Nps), self.data))
-            card_nps.option.npp = nps
+            card_nps = next(filter(lambda card: isinstance(card, inp.Nps), self.data))
+            card_nps.npp = nps
         except StopIteration:
-            card_nps = inp.data.Nps(nps)
-            self.data = [*self.data, inp.Data(card_nps)]
+            self.data = [*self.data, inp.Nps(nps)]
 
     @property
     def seed(self) -> types.Integer:
@@ -511,8 +792,8 @@ class Inp(_file.File):
         """
 
         try:
-            card_rand = next(filter(lambda card: isinstance(card, inp.Data) and isinstance(card.option, inp.data.Rand), self.data))
-            option_seed = next(filter(lambda option: isinstance(option, inp.data.rand.Seed), card_rand.option.options or []))
+            card_rand = next(filter(lambda card: isinstance(card, inp.Rand), self.data))
+            option_seed = next(filter(lambda option: isinstance(option, inp.rand.Seed), card_rand.options or []))
             return option_seed.seed
         except StopIteration:
             return None
@@ -520,7 +801,7 @@ class Inp(_file.File):
     @seed.setter
     def seed(self, seed: str | int | types.Integer) -> None:
         """
-        Sets ``seed``.
+        Sets `seed`.
 
         Parameters:
             seed: File seed.
@@ -539,16 +820,16 @@ class Inp(_file.File):
                 seed = types.Integer.from_mcnp(seed)
 
         try:
-            card_rand = next(filter(lambda card: isinstance(card, inp.Data) and isinstance(card.option, inp.data.Rand), self.data))
+            card_rand = next(filter(lambda card: isinstance(card, inp.Rand), self.data))
 
             try:
-                option_seed = next(filter(lambda option: isinstance(option, inp.data.rand.Seed), card_rand.option.options or []))
+                option_seed = next(filter(lambda option: isinstance(option, inp.rand.Seed), card_rand.options or []))
                 option_seed.seed = seed
             except StopIteration:
-                option_seed = inp.data.rand.Seed(seed)
-                card_rand.option.options = [*(card_rand.option.options or []), option_seed]
+                option_seed = inp.rand.Seed(seed)
+                card_rand.options = [*(card_rand.options or []), option_seed]
 
         except StopIteration:
-            option_seed = inp.data.rand.Seed(seed)
-            card_rand = inp.Data(inp.data.Rand([option_seed]))
+            option_seed = inp.rand.Seed(seed)
+            card_rand = inp.Rand([option_seed])
             self.data = [*self.data, card_rand]

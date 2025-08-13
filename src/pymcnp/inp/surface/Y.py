@@ -7,7 +7,7 @@ from ... import errors
 
 class Y(_option.SurfaceOption):
     """
-    Represents INP y elements.
+    Represents INP `y` elements.
     """
 
     _KEYWORD = 'y'
@@ -36,7 +36,7 @@ class Y(_option.SurfaceOption):
         r3: str | int | float | types.Real = None,
     ):
         """
-        Initializes ``Y``.
+        Initializes `Y`.
 
         Parameters:
             y1: Y-axisymmetric point-defined surface point #1 y component.
@@ -72,7 +72,7 @@ class Y(_option.SurfaceOption):
     @y1.setter
     def y1(self, y1: str | int | float | types.Real) -> None:
         """
-        Sets ``y1``.
+        Sets `y1`.
 
         Parameters:
             y1: Y-axisymmetric point-defined surface point #1 y component.
@@ -110,7 +110,7 @@ class Y(_option.SurfaceOption):
     @r1.setter
     def r1(self, r1: str | int | float | types.Real) -> None:
         """
-        Sets ``r1``.
+        Sets `r1`.
 
         Parameters:
             r1: Y-axisymmetric point-defined surface point #1 radius.
@@ -148,7 +148,7 @@ class Y(_option.SurfaceOption):
     @y2.setter
     def y2(self, y2: str | int | float | types.Real) -> None:
         """
-        Sets ``y2``.
+        Sets `y2`.
 
         Parameters:
             y2: Y-axisymmetric point-defined surface point #2 y component.
@@ -183,7 +183,7 @@ class Y(_option.SurfaceOption):
     @r2.setter
     def r2(self, r2: str | int | float | types.Real) -> None:
         """
-        Sets ``r2``.
+        Sets `r2`.
 
         Parameters:
             r2: Y-axisymmetric point-defined surface point #2 radius.
@@ -218,7 +218,7 @@ class Y(_option.SurfaceOption):
     @y3.setter
     def y3(self, y3: str | int | float | types.Real) -> None:
         """
-        Sets ``y3``.
+        Sets `y3`.
 
         Parameters:
             y3: Y-axisymmetric point-defined surface point #3 y component.
@@ -253,7 +253,7 @@ class Y(_option.SurfaceOption):
     @r3.setter
     def r3(self, r3: str | int | float | types.Real) -> None:
         """
-        Sets ``r3``.
+        Sets `r3`.
 
         Parameters:
             r3: Y-axisymmetric point-defined surface point #3 radius.

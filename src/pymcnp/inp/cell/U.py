@@ -7,7 +7,7 @@ from ... import errors
 
 class U(_option.CellOption):
     """
-    Represents INP u elements.
+    Represents INP `u` elements.
     """
 
     _KEYWORD = 'u'
@@ -20,7 +20,7 @@ class U(_option.CellOption):
 
     def __init__(self, number: str | int | types.Integer):
         """
-        Initializes ``U``.
+        Initializes `U`.
 
         Parameters:
             number: Cell universe number.
@@ -46,7 +46,7 @@ class U(_option.CellOption):
     @number.setter
     def number(self, number: str | int | types.Integer) -> None:
         """
-        Sets ``number``.
+        Sets `number`.
 
         Parameters:
             number: Cell universe number.

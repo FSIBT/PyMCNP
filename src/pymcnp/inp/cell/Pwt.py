@@ -7,7 +7,7 @@ from ... import errors
 
 class Pwt(_option.CellOption):
     """
-    Represents INP pwt elements.
+    Represents INP `pwt` elements.
     """
 
     _KEYWORD = 'pwt'
@@ -20,7 +20,7 @@ class Pwt(_option.CellOption):
 
     def __init__(self, weight: str | int | float | types.Real):
         """
-        Initializes ``Pwt``.
+        Initializes `Pwt`.
 
         Parameters:
             weight: Cell weight of photons produced at neutron collisions.
@@ -46,7 +46,7 @@ class Pwt(_option.CellOption):
     @weight.setter
     def weight(self, weight: str | int | float | types.Real) -> None:
         """
-        Sets ``weight``.
+        Sets `weight`.
 
         Parameters:
             weight: Cell weight of photons produced at neutron collisions.

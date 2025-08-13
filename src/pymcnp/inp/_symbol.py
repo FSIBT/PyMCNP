@@ -11,7 +11,7 @@ class InpNonterminal(_symbol.Nonterminal):
     @staticmethod
     def _preprocess(source: str) -> str:
         """
-        Preprocess INP for ``from_mcnp``.
+        Preprocess INP for `from_mcnp`.
 
         Parameters:
             source: INP to preprocess.
