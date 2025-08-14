@@ -1,5 +1,9 @@
 """
 Example reading PTRAC files.
+
+This example reads an PTRAC file using two methods: `__init__` and `from_mcnp`.
+First, it reads the ptrac file from a path, and second, it reads an ptrac file
+from the source string directly. Finally, it prints both results.
 """
 
 import pathlib
@@ -10,6 +14,7 @@ import pymcnp
 path = pathlib.Path(__file__).parent.parent / 'files' / 'ptrac' / 'example_02.ptrac'
 ptrac = pymcnp.Ptrac.from_file(path)
 
+print(f'Reading PTRAC from `{path}`:')
 print(ptrac)
 
 # Reading PTRAC using `from_mcnp`.
@@ -40,4 +45,5 @@ Sample Problem Input Deck
    0.00000E+00 -0.40000E+01 -0.25000E+01
 """)
 
+print('Reading PTRAC file from string:')
 print(ptrac)

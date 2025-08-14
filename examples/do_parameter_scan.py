@@ -1,5 +1,10 @@
 """
 Example parameter scan.
+
+This example mocks the parameter scan workflow. First, it reads INP file `example_04.inp`.
+Second, it create multiple INP files by iterates over a surface's `vy` parameter. Thrid,
+it visualizes the surfaces. Fourth, it subclasses `Run`, adding callbacks that process
+the output files. Finaly, it runs the input files in parallel.
 """
 
 import copy

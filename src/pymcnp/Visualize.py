@@ -139,6 +139,7 @@ class Visualize(_doer.Doer):
                 continue
 
             plot.add_mesh(surface.to_show().surface)
+
             break
         else:
             raise errors.CliError(errors.CliCode.RUNTIME_DOER, number)
