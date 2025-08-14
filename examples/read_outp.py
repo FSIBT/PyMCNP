@@ -1,5 +1,9 @@
 """
 Example reading OUTP files.
+
+This example reads an OUTP file using two methods: `__init__` and `from_mcnp`.
+First, it reads the output file from a path, and second, it reads an output
+file from the source string directly. Finally, it prints both results.
 """
 
 import pathlib
@@ -8,9 +12,10 @@ import pymcnp
 
 # Reading OUTP using `from_file`.
 path = pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'example_00.outp'
-inp = pymcnp.Outp.from_file(path)
+outp = pymcnp.Outp.from_file(path)
 
-print(inp)
+print(f'Reading OUTP from `{path}`:')
+print(outp)
 
 # Reading OUTP using `from_mcnp`.
 outp = pymcnp.Outp.from_mcnp("""          Code Name & Version = MCNP_6.20, 6.2.0
@@ -55,4 +60,5 @@ outp = pymcnp.Outp.from_mcnp("""          Code Name & Version = MCNP_6.20, 6.2.0
  too many entries on fill card.
 """)
 
+print('Reading OUTP file from string:')
 print(outp)

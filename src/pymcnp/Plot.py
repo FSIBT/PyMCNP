@@ -9,6 +9,9 @@ from . import errors
 from .Outp import Outp
 
 
+matplotlib.pyplot.rcParams['figure.max_open_warning'] = 0
+
+
 class Plot(_doer.Doer):
     """
     Plots OUTP files.
@@ -84,5 +87,4 @@ class Plot(_doer.Doer):
             with matplotlib.backends.backend_pdf.PdfPages(path) as pdf:
                 for fig in self.to_show(number):
                     pdf.savefig(fig)
-
-        matplotlib.pyplot.close()
+            matplotlib.pyplot.close()
