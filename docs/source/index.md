@@ -17,18 +17,3 @@ visualizes simulation geometries, and runs MCNP simulations in parallel.
    examples
    contributing
 ```
-
-## Components
-
-PyMCNP has two main components:
-
-* [PyMCNP CLI](cli)
-* [PyMCNP Library](pymcnp)
-
-## Guides
-
-PyMCNP has guides:
-
-* [Installation](installation)
-* [Examples](examples)
-* [Contributing](contributing)

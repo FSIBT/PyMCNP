@@ -1,16 +1,21 @@
 # `pymcnp.inp` Subpackage
 
-> [!WARNING]
-> The following non-terminals are not currently supported:
-> * data.Field (3.3.3.12)
-> * data.Mplot (3.3.7.2.5)
-> * data.Burn (3.3.4.13)
-> * data.Embed.Overlap (3.3.1.6.2)
-> * data.Tmesh (3.3.5.24)
-> * data.Spabi (3.3.6.16)
-> The following non-terminals are partial supported:
-> * data.Fm (3.3.5.7)
-> * data.Ft (3.3.5.18)
+```{eval-rst}
+.. warning::
+   The following non-terminals are not currently supported:
+
+   * `Field` (3.3.3.12)
+   * `Mplot` (3.3.7.2.5)
+   * `Burn` (3.3.4.13)
+   * `Embed.Overlap` (3.3.1.6.2)
+   * `Tmesh` (3.3.5.24)
+   * `Spabi` (3.3.6.16)
+
+   The following non-terminals are partial supported:
+
+   * `Fm` (3.3.5.7)
+   * `Ft` (3.3.5.18)
+```
 
 `pymcnp.inp` contains the INP parser. PyMCNP implements an object-oriented recursive
 descent parser, approximating INP as the following context-free-grammar described in modified Bakus-Naur form:

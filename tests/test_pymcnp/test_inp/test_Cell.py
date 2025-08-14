@@ -30,13 +30,7 @@ class Test_Cell:
                 'geometry': consts.ast.types.GEOMETRY,
                 'options': [consts.ast.inp.cell.IMP],
             },
-            {
-                'number': consts.string.types.INTEGER,
-                'material': consts.ast.inp.M_0,
-                'density': consts.string.types.REAL,
-                'geometry': consts.ast.inp.SURFACE,
-                'options': None
-            },
+            {'number': consts.string.types.INTEGER, 'material': consts.ast.inp.M_0, 'density': consts.string.types.REAL, 'geometry': consts.ast.inp.SURFACE, 'options': None},
         ]
         EXAMPLES_INVALID = [
             {'number': None, 'material': consts.string.types.INTEGER, 'density': consts.string.types.REAL, 'geometry': consts.string.types.GEOMETRY, 'options': [consts.string.inp.cell.IMP]},

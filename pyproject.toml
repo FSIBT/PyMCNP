@@ -48,9 +48,9 @@ docs = [
 
 [project.urls]
 Documentation = "https://pymcnp.readthedocs.io/en/latest/"
-Homepage = "https://github.com/mauricioAyllon/PyMCNP"
-Issues = "https://github.com/mauricioAyllon/PyMCNP/issues"
-Changelog = "https://github.com/mauricioAyllon/PyMCNP/blob/master/CHANGELOG.md"
+Homepage = "https://github.com/FSIBT/PyMCNP"
+Issues = "https://github.com/FSIBT/PyMCNP/issues"
+Changelog = "https://github.com/FSIBT/PyMCNP/blob/master/CHANGELOG.md"
 
 [project.scripts]
 pymcnp = "pymcnp._cli.main:main"

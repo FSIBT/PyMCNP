@@ -1,10 +1,16 @@
 # Examples
 
-PyMCNP includes examples for reading INP, PTRAC, and OUTP, creating INP, and doing workflows, such as visualizing, running, and plotting:
+```{eval-rst}
+.. note:: 
+   Some examples overwrite or create files or directories. If running in the PyMCNP/examples directory, run the following command to clean the
+   directory:
 
-* ["Create" Examples](examples/create)
-* ["Do" Examples](examples/do)
-* ["Read" Examples](examples/read)
+   :: 
+
+      rm -R pymcnp-*; rm *.pdf; rm *.csv; rm *.parquet
+```
+
+PyMCNP includes examples for reading INP, PTRAC, and OUTP, creating INP, and doing workflows, such as visualizing, running, and plotting.
 
 ## Table of Contents
 

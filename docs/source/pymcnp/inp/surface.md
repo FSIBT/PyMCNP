@@ -1,5 +1,17 @@
 # `pymcnp.inp.surface` Subpackage
 
+```{eval-rst}
+.. warning::
+   The following surface visualizations are not currently supported:
+
+   * `Arb` (3.2.2.4.10)
+   * `Gq` (3.2.2.1)
+   * `Sq` (3.2.2.1)
+   * `X` (3.2.2.2)
+   * `Y` (3.2.2.2)
+   * `Z` (3.2.2.2)
+```
+
 ## AST Classes
 
 ### `Arb` Class
