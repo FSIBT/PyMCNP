@@ -19,12 +19,6 @@ class Visualize(_doer.Doer):
         inpt: Files to visualize.
     """
 
-    GRID = pyvista.ImageData(
-        dimensions=(_show.pyvista.RESOLUTION, _show.pyvista.RESOLUTION, _show.pyvista.RESOLUTION),
-        spacing=(_show.pyvista.BOUND / _show.pyvista.RESOLUTION, _show.pyvista.BOUND / _show.pyvista.RESOLUTION, _show.pyvista.BOUND / _show.pyvista.RESOLUTION),
-        origin=(-_show.pyvista.BOUND / 2, -_show.pyvista.BOUND / 2, -_show.pyvista.BOUND / 2),
-    )
-
     def __init__(self, inpt: Inp):
         """
         Initializes `Visualize`.
@@ -40,6 +34,20 @@ class Visualize(_doer.Doer):
             raise errors.CliError(errors.CliCode.RUNTIME_DOER, inpt)
 
         self.inpt = inpt
+
+    @property
+    def _grid(self):
+        surfaces = self.to_show_surfaces()
+
+        return pyvista.ImageData(
+            dimensions=(_show.pyvista.RESOLUTION, _show.pyvista.RESOLUTION, _show.pyvista.RESOLUTION),
+            spacing=(
+                (surfaces.bounds[1] - surfaces.bounds[0]) / _show.pyvista.RESOLUTION,
+                (surfaces.bounds[3] - surfaces.bounds[2]) / _show.pyvista.RESOLUTION,
+                (surfaces.bounds[5] - surfaces.bounds[4]) / _show.pyvista.RESOLUTION,
+            ),
+            origin=(-(surfaces.bounds[1] - surfaces.bounds[0]) / 2, -(surfaces.bounds[3] - surfaces.bounds[2]) / 2, -(surfaces.bounds[5] - surfaces.bounds[4]) / 2),
+        )
 
     def to_show_cells(self) -> pyvista.Plotter:
         """
@@ -62,8 +70,9 @@ class Visualize(_doer.Doer):
 
             cells[str(cell.number)] = shape
 
-            self.GRID['cell'] = shape.cell(self.GRID.points).astype(numpy.float32)
-            plot.add_volume(self.GRID, scalars='cell', opacity=[0, 0, 0.01, 0.01])
+            grid = self._grid
+            grid['cell'] = shape.cell(grid.points).astype(numpy.float32)
+            plot.add_volume(grid, scalars='cell', opacity=[0, 0, 0.01, 0.01])
             plot.add_mesh(shape.surface, opacity=0.9)
 
         return plot
@@ -113,8 +122,9 @@ class Visualize(_doer.Doer):
             if str(cell.number) != number:
                 continue
 
-            self.GRID['cell'] = shape.cell(self.GRID.points).astype(numpy.float32)
-            plot.add_volume(self.GRID, scalars='cell', opacity=[0, 0, 0.01, 0.01])
+            grid = self._grid
+            grid['cell'] = shape.cell(grid.points).astype(numpy.float32)
+            plot.add_volume(grid, scalars='cell', opacity=[0, 0, 0.01, 0.01])
             plot.add_mesh(shape.surface, opacity=0.9)
 
             break

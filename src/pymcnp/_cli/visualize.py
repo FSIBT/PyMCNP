@@ -93,5 +93,8 @@ def main() -> None:
     except errors.CliError as err:
         _io.error(str(err))
         exit(3)
+    except errors.TypesError as err:
+        _io.error(str(err))
+        exit(3)
 
     _io.done()
