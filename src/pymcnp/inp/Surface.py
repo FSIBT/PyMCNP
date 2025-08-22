@@ -7,6 +7,9 @@ from .. import types
 from .. import errors
 
 
+NUMBER = iter(range(1, 100000000))
+
+
 class Surface(_card.Card):
     """
     Represents INP surface cards.
@@ -23,8 +26,8 @@ class Surface(_card.Card):
 
     def __init__(
         self,
-        number: types.Integer,
         option: surface.SurfaceOption,
+        number: types.Integer = next(NUMBER),
         transform: types.Integer = None,
         prefix: str = None,
     ):

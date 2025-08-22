@@ -9,6 +9,9 @@ from .. import errors
 from .. import _elements
 
 
+NUMBER = iter(range(1, 100000000))
+
+
 class M_0(_card.Card):
     """
     Represents INP `m` elements variation #0.
@@ -24,7 +27,7 @@ class M_0(_card.Card):
 
     _REGEX = re.compile(rf'\Am(\d+)((?: {types.Substance._REGEX.pattern[2:-2]})+?)((?: (?:{m_0.MOption_0._REGEX.pattern[2:-2]}))+?)?\Z', re.IGNORECASE)
 
-    def __init__(self, suffix: str | int | types.Integer, substances: list[str] | list[types.Substance], options: list[str] | list[m_0.MOption_0] = None):
+    def __init__(self, substances: list[str] | list[types.Substance], suffix: str | int | types.Integer = next(NUMBER), options: list[str] | list[m_0.MOption_0] = None):
         """
         Initializes `M_0`.
 
@@ -155,12 +158,11 @@ class M_0(_card.Card):
         self._options: types.Tuple(m_0.MOption_0) = options
 
     @staticmethod
-    def from_formula(number: int, formulas: dict[str, float], is_weight: bool = True, cutoff: float = 0.01):
+    def from_formula(formulas: dict[str, float], is_weight: bool = True, cutoff: float = 0.01):
         """
         Generates `M_0` from INP.
 
         Parameters:
-            number: Arbitrary material number.
             formulas: Dictionary of formulas and atomic/weight fractions.
             is_weight: Weight (atomic) fraction true (false) flag.
             cutoff: Nuclide fraction cutoff.
@@ -196,7 +198,7 @@ class M_0(_card.Card):
 
                 substances += entries
 
-        material = M_0(types.Integer(number), types.Tuple(types.Substance)(substances))
+        material = M_0(types.Tuple(types.Substance)(substances))
         material.comment = tuple(comments)
 
         return material
