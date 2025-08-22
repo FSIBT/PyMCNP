@@ -11,7 +11,7 @@ import pathlib
 import pymcnp
 
 # Reading PTRAC using `from_file`.
-path = pathlib.Path(__file__).parent.parent / 'files' / 'ptrac' / 'example_02.ptrac'
+path = pathlib.Path('example_02.ptrac')
 ptrac = pymcnp.Ptrac.from_file(path)
 
 print(f'Reading PTRAC from `{path}`:')

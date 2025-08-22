@@ -11,7 +11,7 @@ import pathlib
 import pymcnp
 
 # Reading OUTP using `from_file`.
-path = pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'example_00.outp'
+path = pathlib.Path('example_00.outp')
 outp = pymcnp.Outp.from_file(path)
 
 print(f'Reading OUTP from `{path}`:')

@@ -14,7 +14,7 @@ TALLY = '14'
 CELL = '12'
 
 # Reading tallies.
-path = pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'example_02.outp'
+path = pathlib.Path('example_02.outp')
 outp = pymcnp.Outp.from_file(path)
 tallies = outp.to_dataframe()
 tally = tallies[TALLY]

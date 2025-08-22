@@ -20,7 +20,7 @@ COMMAND = 'echo'
 class MyRun(pymcnp.Run):
     def posthook_file(self, path, index):
         # Copying OUTP (ECHO used for demo).
-        path_copy = pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'example_01.outp'
+        path_copy = pathlib.Path('example_01.outp')
         path_outp = path / f'run-{index}.outp'
 
         with path_outp.open('w') as file_outp:
@@ -44,7 +44,7 @@ class MyRun(pymcnp.Run):
 
 
 # Reading INP.
-path_inp = pathlib.Path(__file__).parent.parent / 'files' / 'inp' / 'example_04.inp'
+path_inp = pathlib.Path('example_04.inp')
 inp = pymcnp.Inp.from_file(path_inp)
 
 # Scanning.

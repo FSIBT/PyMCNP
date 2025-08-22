@@ -14,7 +14,7 @@ TALLY = '2'
 SURFACE = '8'
 
 # Reading tallies.
-path = pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'example_03.outp'
+path = pathlib.Path('example_03.outp')
 outp = pymcnp.Outp.from_file(path)
 tallies = outp.to_dataframe()
 tally = tallies[TALLY]

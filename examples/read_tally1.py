@@ -15,7 +15,7 @@ SURFACE = '2.1'
 ANGLE_FROM = '180.0'
 
 # Reading OUTP.
-path = pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'example_00.outp'
+path = pathlib.Path('example_00.outp')
 outp = pymcnp.Outp.from_file(path)
 
 # Reading tallies.
