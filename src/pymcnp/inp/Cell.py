@@ -2,9 +2,14 @@ import re
 
 from . import cell
 from . import _card
+from .M_0 import M_0
+from .Surface import Surface
 from .. import _show
 from .. import types
 from .. import errors
+
+
+NUMBER = iter(range(1, 100000000))
 
 
 class Cell(_card.Card):
@@ -24,10 +29,10 @@ class Cell(_card.Card):
 
     def __init__(
         self,
-        number: types.Integer,
         material: types.Integer,
         geometry: types.Geometry,
         density: types.Real = None,
+        number: types.Integer = next(NUMBER),
         options: types.Tuple(cell.CellOption) = None,
     ):
         """
@@ -128,7 +133,7 @@ class Cell(_card.Card):
         return self._material
 
     @material.setter
-    def material(self, material: str | int | types.Integer) -> None:
+    def material(self, material: str | int | types.Integer | M_0) -> None:
         """
         Sets `material`.
 
@@ -141,7 +146,9 @@ class Cell(_card.Card):
         """
 
         if material is not None:
-            if isinstance(material, types.Integer):
+            if isinstance(material, M_0):
+                material = material.suffix
+            elif isinstance(material, types.Integer):
                 material = material
             elif isinstance(material, int):
                 material = types.Integer(material)
@@ -204,7 +211,7 @@ class Cell(_card.Card):
         return self._geometry
 
     @geometry.setter
-    def geometry(self, geometry: str | types.Geometry) -> None:
+    def geometry(self, geometry: str | types.Geometry | Surface) -> None:
         """
         Sets `geometry`.
 
@@ -217,7 +224,9 @@ class Cell(_card.Card):
         """
 
         if geometry is not None:
-            if isinstance(geometry, types.Geometry):
+            if isinstance(geometry, Surface):
+                geometry = types.Geometry(str(geometry.number))
+            elif isinstance(geometry, types.Geometry):
                 geometry = geometry
             elif isinstance(geometry, str):
                 geometry = types.Geometry.from_mcnp(geometry)

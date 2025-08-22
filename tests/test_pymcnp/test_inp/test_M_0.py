@@ -25,8 +25,8 @@ class Test_M_0:
     class Test_Formula:
         element = pymcnp.inp.M_0
         EXAMPLES = [
-            (1, {'H2O': 1}, True),
-            (1, {'H2O': 1}, False),
+            {'formulas': {'H2O': 1}, 'is_weight': True},
+            {'formulas': {'H2O': 1}, 'is_weight': False},
         ]
 
         def test(self):
@@ -34,5 +34,5 @@ class Test_M_0:
             Tests `EXAMPLES` on `from_formula`.
             """
 
-            for number, formulas, is_weight in self.EXAMPLES:
-                self.element.from_formula(number, formulas, is_weight)
+            for example in self.EXAMPLES:
+                self.element.from_formula(**example)
