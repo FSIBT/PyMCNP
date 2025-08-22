@@ -6,7 +6,7 @@ PyMCNP provides endpoints to read MCNP files.
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/master/files/inp/example_00.inp>`_.
+   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_00.inp>`_.
 ```
 
 Code:
@@ -18,7 +18,7 @@ Code:
 
 Output:
 
-    Reading INP from `PyMCNP/files/inp/example_00.inp`:
+    Reading INP from `example_00.inp`:
     Isotropic neutron source over lunar regolith with two gamma detectors
     c
     c cell cards
@@ -34,7 +34,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/master/files/inp/example_00.inp>`_.
+   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_00.inp>`_.
 ```
 
 Code:
@@ -46,14 +46,14 @@ Code:
 
 Output:
 
-    Reading cell from `PyMCNP/files/inp/example_00.inp`:
+    Reading cell from `example_00.inp`:
     100 100 -1.54 -1 imp:P,N 1
 
 ## Reading INP Material
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/master/files/inp/example_00.inp>`_.
+   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_00.inp>`_.
 ```
 
 Code:
@@ -65,7 +65,7 @@ Code:
 
 Output:
 
-    Reading material from `PyMCNP/files/inp/example_00.inp`:
+    Reading material from `example_00.inp`:
     m100 013027 -0.1701 020040 -0.131742819 020042 -0.000879273 020044 &
           -0.002834874 026054 -0.00086506 026056 -0.013579592 026057 -0.000313612 &
           008016 -0.45489192 019039 -0.0001865162 019041 -0.0000134604 012024 &
@@ -78,7 +78,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/master/files/inp/example_00.inp>`_.
+   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_00.inp>`_.
 ```
 
 Code:
@@ -90,14 +90,14 @@ Code:
 
 Output:
 
-    Reading surface from `PyMCNP/files/inp/example_00.inp`:
+    Reading surface from `example_00.inp`:
     2  rcc 50 0 0 0 0 7.62 3.81
 
 ## Reading OUTP
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_00.outp <https://github.com/FSIBT/PyMCNP/blob/master/files/outp/example_00.outp>`_.
+   This example requires `example_00.outp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_00.outp>`_.
 ```
 
 Code:
@@ -123,7 +123,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_00.outp <https://github.com/FSIBT/PyMCNP/blob/master/files/outp/example_00.outp>`_.
+   This example requires `example_00.outp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_00.outp>`_.
 ```
 
 Code:
@@ -155,7 +155,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_03.outp <https://github.com/FSIBT/PyMCNP/blob/master/files/outp/example_03.outp>`_.
+   This example requires `example_03.outp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_03.outp>`_.
 ```
 
 Code:
@@ -187,7 +187,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_02.outp <https://github.com/FSIBT/PyMCNP/blob/master/files/outp/example_02.outp>`_.
+   This example requires `example_02.outp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_02.outp>`_.
 ```
 
 Code:
@@ -219,7 +219,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_01.outp <https://github.com/FSIBT/PyMCNP/blob/master/files/outp/example_01.outp>`_.
+   This example requires `example_01.outp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_01.outp>`_.
 ```
 
 Code:
@@ -251,7 +251,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_02.ptrac <https://github.com/FSIBT/PyMCNP/blob/master/files/ptrac/example_02.ptrac>`_.
+   This example requires `example_02.ptrac <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_02.ptrac>`_.
 ```
 
 Code:

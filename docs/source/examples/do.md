@@ -6,7 +6,7 @@ PyMCNP enables common workflows using `pyvista`, `pandas`, `subprocesss`, `matpl
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/master/files/inp/example_00.inp>`_.
+   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_00.inp>`_.
 ```
 
 Code:
@@ -18,14 +18,14 @@ Code:
 
 Output:
 
-    Checking INP file: `PyMCNP/files/inp/example_00.inp`
-    Fixing and writing to INP file: `PyMCNP/files/inp/example_00.inp`
+    Checking INP file: `example_00.inp`
+    Fixing and writing to INP file: `example_00.inp`
 
 ## Converting OUTP Files
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_00.outp <https://github.com/FSIBT/PyMCNP/blob/master/files/outp/example_00.outp>`_.
+   This example requires `example_00.outp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_00.outp>`_.
 ```
 
 Code:
@@ -44,7 +44,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_00.outp <https://github.com/FSIBT/PyMCNP/blob/master/files/outp/example_00.outp>`_.
+   This example requires `example_00.outp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_00.outp>`_.
 ```
 
 Code:
@@ -68,7 +68,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/master/files/inp/example_00.inp>`_, `example_01.inp <https://github.com/FSIBT/PyMCNP/blob/master/files/inp/example_01.inp>`_, and `example_02.inp <https://github.com/FSIBT/PyMCNP/blob/master/files/inp/example_02.inp>`_.
+   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_00.inp>`_, `example_01.inp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_01.inp>`_, and `example_02.inp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_02.inp>`_.
 ```
 
 Code:
@@ -97,7 +97,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `valid_29.inp <https://github.com/FSIBT/PyMCNP/blob/master/files/inp/valid_29.inp>`_.
+   This example requires `example_05.inp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_05.inp>`_.
 ```
 
 Code:
@@ -109,8 +109,8 @@ Code:
 
 Output:
 
-    Visualizing all surfaces from `PyMCNP/files/inp/valid_29.inp`.
-    Writing visualizations of all surfaces from `PyMCNP/files/inp/valid_29.inp` to `valid_29-surfaces.pdf`
+    Visualizing all surfaces from `example_05.inp`.
+    Writing visualizations of all surfaces from `example_05.inp` to `example_05-surfaces.pdf`
 
 ![do_visualize](../images/do_visualize.png)
 
@@ -118,7 +118,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_01.outp <https://github.com/FSIBT/PyMCNP/blob/master/files/outp/example_01.outp>`_ and `example_04.inp <https://github.com/FSIBT/PyMCNP/blob/master/files/inp/example_04.inp>`_.
+   This example requires `example_01.outp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_01.outp>`_ and `example_04.inp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_04.inp>`_.
 ```
 
 Code:

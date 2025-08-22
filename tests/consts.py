@@ -5,7 +5,7 @@ import pymcnp
 
 class string:
     INP = (pathlib.Path(__file__).parent.parent / 'files' / 'inp' / 'valid_10.inp').read_text()
-    OUTP = (pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'example_00.outp').read_text()
+    OUTP = (pathlib.Path(__file__).parent.parent / 'files' / 'outp' / 'valid_38.outp').read_text()
     PTRAC = (pathlib.Path(__file__).parent.parent / 'files' / 'ptrac' / 'valid_27.ptrac').read_text()
     MESHTAL = (pathlib.Path(__file__).parent.parent / 'files' / 'meshtal' / 'valid_40.meshtal').read_text()
 
