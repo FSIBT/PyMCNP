@@ -33,10 +33,9 @@ dependencies = [
     "molmass",
     "numpy",
     "pandas",
-    "pytest",
+    "pyvista",
     "rich",
     "scipy",
-    "pyvista",
 ]
 
 [project.optional-dependencies]
@@ -45,6 +44,19 @@ docs = [
     "Sphinx",
     "sphinx_rtd_theme",
 ]
+
+dev = [
+    "pre-commit",
+    "ruff",
+]
+
+test = [
+    "pytest",
+    "pytest-cov",
+    "pytest-testmon",
+    "PyQt5",
+]
+
 
 [project.urls]
 Documentation = "https://pymcnp.readthedocs.io/en/latest/"
@@ -60,6 +72,12 @@ where = ["./src"]
 
 [tool.setuptools_scm]
 write_to = "./src/version.py"
+
+[tool.pytest.ini_options]
+addopts = "--testmon --cov --cov-report=term-missing:skip-covered"
+testpaths = [
+    "tests"
+]
 
 [tool.ruff]
 line-length = 200
