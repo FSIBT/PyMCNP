@@ -20,4 +20,4 @@ The PyMCNP source code is availiable on [GitHub](https://github.com/FSIBT/PyMCNP
 
     git clone https://github.com/FSIBT/PyMCNP
     cd PyMCNP
-    pip install -e .
+    pip install -e .[docs,test,dev]
