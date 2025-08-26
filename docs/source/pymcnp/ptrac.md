@@ -1,7 +1,7 @@
 # `pymcnp.ptrac` Subpackage
 
 `pymcnp.ptrac` contains the PTRAC parser. PyMCNP implements an object-oriented recursive
-descent parser, approximating PTRAC as the following context-free-grammar described in modified Bakus-Naur form:
+descent parser, approximating PTRAC as the following context-free-grammar described in modified Backus-Naur form:
 
 ```
 ...

@@ -1,7 +1,7 @@
-# `pymcnp.mesthal` Subpackage
+# `pymcnp.meshtal` Subpackage
 
-`pymcnp.mesthal` contains the MESHTAL parser. PyMCNP implements an object-oriented recursive
-descent parser, approximating MESHTAL as the following context-free-grammar described in modified Bakus-Naur form:
+`pymcnp.meshtal` contains the MESHTAL parser. PyMCNP implements an object-oriented recursive
+descent parser, approximating MESHTAL as the following context-free-grammar described in modified Backus-Naur form:
 
 ```
 ...
