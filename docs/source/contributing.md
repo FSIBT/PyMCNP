@@ -5,7 +5,7 @@ just create a [GitHub issue](https://github.com/FSIBT/PyMCNP/issues).
 
 ## Contributing
 
-PyMCNP source code is accessable for contributions, suggestions, and
+PyMCNP source code is accessible for contributions, suggestions, and
 bug reports on [GitHub](https://github.com/FSIBT/PyMCNP):
 
     # Installing

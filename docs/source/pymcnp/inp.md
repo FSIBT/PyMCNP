@@ -18,7 +18,7 @@
 ```
 
 `pymcnp.inp` contains the INP parser. PyMCNP implements an object-oriented recursive
-descent parser, approximating INP as the following context-free-grammar described in modified Bakus-Naur form:
+descent parser, approximating INP as the following context-free-grammar described in modified Backus-Naur form:
 
 ```
 <CellOption> = ...;
