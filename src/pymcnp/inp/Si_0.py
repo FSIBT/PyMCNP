@@ -18,7 +18,7 @@ class Si_0(_card.Card):
         'information': types.Tuple(types.Distribution),
     }
 
-    _REGEX = re.compile(rf'\Asi(\d+)( {types.String._REGEX.pattern[2:-2]})?((?: {types.Distribution._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
+    _REGEX = re.compile(rf'\Asi(\d+)( [hlas])?((?: {types.Distribution._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
 
     def __init__(self, suffix: str | int | types.Integer, information: list[str] | list[types.Distribution], option: str | types.String = None):
         """
