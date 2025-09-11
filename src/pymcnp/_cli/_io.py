@@ -8,7 +8,7 @@ def get_outfile(path: str | pathlib.Path, ext: str, i: int = None) -> str:
     path = str(path)
     path, _ = path.rsplit('.', maxsplit=1)
 
-    return pathlib.Path(path + f'{f"-{i}" if i else ""}.' + ext)
+    return pathlib.Path(path + f'{f"-{i:05}" if i else ""}.' + ext)
 
 
 def info(msg: str):

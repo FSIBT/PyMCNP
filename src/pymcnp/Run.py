@@ -95,10 +95,10 @@ class Run(_doer.Doer):
 
         processes = []
         for i, inp in enumerate(self.inps):
-            subdirectory = directory / f'run-{i}'
-            path_input = subdirectory / f'run-{i}.inp'
-            path_output = subdirectory / f'run-{i}.outp'
-            path_ptrac = subdirectory / f'run-{i}.ptrac'
+            subdirectory = directory / f'run-{i:05}'
+            path_input = subdirectory / f'run-{i:05}.inp'
+            path_output = subdirectory / f'run-{i:05}.outp'
+            path_ptrac = subdirectory / f'run-{i:05}.ptrac'
 
             subdirectory.mkdir()
             inp.to_file(path_input)
