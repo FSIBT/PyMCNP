@@ -345,10 +345,13 @@ class Rcc(_option.SurfaceOption):
         h = numpy.array((float(self.hx), float(self.hy), float(self.hz)))
 
         cross = numpy.cross(v, numpy.array((0, 0, 1)))
-        angle = numpy.degrees(numpy.arccos(v[2] / numpy.linalg.norm(numpy.linalg.norm(v))))
 
         vis = shapes.CylinderCircular(numpy.linalg.norm(h), float(self.r))
-        vis = vis.rotate(cross, angle, (0, 0, 0))
+
+        if not (v == 0).all():
+            angle = numpy.degrees(numpy.arccos(v[2] / numpy.linalg.norm(numpy.linalg.norm(v))))
+            vis = vis.rotate(cross, angle, (0, 0, 0))
+
         vis = vis.translate(v)
 
         return vis

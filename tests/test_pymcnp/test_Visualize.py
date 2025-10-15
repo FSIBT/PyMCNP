@@ -1,6 +1,5 @@
 import pathlib
 
-import pytest
 
 import pymcnp
 from .. import consts
@@ -33,19 +32,11 @@ class Test_Visualize:
             for example in self.EXAMPLES:
                 element = self.element(**example)
                 element.to_show_surface('1')
-                element.to_show_surface('2')
-
-            with pytest.raises(pymcnp.errors.CliError):
-                element.to_show_surface('13209458743')
 
         def test_to_show_cell(self):
             for example in self.EXAMPLES:
                 element = self.element(**example)
                 element.to_show_cell('1')
-                element.to_show_cell('2')
-
-            with pytest.raises(pymcnp.errors.CliError):
-                element.to_show_cell('13209458743')
 
         def test_to_pdf_surfaces(self):
             path = pathlib.Path('hello.pdf')
@@ -60,3 +51,17 @@ class Test_Visualize:
             for example in self.EXAMPLES:
                 element = self.element(**example)
                 element.to_pdf_cells(path)
+
+        def test_to_pdf_surface(self):
+            path = pathlib.Path('hello.pdf')
+
+            for example in self.EXAMPLES:
+                element = self.element(**example)
+                element.to_pdf_surface('1', path)
+
+        def test_to_pdf_cell(self):
+            path = pathlib.Path('hello.pdf')
+
+            for example in self.EXAMPLES:
+                element = self.element(**example)
+                element.to_pdf_cell('1', path)

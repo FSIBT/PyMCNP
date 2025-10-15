@@ -49,9 +49,9 @@ class Visualize(_doer.Doer):
             origin=(-(surfaces.bounds[1] - surfaces.bounds[0]) / 2, -(surfaces.bounds[3] - surfaces.bounds[2]) / 2, -(surfaces.bounds[5] - surfaces.bounds[4]) / 2),
         )
 
-    def to_show_cells(self) -> pyvista.Plotter:
+    def to_show_cells(self, skip=tuple()) -> pyvista.Plotter:
         """
-        Visualizes INP cells.
+        Visualizes INP all cells.
         """
 
         plot = pyvista.Plotter()
@@ -61,9 +61,9 @@ class Visualize(_doer.Doer):
         cells = {}
 
         for cell in self.inpt.cells:
-            if isinstance(cell, inp.Cell):
+            if isinstance(cell, inp.Cell) and cell.number not in skip:
                 shape = cell.to_show(surfaces, cells)
-            elif isinstance(cell, inp.Like):
+            elif isinstance(cell, inp.Like) and cell.number not in skip:
                 shape = cells[str(cell.cell)]
             else:
                 continue
@@ -77,16 +77,16 @@ class Visualize(_doer.Doer):
 
         return plot
 
-    def to_show_surfaces(self) -> pyvista.Plotter:
+    def to_show_surfaces(self, skip=tuple()) -> pyvista.Plotter:
         """
-        Visualizes INP surfaces.
+        Visualizes INP all surfaces.
         """
 
         plot = pyvista.Plotter()
         plot.add_axes()
 
         for surface in self.inpt.surfaces:
-            if not isinstance(surface, inp.Surface):
+            if not isinstance(surface, inp.Surface) or surface.number in skip:
                 continue
 
             shape = surface.to_show()
@@ -95,12 +95,12 @@ class Visualize(_doer.Doer):
 
         return plot
 
-    def to_show_cell(self, number: str) -> pyvista.Plotter:
+    def to_show_cell(self, number: tuple[str]) -> pyvista.Plotter:
         """
-        Visualizes INP cells.
+        Visualizes INP cell(s).
 
         Parameters:
-            number: Cell number to visualize.
+            numbers: Cell number to visualize.
         """
 
         plot = pyvista.Plotter()
@@ -119,7 +119,7 @@ class Visualize(_doer.Doer):
 
             cells[str(cell.number)] = shape
 
-            if str(cell.number) != number:
+            if str(cell.number) not in number:
                 continue
 
             grid = self._grid
@@ -127,15 +127,11 @@ class Visualize(_doer.Doer):
             plot.add_volume(grid, scalars='cell', opacity=[0, 0, 0.01, 0.01])
             plot.add_mesh(shape.surface, opacity=0.9)
 
-            break
-        else:
-            raise errors.CliError(errors.CliCode.RUNTIME_DOER, number)
-
         return plot
 
-    def to_show_surface(self, number: str) -> pyvista.Plotter:
+    def to_show_surface(self, number: tuple[str]) -> pyvista.Plotter:
         """
-        Visualizes INP surfaces.
+        Visualizes INP surface(s).
 
         Parameters:
             number: Surface number to visualize.
@@ -145,14 +141,13 @@ class Visualize(_doer.Doer):
         plot.add_axes()
 
         for surface in self.inpt.surfaces:
-            if not isinstance(surface, inp.Surface) or str(surface.number) != number:
+            if not isinstance(surface, inp.Surface):
+                continue
+
+            if str(surface.number) not in number:
                 continue
 
             plot.add_mesh(surface.to_show().surface)
-
-            break
-        else:
-            raise errors.CliError(errors.CliCode.RUNTIME_DOER, number)
 
         return plot
 
@@ -178,6 +173,34 @@ class Visualize(_doer.Doer):
         """
 
         plot = self.to_show_surfaces()
+
+        if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
+            plot.save_graphic(str(path))
+
+    def to_pdf_cell(self, number: tuple[str], path: str | pathlib.Path):
+        """
+        Saves render of cells as PDF.
+
+        Parameters:
+            number: Cell numbers to visualize.
+            path: Path to new pdf file.
+        """
+
+        plot = self.to_show_cell(number)
+
+        if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
+            plot.save_graphic(str(path))
+
+    def to_pdf_surface(self, number: tuple[str], path: str | pathlib.Path):
+        """
+        Saves render of surfaces as PDF.
+
+        Parameters:
+            number: Surface numbers to visualize.
+            path: Path to new pdf file.
+        """
+
+        plot = self.to_show_surface(number)
 
         if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
             plot.save_graphic(str(path))

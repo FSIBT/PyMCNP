@@ -3,11 +3,13 @@ Usage:
     pymcnp visualize <inp> [ options... ]
 
 Options:
-    -c --cells                Visualize all cells.
-    -s --surfaces             Visualize all surfaces.
-    -c --cell=[<number>]      Visualize cell.
-    -s --surface=[<number>]   Visualize surface.
-    --pdf                     Write PDF.
+    -c --cells                     Visualize all cells.
+    -s --surfaces                  Visualize all surfaces.
+    -c --cells-skip=<numbers>      Visualize all cells except listed cells.
+    -s --surfaces-skip=<numbers>   Visualize all surfaces excepted listed surfaces.
+    -c --cell=<numbers>            Visualize listed cells.
+    -s --surface=<numbers>         Visualize listed surfaces.
+    --pdf                          Write PDF.
 """
 
 import os
@@ -17,7 +19,6 @@ from docopt import docopt
 
 from . import _io
 from .. import errors
-from .. import inp
 from ..Inp import Inp
 from ..Visualize import Visualize
 
@@ -47,11 +48,9 @@ def main() -> None:
         _io.error(str(err))
         exit(3)
 
-    if not (args['--cells'] or args['--surfaces'] or args['--cell'] or args['--surface']):
+    if not (args['--cells-skip'] or args['--surfaces-skip'] or args['--cells'] or args['--surfaces'] or args['--cell'] or args['--surface']):
         args['--cells'] = True
         args['--surfaces'] = True
-        args['--cell'] = [str(cell.number) for cell in inpt.cells if isinstance(cell, inp.Cell)]
-        args['--surface'] = [str(surface.number) for surface in inpt.surfaces if isinstance(surface, inp.Surface)]
 
     # Visualizing!
     try:
@@ -73,26 +72,49 @@ def main() -> None:
                 if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
                     plot.show()
 
-        for number in args['--cell']:
+        for number in args['--cells-skip']:
+            number = number.split(',')
+
             if args['--pdf']:
-                visualize.to_pdf_cells(_io.get_outfile(file, 'pdf', f'cell_{number}'))
+                visualize.to_pdf_cells(_io.get_outfile(file, 'pdf', 'cells'))
             else:
-                plot = visualize.to_show_cell(number)
+                plot = visualize.to_show_cells(skip=number)
 
                 if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
                     plot.show()
 
-        for number in args['--surface']:
+        for number in args['--surfaces-skip']:
+            number = number.split(',')
+
             if args['--pdf']:
-                visualize.to_pdf_cells(_io.get_outfile(file, 'pdf', f'surface_{number}'))
+                visualize.to_pdf_surfaces(_io.get_outfile(file, 'pdf', 'surfaces'))
+            else:
+                plot = visualize.to_show_surfaces(skip=number)
+
+                if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
+                    plot.show()
+
+        for number in args['--cell']:
+            number = number.split(',')
+
+            if args['--pdf']:
+                visualize.to_pdf_cell(number, _io.get_outfile(file, 'pdf', f'cell_{number}'))
+            else:
+                plot = visualize.to_show_cell(number)
+
+            if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
+                plot.show()
+
+        for number in args['--surface']:
+            number = number.split(',')
+
+            if args['--pdf']:
+                visualize.to_pdf_cells(number, _io.get_outfile(file, 'pdf', f'surface_{number}'))
             else:
                 plot = visualize.to_show_surface(number)
 
                 if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
                     plot.show()
-    except errors.CliError as err:
-        _io.error(str(err))
-        exit(3)
     except errors.TypesError as err:
         _io.error(str(err))
         exit(3)

@@ -83,7 +83,7 @@ class PyvistaShape(_shape.Shape):
         if axis[0] or axis[1] or axis[2]:
             axis = axis / numpy.linalg.norm(axis)
 
-        return PyvistaShape(self.surface.rotate_vector(vector=(axis[0], axis[1], axis[2]), angle=angle, point=center), lambda p: self.cell(p))
+        return PyvistaShape(self.surface.rotate_vector(vector=(axis[0], axis[1], axis[2]), angle=angle, point=center), lambda p: self.cell(p)) if angle and not (axis == 0).all() else self
 
     def translate(self, vector: numpy.ndarray):
         """
