@@ -1,24 +1,24 @@
 # Examples
 
-For examples using the command line, see the [Comand Line Interface](cli.rst).
+```{eval-rst}
+.. note:: 
+   Some examples overwrite or create files or directories. If running in the PyMCNP/examples directory, run the following command to clean the
+   directory:
 
-## Loading a file
+   :: 
 
-    import pymcnp
-	
-	filename = "/path/to/data/input.i'
-	data = pymcnp.read_input(filename)
+      rm -R pymcnp-*; rm *.pdf; rm *.csv; rm *.parquet
+```
 
-## Loading a file, modyfing it and saving it again
+PyMCNP includes examples for reading INP, PTRAC, and OUTP, creating INP, and doing workflows, such as visualizing, running, and plotting.
 
-We load a file and change the number of particles to 100,000.
+## Table of Contents
 
-    import pymcnp
-	
-	filename = "/path/to/data/input.i'
-	data = pymcnp.read_input(filename)
-	
-	pymcnp.modify(x.data._cards['nps'], npp=100_000)
+```{eval-rst}
+.. toctree::
+   :maxdepth: 1
 
-	data.to_mcnp_file('/path/to/data/new_file_name.i')
-
+   examples/create
+   examples/do
+   examples/read
+```

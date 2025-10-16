@@ -1,19 +1,23 @@
 # Installation
 
+PyMCNP is accessible for installation through [PyPI](https://pypi.org/project/pymcnp/) and [GitHub](https://github.com/FSIBT/PyMCNP).
+
 ## Released Version
 
-PyMCNP is available on [PyPI](https://pypi.org/project/pymcnp/) and can be `pip installed`.
+The released versions of PyMCNP are available on [PyPI](https://pypi.org/project/pymcnp/) and can be "pip installed":
 
     pip install pymcnp
 
+## Latest Version
+
+The latest version of PyMCNP is availiable on [GitHub](https://github.com/FSIBT/PyMCNP) and can be "pip installed":
+
+    pip install git+https://github.com/FSIBT/PyMCNP
 
 ## Developer Version
 
-PyMCNP source code is accessable for contributions, suggestions, and bug reports on [GitHub](https://github.com/FSIBT/PyMCNP). The following command downloads PyMCNP source code and installs `pymcnp` and its dependencies in editable mode:
+The PyMCNP source code is availiable on [GitHub](https://github.com/FSIBT/PyMCNP) for contributions ([guidelines](contributing.md)), suggestions, and bug reports:
 
     git clone https://github.com/FSIBT/PyMCNP
     cd PyMCNP
-    pip install -e .
-
-
-If you plan to contribute, please also check out the Contribution guidelines.
+    pip install -e .[docs,test,dev]
