@@ -1,0 +1,62 @@
+          Code Name & Version = MCNP6, 1.0
+  
+     _/      _/        _/_/_/       _/      _/       _/_/_/         _/_/_/
+    _/_/  _/_/      _/             _/_/    _/       _/    _/     _/       
+   _/  _/  _/      _/             _/  _/  _/       _/_/_/       _/_/_/    
+  _/      _/      _/             _/    _/_/       _/           _/    _/   
+ _/      _/        _/_/_/       _/      _/       _/             _/_/      
+  
+  +---------------------------------------------------------------------+
+  | Copyright 2008. Los Alamos National Security, LLC.  All rights      |
+  | reserved.                                                           |
+  |   This material was produced under U.S. Government contract         |
+  | DE-AC52-06NA25396 for Los Alamos National Laboratory, which is      |
+  | operated by Los Alamos National Security, LLC, for the U.S.         |
+  | Department of Energy. The Government is granted for itself and      |
+  | others acting on its behalf a paid-up, nonexclusive, irrevocable    |
+  | worldwide license in this material to reproduce, prepare derivative |
+  | works, and perform publicly and display publicly. Beginning five    |
+  | (5) years after 2008, subject to additional five-year worldwide     |
+  | renewals, the Government is granted for itself and others acting on |
+  | its behalf a paid-up, nonexclusive, irrevocable worldwide license   |
+  | in this material to reproduce, prepare derivative works, distribute |
+  | copies to the public, perform publicly and display publicly, and to |
+  | permit others to do so. NEITHER THE UNITED STATES NOR THE UNITED    |
+  | STATES DEPARTMENT OF ENERGY, NOR LOS ALAMOS NATIONAL SECURITY, LLC, |
+  | NOR ANY OF THEIR EMPLOYEES, MAKES ANY WARRANTY, EXPRESS OR IMPLIED, |
+  | OR ASSUMES ANY LEGAL LIABILITY OR RESPONSIBILITY FOR THE ACCURACY,  |
+  | COMPLETENESS, OR USEFULNESS OF ANY INFORMATION, APPARATUS, PRODUCT, |
+  | OR PROCESS DISCLOSED, OR REPRESENTS THAT ITS USE WOULD NOT INFRINGE |
+  | PRIVATELY OWNED RIGHTS.                                             |
+  +---------------------------------------------------------------------+
+  
+1mcnp     version 6     ld=05/08/13                     07/14/25 11:39:04 
+ *************************************************************************                 probid =  07/14/25 11:39:04 
+ inp=valid_02.inp outp=valid_02.inp.outp ptrac=valid_02.inp.ptrac                
+
+ 
+  warning.  universe map (print table 128) disabled.
+ 
+  warning.  Physics models disabled.
+         1-       Test of Cube with hole; lnk3dnt file being imported                             
+         2-       11 1 -18.0 0 u=e10 imp:n=1 $ inferred geometry cell                             
+         3-       12 0 0 u=e10 imp:n=1 $ inferred background cell                                 
+         4-       20 2 -0.001 -2 fill=e10 imp:n=1 $ fill cell                                     
+         5-       c                                                                               
+         6-       21 0 2 imp:n=0 $ outside world                                                  
+         7-                                                                                       
+         8-       2 so 17.4                                                                       
+         9-                                                                                       
+        10-       kcode 1000 1.0 10 100                                                           
+        11-       ksrc -5.0 0.0 0.0 5.0 0.0 0.0                                                   
+        12-            0.0 -5.0 0.0 0.0 5.0 0.0                                                   
+        13-            0.0 0.0 -5.0 0.0 0.0 5.0                                                   
+        14-       totnu no                                                                        
+        15-       m1 92235.69c 1.0                                                                
+        16-       m2 1001.60c 1.0                                                                 
+        17-       prdmp j 275                                                                     
+        18-       embed10 meshgeo=lnk3dnt mgeoin=CUBE01.linkout debug=echomesh                    
+
+ bad trouble in subroutine  of imcn                                   
+
+ Embedded geometry file cube01.linkout does not exist.

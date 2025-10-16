@@ -1,0 +1,20 @@
+21x21x21 void lattice of balls
+11 0 -31 u=1 imp:p=1
+12 0 31 u=1 imp:p=1
+16 0 -32 u=2 imp:p=1
+    lat=1 fill= -10:10 -10:10 -10:10 1 9260R
+17 0 -33 fill=2 imp:p=1
+18 0 33 imp:p=0
+
+31 sph 0 0 0 .5
+32 rpp -1 1 -1 1 -1 1
+33 rpp -21 21 -21 21 -21 21
+
+mode p
+print
+prdmp 2j -3
+sdef
+nps 10000
+f4:p (11<16[-10:10 -10:10 -10:10]<17)
+
+(MCNP Manual 6.2 Section 3.3.5.1.3)

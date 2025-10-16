@@ -1,0 +1,250 @@
+          Code Name & Version = MCNP6, 1.0
+  
+     _/      _/        _/_/_/       _/      _/       _/_/_/         _/_/_/
+    _/_/  _/_/      _/             _/_/    _/       _/    _/     _/       
+   _/  _/  _/      _/             _/  _/  _/       _/_/_/       _/_/_/    
+  _/      _/      _/             _/    _/_/       _/           _/    _/   
+ _/      _/        _/_/_/       _/      _/       _/             _/_/      
+  
+  +---------------------------------------------------------------------+
+  | Copyright 2008. Los Alamos National Security, LLC.  All rights      |
+  | reserved.                                                           |
+  |   This material was produced under U.S. Government contract         |
+  | DE-AC52-06NA25396 for Los Alamos National Laboratory, which is      |
+  | operated by Los Alamos National Security, LLC, for the U.S.         |
+  | Department of Energy. The Government is granted for itself and      |
+  | others acting on its behalf a paid-up, nonexclusive, irrevocable    |
+  | worldwide license in this material to reproduce, prepare derivative |
+  | works, and perform publicly and display publicly. Beginning five    |
+  | (5) years after 2008, subject to additional five-year worldwide     |
+  | renewals, the Government is granted for itself and others acting on |
+  | its behalf a paid-up, nonexclusive, irrevocable worldwide license   |
+  | in this material to reproduce, prepare derivative works, distribute |
+  | copies to the public, perform publicly and display publicly, and to |
+  | permit others to do so. NEITHER THE UNITED STATES NOR THE UNITED    |
+  | STATES DEPARTMENT OF ENERGY, NOR LOS ALAMOS NATIONAL SECURITY, LLC, |
+  | NOR ANY OF THEIR EMPLOYEES, MAKES ANY WARRANTY, EXPRESS OR IMPLIED, |
+  | OR ASSUMES ANY LEGAL LIABILITY OR RESPONSIBILITY FOR THE ACCURACY,  |
+  | COMPLETENESS, OR USEFULNESS OF ANY INFORMATION, APPARATUS, PRODUCT, |
+  | OR PROCESS DISCLOSED, OR REPRESENTS THAT ITS USE WOULD NOT INFRINGE |
+  | PRIVATELY OWNED RIGHTS.                                             |
+  +---------------------------------------------------------------------+
+  
+1mcnp     version 6     ld=05/08/13                     07/14/25 11:39:04 
+ *************************************************************************                 probid =  07/14/25 11:39:04 
+ inp=valid_35.inp outp=valid_35.inp.outp ptrac=valid_35.inp.ptrac                
+
+ 
+  warning.  Physics models disabled.
+         1-       replace this line with name of simulation                                       
+         2-       c ============================================================                  
+         3-       c                        cell definitions                                       
+         4-       c ============================================================                  
+         5-       100 200 -5.2   -1         IMP:P,N=1                                             
+         6-       200 300 -1.25E-6 1 -99    IMP:P,N=1                                             
+         7-       300 0 99                  IMP:P,N = 0                                           
+         8-                                                                                       
+         9-       c ============================================================                  
+        10-       c                       surface definitions                                     
+        11-       c ============================================================                  
+        12-       1 RCC 0 0 10 0 0 5.1 5.1 $ CeBr detector                                        
+        13-       99 SO 100 $ world                                                               
+        14-                                                                                       
+        15-       c ============================================================                  
+        16-       c                      material compositions                                    
+        17-       c ============================================================                  
+        18-       M200   35079      -0.380175      $ Br-079                                       
+        19-              35081      -0.369825      $ Br-081                                       
+        20-              58140      -0.221125      $ Ce-140                                       
+        21-              58142      -0.027785      $ Ce-142                                       
+        22-       M300   8016      -0.2094897      $ O-016                                        
+        23-              7014      -0.7771608      $ N-014                                        
+        24-              18040      -0.00996035      $ Ar-040                                     
+        25-       c ============================================================                  
+        26-       c                      source definition                                        
+        27-       c ============================================================                  
+        28-       mode p e                                                                        
+        29-       c nps 1e7 1                                                                     
+        30-       sdef par=p erg=4 x=0 y=0 z=0 vec=0 0 1 axs=0 0 1 dir=1                          
+        31-       c                                                                               
+        32-       NPS 1e4                                                                         
+        33-       PTRAC file=asc                                                                  
+ 
+  comment.  electron importances have been set equal to 1.
+ 
+  warning.  there are no tallies in this problem.
+ 
+  warning.    2 materials had unnormalized fractions. print table 40.
+1cells                                                                                                  print table 60
+
+                               atom        gram                                            neutron    photon     electron              
+              cell      mat   density     density     volume       mass            pieces importance importance importance             
+
+        1      100      200  3.49981E-02 5.20000E+00 4.16735E+02 2.16702E+03           1  1.0000E+00 1.0000E+00 1.0000E+00             
+        2      200      300  5.20003E-08 1.25000E-06 4.18837E+06 5.23547E+00           1  1.0000E+00 1.0000E+00 1.0000E+00             
+        3      300        0  0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00           0  0.0000E+00 0.0000E+00 0.0000E+00             
+
+ total                                               4.18879E+06 2.17226E+03
+
+    minimum source weight = 1.0000E+00    maximum source weight = 1.0000E+00
+
+ ***************************************************
+ * Random Number Generator  =                    1 *
+ * Random Number Seed       =       19073486328125 *
+ * Random Number Multiplier =       19073486328125 *
+ * Random Number Adder      =                    0 *
+ * Random Number Bits Used  =                   48 *
+ * Random Number Stride     =               152917 *
+ ***************************************************
+
+
+         3 warning messages so far.
+1cross-section tables                                                                                   print table 100
+     XSDIR used: /home/arun/projects/roots/MCNP/MCNP_DATA/xsdir_mcnp6.1
+
+     table    length
+
+                        tables from file xdata/mcplib84                                                  
+
+   7000.84p    3270  Update of MCPLIB04 Photon Compton Broadening Data For MCNP5 see LA-UR-    12-00018        01/03/12
+   8000.84p    3348  Update of MCPLIB04 Photon Compton Broadening Data For MCNP5 see LA-UR-    12-00018        01/03/12
+  18000.84p    4772  Update of MCPLIB04 Photon Compton Broadening Data For MCNP5 see LA-UR-    12-00018        01/03/12
+  35000.84p    6929  Update of MCPLIB04 Photon Compton Broadening Data For MCNP5 see LA-UR-    12-00018        01/03/12
+  58000.84p    9249  Update of MCPLIB04 Photon Compton Broadening Data For MCNP5 see LA-UR-    12-00018        01/03/12
+
+  total       27568
+
+ maximum photon energy set to    100.0 mev (maximum electron energy)
+
+                        tables from file xdata/el03                                                      
+
+   7000.03e    2333                                                                                          6/6/98    
+   8000.03e    2333                                                                                          6/6/98    
+  18000.03e    2341                                                                                          6/6/98    
+  35000.03e    2349                                                                                          6/6/98    
+  58000.03e    2365                                                                                          6/6/98    
+
+1particles and energy limits                                                                            print table 101
+
+                         particle      maximum       smallest      largest       always        always
+                         cutoff        particle      table         table         use table     use model
+   particle type         energy        energy        maximum       maximum       below         above
+
+    2  p    photon      1.0000E-03    1.0000E+02    1.0000E+05    1.0000E+05    1.0000E+36    1.0000E+36
+    3  e    electron    1.0000E-03    1.0000E+02    1.0000E+02    1.0000E+02    1.0000E+36    1.0000E+36
+ 
+
+ ***********************************************************************************************************************
+
+ dump no.    1 on file runtpe     nps =           0     coll =              0     ctm =        0.00   nrn =             
+    0
+
+         3 warning messages so far.
+1problem summary                                                                                                           
+
+      run terminated when       10000  particle histories were done.
++                                                                                                    07/14/25 11:39:27 
+      replace this line with name of simulation                                            probid =  07/14/25 11:39:04 
+
+ photon creation     tracks      weight        energy            photon loss         tracks      weight        energy
+                                 (per source particle)                                           (per source particle)
+
+ source               10000    1.0000E+00    4.0000E+00          escape                8752    8.7520E-01    2.1334E+00
+ nucl. interaction        0    0.            0.                  energy cutoff            0    0.            3.0727E-04
+ particle decay           0    0.            0.                  time cutoff              0    0.            0.        
+ weight window            0    0.            0.                  weight window            0    0.            0.        
+ cell importance          0    0.            0.                  cell importance          0    0.            0.        
+ weight cutoff            0    0.            0.                  weight cutoff            0    0.            0.        
+ e or t importance        0    0.            0.                  e or t importance        0    0.            0.        
+ dxtran                   0    0.            0.                  dxtran                   0    0.            0.        
+ forced collisions        0    0.            0.                  forced collisions        0    0.            0.        
+ exp. transform           0    0.            0.                  exp. transform           0    0.            0.        
+ from neutrons            0    0.            0.                  compton scatter          0    0.            1.3200E+00
+ bremsstrahlung       13759    1.3759E+00    1.0764E-01          capture              24027    2.4027E+00    1.6544E-01
+ p-annihilation        3410    3.4100E-01    1.7425E-01          pair production       1722    1.7220E-01    6.7711E-01
+ photonuclear             0    0.            0.                  photonuclear abs         0    0.            0.        
+ electron x-rays        354    3.5400E-02    1.7568E-04          loss to photofis         0    0.            0.        
+ compton fluores          0    0.            0.                                                                        
+ muon capt fluores        0    0.            0.                                                                        
+ 1st fluorescence      6645    6.6450E-01    1.4059E-02                                                                
+ 2nd fluorescence       333    3.3300E-02    1.4272E-04                                                                
+ (gamma,xgamma)           0    0.            0.                                                                        
+ tabular sampling         0    0.            0.                                                                        
+ prompt photofis          0    0.            0.                                                                        
+     total            34501    3.4501E+00    4.2963E+00              total            34501    3.4501E+00    4.2963E+00
+
+   number of photons banked                    17856        average time of (shakes)              cutoffs
+   photon tracks per source particle      3.4501E+00          escape            3.4816E-01          tco   1.0000E+33
+   photon collisions per source particle  4.1625E+00          capture           3.2023E-02          eco   1.0000E-03
+   total photon collisions                     41625          capture or escape 1.1643E-01          wc1  -5.0000E-01
+                                                              any termination   1.1265E-01          wc2  -2.5000E-01
+
+ electron creation   tracks      weight        energy            electron loss       tracks      weight        energy
+                                 (per source particle)                                           (per source particle)
+
+ source                   0    0.            0.                  escape                 123    1.2300E-02    1.9002E-02
+ nucl. interaction        0    0.            0.                  energy cutoff      1692235    1.6922E+02    1.5939E-01
+ particle decay           0    0.            0.                  time cutoff              0    0.            0.        
+ weight window            0    0.            0.                  weight window            0    0.            0.        
+ cell importance          0    0.            0.                  cell importance          0    0.            0.        
+ weight cutoff            0    0.            0.                  weight cutoff            0    0.            0.        
+ e or t importance        0    0.            0.                  e or t importance        0    0.            0.        
+ pair production       3443    3.4430E-01    5.0112E-01          scattering               0    0.            2.4571E+00
+ compton recoil       14456    1.4456E+00    1.3200E+00          bremsstrahlung           0    0.            1.0764E-01
+ photo-electric       23619    2.3619E+00    1.4662E-01          p-annihilation        1704    1.7040E-01    1.6005E-04
+ photon auger           488    4.8800E-02    1.3739E-03          atomic excitation        0    0.            0.        
+ electron auger          50    5.0000E-03    1.4077E-04                                                                
+ knock-on           1652006    1.6520E+02    7.7402E-01          electroionization        0    0.            0.        
+ (gamma,xelectron)        0    0.            0.                                                                        
+     total          1694062    1.6941E+02    2.7433E+00              total          1694062    1.6941E+02    2.7433E+00
+
+   number of electrons banked                1694062                                              cutoffs
+   electron tracks per source particle    1.6941E+02                                                tco   1.0000E+33
+   electron sub-steps per source particle 1.1140E+04                                                eco   1.0000E-03
+   total electron sub-steps                111403606                                                wc1   0.0000E+00
+                                                                                                    wc2   0.0000E+00
+
+ computer time so far in this run     0.38 minutes            maximum number ever in bank       284
+ computer time in mcrun               0.38 minutes            bank overflows to backup file       0
+ source particles per minute            2.6378E+04
+ random numbers generated               1060745483            most random numbers used was      362837 in history        9922
+ 
+  warning.   random number stride   152917 exceeded     4221 times.
+
+ range of sampled source weights = 1.0000E+00 to 1.0000E+00
+1photon   activity in each cell                                                                         print table 126
+
+                       tracks     population   collisions   collisions     number        flux        average      average
+              cell    entering                               * weight     weighted     weighted   track weight   track mfp
+                                                          (per history)    energy       energy     (relative)      (cm)
+
+        1      100       10000        27856        41625    4.1625E+00   2.5874E+00   2.5874E+00   1.0000E+00   4.2254E+00
+        2      200       18752        12059            0    0.0000E+00   2.5341E+00   2.5341E+00   1.0000E+00   1.9089E+07
+
+           total         28752        39915        41625    4.1625E+00
+1electron activity in each cell                                                                         print table 126
+
+                       tracks     population    substeps     substeps      number        flux        average      average
+              cell    entering                               * weight     weighted     weighted   track weight    substep 
+                                                          (per history)    energy       energy     (relative)      (cm)
+
+        1      100           0      1694061    111403580    1.1140E+04   9.7960E-01   1.2033E+00   1.0000E+00   1.8667E-03
+        2      200         123          124           26    2.6000E-03   1.3773E+00   1.5154E+00   1.0000E+00   2.0154E+04
+
+           total           123      1694185    111403606    1.1140E+04
+
+ ***********************************************************************************************************************
+
+ dump no.    2 on file runtpe     nps =       10000     coll =      111445231     ctm =        0.38   nrn =       
+ 1060745483
+ ascii  file valid_35.inp.ptrac written with        10000 events
+                              from           25 histories.
+
+         4 warning messages so far.
+
+
+ run terminated when       10000  particle histories were done.
+
+ computer time =    0.38 minutes
+
+ mcnp     version 6     05/08/13                     07/14/25 11:39:27                     probid =  07/14/25 11:39:04 

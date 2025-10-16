@@ -1,0 +1,69 @@
+Generate ROC curve for 15-MeV photons into U-238
+1 0 -1 2 7 5 imp:p=1
+2 0 -2 imp:p=1
+4 1 -5.16 -4 imp:p=1
+5 2 -19.0 -5 imp:p=1
+6 0 -6 imp:p=1
+7 3 -11.3 -7 4 6 imp:p=1
+8 0 1 imp:p=0
+
+1 RPP -100 100 -100 100 -100 100
+2 SO 5.0
+3 PZ 0.0
+4 RCC 20 0 25 0 0 10 4.0
+5 SPH 20 0 0 5.0
+6 RCC 20 0 20 0 0 5 4.0
+7 RCC 20 0 20 0 0 17 6.0
+
+MODE p n
+M1 32074.70c 1
+M2 92238.70c 1
+M3 82208.70c 1
+MX2:P model
+CUT:N 60e8
+CUT:P 60e8
+PHYS:P j 1 j -1 j -101
+SDEF PAR=P ERG=D1 X=FERG D2 Y=FERG D3 Z=FERG D4 TME=FERG D7
+    VEC=1 0 0 DIR=FERG D8 CEL=1 WGT=1
+SI1 S 5 6
+SP1 0.9391 0.0609
+DS2 S 15 16
+DS3 S 25 26
+DS4 S 35 36
+DS7 S 45 46
+DS8 S 55 56
+SI15 L 5.1
+SP15 1
+SI25 L 0.0
+SP25 1
+SI35 L 0.0
+SP35 1
+SI16 -100 100
+SP16 0 1
+SI26 -100 100
+SP26 0 1
+SI36 -100 100
+SP36 0 1
+SI45 0 0.000010e8
+SP45 0 1
+SI46 0 60e8
+SP46 0 1
+SI55 L 1
+SP55 1
+SI56 -1 1
+SP56 0 1
+SI5 L 15.0
+SP5 1
+C 1/E for background source
+SI6 A .100 1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0 9.0 10.0
+SP6 10.0 1.0 0.5 0.333 0.250 0.200 0.167 0.143 0.125 0.111 0.100
+c
+f4:p 2
+f1:p 4.3
+e1 1.0 100.0
+t1 0.001e8 60e8
+ft1 scx 1 roc 10648648
+tf1 1 1 1 1 1 1 2 2  1 1 2 1 1 1 2 2 $ signal bins, noise bins
+c nps 106486480l
+
+(MCNP Manual 6.2 Section 4.2.5)

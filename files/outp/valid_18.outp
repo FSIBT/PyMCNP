@@ -1,0 +1,371 @@
+          Code Name & Version = MCNP6, 1.0
+  
+     _/      _/        _/_/_/       _/      _/       _/_/_/         _/_/_/
+    _/_/  _/_/      _/             _/_/    _/       _/    _/     _/       
+   _/  _/  _/      _/             _/  _/  _/       _/_/_/       _/_/_/    
+  _/      _/      _/             _/    _/_/       _/           _/    _/   
+ _/      _/        _/_/_/       _/      _/       _/             _/_/      
+  
+  +---------------------------------------------------------------------+
+  | Copyright 2008. Los Alamos National Security, LLC.  All rights      |
+  | reserved.                                                           |
+  |   This material was produced under U.S. Government contract         |
+  | DE-AC52-06NA25396 for Los Alamos National Laboratory, which is      |
+  | operated by Los Alamos National Security, LLC, for the U.S.         |
+  | Department of Energy. The Government is granted for itself and      |
+  | others acting on its behalf a paid-up, nonexclusive, irrevocable    |
+  | worldwide license in this material to reproduce, prepare derivative |
+  | works, and perform publicly and display publicly. Beginning five    |
+  | (5) years after 2008, subject to additional five-year worldwide     |
+  | renewals, the Government is granted for itself and others acting on |
+  | its behalf a paid-up, nonexclusive, irrevocable worldwide license   |
+  | in this material to reproduce, prepare derivative works, distribute |
+  | copies to the public, perform publicly and display publicly, and to |
+  | permit others to do so. NEITHER THE UNITED STATES NOR THE UNITED    |
+  | STATES DEPARTMENT OF ENERGY, NOR LOS ALAMOS NATIONAL SECURITY, LLC, |
+  | NOR ANY OF THEIR EMPLOYEES, MAKES ANY WARRANTY, EXPRESS OR IMPLIED, |
+  | OR ASSUMES ANY LEGAL LIABILITY OR RESPONSIBILITY FOR THE ACCURACY,  |
+  | COMPLETENESS, OR USEFULNESS OF ANY INFORMATION, APPARATUS, PRODUCT, |
+  | OR PROCESS DISCLOSED, OR REPRESENTS THAT ITS USE WOULD NOT INFRINGE |
+  | PRIVATELY OWNED RIGHTS.                                             |
+  +---------------------------------------------------------------------+
+  
+1mcnp     version 6     ld=05/08/13                     07/14/25 11:39:04 
+ *************************************************************************                 probid =  07/14/25 11:39:04 
+ inp=valid_18.inp outp=valid_18.inp.outp ptrac=valid_18.inp.ptrac                
+
+ 
+  warning.  Physics models disabled.
+         1-       Generate a LNK3DNT rzt mesh w/ multiple materials                               
+         2-       c upper-inner                                                                   
+         3-       1 1 -18.7 -11 1 2 3 imp:n=1                                                     
+         4-       2 2 -0.001 -11 1 -2 3 imp:n=1                                                   
+         5-       3 1 -18.7 -11 -1 -2 3 imp:n=1                                                   
+         6-       4 2 -0.001 -11 -1 2 3 imp:n=1                                                   
+         7-       c upper-outer                                                                   
+         8-       6 2 -0.001 -10 11 1 2 3 imp:n=1                                                 
+         9-       7 1 -18.7 -10 11 1 -2 3 imp:n=1                                                 
+        10-       8 2 -0.001 -10 11 -1 -2 3 imp:n=1                                               
+        11-       9 1 -18.7 -10 11 -1 2 3 imp:n=1                                                 
+        12-       c lower-inner                                                                   
+        13-       11 2 -0.001 -11 1 2 -3 imp:n=1                                                  
+        14-       12 1 -18.7 -11 1 -2 -3 imp:n=1                                                  
+        15-       13 2 -0.001 -11 -1 -2 -3 imp:n=1                                                
+        16-       14 1 -18.7 -11 -1 2 -3 imp:n=1                                                  
+        17-       c lower-outer                                                                   
+        18-       16 1 -18.7 -10 11 1 2 -3 imp:n=1                                                
+        19-       17 2 -0.001 -10 11 1 -2 -3 imp:n=1                                              
+        20-       18 1 -18.7 -10 11 -1 -2 -3 imp:n=1                                              
+        21-       19 2 -0.001 -10 11 -1 2 -3 imp:n=1                                              
+        22-       c                                                                               
+        23-       c outer void                                                                    
+        24-       20 0 10 imp:n=0                                                                 
+        25-                                                                                       
+        26-       10 rcc 0. 0. -10. 0. 0. 20. 10. $ outer rcc                                     
+        27-       11 rcc 0 0 -10 0 0 20 5 $ inner rcc                                             
+        28-       1 py 0.0                                                                        
+        29-       2 px 0.0                                                                        
+        30-       3 pz 0.0                                                                        
+        31-                                                                                       
+        32-       kcode 5000 1.0 50 250                                                           
+        33-       ksrc 0.0 0.0 0.0                                                                
+        34-       m1 92235.69c 1.0                                                                
+        35-       m2 6012 1.0                                                                     
+        36-       dm1 92235 92235.50                                                              
+        37-       mesh geom cyl                                                                   
+ 
+  fatal error.  ref keyword missing from mesh card.
+ 
+  fatal error.  imesh keyword missing from mesh card.
+ 
+  fatal error.  jmesh keyword missing from mesh card.
+ 
+  fatal error.  kmesh keyword missing from mesh card.
+ 
+  fatal error.  last theta coarse mesh position must be 1.
+ 
+  fatal error.  negative or ZERO entry on mesh keyword imesh  .
+ 
+  fatal error.  negative or ZERO entry on mesh keyword jmesh  .
+ 
+  fatal error.  negative or ZERO entry on mesh keyword kmesh  .
+        38-           ref 0.0 0.0 0.0                                                             
+  fatal error.  ref   is not a legal data symbol.
+        39-           origin 0.0 0.0 -10.0 $ bottom center of cylinder                            
+  fatal error.  origi is not a legal data symbol.
+        40-           axs 0.0 0.0 1.0                                                             
+  fatal error.  axs   is not a legal data symbol.
+        41-           vec 1.0 0.0 0.0                                                             
+  fatal error.  vec   is not a legal data symbol.
+        42-           imesh 10 $ cylinder radius                                                  
+  fatal error.  imesh is not a legal data symbol.
+        43-           iints 2 $ 2 radial divisions                                                
+  fatal error.  iints is not a legal data symbol.
+        44-           jmesh 20 $ axial (z) length                                                 
+  fatal error.  jmesh is not a legal data symbol.
+        45-           jints 2 $ 2 axial divisions                                                 
+  fatal error.  jints is not a legal data symbol.
+        46-           kmesh 1 $ azimuth-single rotation (0-2pi)                                   
+  fatal error.  kmesh is not a legal data symbol.
+        47-           kints 4 $ 4 azimuthal divisions (0, pi/2, pi, 3pi/2, 2pi)                   
+  fatal error.  kints is not a legal data symbol.
+        48-       dawwg xsec=ndilib points=10                                                     
+        49-       c                                                                               
+        50-       NPS 1e4                                                                         
+  warning.  nps card is ineffective in kcode problems.
+        51-       PTRAC file=asc                                                                  
+        52-                                                                                       
+ 
+  comment.  total fission nubar data are being used.
+
+ surface       10.2 and surface       11.2 are the same.       11.2 will be deleted.
+
+ surface       10.3 and surface       11.3 are the same.       11.3 will be deleted.
+ 
+  comment.           2 surfaces were deleted for being the same as others.
+1     initial source from ksrc card.                                                                    print table 90
+
+ original number of points                             1
+    points not in any cell                       0
+    points in cells of zero importance           0
+    points in void cells                         0
+    points in ambiguous cells                    0
+ total points rejected                                 0
+ points remaining                                      1
+ points after expansion or contraction              5000
+ nominal source size                                5000
+
+ initial guess for k(eff.)                      1.000000
+
+ cycles to skip before tallying                       50
+
+ number of keff cycles that can be stored           2500
+
+ 
+  warning.  kcode usually needs s(a,b) physics (mt card)
+1material composition                                                                                   print table 40
+
+ material
+  number     component nuclide, atom fraction
+
+        1           92235, 1.00000E+00
+        2            6012, 1.00000E+00
+
+
+
+
+
+ material
+  number     component nuclide, mass fraction
+
+        1           92235, 1.00000E+00
+        2            6012, 1.00000E+00
+1cell volumes and masses                                                                                print table 50
+
+              cell     atom          gram         input       calculated                            reason volume
+                      density       density       volume        volume         mass       pieces    not calculated
+
+        1        1  4.79111E-02   1.87000E+01   0.00000E+00   0.00000E+00   0.00000E+00      0      asymmetric      
+        2        2  5.01837E-05   1.00000E-03   0.00000E+00   0.00000E+00   0.00000E+00      0      asymmetric      
+        3        3  4.79111E-02   1.87000E+01   0.00000E+00   0.00000E+00   0.00000E+00      0      asymmetric      
+        4        4  5.01837E-05   1.00000E-03   0.00000E+00   0.00000E+00   0.00000E+00      0      asymmetric      
+        5        6  5.01837E-05   1.00000E-03   0.00000E+00   0.00000E+00   0.00000E+00      0      asymmetric      
+        6        7  4.79111E-02   1.87000E+01   0.00000E+00   0.00000E+00   0.00000E+00      0      asymmetric      
+        7        8  5.01837E-05   1.00000E-03   0.00000E+00   0.00000E+00   0.00000E+00      0      asymmetric      
+        8        9  4.79111E-02   1.87000E+01   0.00000E+00   0.00000E+00   0.00000E+00      0      asymmetric      
+        9       11  5.01837E-05   1.00000E-03   0.00000E+00   0.00000E+00   0.00000E+00      0      asymmetric      
+       10       12  4.79111E-02   1.87000E+01   0.00000E+00   0.00000E+00   0.00000E+00      0      asymmetric      
+       11       13  5.01837E-05   1.00000E-03   0.00000E+00   0.00000E+00   0.00000E+00      0      asymmetric      
+       12       14  4.79111E-02   1.87000E+01   0.00000E+00   0.00000E+00   0.00000E+00      0      asymmetric      
+       13       16  4.79111E-02   1.87000E+01   0.00000E+00   0.00000E+00   0.00000E+00      0      asymmetric      
+       14       17  5.01837E-05   1.00000E-03   0.00000E+00   0.00000E+00   0.00000E+00      0      asymmetric      
+       15       18  4.79111E-02   1.87000E+01   0.00000E+00   0.00000E+00   0.00000E+00      0      asymmetric      
+       16       19  5.01837E-05   1.00000E-03   0.00000E+00   0.00000E+00   0.00000E+00      0      asymmetric      
+       17       20  0.00000E+00   0.00000E+00   0.00000E+00   0.00000E+00   0.00000E+00      0      infinite        
+1surface areas                                                                                          print table 50
+
+           surface      input      calculated    reason area
+                        area          area       not calculated
+
+        2       10.1    0.00000E+00   1.25664E+03                   
+        3       10.2    0.00000E+00   0.00000E+00   asymmetric      
+        4       10.3    0.00000E+00   0.00000E+00   asymmetric      
+        6       11.1    0.00000E+00   0.00000E+00   asymmetric      
+        9        1      0.00000E+00   0.00000E+00   asymmetric      
+       10        2      0.00000E+00   0.00000E+00   asymmetric      
+       11        3      0.00000E+00   0.00000E+00   asymmetric      
+1cells                                                                                                  print table 60
+
+                               atom        gram                                            neutron                                     
+              cell      mat   density     density     volume       mass            pieces importance                                   
+
+        1        1        1  4.79111E-02 1.87000E+01 0.00000E+00 0.00000E+00           0  1.0000E+00                                   
+        2        2        2  5.01837E-05 1.00000E-03 0.00000E+00 0.00000E+00           0  1.0000E+00                                   
+        3        3        1  4.79111E-02 1.87000E+01 0.00000E+00 0.00000E+00           0  1.0000E+00                                   
+        4        4        2  5.01837E-05 1.00000E-03 0.00000E+00 0.00000E+00           0  1.0000E+00                                   
+        5        6        2  5.01837E-05 1.00000E-03 0.00000E+00 0.00000E+00           0  1.0000E+00                                   
+        6        7        1  4.79111E-02 1.87000E+01 0.00000E+00 0.00000E+00           0  1.0000E+00                                   
+        7        8        2  5.01837E-05 1.00000E-03 0.00000E+00 0.00000E+00           0  1.0000E+00                                   
+        8        9        1  4.79111E-02 1.87000E+01 0.00000E+00 0.00000E+00           0  1.0000E+00                                   
+        9       11        2  5.01837E-05 1.00000E-03 0.00000E+00 0.00000E+00           0  1.0000E+00                                   
+       10       12        1  4.79111E-02 1.87000E+01 0.00000E+00 0.00000E+00           0  1.0000E+00                                   
+       11       13        2  5.01837E-05 1.00000E-03 0.00000E+00 0.00000E+00           0  1.0000E+00                                   
+       12       14        1  4.79111E-02 1.87000E+01 0.00000E+00 0.00000E+00           0  1.0000E+00                                   
+       13       16        1  4.79111E-02 1.87000E+01 0.00000E+00 0.00000E+00           0  1.0000E+00                                   
+       14       17        2  5.01837E-05 1.00000E-03 0.00000E+00 0.00000E+00           0  1.0000E+00                                   
+       15       18        1  4.79111E-02 1.87000E+01 0.00000E+00 0.00000E+00           0  1.0000E+00                                   
+       16       19        2  5.01837E-05 1.00000E-03 0.00000E+00 0.00000E+00           0  1.0000E+00                                   
+       17       20        0  0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00           0  0.0000E+00                                   
+
+ total                                               0.00000E+00 0.00000E+00
+1surfaces                                                                                               print table 70
+
+           surface        trans  type   surface coefficients
+
+        1       10                rcc
+        2       10.1              cz    1.0000000E+01
+        3       10.2              pz    1.0000000E+01
+        4       10.3              p     0.0000000E+00   0.0000000E+00  -1.0000000E+00   1.0000000E+01
+        5       11                rcc
+        6       11.1              cz    5.0000000E+00
+        9        1                py    0.0000000E+00
+       10        2                px    0.0000000E+00
+       11        3                pz    0.0000000E+00
+1  identical surfaces                                                                                   print table 70
+
+   master surface     identical surfaces
+
+        10.2          11.2                                                                                                             
+        10.3          11.3                                                                                                             
+
+
+   surface coefficients for identical surfaces not used.
+
+             surface     trans  type   surface coefficients
+
+        7       11.2              pz    1.0000000E+01
+        8       11.3              p     0.0000000E+00   0.0000000E+00  -1.0000000E+00   1.0000000E+01
+1  cell temperatures in mev for the free-gas thermal neutron treatment.                                 print table 72
+
+   all non-zero importance cells with materials have a temperature for thermal neutrons of 2.5300E-08 mev.
+
+ ***************************************************
+ * Random Number Generator  =                    1 *
+ * Random Number Seed       =       19073486328125 *
+ * Random Number Multiplier =       19073486328125 *
+ * Random Number Adder      =                    0 *
+ * Random Number Bits Used  =                   48 *
+ * Random Number Stride     =               152917 *
+ ***************************************************
+
+
+         3 warning messages so far.
+
+        18 fatal errors so far.
+1physical constants                                                                                     print table 98
+
+
+       name                    value     description
+
+ huge_float      1.0000000000000E+36     infinity
+        pie      3.1415926535898E+00     pi
+      euler      5.7721566490153E-01     euler constant
+     avogad      6.0220434469282E+23     avogadro number (molecules/mole)
+      aneut      1.0086649670000E+00     neutron mass (amu)
+      avgdn      5.9703109000000E-01     avogadro number/neutron mass (1.e-24*molecules/mole/amu)
+      slite      2.9979250000000E+02     speed of light (cm/shake)
+     planck      4.1357320000000E-13     planck constant (mev shake)
+      fscon      1.3703930000000E+02     inverse fine structure constant h*c/(2*pi*e**2)
+
+ particle masses:   ipt       mass (mev)           particle      anti-particle
+
+                      1    9.3958000000000E+02     neutron        5   Aneutron
+                      3    5.1100800000000E-01     electron       8   positron
+                      4    1.0565835700000E+02     mu_minus      16   mu_plus 
+                      9    9.3827199800000E+02     proton        19   Aproton 
+                     10    1.1156830000000E+03     lambda0       25   Alambda0
+                     11    1.1893700000000E+03     sigma+        26   Asigma+ 
+                     12    1.1974490000000E+03     sigma-        27   Asigma- 
+                     13    1.3148300000000E+03     xi0           28   Axi0    
+                     14    1.3213100000000E+03     xi_minus      29   xi_plus 
+                     15    1.6724500000000E+03     omega-        30   Aomega- 
+                     20    1.3957018000000E+02     pi_plus       35   pi_minus
+                     21    1.3497660000000E+02     pi_zero 
+                     22    4.9367700000000E+02     k_plus        36   k_minus 
+                     23    4.9767200000000E+02     k0_short
+                     24    4.9767200000000E+02     k0_long 
+                     31    1.8756127600000E+03     deuteron
+                     32    2.8089208600000E+03     triton  
+                     33    2.8083913200000E+03     helion  
+                     34    3.7273790400000E+03     alpha   
+
+
+ fission q-values:     nuclide    q(mev)   nuclide    q(mev)
+                         90232    171.91     91233    175.57
+                         92233    180.84     92234    179.45
+                         92235    180.88     92236    179.50
+                         92237    180.40     92238    181.31
+                         92239    180.40     92240    180.40
+                         93237    183.67     94238    186.65
+                         94239    189.44     94240    186.36
+                         94241    188.99     94242    185.98
+                         94243    187.48     95241    190.83
+                         95242    190.54     95243    190.25
+                         96242    190.49     96244    190.49
+                         other    180.00
+
+ parallel options:
+
+     omp
+
+     default datapath: /home/arun/projects/roots/MCNP/MCNP_DATA                                        
+                       /opt/local/codes/mcnp/MCNP_DATA                                                 
+
+ the following conditional compilation symbols were defined:
+
+     CEM
+     CEM_M6
+     CINDER
+     INTEL
+     LAQGSM
+     LINUX
+     LLNL_FISS
+     OMP
+     PLOT
+     UNIX
+     XLIB
+1cross-section tables                                                                                   print table 100
+     XSDIR used: /home/arun/projects/roots/MCNP/MCNP_DATA/xsdir_mcnp6.1
+
+     table    length
+
+                        tables from file xdata/rmccs                                                     
+
+   6012.50c   16126  njoy                                                                       (  1306)      79/07/31.
+
+                        tables from file xdata/t16_2003                                                  
+
+  92235.69c  587997  92-u-235 at 293.6K from t16 u235la9d njoy99.50     total nu                  mat9228      07/02/03
+                     probability tables used from 2.2500E-03 to 2.5000E-02 mev.
+
+  total      604123
+
+1particles and energy limits                                                                            print table 101
+
+                         particle      maximum       smallest      largest       always        always
+                         cutoff        particle      table         table         use table     use model
+   particle type         energy        energy        maximum       maximum       below         above
+
+    1  n    neutron     0.0000E+00    1.0000E+36    2.0000E+01    2.0000E+01    1.0000E+36    1.0000E+36
+ 
+
+         3 warning messages so far.
+
+        18 fatal errors so far.
+
+
+ run terminated because of fatal errors.
+
+ computer time =    0.00 minutes
+
+ mcnp     version 6     05/08/13                     07/14/25 11:39:04                     probid =  07/14/25 11:39:04 

@@ -1,0 +1,50 @@
+FMESH tally Example 31
+c Cells
+900 100 -19.1 -1 imp:n=1 $ Natural Uranium
+901 200 -19.1 -2 imp:n=1 $ Depleted Uranium
+902 300 -0.001 1 2 -3 imp:n=1 $ air
+903 0 3 imp:n=0 $ Void, kill n
+
+c Surfaces
+1 sx 4 3
+2 sx -4 3
+3 so 10
+
+sdef erg=2
+mode n
+nps 500000
+c
+c Problem materials
+c Natural Uranium
+m100 92238 0.992745
+     92235 0.007200
+c Hypothetical Depleted Uranium
+m200 92238 0.9999
+     92235 0.0001
+c Air
+m300 7014 -0.755 8016 -0.231 18000 -0.013
+c Dummy materials for FM mesh tallies
+m238 92238 1.0
+m235 92235 1.0
+c
+fmesh04:n geom=xyz origin -10 -10 -10
+    imesh 10 iints 100
+    jmesh 10 jints 100
+    kmesh 10 kints 100
+    out=none
+fmesh14:n geom=xyz origin -10 -10 -10
+    imesh 10 iints 100
+    jmesh 10 jints 100
+    kmesh 10 kints 100
+    out=none
+fmesh24:n geom=xyz origin -10 -10 -10
+    imesh 10 iints 100
+    jmesh 10 jints 100
+    kmesh 10 kints 100
+    out=none
+c Tally multipliers
++fm04 -1 235 -6 $ fission rate per cm3 from U235
++fm14 -1 238 -6 $ fission rate per cm3 from U238
++fm24 -1 100 -6 $ total fission rate from both U235 and U238
+
+(MCNP Manual 6.2 Section 4.2.3)

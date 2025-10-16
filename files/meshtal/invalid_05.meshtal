@@ -1,0 +1,12 @@
+mcnp   version 6     ld=02/20/18  probid =  11/01/24 10:26:01 
+ Isotropic neutron source over lunar regolith with two gamma detectors
+ Number of histories used for normalizing tallies =      10000000.00
+
+ Mesh Tally Number         4
+ neutron  mesh tally.
+
+ Tally bin boundaries:
+    hello:   -100.00    -80.00    -60.00    -40.00    -20.00      0.00     20.00     40.00     60.00     80.00    100.00
+
+        X         Y         Z     Result     Rel Error
+    -90.000   -90.000  -149.500 3.99211E+00 3.16463E-02
