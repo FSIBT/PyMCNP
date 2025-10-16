@@ -13,48 +13,54 @@ Commands:
     visualize  Create a 3D visualization of an input file.
     convert    Convert the output of an MCNP run into a pandas dataframe.
     plot       Plot the output of an MCNP simulation.
-    help       Show help for a specific command
+    help       Show help for a specific command.
 
-PyMCNP helps you create, modify, and run MCNP simulations and aparse its output.
+PyMCNP helps you create, run, analyze MCNP simulation input and output.
 """
 
 import sys
 
 from docopt import docopt
 
-import pymcnp
+from . import run
+from . import check
+from . import visualize
+from . import convert
+from . import plot
 
 
 def main() -> None:
-    """The command line interface to PyMCNP."""
+    """
+    Runs the PyMCNP command line interface.
+    """
 
-    args = docopt(__doc__, version=pymcnp.version.__version__, options_first=True)
+    args = docopt(__doc__, options_first=True)
 
     if args['run']:
-        pymcnp.cli.run.main()
+        run.main()
     elif args['check']:
-        pymcnp.cli.check.main()
+        check.main()
     elif args['visualize']:
-        pymcnp.cli.visualize.main()
+        visualize.main()
     elif args['convert']:
-        pymcnp.cli.convert.main()
+        convert.main()
     elif args['plot']:
-        pymcnp.cli.plot.main()
+        plot.main()
     elif args['help']:
         argv = sys.argv + ['--help']
         if args['<command>'] == 'run':
-            docopt(pymcnp.cli.run.__doc__, argv=argv)
+            docopt(run.__doc__, argv=argv)
         elif args['<command>'] == 'check':
-            docopt(pymcnp.cli.check.__doc__, argv=argv)
+            docopt(check.__doc__, argv=argv)
         elif args['<command>'] == 'visualize':
-            docopt(pymcnp.cli.visualize.__doc__, argv=argv)
+            docopt(visualize.__doc__, argv=argv)
         elif args['<command>'] == 'convert':
-            docopt(pymcnp.cli.convert.__doc__, argv=argv)
+            docopt(convert.__doc__, argv=argv)
         elif args['<command>'] == 'plot':
-            docopt(pymcnp.cli.plot.__doc__, argv=argv)
+            docopt(plot.__doc__, argv=argv)
         else:
             print(f'Unknown command: {args["<command>"]}')
 
 
 if __name__ == '__main__':
-    main()
+    main()  # pragma: no cover
