@@ -27,39 +27,61 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Physics",
 ]
 dependencies = [
-    "Sphinx",
     "docopt",
+    "fastparquet",
     "matplotlib",
     "molmass",
-    "myst_parser",
     "numpy",
     "pandas",
-    "pytest",
-    "fastparquet",
+    "pyvista",
     "rich",
     "scipy",
-    "sphinx_rtd_theme",
-    "molmass",
 ]
+
+[project.optional-dependencies]
+docs = [
+    "myst_parser",
+    "Sphinx",
+    "sphinx_rtd_theme",
+]
+
+dev = [
+    "pre-commit",
+    "ruff",
+]
+
+test = [
+    "pytest",
+    "pytest-cov",
+    "pytest-testmon",
+    "PyQt5",
+]
+
 
 [project.urls]
 Documentation = "https://pymcnp.readthedocs.io/en/latest/"
-Homepage = "https://github.com/mauricioAyllon/PyMCNP"
-Issues = "https://github.com/mauricioAyllon/PyMCNP/issues"
-Changelog = "https://github.com/mauricioAyllon/PyMCNP/blob/master/CHANGELOG.md"
+Homepage = "https://github.com/FSIBT/PyMCNP"
+Issues = "https://github.com/FSIBT/PyMCNP/issues"
+Changelog = "https://github.com/FSIBT/PyMCNP/blob/master/CHANGELOG.md"
 
 [project.scripts]
-pymcnp = "pymcnp.main:main"
-demo = "demo.main:main"
+pymcnp = "pymcnp._cli.main:main"
 
 [tool.setuptools.packages.find]
 where = ["./src"]
 
 [tool.setuptools_scm]
-write_to = "./src/pymcnp/version.py"
+write_to = "./src/version.py"
+
+[tool.pytest.ini_options]
+addopts = "--testmon --cov --cov-report=term-missing:skip-covered"
+testpaths = [
+    "tests"
+]
 
 [tool.ruff]
-line-length = 100
+line-length = 200
+lint.ignore = ["E741", "E742"]
 
 [tool.ruff.format]
 quote-style = "single"
