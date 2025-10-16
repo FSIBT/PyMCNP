@@ -3,6 +3,7 @@ import re
 import numpy
 
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
 
@@ -152,3 +153,20 @@ class Kx(_option.SurfaceOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, plusminus_1)
 
         self._plusminus_1: types.Real = plusminus_1
+
+    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+        """
+        Generates `Visualization` from `Kx`.
+
+        Parameters:
+            shapes: Collection of shapes.
+
+        Returns:
+            `_show.Shape` for `Kx`.
+        """
+
+        vis = shapes.ConeUnbounded(float(self.t_squared) ** (1 / 2), float(self.plusminus_1))
+        vis = vis.rotate(numpy.array((0, 1, 0)), 90, (0, 0, 0))
+        vis = vis.translate(numpy.array((float(self.x), 0, 0)))
+
+        return vis

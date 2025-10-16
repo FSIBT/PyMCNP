@@ -3,6 +3,7 @@ import re
 import numpy
 
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
 
@@ -532,3 +533,28 @@ class Rec(_option.SurfaceOption):
                 v2z = types.Real.from_mcnp(v2z)
 
         self._v2z: types.Real = v2z
+
+    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+        """
+        Generates `Visualization` from `Rec`.
+
+        Parameters:
+            shapes: Collection of shapes.
+
+        Returns:
+            `_show.Shape` for `Rec`
+        """
+
+        v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))
+        h = numpy.array((float(self.hx), float(self.hy), float(self.hz)))
+        v1 = numpy.array((float(self.v1x), float(self.v1y), float(self.v1z)))
+        v2 = numpy.array((float(self.v2x), float(self.v2y), float(self.v2z)))
+
+        cross = numpy.cross(v, numpy.array((0, 0, 1)))
+        angle = numpy.degrees(numpy.arccos(v[2] / numpy.linalg.norm(v)))
+
+        vis = shapes.CylinderElliptical(numpy.linalg.norm(h), numpy.linalg.norm(v1), numpy.linalg.norm(v2))
+        vis = vis.rotate(cross, angle, (0, 0, 0))
+        vis = vis.translate(v)
+
+        return vis

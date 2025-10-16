@@ -3,6 +3,7 @@ import re
 import numpy
 
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
 
@@ -286,3 +287,20 @@ class Ty(_option.SurfaceOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, c)
 
         self._c: types.Real = c
+
+    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+        """
+        Generates `Visualization` from `Ty`.
+
+        Parameters:
+            shapes: Collection of shapes.
+
+        Returns:
+            `_show.Shape` for `Ty`
+        """
+
+        vis = shapes.Torus(float(self.b), float(self.c), float(self.a))
+        vis = vis.rotate(numpy.array((1, 0, 0)), 90, (0, 0, 0))
+        vis = vis.translate(numpy.array((float(self.x), float(self.y), float(self.z))))
+
+        return vis

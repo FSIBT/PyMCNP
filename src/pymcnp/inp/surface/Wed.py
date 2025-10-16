@@ -3,6 +3,7 @@ import re
 import numpy
 
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
 
@@ -538,3 +539,28 @@ class Wed(_option.SurfaceOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v3z)
 
         self._v3z: types.Real = v3z
+
+    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+        """
+        Generates `Visualization` from `Wed`.
+
+        Parameters:
+            shapes: Collection of shapes.
+
+        Returns:
+            `_show.Shape` for `Wed`
+        """
+
+        v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))
+        v1 = numpy.array((float(self.v1x), float(self.v1y), float(self.v1z)))
+        v2 = numpy.array((float(self.v2x), float(self.v2y), float(self.v2z)))
+        v3 = numpy.array((float(self.v3x), float(self.v3y), float(self.v3z)))
+
+        cross = numpy.cross(numpy.array((1, 0, 0)), v1)
+        angle = numpy.degrees(numpy.arccos(v1[0] / numpy.linalg.norm(v1)))
+
+        vis = shapes.Wedge(numpy.linalg.norm(v1), numpy.linalg.norm(v2), numpy.linalg.norm(v3))
+        vis = vis.rotate(cross, angle, (0, 0, 0))
+        vis = vis.translate(v)
+
+        return vis

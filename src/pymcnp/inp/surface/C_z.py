@@ -3,6 +3,7 @@ import re
 import numpy
 
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
 
@@ -152,3 +153,20 @@ class C_z(_option.SurfaceOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r)
 
         self._r: types.Real = r
+
+    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+        """
+        Generates `Visualization` from `C_z`.
+
+        Parameters:
+            shapes: Collection of shapes.
+
+        Returns:
+            `_show.Shape` for `C_z`.
+        """
+
+        vis = shapes.CylinderUnbounded(float(self.r))
+        vis = vis.rotate(numpy.array((0, 1, 0)), 90, (0, 0, 0))
+        vis = vis.translate(numpy.array((float(self.x), float(self.y), 0)))
+
+        return vis

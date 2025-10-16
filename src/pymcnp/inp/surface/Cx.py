@@ -3,6 +3,7 @@ import re
 import numpy
 
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
 
@@ -70,3 +71,19 @@ class Cx(_option.SurfaceOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r)
 
         self._r: types.Real = r
+
+    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+        """
+        Generates `Visualization` from `Cx`.
+
+        Parameters:
+            shapes: Collection of shapes.
+
+        Returns:
+            `_show.Shape` for `Cx`.
+        """
+
+        vis = shapes.CylinderUnbounded(float(self.r))
+        vis = vis.rotate(numpy.array((0, 1, 0)), 90, (0, 0, 0))
+
+        return vis

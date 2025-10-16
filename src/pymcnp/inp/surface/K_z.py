@@ -3,6 +3,7 @@ import re
 import numpy
 
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
 
@@ -244,3 +245,19 @@ class K_z(_option.SurfaceOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, plusminus_1)
 
         self._plusminus_1: types.Real = plusminus_1
+
+    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+        """
+        Generates `Visualization` from `K_z`.
+
+        Parameters:
+            shapes: Collection of shapes.
+
+        Returns:
+            `_show.Shape` for `K_z`.
+        """
+
+        vis = shapes.ConeUnbounded(float(self.t_squared) ** (1 / 2), float(self.plusminus_1))
+        vis = vis.translate(numpy.array((float(self.x), float(self.y), float(self.z))))
+
+        return vis

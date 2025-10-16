@@ -4,6 +4,7 @@ import math
 import numpy
 
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
 
@@ -647,3 +648,32 @@ class Rhp(_option.SurfaceOption):
                 t3 = types.Real.from_mcnp(t3)
 
         self._t3: types.Real = t3
+
+    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+        """
+        Generates `Visualization` from `Rhp`.
+
+        Parameters:
+            shapes: Collection of shapes.
+
+        Returns:
+            `_show.Shape` for `Rhp`
+        """
+
+        v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))
+        h = numpy.array((float(self.hx), float(self.hy), float(self.hz)))
+        r = numpy.array((float(self.r1), float(self.r2), float(self.r3)))
+        s = numpy.array((float(self.s1), float(self.s2), float(self.s3)))
+        t = numpy.array((float(self.t1), float(self.t2), float(self.t3)))
+
+        cross = numpy.cross(v, numpy.array((0, 0, 1)))
+        angle = numpy.degrees(numpy.arccos(v[2] / numpy.linalg.norm(v)))
+        apothem_r = numpy.linalg.norm(r) * 2 / math.sqrt(3)
+        apothem_s = numpy.linalg.norm(s) * 2 / math.sqrt(3)
+        apothem_t = numpy.linalg.norm(t) * 2 / math.sqrt(3)
+
+        vis = shapes.CylinderHexagonal(numpy.linalg.norm(h), apothem_r, apothem_s, apothem_t)
+        vis = vis.rotate(cross, angle, (0, 0, 0))
+        vis = vis.translate(v)
+
+        return vis

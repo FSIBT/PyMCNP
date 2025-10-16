@@ -1,6 +1,7 @@
 import re
 
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
 
@@ -278,3 +279,25 @@ class Rpp(_option.SurfaceOption):
                 zmax = types.Real.from_mcnp(zmax)
 
         self._zmax: types.Real = zmax
+
+    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+        """
+        Generates `Visualization` from `Rpp`.
+
+        Parameters:
+            shapes: Collection of shapes.
+
+        Returns:
+            `_show.Shape` for `Rpp`
+        """
+
+        vis = shapes.Parallelipiped(
+            float(self.xmin),
+            float(self.xmax),
+            float(self.ymin),
+            float(self.ymax),
+            float(self.zmin),
+            float(self.zmax),
+        )
+
+        return vis

@@ -1,6 +1,7 @@
 import re
 
 from . import _option
+from ... import _show
 from ... import types
 from ... import errors
 
@@ -68,3 +69,18 @@ class Px(_option.SurfaceOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, d)
 
         self._d: types.Real = d
+
+    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+        """
+        Generates `Visualization` from `Px`.
+
+        Parameters:
+            shapes: Collection of shapes.
+
+        Returns:
+            `_show.Shape` for `Px`
+        """
+
+        vis = shapes.Plane(1, 0, 0, float(self.d))
+
+        return vis
