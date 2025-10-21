@@ -18,6 +18,7 @@ class Tally_8(_block.Block):
         nps: Tally nps.
         tally_type: Tally type.
         particles: Tally particles.
+        message: Tally modification message.
         subtallies: Subtallies.
         stats_desired: Statistical checks desired.
         stats_observed: Statistical checks observed.
@@ -29,7 +30,7 @@ class Tally_8(_block.Block):
     _REGEX = re.compile(
         r'\A1tally (.{8})        nps = (.{11})\n'
         r'           tally type (.+)\n'
-        r'           particle[(]s[)]: (.+)\n \n'
+        r'           particle[(]s[)]: (.+)(\n.*)?\n \n'
         rf'((?:{tally.Subtally_4._REGEX.pattern[2:-2]})+)\n'
         r' ===================================================================================================================================\n\n'
         r'           results of 10 statistical checks for the estimated answer for the tally fluctuation chart [(]tfc[)] bin of tally .{8}\n\n'
@@ -52,6 +53,7 @@ class Tally_8(_block.Block):
         nps: types.String,
         tally_type: types.String,
         particles: types.String,
+        message: types.String,
         subtallies: types.Tuple(tally.Subtally_1),
         stats_desired: types.String,
         stats_observed: types.String,
@@ -67,6 +69,7 @@ class Tally_8(_block.Block):
             nps: Tally nps.
             tally_type: Tally type.
             particles: Tally particles.
+            message: Tally modification message.
             subtallies: Subtallies.
             stats_desired: Statistical checks desired.
             stats_observed: Statistical checks observed.
@@ -103,6 +106,7 @@ class Tally_8(_block.Block):
         self.nps: typing.Final[types.String] = nps
         self.tally_type: typing.Final[types.String] = tally_type
         self.particles: typing.Final[types.String] = particles
+        self.message: typing.Final[types.String] = message
         self.subtallies: typing.Final[types.Tuple(tally.Subtally_1)] = subtallies
         self.stats_desired: typing.Final[types.String] = stats_desired
         self.stats_observed: typing.Final[types.String] = stats_observed
@@ -131,19 +135,21 @@ class Tally_8(_block.Block):
         nps = types.String.from_mcnp(tokens[2])
         tally_type = types.String.from_mcnp(tokens[3])
         particles = types.String.from_mcnp(tokens[4])
-        subtallies = types.Tuple(tally.Subtally_4).from_mcnp(tokens[5])
+        message = types.String.from_mcnp(tokens[5]) if tokens[5] else None
+        subtallies = types.Tuple(tally.Subtally_4).from_mcnp(tokens[6])
         offset = tally.Subtally_2._REGEX.groups
-        stats_desired = types.String.from_mcnp(tokens[6 + offset])
-        stats_observed = types.String.from_mcnp(tokens[7 + offset])
-        stats_passed = types.String.from_mcnp(tokens[8 + offset])
-        asymmetric_interval = types.String.from_mcnp(tokens[9 + offset])
-        symmetric_interval = types.String.from_mcnp(tokens[10 + offset])
+        stats_desired = types.String.from_mcnp(tokens[7 + offset])
+        stats_observed = types.String.from_mcnp(tokens[8 + offset])
+        stats_passed = types.String.from_mcnp(tokens[9 + offset])
+        asymmetric_interval = types.String.from_mcnp(tokens[10 + offset])
+        symmetric_interval = types.String.from_mcnp(tokens[11 + offset])
 
         return Tally_8(
             number,
             nps,
             tally_type,
             particles,
+            message,
             subtallies,
             stats_desired,
             stats_observed,
@@ -163,7 +169,7 @@ class Tally_8(_block.Block):
         return f"""
 1tally {self.number}        nps = {self.nps}
            tally type {self.tally_type}
-           particle(s): {self.particles}
+           particle(s): {self.particles}{'\n           ' + str(self.message) + '\n' if self.message else ''}
  
 {''.join(map(str, self.subtallies))}
  ===================================================================================================================================

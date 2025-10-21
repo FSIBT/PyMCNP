@@ -12,7 +12,7 @@ class Test_Init:
 
     def test_valid(self):
         """
-        Tests `EXAMPLES_VALID` on `from_mcnp` and `to_mcnp`.
+        Tests `EXAMPLES_VALID` on `__init__`.
         """
 
         for example in self.EXAMPLES_VALID:
@@ -39,7 +39,9 @@ class Test_Mcnp:
         """
 
         for example in self.EXAMPLES_VALID:
+            print(repr(example))
             a = self.element.from_mcnp(example)
+            print(repr(str(a)))
             b = self.element.from_mcnp(a.to_mcnp())
 
             assert a == b
