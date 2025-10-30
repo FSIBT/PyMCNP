@@ -120,10 +120,20 @@ These AST class have methods for translating between PyMCNP and OUTP:
 
 [tally subpackage](outp/tally)
 
-### `Tally_8` Class
+### `Tally_8A` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.outp.Tally_8
+.. autoclass:: pymcnp.outp.Tally_8A
+   :members:
+   :inherited-members:
+```
+
+[tally subpackage](outp/tally)
+
+### `Tally_8B` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.outp.Tally_8B
    :members:
    :inherited-members:
 ```
