@@ -45,10 +45,11 @@ material_air = pymcnp.inp.M_0.from_formula(formulas={'N2': 0.8, 'O2': 0.2})
 material_lead = pymcnp.inp.M_0.from_formula(formulas={'Pb': 1})
 
 # Creating cells.
-cell_inside = pymcnp.inp.Cell(material=0, geometry=-surface_inner)
-cell_shield = pymcnp.inp.Cell(material=material_lead, density=0.5, geometry=+surface_inner & -surface_outer)
-cell_air = pymcnp.inp.Cell(material=material_air, density=0.5, geometry=-surface_inner | (+surface_outer & -surface_world))
-cell_world = pymcnp.inp.Cell(material=0, geometry=+surface_world)
+imp = pymcnp.inp.cell.Imp(designator='n', importance=1)
+cell_inside = pymcnp.inp.Cell(material=0, geometry=-surface_inner, options=[imp])
+cell_shield = pymcnp.inp.Cell(material=material_lead, density=0.5, geometry=+surface_inner & -surface_outer, options=[imp])
+cell_air = pymcnp.inp.Cell(material=material_air, density=0.5, geometry=-surface_inner | (+surface_outer & -surface_world), options=[imp])
+cell_world = pymcnp.inp.Cell(material=0, geometry=+surface_world, options=[imp])
 
 # Creating source.
 source = pymcnp.inp.Sdef(
