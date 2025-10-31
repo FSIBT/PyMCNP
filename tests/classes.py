@@ -12,7 +12,7 @@ class Test_Init:
 
     def test_valid(self):
         """
-        Tests `EXAMPLES_VALID` on `from_mcnp` and `to_mcnp`.
+        Tests `EXAMPLES_VALID` on `__init__`.
         """
 
         for example in self.EXAMPLES_VALID:

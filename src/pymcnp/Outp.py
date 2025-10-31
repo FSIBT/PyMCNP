@@ -61,19 +61,27 @@ class Outp(_file.File):
 
         if len(tokens) > 2:
             header = outp.Header.from_mcnp(tokens[0] + '\n')
-            tokens[1] = '1' + ''.join(filter(bool, tokens[1:]))
+            tokens[1] = ''.join(filter(bool, tokens[1:]))
         else:
             header = outp.Header.from_mcnp(tokens[0])
             tokens.append('')
 
         blocks = []
-        for subsource in outp.Block._REGEX.finditer(tokens[1]):
+
+        for subsource in re.split(r'\n1', tokens[1]):
+            if not subsource:
+                continue
+            else:
+                subsource = '1' + subsource
+
             for subclass in outp.Block.__subclasses__():
                 try:
-                    if block := subclass.from_mcnp(subsource[0]):
+                    if block := subclass.from_mcnp(subsource):
                         break
                 except Exception:
                     continue
+            else:
+                continue
 
             blocks.append(block)
 
