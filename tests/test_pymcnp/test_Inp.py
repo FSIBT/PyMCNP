@@ -75,6 +75,14 @@ class Test_Inp:
                 'message': consts.string.types.STRING,
                 'other': consts.string.types.STRING,
             },
+            {
+                'title': consts.string.types.STRING,
+                'cells': ['1 0 1'],
+                'surfaces': [consts.string.inp.SURFACE, consts.string.inp.COMMENT],
+                'data': [consts.string.inp.VOL, consts.string.inp.COMMENT],
+                'message': consts.string.types.STRING,
+                'other': consts.string.types.STRING,
+            },
         ]
 
     class Test_Properties:

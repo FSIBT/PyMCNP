@@ -420,6 +420,11 @@ class Inp(_file.File):
         if cells is None or None in cells:
             raise errors.InpError(errors.InpCode.SEMANTICS_FILE, cells)
 
+        if all(isinstance(cell, inp.Cell) and (not cell.options or not any(isinstance(option, inp.cell.Imp) for option in cell.options)) for cell in cells) and (
+            not hasattr(self, '_data') or all(isinstance(data, inp.data.Imp) for data in self.data)
+        ):
+            raise errors.InpError(errors.InpCode.SEMANTICS_FILE, cells)
+
         self._cells: types.Tuple(Cell) = cells
 
     @property
