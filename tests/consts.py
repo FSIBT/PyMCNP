@@ -1332,7 +1332,7 @@ class string:
  estimated  symmetric confidence interval(1,2,3 sigma): 6.8273E-06 to 6.8389E-06; 6.8215E-06 to 6.8447E-06; 6.8157E-06 to 6.8505E-06
 
 """[1:-1]
-        TALLY_8 = """
+        TALLY_8A = """
 1tally       18        nps =    10000000
            tally type 8    pulse height distribution.                   units   number         
            particle(s): photons  
@@ -1366,6 +1366,36 @@ class string:
 
  estimated asymmetric confidence interval(1,2,3 sigma): 2.8417E-04 to 2.9493E-04; 2.7879E-04 to 3.0031E-04; 2.7341E-04 to 3.0569E-04
  estimated  symmetric confidence interval(1,2,3 sigma): 2.8412E-04 to 2.9488E-04; 2.7874E-04 to 3.0026E-04; 2.7336E-04 to 3.0564E-04
+
+"""[1:-1]
+        TALLY_8B = """
+1tally       18        nps =    10000000
+           tally type 8    pulse height distribution.                   units   number         
+           particle(s): photons  
+ 
+ cell  200                                                                                                                             
+      energy   
+    1.0000E-01   1.08900E-04 0.0303
+    1.1934E-01   8.30000E-06 0.1098
+    1.3867E-01   7.80000E-06 0.1132
+      total      2.89500E-04 0.0186
+
+
+ ===================================================================================================================================
+
+           results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc) bin of tally       18
+
+ tfc bin     --mean--      ---------relative error---------      ----variance of the variance----      --figure of merit--     -pdf-
+ behavior    behavior      value   decrease   decrease rate      value   decrease   decrease rate       value     behavior     slope
+
+ desired      random       <0.10      yes      1/sqrt(nps)       <0.10      yes        1/nps           constant    random      >3.00
+ observed     random        0.02      yes          yes            0.00      yes         yes            constant    random      10.00
+ passed?        yes          yes      yes          yes             yes      yes         yes               yes        yes         yes
+
+ ===================================================================================================================================
+
+
+ warning.  the tally in the tally fluctuation chart bin did not pass  1 of the 10 statistical checks.
 
 """[1:-1]
         UNNORMED_TALLY_DENSITY = """
