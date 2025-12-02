@@ -73,7 +73,7 @@ def main() -> None:
                     plot.show()
 
         for number in args['--cells-skip']:
-            number = number.split(',')
+            number = tuple(map(int, number.split(',')))
 
             if args['--pdf']:
                 visualize.to_pdf_cells(_io.get_outfile(file, 'pdf', 'cells'))
@@ -84,7 +84,7 @@ def main() -> None:
                     plot.show()
 
         for number in args['--surfaces-skip']:
-            number = number.split(',')
+            number = tuple(map(int, number.split(',')))
 
             if args['--pdf']:
                 visualize.to_pdf_surfaces(_io.get_outfile(file, 'pdf', 'surfaces'))
