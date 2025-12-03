@@ -344,13 +344,16 @@ class Rcc(_option.SurfaceOption):
         v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))
         h = numpy.array((float(self.hx), float(self.hy), float(self.hz)))
 
-        cross = numpy.cross(v, numpy.array((0, 0, 1)))
+        height = numpy.linalg.norm(h)
+        vis = shapes.CylinderCircular(height, float(self.r))
 
-        vis = shapes.CylinderCircular(numpy.linalg.norm(h), float(self.r))
-
-        if not (v == 0).all():
-            angle = numpy.degrees(numpy.arccos(v[2] / numpy.linalg.norm(numpy.linalg.norm(v))))
-            vis = vis.rotate(cross, angle, (0, 0, 0))
+        if height > 0:
+            h = h / height
+            cross = numpy.cross(numpy.array((0, 0, 1)), h)
+            angle = numpy.degrees(numpy.arccos(numpy.clip(h[2], -1, 1)))
+            
+            if numpy.linalg.norm(cross) > 1e-10:
+                vis = vis.rotate(cross, angle, (0, 0, 0))
 
         vis = vis.translate(v)
 
