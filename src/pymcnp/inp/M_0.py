@@ -27,7 +27,7 @@ class M_0(_card.Card):
 
     _REGEX = re.compile(rf'\Am(\d+)((?: {types.Substance._REGEX.pattern[2:-2]})+?)((?: (?:{m_0.MOption_0._REGEX.pattern[2:-2]}))+?)?\Z', re.IGNORECASE)
 
-    def __init__(self, substances: list[str] | list[types.Substance], suffix: str | int | types.Integer = next(NUMBER), options: list[str] | list[m_0.MOption_0] = None):
+    def __init__(self, substances: list[str] | list[types.Substance], suffix: str | int | types.Integer = None, options: list[str] | list[m_0.MOption_0] = None):
         """
         Initializes `M_0`.
 
@@ -39,6 +39,9 @@ class M_0(_card.Card):
         Raises:
             InpError: SEMANTICS_CARD.
         """
+
+        if suffix is None:
+            suffix = next(NUMBER)
 
         self.suffix: types.Integer = suffix
         self.substances: types.Tuple(types.Substance) = substances

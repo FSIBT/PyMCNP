@@ -32,7 +32,7 @@ class Cell(_card.Card):
         material: types.Integer,
         geometry: types.Geometry,
         density: types.Real = None,
-        number: types.Integer = next(NUMBER),
+        number: types.Integer = None,
         options: types.Tuple(cell.CellOption) = None,
     ):
         """
@@ -48,6 +48,9 @@ class Cell(_card.Card):
         Raises:
             InpError: SEMANTICS_CARD.
         """
+
+        if number is None:
+            number = next(NUMBER)
 
         self.number: types.Integer = number
         self.material: types.Integer = material

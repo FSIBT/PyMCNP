@@ -27,7 +27,7 @@ class Surface(_card.Card):
     def __init__(
         self,
         option: surface.SurfaceOption,
-        number: types.Integer = next(NUMBER),
+        number: types.Integer = None,
         transform: types.Integer = None,
         prefix: str = None,
     ):
@@ -46,6 +46,9 @@ class Surface(_card.Card):
         Raises:
             InpError: SEMANTICS_CARD.
         """
+
+        if number is None:
+            number = next(NUMBER)
 
         self.transform: types.Integer = transform
         self.number: types.Integer = number
