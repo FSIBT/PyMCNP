@@ -9,10 +9,8 @@ surface using `Surface`, printing the result.
 import pymcnp
 
 # Creating surface.
-surface = pymcnp.inp.Surface(
-    option=pymcnp.inp.surface.So(
-        r=2,
-    )
+surface = pymcnp.inp.So(
+    r=2,
 )
 
 print('INP surface created using `__init__`:')

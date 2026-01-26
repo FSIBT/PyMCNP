@@ -3,7 +3,46 @@ import re
 from . import cell
 from . import _card
 from .M_0 import M_0
-from .Surface import Surface
+from .Arb import Arb
+from .Box import Box
+from .C_x import C_x
+from .C_y import C_y
+from .C_z import C_z
+from .Cx import Cx
+from .Cy import Cy
+from .Cz import Cz
+from .Ell import Ell
+from .Gq import Gq
+from .K_x import K_x
+from .K_y import K_y
+from .K_z import K_z
+from .Kx import Kx
+from .Ky import Ky
+from .Kz import Kz
+from .P_0 import P_0
+from .P_1 import P_1
+from .Px import Px
+from .Py import Py
+from .Pz import Pz
+from .Rcc import Rcc
+from .Rec import Rec
+from .Rhp import Rhp
+from .Rpp import Rpp
+from .S import S
+from .So import So
+from .Sph import Sph
+from .Sq import Sq
+from .Sx import Sx
+from .Sy import Sy
+from .Sz import Sz
+from .Trc import Trc
+from .Tx import Tx
+from .Ty import Ty
+from .Tz import Tz
+from .Wed import Wed
+from .X import X
+from .Y import Y
+from .Z import Z
 from .. import _show
 from .. import types
 from .. import errors
@@ -214,7 +253,51 @@ class Cell(_card.Card):
         return self._geometry
 
     @geometry.setter
-    def geometry(self, geometry: str | types.Geometry | Surface) -> None:
+    def geometry(
+        self,
+        geometry: str
+        | types.Geometry
+        | Arb
+        | Box
+        | C_x
+        | C_y
+        | C_z
+        | Cx
+        | Cy
+        | Cz
+        | Ell
+        | Gq
+        | K_x
+        | K_y
+        | K_z
+        | Kx
+        | Ky
+        | Kz
+        | P_0
+        | P_1
+        | Px
+        | Py
+        | Pz
+        | Rcc
+        | Rec
+        | Rhp
+        | Rpp
+        | S
+        | So
+        | Sph
+        | Sq
+        | Sx
+        | Sy
+        | Sz
+        | Trc
+        | Tx
+        | Ty
+        | Tz
+        | Wed
+        | X
+        | Y
+        | Z,
+    ) -> None:
         """
         Sets `geometry`.
 
@@ -227,7 +310,50 @@ class Cell(_card.Card):
         """
 
         if geometry is not None:
-            if isinstance(geometry, Surface):
+            if any(
+                (
+                    isinstance(geometry, Arb),
+                    isinstance(geometry, Box),
+                    isinstance(geometry, C_x),
+                    isinstance(geometry, C_y),
+                    isinstance(geometry, C_z),
+                    isinstance(geometry, Cx),
+                    isinstance(geometry, Cy),
+                    isinstance(geometry, Cz),
+                    isinstance(geometry, Ell),
+                    isinstance(geometry, Gq),
+                    isinstance(geometry, K_x),
+                    isinstance(geometry, K_y),
+                    isinstance(geometry, K_z),
+                    isinstance(geometry, Kx),
+                    isinstance(geometry, Ky),
+                    isinstance(geometry, Kz),
+                    isinstance(geometry, P_0),
+                    isinstance(geometry, P_1),
+                    isinstance(geometry, Px),
+                    isinstance(geometry, Py),
+                    isinstance(geometry, Pz),
+                    isinstance(geometry, Rcc),
+                    isinstance(geometry, Rec),
+                    isinstance(geometry, Rhp),
+                    isinstance(geometry, Rpp),
+                    isinstance(geometry, S),
+                    isinstance(geometry, So),
+                    isinstance(geometry, Sph),
+                    isinstance(geometry, Sq),
+                    isinstance(geometry, Sx),
+                    isinstance(geometry, Sy),
+                    isinstance(geometry, Sz),
+                    isinstance(geometry, Trc),
+                    isinstance(geometry, Tx),
+                    isinstance(geometry, Ty),
+                    isinstance(geometry, Tz),
+                    isinstance(geometry, Wed),
+                    isinstance(geometry, X),
+                    isinstance(geometry, Y),
+                    isinstance(geometry, Z),
+                )
+            ):
                 geometry = types.Geometry(str(geometry.number))
             elif isinstance(geometry, types.Geometry):
                 geometry = geometry

@@ -8,7 +8,49 @@ from . import errors
 
 
 Cell = types.Union(inp.Cell, inp.Like, inp.Comment)
-Surface = types.Union(inp.Surface, inp.Comment)
+Surface = types.Union(
+    inp.Arb,
+    inp.Box,
+    inp.C_x,
+    inp.C_y,
+    inp.C_z,
+    inp.Cx,
+    inp.Cy,
+    inp.Cz,
+    inp.Ell,
+    inp.Gq,
+    inp.K_x,
+    inp.K_y,
+    inp.K_z,
+    inp.Kx,
+    inp.Ky,
+    inp.Kz,
+    inp.P_0,
+    inp.P_1,
+    inp.Px,
+    inp.Py,
+    inp.Pz,
+    inp.Rcc,
+    inp.Rec,
+    inp.Rhp,
+    inp.Rpp,
+    inp.S,
+    inp.So,
+    inp.Sph,
+    inp.Sq,
+    inp.Sx,
+    inp.Sy,
+    inp.Sz,
+    inp.Trc,
+    inp.Tx,
+    inp.Ty,
+    inp.Tz,
+    inp.Wed,
+    inp.X,
+    inp.Y,
+    inp.Z,
+    inp.Comment,
+)
 Data = types.Union(
     inp.Act,
     inp.Area,
@@ -440,7 +482,53 @@ class Inp(_file.File):
         return self._surfaces
 
     @surfaces.setter
-    def surfaces(self, surfaces: list[str] | list[inp.Surface | inp.Comment]) -> None:
+    def surfaces(
+        self,
+        surfaces: list[
+            str
+            | inp.Arb
+            | inp.Box
+            | inp.C_x
+            | inp.C_y
+            | inp.C_z
+            | inp.Cx
+            | inp.Cy
+            | inp.Cz
+            | inp.Ell
+            | inp.Gq
+            | inp.K_x
+            | inp.K_y
+            | inp.K_z
+            | inp.Kx
+            | inp.Ky
+            | inp.Kz
+            | inp.P_0
+            | inp.P_1
+            | inp.Px
+            | inp.Py
+            | inp.Pz
+            | inp.Rcc
+            | inp.Rec
+            | inp.Rhp
+            | inp.Rpp
+            | inp.S
+            | inp.So
+            | inp.Sph
+            | inp.Sq
+            | inp.Sx
+            | inp.Sy
+            | inp.Sz
+            | inp.Trc
+            | inp.Tx
+            | inp.Ty
+            | inp.Tz
+            | inp.Wed
+            | inp.X
+            | inp.Y
+            | inp.Z
+            | inp.Comment
+        ],
+    ) -> None:
         """
         Sets `surfaces`.
 
@@ -455,7 +543,50 @@ class Inp(_file.File):
         if surfaces is not None:
             array = []
             for item in surfaces:
-                if isinstance(item, inp.Surface):
+                if any(
+                    (
+                        isinstance(item, inp.Arb),
+                        isinstance(item, inp.Box),
+                        isinstance(item, inp.C_x),
+                        isinstance(item, inp.C_y),
+                        isinstance(item, inp.C_z),
+                        isinstance(item, inp.Cx),
+                        isinstance(item, inp.Cy),
+                        isinstance(item, inp.Cz),
+                        isinstance(item, inp.Ell),
+                        isinstance(item, inp.Gq),
+                        isinstance(item, inp.K_x),
+                        isinstance(item, inp.K_y),
+                        isinstance(item, inp.K_z),
+                        isinstance(item, inp.Kx),
+                        isinstance(item, inp.Ky),
+                        isinstance(item, inp.Kz),
+                        isinstance(item, inp.P_0),
+                        isinstance(item, inp.P_1),
+                        isinstance(item, inp.Px),
+                        isinstance(item, inp.Py),
+                        isinstance(item, inp.Pz),
+                        isinstance(item, inp.Rcc),
+                        isinstance(item, inp.Rec),
+                        isinstance(item, inp.Rhp),
+                        isinstance(item, inp.Rpp),
+                        isinstance(item, inp.S),
+                        isinstance(item, inp.So),
+                        isinstance(item, inp.Sph),
+                        isinstance(item, inp.Sq),
+                        isinstance(item, inp.Sx),
+                        isinstance(item, inp.Sy),
+                        isinstance(item, inp.Sz),
+                        isinstance(item, inp.Trc),
+                        isinstance(item, inp.Tx),
+                        isinstance(item, inp.Ty),
+                        isinstance(item, inp.Tz),
+                        isinstance(item, inp.Wed),
+                        isinstance(item, inp.X),
+                        isinstance(item, inp.Y),
+                        isinstance(item, inp.Z),
+                    )
+                ):
                     array.append(item)
                 elif isinstance(item, inp.Comment):
                     array.append(item)
@@ -465,7 +596,7 @@ class Inp(_file.File):
                         continue
                     except errors.InpError:
                         pass
-                    array.append(inp.Surface.from_mcnp(item))
+                    array.append(Surface.from_mcnp(item))
 
             surfaces = types.Tuple(inp.Card)(array)
 
@@ -489,9 +620,9 @@ class Inp(_file.File):
     @data.setter
     def data(
         self,
-        data: list[str]
-        | list[
-            inp.Act
+        data: list[
+            str
+            | inp.Act
             | inp.Area
             | inp.Awtab
             | inp.Bbrem
@@ -659,7 +790,163 @@ class Inp(_file.File):
         if data is not None:
             array = []
             for item in data:
-                if isinstance(item, inp.Card) and not (isinstance(item, inp.Surface) or isinstance(item, inp.Like) or isinstance(item, inp.Cell)):
+                if any(
+                    (
+                        isinstance(item, inp.Act),
+                        isinstance(item, inp.Area),
+                        isinstance(item, inp.Awtab),
+                        isinstance(item, inp.Bbrem),
+                        isinstance(item, inp.Bflcl),
+                        isinstance(item, inp.Bfld),
+                        isinstance(item, inp.C),
+                        isinstance(item, inp.Cf),
+                        isinstance(item, inp.Cm),
+                        isinstance(item, inp.Cosy),
+                        isinstance(item, inp.Cosyp),
+                        isinstance(item, inp.Ctme),
+                        isinstance(item, inp.Cut),
+                        isinstance(item, inp.Dawwg),
+                        isinstance(item, inp.Dbcn),
+                        isinstance(item, inp.Dd),
+                        isinstance(item, inp.De),
+                        isinstance(item, inp.Df_0),
+                        isinstance(item, inp.Df_1),
+                        isinstance(item, inp.Dm),
+                        isinstance(item, inp.Drxs),
+                        isinstance(item, inp.Ds_0),
+                        isinstance(item, inp.Ds_1),
+                        isinstance(item, inp.Ds_2),
+                        isinstance(item, inp.Ds_3),
+                        isinstance(item, inp.Dxc),
+                        isinstance(item, inp.Dxt),
+                        isinstance(item, inp.E),
+                        isinstance(item, inp.Elpt),
+                        isinstance(item, inp.Em),
+                        isinstance(item, inp.Embdb),
+                        isinstance(item, inp.Embdf),
+                        isinstance(item, inp.Embeb),
+                        isinstance(item, inp.Embed),
+                        isinstance(item, inp.Embee),
+                        isinstance(item, inp.Embem),
+                        isinstance(item, inp.Embtb),
+                        isinstance(item, inp.Embtm),
+                        isinstance(item, inp.Esplt),
+                        isinstance(item, inp.Ext),
+                        isinstance(item, inp.F_0),
+                        isinstance(item, inp.F_1),
+                        isinstance(item, inp.F_2),
+                        isinstance(item, inp.F_3),
+                        isinstance(item, inp.F_4),
+                        isinstance(item, inp.Fc),
+                        isinstance(item, inp.Fcl),
+                        isinstance(item, inp.Fic),
+                        isinstance(item, inp.Files),
+                        isinstance(item, inp.Fill),
+                        isinstance(item, inp.Fip),
+                        isinstance(item, inp.Fir),
+                        isinstance(item, inp.Fm),
+                        isinstance(item, inp.Fmesh),
+                        isinstance(item, inp.Fmult),
+                        isinstance(item, inp.Fq),
+                        isinstance(item, inp.Fs),
+                        isinstance(item, inp.Ft),
+                        isinstance(item, inp.Fu),
+                        isinstance(item, inp.Histp),
+                        isinstance(item, inp.Hsrc),
+                        isinstance(item, inp.Idum),
+                        isinstance(item, inp.Imp),
+                        isinstance(item, inp.Kcode),
+                        isinstance(item, inp.Kopts),
+                        isinstance(item, inp.Kpert),
+                        isinstance(item, inp.Ksen),
+                        isinstance(item, inp.Ksrc),
+                        isinstance(item, inp.Lat),
+                        isinstance(item, inp.Lca),
+                        isinstance(item, inp.Lcb),
+                        isinstance(item, inp.Lcc),
+                        isinstance(item, inp.Lea),
+                        isinstance(item, inp.Leb),
+                        isinstance(item, inp.Lost),
+                        isinstance(item, inp.M_0),
+                        isinstance(item, inp.M_1),
+                        isinstance(item, inp.Mesh),
+                        isinstance(item, inp.Mgopt),
+                        isinstance(item, inp.Mode),
+                        isinstance(item, inp.Mphys),
+                        isinstance(item, inp.Mplot),
+                        isinstance(item, inp.Mt),
+                        isinstance(item, inp.Mx),
+                        isinstance(item, inp.Nonu),
+                        isinstance(item, inp.Notrn),
+                        isinstance(item, inp.Nps),
+                        isinstance(item, inp.Otfdb),
+                        isinstance(item, inp.Pd),
+                        isinstance(item, inp.Pert),
+                        isinstance(item, inp.Phys_0),
+                        isinstance(item, inp.Phys_1),
+                        isinstance(item, inp.Phys_2),
+                        isinstance(item, inp.Phys_3),
+                        isinstance(item, inp.Phys_4),
+                        isinstance(item, inp.Pikmt),
+                        isinstance(item, inp.Prdmp),
+                        isinstance(item, inp.Print),
+                        isinstance(item, inp.Ptrac),
+                        isinstance(item, inp.Pwt),
+                        isinstance(item, inp.Rand),
+                        isinstance(item, inp.Rdum),
+                        isinstance(item, inp.Sb_0),
+                        isinstance(item, inp.Sb_1),
+                        isinstance(item, inp.Sc),
+                        isinstance(item, inp.Sd),
+                        isinstance(item, inp.Sdef),
+                        isinstance(item, inp.Sf),
+                        isinstance(item, inp.Si_0),
+                        isinstance(item, inp.Si_1),
+                        isinstance(item, inp.Si_2),
+                        isinstance(item, inp.Sp_0),
+                        isinstance(item, inp.Sp_1),
+                        isinstance(item, inp.Spdtl),
+                        isinstance(item, inp.Ssr),
+                        isinstance(item, inp.Ssw),
+                        isinstance(item, inp.Stop),
+                        isinstance(item, inp.T_0),
+                        isinstance(item, inp.T_1),
+                        isinstance(item, inp.Talnp),
+                        isinstance(item, inp.Tf_0),
+                        isinstance(item, inp.Tf_1),
+                        isinstance(item, inp.Thtme),
+                        isinstance(item, inp.Tm),
+                        isinstance(item, inp.Tmp),
+                        isinstance(item, inp.Totnu),
+                        isinstance(item, inp.Tr_0),
+                        isinstance(item, inp.Tr_1),
+                        isinstance(item, inp.Tr_2),
+                        isinstance(item, inp.Tr_3),
+                        isinstance(item, inp.Tr_4),
+                        isinstance(item, inp.Tropt),
+                        isinstance(item, inp.Tsplt),
+                        isinstance(item, inp.U),
+                        isinstance(item, inp.Unc),
+                        isinstance(item, inp.Uran),
+                        isinstance(item, inp.Var),
+                        isinstance(item, inp.Void),
+                        isinstance(item, inp.Vol),
+                        isinstance(item, inp.Wwe),
+                        isinstance(item, inp.Wwg),
+                        isinstance(item, inp.Wwge),
+                        isinstance(item, inp.Wwgt),
+                        isinstance(item, inp.Wwn),
+                        isinstance(item, inp.Wwp),
+                        isinstance(item, inp.Wwt),
+                        isinstance(item, inp.Xs),
+                        isinstance(item, inp.Za),
+                        isinstance(item, inp.Zb),
+                        isinstance(item, inp.Zc),
+                        isinstance(item, inp.Zd),
+                    )
+                ):
+                    array.append(item)
+                elif isinstance(item, inp.Comment):
                     array.append(item)
                 elif isinstance(item, str):
                     try:

@@ -11,9 +11,10 @@ class Test_M_0:
             {'suffix': 1, 'substances': [consts.string.types.SUBSTANCE], 'options': [consts.ast.inp.m_0.ALIB]},
             {'suffix': consts.ast.types.INTEGER, 'substances': [consts.ast.types.SUBSTANCE], 'options': [consts.ast.inp.m_0.ALIB]},
             {'suffix': consts.string.types.INTEGER, 'substances': [consts.string.types.SUBSTANCE], 'options': None},
+            {'suffix': None, 'substances': [consts.string.types.SUBSTANCE], 'options': [consts.string.inp.m_0.ALIB]},
         ]
         EXAMPLES_INVALID = [
-            {'suffix': None, 'substances': [consts.string.types.SUBSTANCE], 'options': [consts.string.inp.m_0.ALIB]},
+            {'suffix': '0', 'substances': [consts.string.types.SUBSTANCE], 'options': [consts.string.inp.m_0.ALIB]},
             {'suffix': consts.string.types.INTEGER, 'substances': None, 'options': [consts.string.inp.m_0.ALIB]},
         ]
 

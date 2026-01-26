@@ -4,6 +4,9 @@ from . import _symbol
 from .. import errors
 
 
+NUMBER = iter(range(1, 100000000))
+
+
 class Card(_symbol.InpNonterminal):
     """
     Represents generic INP cards.

@@ -14,30 +14,24 @@ RADIUS_INNER: float = 50
 RADIUS_OUTER: float = 10
 
 # Creating surfaces.
-surface_inner = pymcnp.inp.Surface(
-    option=pymcnp.inp.surface.Rpp(
-        xmin=-RADIUS_INNER,
-        xmax=RADIUS_INNER,
-        ymin=-RADIUS_INNER,
-        ymax=RADIUS_INNER,
-        zmin=-RADIUS_INNER,
-        zmax=RADIUS_INNER,
-    ),
+surface_inner = pymcnp.inp.Rpp(
+    xmin=-RADIUS_INNER,
+    xmax=RADIUS_INNER,
+    ymin=-RADIUS_INNER,
+    ymax=RADIUS_INNER,
+    zmin=-RADIUS_INNER,
+    zmax=RADIUS_INNER,
 )
-surface_outer = pymcnp.inp.Surface(
-    option=pymcnp.inp.surface.Rpp(
-        xmin=-RADIUS_OUTER,
-        xmax=RADIUS_OUTER,
-        ymin=-RADIUS_OUTER,
-        ymax=RADIUS_OUTER,
-        zmin=-RADIUS_OUTER,
-        zmax=RADIUS_OUTER,
-    ),
+surface_outer = pymcnp.inp.Rpp(
+    xmin=-RADIUS_OUTER,
+    xmax=RADIUS_OUTER,
+    ymin=-RADIUS_OUTER,
+    ymax=RADIUS_OUTER,
+    zmin=-RADIUS_OUTER,
+    zmax=RADIUS_OUTER,
 )
-surface_world = pymcnp.inp.Surface(
-    option=pymcnp.inp.surface.So(
-        r=RADIUS_WORLD,
-    ),
+surface_world = pymcnp.inp.So(
+    r=RADIUS_WORLD,
 )
 
 # Creating materials.

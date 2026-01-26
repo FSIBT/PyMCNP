@@ -80,7 +80,7 @@ class M_0(_card.Card):
             elif isinstance(suffix, str):
                 suffix = types.Integer.from_mcnp(suffix)
 
-        if suffix is None:
+        if suffix is None or not (1 <= suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_CARD, suffix)
 
         self._suffix: types.Integer = suffix

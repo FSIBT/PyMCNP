@@ -25,6 +25,7 @@ class Test_Init:
 
         for example in self.EXAMPLES_INVALID:
             with pytest.raises((pymcnp.errors.Error)):
+                print(example)
                 self.element(**example)
 
 
@@ -104,3 +105,47 @@ class Test_Dataframe:
 
         for example in self.EXAMPLES:
             self.element.from_mcnp(example).to_dataframe()
+
+
+class Test_Operations:
+    EXAMPLES: list[str] = []
+
+    def test_and(self):
+        """
+        Tests `EXAMPLES` on `__and__`.
+        """
+
+        for a, b in self.EXAMPLES:
+            a & b
+
+    def test_or(self):
+        """
+        Tests `EXAMPLES` on `__or__`.
+        """
+
+        for a, b in self.EXAMPLES:
+            a | b
+
+    def test_neg(self):
+        """
+        Tests `EXAMPLES` on `__neg__`.
+        """
+
+        for a, b in self.EXAMPLES:
+            -a
+
+    def test_pos(self):
+        """
+        Tests `EXAMPLES` on `__pos__`.
+        """
+
+        for a, b in self.EXAMPLES:
+            +a
+
+    def test_invert(self):
+        """
+        Tests `EXAMPLES` on `__or__`.
+        """
+
+        for a, b in self.EXAMPLES:
+            ~a

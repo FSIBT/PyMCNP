@@ -36,7 +36,6 @@ class string:
     class inp:
         CELL = '1 1 3.1 1 (2:(+3 -4) #5) imp:@=1'
         LIKE = '2 like 1 but imp:@=2'
-        SURFACE = '1 SO 1'
         DATA = 'vol no 3.1 3.1 3.1'
         COMMENT = 'c hello'
         VOL = 'vol no 3.1 3.1 3.1'
@@ -190,6 +189,47 @@ class string:
         ZC = 'zc hello'
         ZD = 'zd hello'
         FILES = 'files 1 1 s f 1 1 1 s f 1 1 1 s f 1'
+
+        P_0 = '1 p 1 1 1 1'
+        P_1 = '1 p 1 0 0 0 1 0 0 0 1'
+        PX = '1 px 1'
+        PY = '1 py 1'
+        PZ = '1 pz 1'
+        SO = '1 so 1'
+        S = '1 s 1 1 1 1'
+        SX = '1 sx 1 1'
+        SY = '1 sy 1 1'
+        SZ = '1 sz 1 1'
+        C_X = '1 c/x 1 1 1'
+        C_Y = '1 c/y 1 1 1'
+        C_Z = '1 c/z 1 1 1'
+        CX = '1 cx 1'
+        CY = '1 cy 1'
+        CZ = '1 cz 1'
+        K_X = '1 k/x 1 1 1 1 1'
+        K_Y = '1 k/y 1 1 1 1 1'
+        K_Z = '1 k/z 1 1 1 1 1'
+        KX = '1 kx 1 1 1'
+        KY = '1 ky 1 1 1'
+        KZ = '1 kz 1 1 1'
+        SQ = '1 sq 1 1 1 1 1 1 1 1 1 1'
+        GQ = '1 gq 1 1 1 1 1 1 1 1 1 1'
+        TX = '1 tx 1 1 1 1 1 1'
+        TY = '1 ty 1 1 1 1 1 1'
+        TZ = '1 tz 1 1 1 1 1 1'
+        X = '1 x 1 1 1 1 1 1'
+        Y = '1 y 1 1 1 1 1 1'
+        Z = '1 z 1 1 1 1 1 1'
+        BOX = '1 box 1 1 1 1 1 1 1 1 1 1 1 1'
+        RPP = '1 rpp 1 1 1 1 1 1'
+        SPH = '1 sph 1 1 1 1'
+        RCC = '1 rcc 1 1 1 1 1 1 1'
+        RHP = '1 rhp 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1'
+        REC = '1 rec 1 1 1 1 1 1 1 1 1 1 1 1'
+        TRC = '1 trc 1 1 1 1 1 1 1 1'
+        ELL = '1 ell 1 1 1 1 1 1 1'
+        WED = '1 wed 1 1 1 1 1 1 1 1 1 1 1 1'
+        ARB = '1 arb 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1'
 
         class dd:
             DIAGNOSTIC = '3.1 4.1'
@@ -765,48 +805,6 @@ class string:
             UNC = 'unc:@=1'
             MAT = 'mat 1'
             RHO = 'rho -9'
-
-        class surface:
-            P_0 = 'p 1 1 1 1'
-            P_1 = 'p 1 0 0 0 1 0 0 0 1'
-            PX = 'px 1'
-            PY = 'py 1'
-            PZ = 'pz 1'
-            SO = 'so 1'
-            S = 's 1 1 1 1'
-            SX = 'sx 1 1'
-            SY = 'sy 1 1'
-            SZ = 'sz 1 1'
-            C_X = 'c/x 1 1 1'
-            C_Y = 'c/y 1 1 1'
-            C_Z = 'c/z 1 1 1'
-            CX = 'cx 1'
-            CY = 'cy 1'
-            CZ = 'cz 1'
-            K_X = 'k/x 1 1 1 1 1'
-            K_Y = 'k/y 1 1 1 1 1'
-            K_Z = 'k/z 1 1 1 1 1'
-            KX = 'kx 1 1 1'
-            KY = 'ky 1 1 1'
-            KZ = 'kz 1 1 1'
-            SQ = 'sq 1 1 1 1 1 1 1 1 1 1'
-            GQ = 'gq 1 1 1 1 1 1 1 1 1 1'
-            TX = 'tx 1 1 1 1 1 1'
-            TY = 'ty 1 1 1 1 1 1'
-            TZ = 'tz 1 1 1 1 1 1'
-            X = 'x 1 1 1 1 1 1'
-            Y = 'y 1 1 1 1 1 1'
-            Z = 'z 1 1 1 1 1 1'
-            BOX = 'box 1 1 1 1 1 1 1 1 1 1 1 1'
-            RPP = 'rpp 1 1 1 1 1 1'
-            SPH = 'sph 1 1 1 1'
-            RCC = 'rcc 1 1 1 1 1 1 1'
-            RHP = 'rhp 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1'
-            REC = 'rec 1 1 1 1 1 1 1 1 1 1 1 1'
-            TRC = 'trc 1 1 1 1 1 1 1 1'
-            ELL = 'ell 1 1 1 1 1 1 1'
-            WED = 'wed 1 1 1 1 1 1 1 1 1 1 1 1'
-            ARB = 'arb 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1'
 
     class outp:
         ANALYSIS_TALLY_FLUCTUATION = """
@@ -1564,7 +1562,6 @@ class ast:
     class inp:
         CELL = pymcnp.inp.Cell.from_mcnp(string.inp.CELL)
         LIKE = pymcnp.inp.Like.from_mcnp(string.inp.LIKE)
-        SURFACE = pymcnp.inp.Surface.from_mcnp(string.inp.SURFACE)
         COMMENT = pymcnp.inp.Comment.from_mcnp(string.inp.COMMENT)
         VOL = pymcnp.inp.Vol.from_mcnp(string.inp.VOL)
         AREA = pymcnp.inp.Area.from_mcnp(string.inp.AREA)
@@ -1717,6 +1714,46 @@ class ast:
         ZC = pymcnp.inp.Zc.from_mcnp(string.inp.ZC)
         ZD = pymcnp.inp.Zd.from_mcnp(string.inp.ZD)
         FILES = pymcnp.inp.Files.from_mcnp(string.inp.FILES)
+        P_0 = pymcnp.inp.P_0.from_mcnp(string.inp.P_0)
+        P_1 = pymcnp.inp.P_1.from_mcnp(string.inp.P_1)
+        PX = pymcnp.inp.Px.from_mcnp(string.inp.PX)
+        PY = pymcnp.inp.Py.from_mcnp(string.inp.PY)
+        PZ = pymcnp.inp.Pz.from_mcnp(string.inp.PZ)
+        SO = pymcnp.inp.So.from_mcnp(string.inp.SO)
+        S = pymcnp.inp.S.from_mcnp(string.inp.S)
+        SX = pymcnp.inp.Sx.from_mcnp(string.inp.SX)
+        SY = pymcnp.inp.Sy.from_mcnp(string.inp.SY)
+        SZ = pymcnp.inp.Sz.from_mcnp(string.inp.SZ)
+        C_X = pymcnp.inp.C_x.from_mcnp(string.inp.C_X)
+        C_Y = pymcnp.inp.C_y.from_mcnp(string.inp.C_Y)
+        C_Z = pymcnp.inp.C_z.from_mcnp(string.inp.C_Z)
+        CX = pymcnp.inp.Cx.from_mcnp(string.inp.CX)
+        CY = pymcnp.inp.Cy.from_mcnp(string.inp.CY)
+        CZ = pymcnp.inp.Cz.from_mcnp(string.inp.CZ)
+        K_X = pymcnp.inp.K_x.from_mcnp(string.inp.K_X)
+        K_Y = pymcnp.inp.K_y.from_mcnp(string.inp.K_Y)
+        K_Z = pymcnp.inp.K_z.from_mcnp(string.inp.K_Z)
+        KX = pymcnp.inp.Kx.from_mcnp(string.inp.KX)
+        KY = pymcnp.inp.Ky.from_mcnp(string.inp.KY)
+        KZ = pymcnp.inp.Kz.from_mcnp(string.inp.KZ)
+        SQ = pymcnp.inp.Sq.from_mcnp(string.inp.SQ)
+        GQ = pymcnp.inp.Gq.from_mcnp(string.inp.GQ)
+        TX = pymcnp.inp.Tx.from_mcnp(string.inp.TX)
+        TY = pymcnp.inp.Ty.from_mcnp(string.inp.TY)
+        TZ = pymcnp.inp.Tz.from_mcnp(string.inp.TZ)
+        X = pymcnp.inp.X.from_mcnp(string.inp.X)
+        Y = pymcnp.inp.Y.from_mcnp(string.inp.Y)
+        Z = pymcnp.inp.Z.from_mcnp(string.inp.Z)
+        BOX = pymcnp.inp.Box.from_mcnp(string.inp.BOX)
+        RPP = pymcnp.inp.Rpp.from_mcnp(string.inp.RPP)
+        SPH = pymcnp.inp.Sph.from_mcnp(string.inp.SPH)
+        RCC = pymcnp.inp.Rcc.from_mcnp(string.inp.RCC)
+        RHP = pymcnp.inp.Rhp.from_mcnp(string.inp.RHP)
+        REC = pymcnp.inp.Rec.from_mcnp(string.inp.REC)
+        TRC = pymcnp.inp.Trc.from_mcnp(string.inp.TRC)
+        ELL = pymcnp.inp.Ell.from_mcnp(string.inp.ELL)
+        WED = pymcnp.inp.Wed.from_mcnp(string.inp.WED)
+        ARB = pymcnp.inp.Arb.from_mcnp(string.inp.ARB)
 
         class dd:
             DIAGNOSTIC = pymcnp.inp.dd.Diagnostic.from_mcnp(string.inp.dd.DIAGNOSTIC)
@@ -2292,48 +2329,6 @@ class ast:
             UNC = pymcnp.inp.like.Unc.from_mcnp(string.inp.like.UNC)
             MAT = pymcnp.inp.like.Mat.from_mcnp(string.inp.like.MAT)
             RHO = pymcnp.inp.like.Rho.from_mcnp(string.inp.like.RHO)
-
-        class surface:
-            P_0 = pymcnp.inp.surface.P_0.from_mcnp(string.inp.surface.P_0)
-            P_1 = pymcnp.inp.surface.P_1.from_mcnp(string.inp.surface.P_1)
-            PX = pymcnp.inp.surface.Px.from_mcnp(string.inp.surface.PX)
-            PY = pymcnp.inp.surface.Py.from_mcnp(string.inp.surface.PY)
-            PZ = pymcnp.inp.surface.Pz.from_mcnp(string.inp.surface.PZ)
-            SO = pymcnp.inp.surface.So.from_mcnp(string.inp.surface.SO)
-            S = pymcnp.inp.surface.S.from_mcnp(string.inp.surface.S)
-            SX = pymcnp.inp.surface.Sx.from_mcnp(string.inp.surface.SX)
-            SY = pymcnp.inp.surface.Sy.from_mcnp(string.inp.surface.SY)
-            SZ = pymcnp.inp.surface.Sz.from_mcnp(string.inp.surface.SZ)
-            C_X = pymcnp.inp.surface.C_x.from_mcnp(string.inp.surface.C_X)
-            C_Y = pymcnp.inp.surface.C_y.from_mcnp(string.inp.surface.C_Y)
-            C_Z = pymcnp.inp.surface.C_z.from_mcnp(string.inp.surface.C_Z)
-            CX = pymcnp.inp.surface.Cx.from_mcnp(string.inp.surface.CX)
-            CY = pymcnp.inp.surface.Cy.from_mcnp(string.inp.surface.CY)
-            CZ = pymcnp.inp.surface.Cz.from_mcnp(string.inp.surface.CZ)
-            K_X = pymcnp.inp.surface.K_x.from_mcnp(string.inp.surface.K_X)
-            K_Y = pymcnp.inp.surface.K_y.from_mcnp(string.inp.surface.K_Y)
-            K_Z = pymcnp.inp.surface.K_z.from_mcnp(string.inp.surface.K_Z)
-            KX = pymcnp.inp.surface.Kx.from_mcnp(string.inp.surface.KX)
-            KY = pymcnp.inp.surface.Ky.from_mcnp(string.inp.surface.KY)
-            KZ = pymcnp.inp.surface.Kz.from_mcnp(string.inp.surface.KZ)
-            SQ = pymcnp.inp.surface.Sq.from_mcnp(string.inp.surface.SQ)
-            GQ = pymcnp.inp.surface.Gq.from_mcnp(string.inp.surface.GQ)
-            TX = pymcnp.inp.surface.Tx.from_mcnp(string.inp.surface.TX)
-            TY = pymcnp.inp.surface.Ty.from_mcnp(string.inp.surface.TY)
-            TZ = pymcnp.inp.surface.Tz.from_mcnp(string.inp.surface.TZ)
-            X = pymcnp.inp.surface.X.from_mcnp(string.inp.surface.X)
-            Y = pymcnp.inp.surface.Y.from_mcnp(string.inp.surface.Y)
-            Z = pymcnp.inp.surface.Z.from_mcnp(string.inp.surface.Z)
-            BOX = pymcnp.inp.surface.Box.from_mcnp(string.inp.surface.BOX)
-            RPP = pymcnp.inp.surface.Rpp.from_mcnp(string.inp.surface.RPP)
-            SPH = pymcnp.inp.surface.Sph.from_mcnp(string.inp.surface.SPH)
-            RCC = pymcnp.inp.surface.Rcc.from_mcnp(string.inp.surface.RCC)
-            RHP = pymcnp.inp.surface.Rhp.from_mcnp(string.inp.surface.RHP)
-            REC = pymcnp.inp.surface.Rec.from_mcnp(string.inp.surface.REC)
-            TRC = pymcnp.inp.surface.Trc.from_mcnp(string.inp.surface.TRC)
-            ELL = pymcnp.inp.surface.Ell.from_mcnp(string.inp.surface.ELL)
-            WED = pymcnp.inp.surface.Wed.from_mcnp(string.inp.surface.WED)
-            ARB = pymcnp.inp.surface.Arb.from_mcnp(string.inp.surface.ARB)
 
     class outp:
         ANALYSIS_TALLY_FLUCTUATION = pymcnp.outp.AnalysisTallyFluctuation.from_mcnp(string.outp.ANALYSIS_TALLY_FLUCTUATION)

@@ -57,7 +57,54 @@ class Visualize(_doer.Doer):
         plot = pyvista.Plotter()
         plot.add_axes()
 
-        surfaces = {str(surface.number): surface.to_show() for surface in self.inpt.surfaces if isinstance(surface, inp.Surface)}
+        surfaces = {
+            str(surface.number): surface.to_show()
+            for surface in self.inpt.surfaces
+            if any(
+                (
+                    isinstance(surface, inp.Arb),
+                    isinstance(surface, inp.Box),
+                    isinstance(surface, inp.C_x),
+                    isinstance(surface, inp.C_y),
+                    isinstance(surface, inp.C_z),
+                    isinstance(surface, inp.Cx),
+                    isinstance(surface, inp.Cy),
+                    isinstance(surface, inp.Cz),
+                    isinstance(surface, inp.Ell),
+                    isinstance(surface, inp.Gq),
+                    isinstance(surface, inp.K_x),
+                    isinstance(surface, inp.K_y),
+                    isinstance(surface, inp.K_z),
+                    isinstance(surface, inp.Kx),
+                    isinstance(surface, inp.Ky),
+                    isinstance(surface, inp.Kz),
+                    isinstance(surface, inp.P_0),
+                    isinstance(surface, inp.P_1),
+                    isinstance(surface, inp.Px),
+                    isinstance(surface, inp.Py),
+                    isinstance(surface, inp.Pz),
+                    isinstance(surface, inp.Rcc),
+                    isinstance(surface, inp.Rec),
+                    isinstance(surface, inp.Rhp),
+                    isinstance(surface, inp.Rpp),
+                    isinstance(surface, inp.S),
+                    isinstance(surface, inp.So),
+                    isinstance(surface, inp.Sph),
+                    isinstance(surface, inp.Sq),
+                    isinstance(surface, inp.Sx),
+                    isinstance(surface, inp.Sy),
+                    isinstance(surface, inp.Sz),
+                    isinstance(surface, inp.Trc),
+                    isinstance(surface, inp.Tx),
+                    isinstance(surface, inp.Ty),
+                    isinstance(surface, inp.Tz),
+                    isinstance(surface, inp.Wed),
+                    isinstance(surface, inp.X),
+                    isinstance(surface, inp.Y),
+                    isinstance(surface, inp.Z),
+                )
+            )
+        }
         cells = {}
 
         for cell in self.inpt.cells:
@@ -86,7 +133,50 @@ class Visualize(_doer.Doer):
         plot.add_axes()
 
         for surface in self.inpt.surfaces:
-            if not isinstance(surface, inp.Surface) or surface.number in skip:
+            if not any(
+                (
+                    isinstance(surface, inp.Arb),
+                    isinstance(surface, inp.Box),
+                    isinstance(surface, inp.C_x),
+                    isinstance(surface, inp.C_y),
+                    isinstance(surface, inp.C_z),
+                    isinstance(surface, inp.Cx),
+                    isinstance(surface, inp.Cy),
+                    isinstance(surface, inp.Cz),
+                    isinstance(surface, inp.Ell),
+                    isinstance(surface, inp.Gq),
+                    isinstance(surface, inp.K_x),
+                    isinstance(surface, inp.K_y),
+                    isinstance(surface, inp.K_z),
+                    isinstance(surface, inp.Kx),
+                    isinstance(surface, inp.Ky),
+                    isinstance(surface, inp.Kz),
+                    isinstance(surface, inp.P_0),
+                    isinstance(surface, inp.P_1),
+                    isinstance(surface, inp.Px),
+                    isinstance(surface, inp.Py),
+                    isinstance(surface, inp.Pz),
+                    isinstance(surface, inp.Rcc),
+                    isinstance(surface, inp.Rec),
+                    isinstance(surface, inp.Rhp),
+                    isinstance(surface, inp.Rpp),
+                    isinstance(surface, inp.S),
+                    isinstance(surface, inp.So),
+                    isinstance(surface, inp.Sph),
+                    isinstance(surface, inp.Sq),
+                    isinstance(surface, inp.Sx),
+                    isinstance(surface, inp.Sy),
+                    isinstance(surface, inp.Sz),
+                    isinstance(surface, inp.Trc),
+                    isinstance(surface, inp.Tx),
+                    isinstance(surface, inp.Ty),
+                    isinstance(surface, inp.Tz),
+                    isinstance(surface, inp.Wed),
+                    isinstance(surface, inp.X),
+                    isinstance(surface, inp.Y),
+                    isinstance(surface, inp.Z),
+                )
+            ):
                 continue
 
             shape = surface.to_show()
@@ -106,7 +196,54 @@ class Visualize(_doer.Doer):
         plot = pyvista.Plotter()
         plot.add_axes()
 
-        surfaces = {str(surface.number): surface.to_show() for surface in self.inpt.surfaces if isinstance(surface, inp.Surface)}
+        surfaces = {
+            str(surface.number): surface.to_show()
+            for surface in self.inpt.surfaces
+            if any(
+                (
+                    isinstance(surface, inp.Arb),
+                    isinstance(surface, inp.Box),
+                    isinstance(surface, inp.C_x),
+                    isinstance(surface, inp.C_y),
+                    isinstance(surface, inp.C_z),
+                    isinstance(surface, inp.Cx),
+                    isinstance(surface, inp.Cy),
+                    isinstance(surface, inp.Cz),
+                    isinstance(surface, inp.Ell),
+                    isinstance(surface, inp.Gq),
+                    isinstance(surface, inp.K_x),
+                    isinstance(surface, inp.K_y),
+                    isinstance(surface, inp.K_z),
+                    isinstance(surface, inp.Kx),
+                    isinstance(surface, inp.Ky),
+                    isinstance(surface, inp.Kz),
+                    isinstance(surface, inp.P_0),
+                    isinstance(surface, inp.P_1),
+                    isinstance(surface, inp.Px),
+                    isinstance(surface, inp.Py),
+                    isinstance(surface, inp.Pz),
+                    isinstance(surface, inp.Rcc),
+                    isinstance(surface, inp.Rec),
+                    isinstance(surface, inp.Rhp),
+                    isinstance(surface, inp.Rpp),
+                    isinstance(surface, inp.S),
+                    isinstance(surface, inp.So),
+                    isinstance(surface, inp.Sph),
+                    isinstance(surface, inp.Sq),
+                    isinstance(surface, inp.Sx),
+                    isinstance(surface, inp.Sy),
+                    isinstance(surface, inp.Sz),
+                    isinstance(surface, inp.Trc),
+                    isinstance(surface, inp.Tx),
+                    isinstance(surface, inp.Ty),
+                    isinstance(surface, inp.Tz),
+                    isinstance(surface, inp.Wed),
+                    isinstance(surface, inp.X),
+                    isinstance(surface, inp.Y),
+                    isinstance(surface, inp.Z),
+                )
+            )
+        }
         cells = {}
 
         for cell in self.inpt.cells:
@@ -141,7 +278,50 @@ class Visualize(_doer.Doer):
         plot.add_axes()
 
         for surface in self.inpt.surfaces:
-            if not isinstance(surface, inp.Surface):
+            if not any(
+                (
+                    isinstance(surface, inp.Arb),
+                    isinstance(surface, inp.Box),
+                    isinstance(surface, inp.C_x),
+                    isinstance(surface, inp.C_y),
+                    isinstance(surface, inp.C_z),
+                    isinstance(surface, inp.Cx),
+                    isinstance(surface, inp.Cy),
+                    isinstance(surface, inp.Cz),
+                    isinstance(surface, inp.Ell),
+                    isinstance(surface, inp.Gq),
+                    isinstance(surface, inp.K_x),
+                    isinstance(surface, inp.K_y),
+                    isinstance(surface, inp.K_z),
+                    isinstance(surface, inp.Kx),
+                    isinstance(surface, inp.Ky),
+                    isinstance(surface, inp.Kz),
+                    isinstance(surface, inp.P_0),
+                    isinstance(surface, inp.P_1),
+                    isinstance(surface, inp.Px),
+                    isinstance(surface, inp.Py),
+                    isinstance(surface, inp.Pz),
+                    isinstance(surface, inp.Rcc),
+                    isinstance(surface, inp.Rec),
+                    isinstance(surface, inp.Rhp),
+                    isinstance(surface, inp.Rpp),
+                    isinstance(surface, inp.S),
+                    isinstance(surface, inp.So),
+                    isinstance(surface, inp.Sph),
+                    isinstance(surface, inp.Sq),
+                    isinstance(surface, inp.Sx),
+                    isinstance(surface, inp.Sy),
+                    isinstance(surface, inp.Sz),
+                    isinstance(surface, inp.Trc),
+                    isinstance(surface, inp.Tx),
+                    isinstance(surface, inp.Ty),
+                    isinstance(surface, inp.Tz),
+                    isinstance(surface, inp.Wed),
+                    isinstance(surface, inp.X),
+                    isinstance(surface, inp.Y),
+                    isinstance(surface, inp.Z),
+                )
+            ):
                 continue
 
             if str(surface.number) not in number:
