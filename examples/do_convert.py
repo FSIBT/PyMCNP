@@ -13,7 +13,7 @@ TALLY = '1'
 
 # Reading OUTP.
 path = pathlib.Path('example_00.outp')
-outp = pymcnp.Outp.from_file(path)
+outp, _ = pymcnp.Outp.from_file(path)
 
 # Initializing `Convert`.
 converter = pymcnp.Convert(outp)

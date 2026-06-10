@@ -11,7 +11,7 @@ import pymcnp
 
 # Reading INP.
 path = pathlib.Path('example_05.inp')
-inp = pymcnp.Inp.from_file(path)
+inp, _ = pymcnp.Inp.from_file(path)
 
 # Visualizing surfaces.
 print(f'Visualizing all surfaces from `{path}`.')

@@ -12,7 +12,7 @@ import pymcnp
 
 # Reading INP.
 path = pathlib.Path('example_00.inp')
-inp = pymcnp.Inp.from_file(path)
+inp, _ = pymcnp.Inp.from_file(path)
 
 # Reading surface.
 surface = inp.surfaces[4]

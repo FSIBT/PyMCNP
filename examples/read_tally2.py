@@ -15,10 +15,10 @@ SURFACE = '8'
 
 # Reading tallies.
 path = pathlib.Path('example_03.outp')
-outp = pymcnp.Outp.from_file(path)
+outp, _ = pymcnp.Outp.from_file(path)
 tallies = outp.to_dataframe()
 tally = tallies[TALLY]
-tally = tally.loc[tally['surface'] == SURFACE]
+tally = tally.loc[tally['surface_number'] == SURFACE]
 
-print(f'Reading tally #{TALLY} cell #{SURFACE} from `{path}`:')
+print(f'Reading tally #{TALLY} surface #{SURFACE} from `{path}`:')
 print(tally)

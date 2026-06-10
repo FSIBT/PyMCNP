@@ -9,7 +9,8 @@ surface using `Surface`, printing the result.
 import pymcnp
 
 # Creating surface.
-surface = pymcnp.inp.So(
+surface = pymcnp.inp.card.surface.So(
+    j=1,
     r=2,
 )
 

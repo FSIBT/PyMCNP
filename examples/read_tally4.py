@@ -15,10 +15,10 @@ CELL = '12'
 
 # Reading tallies.
 path = pathlib.Path('example_02.outp')
-outp = pymcnp.Outp.from_file(path)
+outp, _ = pymcnp.Outp.from_file(path)
 tallies = outp.to_dataframe()
 tally = tallies[TALLY]
-tally = tally.loc[tally['cell'] == CELL]
+tally = tally.loc[tally['cell_number'] == CELL]
 
 print(f'Reading tally #{TALLY} cell #{CELL} from `{path}`:')
 print(tally)

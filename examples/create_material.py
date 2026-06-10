@@ -9,13 +9,14 @@ the result.
 import pymcnp
 
 # Creating material using `__init__`.
-material = pymcnp.inp.M_0(substances=['001001 0.1118855432927602', '008016 0.8859435015301171'])
+material = pymcnp.inp.card.data.M(suffix=1, z_f=['001001 0.1118855432927602', '008016 0.8859435015301171'])
 
 print('INP material created using `__init__`:')
 print(material)
 
 # Creating material using `from_formula`.
-material = pymcnp.inp.M_0.from_formula(
+material = pymcnp.inp.card.data.M.from_formula(
+    1,
     {'H2O': 1},
     is_weight=False,
 )
