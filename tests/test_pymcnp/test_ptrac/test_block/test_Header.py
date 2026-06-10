@@ -1,0 +1,12 @@
+import pymcnp
+from .... import classes
+
+
+class Test_Header(classes.Test_Nonterminal):
+    element = pymcnp.ptrac.block.Header
+    EXAMPLES_VALID = [
+        '   -1\nmcnp    6                        05/08/13 07/14/25 11:39:04 \nlattice example 18                                                              \n   1.4000E+01  1.0000E+00  1.0000E+02  0.0000E+00  0.0000E+00  1.0000E+00  1.0000E+00  0.0000E+00  1.0000E+00  1.0000E+04\n   0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  1.0000E+00  1.0000E+00  0.0000E+00  0.0000E+00\n     2    5    3    6    3    6    3    6    3    6    3    1    4    0    0    0    0    0    0    0\n    1   2   7   8   9  17  18  20  21  22   7   8  10  11  17  18  20  21  22   7   8  12  13  17  18  20  21  22   7   8\n   10  11  17  18  20  21  22   7   8  14  15  17  18  20  21  22\n',
+    ]
+    EXAMPLES_INVALID = [
+        'hello',
+    ]

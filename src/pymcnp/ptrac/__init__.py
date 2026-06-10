@@ -1,17 +1,11 @@
-from ._block import Block
-from ._line import Line
-from ._keyword import Keyword
-from . import header
-from .Header import Header
-from . import history
-from .History import History
+from . import line
+from . import block
+from .Line import Line
+from .Block import Block
 
-__all__ = [
-    'Block',
+__all__ = (
     'Line',
-    'Keyword',
-    'header',
-    'Header',
-    'history',
-    'History',
-]
+    'Block',
+    'line',
+    'block',
+)

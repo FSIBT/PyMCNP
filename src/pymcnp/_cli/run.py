@@ -13,7 +13,7 @@ import pathlib
 from docopt import docopt
 
 from . import _io
-from .. import errors
+from .. import abc
 from ..Inp import Inp
 from ..Run import Run
 
@@ -32,21 +32,16 @@ def main() -> None:
 
     # Reading INP.
     try:
-        inps = list(map(Inp.from_file, map(pathlib.Path, args['<inp>'])))
-    except errors.InpError as err:
+        inps = [Inp.from_file(path)[0] for path in map(pathlib.Path, args['<inp>'])]
+    except abc.Error as err:
         _io.error(str(err))
         exit(1)
-    except errors.CliError as err:
-        _io.error(str(err))
-        exit(2)
-    except errors.TypesError as err:
-        _io.error(str(err))
-        exit(3)
 
     # Running!
     try:
         Run(inps, command=command).run(pathlib.Path(path))
-    except errors.CliError as err:
-        _io.error(err.__str__())
+    except abc.Error as err:
+        _io.error(str(err))
+        exit(2)
 
     _io.done()

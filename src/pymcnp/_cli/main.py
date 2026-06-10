@@ -5,7 +5,7 @@ Usage:
     pymcnp visualize [<args>...]
     pymcnp convert [<args>...]
     pymcnp plot [<args>...]
-    pymcnp help <command>
+    pymcnp help [<command>]
 
 Commands:
     run        Run MCNP.
@@ -17,8 +17,6 @@ Commands:
 
 PyMCNP helps you create, run, analyze MCNP simulation input and output.
 """
-
-import sys
 
 from docopt import docopt
 
@@ -47,19 +45,20 @@ def main() -> None:
     elif args['plot']:
         plot.main()
     elif args['help']:
-        argv = sys.argv + ['--help']
         if args['<command>'] == 'run':
-            docopt(run.__doc__, argv=argv)
+            print(str(run.__doc__)[1:-1])
         elif args['<command>'] == 'check':
-            docopt(check.__doc__, argv=argv)
+            print(str(check.__doc__)[1:-1])
         elif args['<command>'] == 'visualize':
-            docopt(visualize.__doc__, argv=argv)
+            print(str(visualize.__doc__)[1:-1])
         elif args['<command>'] == 'convert':
-            docopt(convert.__doc__, argv=argv)
+            print(str(convert.__doc__)[1:-1])
         elif args['<command>'] == 'plot':
-            docopt(plot.__doc__, argv=argv)
+            print(str(plot.__doc__)[1:-1])
+        elif args['<command>'] is None:
+            print(str(__doc__)[1:-1])
         else:
-            print(f'Unknown command: {args["<command>"]}')
+            print(str(plot.__doc__)[1:-1])
 
 
 if __name__ == '__main__':

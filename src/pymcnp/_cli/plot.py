@@ -14,7 +14,7 @@ import matplotlib.backends.backend_pdf
 from docopt import docopt
 
 from . import _io
-from .. import errors
+from .. import abc
 from ..Outp import Outp
 from ..Plot import Plot
 
@@ -33,7 +33,7 @@ def main() -> None:
 
     # Reading OUTP.
     try:
-        outp = Outp.from_file(file)
+        outp = Outp.from_file(file)[0]
         plot = Plot(outp)
 
         # Plotting!
@@ -46,14 +46,8 @@ def main() -> None:
                 matplotlib.pyplot.show()
 
             matplotlib.pyplot.close()
-    except errors.OutpError as err:
+    except abc.Error as err:
         _io.error(str(err))
         exit(1)
-    except errors.CliError as err:
-        _io.error(str(err))
-        exit(2)
-    # except errors.TypesError as err:
-    # _io.error(str(err))
-    # exit(3)
 
     _io.done()

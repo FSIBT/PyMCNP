@@ -18,7 +18,7 @@ import pathlib
 from docopt import docopt
 
 from . import _io
-from .. import errors
+from .. import abc
 from ..Inp import Inp
 from ..Visualize import Visualize
 
@@ -36,17 +36,11 @@ def main() -> None:
 
     # Reading INP.
     try:
-        inpt = Inp.from_file(file)
+        inpt = Inp.from_file(file)[0]
         visualize = Visualize(inpt)
-    except errors.InpError as err:
+    except abc.Error as err:
         _io.error(str(err))
         exit(1)
-    except errors.CliError as err:
-        _io.error(str(err))
-        exit(2)
-    except errors.TypesError as err:
-        _io.error(str(err))
-        exit(3)
 
     if not (args['--cells-skip'] or args['--surfaces-skip'] or args['--cells'] or args['--surfaces'] or args['--cell'] or args['--surface']):
         args['--cells'] = True
@@ -98,7 +92,7 @@ def main() -> None:
             number = number.split(',')
 
             if args['--pdf']:
-                visualize.to_pdf_cell(number, _io.get_outfile(file, 'pdf', f'cell_{number}'))
+                visualize.to_pdf_cell(_io.get_outfile(file, 'pdf', f'cell_{number}'), *number)
             else:
                 plot = visualize.to_show_cell(number)
 
@@ -109,14 +103,14 @@ def main() -> None:
             number = number.split(',')
 
             if args['--pdf']:
-                visualize.to_pdf_cells(number, _io.get_outfile(file, 'pdf', f'surface_{number}'))
+                visualize.to_pdf_surface(_io.get_outfile(file, 'pdf', f'surface_{number}'), *number)
             else:
                 plot = visualize.to_show_surface(number)
 
                 if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
                     plot.show()
-    except errors.TypesError as err:
+    except abc.Error as err:
         _io.error(str(err))
-        exit(3)
+        exit(2)
 
     _io.done()

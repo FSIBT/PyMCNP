@@ -1,18 +1,30 @@
-import os
+import sys
 import pathlib
 
+import pytest
 import matplotlib.pyplot
 
+from pymcnp._cli import plot
 
-class Test_Main:
-    class Test_Main:
-        def test_valid(self):
-            os.system(f'pymcnp plot {pathlib.Path(__file__).parent.parent.parent.parent / "files" / "outp" / "valid_38.outp"} 1')
-            os.system(f'pymcnp plot {pathlib.Path(__file__).parent.parent.parent.parent / "files" / "outp" / "valid_38.outp"} 1 --pdf')
-            matplotlib.pyplot.close()
 
-        def test_invalid(self):
-            os.system(f'pymcnp plot {pathlib.Path(__file__).parent.parent.parent.parent / "files" / "outp" / "invalid_02.outp"} 1')
-            os.system(f'pymcnp plot {pathlib.Path(__file__).parent.parent.parent.parent / "files" / "outp" / "valid_38.outp"} 123')
-            os.system('pymcnp plot hello 1')
-            matplotlib.pyplot.close()
+def test_main_valid(monkeypatch) -> None:
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'plot', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'outp' / 'valid_39.outp'), '21'])
+    plot.main()
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'plot', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'outp' / 'valid_39.outp'), '21', '--pdf'])
+    plot.main()
+
+    matplotlib.pyplot.close()
+
+
+def test_main_invalid(monkeypatch) -> None:
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'plot', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'outp' / 'invalid_02.outp'), '21'])
+    with pytest.raises(SystemExit):
+        plot.main()
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'plot', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'outp' / 'valid_39.outp'), '123'])
+    with pytest.raises(SystemExit):
+        plot.main()
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'plot', 'hello', '1'])
+    with pytest.raises(SystemExit):
+        plot.main()
+
+    matplotlib.pyplot.close()

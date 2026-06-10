@@ -1,56 +1,53 @@
 import os
 import pathlib
 import difflib
+import dataclasses
 
-from . import _doer
-from . import errors
+from . import abc
 from .Inp import Inp
 
 
-class Check(_doer.Doer):
+@dataclasses.dataclass
+class Check(abc.Utility):
     """
-    Checks OUTP files.
+    Represents utilities that check input files.
 
     Attribute:
-        path: File to check.
+        path: Path to input file to check.
     """
 
-    def __init__(self, path: str | pathlib.Path):
-        """
-        Initializes `Check`.
+    path: pathlib.Path | str
 
-        Attribute:
-            path: File to check.
+    def __post_init__(self):
+        """
+        Validates utitlites that check input files.
 
         Raises:
-            CLIError: RUNTIME_DOER.
+            Error.
         """
 
-        if path is None:
-            raise errors.CliError(errors.CliCode.RUNTIME_PATH, path)
-
-        self.path = pathlib.Path(path)
+        self.path = pathlib.Path(self.path)
+        if not self.path.exists():
+            raise abc.Error('File not found', f'{self.path=}')
 
     def check(self):
         """
-        Checks a file.
+        Checks the input file at `path`.
         """
 
-        try:
-            with self.path.open('r') as file:
-                current = file.read()
-                correct = Inp.from_mcnp(current).to_mcnp()
+        assert isinstance(self.path, pathlib.Path)
 
-                return difflib.unified_diff(current.split('\n'), correct.split('\n'))
-        except FileNotFoundError:
-            raise errors.CliError(errors.CliCode.RUNTIME_PATH, self.path)
+        current = self.path.read_text()
+        correct = Inp.from_mcnp(current)[0].to_mcnp()
+        return difflib.unified_diff(current.split('\n'), correct.split('\n'))
 
     def fix(self):
         """
-        Fixes a file.
+        Fixes the input file at `path`.
         """
 
-        inp = Inp.from_file(self.path)
+        assert isinstance(self.path, pathlib.Path)
 
+        file = Inp.from_file(self.path)[0]
         if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-            inp.to_file(self.path)
+            file.to_file(self.path)

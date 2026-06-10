@@ -1,42 +1,38 @@
+import os
 import shutil
 import pathlib
 import datetime
 import subprocess
+import collections
+import dataclasses
 
-from . import _doer
-from . import errors
+from . import abc
 from .Inp import Inp
 
 
-class Run(_doer.Doer):
+@dataclasses.dataclass
+class Run(abc.Utility):
     """
-    Runs INP files.
+    Represents utitlites that run input files.
 
     Attributes:
-        inps: Files to run.
+        files: Input files to run.
         command: Command to run.
     """
 
-    def __init__(self, inps: Inp, command='mcnp6'):
-        """
-        Initializes `Run`.
+    files: collections.abc.Sequence[Inp]
+    command: str = 'mcnp6'
 
-        Parameters:
-            inps: Files to run.
-            command: Command to run.
+    def __post_init__(self):
+        """
+        Validates utilities that run input files.
 
         Raises:
-            CliCode: RUNTIME_DOER.
+            Error: Invalid value.
         """
 
-        if inps is None or None in inps:
-            raise errors.CliError(errors.CliCode.RUNTIME_DOER, inps)
-
-        if command is None or not (shutil.which(command)):
-            raise errors.CliError(errors.CliCode.RUNTIME_DOER, command)
-
-        self.inps = inps
-        self.command = command
+        if not shutil.which(self.command):
+            raise abc.Error('Invalid value.', f'{self.command=}')
 
     def prehook_file(self, path: pathlib.Path, index: int):
         """
@@ -80,28 +76,30 @@ class Run(_doer.Doer):
 
         pass
 
-    def run(self, path: str | pathlib.Path):
+    def run(self, path: pathlib.Path | str):
         """
-        Runs a file.
+        Runs an input file.
 
         Parameters:
             path: Directory for run.
         """
 
         directory = pathlib.Path(path) / f'pymcnp-{datetime.datetime.today().strftime("%Y-%m-%d--%H-%M-%S")}'
-        directory.mkdir()
+        if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
+            directory.mkdir()
 
         self.prehook_batch(directory)
 
         processes = []
-        for i, inp in enumerate(self.inps):
+        for i, file in enumerate(self.files):
             subdirectory = directory / f'run-{i:05}'
             path_input = subdirectory / f'run-{i:05}.inp'
             path_output = subdirectory / f'run-{i:05}.outp'
             path_ptrac = subdirectory / f'run-{i:05}.ptrac'
 
-            subdirectory.mkdir()
-            inp.to_file(path_input)
+            if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
+                subdirectory.mkdir()
+                file.to_file(path_input)
 
             self.prehook_file(subdirectory, i)
             process = subprocess.Popen([f'{self.command}', f'inp={path_input} outp={path_output} ptrac={path_ptrac}'])

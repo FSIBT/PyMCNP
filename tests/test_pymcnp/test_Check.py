@@ -1,27 +1,15 @@
-import pathlib
+import pytest
 
 import pymcnp
-from .. import classes
 
 
 class Test_Check:
-    class Test_Init(classes.Test_Init):
-        element = pymcnp.Check
-        EXAMPLES_VALID = [{'path': pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_00.inp'}]
-        EXAMPLES_INVALID = [
-            {'path': None},
-        ]
+    def test___init___invalid(self) -> None:
+        with pytest.raises(pymcnp.abc.Error):
+            pymcnp.Check('hello.hi')
 
-    class Test_Methods:
-        element = pymcnp.Check
-        EXAMPLES = [{'path': pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_00.inp'}]
+    def test_check_valid(self, check: pymcnp.Check) -> None:
+        check.check()
 
-        def test_check(self):
-            for example in self.EXAMPLES:
-                element = self.element(**example)
-                element.check()
-
-        def test_fix(self):
-            for example in self.EXAMPLES:
-                element = self.element(**example)
-                element.check()
+    def test_fix_valid(self, check: pymcnp.Check) -> None:
+        check.fix()

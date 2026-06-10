@@ -4,7 +4,7 @@ import rich
 import rich.panel
 
 
-def get_outfile(path: str | pathlib.Path, ext: str, i: int = None) -> str:
+def get_outfile(path: pathlib.Path | str, ext: str, i: str | None = None) -> pathlib.Path:
     path = str(path)
     path, _ = path.rsplit('.', maxsplit=1)
 

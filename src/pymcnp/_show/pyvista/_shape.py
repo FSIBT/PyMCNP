@@ -67,7 +67,7 @@ class PyvistaShape(_shape.Shape):
 
         return PyvistaShape(self.surface, lambda p: ~self.cell(p))
 
-    def rotate(self, axis: numpy.ndarray, angle: float, center: tuple[float]):
+    def rotate(self, axis: numpy.ndarray, angle: float, center: tuple[float, float, float]):
         """
         Rotates `PyvistaShape`.
 

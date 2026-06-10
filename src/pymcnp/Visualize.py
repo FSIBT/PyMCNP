@@ -1,39 +1,26 @@
 import os
 import pathlib
+import dataclasses
 
 import numpy
 import pyvista
 
 from . import inp
 from . import _show
-from . import _doer
-from . import errors
+from . import abc
 from .Inp import Inp
 
 
-class Visualize(_doer.Doer):
+@dataclasses.dataclass
+class Visualize(abc.Utility):
     """
-    Visualizes INP files.
+    Visualizes input files.
 
     Attributes:
-        inpt: Files to visualize.
+        file: Input file to visualize.
     """
 
-    def __init__(self, inpt: Inp):
-        """
-        Initializes `Visualize`.
-
-        Parameters:
-            inpt: Files to visualize.
-
-        Raises:
-            CliCode: RUNTIME_DOER.
-        """
-
-        if inpt is None:
-            raise errors.CliError(errors.CliCode.RUNTIME_DOER, inpt)
-
-        self.inpt = inpt
+    file: Inp
 
     @property
     def _grid(self):
@@ -51,71 +38,26 @@ class Visualize(_doer.Doer):
 
     def to_show_cells(self, skip=tuple()) -> pyvista.Plotter:
         """
-        Visualizes INP all cells.
+        Visualizes all cells.
         """
 
-        plot = pyvista.Plotter()
-        plot.add_axes()
+        assert isinstance(self.file.surfaces, abc.Array)
+        assert all(isinstance(card, (inp.card.Comment | inp.card.Surface)) for card in self.file.surfaces)
+        assert isinstance(self.file.cells, abc.Array)
+        assert all(isinstance(card, (inp.card.Comment | inp.card.Cell)) for card in self.file.cells)
 
-        surfaces = {
-            str(surface.number): surface.to_show()
-            for surface in self.inpt.surfaces
-            if any(
-                (
-                    isinstance(surface, inp.Arb),
-                    isinstance(surface, inp.Box),
-                    isinstance(surface, inp.C_x),
-                    isinstance(surface, inp.C_y),
-                    isinstance(surface, inp.C_z),
-                    isinstance(surface, inp.Cx),
-                    isinstance(surface, inp.Cy),
-                    isinstance(surface, inp.Cz),
-                    isinstance(surface, inp.Ell),
-                    isinstance(surface, inp.Gq),
-                    isinstance(surface, inp.K_x),
-                    isinstance(surface, inp.K_y),
-                    isinstance(surface, inp.K_z),
-                    isinstance(surface, inp.Kx),
-                    isinstance(surface, inp.Ky),
-                    isinstance(surface, inp.Kz),
-                    isinstance(surface, inp.P_0),
-                    isinstance(surface, inp.P_1),
-                    isinstance(surface, inp.Px),
-                    isinstance(surface, inp.Py),
-                    isinstance(surface, inp.Pz),
-                    isinstance(surface, inp.Rcc),
-                    isinstance(surface, inp.Rec),
-                    isinstance(surface, inp.Rhp),
-                    isinstance(surface, inp.Rpp),
-                    isinstance(surface, inp.S),
-                    isinstance(surface, inp.So),
-                    isinstance(surface, inp.Sph),
-                    isinstance(surface, inp.Sq),
-                    isinstance(surface, inp.Sx),
-                    isinstance(surface, inp.Sy),
-                    isinstance(surface, inp.Sz),
-                    isinstance(surface, inp.Trc),
-                    isinstance(surface, inp.Tx),
-                    isinstance(surface, inp.Ty),
-                    isinstance(surface, inp.Tz),
-                    isinstance(surface, inp.Wed),
-                    isinstance(surface, inp.X),
-                    isinstance(surface, inp.Y),
-                    isinstance(surface, inp.Z),
-                )
-            )
-        }
+        plot = pyvista.Plotter()
+        pyvista.Plotter.add_axes(plot)
+
+        surfaces = {str(surface.j): surface.to_show() for surface in self.file.surfaces if not isinstance(surface, inp.card.Comment)}
         cells = {}
 
-        for cell in self.inpt.cells:
-            if isinstance(cell, inp.Cell) and cell.number not in skip:
-                shape = cell.to_show(surfaces, cells)
-            elif isinstance(cell, inp.Like) and cell.number not in skip:
-                shape = cells[str(cell.cell)]
-            else:
+        for cell in self.file.cells:
+            if isinstance(cell, inp.card.Comment):
                 continue
 
-            cells[str(cell.number)] = shape
+            shape = cell.to_show(surfaces, cells)
+            cells[str(cell.j)] = shape
 
             grid = self._grid
             grid['cell'] = shape.cell(grid.points).astype(numpy.float32)
@@ -129,134 +71,50 @@ class Visualize(_doer.Doer):
         Visualizes INP all surfaces.
         """
 
+        assert isinstance(self.file.surfaces, abc.Array)
+        assert all(isinstance(card, (inp.card.Comment, inp.card.Surface)) for card in self.file.surfaces)
+        assert isinstance(self.file.cells, abc.Array)
+        assert all(isinstance(card, (inp.card.Comment, inp.card.Cell)) for card in self.file.cells)
+
         plot = pyvista.Plotter()
-        plot.add_axes()
+        pyvista.Plotter.add_axes(plot)
 
-        for surface in self.inpt.surfaces:
-            if not any(
-                (
-                    isinstance(surface, inp.Arb),
-                    isinstance(surface, inp.Box),
-                    isinstance(surface, inp.C_x),
-                    isinstance(surface, inp.C_y),
-                    isinstance(surface, inp.C_z),
-                    isinstance(surface, inp.Cx),
-                    isinstance(surface, inp.Cy),
-                    isinstance(surface, inp.Cz),
-                    isinstance(surface, inp.Ell),
-                    isinstance(surface, inp.Gq),
-                    isinstance(surface, inp.K_x),
-                    isinstance(surface, inp.K_y),
-                    isinstance(surface, inp.K_z),
-                    isinstance(surface, inp.Kx),
-                    isinstance(surface, inp.Ky),
-                    isinstance(surface, inp.Kz),
-                    isinstance(surface, inp.P_0),
-                    isinstance(surface, inp.P_1),
-                    isinstance(surface, inp.Px),
-                    isinstance(surface, inp.Py),
-                    isinstance(surface, inp.Pz),
-                    isinstance(surface, inp.Rcc),
-                    isinstance(surface, inp.Rec),
-                    isinstance(surface, inp.Rhp),
-                    isinstance(surface, inp.Rpp),
-                    isinstance(surface, inp.S),
-                    isinstance(surface, inp.So),
-                    isinstance(surface, inp.Sph),
-                    isinstance(surface, inp.Sq),
-                    isinstance(surface, inp.Sx),
-                    isinstance(surface, inp.Sy),
-                    isinstance(surface, inp.Sz),
-                    isinstance(surface, inp.Trc),
-                    isinstance(surface, inp.Tx),
-                    isinstance(surface, inp.Ty),
-                    isinstance(surface, inp.Tz),
-                    isinstance(surface, inp.Wed),
-                    isinstance(surface, inp.X),
-                    isinstance(surface, inp.Y),
-                    isinstance(surface, inp.Z),
-                )
-            ):
+        for surface in self.file.surfaces:
+            if isinstance(surface, inp.card.Comment):
                 continue
-
             shape = surface.to_show()
 
             plot.add_mesh(shape.surface)
 
         return plot
 
-    def to_show_cell(self, number: tuple[str]) -> pyvista.Plotter:
+    def to_show_cell(self, *number: str) -> pyvista.Plotter:
         """
-        Visualizes INP cell(s).
+        Visualizes input cell `number`.
 
         Parameters:
-            numbers: Cell number to visualize.
+            numbers: Cell to visualize.
         """
 
-        plot = pyvista.Plotter()
-        plot.add_axes()
+        assert isinstance(self.file.surfaces, abc.Array)
+        assert all(isinstance(card, (inp.card.Comment | inp.card.Surface)) for card in self.file.surfaces)
+        assert isinstance(self.file.cells, abc.Array)
+        assert all(isinstance(card, (inp.card.Comment | inp.card.Cell)) for card in self.file.cells)
 
-        surfaces = {
-            str(surface.number): surface.to_show()
-            for surface in self.inpt.surfaces
-            if any(
-                (
-                    isinstance(surface, inp.Arb),
-                    isinstance(surface, inp.Box),
-                    isinstance(surface, inp.C_x),
-                    isinstance(surface, inp.C_y),
-                    isinstance(surface, inp.C_z),
-                    isinstance(surface, inp.Cx),
-                    isinstance(surface, inp.Cy),
-                    isinstance(surface, inp.Cz),
-                    isinstance(surface, inp.Ell),
-                    isinstance(surface, inp.Gq),
-                    isinstance(surface, inp.K_x),
-                    isinstance(surface, inp.K_y),
-                    isinstance(surface, inp.K_z),
-                    isinstance(surface, inp.Kx),
-                    isinstance(surface, inp.Ky),
-                    isinstance(surface, inp.Kz),
-                    isinstance(surface, inp.P_0),
-                    isinstance(surface, inp.P_1),
-                    isinstance(surface, inp.Px),
-                    isinstance(surface, inp.Py),
-                    isinstance(surface, inp.Pz),
-                    isinstance(surface, inp.Rcc),
-                    isinstance(surface, inp.Rec),
-                    isinstance(surface, inp.Rhp),
-                    isinstance(surface, inp.Rpp),
-                    isinstance(surface, inp.S),
-                    isinstance(surface, inp.So),
-                    isinstance(surface, inp.Sph),
-                    isinstance(surface, inp.Sq),
-                    isinstance(surface, inp.Sx),
-                    isinstance(surface, inp.Sy),
-                    isinstance(surface, inp.Sz),
-                    isinstance(surface, inp.Trc),
-                    isinstance(surface, inp.Tx),
-                    isinstance(surface, inp.Ty),
-                    isinstance(surface, inp.Tz),
-                    isinstance(surface, inp.Wed),
-                    isinstance(surface, inp.X),
-                    isinstance(surface, inp.Y),
-                    isinstance(surface, inp.Z),
-                )
-            )
-        }
+        plot = pyvista.Plotter()
+        pyvista.Plotter.add_axes(plot)
+
+        surfaces = {str(surface.j): surface.to_show() for surface in self.file.surfaces if not isinstance(surface, inp.card.Comment)}
         cells = {}
 
-        for cell in self.inpt.cells:
-            if isinstance(cell, inp.Cell):
-                shape = cell.to_show(surfaces, cells)
-            elif isinstance(cell, inp.Like):
-                shape = cells[str(cell.cell)]
-            else:
+        for cell in self.file.cells:
+            if isinstance(cell, inp.card.Comment):
                 continue
 
-            cells[str(cell.number)] = shape
+            shape = cell.to_show(surfaces, cells)
+            cells[str(cell.j)] = shape
 
-            if str(cell.number) not in number:
+            if str(cell.j) not in number:
                 continue
 
             grid = self._grid
@@ -266,7 +124,7 @@ class Visualize(_doer.Doer):
 
         return plot
 
-    def to_show_surface(self, number: tuple[str]) -> pyvista.Plotter:
+    def to_show_surface(self, *number: str) -> pyvista.Plotter:
         """
         Visualizes INP surface(s).
 
@@ -274,64 +132,26 @@ class Visualize(_doer.Doer):
             number: Surface number to visualize.
         """
 
-        plot = pyvista.Plotter()
-        plot.add_axes()
+        assert isinstance(self.file.surfaces, abc.Array)
+        assert all(isinstance(card, (inp.card.Comment | inp.card.Surface)) for card in self.file.surfaces)
+        assert isinstance(self.file.cells, abc.Array)
+        assert all(isinstance(card, (inp.card.Comment | inp.card.Cell)) for card in self.file.cells)
 
-        for surface in self.inpt.surfaces:
-            if not any(
-                (
-                    isinstance(surface, inp.Arb),
-                    isinstance(surface, inp.Box),
-                    isinstance(surface, inp.C_x),
-                    isinstance(surface, inp.C_y),
-                    isinstance(surface, inp.C_z),
-                    isinstance(surface, inp.Cx),
-                    isinstance(surface, inp.Cy),
-                    isinstance(surface, inp.Cz),
-                    isinstance(surface, inp.Ell),
-                    isinstance(surface, inp.Gq),
-                    isinstance(surface, inp.K_x),
-                    isinstance(surface, inp.K_y),
-                    isinstance(surface, inp.K_z),
-                    isinstance(surface, inp.Kx),
-                    isinstance(surface, inp.Ky),
-                    isinstance(surface, inp.Kz),
-                    isinstance(surface, inp.P_0),
-                    isinstance(surface, inp.P_1),
-                    isinstance(surface, inp.Px),
-                    isinstance(surface, inp.Py),
-                    isinstance(surface, inp.Pz),
-                    isinstance(surface, inp.Rcc),
-                    isinstance(surface, inp.Rec),
-                    isinstance(surface, inp.Rhp),
-                    isinstance(surface, inp.Rpp),
-                    isinstance(surface, inp.S),
-                    isinstance(surface, inp.So),
-                    isinstance(surface, inp.Sph),
-                    isinstance(surface, inp.Sq),
-                    isinstance(surface, inp.Sx),
-                    isinstance(surface, inp.Sy),
-                    isinstance(surface, inp.Sz),
-                    isinstance(surface, inp.Trc),
-                    isinstance(surface, inp.Tx),
-                    isinstance(surface, inp.Ty),
-                    isinstance(surface, inp.Tz),
-                    isinstance(surface, inp.Wed),
-                    isinstance(surface, inp.X),
-                    isinstance(surface, inp.Y),
-                    isinstance(surface, inp.Z),
-                )
-            ):
+        plot = pyvista.Plotter()
+        pyvista.Plotter.add_axes(plot)
+
+        for surface in self.file.surfaces:
+            if isinstance(surface, inp.card.Comment):
                 continue
 
-            if str(surface.number) not in number:
+            if str(surface.j) not in number:
                 continue
 
             plot.add_mesh(surface.to_show().surface)
 
         return plot
 
-    def to_pdf_cells(self, path: str | pathlib.Path):
+    def to_pdf_cells(self, path: pathlib.Path | str):
         """
         Saves render of cells as PDF.
 
@@ -344,7 +164,7 @@ class Visualize(_doer.Doer):
         if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
             plot.save_graphic(str(path))
 
-    def to_pdf_surfaces(self, path: str | pathlib.Path):
+    def to_pdf_surfaces(self, path: pathlib.Path | str):
         """
         Saves render of surfaces as PDF.
 
@@ -357,30 +177,30 @@ class Visualize(_doer.Doer):
         if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
             plot.save_graphic(str(path))
 
-    def to_pdf_cell(self, number: tuple[str], path: str | pathlib.Path):
+    def to_pdf_cell(self, path: pathlib.Path | str, *number: str):
         """
         Saves render of cells as PDF.
 
         Parameters:
-            number: Cell numbers to visualize.
             path: Path to new pdf file.
+            number: Cell numbers to visualize.
         """
 
-        plot = self.to_show_cell(number)
+        plot = self.to_show_cell(*number)
 
         if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
             plot.save_graphic(str(path))
 
-    def to_pdf_surface(self, number: tuple[str], path: str | pathlib.Path):
+    def to_pdf_surface(self, path: pathlib.Path | str, *number: str):
         """
         Saves render of surfaces as PDF.
 
         Parameters:
-            number: Surface numbers to visualize.
             path: Path to new pdf file.
+            number: Surface numbers to visualize.
         """
 
-        plot = self.to_show_surface(number)
+        plot = self.to_show_surface(*number)
 
         if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
             plot.save_graphic(str(path))

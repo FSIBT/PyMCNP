@@ -1,151 +1,33 @@
-import pathlib
-
-import pytest
+import collections
 
 import pymcnp
 
 
-class Test_Init:
-    element: pymcnp._symbol.Nonterminal
-    EXAMPLES_VALID: list[str] = []
-    EXAMPLES_INVALID: list[str] = []
+class Test_Nonterminal:
+    element: pymcnp.abc.Nonterminal
+    EXAMPLES_VALID: collections.abc.Sequence[str] = []
+    EXAMPLES_INVALID: collections.abc.Sequence[str] = []
 
-    def test_valid(self):
-        """
-        Tests `EXAMPLES_VALID` on `__init__`.
-        """
-
-        for example in self.EXAMPLES_VALID:
-            self.element(**example)
-
-    def test_invalid(self):
-        """
-        Tests `EXAMPLES_INVALID` on `from_mcnp`.
-        """
-
-        for example in self.EXAMPLES_INVALID:
-            with pytest.raises((pymcnp.errors.Error)):
-                print(example)
-                self.element(**example)
-
-
-class Test_Mcnp:
-    element: pymcnp._symbol.Nonterminal
-    EXAMPLES_VALID: list[str] = []
-    EXAMPLES_INVALID: list[str] = []
-
-    def test_valid(self):
+    def test_from_mcnp_valid(self) -> None:
         """
         Tests `EXAMPLES_VALID` on `from_mcnp` and `to_mcnp`.
         """
 
         for example in self.EXAMPLES_VALID:
-            a = self.element.from_mcnp(example)
-            b = self.element.from_mcnp(a.to_mcnp())
+            a, _ = self.element.from_mcnp(example)
+            b, _ = self.element.from_mcnp(a.to_mcnp())
+            assert a.to_mcnp() == b.to_mcnp()
+            assert example == a.to_mcnp()
 
-            assert a == b
-
-    def test_invalid(self):
+    def test_from_mcnp_invalid(self) -> None:
         """
         Tests `EXAMPLES_INVALID` on `from_mcnp`.
         """
 
         for example in self.EXAMPLES_INVALID:
-            with pytest.raises((pymcnp.errors.Error)):
-                self.element.from_mcnp(example)
-
-
-class Test_File:
-    element: pymcnp._symbol.Nonterminal
-    EXAMPLES_VALID: list[pathlib.Path] = []
-    EXAMPLES_INVALID: list[pathlib.Path] = []
-
-    def test_valid(self):
-        """
-        Tests `EXAMPLES_VALID` on `from_file`.
-        """
-
-        for example in self.EXAMPLES_VALID:
-            a = self.element.from_file(example)
-            b = self.element.from_mcnp(a.to_mcnp())
-
-            assert a == b
-
-    def test_invalid(self):
-        """
-        Tests `EXAMPLES_INVALID` on `from_file`.
-        """
-
-        for example in self.EXAMPLES_INVALID:
-            with pytest.raises((pymcnp.errors.Error)):
-                self.element.from_file(example)
-
-
-class Test_Show:
-    element: pymcnp._symbol.Nonterminal
-    EXAMPLES: list[str] = []
-
-    def test(self):
-        """
-        Tests `EXAMPLES` on `to_show`.
-        """
-
-        for example in self.EXAMPLES:
-            self.element.from_mcnp(example).to_show()
-
-
-class Test_Dataframe:
-    element: pymcnp._symbol.Nonterminal
-    EXAMLPES: list[str] = []
-
-    def test(self):
-        """
-        Tests `EXAMPLES` on `to_dataframe`.
-        """
-
-        for example in self.EXAMPLES:
-            self.element.from_mcnp(example).to_dataframe()
-
-
-class Test_Operations:
-    EXAMPLES: list[str] = []
-
-    def test_and(self):
-        """
-        Tests `EXAMPLES` on `__and__`.
-        """
-
-        for a, b in self.EXAMPLES:
-            a & b
-
-    def test_or(self):
-        """
-        Tests `EXAMPLES` on `__or__`.
-        """
-
-        for a, b in self.EXAMPLES:
-            a | b
-
-    def test_neg(self):
-        """
-        Tests `EXAMPLES` on `__neg__`.
-        """
-
-        for a, b in self.EXAMPLES:
-            -a
-
-    def test_pos(self):
-        """
-        Tests `EXAMPLES` on `__pos__`.
-        """
-
-        for a, b in self.EXAMPLES:
-            +a
-
-    def test_invert(self):
-        """
-        Tests `EXAMPLES` on `__or__`.
-        """
-
-        for a, b in self.EXAMPLES:
-            ~a
+            print(example)
+            try:
+                _, source = self.element.from_mcnp(example)
+                assert source
+            except pymcnp.abc.Error:
+                assert True

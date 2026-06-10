@@ -46,7 +46,7 @@ To run the PyMCNP test suite, after cloning the PyMCNP GitHub repository, use th
     python -m pytest
 
     # Running
-    pytest --cov --cov-report term-missing:skip-covered
+    pytest --cov=. --cov-report=term-missing:skip-covered
 
 ## Documenting
 

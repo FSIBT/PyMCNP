@@ -1,324 +1,78 @@
 import re
+import typing
 import collections
 
+import numpy
+
+from . import abc
 from . import inp
-from . import _file
-from . import types
-from . import errors
 
 
-Cell = types.Union(inp.Cell, inp.Like, inp.Comment)
-Surface = types.Union(
-    inp.Arb,
-    inp.Box,
-    inp.C_x,
-    inp.C_y,
-    inp.C_z,
-    inp.Cx,
-    inp.Cy,
-    inp.Cz,
-    inp.Ell,
-    inp.Gq,
-    inp.K_x,
-    inp.K_y,
-    inp.K_z,
-    inp.Kx,
-    inp.Ky,
-    inp.Kz,
-    inp.P_0,
-    inp.P_1,
-    inp.Px,
-    inp.Py,
-    inp.Pz,
-    inp.Rcc,
-    inp.Rec,
-    inp.Rhp,
-    inp.Rpp,
-    inp.S,
-    inp.So,
-    inp.Sph,
-    inp.Sq,
-    inp.Sx,
-    inp.Sy,
-    inp.Sz,
-    inp.Trc,
-    inp.Tx,
-    inp.Ty,
-    inp.Tz,
-    inp.Wed,
-    inp.X,
-    inp.Y,
-    inp.Z,
-    inp.Comment,
-)
-Data = types.Union(
-    inp.Act,
-    inp.Area,
-    inp.Awtab,
-    inp.Bbrem,
-    inp.Bflcl,
-    inp.Bfld,
-    inp.C,
-    inp.Cf,
-    inp.Cm,
-    inp.Cosy,
-    inp.Cosyp,
-    inp.Ctme,
-    inp.Cut,
-    inp.Dawwg,
-    inp.Dbcn,
-    inp.Dd,
-    inp.De,
-    inp.Df_0,
-    inp.Df_1,
-    inp.Dm,
-    inp.Drxs,
-    inp.Ds_0,
-    inp.Ds_1,
-    inp.Ds_2,
-    inp.Ds_3,
-    inp.Dxc,
-    inp.Dxt,
-    inp.E,
-    inp.Elpt,
-    inp.Em,
-    inp.Embdb,
-    inp.Embdf,
-    inp.Embeb,
-    inp.Embed,
-    inp.Embee,
-    inp.Embem,
-    inp.Embtb,
-    inp.Embtm,
-    inp.Esplt,
-    inp.Ext,
-    inp.F_0,
-    inp.F_1,
-    inp.F_2,
-    inp.F_3,
-    inp.F_4,
-    inp.Fc,
-    inp.Fcl,
-    inp.Fic,
-    inp.Files,
-    inp.Fill,
-    inp.Fip,
-    inp.Fir,
-    inp.Fm,
-    inp.Fmesh,
-    inp.Fmult,
-    inp.Fq,
-    inp.Fs,
-    inp.Ft,
-    inp.Fu,
-    inp.Histp,
-    inp.Hsrc,
-    inp.Idum,
-    inp.Imp,
-    inp.Kcode,
-    inp.Kopts,
-    inp.Kpert,
-    inp.Ksen,
-    inp.Ksrc,
-    inp.Lat,
-    inp.Lca,
-    inp.Lcb,
-    inp.Lcc,
-    inp.Lea,
-    inp.Leb,
-    inp.Lost,
-    inp.M_0,
-    inp.M_1,
-    inp.Mesh,
-    inp.Mgopt,
-    inp.Mode,
-    inp.Mphys,
-    inp.Mplot,
-    inp.Mt,
-    inp.Mx,
-    inp.Nonu,
-    inp.Notrn,
-    inp.Nps,
-    inp.Otfdb,
-    inp.Pd,
-    inp.Pert,
-    inp.Phys_0,
-    inp.Phys_1,
-    inp.Phys_2,
-    inp.Phys_3,
-    inp.Phys_4,
-    inp.Pikmt,
-    inp.Prdmp,
-    inp.Print,
-    inp.Ptrac,
-    inp.Pwt,
-    inp.Rand,
-    inp.Rdum,
-    inp.Sb_0,
-    inp.Sb_1,
-    inp.Sc,
-    inp.Sd,
-    inp.Sdef,
-    inp.Sf,
-    inp.Si_0,
-    inp.Si_1,
-    inp.Si_2,
-    inp.Sp_0,
-    inp.Sp_1,
-    inp.Spdtl,
-    inp.Ssr,
-    inp.Ssw,
-    inp.Stop,
-    inp.T_0,
-    inp.T_1,
-    inp.Talnp,
-    inp.Tf_0,
-    inp.Tf_1,
-    inp.Thtme,
-    inp.Tm,
-    inp.Tmp,
-    inp.Totnu,
-    inp.Tr_0,
-    inp.Tr_1,
-    inp.Tr_2,
-    inp.Tr_3,
-    inp.Tr_4,
-    inp.Tropt,
-    inp.Tsplt,
-    inp.U,
-    inp.Unc,
-    inp.Uran,
-    inp.Var,
-    inp.Void,
-    inp.Vol,
-    inp.Wwe,
-    inp.Wwg,
-    inp.Wwge,
-    inp.Wwgt,
-    inp.Wwn,
-    inp.Wwp,
-    inp.Wwt,
-    inp.Xs,
-    inp.Za,
-    inp.Zb,
-    inp.Zc,
-    inp.Zd,
-    inp.Comment,
-)
+_REGEX_REPEAT = re.compile(r'(\S+) (\d+)R', re.IGNORECASE)
+_REGEX_INSERT = re.compile(r'(\S+) (\d+)I (\S+)', re.IGNORECASE)
+_REGEX_JUMP = re.compile(r'(?<=\s)(\d+)(J)(?=\s)', re.IGNORECASE)
+_REGEX_LOG = re.compile(r'(\S+) (\d+)I?LOG (\S+)', re.IGNORECASE)
 
 
-class Inp(_file.File):
+class SpaceBlock(abc.Terminal):
     """
-    Represents INP files.
+    Represents spaces for blocks.
     """
 
-    _REGEX = re.compile(r'\A((?:message:).+\n)?(.+)(?:\n)([\s\S]+?(?:\n\n))([\s\S]+?(?:\n\n))([\s\S]+?(?:\n\n|\Z))([\S\s]+)?\Z', re.IGNORECASE)
+    _pattern = re.compile(r'(\n)([\s\S]*)', re.IGNORECASE)
+    _default = '\n'
 
-    def __init__(
-        self,
-        title: types.String,
-        cells: types.Tuple(Cell),
-        surfaces: types.Tuple(Surface),
-        data: types.Tuple(Data),
-        message: types.String = None,
-        other: types.String = None,
-    ):
+
+class SpaceCard(abc.Terminal):
+    """
+    Represents spaces for cards.
+    """
+
+    _pattern = re.compile(r'( *\n| +\$.+\n(?! {1,5})| *\n)([\s\S]*)', re.IGNORECASE)
+    _default = '\n'
+
+
+class Inp(abc.File):
+    """
+    Represents input files.
+
+    Attributes:
+        title: inp `title` card.
+        cells: inp cell block.
+        blank_0: inp black-line delimiter #0.
+        surfaces: inp surface block.
+        blank_1: inp black-line delimiter #1.
+        data: inp data block.
+        blank_2: inp black-line delimiter #2.
+        other: inp other block.
+    """
+
+    title: typing.Annotated[abc.Terminal, r'.+\n'] | str
+    cells: typing.Annotated[abc.Array, inp.card.Cell | inp.card.Comment, SpaceCard] | collections.abc.Sequence[inp.card.Cell | inp.card.Comment | str] | str
+    blank_0: typing.Annotated[abc.Terminal, r'(?: *\$.+)?\n\n'] | str = abc.Terminal[r'(?: *\$.+)?\n\n']('\n\n')
+    surfaces: typing.Annotated[abc.Array, inp.card.Surface | inp.card.Comment, SpaceCard] | collections.abc.Sequence[inp.card.Surface | inp.card.Comment | str] | str
+    blank_1: typing.Annotated[abc.Terminal, r'(?: *\$.+)?\n\n'] | str = abc.Terminal[r'(?: *\$.+)?\n\n']('\n\n')
+    data: typing.Annotated[abc.Array, inp.card.Data | inp.card.Comment, SpaceCard] | collections.abc.Sequence[inp.card.Data | inp.card.Comment | str] | str
+    blank_2: typing.Annotated[abc.Terminal, r'(?: *\$.+)?\n'] | str = abc.Terminal[r'(?: *\$.+)?\n']('\n')
+    other: typing.Annotated[abc.Terminal, r'\n[\s\S]*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
+
+    @classmethod
+    def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
         """
-        Initializes `Inp`.
+        Compiles source strings into input files.
 
         Parameters:
-            title: File title.
-            cells: File cell card block.
-            surfaces: File surface card block.
-            data: File data card block.
-            message: File message.
-            other: File other block.
+            source: Source string to compile.
 
         Returns:
-            `Inp`.
+            Nonterminal symbol corresponding to `source`.
 
         Raises:
-            InpError: SEMATNICS_INP.
+            Error: Expected symbol.
+            Error: Expected space.
         """
 
-        self.title: types.String = title
-        self.cells: types.Tuple(Cell) = cells
-        self.surfaces: types.Tuple(Surface) = surfaces
-        self.data: types.Tuple(Data) = data
-        self.message: types.String = message
-        self.other: types.String = other
-
-    @staticmethod
-    def from_mcnp(source: str):
-        """
-        Generates `Inp` from INP.
-
-        Parameters:
-            source: INP for `Inp`.
-
-        Returns:
-            `Inp`.
-
-        Raises:
-            InpError: SYNTAX_FILE.
-        """
-
-        source = Inp._preprocess(source)
-        tokens = Inp._REGEX.match(source)
-
-        if not tokens:
-            raise errors.InpError(errors.InpCode.SYNTAX_FILE, source)
-
-        message = types.String.from_mcnp(tokens[1]) if tokens[1] else None
-        title = types.String.from_mcnp(tokens[2])
-        cells = types.Tuple(Cell)(tuple(Cell.from_mcnp(token) for token in tokens[3].strip().split('\n')))
-        surfaces = types.Tuple(Surface)(tuple(Surface.from_mcnp(token) for token in tokens[4].strip().split('\n')))
-        data = types.Tuple(Data)(tuple(Data.from_mcnp(token) for token in tokens[5].strip().split('\n')))
-        other = types.String.from_mcnp(tokens[6]) if tokens[6] else None
-
-        return Inp(
-            title,
-            cells,
-            surfaces,
-            data,
-            message=message,
-            other=other,
-        )
-
-    def to_mcnp(self):
-        """
-        Generates INP from `Inp`.
-
-        Returns:
-            INP for `Inp`.
-        """
-
-        # DELIMITER = 'c ' + '=' * 76 + '\n'
-        # source += DELIMITER
-        # source += f'c {"cells":^76.76}\n'
-        # source += DELIMITER
-
-        return (
-            (self.message.value + '\n' if self.message else '')
-            + self.title.value
-            + '\n'
-            + '\n'.join(map(str, self.cells))
-            + '\n\n'
-            + '\n'.join(map(str, self.surfaces))
-            + '\n\n'
-            + '\n'.join(map(str, self.data))
-            + '\n\n'
-            + (self.other.value if self.other is not None else '')
-        )
-
-    @staticmethod
-    def _preprocess(source: str):
-        """
-        Preprocess INP for `from_mcnp`.
-
-        Parameters:
-            source: INP to preprocess.
-        """
+        assert isinstance(source, str)
 
         source = re.sub(r'\n +\n', '\n\n', source)
 
@@ -340,788 +94,140 @@ class Inp(_file.File):
             else:
                 source += token
 
-        source = re.sub(r'& *\n *', '\n    ', source)
+        # Preprocessing horizontal data format.
+        source = _REGEX_REPEAT.sub(lambda match: f'{match[1]} {" ".join([match[1]] * int(match[2]))}', source)
+        source = _REGEX_INSERT.sub(lambda match: ' '.join(map(str, numpy.linspace(float(match[1]), float(match[3]), num=int(match[2])))), source)
+        source = _REGEX_JUMP.sub(lambda match: ' '.join([match[2]] * int(match[1])), source)
+        source = _REGEX_LOG.sub(lambda match: ' '.join(map(str, numpy.logspace(float(match[1]), float(match[3]), num=int(match[2])))), source)
 
-        # Preproessing inline comments.
-        tokens = collections.deque(source.split('\n'))
-        source = ''
-        while tokens:
-            token = tokens.popleft()
+        return super().from_mcnp(source)
 
-            comments = ['']
+    def __post_init__(self) -> None:
+        """
+        Validates inps.
+        """
 
-            split = token.split('$', maxsplit=1)
-            source += split[0]
-            if len(split) == 2:
-                comments.append(split[1])
+        assert isinstance(self.data, abc.Array)
+        assert all(isinstance(card, (inp.card.Data | inp.card.Comment)) for card in self.data)
 
-            while tokens and re.match(r'\s+.+', tokens[0]):
-                token = tokens.popleft()
+        cell_count = sum(1 for cell in self.cells if not isinstance(cell, inp.card.Comment))
 
-                split = token.split('$', maxsplit=1)
-                source += split[0]
-                if len(split) == 2:
-                    comments.append(split[1])
+        for card in self.data:
+            if isinstance(card, inp.card.data.Vol) and not (card.no != '' or len(card.x) == cell_count):
+                raise abc.Error('Invalid value.', f'{card=}')
 
-            source += ' $'.join(comments) + '\n'
-
-        source = re.sub(r' +', ' ', source)
-        source = re.sub(r'[(] ', '(', source)
-        source = re.sub(r' [)]', ')', source)
-        source = re.sub(r'\n \n', '\n\n', source)
-        source = re.sub(r' = | =|= |=', ' ', source)
-        source = re.sub(r'\t', '    ', source)
-        source = source.strip()
-
-        return source
+            if isinstance(card, inp.card.data.Area) and len(card.x) != cell_count:
+                raise abc.Error('Invalid value.', f'{card=}')
 
     @property
-    def title(self) -> types.String:
+    def nps(self) -> inp.literal.Integer | None:
         """
-        File title.
+        Input file nps.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
+            Error.
         """
 
-        return self._title
+        assert isinstance(self.data, abc.Array)
+        assert all(isinstance(card, (inp.card.Data | inp.card.Comment)) for card in self.data)
 
-    @title.setter
-    def title(self, title: str | types.String) -> None:
-        """
-        Sets `title`.
+        for card in self.data:
+            if not isinstance(card, inp.card.data.Nps):
+                continue
 
-        Parameters:
-            title: File title.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
-        """
-
-        if title is not None:
-            if isinstance(title, types.String):
-                title = title
-            elif isinstance(title, str):
-                title = types.String.from_mcnp(title)
-
-        if title is None or not len(title) < 80:
-            raise errors.InpError(errors.InpCode.SEMANTICS_FILE, title)
-
-        self._title: types.Integer = title
-
-    @property
-    def cells(self) -> types.Tuple(Cell):
-        """
-        File cells card block.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
-        """
-
-        return self._cells
-
-    @cells.setter
-    def cells(self, cells: list[str] | list[inp.Cell | inp.Like | inp.Comment]) -> None:
-        """
-        Sets `cells`.
-
-        Parameters:
-            cells: File cells.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
-        """
-
-        if cells is not None:
-            array = []
-            for item in cells:
-                if isinstance(item, inp.Cell):
-                    array.append(item)
-                elif isinstance(item, inp.Like):
-                    array.append(item)
-                elif isinstance(item, inp.Comment):
-                    array.append(item)
-                elif isinstance(item, str):
-                    try:
-                        array.append(inp.Comment.from_mcnp(item))
-                        continue
-                    except errors.InpError:
-                        pass
-
-                    if 'like' in item:
-                        array.append(inp.Like.from_mcnp(item))
-                    else:
-                        array.append(inp.Cell.from_mcnp(item))
-
-            cells = types.Tuple(inp.Card)(array)
-
-        if cells is None or None in cells:
-            raise errors.InpError(errors.InpCode.SEMANTICS_FILE, cells)
-
-        if all(isinstance(cell, inp.Cell) and (not cell.options or not any(isinstance(option, inp.cell.Imp) for option in cell.options)) for cell in cells) and (
-            not hasattr(self, '_data') or all(isinstance(data, inp.data.Imp) for data in self.data)
-        ):
-            raise errors.InpError(errors.InpCode.SEMANTICS_FILE, cells)
-
-        self._cells: types.Tuple(Cell) = cells
-
-    @property
-    def surfaces(self) -> types.Tuple(Surface):
-        """
-        File surfaces card block.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
-        """
-
-        return self._surfaces
-
-    @surfaces.setter
-    def surfaces(
-        self,
-        surfaces: list[
-            str
-            | inp.Arb
-            | inp.Box
-            | inp.C_x
-            | inp.C_y
-            | inp.C_z
-            | inp.Cx
-            | inp.Cy
-            | inp.Cz
-            | inp.Ell
-            | inp.Gq
-            | inp.K_x
-            | inp.K_y
-            | inp.K_z
-            | inp.Kx
-            | inp.Ky
-            | inp.Kz
-            | inp.P_0
-            | inp.P_1
-            | inp.Px
-            | inp.Py
-            | inp.Pz
-            | inp.Rcc
-            | inp.Rec
-            | inp.Rhp
-            | inp.Rpp
-            | inp.S
-            | inp.So
-            | inp.Sph
-            | inp.Sq
-            | inp.Sx
-            | inp.Sy
-            | inp.Sz
-            | inp.Trc
-            | inp.Tx
-            | inp.Ty
-            | inp.Tz
-            | inp.Wed
-            | inp.X
-            | inp.Y
-            | inp.Z
-            | inp.Comment
-        ],
-    ) -> None:
-        """
-        Sets `surfaces`.
-
-        Parameters:
-            surfaces: File surfaces.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
-        """
-
-        if surfaces is not None:
-            array = []
-            for item in surfaces:
-                if any(
-                    (
-                        isinstance(item, inp.Arb),
-                        isinstance(item, inp.Box),
-                        isinstance(item, inp.C_x),
-                        isinstance(item, inp.C_y),
-                        isinstance(item, inp.C_z),
-                        isinstance(item, inp.Cx),
-                        isinstance(item, inp.Cy),
-                        isinstance(item, inp.Cz),
-                        isinstance(item, inp.Ell),
-                        isinstance(item, inp.Gq),
-                        isinstance(item, inp.K_x),
-                        isinstance(item, inp.K_y),
-                        isinstance(item, inp.K_z),
-                        isinstance(item, inp.Kx),
-                        isinstance(item, inp.Ky),
-                        isinstance(item, inp.Kz),
-                        isinstance(item, inp.P_0),
-                        isinstance(item, inp.P_1),
-                        isinstance(item, inp.Px),
-                        isinstance(item, inp.Py),
-                        isinstance(item, inp.Pz),
-                        isinstance(item, inp.Rcc),
-                        isinstance(item, inp.Rec),
-                        isinstance(item, inp.Rhp),
-                        isinstance(item, inp.Rpp),
-                        isinstance(item, inp.S),
-                        isinstance(item, inp.So),
-                        isinstance(item, inp.Sph),
-                        isinstance(item, inp.Sq),
-                        isinstance(item, inp.Sx),
-                        isinstance(item, inp.Sy),
-                        isinstance(item, inp.Sz),
-                        isinstance(item, inp.Trc),
-                        isinstance(item, inp.Tx),
-                        isinstance(item, inp.Ty),
-                        isinstance(item, inp.Tz),
-                        isinstance(item, inp.Wed),
-                        isinstance(item, inp.X),
-                        isinstance(item, inp.Y),
-                        isinstance(item, inp.Z),
-                    )
-                ):
-                    array.append(item)
-                elif isinstance(item, inp.Comment):
-                    array.append(item)
-                elif isinstance(item, str):
-                    try:
-                        array.append(inp.Comment.from_mcnp(item))
-                        continue
-                    except errors.InpError:
-                        pass
-                    array.append(Surface.from_mcnp(item))
-
-            surfaces = types.Tuple(inp.Card)(array)
-
-        if surfaces is None or None in surfaces:
-            raise errors.InpError(errors.InpCode.SEMANTICS_FILE, surfaces)
-
-        self._surfaces: types.Tuple(Surface) = surfaces
-
-    @property
-    def data(self) -> types.Tuple(Data):
-        """
-        File data card block.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
-        """
-
-        return self._data
-
-    @data.setter
-    def data(
-        self,
-        data: list[
-            str
-            | inp.Act
-            | inp.Area
-            | inp.Awtab
-            | inp.Bbrem
-            | inp.Bflcl
-            | inp.Bfld
-            | inp.C
-            | inp.Cf
-            | inp.Cm
-            | inp.Cosy
-            | inp.Cosyp
-            | inp.Ctme
-            | inp.Cut
-            | inp.Dawwg
-            | inp.Dbcn
-            | inp.Dd
-            | inp.De
-            | inp.Df_0
-            | inp.Df_1
-            | inp.Dm
-            | inp.Drxs
-            | inp.Ds_0
-            | inp.Ds_1
-            | inp.Ds_2
-            | inp.Ds_3
-            | inp.Dxc
-            | inp.Dxt
-            | inp.E
-            | inp.Elpt
-            | inp.Em
-            | inp.Embdb
-            | inp.Embdf
-            | inp.Embeb
-            | inp.Embed
-            | inp.Embee
-            | inp.Embem
-            | inp.Embtb
-            | inp.Embtm
-            | inp.Esplt
-            | inp.Ext
-            | inp.F_0
-            | inp.F_1
-            | inp.F_2
-            | inp.F_3
-            | inp.F_4
-            | inp.Fc
-            | inp.Fcl
-            | inp.Fic
-            | inp.Files
-            | inp.Fill
-            | inp.Fip
-            | inp.Fir
-            | inp.Fm
-            | inp.Fmesh
-            | inp.Fmult
-            | inp.Fq
-            | inp.Fs
-            | inp.Ft
-            | inp.Fu
-            | inp.Histp
-            | inp.Hsrc
-            | inp.Idum
-            | inp.Imp
-            | inp.Kcode
-            | inp.Kopts
-            | inp.Kpert
-            | inp.Ksen
-            | inp.Ksrc
-            | inp.Lat
-            | inp.Lca
-            | inp.Lcb
-            | inp.Lcc
-            | inp.Lea
-            | inp.Leb
-            | inp.Lost
-            | inp.M_0
-            | inp.M_1
-            | inp.Mesh
-            | inp.Mgopt
-            | inp.Mode
-            | inp.Mphys
-            | inp.Mplot
-            | inp.Mt
-            | inp.Mx
-            | inp.Nonu
-            | inp.Notrn
-            | inp.Nps
-            | inp.Otfdb
-            | inp.Pd
-            | inp.Pert
-            | inp.Phys_0
-            | inp.Phys_1
-            | inp.Phys_2
-            | inp.Phys_3
-            | inp.Phys_4
-            | inp.Pikmt
-            | inp.Prdmp
-            | inp.Print
-            | inp.Ptrac
-            | inp.Pwt
-            | inp.Rand
-            | inp.Rdum
-            | inp.Sb_0
-            | inp.Sb_1
-            | inp.Sc
-            | inp.Sd
-            | inp.Sdef
-            | inp.Sf
-            | inp.Si_0
-            | inp.Si_1
-            | inp.Si_2
-            | inp.Sp_0
-            | inp.Sp_1
-            | inp.Spdtl
-            | inp.Ssr
-            | inp.Ssw
-            | inp.Stop
-            | inp.T_0
-            | inp.T_1
-            | inp.Talnp
-            | inp.Tf_0
-            | inp.Tf_1
-            | inp.Thtme
-            | inp.Tm
-            | inp.Tmp
-            | inp.Totnu
-            | inp.Tr_0
-            | inp.Tr_1
-            | inp.Tr_2
-            | inp.Tr_3
-            | inp.Tr_4
-            | inp.Tropt
-            | inp.Tsplt
-            | inp.U
-            | inp.Unc
-            | inp.Uran
-            | inp.Var
-            | inp.Void
-            | inp.Vol
-            | inp.Wwe
-            | inp.Wwg
-            | inp.Wwge
-            | inp.Wwgt
-            | inp.Wwn
-            | inp.Wwp
-            | inp.Wwt
-            | inp.Xs
-            | inp.Za
-            | inp.Zb
-            | inp.Zc
-            | inp.Zd
-            | inp.Comment
-        ],
-    ) -> None:
-        """
-        Sets `data`.
-
-        Parameters:
-            data: File data.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
-        """
-
-        if data is not None:
-            array = []
-            for item in data:
-                if any(
-                    (
-                        isinstance(item, inp.Act),
-                        isinstance(item, inp.Area),
-                        isinstance(item, inp.Awtab),
-                        isinstance(item, inp.Bbrem),
-                        isinstance(item, inp.Bflcl),
-                        isinstance(item, inp.Bfld),
-                        isinstance(item, inp.C),
-                        isinstance(item, inp.Cf),
-                        isinstance(item, inp.Cm),
-                        isinstance(item, inp.Cosy),
-                        isinstance(item, inp.Cosyp),
-                        isinstance(item, inp.Ctme),
-                        isinstance(item, inp.Cut),
-                        isinstance(item, inp.Dawwg),
-                        isinstance(item, inp.Dbcn),
-                        isinstance(item, inp.Dd),
-                        isinstance(item, inp.De),
-                        isinstance(item, inp.Df_0),
-                        isinstance(item, inp.Df_1),
-                        isinstance(item, inp.Dm),
-                        isinstance(item, inp.Drxs),
-                        isinstance(item, inp.Ds_0),
-                        isinstance(item, inp.Ds_1),
-                        isinstance(item, inp.Ds_2),
-                        isinstance(item, inp.Ds_3),
-                        isinstance(item, inp.Dxc),
-                        isinstance(item, inp.Dxt),
-                        isinstance(item, inp.E),
-                        isinstance(item, inp.Elpt),
-                        isinstance(item, inp.Em),
-                        isinstance(item, inp.Embdb),
-                        isinstance(item, inp.Embdf),
-                        isinstance(item, inp.Embeb),
-                        isinstance(item, inp.Embed),
-                        isinstance(item, inp.Embee),
-                        isinstance(item, inp.Embem),
-                        isinstance(item, inp.Embtb),
-                        isinstance(item, inp.Embtm),
-                        isinstance(item, inp.Esplt),
-                        isinstance(item, inp.Ext),
-                        isinstance(item, inp.F_0),
-                        isinstance(item, inp.F_1),
-                        isinstance(item, inp.F_2),
-                        isinstance(item, inp.F_3),
-                        isinstance(item, inp.F_4),
-                        isinstance(item, inp.Fc),
-                        isinstance(item, inp.Fcl),
-                        isinstance(item, inp.Fic),
-                        isinstance(item, inp.Files),
-                        isinstance(item, inp.Fill),
-                        isinstance(item, inp.Fip),
-                        isinstance(item, inp.Fir),
-                        isinstance(item, inp.Fm),
-                        isinstance(item, inp.Fmesh),
-                        isinstance(item, inp.Fmult),
-                        isinstance(item, inp.Fq),
-                        isinstance(item, inp.Fs),
-                        isinstance(item, inp.Ft),
-                        isinstance(item, inp.Fu),
-                        isinstance(item, inp.Histp),
-                        isinstance(item, inp.Hsrc),
-                        isinstance(item, inp.Idum),
-                        isinstance(item, inp.Imp),
-                        isinstance(item, inp.Kcode),
-                        isinstance(item, inp.Kopts),
-                        isinstance(item, inp.Kpert),
-                        isinstance(item, inp.Ksen),
-                        isinstance(item, inp.Ksrc),
-                        isinstance(item, inp.Lat),
-                        isinstance(item, inp.Lca),
-                        isinstance(item, inp.Lcb),
-                        isinstance(item, inp.Lcc),
-                        isinstance(item, inp.Lea),
-                        isinstance(item, inp.Leb),
-                        isinstance(item, inp.Lost),
-                        isinstance(item, inp.M_0),
-                        isinstance(item, inp.M_1),
-                        isinstance(item, inp.Mesh),
-                        isinstance(item, inp.Mgopt),
-                        isinstance(item, inp.Mode),
-                        isinstance(item, inp.Mphys),
-                        isinstance(item, inp.Mplot),
-                        isinstance(item, inp.Mt),
-                        isinstance(item, inp.Mx),
-                        isinstance(item, inp.Nonu),
-                        isinstance(item, inp.Notrn),
-                        isinstance(item, inp.Nps),
-                        isinstance(item, inp.Otfdb),
-                        isinstance(item, inp.Pd),
-                        isinstance(item, inp.Pert),
-                        isinstance(item, inp.Phys_0),
-                        isinstance(item, inp.Phys_1),
-                        isinstance(item, inp.Phys_2),
-                        isinstance(item, inp.Phys_3),
-                        isinstance(item, inp.Phys_4),
-                        isinstance(item, inp.Pikmt),
-                        isinstance(item, inp.Prdmp),
-                        isinstance(item, inp.Print),
-                        isinstance(item, inp.Ptrac),
-                        isinstance(item, inp.Pwt),
-                        isinstance(item, inp.Rand),
-                        isinstance(item, inp.Rdum),
-                        isinstance(item, inp.Sb_0),
-                        isinstance(item, inp.Sb_1),
-                        isinstance(item, inp.Sc),
-                        isinstance(item, inp.Sd),
-                        isinstance(item, inp.Sdef),
-                        isinstance(item, inp.Sf),
-                        isinstance(item, inp.Si_0),
-                        isinstance(item, inp.Si_1),
-                        isinstance(item, inp.Si_2),
-                        isinstance(item, inp.Sp_0),
-                        isinstance(item, inp.Sp_1),
-                        isinstance(item, inp.Spdtl),
-                        isinstance(item, inp.Ssr),
-                        isinstance(item, inp.Ssw),
-                        isinstance(item, inp.Stop),
-                        isinstance(item, inp.T_0),
-                        isinstance(item, inp.T_1),
-                        isinstance(item, inp.Talnp),
-                        isinstance(item, inp.Tf_0),
-                        isinstance(item, inp.Tf_1),
-                        isinstance(item, inp.Thtme),
-                        isinstance(item, inp.Tm),
-                        isinstance(item, inp.Tmp),
-                        isinstance(item, inp.Totnu),
-                        isinstance(item, inp.Tr_0),
-                        isinstance(item, inp.Tr_1),
-                        isinstance(item, inp.Tr_2),
-                        isinstance(item, inp.Tr_3),
-                        isinstance(item, inp.Tr_4),
-                        isinstance(item, inp.Tropt),
-                        isinstance(item, inp.Tsplt),
-                        isinstance(item, inp.U),
-                        isinstance(item, inp.Unc),
-                        isinstance(item, inp.Uran),
-                        isinstance(item, inp.Var),
-                        isinstance(item, inp.Void),
-                        isinstance(item, inp.Vol),
-                        isinstance(item, inp.Wwe),
-                        isinstance(item, inp.Wwg),
-                        isinstance(item, inp.Wwge),
-                        isinstance(item, inp.Wwgt),
-                        isinstance(item, inp.Wwn),
-                        isinstance(item, inp.Wwp),
-                        isinstance(item, inp.Wwt),
-                        isinstance(item, inp.Xs),
-                        isinstance(item, inp.Za),
-                        isinstance(item, inp.Zb),
-                        isinstance(item, inp.Zc),
-                        isinstance(item, inp.Zd),
-                    )
-                ):
-                    array.append(item)
-                elif isinstance(item, inp.Comment):
-                    array.append(item)
-                elif isinstance(item, str):
-                    try:
-                        array.append(inp.Comment.from_mcnp(item))
-                        continue
-                    except errors.InpError:
-                        pass
-
-                    array.append(Data.from_mcnp(item))
-
-            data = types.Tuple(Data)(array)
-
-        if data is None or None in data:
-            raise errors.InpError(errors.InpCode.SEMANTICS_FILE, data)
-
-        self._data: types.Tuple(Data) = data
-
-    @property
-    def message(self) -> types.String:
-        """
-        File message.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
-        """
-
-        return self._message
-
-    @message.setter
-    def message(self, message: str | types.String) -> None:
-        """
-        Sets `message`.
-
-        Parameters:
-            message: File message.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
-        """
-
-        if message is not None:
-            if isinstance(message, types.String):
-                message = message
-            elif isinstance(message, str):
-                message = types.String.from_mcnp(message)
-
-        self._message: types.Integer = message
-
-    @property
-    def other(self) -> types.Integer:
-        """
-        File other.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
-        """
-
-        return self._other
-
-    @other.setter
-    def other(self, other: str | types.String) -> None:
-        """
-        Sets `other`.
-
-        Parameters:
-            other: File other.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
-        """
-
-        if other is not None:
-            if isinstance(other, types.String):
-                other = other
-            elif isinstance(other, str):
-                other = types.String.from_mcnp(other)
-
-        self._other: types.Integer = other
-
-    @property
-    def nps(self) -> types.Integer:
-        """
-        File nps.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
-        """
-
-        try:
-            card_nps = next(filter(lambda card: isinstance(card, inp.Nps), self.data))
-            return card_nps.npp
-        except StopIteration:
+            return card.npp
+        else:
             return None
 
     @nps.setter
-    def nps(self, nps: str | int | types.Integer) -> None:
+    def nps(self, nps: inp.literal.Integer | int | str) -> None:
         """
-        Sets `nps`.
+        Sets input file nps.
 
         Parameters:
-            nps: File nps.
+            nps: Nps to set.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
+            Error.
         """
 
-        if nps is not None:
-            if isinstance(nps, types.Integer):
-                nps = nps
-            elif isinstance(nps, int):
-                nps = types.Integer(nps)
-            elif isinstance(nps, str):
-                nps = types.Integer.from_mcnp(nps)
+        assert isinstance(self.data, abc.Array)
+        assert all(isinstance(card, (inp.card.Data | inp.card.Comment)) for card in self.data)
 
-        try:
-            card_nps = next(filter(lambda card: isinstance(card, inp.Nps), self.data))
-            card_nps.npp = nps
-        except StopIteration:
-            self.data = [*self.data, inp.Nps(nps)]
+        for card in self.data:
+            if not isinstance(card, inp.card.data.Nps):
+                continue
+
+            card.npp = nps
+            break
+        else:
+            card = inp.card.data.Nps(npp=nps)
+            self.data.append(card)
 
     @property
-    def seed(self) -> types.Integer:
+    def seed(self) -> inp.literal.Integer | None:
         """
-        File seed.
+        Input file seed.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
+            Error.
         """
 
-        try:
-            card_rand = next(filter(lambda card: isinstance(card, inp.Rand), self.data))
-            option_seed = next(filter(lambda option: isinstance(option, inp.rand.Seed), card_rand.options or []))
-            return option_seed.seed
-        except StopIteration:
+        assert isinstance(self.data, abc.Array)
+        assert all(isinstance(card, (inp.card.Data | inp.card.Comment)) for card in self.data)
+
+        for card in self.data:
+            if not isinstance(card, inp.card.data.Rand):
+                continue
+
+            if isinstance(card.options, abc.Terminal[r'']):
+                continue
+
+            for option in card.options:
+                if not isinstance(option, inp.option.data.rand.Seed):
+                    continue
+
+                return option.value
+            else:
+                return None
+        else:
             return None
 
     @seed.setter
-    def seed(self, seed: str | int | types.Integer) -> None:
+    def seed(self, seed: inp.literal.Integer | int | str) -> None:
         """
-        Sets `seed`.
+        Sets input file seed.
 
         Parameters:
-            seed: File seed.
+            seed: Seed to set.
 
         Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
+            Error.
         """
 
-        if seed is not None:
-            if isinstance(seed, types.Integer):
-                seed = seed
-            elif isinstance(seed, int):
-                seed = types.Integer(seed)
-            elif isinstance(seed, str):
-                seed = types.Integer.from_mcnp(seed)
+        assert isinstance(self.data, abc.Array)
+        assert all(isinstance(card, (inp.card.Data | inp.card.Comment)) for card in self.data)
 
-        try:
-            card_rand = next(filter(lambda card: isinstance(card, inp.Rand), self.data))
+        for card in self.data:
+            if not isinstance(card, inp.card.data.Rand):
+                continue
 
-            try:
-                option_seed = next(filter(lambda option: isinstance(option, inp.rand.Seed), card_rand.options or []))
-                option_seed.seed = seed
-            except StopIteration:
-                option_seed = inp.rand.Seed(seed)
-                card_rand.options = [*(card_rand.options or []), option_seed]
+            if isinstance(card.options, abc.Terminal[r'']):
+                card.options = [inp.option.data.rand.Seed(value=seed)]
+                return
 
-        except StopIteration:
-            option_seed = inp.rand.Seed(seed)
-            card_rand = inp.Rand([option_seed])
-            self.data = [*self.data, card_rand]
+            for option in card.options:
+                if not isinstance(option, inp.option.data.rand.Seed):
+                    continue
+
+                option.value = seed
+                return
+
+            option = inp.option.data.rand.Seed(value=seed)
+            card.options.append(option)
+            return
+
+        option = inp.option.data.rand.Seed(value=seed)
+        card = inp.card.data.Rand(options=[option])
+        self.data.append(card)
+        return

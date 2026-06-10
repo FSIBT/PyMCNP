@@ -13,7 +13,7 @@ description = "Python-based MCNP tools."
 readme = "README.md"
 license = {file = "LICENSE"}
 dynamic = ["version"]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
@@ -48,6 +48,7 @@ docs = [
 dev = [
     "pre-commit",
     "ruff",
+    "ty",
 ]
 
 test = [
@@ -74,14 +75,21 @@ where = ["./src"]
 write_to = "./src/version.py"
 
 [tool.pytest.ini_options]
-addopts = "--testmon --cov --cov-report=term-missing:skip-covered"
 testpaths = [
     "tests"
+]
+[tool.coverage.report]
+exclude_also = [
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "assert ",
 ]
 
 [tool.ruff]
 line-length = 200
 lint.ignore = ["E741", "E742"]
+lint.extend-select = ["PYI016"] 
+lint.extend-safe-fixes = ["PYI016"]
 
 [tool.ruff.format]
 quote-style = "single"

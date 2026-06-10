@@ -35,6 +35,6 @@ class Plane(_shape.PyvistaShape):
             point = (0, 0, d)
 
         super().__init__(
-            pyvista.Plane(center=point, i_size=_shape.BOUND, j_size=_shape.BOUND, direction=(a, b, c)),
+            pyvista.Plane(center=point, i_size=int(_shape.BOUND), j_size=int(_shape.BOUND), direction=(a, b, c)),
             lambda p: a * p[:, 0] + b * p[:, 1] + c * p[:, 2] - d > 0,
         )

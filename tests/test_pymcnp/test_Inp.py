@@ -1,143 +1,49 @@
 import pathlib
 
 import pymcnp
-from .. import consts
 from .. import classes
 
 
-class Test_Inp:
-    class Test_Init(classes.Test_Init):
-        element = pymcnp.Inp
-        EXAMPLES_VALID = [
-            {
-                'title': consts.string.types.STRING,
-                'cells': [consts.string.inp.CELL, consts.string.inp.COMMENT, consts.string.inp.LIKE],
-                'surfaces': [consts.string.inp.SO, consts.string.inp.COMMENT],
-                'data': [consts.string.inp.VOL, consts.string.inp.COMMENT],
-                'message': consts.string.types.STRING,
-                'other': consts.string.types.STRING,
-            },
-            {
-                'title': consts.ast.types.STRING,
-                'cells': [consts.ast.inp.CELL, consts.ast.inp.COMMENT, consts.ast.inp.LIKE],
-                'surfaces': [consts.ast.inp.SO, consts.ast.inp.COMMENT],
-                'data': [consts.ast.inp.VOL, consts.ast.inp.COMMENT],
-                'message': consts.ast.types.STRING,
-                'other': consts.ast.types.STRING,
-            },
-            {
-                'title': consts.string.types.STRING,
-                'cells': [consts.string.inp.CELL, consts.string.inp.COMMENT, consts.string.inp.LIKE],
-                'surfaces': [consts.string.inp.SO, consts.string.inp.COMMENT],
-                'data': [consts.string.inp.VOL, consts.string.inp.COMMENT],
-                'message': None,
-                'other': consts.string.types.STRING,
-            },
-            {
-                'title': consts.string.types.STRING,
-                'cells': [consts.string.inp.CELL, consts.string.inp.COMMENT, consts.string.inp.LIKE],
-                'surfaces': [consts.string.inp.SO, consts.string.inp.COMMENT],
-                'data': [consts.string.inp.VOL, consts.string.inp.COMMENT],
-                'message': consts.string.types.STRING,
-                'other': None,
-            },
-        ]
-        EXAMPLES_INVALID = [
-            {
-                'title': None,
-                'cells': [consts.string.inp.CELL, consts.string.inp.COMMENT, consts.string.inp.LIKE],
-                'surfaces': [consts.string.inp.SO, consts.string.inp.COMMENT],
-                'data': [consts.string.inp.VOL, consts.string.inp.COMMENT],
-                'message': consts.string.types.STRING,
-                'other': consts.string.types.STRING,
-            },
-            {
-                'title': consts.string.types.STRING,
-                'cells': None,
-                'surfaces': [consts.string.inp.SO, consts.string.inp.COMMENT],
-                'data': [consts.string.inp.VOL, consts.string.inp.COMMENT],
-                'message': consts.string.types.STRING,
-                'other': consts.string.types.STRING,
-            },
-            {
-                'title': consts.string.types.STRING,
-                'cells': [consts.string.inp.CELL, consts.string.inp.COMMENT, consts.string.inp.LIKE],
-                'surfaces': None,
-                'data': [consts.string.inp.VOL, consts.string.inp.COMMENT],
-                'message': consts.string.types.STRING,
-                'other': consts.string.types.STRING,
-            },
-            {
-                'title': consts.string.types.STRING,
-                'cells': [consts.string.inp.CELL, consts.string.inp.COMMENT, consts.string.inp.LIKE],
-                'surfaces': [consts.string.inp.SO, consts.string.inp.COMMENT],
-                'data': None,
-                'message': consts.string.types.STRING,
-                'other': consts.string.types.STRING,
-            },
-            {
-                'title': consts.string.types.STRING,
-                'cells': ['1 0 1'],
-                'surfaces': [consts.string.inp.SO, consts.string.inp.COMMENT],
-                'data': [consts.string.inp.VOL, consts.string.inp.COMMENT],
-                'message': consts.string.types.STRING,
-                'other': consts.string.types.STRING,
-            },
-        ]
+class Test_Inp(classes.Test_Nonterminal):
+    element = pymcnp.Inp
+    EXAMPLES_VALID = [
+        (pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_11.inp').read_text(),
+    ]
+    EXAMPLES_INVALID = [
+        'Vol Test\n1 0 2\n\n2 SO 1\n\nVOL 3.1 3.1\n',
+        'Area Test\n1 0 2\n\n2 SO 1\n\nAREA 3.1 3.1\n',
+        'hello',
+    ]
 
-    class Test_Properties:
-        EXAMPLES = [
-            {
-                'title': consts.string.types.STRING,
-                'cells': [consts.string.inp.CELL, consts.string.inp.COMMENT, consts.string.inp.LIKE],
-                'surfaces': [consts.string.inp.SO, consts.string.inp.COMMENT],
-                'data': [consts.string.inp.VOL, consts.string.inp.COMMENT],
-                'message': consts.string.types.STRING,
-                'other': consts.string.types.STRING,
-            },
-        ]
+    def test_nps_valid(self) -> None:
+        inp, _ = pymcnp.Inp.from_mcnp('Hello\n1 0 2\n\n2 SO 1\n\nSDEF\n')
+        inp.nps
+        inp.nps = 10
+        assert inp.to_mcnp() == 'Hello\n1 0 2\n\n2 SO 1\n\nSDEF\nNPS 10\n'
+        inp, _ = pymcnp.Inp.from_mcnp('Hello\n1 0 2\n\n2 SO 1\n\nSDEF\nNPS 200\n')
+        inp.nps
+        inp.nps = 10
+        assert inp.to_mcnp() == 'Hello\n1 0 2\n\n2 SO 1\n\nSDEF\nNPS 10\n'
 
-        def test_nps(self):
-            for example in self.EXAMPLES:
-                inp = pymcnp.Inp(**example)
-                inp.nps
+    def test_seed_invalid(self) -> None:
+        inp, _ = pymcnp.Inp.from_mcnp('Hello\n1 0 2\n\n2 SO 1\n\nSDEF\n')
+        inp.seed
+        inp.seed = 10
+        assert inp.to_mcnp() == 'Hello\n1 0 2\n\n2 SO 1\n\nSDEF\nRAND SEED 10\n'
+        inp, _ = pymcnp.Inp.from_mcnp('Hello\n1 0 2\n\n2 SO 1\n\nSDEF\nRAND\n')
+        inp.seed
+        inp.seed = 10
+        assert inp.to_mcnp() == 'Hello\n1 0 2\n\n2 SO 1\n\nSDEF\nRAND SEED 10\n'
+        inp, _ = pymcnp.Inp.from_mcnp('Hello\n1 0 2\n\n2 SO 1\n\nSDEF\nRAND GEN 1\n')
+        inp.seed
+        inp.seed = 10
+        assert inp.to_mcnp() == 'Hello\n1 0 2\n\n2 SO 1\n\nSDEF\nRAND GEN 1 SEED 10\n'
+        inp, _ = pymcnp.Inp.from_mcnp('Hello\n1 0 2\n\n2 SO 1\n\nSDEF\nRAND GEN 1 SEED 200\n')
+        inp.seed
+        inp.seed = 10
+        assert inp.to_mcnp() == 'Hello\n1 0 2\n\n2 SO 1\n\nSDEF\nRAND GEN 1 SEED 10\n'
 
-                inp.nps = '1e3'
-                inp.nps = 10
-                inp.nps = pymcnp.types.Integer(1234938)
-                inp.nps
-
-        def test_seed(self):
-            for example in self.EXAMPLES:
-                inp = pymcnp.Inp(**example)
-                inp.seed
-
-                save = inp.data
-
-                inp.seed = '11'
-                inp.seed = 11
-                inp.seed = pymcnp.types.Integer(11)
-                inp.seed
-
-                inp.data = save
-                inp.data = [*inp.data, pymcnp.inp.Rand()]
-
-                inp.seed = '11'
-                inp.seed = 11
-                inp.seed = pymcnp.types.Integer(11)
-                inp.seed
-
-    class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.Inp
-        EXAMPLES_VALID = [consts.string.INP]
-        EXAMPLES_INVALID = ['hello']
-
-    class Test_File(classes.Test_File):
-        element = pymcnp.Inp
-        EXAMPLES_VALID = [
-            *(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp').glob('valid*.inp'),
-            *(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp').glob('example*.inp'),
-        ]
-        EXAMPLES_INVALID = [
-            *(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp').glob('invalid*.inp'),
-        ]
+    def test_vertical_format_valid(self) -> None:
+        a, _ = pymcnp.Inp.from_file(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_42.inp')
+        b, _ = self.element.from_mcnp(a.to_mcnp())
+        assert a.to_mcnp() == b.to_mcnp()

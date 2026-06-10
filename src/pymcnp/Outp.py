@@ -1,119 +1,40 @@
-import re
 import typing
 
+import pandas
+
+from . import abc
 from . import outp
-from . import _file
-from . import types
-from . import errors
 
 
-class Outp(_file.File):
+class Outp(abc.File):
     """
-    Represents OUTP files.
+    Represents output files.
 
     Attributes:
-        header: OUPT header.
-        blocks: OUTP tables.
-        footer: OUTP footer.
+        header: outp `header` parameter.
+        blocks: outp `blocks` parameter.
     """
 
-    _REGEX = re.compile(rf'\A({outp.Header._REGEX.pattern[2:-2]})([\s\S]*)\Z', re.IGNORECASE)
+    header: typing.Annotated[
+        abc.Terminal,
+        r'(?:          Code Name & Version = MCNP6, 1\.0\n  \n     _/      _/        _/_/_/       _/      _/       _/_/_/         _/_/_/\n    _/_/  _/_/      _/             _/_/    _/       _/    _/     _/       \n   _/  _/  _/      _/             _/  _/  _/       _/_/_/       _/_/_/    \n  _/      _/      _/             _/    _/_/       _/           _/    _/   \n _/      _/        _/_/_/       _/      _/       _/             _/_/      \n  \n  \+---------------------------------------------------------------------\+\n  \| Copyright 2008\. Los Alamos National Security, LLC\.  All rights      \|\n  \| reserved\.                                                           \|\n  \|   This material was produced under U\.S\. Government contract         \|\n  \| DE-AC52-06NA25396 for Los Alamos National Laboratory, which is      \|\n  \| operated by Los Alamos National Security, LLC, for the U\.S\.         \|\n  \| Department of Energy\. The Government is granted for itself and      \|\n  \| others acting on its behalf a paid-up, nonexclusive, irrevocable    \|\n  \| worldwide license in this material to reproduce, prepare derivative \|\n  \| works, and perform publicly and display publicly\. Beginning five    \|\n  \| \(5\) years after 2008, subject to additional five-year worldwide     \|\n  \| renewals, the Government is granted for itself and others acting on \|\n  \| its behalf a paid-up, nonexclusive, irrevocable worldwide license   \|\n  \| in this material to reproduce, prepare derivative works, distribute \|\n  \| copies to the public, perform publicly and display publicly, and to \|\n  \| permit others to do so\. NEITHER THE UNITED STATES NOR THE UNITED    \|\n  \| STATES DEPARTMENT OF ENERGY, NOR LOS ALAMOS NATIONAL SECURITY, LLC, \|\n  \| NOR ANY OF THEIR EMPLOYEES, MAKES ANY WARRANTY, EXPRESS OR IMPLIED, \|\n  \| OR ASSUMES ANY LEGAL LIABILITY OR RESPONSIBILITY FOR THE ACCURACY,  \|\n  \| COMPLETENESS, OR USEFULNESS OF ANY INFORMATION, APPARATUS, PRODUCT, \|\n  \| OR PROCESS DISCLOSED, OR REPRESENTS THAT ITS USE WOULD NOT INFRINGE \|\n  \| PRIVATELY OWNED RIGHTS\.                                             \|\n  \+---------------------------------------------------------------------\+\n  \n)|(?:          Code Name & Version = MCNP_6\.20, 6\.2\.0\n  \n     _/      _/        _/_/_/       _/      _/       _/_/_/         _/_/_/ \n    _/_/  _/_/      _/             _/_/    _/       _/    _/     _/        \n   _/  _/  _/      _/             _/  _/  _/       _/_/_/       _/_/_/     \n  _/      _/      _/             _/    _/_/       _/           _/    _/    \n _/      _/        _/_/_/       _/      _/       _/             _/_/       \n  \n  \+-----------------------------------------------------------------------\+\n  \| Copyright \(2018\)\.  Los Alamos National Security, LLC\.  All rights     !\n  \| reserved\.                                                             !\n  \|  This material was produced under U\.S\. Government contract            !\n  \| DE-AC52-06NA25396 for Los Alamos National Laboratory, which is        !\n  \| operated by Los Alamos National Security, LLC for the U.S\.            !\n  \| Department of Energy\. The Government is granted for itself and        !\n  \| others acting on its behalf a paid-up, nonexclusive, irrevocable      !\n  \| worldwide license in this material to reproduce, prepare derivative   !\n  \| works, and perform publicly and display publicly\. Beginning five \(5\)  !\n  \| years after February 14, 2018, subject to additional five-year        !\n  \| worldwide renewals, the Government is granted for itself and others   !\n  \| acting on its behalf a paid-up, nonexclusive, irrevocable worldwide   !\n  \| license in this material to reproduce, prepare derivative works,      !\n  \| distribute copies to the public, perform publicly and display         !\n  \| publicly, and to permit others to do so\. NEITHER THE UNITED STATES    !\n  \| NOR THE UNITED STATES DEPARTMENT OF ENERGY, NOR LOS ALAMOS NATIONAL   !\n  \| SECURITY, LLC, NOR ANY OF THEIR EMPLOYEES, MAKES ANY WARRANTY,        !\n  \| EXPRESS OR IMPLIED, OR ASSUMES ANY LEGAL LIABILITY OR RESPONSIBILITY  !\n  \| FOR THE ACCURACY, COMPLETENESS, OR USEFULNESS OF ANY INFORMATION,     !\n  \| APPARATUS, PRODUCT, OR PROCESS DISCLOSED, OR REPRESENTS THAT ITS USE  !\n  \| WOULD NOT INFRINGE PRIVATELY OWNED RIGHTS\.                            !\n  \+-----------------------------------------------------------------------\+\n  \n)',
+    ]
+    blocks: typing.Annotated[abc.Array, outp.Block, abc.Terminal[r'']] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
-    def __init__(
-        self,
-        header: outp.Header,
-        blocks: types.Tuple(outp.Block),
-    ):
+    def to_dataframe(self) -> dict[str, pandas.DataFrame]:
         """
-        Initializes `Outp`.
-
-        Parameters:
-            header: OUPT header.
-            blocks: OUTP tables.
-            footer: OUTP footer.
-
-        Raises:
-            OutpError: SEMANTICS_TABLE.
-        """
-
-        if header is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_FILE, header)
-
-        if blocks is None or None in blocks:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_FILE, blocks)
-
-        self.header: typing.Final[outp.Header] = header
-        self.blocks: typing.Final[types.Tuple(outp.Block)] = blocks
-
-    @staticmethod
-    def from_mcnp(source: str):
-        """
-        Generates `Outp` from OUTP.
-
-        Parameters:
-            source: OUTP for `Outp`.
+        Generates pandas dataframes from output files.
 
         Returns:
-            `Outp`.
-        """
-
-        tokens = re.split(r'(\n\d)', source)
-
-        if len(tokens) > 2:
-            header = outp.Header.from_mcnp(tokens[0] + '\n')
-            tokens[1] = ''.join(filter(bool, tokens[1:]))
-        else:
-            header = outp.Header.from_mcnp(tokens[0])
-            tokens.append('')
-
-        blocks = []
-
-        for subsource in re.split(r'\n1', tokens[1]):
-            if not subsource:
-                continue
-            else:
-                subsource = '1' + subsource
-
-            for subclass in outp.Block.__subclasses__():
-                try:
-                    if block := subclass.from_mcnp(subsource):
-                        break
-                except Exception:
-                    continue
-            else:
-                continue
-
-            blocks.append(block)
-
-        blocks = types.Tuple(outp.Block)(blocks)
-
-        return Outp(
-            header,
-            blocks,
-        )
-
-    def to_mcnp(self):
-        """
-        Generates OUTP from `Outp`.
-
-        Returns:
-            OUTP for `Outp`.
-        """
-
-        return self.header.to_mcnp() + '\n'.join(map(str, self.blocks))
-
-    def to_dataframe(self):
-        """
-        Generates `pandas.DataFrame` from `Outp`.
-
-        Returns:
-            Tuple of `pandas.DataFrame`.
+            Tuple of corresponding pandas dataframes.
         """
 
         tallies = {}
 
         for block in self.blocks:
-            if hasattr(block, 'to_dataframe'):
-                tallies[block.number.value.strip()] = block.to_dataframe()
+            if isinstance(block, outp.block.Tally):
+                assert hasattr(block, 'number')
+                assert isinstance(block.number, str)
+                tallies[block.number.strip()] = block.to_dataframe()
 
         return tallies

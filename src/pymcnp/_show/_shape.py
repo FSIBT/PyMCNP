@@ -28,7 +28,7 @@ class Shape(metaclass=abc.ABCMeta):
         self.cell = cell
 
     @abc.abstractmethod
-    def __add__(a, b):  # pragma: no cover
+    def __add__(a, b):
         """
         Adds `Shape` instances.
 
@@ -43,7 +43,7 @@ class Shape(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def __and__(a, b):  # pragma: no cover
+    def __and__(a, b):
         """
         Unites `Shape`.
 
@@ -58,7 +58,7 @@ class Shape(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def __or__(a, b):  # pragma: no cover
+    def __or__(a, b):
         """
         Intersects `Shape`.
 
@@ -73,7 +73,7 @@ class Shape(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def __invert__(a):  # pragma: no cover
+    def __invert__(a):
         """
         Complements `Shape`.
 
@@ -87,7 +87,7 @@ class Shape(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def rotate(self, axis: numpy.ndarray):  # pragma: no cover
+    def rotate(self, axis: numpy.ndarray, angle: float, center: tuple[float, float, float]):
         """
         Rotates `Shape`.
 
@@ -101,7 +101,7 @@ class Shape(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def translate(self, vector: numpy.ndarray):  # pragma: no cover
+    def translate(self, vector: numpy.ndarray):
         """
         Rotates `Shape`.
 

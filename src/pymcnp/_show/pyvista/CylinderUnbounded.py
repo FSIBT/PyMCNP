@@ -8,15 +8,15 @@ class CylinderUnbounded(_shape.PyvistaShape):
     Represents PyVISTA unbounded cylinders.
     """
 
-    def __init__(self, r: float):
+    def __init__(self, radius: float) -> None:
         """
         Initializes `CylinderUnbounded`.
 
         Paremeters:
-            r: Circular cylinder radius.
+            radius: Circular cylinder radius.
         """
 
         super().__init__(
-            pyvista.Cylinder(radius=r, height=_shape.BOUND, direction=(0.0, 0.0, 1.0), capping=False),
-            lambda p: p[:, 0] ** 2 + p[:, 1] ** 2 <= r**2,
+            pyvista.Cylinder(radius=radius, height=_shape.BOUND, direction=(0, 0, 1), capping=False),
+            lambda points: points[:, 0] ** 2 + points[:, 1] ** 2 <= radius**2,
         )
