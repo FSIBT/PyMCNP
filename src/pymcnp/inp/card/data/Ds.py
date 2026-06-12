@@ -44,6 +44,9 @@ class Ds_0(Ds):
     def __post_init__(self) -> None:
         """
         Validates ds data cards, form #0.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)
@@ -73,6 +76,9 @@ class Ds_1(Ds):
     def __post_init__(self) -> None:
         """
         Validates ds data cards, form #1.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)
@@ -102,6 +108,9 @@ class Ds_2(Ds):
     def __post_init__(self) -> None:
         """
         Validates ds data cards, form #2.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

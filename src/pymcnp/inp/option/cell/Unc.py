@@ -29,6 +29,9 @@ class Unc(Cell):
     def __post_init__(self) -> None:
         """
         Validates unc cell options.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if self.u not in {0, 1}:

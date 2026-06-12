@@ -12,16 +12,16 @@ from ..Surface import Surface
 
 class C_x(Surface):
     """
-    Represents c_x surface cards.
+    Represents c/x surface cards.
 
     Attributes:
-        prefix: c_x surface card `prefix` parameter.
-        j: c_x surface card `j` parameter.
-        n: c_x surface card `n` parameter.
-        keyword: c_x surface card `C/X` symbol.
-        y: c_x surface card `y` parameter.
-        z: c_x surface card `z` parameter.
-        r: c_x surface card `R` parameter.
+        prefix: c/x surface card `prefix` parameter.
+        j: c/x surface card `j` parameter.
+        n: c/x surface card `n` parameter.
+        keyword: c/x surface card `C/X` symbol.
+        y: c/x surface card `y` parameter.
+        z: c/x surface card `z` parameter.
+        r: c/x surface card `R` parameter.
     """
 
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict)
@@ -37,6 +37,9 @@ class C_x(Surface):
     def __post_init__(self) -> None:
         """
         Validates c/x surface cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -48,19 +51,19 @@ class C_x(Surface):
         if isinstance(self.n, literal.Integer) and not (1 <= self.n <= 999):
             raise abc.Error('Invalid value.', f'{self.n=}')
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `C_x`.
+        Visualizes c/x surface cards.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `C_x`.
+            Visualizations of c/x surface cards.
         """
 
         vis = shapes.CylinderUnbounded(float(self.r))
-        vis = vis.rotate(numpy.array((0, 1, 0)), 90, (0, 0, 0))
+        vis = vis.rotate(numpy.array((0, 1, 0)), 90, numpy.zeros(3))
         vis = vis.translate(numpy.array((0, float(self.y), float(self.z))))
 
         return vis

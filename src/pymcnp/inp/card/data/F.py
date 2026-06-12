@@ -44,6 +44,9 @@ class F_0(F):
     def __post_init__(self) -> None:
         """
         Validates f data cards, form #0.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)
@@ -77,6 +80,9 @@ class F_1(F):
     def __post_init__(self) -> None:
         """
         Validates f data cards, form #1.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)
@@ -112,6 +118,9 @@ class F_2(F):
     def __post_init__(self) -> None:
         """
         Validates f data cards, form #2.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

@@ -39,7 +39,10 @@ class X_0(X):
 
     def __post_init__(self) -> None:
         """
-        Validates x surface cards, form #2.
+        Validates x surface cards, form #0.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -79,6 +82,9 @@ class X_1(X):
     def __post_init__(self) -> None:
         """
         Validates x surface cards, form #1.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -121,7 +127,10 @@ class X_2(X):
 
     def __post_init__(self) -> None:
         """
-        Validates x surface cards, form #0.
+        Validates x surface cards, form #2.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)

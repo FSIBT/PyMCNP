@@ -46,7 +46,10 @@ class P_0(P):
 
     def __post_init__(self) -> None:
         """
-        Validates p surface cards, form #1.
+        Validates p surface cards, form #0.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -58,15 +61,15 @@ class P_0(P):
         if isinstance(self.n, literal.Integer) and not (1 <= self.n <= 999):
             raise abc.Error('Invalid value.', f'{self.n=}')
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `P_0`.
+        Visualizes p surface cards, form #0.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `P_0`
+            Visualizations of p surface cards, form #0.
         """
 
         vis = shapes.Plane(float(self.a), float(self.b), float(self.c), float(self.d))
@@ -110,7 +113,10 @@ class P_1(P):
 
     def __post_init__(self) -> None:
         """
-        Validates p surface cards, form #0.
+        Validates p surface cards, form #1.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -122,15 +128,15 @@ class P_1(P):
         if isinstance(self.n, literal.Integer) and not (1 <= self.n <= 999):
             raise abc.Error('Invalid value.', f'{self.n=}')
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `P_1`.
+        Visualizes p surface cards, form #1.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `P_1`
+            Visualizations of p surface cards, form #1.
         """
 
         a = numpy.array((float(self.x2) - float(self.x1), float(self.y2) - float(self.y1), float(self.z2) - float(self.z1)))

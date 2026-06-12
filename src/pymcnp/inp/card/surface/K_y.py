@@ -12,18 +12,18 @@ from ..Surface import Surface
 
 class K_y(Surface):
     """
-    Represents k_y surface cards.
+    Represents k/y surface cards.
 
     Attributes:
-        prefix: k_y surface card `prefix` parameter.
-        j: k_y surface card `j` parameter.
-        n: k_y surface card `n` parameter.
-        keyword: k_y surface card `K/Y` symbol.
-        x: k_y surface card `x` parameter.
-        y: k_y surface card `y` parameter.
-        z: k_y surface card `z` parameter.
-        t_squared: k_y surface card `t_squared` parameter.
-        plus_minus_1: k_y surface card `plus_minus_1` parameter.
+        prefix: k/y surface card `prefix` parameter.
+        j: k/y surface card `j` parameter.
+        n: k/y surface card `n` parameter.
+        keyword: k/y surface card `K/Y` symbol.
+        x: k/y surface card `x` parameter.
+        y: k/y surface card `y` parameter.
+        z: k/y surface card `z` parameter.
+        t_squared: k/y surface card `t_squared` parameter.
+        plus_minus_1: k/y surface card `plus_minus_1` parameter.
     """
 
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict)
@@ -41,6 +41,9 @@ class K_y(Surface):
     def __post_init__(self) -> None:
         """
         Validates k/y surface cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -52,19 +55,19 @@ class K_y(Surface):
         if isinstance(self.n, literal.Integer) and not (1 <= self.n <= 999):
             raise abc.Error('Invalid value.', f'{self.n=}')
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `K_y`.
+        Visualizes k/y surface cards.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `K_y`.
+            Visualizations of k/y surface cards.
         """
 
-        vis = shapes.ConeUnbounded(float(self.t_squared) ** (1 / 2), float(self.plus_minus_1))
-        vis = vis.rotate(numpy.array((1, 0, 0)), 90, (0, 0, 0))
+        vis = shapes.ConeUnbounded(float(self.t_squared) ** (1 / 2), int(self.plus_minus_1))
+        vis = vis.rotate(numpy.array((1, 0, 0)), 90, numpy.zeros(3))
         vis = vis.translate(numpy.array((float(self.x), float(self.y), float(self.z))))
 
         return vis

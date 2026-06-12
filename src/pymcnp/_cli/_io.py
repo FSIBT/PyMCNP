@@ -13,7 +13,7 @@ def get_outfile(path: pathlib.Path | str, ext: str, i: str | None = None) -> pat
 
 def info(msg: str):
     """
-    Prints error panel.
+    Prints info panel.
     """
 
     rich.print(rich.panel.Panel(f'[bold][deep_sky_blue1]Info:[/][/] {msg}'))
@@ -29,7 +29,7 @@ def error(msg: str):
 
 def warning(msg: str):
     """
-    Prints error panel.
+    Prints warning panel.
     """
 
     rich.print(rich.panel.Panel(f'[bold][gold3]Warning:[/][/] {msg}'))

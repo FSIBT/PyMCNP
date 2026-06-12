@@ -25,6 +25,9 @@ class Blocksize(Kopts):
     def __post_init__(self) -> None:
         """
         Validates blocksize kopts data options.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.ncy, literal.Integer)

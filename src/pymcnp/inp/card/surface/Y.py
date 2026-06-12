@@ -39,7 +39,10 @@ class Y_0(Y):
 
     def __post_init__(self) -> None:
         """
-        Validates y surface cards, form #2.
+        Validates y surface cards, form #0.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -93,7 +96,7 @@ class Y_1(Y):
 
 class Y_2(Y):
     """
-    Represents y surface cards, form #2.
+    Represents y surface cards, form #0.
 
     Attributes:
         j: y surface card `j` parameter.
@@ -122,6 +125,9 @@ class Y_2(Y):
     def __post_init__(self) -> None:
         """
         Validates y surface cards, form #0.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)

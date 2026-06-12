@@ -24,7 +24,10 @@ class Endf(Dbrc):
 
     def __post_init__(self) -> None:
         """
-        Validates end dbrc data options.
+        Validates endf dbrc data options.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if self.nn not in {71, 80}:

@@ -48,6 +48,9 @@ class Fir(Data):
     def __post_init__(self) -> None:
         """
         Validates fir data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

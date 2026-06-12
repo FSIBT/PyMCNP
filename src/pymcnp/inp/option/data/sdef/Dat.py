@@ -29,6 +29,9 @@ class Dat(Sdef):
     def __post_init__(self) -> None:
         """
         Validates dat sdef data options.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.m, literal.Integer)

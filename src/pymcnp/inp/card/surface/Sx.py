@@ -35,6 +35,9 @@ class Sx(Surface):
     def __post_init__(self) -> None:
         """
         Validates sx surface cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -46,15 +49,15 @@ class Sx(Surface):
         if isinstance(self.n, literal.Integer) and not (1 <= self.n <= 999):
             raise abc.Error('Invalid value.', f'{self.n=}')
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `Sx`.
+        Visualizes sx surface cards.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `Sx`
+            Visualizations of sx surface cards.
         """
 
         vis = shapes.Sphere(float(self.r))

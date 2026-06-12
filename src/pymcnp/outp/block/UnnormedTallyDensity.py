@@ -7,21 +7,21 @@ from ..Block import Block
 
 class UnnormedTallyDensity(Block):
     """
-    Represents unnormedtallydensity blocks.
+    Represents unnormed tally density blocks.
 
     Attributes:
-        name: unnormedtallydensity block `1unnormed tally density` symbol.
-        tally_preamble: unnormedtallydensity block ` for tally ` symbol.
-        tally: unnormedtallydensity block `tally` parameter.
-        nonzero_tally_mean_preamble: unnormedtallydensity block ` nonzero tally mean(m)` symbol.
-        nonzero_tally_mean: unnormedtallydensity block `nonzero_tally_mean` parameter.
-        nps_preamble: unnormedtallydensity block `   nps = ` symbol.
-        nps: unnormedtallydensity block `nps` parameter.
-        print_preamble: unnormedtallydensity block ` print table ` symbol.
-        print: unnormedtallydensity block `161` symbol.
-        table_heading: unnormedtallydensity block `\\n\\n abscissa              ordinate   log plot of tally probability density function in tally fluctuation chart bin\\(d=decade,slope= 0.0\\)` symbol.
-        table_body_preamble: unnormedtallydensity block `\\n` symbol.
-        table_body: unnormedtallydensity block `table_body` parameter.
+        name: unnormed tally density block `1unnormed tally density` symbol.
+        tally_preamble: unnormed tally density block ` for tally ` symbol.
+        tally: unnormed tally density block tally parameter.
+        nonzero_tally_mean_preamble: unnormed tally density block ` nonzero tally mean(m)` symbol.
+        nonzero_tally_mean: unnormed tally density block nonzero tally mean parameter.
+        nps_preamble: unnormed tally density block `   nps = ` symbol.
+        nps: unnormed tally density block nps parameter.
+        print_preamble: unnormed tally density block ` print table ` symbol.
+        print: unnormed tally density block `161` symbol.
+        table_heading: unnormed tally density block `\\n\\n abscissa              ordinate   log plot of tally probability density function in tally fluctuation chart bin\\(d=decade,slope= 0.0\\)` symbol.
+        table_body_preamble: unnormed tally density block `\\n` symbol.
+        table_body: unnormed tally density block table body parameter.
     """
 
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict)

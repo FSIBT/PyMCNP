@@ -33,6 +33,9 @@ class Cx(Surface):
     def __post_init__(self) -> None:
         """
         Validates cx surface cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -44,18 +47,18 @@ class Cx(Surface):
         if isinstance(self.n, literal.Integer) and not (1 <= self.n <= 999):
             raise abc.Error('Invalid value.', f'{self.n=}')
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `Cx`.
+        Visualizes cx surface cards.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `Cx`.
+            Visualizations of cx surface cards.
         """
 
         vis = shapes.CylinderUnbounded(float(self.r))
-        vis = vis.rotate(numpy.array((0, 1, 0)), 90, (0, 0, 0))
+        vis = vis.rotate(numpy.array((0, 1, 0)), 90, numpy.zeros(3))
 
         return vis

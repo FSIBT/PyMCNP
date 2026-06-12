@@ -30,6 +30,9 @@ class Leb(Data):
     def __post_init__(self) -> None:
         """
         Validates leb data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if isinstance(self.yzere, literal.Real) and not (self.yzere > 0):

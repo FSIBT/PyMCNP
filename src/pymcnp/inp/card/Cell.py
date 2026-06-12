@@ -22,7 +22,7 @@ class Cell(Card):
         Complements cell cards.
 
         Returns:
-            Formula for complement of cell cards.
+            Geometry of cell cards.
         """
 
         assert hasattr(self, 'j')
@@ -53,6 +53,9 @@ class Cell_0(Cell):
     def __post_init__(self) -> None:
         """
         Validates cell cards, form #0.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -67,16 +70,17 @@ class Cell_0(Cell):
         if isinstance(self.options, abc.Array) and any(isinstance(keyvalue, (option.cell.Rho, option.cell.Mat)) for keyvalue in self.options):
             raise abc.Error('Invalid value.', f'{self.options=}')
 
-    def to_show(self, surfaces: dict[str, _show.Shape], cells: dict[str, _show.Shape], shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `Cell`.
+        Visualizes cell cards.
 
-        Paramaters:
-            surfaces: Dictionary of surfaces and visualizations.
+        Parameters:
+            surfaces: Visualizations of surface cards.
+            cells: Visualizations of cell cards.
             shapes: Collection of shapes.
 
         Returns:
-            `Visualization` for `Cell`
+            Visualization of cell cards.
         """
 
         assert isinstance(self.geom, literal.Geometry)
@@ -105,6 +109,9 @@ class Cell_1(Cell):
     def __post_init__(self) -> None:
         """
         Validates cell cards, form #0.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -120,16 +127,17 @@ class Cell_1(Cell):
         if isinstance(self.options, abc.Array) and any(isinstance(keyvalue, (option.cell.Rho, option.cell.Mat)) for keyvalue in self.options):
             raise abc.Error('Invalid value.', f'{self.options=}')
 
-    def to_show(self, surfaces: dict[str, _show.Shape], cells: dict[str, _show.Shape], shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `Cell`.
+        Visualizes cell cards.
 
-        Paramaters:
-            surfaces: Dictionary of surfaces and visualizations.
+        Parameters:
+            surfaces: Visualizations of surface cards.
+            cells: Visualizations of cell cards.
             shapes: Collection of shapes.
 
         Returns:
-            `Visualization` for `Cell`
+            Visualization of cell cards.
         """
 
         assert isinstance(self.geom, literal.Geometry)
@@ -160,6 +168,9 @@ class Cell_2(Cell):
     def __post_init__(self) -> None:
         """
         Validates cell cards, form #1.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -171,16 +182,17 @@ class Cell_2(Cell):
         if not (1 <= self.n <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.n=}')
 
-    def to_show(self, surfaces: dict[str, _show.Shape], cells: dict[str, _show.Shape], shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `Cell`.
+        Visualizes cell cards.
 
-        Paramaters:
-            surfaces: Dictionary of surfaces and visualizations.
+        Parameters:
+            surfaces: Visualizations of surface cards.
+            cells: Visualizations of cell cards.
             shapes: Collection of shapes.
 
         Returns:
-            `Visualization` for `Cell`
+            Visualization of cell cards.
         """
 
         return cells[str(self.n)]

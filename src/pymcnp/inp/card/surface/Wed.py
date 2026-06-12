@@ -53,6 +53,9 @@ class Wed(Surface):
     def __post_init__(self) -> None:
         """
         Validates web surface cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -60,15 +63,15 @@ class Wed(Surface):
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `Wed`.
+        Visualizes wed surface cards.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `Wed`
+            Visualizations of wed surface cards.
         """
 
         v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))
@@ -79,8 +82,8 @@ class Wed(Surface):
         cross = numpy.cross(numpy.array((1, 0, 0)), v1)
         angle = numpy.degrees(numpy.arccos(v1[0] / numpy.linalg.norm(v1)))
 
-        vis = shapes.Wedge(numpy.linalg.norm(v1), numpy.linalg.norm(v2), numpy.linalg.norm(v3))
-        vis = vis.rotate(cross, angle, (0, 0, 0))
+        vis = shapes.Wedge(float(numpy.linalg.norm(v1)), float(numpy.linalg.norm(v2)), float(numpy.linalg.norm(v3)))
+        vis = vis.rotate(cross, angle, numpy.zeros(3))
         vis = vis.translate(v)
 
         return vis

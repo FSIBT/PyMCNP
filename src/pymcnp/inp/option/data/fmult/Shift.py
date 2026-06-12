@@ -25,6 +25,9 @@ class Shift(Fmult):
     def __post_init__(self) -> None:
         """
         Validates shift fmult data options.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if self.s not in {0, 1, 2, 3, 4}:

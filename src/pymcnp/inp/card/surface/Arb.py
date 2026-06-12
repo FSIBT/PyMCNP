@@ -82,6 +82,9 @@ class Arb(Surface):
     def __post_init__(self) -> None:
         """
         Validates arb surface cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)

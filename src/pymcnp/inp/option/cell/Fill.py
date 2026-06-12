@@ -36,6 +36,9 @@ class Fill_0(Fill):
     def __post_init__(self) -> None:
         """
         Validates fill cell options, form #0.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.n, literal.Integer)
@@ -70,6 +73,9 @@ class Fill_1(Fill):
     def __post_init__(self) -> None:
         """
         Validates fill cell options, form #1.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.n, literal.Integer)

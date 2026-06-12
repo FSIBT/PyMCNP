@@ -40,6 +40,9 @@ class Z_0(Z):
     def __post_init__(self) -> None:
         """
         Validates z surface cards, form #0.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -79,6 +82,9 @@ class Z_1(Z):
     def __post_init__(self) -> None:
         """
         Validates z surface cards, form #1.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -122,6 +128,9 @@ class Z_2(Z):
     def __post_init__(self) -> None:
         """
         Validates z surface cards, form #2.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)

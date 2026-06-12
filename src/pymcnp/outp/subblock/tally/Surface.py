@@ -24,12 +24,12 @@ class Surface(Tally):
 
     Attributes:
         surface_number_preamble: surface subtally block `      surface.
-        surface_number: surface subtally block `surface_number` parameter.
+        surface_number: surface subtally block surface number.
         table_heading: surface subtally block `\n        time   ` symbol.
         table_body_preamble: surface subtally block `\n\n` symbol.
-        table_body: surface subtally block `table_body` parameter.
+        table_body: surface subtally block table body.
         table_total_preamble: surface subtally block `\n      total      ` symbol.
-        table_total: surface subtally block `table_total` parameter.
+        table_total: surface subtally block table total.
         table_footing: surface subtally block `\n ?\n` symbol.
     """
 

@@ -61,6 +61,9 @@ class Rec_0(Rec):
     def __post_init__(self) -> None:
         """
         Validates rec surface cards, form #0.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -74,15 +77,15 @@ class Rec_0(Rec):
         if not numpy.dot(h, v1) == 0:
             raise abc.Error('Invalid value.', f'{h=}\n{v1=}')
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `Rec`.
+        Visualizes rcc surface cards, form #0.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `Rec`
+            Visualizations of rcc surface cards, form #0.
         """
 
         v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))
@@ -93,8 +96,8 @@ class Rec_0(Rec):
         cross = numpy.cross(v, numpy.array((0, 0, 1)))
         angle = numpy.degrees(numpy.arccos(v[2] / numpy.linalg.norm(v)))
 
-        vis = shapes.CylinderElliptical(numpy.linalg.norm(h), numpy.linalg.norm(v1), numpy.linalg.norm(v2))
-        vis = vis.rotate(cross, angle, (0, 0, 0))
+        vis = shapes.CylinderElliptical(float(numpy.linalg.norm(h)), float(numpy.linalg.norm(v1)), float(numpy.linalg.norm(v2)))
+        vis = vis.rotate(cross, angle, numpy.zeros(3))
         vis = vis.translate(v)
 
         return vis
@@ -137,6 +140,9 @@ class Rec_1(Rec):
     def __post_init__(self) -> None:
         """
         Validates rec surface cards, form #1.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -150,15 +156,15 @@ class Rec_1(Rec):
         if not numpy.dot(h, v1) == 0:
             raise abc.Error('Invalid value.', f'{h=}\n{v1=}')
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `Rec`.
+        Visualizes rec surface cards, form #1.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `Rec`
+            Visualizations of rec surface cards, form #1.
         """
 
         v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))
@@ -170,8 +176,8 @@ class Rec_1(Rec):
         cross = numpy.cross(v, numpy.array((0, 0, 1)))
         angle = numpy.degrees(numpy.arccos(v[2] / numpy.linalg.norm(v)))
 
-        vis = shapes.CylinderElliptical(numpy.linalg.norm(h), numpy.linalg.norm(v1), numpy.linalg.norm(v2))
-        vis = vis.rotate(cross, angle, (0, 0, 0))
+        vis = shapes.CylinderElliptical(float(numpy.linalg.norm(h)), float(numpy.linalg.norm(v1)), float(numpy.linalg.norm(v2)))
+        vis = vis.rotate(cross, angle, numpy.zeros(3))
         vis = vis.translate(v)
 
         return vis

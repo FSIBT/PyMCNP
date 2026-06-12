@@ -32,6 +32,9 @@ class Embdf(Data):
     def __post_init__(self) -> None:
         """
         Validates embdf data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

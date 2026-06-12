@@ -8,11 +8,11 @@ from ..Group import Group
 
 class PhotonSample(Group):
     """
-    Represents photonsample groups.
+    Represents photon sample groups.
 
     Attributes:
-        mt: photonsample group `mt` parameter.
-        pmt: photonsample group `pmt` parameter.
+        mt: photon sample group `mt` parameter.
+        pmt: photon sample group `pmt` parameter.
     """
 
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict)

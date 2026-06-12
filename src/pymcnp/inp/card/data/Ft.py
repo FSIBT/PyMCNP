@@ -6,7 +6,7 @@ import collections
 from .... import abc
 from ... import literal
 from ..Data import Data
-from ... import group
+from ... import option
 
 
 class Ft(Data):
@@ -23,11 +23,14 @@ class Ft(Data):
 
     keyword: typing.Annotated[abc.Terminal, r'FT'] | str = abc.Terminal[r'FT']('FT')
     suffix: literal.Integer | int | str
-    id_pk: typing.Annotated[abc.Array, group.SpecialTreatment, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[group.SpecialTreatment | str] | str = abc.Terminal[r'']('')
+    id_pk: typing.Annotated[abc.Array, option.data.Ft, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Ft | str] | str = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
         Validates ft data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

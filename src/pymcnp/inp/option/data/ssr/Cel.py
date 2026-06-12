@@ -27,6 +27,9 @@ class Cel(Ssr):
     def __post_init__(self) -> None:
         """
         Validates cel ssr data options.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if not isinstance(self.c, abc.Terminal) and not all(ck != 0 for ck in self.c):

@@ -31,6 +31,9 @@ class De(Data):
     def __post_init__(self) -> None:
         """
         Validates de data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

@@ -1,11 +1,6 @@
 # `pymcnp.ptrac` Subpackage
 
-`pymcnp.ptrac` contains the PTRAC parser. PyMCNP implements an object-oriented recursive
-descent parser, approximating PTRAC as the following context-free-grammar described in modified Backus-Naur form:
-
-```
-...
-```
+`pymcnp.meshtal` contains PyMCNP's ascii ptrac parser.
 
 ## Table of Contents
 
@@ -13,34 +8,32 @@ descent parser, approximating PTRAC as the following context-free-grammar descri
 .. toctree::
    :maxdepth: 1
 
-   ptrac/header
-   ptrac/history
+   ptrac/line
+   ptrac/block
 ```
 
 ## AST Classes
 
-PyMCNP represents PTRAC non-terminals with AST classes and stores them in nested subpackages.
+PyMCNP represents PTRAC nonterminals with AST classes and stores them in nested subpackages.
 These AST class have methods for translating between PyMCNP and PTRAC:
 
 * `from_mcnp`. Parses PTRAC source, checking for syntax and semantic errors.
 * `to_mcnp`. Generates PTRAC source from PyMCNP objects, reformatting.
 
-### `Header` Class
+### `Block` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.ptrac.Header
+.. autoclass:: pymcnp.ptrac.Block
    :members:
    :inherited-members:
 ```
 
-[header subpackage](ptrac/header)
-
-### `History` Class
+### `Line` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.ptrac.History
+.. autoclass:: pymcnp.ptrac.Line
    :members:
    :inherited-members:
 ```
 
-[history subpackage](ptrac/history)
+[line subpackage](ptrac/line)

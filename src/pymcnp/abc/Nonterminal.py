@@ -65,20 +65,6 @@ def _space_end(fields: dict[str, tuple[type[Symbol], ...]]) -> set[str]:
 
 
 def _parse_value(kinds: tuple[type[Symbol], ...], value: typing.Any) -> Symbol:
-    """
-    Evaluates Python objects into symbols.
-
-    Parameters:
-        kinds: Collection of nontermianls to match.
-        source: Python object to parse.
-
-    Returns:
-        Matched symbol.
-
-    Raises:
-        Error: Expected symbol.
-    """
-
     assert isinstance(kinds, tuple)
     assert all(isinstance(kind, type) and issubclass(kind, Symbol) for kind in kinds)
 
@@ -217,13 +203,13 @@ class Nonterminal(Symbol):
 
     def __class_getitem__(cls, index: int) -> type[typing.Self]:
         """
-        Gets forms of `Nonterminal` at `index`.
+        Gets forms of nonterminal symbols at `index`.
 
         Parameters:
             index: Index of form to get.
 
         Returns:
-            Forms of `Nonterminal` at `index`.
+            Forms of nonterminal symbols at `index`.
         """
 
         assert isinstance(index, int)

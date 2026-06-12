@@ -25,6 +25,9 @@ class Sc(Data):
     def __post_init__(self) -> None:
         """
         Validates sc data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

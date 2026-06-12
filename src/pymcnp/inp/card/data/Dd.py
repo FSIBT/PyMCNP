@@ -28,6 +28,9 @@ class Dd(Data):
     def __post_init__(self) -> None:
         """
         Validates dd data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

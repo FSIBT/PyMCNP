@@ -31,6 +31,9 @@ class Embee(Data):
     def __post_init__(self) -> None:
         """
         Validates embee data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

@@ -36,6 +36,9 @@ class Trcl_0(Trcl):
     def __post_init__(self) -> None:
         """
         Validates trcl cell options, form #0.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.n, literal.Integer)

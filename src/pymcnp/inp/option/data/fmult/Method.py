@@ -25,6 +25,9 @@ class Method(Fmult):
     def __post_init__(self) -> None:
         """
         Validates method fmult data options.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if self.m not in {0, 1, 3, 5, 6, 7}:

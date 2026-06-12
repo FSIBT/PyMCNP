@@ -27,6 +27,9 @@ class Old(Ssr):
     def __post_init__(self) -> None:
         """
         Validates old ssr data options.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if not isinstance(self.s, abc.Terminal) and not all(sk != 0 for sk in self.s):

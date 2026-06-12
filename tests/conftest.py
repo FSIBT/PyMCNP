@@ -56,12 +56,12 @@ def geometry_b() -> pymcnp.inp.literal.Geometry:
 
 
 @pytest.fixture(scope='session')
-def a_shape() -> pymcnp._show.Shape:
+def a_shape() -> pymcnp.abc.Visualization:
     return pymcnp._show.pyvista.Sphere(0.5)
 
 
 @pytest.fixture(scope='session')
-def b_shape() -> pymcnp._show.Shape:
+def b_shape() -> pymcnp.abc.Visualization:
     return pymcnp._show.pyvista.Sphere(1)
 
 

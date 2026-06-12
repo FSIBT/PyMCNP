@@ -25,6 +25,9 @@ class Col(Ssr):
     def __post_init__(self) -> None:
         """
         Validates col ssr data options.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if self.value not in {-1, 1, 0}:

@@ -32,6 +32,9 @@ class Embem(Data):
     def __post_init__(self) -> None:
         """
         Validates embem data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

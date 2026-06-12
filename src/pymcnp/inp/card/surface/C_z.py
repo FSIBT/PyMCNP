@@ -12,16 +12,16 @@ from ..Surface import Surface
 
 class C_z(Surface):
     """
-    Represents c_z surface cards.
+    Represents c/z surface cards.
 
     Attributes:
-        prefix: c_z surface card `prefix` parameter.
-        j: c_z surface card `j` parameter.
-        n: c_z surface card `n` parameter.
-        keyword: c_z surface card `C/Z` symbol.
-        x: c_z surface card `x` parameter.
-        y: c_z surface card `y` parameter.
-        R: c_z surface card `R` parameter.
+        prefix: c/z surface card `prefix` parameter.
+        j: c/z surface card `j` parameter.
+        n: c/z surface card `n` parameter.
+        keyword: c/z surface card `C/Z` symbol.
+        x: c/z surface card `x` parameter.
+        y: c/z surface card `y` parameter.
+        R: c/z surface card `R` parameter.
     """
 
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict)
@@ -37,6 +37,9 @@ class C_z(Surface):
     def __post_init__(self) -> None:
         """
         Validates c/z surface cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -48,19 +51,19 @@ class C_z(Surface):
         if isinstance(self.n, literal.Integer) and not (1 <= self.n <= 999):
             raise abc.Error('Invalid value.', f'{self.n=}')
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `C_z`.
+        Visualizes c/z surface cards.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `C_z`.
+            Visualizations of c/z surface cards.
         """
 
         vis = shapes.CylinderUnbounded(float(self.r))
-        vis = vis.rotate(numpy.array((0, 1, 0)), 90, (0, 0, 0))
+        vis = vis.rotate(numpy.array((0, 1, 0)), 90, numpy.zeros(3))
         vis = vis.translate(numpy.array((float(self.x), float(self.y), 0)))
 
         return vis

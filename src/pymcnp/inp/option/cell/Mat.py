@@ -25,6 +25,9 @@ class Mat(Cell):
     def __post_init__(self) -> None:
         """
         Validates mat cell options.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.m, literal.Integer)

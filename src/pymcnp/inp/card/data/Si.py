@@ -29,6 +29,9 @@ class Si(Data):
     def __post_init__(self) -> None:
         """
         Validates si data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

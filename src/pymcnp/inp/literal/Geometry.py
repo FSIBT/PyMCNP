@@ -20,34 +20,20 @@ class _Number(abc.Terminal):
 
 class _Primary(_Subexpression):
     @_abc.abstractmethod
-    def to_show(self, surfaces: dict[str, _show.Shape], cells: dict[str, _show.Shape], shapes: _show.Endpoint = _show.pyvista, is_cell: bool = False) -> _show.Shape:
+    def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista, is_cell: bool = False) -> abc.Visualization:
         raise NotImplementedError
 
 
 class _Primary_1(_Primary):
     ast: _Number
 
-    def to_show(self, surfaces: dict[str, _show.Shape], cells: dict[str, _show.Shape], shapes: _show.Endpoint = _show.pyvista, is_cell: bool = False) -> _show.Shape:
-        """
-        Generates `Visualization` from `_Unary`.
-
-        Paramaters:
-            surfaces: Dictionary of surfaces and visualizations.
-            shapes: Collection of shapes.
-
-        Returns:
-            `Visualization` for `_Unary`
-
-        Raises:
-            Error: Invalid value.
-        """
-
-        assert isinstance(surfaces, dict)
-        assert all(isinstance(key, str) for key in surfaces.keys())
-        assert all(isinstance(value, _show.Shape) for value in surfaces.values())
-        assert isinstance(cells, dict)
-        assert all(isinstance(key, str) for key in cells.keys())
-        assert all(isinstance(value, _show.Shape) for value in cells.values())
+    def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista, is_cell: bool = False) -> abc.Visualization:
+        # assert isinstance(surfaces, dict)
+        # assert all(isinstance(key, str) for key in surfaces.keys())
+        # assert all(isinstance(value, abc.Visualization) for value in surfaces.values())
+        # assert isinstance(cells, dict)
+        # assert all(isinstance(key, str) for key in cells.keys())
+        # assert all(isinstance(value, abc.Visualization) for value in cells.values())
 
         if self.ast.startswith('-'):
             return ~surfaces[Integer(self.ast[1:])]
@@ -64,18 +50,7 @@ class _Complement(_Subexpression):
     operator: typing.Annotated[abc.Terminal, r'#'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
     ast: _Primary
 
-    def to_show(self, surfaces: dict[str, _show.Shape], cells: dict[str, _show.Shape], shapes: _show.Endpoint = _show.pyvista, is_cell: bool = False) -> _show.Shape:
-        """
-        Generates `Visualization` from `_Unary`.
-
-        Paramaters:
-            surfaces: Dictionary of surfaces and visualizations.
-            shapes: Collection of shapes.
-
-        Returns:
-            `Visualization` for `_Unary`
-        """
-
+    def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista, is_cell: bool = False) -> abc.Visualization:
         if isinstance(self.ast, _Primary_1):
             return self.ast.to_show(surfaces, cells, shapes, self.operator == '#')
         else:
@@ -90,18 +65,7 @@ class _Intersection(_Subexpression):
     ast_left: _Complement
     ast_right: _IntersectionPrime
 
-    def to_show(self, surfaces: dict[str, _show.Shape], cells: dict[str, _show.Shape], shapes: _show.Endpoint = _show.pyvista, is_cell: bool = False) -> _show.Shape:
-        """
-        Generates `Visualization` from `_Intersection`.
-
-        Paramaters:
-            surfaces: Dictionary of surfaces and visualizations.
-            shapes: Collection of shapes.
-
-        Returns:
-            `Visualization` for `_Intersection`
-        """
-
+    def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista, is_cell: bool = False) -> abc.Visualization:
         if isinstance(self.ast_right, (_IntersectionPrime_0, _IntersectionPrime_1)):
             return self.ast_left.to_show(surfaces, cells, shapes, is_cell) & self.ast_right.ast.to_show(surfaces, cells, shapes, is_cell)
         else:
@@ -116,18 +80,7 @@ class _Union(_Subexpression):
     ast_left: _Intersection
     ast_right: _UnionPrime
 
-    def to_show(self, surfaces: dict[str, _show.Shape], cells: dict[str, _show.Shape], shapes: _show.Endpoint = _show.pyvista, is_cell: bool = False) -> _show.Shape:
-        """
-        Generates `Visualization` from `_Union`.
-
-        Paramaters:
-            surfaces: Dictionary of surfaces and visualizations.
-            shapes: Collection of shapes.
-
-        Returns:
-            `Visualization` for `_Union`
-        """
-
+    def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista, is_cell: bool = False) -> abc.Visualization:
         if isinstance(self.ast_right, _UnionPrime_0):
             return self.ast_left.to_show(surfaces, cells, shapes, is_cell) | self.ast_right.ast.to_show(surfaces, cells, shapes, is_cell)
         else:
@@ -163,7 +116,7 @@ class _Primary_0(_Primary):
     ast: _Union
     operator_right: typing.Annotated[abc.Terminal, r'\)'] = abc.Terminal[r'\)'](')')
 
-    def to_show(self, surfaces: dict[str, _show.Shape], cells: dict[str, _show.Shape], shapes: _show.Endpoint = _show.pyvista, is_cell: bool = False) -> _show.Shape:
+    def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista, is_cell: bool = False) -> abc.Visualization:
         """
         Generates `Visualization` from `_Unary`.
 
@@ -190,16 +143,17 @@ class Geometry(_Subexpression):
 
     ast: _Union | str
 
-    def to_show(self, surfaces: dict[str, _show.Shape], cells: dict[str, _show.Shape], shapes: _show.Endpoint = _show.pyvista, is_cell: bool = False) -> _show.Shape:
+    def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista, is_cell: bool = False) -> abc.Visualization:
         """
-        Generates `Visualization` from `_Unary`.
+        Visualizes geometry formulas.
 
-        Paramaters:
-            surfaces: Dictionary of surfaces and visualizations.
+        Parameters:
+            surfaces: Visualizations of surface cards.
+            cells: Visualizations of cell cards.
             shapes: Collection of shapes.
 
         Returns:
-            `Visualization` for `_Unary`
+            Visualization of geometry formulas.
         """
 
         assert isinstance(self.ast, _Union)
@@ -208,58 +162,38 @@ class Geometry(_Subexpression):
 
     def __and__(a: Geometry, b: Geometry) -> Geometry:
         """
-        Unites `Geometry`.
+        Intersects geometry formulas.
 
         Parameters:
             a: Operand #1.
             b: Operand #2.
 
         Returns:
-            `Geometry` union.
+            Intersections of geometry formulas.
         """
 
-        return Geometry.from_mcnp(f'{a.ast}:{b.ast}')[0]
+        return Geometry.from_mcnp(f'({a.ast}:{b.ast})')[0]
 
     def __or__(a: Geometry, b: Geometry) -> Geometry:
         """
-        Intersects `Geometry`.
+        Unites geometry formulas.
 
         Parameters:
             a: Operand #1.
             b: Operand #2.
 
         Returns:
-            `Geometry` intersection.
+            Unions of geometry formulas.
         """
 
-        return Geometry.from_mcnp(f'{a.ast} {b.ast}')[0]
-
-    def __neg__(self) -> Geometry:
-        """
-        Negatives `Geometry`.
-
-        Returns:
-            `Geometry` negative.
-        """
-
-        return Geometry.from_mcnp(f'-{self.ast}')[0]
-
-    def __pos__(self) -> Geometry:
-        """
-        Positives `Geometry`.
-
-        Returns:
-            `Geometry` positive.
-        """
-
-        return Geometry.from_mcnp(f'+{self.ast}')[0]
+        return Geometry.from_mcnp(f'({a.ast} {b.ast})')[0]
 
     def __invert__(self) -> Geometry:
         """
-        Inverts `Geometry`.
+        Inverts geometry formulas.
 
         Returns:
-            `Geometry` complement.
+            Complements of geomtry formulas.
         """
 
         return Geometry.from_mcnp(f'#({self.ast})')[0]

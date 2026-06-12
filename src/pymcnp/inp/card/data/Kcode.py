@@ -38,6 +38,9 @@ class Kcode(Data):
     def __post_init__(self) -> None:
         """
         Validates kcode data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if isinstance(self.knrm, literal.Integer) and self.knrm not in {0, 1}:

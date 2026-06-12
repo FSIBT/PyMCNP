@@ -43,6 +43,9 @@ class T_0(T):
     def __post_init__(self) -> None:
         """
         Validates t data cards, form #0.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)
@@ -70,6 +73,9 @@ class T_1(T):
     def __post_init__(self) -> None:
         """
         Validates t data cards, form #1.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

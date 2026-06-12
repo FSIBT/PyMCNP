@@ -25,6 +25,9 @@ class Fill(Data):
     def __post_init__(self) -> None:
         """
         Validates fill data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.n, (abc.Array, abc.Terminal[r'']))

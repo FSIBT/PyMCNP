@@ -25,6 +25,9 @@ class Dawwg(Data):
     def __post_init__(self) -> None:
         """
         Validates dawwg data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if not isinstance(self.options, abc.Terminal) and not any(isinstance(keyvalue, option.data.dawwg.Points) for keyvalue in self.options):

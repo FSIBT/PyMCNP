@@ -57,6 +57,9 @@ class Phys_0(Phys):
     def __post_init__(self) -> None:
         """
         Validates phys data cards, form #0.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if isinstance(self.iunr, literal.Integer) and self.iunr not in {0, 1}:
@@ -109,6 +112,9 @@ class Phys_1(Phys):
     def __post_init__(self) -> None:
         """
         Validates phys data cards, form #1.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if isinstance(self.ides, literal.Integer) and self.ides not in {0, 1}:
@@ -174,6 +180,9 @@ class Phys_2(Phys):
     def __post_init__(self) -> None:
         """
         Validates phys data cards, form #2.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if isinstance(self.ides, literal.Integer) and self.ides not in {0, 1}:
@@ -262,6 +271,9 @@ class Phys_3(Phys):
     def __post_init__(self) -> None:
         """
         Validates phys data cards, form #3.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if isinstance(self.tabl, literal.Real) and not (self.tabl == -1 or self.tabl >= 0):
@@ -345,6 +357,9 @@ class Phys_4(Phys):
     def __post_init__(self) -> None:
         """
         Validates phys data cards, form #4.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if self.particle in {'n', 'e', 'h', 'p'}:

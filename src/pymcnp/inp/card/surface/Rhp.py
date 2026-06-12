@@ -68,6 +68,9 @@ class Rhp_0(Rhp):
     def __post_init__(self) -> None:
         """
         Validates rhp surface cards, form #0.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -75,15 +78,15 @@ class Rhp_0(Rhp):
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `Rhp`.
+        Visualizes rhp surface cards, form #0.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `Rhp`
+            Visualizations of rhp surface cards, form #0.
         """
 
         v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))
@@ -94,12 +97,12 @@ class Rhp_0(Rhp):
 
         cross = numpy.cross(v, numpy.array((0, 0, 1)))
         angle = numpy.degrees(numpy.arccos(v[2] / numpy.linalg.norm(v)))
-        apothem_r = numpy.linalg.norm(r) * 2 / math.sqrt(3)
-        apothem_s = numpy.linalg.norm(s) * 2 / math.sqrt(3)
-        apothem_t = numpy.linalg.norm(t) * 2 / math.sqrt(3)
+        apothem_r = float(numpy.linalg.norm(r) * 2 / math.sqrt(3))
+        apothem_s = float(numpy.linalg.norm(s) * 2 / math.sqrt(3))
+        apothem_t = float(numpy.linalg.norm(t) * 2 / math.sqrt(3))
 
-        vis = shapes.CylinderHexagonal(numpy.linalg.norm(h), apothem_r, apothem_s, apothem_t)
-        vis = vis.rotate(cross, angle, (0, 0, 0))
+        vis = shapes.CylinderHexagonal(float(numpy.linalg.norm(h)), apothem_r, apothem_s, apothem_t)
+        vis = vis.rotate(cross, angle, numpy.zeros(3))
         vis = vis.translate(v)
 
         return vis
@@ -140,6 +143,9 @@ class Rhp_1(Rhp):
     def __post_init__(self) -> None:
         """
         Validates rhp surface cards, form #1.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)

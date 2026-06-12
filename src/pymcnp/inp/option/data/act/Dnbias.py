@@ -25,6 +25,9 @@ class Dnbias(Act):
     def __post_init__(self) -> None:
         """
         Validates dnbais act data options.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.n, literal.Integer)

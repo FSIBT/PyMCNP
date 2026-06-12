@@ -8,11 +8,11 @@ from ..Group import Group
 
 class TspltEntry(Group):
     """
-    Represents tspltentry groups.
+    Represents tsplt entry groups.
 
     Attributes:
-        r: tspltentry group `r` parameter.
-        t: tspltentry group `t` parameter.
+        r: tsplt entry group `r` parameter.
+        t: tsplt entry group `t` parameter.
     """
 
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict)

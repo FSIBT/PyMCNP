@@ -30,6 +30,9 @@ class Fs(Data):
     def __post_init__(self) -> None:
         """
         Validates fs data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

@@ -33,7 +33,7 @@ def main() -> None:
     number = args['<number>']
     file = pathlib.Path(args['<outp>'])
 
-    # Reading OUTP.
+    # Reading output file.
     try:
         outp = Outp.from_file(file)[0]
         convert = Convert(outp)

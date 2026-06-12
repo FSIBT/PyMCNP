@@ -31,12 +31,16 @@ def main() -> None:
     number = args['<number>']
     file = pathlib.Path(args['<outp>'])
 
-    # Reading OUTP.
+    # Reading output file.
     try:
         outp = Outp.from_file(file)[0]
         plot = Plot(outp)
+    except abc.Error as err:
+        _io.error(str(err))
+        exit(1)
 
-        # Plotting!
+    # Plotting!
+    try:
         if args['--pdf']:
             plot.to_pdf(number, pathlib.Path(_io.get_outfile(file, 'pdf')))
         else:
@@ -48,6 +52,6 @@ def main() -> None:
             matplotlib.pyplot.close()
     except abc.Error as err:
         _io.error(str(err))
-        exit(1)
+        exit(2)
 
     _io.done()

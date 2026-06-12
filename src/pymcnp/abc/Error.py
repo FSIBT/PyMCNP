@@ -8,15 +8,23 @@ import dataclasses
 class Error(Exception):
     """
     Represents errors.
+
+    Attributes:
+        title: Error title.
+        body: Error body.
+        stack: Stack of errors.
     """
 
-    message: str
-    source: typing.Any
+    title: str
+    body: typing.Any
     stack: list[Error] = dataclasses.field(default_factory=list)
 
     def append(self, error: Error) -> None:
         """
-        Appends errors into stack.
+        Appends errors to the stack.
+
+        Parameters:
+            error: Error to append to the stack.
         """
 
         self.stack.append(error)
@@ -26,5 +34,5 @@ class Error(Exception):
         Stringifies errors.
         """
 
-        stack = '\n'.join(error.message for error in reversed(self.stack))
-        return stack + ('\n' if stack else '') + f'{self.message}\n ' + '\n '.join(self.source.split('\n'))
+        stack = '\n'.join(error.title for error in reversed(self.stack))
+        return stack + ('\n' if stack else '') + f'{self.title}\n ' + '\n '.join(self.body.split('\n'))

@@ -14,12 +14,12 @@ class Header(Block):
         magic: header block `   -1\n` symbol.
         code: header block `code` parameter.
         version: header block `version` parameter.
-        code_date: header block `code_date` parameter.
-        run_datetime: header block `run_datetime` parameter.
-        title: header block `title` parameter.
-        v: header block `v` parameter.
-        n: header block `n` parameter.
-        l: header block `l` parameter.
+        code_date: header block code `date` parameter.
+        run_datetime: header block run `datetime` parameter.
+        title: header block title line.
+        v: header block v line.
+        n: header block n line.
+        l: header block l line.
     """
 
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict)

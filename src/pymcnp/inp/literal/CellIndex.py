@@ -5,12 +5,7 @@ from ..Literal import Literal
 
 class CellIndex(Literal):
     """
-    Represents cellindex literals.
-
-    Attributes:
-        left: cellindex literal `left` parameter.
-        operator: cellindex literal `<` symbol.
-        right: cellindex literal `right` parameter.
+    Represents cell index literals.
     """
 
     _pattern = re.compile(

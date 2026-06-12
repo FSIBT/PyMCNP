@@ -31,6 +31,9 @@ class Pert(Data):
     def __post_init__(self) -> None:
         """
         Validates pert data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

@@ -41,6 +41,9 @@ class Df_0(Df):
     def __post_init__(self) -> None:
         """
         Validates df data cards, form #0.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)
@@ -68,6 +71,9 @@ class Df_1(Df):
     def __post_init__(self) -> None:
         """
         Validates df data cards, form #1.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

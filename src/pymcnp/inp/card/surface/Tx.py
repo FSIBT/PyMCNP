@@ -43,6 +43,9 @@ class Tx(Surface):
     def __post_init__(self) -> None:
         """
         Validates tx surface cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -54,19 +57,19 @@ class Tx(Surface):
         if isinstance(self.n, literal.Integer) and not (1 <= self.n <= 999):
             raise abc.Error('Invalid value.', f'{self.n=}')
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `Tx`.
+        Visualizes tx surface cards.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `Tx`
+            Visualizations of tx surface cards.
         """
 
         vis = shapes.Torus(float(self.b), float(self.c), float(self.a))
-        vis = vis.rotate(numpy.array((0, 1, 0)), 90, (0, 0, 0))
+        vis = vis.rotate(numpy.array((0, 1, 0)), 90, numpy.zeros(3))
         vis = vis.translate(numpy.array((float(self.x), float(self.y), float(self.z))))
 
         return vis

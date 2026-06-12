@@ -43,6 +43,9 @@ class Lca(Data):
     def __post_init__(self) -> None:
         """
         Validates lca data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if isinstance(self.ielas, literal.Integer) and self.ielas not in {0, 1, 2}:

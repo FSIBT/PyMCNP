@@ -10,23 +10,23 @@ class PhotonActivity(Block):
     Represents photonactivity blocks.
 
     Attributes:
-        name: photonactivity block `1photon   activity in each cell` symbol.
-        print_preamble: photonactivity block `                                                                         print table ` symbol.
-        print: photonactivity block `126` symbol.
-        table_heading_1: photonactivity block `\\n\\n                       tracks     population   collisions   collisions     number        flux        average      average` symbol.
-        table_heading_2: photonactivity block `\\n              cell    entering                               * weight     weighted     weighted   track weight   track mfp` symbol.
-        table_heading_3: photonactivity block `\\n                                                          (per history)` symbol.
-        table_body_preamble: photonactivity block `\\n\\n` symbol.
-        table_body: photonactivity block `table_body` parameter.
-        table_total_preamble: photonactivity block `\\n           total` symbol.
-        table_total_tracks_preamble: photonactivity block `    ` symbol.
-        table_total_tracks: photonactivity block `table_total_tracks` parameter.
-        table_total_population_preamble: photonactivity block `    ` symbol.
-        table_total_population: photonactivity block `table_total_population` parameter.
-        table_total_collisions_preamble: photonactivity block `  ` symbol.
-        table_total_collisions: photonactivity block `table_total_collisions` parameter.
-        table_total_weighted_collisions_preamble: photonactivity block `    ` symbol.
-        table_total_weighted_collisions: photonactivity block `table_total_weighted_collisions` parameter.
+        name: photon activity block `1photon   activity in each cell` symbol.
+        print_preamble: photon activity block `                                                                         print table ` symbol.
+        print: photon activity block `126` symbol.
+        table_heading_1: photon activity block `\\n\\n                       tracks     population   collisions   collisions     number        flux        average      average` symbol.
+        table_heading_2: photon activity block `\\n              cell    entering                               * weight     weighted     weighted   track weight   track mfp` symbol.
+        table_heading_3: photon activity block `\\n                                                          (per history)` symbol.
+        table_body_preamble: photon activity block `\\n\\n` symbol.
+        table_body: photon activity block table body.
+        table_total_preamble: photon activity block `\\n           total` symbol.
+        table_total_tracks_preamble: photon activity block `    ` symbol.
+        table_total_tracks: photon activity block table total tracks.
+        table_total_population_preamble: photon activity block `    ` symbol.
+        table_total_population: photon activity block table total population.
+        table_total_collisions_preamble: photon activity block `  ` symbol.
+        table_total_collisions: photon activity block table total collisions.
+        table_total_weighted_collisions_preamble: photon activity block `    ` symbol.
+        table_total_weighted_collisions: photon activity block table total weighted collisions.
     """
 
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict)

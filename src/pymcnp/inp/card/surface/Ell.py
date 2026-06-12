@@ -43,6 +43,9 @@ class Ell(Surface):
     def __post_init__(self) -> None:
         """
         Validates ell surface cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -50,15 +53,15 @@ class Ell(Surface):
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `Ell`.
+        Visualizes ell surface cards.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `Ell`.
+            Visualizations of ell surface cards.
         """
 
         assert isinstance(self.r, literal.Real)
@@ -81,7 +84,7 @@ class Ell(Surface):
 
         elif self.r < 0:
             center = v1
-            a = numpy.linalg.norm(v2)
+            a = float(numpy.linalg.norm(v2))
 
             v_dir = v2 / a
             b = abs(float(self.r))
@@ -95,8 +98,8 @@ class Ell(Surface):
         if angle_deg > 1e-5:
             rot_axis = numpy.cross(x_axis, v_dir)
             rot_axis /= numpy.linalg.norm(rot_axis)
-            vis = vis.rotate(axis=rot_axis, angle=angle_deg, center=(0.0, 0.0, 0.0))
+            vis = vis.rotate(rot_axis, angle_deg, numpy.zeros(3))
 
-        vis = vis.translate(vector=center)
+        vis = vis.translate(center)
 
         return vis

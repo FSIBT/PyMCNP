@@ -33,6 +33,9 @@ class M(Data):
     def __post_init__(self) -> None:
         """
         Validates m data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

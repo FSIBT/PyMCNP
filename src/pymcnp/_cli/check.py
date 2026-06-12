@@ -26,7 +26,7 @@ def main() -> None:
     args = docopt(__doc__)
     file = pathlib.Path(args['<inp>'])
 
-    # Reading INP.
+    # Reading input files.
     try:
         check = Check(file)
         check.check()
@@ -34,6 +34,7 @@ def main() -> None:
         _io.error(str(err))
         exit(1)
 
+    # Fixing!
     if args['--fix']:
         check.fix()
 

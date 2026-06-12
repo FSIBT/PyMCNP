@@ -40,6 +40,9 @@ class Hsrc(Data):
     def __post_init__(self) -> None:
         """
         Validates hsrc data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.nx, literal.Integer)

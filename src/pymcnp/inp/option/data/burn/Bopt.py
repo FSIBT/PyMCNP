@@ -30,6 +30,9 @@ class Bopt(Burn):
     def __post_init__(self) -> None:
         """
         Validates bopt burn data options.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if self.b3 not in {0, -1, 1}:

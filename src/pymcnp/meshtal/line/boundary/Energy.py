@@ -10,11 +10,11 @@ class Energy(Boundary):
     Represents energy boundary lines.
 
     Attributes:
-        label: energy boundary line `    Energy bin boundaries.
-        partition: energy boundary line `partition` parameter.
+        label: energy boundary line `    Energy bin boundaries:` symbol.
+        bins: energy boundary line bins.
     """
 
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict)
 
     label: typing.Annotated[abc.Terminal, r'    Energy bin boundaries:'] = abc.Terminal[r'    Energy bin boundaries:']('    Energy bin boundaries:')
-    partition: typing.Annotated[abc.Array, typing.Annotated[abc.Terminal, r'.{9}'], typing.Annotated[abc.Terminal, r'']] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    bins: typing.Annotated[abc.Array, typing.Annotated[abc.Terminal, r'.{9}'], typing.Annotated[abc.Terminal, r'']] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

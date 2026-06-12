@@ -37,6 +37,9 @@ class Kx(Surface):
     def __post_init__(self) -> None:
         """
         Validates kx surface cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -48,19 +51,19 @@ class Kx(Surface):
         if isinstance(self.n, literal.Integer) and not (1 <= self.n <= 999):
             raise abc.Error('Invalid value.', f'{self.n=}')
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `Kx`.
+        Visualizes kx surface cards.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `Kx`.
+            Visualizations of kx surface cards.
         """
 
-        vis = shapes.ConeUnbounded(float(self.t_squared) ** (1 / 2), float(self.plus_minus_1))
-        vis = vis.rotate(numpy.array((0, 1, 0)), 90, (0, 0, 0))
+        vis = shapes.ConeUnbounded(float(self.t_squared) ** (1 / 2), int(self.plus_minus_1))
+        vis = vis.rotate(numpy.array((0, 1, 0)), 90, numpy.zeros(3))
         vis = vis.translate(numpy.array((float(self.x), 0, 0)))
 
         return vis

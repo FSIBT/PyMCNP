@@ -32,6 +32,9 @@ class Py(Surface):
     def __post_init__(self) -> None:
         """
         Validates py surface cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -43,15 +46,15 @@ class Py(Surface):
         if isinstance(self.n, literal.Integer) and not (1 <= self.n <= 999):
             raise abc.Error('Invalid value.', f'{self.n=}')
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `Py`.
+        Visualizes py surface cards.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `Py`
+            Visualizations of py surface cards.
         """
 
         vis = shapes.Plane(0, 1, 0, float(self.d))

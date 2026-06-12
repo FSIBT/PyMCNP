@@ -30,6 +30,9 @@ class Loc(Sdef):
     def __post_init__(self) -> None:
         """
         Validates loc sdef data options.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.lat, literal.Real)

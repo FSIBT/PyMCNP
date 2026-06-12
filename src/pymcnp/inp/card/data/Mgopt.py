@@ -35,6 +35,9 @@ class Mgopt(Data):
     def __post_init__(self) -> None:
         """
         Validates mgopt data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if isinstance(self.iplt, literal.Integer) and self.iplt not in {0, 1, 2}:

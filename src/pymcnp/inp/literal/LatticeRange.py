@@ -9,9 +9,9 @@ class LatticeRange(abc.Nonterminal):
     Represents latticerange literals.
 
     Attributes:
-        left: latticerange literal `left` parameter.
-        colon: latticerange literal `colon` parameter.
-        right: latticerange literal `right` parameter.
+        left: latticerange literal left range.
+        colon: latticerange literal `:` symbol.
+        right: latticerange literal right range.
     """
 
     left: Integer | int | str

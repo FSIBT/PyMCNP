@@ -10,6 +10,7 @@ from . import bfld
 from . import field
 from . import sdef
 from . import ssr
+from . import ft
 from . import kopts
 from . import burn
 from . import t
@@ -45,6 +46,7 @@ from .Pert import Pert
 from .Kpert import Kpert
 from .Ksen import Ksen
 from .Fmesh import Fmesh
+from .Ft import Ft
 from .Var import Var
 from .Mesh import Mesh
 from .Stop import Stop
@@ -81,6 +83,7 @@ __all__ = (
     'Ptrac',
     'Read',
     'Disable',
+    'Ft',
     'dawwg',
     'embed',
     'embee',
@@ -89,6 +92,7 @@ __all__ = (
     'dbrc',
     'fmult',
     'tropt',
+    'ft',
     'bfld',
     'field',
     'sdef',

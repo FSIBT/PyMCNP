@@ -34,7 +34,7 @@ def main() -> None:
     args = docopt(__doc__)
     file = pathlib.Path(args['<inp>'])
 
-    # Reading INP.
+    # Reading input file.
     try:
         inpt = Inp.from_file(file)[0]
         visualize = Visualize(inpt)

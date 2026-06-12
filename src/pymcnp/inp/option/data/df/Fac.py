@@ -26,6 +26,9 @@ class Fac(Df):
     def __post_init__(self) -> None:
         """
         Validates fac df data options.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.value, literal.Real)

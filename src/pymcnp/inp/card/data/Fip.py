@@ -48,6 +48,9 @@ class Fip(Data):
     def __post_init__(self) -> None:
         """
         Validates fip data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

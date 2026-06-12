@@ -37,6 +37,9 @@ class Lea(Data):
     def __post_init__(self) -> None:
         """
         Validates lea data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if isinstance(self.ipht, literal.Integer) and self.ipht not in {0, 1}:

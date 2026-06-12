@@ -12,9 +12,9 @@ class Tally(Line):
     Represents tally lines.
 
     Attributes:
-        bin: line `bin` parameter.
-        count: line `count` parameter.
-        error: line `error` parameter.
+        bin: line bin.
+        count: line count.
+        error: line error.
     """
 
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict)

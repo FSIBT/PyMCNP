@@ -25,6 +25,9 @@ class Ic(Df):
     def __post_init__(self) -> None:
         """
         Validates ic df data options.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if isinstance(self.value, literal.Integer) and self.value != 99:

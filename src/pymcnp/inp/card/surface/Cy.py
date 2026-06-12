@@ -33,6 +33,9 @@ class Cy(Surface):
     def __post_init__(self) -> None:
         """
         Validates cy surface cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -44,18 +47,18 @@ class Cy(Surface):
         if isinstance(self.n, literal.Integer) and not (1 <= self.n <= 999):
             raise abc.Error('Invalid value.', f'{self.n=}')
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `Cy`.
+        Visualizes cy surface cards.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `Cy`.
+            Visualizations of cy surface cards.
         """
 
         vis = shapes.CylinderUnbounded(float(self.r))
-        vis = vis.rotate(numpy.array((1, 0, 0)), 90, (0, 0, 0))
+        vis = vis.rotate(numpy.array((1, 0, 0)), 90, numpy.zeros(3))
 
         return vis

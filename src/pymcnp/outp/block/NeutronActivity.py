@@ -7,26 +7,26 @@ from ..Block import Block
 
 class NeutronActivity(Block):
     """
-    Represents neutronactivity blocks.
+    Represents neutron activity blocks.
 
     Attributes:
-        name: neutronactivity block `1neutron  activity in each cell` symbol.
-        print_preamble: neutronactivity block `                                                                         print table ` symbol.
-        print: neutronactivity block `126` symbol.
-        table_heading_1: neutronactivity block `\\n\\n                       tracks     population   collisions   collisions     number        flux        average      average` symbol.
-        table_heading_2: neutronactivity block `\\n              cell    entering                               * weight     weighted     weighted   track weight   track mfp` symbol.
-        table_heading_3: neutronactivity block `\\n                                                          (per history)` symbol.
-        table_body_preamble: neutronactivity block `\\n\\n` symbol.
-        table_body: neutronactivity block `table_body` parameter.
-        table_total_preamble: neutronactivity block `\\n           total` symbol.
-        table_total_tracks_preamble: neutronactivity block `    ` symbol.
-        table_total_tracks: neutronactivity block `table_total_tracks` parameter.
-        table_total_population_preamble: neutronactivity block `    ` symbol.
-        table_total_population: neutronactivity block `table_total_population` parameter.
-        table_total_collisions_preamble: neutronactivity block `  ` symbol.
-        table_total_collisions: neutronactivity block `table_total_collisions` parameter.
-        table_total_weighted_collisions_preamble: neutronactivity block `    ` symbol.
-        table_total_weighted_collisions: neutronactivity block `table_total_weighted_collisions` parameter.
+        name: neutron activity block `1neutron  activity in each cell` symbol.
+        print_preamble: neutron activity block `                                                                         print table ` symbol.
+        print: neutron activity block `126` symbol.
+        table_heading_1: neutron activity block `\\n\\n                       tracks     population   collisions   collisions     number        flux        average      average` symbol.
+        table_heading_2: neutron activity block `\\n              cell    entering                               * weight     weighted     weighted   track weight   track mfp` symbol.
+        table_heading_3: neutron activity block `\\n                                                          (per history)` symbol.
+        table_body_preamble: neutron activity block `\\n\\n` symbol.
+        table_body: neutron activity block table body.
+        table_total_preamble: neutron activity block `\\n           total` symbol.
+        table_total_tracks_preamble: neutron activity block `    ` symbol.
+        table_total_tracks: neutron activity block table total tracks.
+        table_total_population_preamble: neutron activity block `    ` symbol.
+        table_total_population: neutron activity block table total population.
+        table_total_collisions_preamble: neutron activity block `  ` symbol.
+        table_total_collisions: neutron activity block table total collisions.
+        table_total_weighted_collisions_preamble: neutron activity block `    ` symbol.
+        table_total_weighted_collisions: neutron activity block table total weighted collisions.
     """
 
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict)

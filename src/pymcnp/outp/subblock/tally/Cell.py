@@ -24,12 +24,12 @@ class Cell(Tally):
 
     Attributes:
         cell_number_preamble: cell subtally block ` cell  ` symbol.
-        cell_number: cell subtally block `cell_number` parameter.
+        cell_number: cell subtally block cell number.
         table_heading: cell subtally block `\n      energy   ` symbol.
         table_body_preamble: cell subtally block `\n\n` symbol.
-        table_body: cell subtally block `table_body` parameter.
+        table_body: cell subtally block table body.
         table_total_preamble: cell subtally block `\n      total      ` symbol.
-        table_total: cell subtally block `table_total` parameter.
+        table_total: cell subtally block table total.
         table_footing: cell subtally block `\n ?\n` symbol.
     """
 

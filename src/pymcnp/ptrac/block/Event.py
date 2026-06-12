@@ -9,8 +9,9 @@ class Event(abc.Nonterminal):
     Represents event blocks.
 
     Attributes:
-        j: event block `j` parameter.
-        p: event block `p` parameter.
+        j: event block j line.
+        newline: event block `\\n` symbol.
+        p: event block p line.
     """
 
     j: line.J

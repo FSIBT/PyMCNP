@@ -14,12 +14,11 @@ MCNP. This package supports INP, OUTP, PTRAC, and MESHTAL parsing using subpacka
 .. toctree::
    :maxdepth: 1
 
+   pymcnp/abc
    pymcnp/inp
    pymcnp/meshtal
    pymcnp/outp
    pymcnp/ptrac
-   pymcnp/types
-   pymcnp/errors
 ```
 
 ## AST Classes
@@ -72,36 +71,19 @@ PyMCNP represents MCNP files using the `Inp`, `Meshtal`, and `Ptrac` AST classes
 
 [meshtal subpackage](pymcnp/meshtal)
 
-## Doer Classes
+## Utility Classes
 
-The `*Filter` and `*Processor` classes help handle large `Meshtal` and `Ptrac` using generators.
-`PtracFilter` and `MeshtalFilter` have overridable methods for filtering data, `PtracProcessor`
-and `MeshtalProcessor` have overridable methods for processing data, and all can be run:
+The `PtracFilter` and `PtracProcessor` classes help handle large `Ptrac` using generators. `PtracFilter` have 
+overridable methods for filtering data, and `PtracProcessor` have overridable methods for processing data, and all can be run:
 
 * `check_*`. Returns `True`/`False` if data should be kept/removed.
 * `process_*`. Operates with side effects on data.
 * `run`. Runs the filter or processor.
 
-### `MeshtalFilter` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.MeshtalFilter
-   :members:
-   :inherited-members:
-```
-
 ### `PtracFilter` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.PtracFilter
-   :members:
-   :inherited-members:
-```
-
-### `MeshtalProcessor` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.MeshtalProcessor
    :members:
    :inherited-members:
 ```

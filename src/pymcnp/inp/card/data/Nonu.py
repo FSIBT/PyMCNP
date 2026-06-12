@@ -25,6 +25,9 @@ class Nonu(Data):
     def __post_init__(self) -> None:
         """
         Validates nonu data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if not isinstance(self.a, abc.Terminal) and not all(aj in {0, 1, 2} for aj in self.a):

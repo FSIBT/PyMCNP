@@ -28,7 +28,10 @@ class Ksen(Data):
 
     def __post_init__(self) -> None:
         """
-        Validates fu data cards.
+        Validates ksen data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

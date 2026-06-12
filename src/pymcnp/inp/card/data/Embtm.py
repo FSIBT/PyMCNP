@@ -32,6 +32,9 @@ class Embtm(Data):
     def __post_init__(self) -> None:
         """
         Validates embtm data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

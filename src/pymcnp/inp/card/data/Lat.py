@@ -25,6 +25,9 @@ class Lat(Data):
     def __post_init__(self) -> None:
         """
         Validates lat data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if not isinstance(self.n, abc.Terminal) and not all(nj in {1, 2} for nj in self.n):

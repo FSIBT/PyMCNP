@@ -25,6 +25,9 @@ class Dbrc(Data):
     def __post_init__(self) -> None:
         """
         Validates dbrc data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if (

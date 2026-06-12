@@ -17,14 +17,14 @@ class Surface(Card):
 
     def __and__(a: Surface, b: Surface) -> literal.Geometry:
         """
-        Unites surface cards.
+        Intersects surface cards.
 
         Parameters:
             a: Operand #1.
             b: Operand #2.
 
         Returns:
-            Formula for union of surface cards.
+            Geometry formula of intersections of surface cards.
         """
 
         assert hasattr(a, 'j')
@@ -34,14 +34,14 @@ class Surface(Card):
 
     def __or__(a: Surface, b: Surface) -> literal.Geometry:
         """
-        Intersects surface cards.
+        Unites surface cards.
 
         Parameters:
             a: Operand #1.
             b: Operand #2.
 
         Returns:
-            Formula for intersection of surface cards.
+            Geometry formula of unions of surface cards.
         """
 
         assert hasattr(a, 'j')
@@ -54,7 +54,7 @@ class Surface(Card):
         Negates surface cards.
 
         Returns:
-            Formula for negated of surface cards.
+            Geometry formula of surface cards in negative sense.
         """
 
         assert hasattr(self, 'j')
@@ -66,22 +66,22 @@ class Surface(Card):
         Asserts surface cards.
 
         Returns:
-            Formula for asserted of surface cards.
+            Geometry formula of surface cards in positive sense.
         """
 
         assert hasattr(self, 'j')
 
         return literal.Geometry.from_mcnp(f'+{self.j}')[0]
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `Box_0`.
+        Visualizes surface cards.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `Box_0`.
+            Visualization of surface cards.
         """
 
         raise NotImplementedError

@@ -43,6 +43,9 @@ class Rcc(Surface):
     def __post_init__(self) -> None:
         """
         Validates rcc surface cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -50,21 +53,21 @@ class Rcc(Surface):
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `Rcc`.
+        Visualizes rcc surface cards.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `Rcc`
+            Visualizations of rcc surface cards.
         """
 
         v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))
         h = numpy.array((float(self.h1), float(self.h2), float(self.h3)))
 
-        height = numpy.linalg.norm(h)
+        height = float(numpy.linalg.norm(h))
         vis = shapes.CylinderCircular(height, float(self.r))
 
         if height > 0:
@@ -73,7 +76,7 @@ class Rcc(Surface):
             angle = numpy.degrees(numpy.arccos(numpy.clip(h[2], -1, 1)))
 
             if numpy.linalg.norm(cross) > 1e-10:
-                vis = vis.rotate(cross, angle, (0, 0, 0))
+                vis = vis.rotate(cross, angle, numpy.zeros(3))
 
         vis = vis.translate(v)
 

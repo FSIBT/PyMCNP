@@ -8,12 +8,12 @@ from ..Group import Group
 
 class ParenthesizedIntegers(Group):
     """
-    Represents parenthesizedinteger groups.
+    Represents parenthesized integer groups.
 
     Attributes:
-        parenthesis_open:
-        integers:
-        parenthesis_close:
+        parenthesis_open: parenthesized integer group `(` symbol.
+        integers: parenthesized integer group integers.
+        parenthesis_close: parenthesized integer group `)` symbol.
     """
 
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict)

@@ -61,6 +61,9 @@ class Box_0(Box):
     def __post_init__(self) -> None:
         """
         Validates box surface cards, form #0.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -75,15 +78,15 @@ class Box_0(Box):
         if not numpy.dot(a1, a2) == 0 or not numpy.dot(a2, a3) == 0 or not numpy.dot(a3, a1) == 0:
             raise abc.Error('Invalid value.', f'{a1}\n{a2}\n{a3}')
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `Box_0`.
+        Visualizes box surface cards, form #0.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `Box_0`.
+            Visualizations of box surface cards, form #0.
         """
 
         v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))
@@ -94,8 +97,8 @@ class Box_0(Box):
         cross = numpy.cross(numpy.array((1, 0, 0)), a1)
         angle = numpy.degrees(numpy.arccos(a1[0] / numpy.linalg.norm(a1)))
 
-        vis = shapes.Box(numpy.linalg.norm(a1), numpy.linalg.norm(a2), numpy.linalg.norm(a3))
-        vis = vis.rotate(cross, angle, (0, 0, 0))
+        vis = shapes.Box(float(numpy.linalg.norm(a1)), float(numpy.linalg.norm(a2)), float(numpy.linalg.norm(a3)))
+        vis = vis.rotate(cross, angle, numpy.zeros(3))
         vis = vis.translate(v + 0.5 * (a1 + a2 + a3))
 
         return vis
@@ -136,6 +139,9 @@ class Box_1(Box):
     def __post_init__(self) -> None:
         """
         Validates box surface cards, form #1.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -149,15 +155,15 @@ class Box_1(Box):
         if not numpy.dot(a1, a2) == 0:
             raise abc.Error('Invalid value.', f'{a1}\n{a2}')
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `Box_1`.
+        Visualizes box surface cards, form #1.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `Box_1`.
+            Visualizations of box surface cards, form #1.
         """
 
         v = numpy.array((float(self.vx), float(self.vy), float(self.vz)))
@@ -168,8 +174,8 @@ class Box_1(Box):
         cross = numpy.cross(numpy.array((1, 0, 0)), a1)
         angle = numpy.degrees(numpy.arccos(a1[0] / numpy.linalg.norm(a1)))
 
-        vis = shapes.Box(numpy.linalg.norm(a1), numpy.linalg.norm(a2), numpy.linalg.norm(a3))
-        vis = vis.rotate(cross, angle, (0, 0, 0))
+        vis = shapes.Box(float(numpy.linalg.norm(a1)), float(numpy.linalg.norm(a2)), float(numpy.linalg.norm(a3)))
+        vis = vis.rotate(cross, angle, numpy.zeros(3))
         vis = vis.translate(v + 0.5 * (a1 + a2 + a3))
 
         return vis

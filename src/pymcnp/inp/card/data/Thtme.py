@@ -27,6 +27,9 @@ class Thtme(Data):
     def __post_init__(self) -> None:
         """
         Validates thtme data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if not isinstance(self.t, abc.Terminal) and not len(self.t) <= 99:

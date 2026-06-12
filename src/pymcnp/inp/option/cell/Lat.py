@@ -25,6 +25,9 @@ class Lat(Cell):
     def __post_init__(self) -> None:
         """
         Validates lat cell options.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if self.n not in {1, 2}:

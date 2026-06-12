@@ -6,12 +6,12 @@ from .Distribution import Distribution
 
 class DependentDistribution(abc.Nonterminal):
     """
-    Represents dependentdistribution literals.
+    Represents dependent distribution literals.
 
     Attributes:
-        keyword: dependentdistribution literal `keyword` parameter.
-        equals: dependentdistribution literal `equals` parameter.
-        distribution: dependentdistribution literal `distribution` parameter.
+        keyword: dependent distribution literal `keyword` parameter.
+        equals: dependent distribution literal `equals` parameter.
+        distribution: dependent distribution literal `distribution` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'F(?:CEL|SUR|ERG|TME|DIR|VEC|NRM|POS|RAD|EXT|AXS|X|Y|Z|CCC|ARA|WGT|TR|EFF|PAR|DAT|LOC|BEM|BAP)'] | str

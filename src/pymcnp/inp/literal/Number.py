@@ -83,12 +83,6 @@ class Real(Literal):
         else:
             return str.__ge__(self, other)
 
-    @typing.overload
-    def __add__(self, other: Real | Integer | int | float | decimal.Decimal) -> Real: ...
-
-    @typing.overload
-    def __add__(self, other: str) -> str: ...
-
     def __add__(self, other: typing.Any, /) -> Real | str:  # ty: ignore[invalid-method-override]
         if isinstance(other, (Real, Integer, int, float, decimal.Decimal)):
             return Real(str(decimal.Decimal(self if self[0] not in {'e', 'E'} else f'1{self}').__add__(decimal.Decimal(other))))
@@ -219,12 +213,6 @@ class Integer(Real):
             return decimal.Decimal(self if self[0] not in {'e', 'E'} else f'1{self}').__ge__(decimal.Decimal(other))
         else:
             return str.__ge__(self, other)
-
-    @typing.overload
-    def __add__(self, other: Real | Integer | int | float | decimal.Decimal) -> Integer: ...
-
-    @typing.overload
-    def __add__(self, other: str) -> str: ...
 
     def __add__(self, other: typing.Any, /) -> Integer | str:
         if isinstance(other, (Integer, Real, int, float, decimal.Decimal)):

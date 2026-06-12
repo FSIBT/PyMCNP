@@ -33,6 +33,9 @@ class Cosyp(Data):
     def __post_init__(self) -> None:
         """
         Validates cosyp data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if self.axsh not in {1, 2, 3}:

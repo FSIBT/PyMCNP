@@ -198,6 +198,9 @@ class Array(Symbol, list):
     def append(self, item: typing.Any) -> None:
         """
         Appends to array.
+
+        Parameters:
+            item: Item to append.
         """
 
         super().append(item)

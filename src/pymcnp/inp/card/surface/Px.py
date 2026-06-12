@@ -32,6 +32,9 @@ class Px(Surface):
     def __post_init__(self) -> None:
         """
         Validates px surface cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -43,15 +46,15 @@ class Px(Surface):
         if isinstance(self.n, literal.Integer) and not (1 <= self.n <= 999):
             raise abc.Error('Invalid value.', f'{self.n=}')
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `Px`.
+        Visualizes px surface cards.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `Px`
+            Visualizations of px surface cards.
         """
 
         vis = shapes.Plane(1, 0, 0, float(self.d))

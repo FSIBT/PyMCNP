@@ -28,6 +28,9 @@ class Dm(Data):
     def __post_init__(self) -> None:
         """
         Validates dm data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

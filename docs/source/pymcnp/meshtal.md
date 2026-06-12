@@ -1,32 +1,39 @@
 # `pymcnp.meshtal` Subpackage
 
-`pymcnp.meshtal` contains the MESHTAL parser. PyMCNP implements an object-oriented recursive
-descent parser, approximating MESHTAL as the following context-free-grammar described in modified Backus-Naur form:
+`pymcnp.meshtal` contains PyMCNP's meshtal file parser.
 
-```
-...
+## Table of Contents
+
+```{eval-rst}
+.. toctree::
+   :maxdepth: 1
+
+   meshtal/line
+   meshtal/block
 ```
 
 ## AST Classes
 
-PyMCNP represents MESHTAL non-terminals with AST classes and stores them in nested subpackages.
+PyMCNP represents MESHTAL nonterminals with AST classes and stores them in nested subpackages.
 These AST class have methods for translating between PyMCNP and MESHTAL:
 
 * `from_mcnp`. Parses MESHTAL source, checking for syntax and semantic errors.
 * `to_mcnp`. Generates MESHTAL source from PyMCNP objects, reformatting.
 
-### `Header` Class
+### `Block` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.meshtal.Header
+.. autoclass:: pymcnp.meshtal.Block
    :members:
    :inherited-members:
 ```
 
-### `Tally` Class
+### `Line` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.meshtal.Tally
+.. autoclass:: pymcnp.meshtal.Line
    :members:
    :inherited-members:
 ```
+
+[line subpackage](meshtal/line)

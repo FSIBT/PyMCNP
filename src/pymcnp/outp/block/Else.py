@@ -7,10 +7,10 @@ from ..Block import Block
 
 class Else(Block):
     """
-    Represents else blocks.
+    Represents non-parsed blocks.
 
     Attributes:
-        text: Text of block.
+        text: Non-parsed block text.
     """
 
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict)

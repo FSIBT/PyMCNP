@@ -30,6 +30,9 @@ class Bcw(Ssr):
     def __post_init__(self) -> None:
         """
         Validates bcw ssr data options.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.zb, literal.Real)

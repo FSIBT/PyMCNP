@@ -40,6 +40,9 @@ class Rpp(Surface):
     def __post_init__(self) -> None:
         """
         Validates rpp surface cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -47,15 +50,15 @@ class Rpp(Surface):
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `Rpp`.
+        Visualizes rpp surface cards.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `Rpp`
+            Visualizations of rpp surface cards.
         """
 
         vis = shapes.Parallelipiped(

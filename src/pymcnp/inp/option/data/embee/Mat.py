@@ -25,6 +25,9 @@ class Mat(Embee):
     def __post_init__(self) -> None:
         """
         Validates mat embee data options.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.value, literal.Integer)

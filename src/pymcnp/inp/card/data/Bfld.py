@@ -30,6 +30,9 @@ class Bfld(Data):
     def __post_init__(self) -> None:
         """
         Validates bfld data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

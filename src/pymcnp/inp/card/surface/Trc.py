@@ -45,6 +45,9 @@ class Trc(Surface):
     def __post_init__(self) -> None:
         """
         Validates trc surface cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)
@@ -52,15 +55,15 @@ class Trc(Surface):
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')
 
-    def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
-        Generates `Visualization` from `Trc`.
+        Visualizes trc surface cards.
 
         Parameters:
             shapes: Collection of shapes.
 
         Returns:
-            `_show.Shape` for `Trc`
+            Visualizations of trc surface cards.
         """
 
         h = numpy.array((float(self.h1), float(self.h2), float(self.h3)))
@@ -68,8 +71,8 @@ class Trc(Surface):
         cross = numpy.cross(h, numpy.array((0, 0, 1)))
         angle = numpy.degrees(numpy.arccos(h[2] / numpy.linalg.norm(h)))
 
-        vis = shapes.ConeTruncated(numpy.linalg.norm(h), float(self.r1), float(self.r2))
-        vis = vis.rotate(cross, angle, (0, 0, 0))
+        vis = shapes.ConeTruncated(float(numpy.linalg.norm(h)), float(self.r1), float(self.r2))
+        vis = vis.rotate(cross, angle, numpy.zeros(3))
         vis = vis.translate(numpy.array((float(self.vx), float(self.vy), float(self.vz))))
 
         return vis

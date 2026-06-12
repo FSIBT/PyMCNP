@@ -29,6 +29,9 @@ class Unc(Data):
     def __post_init__(self) -> None:
         """
         Validates unc data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if not isinstance(self.u, abc.Terminal) and not all(uj in {0, 1} for uj in self.u):

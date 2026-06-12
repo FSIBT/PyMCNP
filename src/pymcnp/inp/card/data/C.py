@@ -35,6 +35,9 @@ class C(Data):
     def __post_init__(self) -> None:
         """
         Validates c data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

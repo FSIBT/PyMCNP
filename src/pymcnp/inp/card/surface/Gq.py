@@ -48,6 +48,9 @@ class Gq(Surface):
     def __post_init__(self) -> None:
         """
         Validates gq surface cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.j, literal.Integer)

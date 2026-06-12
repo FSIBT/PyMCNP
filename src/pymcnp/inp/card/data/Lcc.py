@@ -42,6 +42,9 @@ class Lcc(Data):
     def __post_init__(self) -> None:
         """
         Validates lcc data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if isinstance(self.npaulincl, literal.Integer) and self.npaulincl not in {1, 0, -1}:

@@ -30,7 +30,7 @@ def main() -> None:
     path = args['--path'] if args['--path'] else os.getcwd()
     command = args['--command'] if args['--command'] else 'mcnp6'
 
-    # Reading INP.
+    # Reading input file.
     try:
         inps = [Inp.from_file(path)[0] for path in map(pathlib.Path, args['<inp>'])]
     except abc.Error as err:

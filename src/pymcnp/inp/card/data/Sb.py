@@ -40,6 +40,9 @@ class Sb_0(Sb):
     def __post_init__(self) -> None:
         """
         Validates sb data cards, form #0.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)
@@ -76,6 +79,9 @@ class Sb_1(Sb):
     def __post_init__(self) -> None:
         """
         Validates sb data cards, form #1.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

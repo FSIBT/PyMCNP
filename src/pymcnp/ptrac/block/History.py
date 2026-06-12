@@ -12,8 +12,9 @@ class History(Block):
     Represents history blocks.
 
     Attributes:
-        i: history block `i` parameter.
-        events: history block `events` parameter.
+        i: history block i line.
+        newline: event block `\\n` symbol.
+        events: history block events.
     """
 
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict)

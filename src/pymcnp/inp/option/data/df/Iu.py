@@ -25,6 +25,9 @@ class Iu(Df):
     def __post_init__(self) -> None:
         """
         Validates iu df data options.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if self.value not in {1, 2}:

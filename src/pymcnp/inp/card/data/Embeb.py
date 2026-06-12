@@ -32,6 +32,9 @@ class Embeb(Data):
     def __post_init__(self) -> None:
         """
         Validates embeb data cards.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)

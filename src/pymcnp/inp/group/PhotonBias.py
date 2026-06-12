@@ -10,12 +10,12 @@ from .PhotonSample import PhotonSample
 
 class PhotonBias(Group):
     """
-    Represents photonbias groups.
+    Represents photon bias groups.
 
     Attributes:
-        target_identifier: photonbias group `target_identifier` parameter.
-        ipik: photonbias group `ipik` parameter.
-        mt_pmt: photonbias group `mt_pmt` parameter.
+        target_identifier: photon bias group `target_identifier` parameter.
+        ipik: photon bias group `ipik` parameter.
+        mt_pmt: photon bias group `mt_pmt` parameter.
     """
 
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict)

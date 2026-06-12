@@ -25,6 +25,9 @@ class Data(Fmult):
     def __post_init__(self) -> None:
         """
         Validates data fmult data options.
+
+        Raises:
+            Error: Invalid value.
         """
 
         if self.d not in {0, 1, 2, 3}:

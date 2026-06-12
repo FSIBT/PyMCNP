@@ -38,6 +38,9 @@ class Tmp_0(Tmp):
     def __post_init__(self) -> None:
         """
         Validates tmp data cards, form #0.
+
+        Raises:
+            Error: Invalid value.
         """
 
         assert isinstance(self.suffix, literal.Integer)
