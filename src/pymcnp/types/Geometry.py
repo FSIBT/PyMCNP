@@ -21,6 +21,14 @@ def _operand(tokens):
     return _Digit.from_mcnp(tokens)
 
 
+def _parenthesize(ast):
+    """
+    Wraps unions in parentheses, so they keep binding looser than intersections.
+    """
+
+    return _Paren(ast) if isinstance(ast, _Union) else ast
+
+
 class _Intersection(_type._Nonterminal):
     """
     Represents MCNP geometry intersection expressions.
@@ -517,8 +525,7 @@ class Geometry(_type.Type):
         if (right := Geometry._ast(b)) is None:
             return NotImplemented
 
-        wrap = lambda ast: _Paren(ast) if isinstance(ast, _Union) else ast
-        return Geometry(_Intersection(wrap(a.ast), wrap(right)))
+        return Geometry(_Intersection(_parenthesize(a.ast), _parenthesize(right)))
 
     def __or__(a, b):
         """
