@@ -477,8 +477,8 @@ class Geometry(_type.Type):
 
         try:
             ast, tokens = _Intersection.from_mcnp(tokens)
-        except SyntaxError:
-            raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source)
+        except SyntaxError as err:
+            raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source) from err
 
         assert not tokens
 

@@ -92,5 +92,5 @@ class EventType(_keyword.JKeyword):
 
         try:
             return EventType(source)
-        except ValueError:
-            raise errors.PtracError(errors.PtracCode.SYNTAX_KEYWORD, source)
+        except ValueError as err:
+            raise errors.PtracError(errors.PtracCode.SYNTAX_KEYWORD, source) from err

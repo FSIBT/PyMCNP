@@ -417,8 +417,8 @@ class Lattice(_type.Type):
             while tokens:
                 right, tokens = _Embedded.from_mcnp(tokens)
                 left = _Embedded(left, right)
-        except SyntaxError:
-            raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source)
+        except SyntaxError as err:
+            raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source) from err
 
         return Lattice(left)
 

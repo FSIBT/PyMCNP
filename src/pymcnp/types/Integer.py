@@ -88,8 +88,8 @@ class Integer(_type.Type):
 
         try:
             return Integer(int(decimal.Decimal(source)))
-        except decimal.InvalidOperation:
-            raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source)
+        except decimal.InvalidOperation as err:
+            raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source) from err
 
     def to_mcnp(self):
         """

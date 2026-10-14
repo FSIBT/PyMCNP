@@ -42,8 +42,8 @@ class Check(_doer.Doer):
                 correct = Inp.from_mcnp(current).to_mcnp()
 
                 return difflib.unified_diff(current.split('\n'), correct.split('\n'))
-        except FileNotFoundError:
-            raise errors.CliError(errors.CliCode.RUNTIME_PATH, self.path)
+        except FileNotFoundError as err:
+            raise errors.CliError(errors.CliCode.RUNTIME_PATH, self.path) from err
 
     def fix(self):
         """
