@@ -29,18 +29,12 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
-    # Python 3.15 is experimental: vtk (pyvista) and fastparquet do not publish wheels for it yet.
-    continue-on-error: ${{ matrix.experimental }}
+    # Python 3.15 is not tested: vtk (pyvista) does not publish wheels for it yet, so `import pymcnp` fails.
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
         python-version: ["3.11", "3.12", "3.13", "3.14"]
-        experimental: [false]
-        include:
-          - os: ubuntu-latest
-            python-version: "3.15"
-            experimental: true
 
     steps:
     - uses: actions/checkout@v7

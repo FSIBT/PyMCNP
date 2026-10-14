@@ -2,6 +2,12 @@
 
 PyMCNP is accessible for installation through [PyPI](https://pypi.org/project/pymcnp/) and [GitHub](https://github.com/FSIBT/PyMCNP).
 
+```{eval-rst}
+.. note::
+   PyMCNP supports Python 3.11 to 3.14. As of 2026-10-14, Python 3.15 does not work yet because
+   a dependency, ``vtk`` (through ``pyvista``), does not publish wheels for it.
+```
+
 ## Using uv (recommended)
 
 We recommend [uv](https://docs.astral.sh/uv/) for installing PyMCNP. Optionally, create a virtual environment first, activate it, and install into it:
