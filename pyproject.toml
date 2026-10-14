@@ -54,8 +54,8 @@ dev = [
 test = [
     "pytest",
     "pytest-cov",
+    "pytest-env",
     "pytest-testmon",
-    "PyQt5",
 ]
 
 
@@ -76,6 +76,7 @@ version_file = "src/version.py"
 
 [tool.pytest.ini_options]
 addopts = "--testmon --cov --cov-report=term-missing:skip-covered"
+env = ["MPLBACKEND=Agg"]
 testpaths = [
     "tests"
 ]
