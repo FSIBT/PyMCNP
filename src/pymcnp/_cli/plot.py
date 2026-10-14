@@ -24,8 +24,6 @@ def main() -> None:
     Executes the `pymcnp plot` command.
     """
 
-    _io.disclaimer()
-
     # Processing CLI arguments.
     args = docopt(__doc__)
     number = args['<number>']

@@ -23,8 +23,6 @@ def main() -> None:
     Executes the `pymcnp run` command.
     """
 
-    _io.disclaimer()
-
     # Processing CLI arguments.
     args = docopt(__doc__)
     path = args['--path'] if args['--path'] else os.getcwd()

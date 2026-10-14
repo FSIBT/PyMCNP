@@ -28,8 +28,6 @@ def main() -> None:
     Executes the `pymcnp visualize` command.
     """
 
-    _io.disclaimer()
-
     # Processing CLI arguments.
     args = docopt(__doc__)
     file = pathlib.Path(args['<inp>'])

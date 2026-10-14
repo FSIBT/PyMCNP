@@ -20,8 +20,6 @@ def main() -> None:
     Executes the `pymcnp check` command.
     """
 
-    _io.disclaimer()
-
     # Processing CLI arguments.
     args = docopt(__doc__)
     file = pathlib.Path(args['<inp>'])

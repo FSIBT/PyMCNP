@@ -41,11 +41,3 @@ def done():
     """
 
     info('Done!')
-
-
-def disclaimer():
-    """
-    Prints disclaimer message.
-    """
-
-    warning('PyMCNP is in active development! Please, double-check everything works. Reports error on [underline][link=https://github.com/FSIBT/PyMCNP/issues]GitHub[/][/].')
