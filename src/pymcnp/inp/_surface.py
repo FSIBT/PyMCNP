@@ -58,60 +58,55 @@ class Surface(_field.Fields, _card.Card):
 
         return _card.Card._postprocess(source)
 
+    def _geometry(self):
+        return types.Geometry.from_mcnp(str(self.number))
+
     def __and__(a, b):
         """
-        Unites `Surface`.
-
-        Parameters:
-            a: Operand #1.
-            b: Operand #2.
+        Intersects `Surface` (MCNP: space), using the positive sense of each surface.
 
         Returns:
-            `Surface` union.
+            `Geometry` intersection.
         """
 
-        return types.Geometry.from_mcnp(f'{a.number}:{b.number}')
+        return a._geometry() & b
 
     def __or__(a, b):
         """
-        Intersects `Surface`.
-
-        Parameters:
-            a: Operand #1.
-            b: Operand #2.
+        Unites `Surface` (MCNP: colon), using the positive sense of each surface.
 
         Returns:
-            `Surface` intersection.
+            `Geometry` union.
         """
 
-        return types.Geometry.from_mcnp(f'{a.number} {b.number}')
+        return a._geometry() | b
 
     def __neg__(self):
         """
         Negatives `Surface`.
 
         Returns:
-            `Surface` negative.
+            `Geometry` with the negative sense of the surface.
         """
 
-        return types.Geometry.from_mcnp(f'-{self.number}')
+        return -self._geometry()
 
     def __pos__(self):
         """
         Positives `Surface`.
 
         Returns:
-            `Surface` positive.
+            `Geometry` with the positive sense of the surface.
         """
 
-        return types.Geometry.from_mcnp(f'+{self.number}')
+        return +self._geometry()
 
     def __invert__(self):
         """
-        Inverts `Surface`.
+        Complements `Surface`, i.e., the opposite (negative) sense of the surface.
 
         Returns:
-            `Surface` complement.
+            `Geometry` with the negative sense of the surface.
         """
 
-        return types.Geometry.from_mcnp(f'#{self.number}')
+        return -self._geometry()

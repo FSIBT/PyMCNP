@@ -6,9 +6,24 @@ from .. import _show
 from .. import errors
 
 
+def _operand(tokens):
+    """
+    Parses one geometry operand (unary, parenthesized or digit).
+    """
+
+    if not tokens:
+        raise SyntaxError
+
+    if tokens[0] in {'+', '-', '#'}:
+        return _Unary.from_mcnp(tokens)
+    if tokens[0] == '(':
+        return _Paren.from_mcnp(tokens)
+    return _Digit.from_mcnp(tokens)
+
+
 class _Intersection(_type._Nonterminal):
     """
-    Represents MCNP geometry union expressions.
+    Represents MCNP geometry intersection expressions.
 
     Attributes:
         left: Left abstract syntax tree.
@@ -51,13 +66,10 @@ class _Intersection(_type._Nonterminal):
             SyntaxError: SYNTAX_TYPE.
         """
 
-        left, tokens = _Union.from_mcnp(tokens)
+        left, tokens = _operand(tokens)
 
         while tokens and tokens[0] in {'', ' ', '('}:
-            if tokens[0] == '(':
-                right, tokens = _Union.from_mcnp(tokens)
-            else:
-                right, tokens = _Union.from_mcnp(tokens[1:])
+            right, tokens = _operand(tokens if tokens[0] == '(' else tokens[1:])
             left = _Intersection(left, right)
 
         return left, tokens
@@ -89,7 +101,7 @@ class _Intersection(_type._Nonterminal):
 
 class _Union(_type._Nonterminal):
     """
-    Represents MCNP geometry intersection expressions.
+    Represents MCNP geometry union expressions.
 
     Attributes:
         left: Left abstract syntax tree.
@@ -114,8 +126,8 @@ class _Union(_type._Nonterminal):
         assert left is not None
         assert right is not None
 
-        self.left: typing.Tokens[_type._Nonterminal] = left
-        self.right: typing.Tokens[_type._Nonterminal] = right
+        self.left: typing.Final[_type._Nonterminal] = left
+        self.right: typing.Final[_type._Nonterminal] = right
 
     @staticmethod
     def from_mcnp(tokens: list[str]):
@@ -132,24 +144,10 @@ class _Union(_type._Nonterminal):
             SyntaxError: SYNTAX_TYPE.
         """
 
-        if not tokens:
-            raise SyntaxError
-
-        if tokens[0] in {'+', '-', '#'}:
-            left, tokens = _Unary.from_mcnp(tokens)
-        elif tokens[0] == '(':
-            left, tokens = _Paren.from_mcnp(tokens)
-        else:
-            left, tokens = _Digit.from_mcnp(tokens)
+        left, tokens = _Intersection.from_mcnp(tokens)
 
         while tokens and tokens[0] == ':':
-            if tokens[1] in {'+', '-', '#'}:
-                right, tokens = _Unary.from_mcnp(tokens[1:])
-            elif tokens[1] == '(':
-                right, tokens = _Paren.from_mcnp(tokens[1:])
-            else:
-                right, tokens = _Digit.from_mcnp(tokens[1:])
-
+            right, tokens = _Intersection.from_mcnp(tokens[1:])
             left = _Union(left, right)
 
         return left, tokens
@@ -227,10 +225,12 @@ class _Unary(_type._Nonterminal):
         assert tokens[0] in {'+', '-', '#'}
 
         operator = tokens[0]
-        if tokens[1:] and tokens[1] == '(':
+        if operator == '#' and tokens[1:] and tokens[1] == '(':
             ast, tokens = _Paren.from_mcnp(tokens[1:])
-        else:
+        elif tokens[1:] and _Digit._REGEX.match(tokens[1]):
             ast, tokens = _Digit.from_mcnp(tokens[1:])
+        else:
+            raise SyntaxError
 
         return _Unary(operator, ast), tokens
 
@@ -315,7 +315,7 @@ class _Paren(_type._Nonterminal):
 
         assert tokens[0] == '('
 
-        ast, tokens = _Intersection.from_mcnp(tokens[1:])
+        ast, tokens = _Union.from_mcnp(tokens[1:])
 
         if not tokens or tokens[0] != ')':
             raise SyntaxError
@@ -476,7 +476,7 @@ class Geometry(_type.Type):
         tokens = [(token.strip() or ' ') for token in tokens]
 
         try:
-            ast, tokens = _Intersection.from_mcnp(tokens)
+            ast, tokens = _Union.from_mcnp(tokens)
         except SyntaxError as err:
             raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source) from err
 
@@ -494,23 +494,17 @@ class Geometry(_type.Type):
 
         return self.ast.to_mcnp()
 
+    @staticmethod
+    def _ast(other):
+        if isinstance(other, Geometry):
+            return other.ast
+        if hasattr(other, 'number'):
+            return _Digit(str(other.number))
+        return None
+
     def __and__(a, b):
         """
-        Unites `Geometry`.
-
-        Parameters:
-            a: Operand #1.
-            b: Operand #2.
-
-        Returns:
-            `Geometry` union.
-        """
-
-        return Geometry(_Union(a.ast, b.ast))
-
-    def __or__(a, b):
-        """
-        Intersects `Geometry`.
+        Intersects `Geometry` (MCNP: space).
 
         Parameters:
             a: Operand #1.
@@ -520,34 +514,73 @@ class Geometry(_type.Type):
             `Geometry` intersection.
         """
 
-        return Geometry(_Intersection(a.ast, b.ast))
+        if (right := Geometry._ast(b)) is None:
+            return NotImplemented
+
+        wrap = lambda ast: _Paren(ast) if isinstance(ast, _Union) else ast
+        return Geometry(_Intersection(wrap(a.ast), wrap(right)))
+
+    def __or__(a, b):
+        """
+        Unites `Geometry` (MCNP: colon).
+
+        Parameters:
+            a: Operand #1.
+            b: Operand #2.
+
+        Returns:
+            `Geometry` union.
+        """
+
+        if (right := Geometry._ast(b)) is None:
+            return NotImplemented
+
+        return Geometry(_Union(a.ast, right))
+
+    def __rand__(a, b):
+        return Geometry(_Digit(str(b.number))) & a if hasattr(b, 'number') else NotImplemented
+
+    def __ror__(a, b):
+        return Geometry(_Digit(str(b.number))) | a if hasattr(b, 'number') else NotImplemented
+
+    def _signed(self, operator):
+        if not isinstance(self.ast, _Digit):
+            raise errors.TypesError(errors.TypesCode.SEMANTICS_TYPE, self.to_mcnp())
+
+        return Geometry(_Unary(operator, self.ast))
 
     def __neg__(self):
         """
-        Negatives `Geometry`.
+        Negatives `Geometry` (negative sense of a surface).
 
         Returns:
             `Geometry` negative.
+
+        Raises:
+            TypesError: SEMANTICS_TYPE, if not a single surface.
         """
 
-        return Geometry(_Unary('-', self.ast))
+        return self._signed('-')
 
     def __pos__(self):
         """
-        Positives `Geometry`.
+        Positives `Geometry` (positive sense of a surface).
 
         Returns:
             `Geometry` positive.
+
+        Raises:
+            TypesError: SEMANTICS_TYPE, if not a single surface.
         """
 
-        return Geometry(_Unary('+', self.ast))
+        return self._signed('+')
 
     def __invert__(self):
         """
-        Inverts `Geometry`.
+        Complements `Geometry` (MCNP: `#(...)`).
 
         Returns:
             `Geometry` complement.
         """
 
-        return Geometry(_Unary('#', self.ast))
+        return Geometry(_Unary('#', _Paren(self.ast) if not isinstance(self.ast, (_Paren, _Digit)) else self.ast))

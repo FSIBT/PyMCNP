@@ -1,3 +1,5 @@
+import sys
+
 import pytest
 
 import pymcnp
@@ -49,46 +51,65 @@ class Test_Geometry:
                     pymcnp.types.Geometry.from_mcnp(example).ast.to_show({}, {})
 
     class Test_Operations:
-        EXAMPLES = [
-            (consts.ast.types.GEOMETRY, consts.ast.types.GEOMETRY),
-        ]
+        S1 = pymcnp.types.Geometry.from_mcnp('1')
+        S2 = pymcnp.types.Geometry.from_mcnp('2')
+        S3 = pymcnp.types.Geometry.from_mcnp('3')
 
         def test_and(self):
             """
-            Tests `EXAMPLES` on `__and__`.
+            Tests `__and__` is the MCNP intersection (space), parenthesizing unions.
             """
 
-            for a, b in self.EXAMPLES:
-                a & b
+            assert (self.S1 & self.S2).to_mcnp() == '1 2'
+            assert ((self.S1 | self.S2) & self.S3).to_mcnp() == '(1:2) 3'
 
         def test_or(self):
             """
-            Tests `EXAMPLES` on `__or__`.
+            Tests `__or__` is the MCNP union (colon).
             """
 
-            for a, b in self.EXAMPLES:
-                a | b
+            assert (self.S1 | self.S2).to_mcnp() == '1:2'
+            assert ((self.S1 & self.S2) | self.S3).to_mcnp() == '1 2:3'
 
-        def test_neg(self):
+        def test_neg_pos(self):
             """
-            Tests `EXAMPLES` on `__neg__`.
-            """
-
-            for a, b in self.EXAMPLES:
-                -a
-
-        def test_pos(self):
-            """
-            Tests `EXAMPLES` on `__pos__`.
+            Tests `__neg__` and `__pos__` on single surfaces and their rejection on expressions.
             """
 
-            for a, b in self.EXAMPLES:
-                +a
+            assert (-self.S1).to_mcnp() == '-1'
+            assert (+self.S1).to_mcnp() == '+1'
+
+            with pytest.raises(pymcnp.errors.TypesError):
+                -(self.S1 | self.S2)
+            with pytest.raises(pymcnp.errors.TypesError):
+                +(self.S1 | self.S2)
 
         def test_invert(self):
             """
-            Tests `EXAMPLES` on `__invert__`.
+            Tests `__invert__` is the MCNP cell complement.
             """
 
-            for a, b in self.EXAMPLES:
-                ~a
+            assert (~self.S1).to_mcnp() == '#1'
+            assert (~(self.S1 & self.S2)).to_mcnp() == '#(1 2)'
+
+        def test_precedence(self):
+            """
+            Tests the MCNP precedence: intersection binds tighter than union.
+            """
+
+            for source in ['1 -2:-3', '1:2 3', '1 (2:3)', '#(1 2):3', '-1 +2:4 5']:
+                assert pymcnp.types.Geometry.from_mcnp(source).to_mcnp() == source
+
+            module = sys.modules['pymcnp.types.Geometry']
+            ast = pymcnp.types.Geometry.from_mcnp('1:2 3').ast
+            assert isinstance(ast, module._Union)
+            assert isinstance(ast.right, module._Intersection)
+
+        def test_reject_signed_parentheses(self):
+            """
+            Tests that `-(...)` and `+(...)` are rejected, as in MCNP.
+            """
+
+            for source in ['-(1 2)', '+(1 2)']:
+                with pytest.raises(pymcnp.errors.TypesError):
+                    pymcnp.types.Geometry.from_mcnp(source)
