@@ -412,7 +412,7 @@ class Inp(_file.File):
         if title is None or not len(title) < 80:
             raise errors.InpError(errors.InpCode.SEMANTICS_FILE, title)
 
-        self._title: types.Integer = title
+        self._title: types.String = title
 
     @property
     def cells(self) -> types.Tuple(Cell):
@@ -998,10 +998,10 @@ class Inp(_file.File):
             elif isinstance(message, str):
                 message = types.String.from_mcnp(message)
 
-        self._message: types.Integer = message
+        self._message: types.String = message
 
     @property
-    def other(self) -> types.Integer:
+    def other(self) -> types.String:
         """
         File other.
 
@@ -1031,7 +1031,7 @@ class Inp(_file.File):
             elif isinstance(other, str):
                 other = types.String.from_mcnp(other)
 
-        self._other: types.Integer = other
+        self._other: types.String = other
 
     @property
     def nps(self) -> types.Integer:
