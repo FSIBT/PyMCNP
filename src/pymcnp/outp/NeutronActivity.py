@@ -1,12 +1,12 @@
 import re
-import typing
 
 from . import _block
 from .. import types
 from .. import errors
+from .. import _fields
 
 
-class NeutronActivity(_block.Block):
+class NeutronActivity(_fields.Fields, _block.Block):
     """
     Represents OUTP `1neutron activity in each cell` blocks.
 
@@ -27,44 +27,14 @@ class NeutronActivity(_block.Block):
         r'           total    (.{10})    (.{9})   (.{10})    (.{10})\Z'
     )
 
-    def __init__(
-        self,
-        cells: types.String,
-        total_tracks: types.String,
-        total_population: types.String,
-        total_collisions: types.String,
-        total_weighted_collisions: types.String,
-    ):
-        """
-        Initializes `NeutronActivity`.
+    _ERROR = errors.OutpError
+    _CODE = errors.OutpCode.SEMANTICS_TABLE
 
-        Parameters:
-            cells: Activity table.
-            total_tracks: Total trackes entering.
-            total_population: Total population.
-            total_collisions: Total collisions.
-            total_weighted_collisions: Total weighted collisions per history.
-
-        Raises:
-            OutpError: SEMANTICS_TABLE.
-        """
-
-        if cells is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, cells)
-        if total_tracks is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, total_tracks)
-        if total_population is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, total_population)
-        if total_collisions is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, total_collisions)
-        if total_weighted_collisions is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, total_weighted_collisions)
-
-        self.cells: typing.Final[types.String] = cells
-        self.total_tracks: typing.Final[types.String] = total_tracks
-        self.total_population: typing.Final[types.String] = total_population
-        self.total_collisions: typing.Final[types.String] = total_collisions
-        self.total_weighted_collisions: typing.Final[types.String] = total_weighted_collisions
+    cells = _fields.Field(types.String, 'Activity table')
+    total_tracks = _fields.Field(types.String, 'Total trackes entering')
+    total_population = _fields.Field(types.String, 'Total population')
+    total_collisions = _fields.Field(types.String, 'Total collisions')
+    total_weighted_collisions = _fields.Field(types.String, 'Total weighted collisions per history')
 
     @staticmethod
     def from_mcnp(source: str):

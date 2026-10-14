@@ -1,5 +1,4 @@
 import re
-import typing
 
 import pandas
 
@@ -7,9 +6,10 @@ from . import _block
 from . import tally
 from .. import types
 from .. import errors
+from .. import _fields
 
 
-class Tally_1B(_block.Block):
+class Tally_1B(_fields.Fields, _block.Block):
     """
     Represents OUTP `1tally 1 nps` blocks.
 
@@ -42,64 +42,18 @@ class Tally_1B(_block.Block):
         r' warning[.]  the tally in the tally fluctuation chart bin did not pass (..) of the 10 statistical checks[.]\n\Z'
     )
 
-    def __init__(
-        self,
-        number: types.String,
-        nps: types.String,
-        tally_type: types.String,
-        particles: types.String,
-        subtallies: types.Tuple(tally.Subtally_1),
-        stats_desired: types.String,
-        stats_observed: types.String,
-        stats_passed: types.String,
-        fails: types.String,
-    ):
-        """
-        Initializes `Tally_1B`.
+    _ERROR = errors.OutpError
+    _CODE = errors.OutpCode.SEMANTICS_TABLE
 
-        Parameters:
-            number: Tally number.
-            nps: Tally nps.
-            tally_type: Tally type.
-            particles: Tally particles.
-            subtallies: Subtallies.
-            stats_desired: Statistical checks desired.
-            stats_observed: Statistical checks observed.
-            stats_passed: Statistical checks passed.
-            fails: Number of failed statistics checks.
-
-        Raises:
-            OutpError: SEMANTICS_TABLE.
-        """
-
-        if number is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, number)
-        if nps is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, nps)
-        if tally_type is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, tally_type)
-        if particles is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, particles)
-        if subtallies is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, subtallies)
-        if stats_desired is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, stats_desired)
-        if stats_observed is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, stats_observed)
-        if stats_passed is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, stats_passed)
-        if fails is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, fails)
-
-        self.number: typing.Final[types.String] = number
-        self.nps: typing.Final[types.String] = nps
-        self.tally_type: typing.Final[types.String] = tally_type
-        self.particles: typing.Final[types.String] = particles
-        self.subtallies: typing.Final[types.Tuple(tally.Subtally_1)] = subtallies
-        self.stats_desired: typing.Final[types.String] = stats_desired
-        self.stats_observed: typing.Final[types.String] = stats_observed
-        self.stats_passed: typing.Final[types.String] = stats_passed
-        self.fails: typing.Final[types.String] = fails
+    number = _fields.Field(types.String, 'Tally number')
+    nps = _fields.Field(types.String, 'Tally nps')
+    tally_type = _fields.Field(types.String, 'Tally type')
+    particles = _fields.Field(types.String, 'Tally particles')
+    subtallies = _fields.Field(types.Tuple(tally.Subtally_1), 'Subtallies')
+    stats_desired = _fields.Field(types.String, 'Statistical checks desired')
+    stats_observed = _fields.Field(types.String, 'Statistical checks observed')
+    stats_passed = _fields.Field(types.String, 'Statistical checks passed')
+    fails = _fields.Field(types.String, 'Number of failed statistics checks')
 
     @staticmethod
     def from_mcnp(source: str):

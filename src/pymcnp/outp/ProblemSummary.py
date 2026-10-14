@@ -1,12 +1,12 @@
 import re
-import typing
 
 from . import _block
 from .. import types
 from .. import errors
+from .. import _fields
 
 
-class ProblemSummary(_block.Block):
+class ProblemSummary(_fields.Fields, _block.Block):
     """
     Represents OUTP `1starting mcrun` blocks.
 
@@ -47,104 +47,26 @@ class ProblemSummary(_block.Block):
         r' range of sampled source weights = (.{10}) to (.{10})\n\Z'
     )
 
-    def __init__(
-        self,
-        histories: types.String,
-        datetime: types.String,
-        histories_rate: types.String,
-        title: types.String,
-        probid: types.String,
-        neutron_data: types.String,
-        proton_data: types.String,
-        computer_time: types.String,
-        max_bank: types.String,
-        computer_mcrun: types.String,
-        bank_overflows: types.String,
-        source_per_minute: types.String,
-        random_numbers: types.String,
-        most_random: types.String,
-        most_history: types.String,
-        range_lower: types.String,
-        range_upper: types.String,
-    ):
-        """
-        Initializes `ProblemSummary`.
+    _ERROR = errors.OutpError
+    _CODE = errors.OutpCode.SEMANTICS_TABLE
 
-        Parameters:
-            histories: Particle histories done.
-            datetime: Run datetime.
-            histories_rate: Histories per hour.
-            title: Simulation title.
-            probid: Run problem id.
-            neutron_data: Neutron creation data.
-            proton_data: Proton creation data.
-            computer_time: Computer time so far.
-            max_bank: Maximum number ever in bank.
-            computer_mcrun: Computer time in mcrun.
-            bank_overflows: Bank overflow to backup.
-            source_per_minute: Source particles per minute.
-            random_numbers: Random numbers generated.
-            most_random: Most random number used.
-            most_history: History with most random number used.
-            range_lower: Range of sampled source lower.
-            range_upper: Range of sampled source upper.
-
-        Raises:
-            OutpError: SEMANTICS_TABLE.
-        """
-
-        if histories is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, histories)
-        if datetime is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, datetime)
-        if histories_rate is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, histories_rate)
-        if title is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, title)
-        if probid is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, probid)
-        if neutron_data is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, neutron_data)
-        if proton_data is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, proton_data)
-        if computer_time is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, computer_time)
-        if max_bank is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, max_bank)
-        if computer_mcrun is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, computer_mcrun)
-        if bank_overflows is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, bank_overflows)
-        if source_per_minute is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, source_per_minute)
-        if random_numbers is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, random_numbers)
-        if most_random is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, most_random)
-        if most_history is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, most_history)
-        if range_lower is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, range_lower)
-        if range_upper is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, range_upper)
-
-        self.histories: typing.Final[types.String] = histories
-        self.datetime: typing.Final[types.String] = datetime
-        self.histories_rate: typing.Final[types.String] = histories_rate
-        self.title: typing.Final[types.String] = title
-        self.probid: typing.Final[types.String] = probid
-        self.neutron_data: typing.Final[types.String] = neutron_data
-        self.proton_data: typing.Final[types.String] = proton_data
-        self.computer_time: typing.Final[types.String] = computer_time
-        self.max_bank: typing.Final[types.String] = max_bank
-        self.computer_mcrun: typing.Final[types.String] = computer_mcrun
-        self.bank_overflows: typing.Final[types.String] = bank_overflows
-        self.source_per_minute: typing.Final[types.String] = source_per_minute
-        self.random_numbers: typing.Final[types.String] = random_numbers
-        self.most_random: typing.Final[types.String] = most_random
-        self.most_history: typing.Final[types.String] = most_history
-        self.range_lower: typing.Final[types.String] = range_lower
-        self.range_upper: typing.Final[types.String] = range_upper
+    histories = _fields.Field(types.String, 'Particle histories done')
+    datetime = _fields.Field(types.String, 'Run datetime')
+    histories_rate = _fields.Field(types.String, 'Histories per hour')
+    title = _fields.Field(types.String, 'Simulation title')
+    probid = _fields.Field(types.String, 'Run problem id')
+    neutron_data = _fields.Field(types.String, 'Neutron creation data')
+    proton_data = _fields.Field(types.String, 'Proton creation data')
+    computer_time = _fields.Field(types.String, 'Computer time so far')
+    max_bank = _fields.Field(types.String, 'Maximum number ever in bank')
+    computer_mcrun = _fields.Field(types.String, 'Computer time in mcrun')
+    bank_overflows = _fields.Field(types.String, 'Bank overflow to backup')
+    source_per_minute = _fields.Field(types.String, 'Source particles per minute')
+    random_numbers = _fields.Field(types.String, 'Random numbers generated')
+    most_random = _fields.Field(types.String, 'Most random number used')
+    most_history = _fields.Field(types.String, 'History with most random number used')
+    range_lower = _fields.Field(types.String, 'Range of sampled source lower')
+    range_upper = _fields.Field(types.String, 'Range of sampled source upper')
 
     @staticmethod
     def from_mcnp(source: str):

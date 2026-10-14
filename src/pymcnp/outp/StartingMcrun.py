@@ -1,12 +1,12 @@
 import re
-import typing
 
 from . import _block
 from .. import types
 from .. import errors
+from .. import _fields
 
 
-class StartingMcrun(_block.Block):
+class StartingMcrun(_fields.Fields, _block.Block):
     """
     Represents OUTP `1starting mcrun` blocks.
 
@@ -23,34 +23,12 @@ class StartingMcrun(_block.Block):
         r'((?:.+\n)+)\Z'
     )
 
-    def __init__(
-        self,
-        cp0: types.String,
-        title: types.String,
-        data: types.String,
-    ):
-        """
-        Initializes `StartingMcrun`.
+    _ERROR = errors.OutpError
+    _CODE = errors.OutpCode.SEMANTICS_TABLE
 
-        Parameters:
-            cp0: Geometry error.
-            title: Problem title.
-            data: First 50 source particles.
-
-        Raises:
-            OutpError: SEMANTICS_TABLE.
-        """
-
-        if cp0 is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, cp0)
-        if title is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, title)
-        if data is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, data)
-
-        self.cp0: typing.Final[types.String] = cp0
-        self.title: typing.Final[types.String] = title
-        self.data: typing.Final[types.String] = data
+    cp0 = _fields.Field(types.String, 'Geometry error')
+    title = _fields.Field(types.String, 'Problem title')
+    data = _fields.Field(types.String, 'First 50 source particles')
 
     @staticmethod
     def from_mcnp(source: str):

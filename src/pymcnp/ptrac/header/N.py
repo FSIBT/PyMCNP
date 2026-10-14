@@ -1,12 +1,12 @@
 import re
-import typing
 
 from . import _line
 from ... import types
 from ... import errors
+from ... import _fields
 
 
-class N(_line.HeaderLine):
+class N(_fields.Fields, _line.HeaderLine):
     """
     Represents PTRAC header block n lines.
 
@@ -35,138 +35,29 @@ class N(_line.HeaderLine):
 
     _REGEX = re.compile(r'\A\s(.{5})(.{5})(.{5})(.{5})(.{5})(.{5})(.{5})(.{5})(.{5})(.{5})(.{5})(.{5})(.{5})(.{5})(.{5})(.{5})(.{5})(.{5})(.{5})(.{5})\n\Z', re.IGNORECASE)
 
-    def __init__(
-        self,
-        n1: types.Integer,
-        n2: types.Integer,
-        n3: types.Integer,
-        n4: types.Integer,
-        n5: types.Integer,
-        n6: types.Integer,
-        n7: types.Integer,
-        n8: types.Integer,
-        n9: types.Integer,
-        n10: types.Integer,
-        n11: types.Integer,
-        n12: types.Integer,
-        n13: types.Integer,
-        n14: types.Integer,
-        n15: types.Integer,
-        n16: types.Integer,
-        n17: types.Integer,
-        n18: types.Integer,
-        n19: types.Integer,
-        n20: types.Integer,
-    ):
-        """
-        Initializes `N`.
+    _ERROR = errors.PtracError
+    _CODE = errors.PtracCode.SEMANTICS_LINE
 
-        Parameters:
-            n1: Number of variables on the I line.
-            n2: Number of variables on 1st event line for an "src" event.
-            n3: Number of variables on 2nd event line for an "src" event.
-            n4: Number of variables on 1st event line for a "bnk" event.
-            n5: Number of variables on 2nd event line for a "bnk" event.
-            n6: Number of variables on 1st event line for a "sur" event.
-            n7: Number of variables on 2nd event line for a "sur" event.
-            n8: Number of variables on 1st event line for a "col" event.
-            n9: Number of variables on 2nd event line for a "col" event.
-            n10: Number of variables on 1st event line for a "ter" event.
-            n11: Number of variables on 2nd event line for a "ter" event.
-            n12: IPT for single particle transport, otherwise 0.
-            n13: 4/8 for real * 4/8 output.
-            n14: not used.
-            n15: not used.
-            n16: not used.
-            n17: not used.
-            n18: not used.
-            n19: not used.
-            n20: not used.
-
-        Raises:
-            PtracError: SEMANTICS_LINE.
-        """
-
-        if n1 is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, n1)
-
-        if n2 is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, n2)
-
-        if n3 is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, n3)
-
-        if n4 is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, n4)
-
-        if n5 is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, n5)
-
-        if n6 is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, n6)
-
-        if n7 is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, n7)
-
-        if n8 is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, n8)
-
-        if n9 is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, n9)
-
-        if n10 is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, n10)
-
-        if n11 is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, n11)
-
-        if n12 is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, n12)
-
-        if n13 is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, n13)
-
-        if n14 is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, n14)
-
-        if n15 is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, n15)
-
-        if n16 is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, n16)
-
-        if n17 is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, n17)
-
-        if n18 is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, n18)
-
-        if n19 is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, n19)
-
-        if n20 is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, n20)
-
-        self.n1: typing.Final[types.Integer] = n1
-        self.n2: typing.Final[types.Integer] = n2
-        self.n3: typing.Final[types.Integer] = n3
-        self.n4: typing.Final[types.Integer] = n4
-        self.n5: typing.Final[types.Integer] = n5
-        self.n6: typing.Final[types.Integer] = n6
-        self.n7: typing.Final[types.Integer] = n7
-        self.n8: typing.Final[types.Integer] = n8
-        self.n9: typing.Final[types.Integer] = n9
-        self.n10: typing.Final[types.Integer] = n10
-        self.n11: typing.Final[types.Integer] = n11
-        self.n12: typing.Final[types.Integer] = n12
-        self.n13: typing.Final[types.Integer] = n13
-        self.n14: typing.Final[types.Integer] = n14
-        self.n15: typing.Final[types.Integer] = n15
-        self.n16: typing.Final[types.Integer] = n16
-        self.n17: typing.Final[types.Integer] = n17
-        self.n18: typing.Final[types.Integer] = n18
-        self.n19: typing.Final[types.Integer] = n19
-        self.n20: typing.Final[types.Integer] = n20
+    n1 = _fields.Field(types.Integer, 'Number of variables on the I line')
+    n2 = _fields.Field(types.Integer, 'Number of variables on 1st event line for an "src" event')
+    n3 = _fields.Field(types.Integer, 'Number of variables on 2nd event line for an "src" event')
+    n4 = _fields.Field(types.Integer, 'Number of variables on 1st event line for a "bnk" event')
+    n5 = _fields.Field(types.Integer, 'Number of variables on 2nd event line for a "bnk" event')
+    n6 = _fields.Field(types.Integer, 'Number of variables on 1st event line for a "sur" event')
+    n7 = _fields.Field(types.Integer, 'Number of variables on 2nd event line for a "sur" event')
+    n8 = _fields.Field(types.Integer, 'Number of variables on 1st event line for a "col" event')
+    n9 = _fields.Field(types.Integer, 'Number of variables on 2nd event line for a "col" event')
+    n10 = _fields.Field(types.Integer, 'Number of variables on 1st event line for a "ter" event')
+    n11 = _fields.Field(types.Integer, 'Number of variables on 2nd event line for a "ter" event')
+    n12 = _fields.Field(types.Integer, 'IPT for single particle transport, otherwise 0')
+    n13 = _fields.Field(types.Integer, '4/8 for real * 4/8 output')
+    n14 = _fields.Field(types.Integer, 'not used')
+    n15 = _fields.Field(types.Integer, 'not used')
+    n16 = _fields.Field(types.Integer, 'not used')
+    n17 = _fields.Field(types.Integer, 'not used')
+    n18 = _fields.Field(types.Integer, 'not used')
+    n19 = _fields.Field(types.Integer, 'not used')
+    n20 = _fields.Field(types.Integer, 'not used')
 
     def from_mcnp(source: str):
         """

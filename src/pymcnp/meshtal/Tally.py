@@ -1,12 +1,12 @@
 import re
-import typing
 
 from . import _line
 from .. import types
 from .. import errors
+from .. import _fields
 
 
-class Tally(_line.Line):
+class Tally(_fields.Fields, _line.Line):
     """
     Represents MESHTAL tally line.
 
@@ -22,42 +22,16 @@ class Tally(_line.Line):
 
     _REGEX = re.compile(r'\A  ([^\n]{9})?([^\n]{11})?([^\n]{9})?([^\n]{10})?([^\n]{10})?([^\n]{12})([^\n]{12})\n?\Z', re.IGNORECASE)
 
-    def __init__(
-        self,
-        result: types.String,
-        error: types.String,
-        x: types.String = None,
-        y: types.String = None,
-        z: types.String = None,
-        energy: types.String = None,
-        time: types.String = None,
-    ):
-        """
-        Initializes `Tally`.
+    _ERROR = errors.MeshtalError
+    _CODE = errors.MeshtalCode.SEMANTICS_LINE
 
-        Parameters:
-            x: Tally x direction.
-            y: Tally y direction.
-            z: Tally z direction.
-            energy: Tally energy.
-            time: Tally time.
-            result: Tally result.
-            error: Tally relative error.
-        """
-
-        if result is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_LINE, result)
-
-        if error is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_LINE, error)
-
-        self.result: typing.Final[types.String] = result
-        self.error: typing.Final[types.String] = error
-        self.x: typing.Final[types.String] = x
-        self.y: typing.Final[types.String] = y
-        self.z: typing.Final[types.String] = z
-        self.energy: typing.Final[types.String] = energy
-        self.time: typing.Final[types.String] = time
+    result = _fields.Field(types.String, 'Tally result')
+    error = _fields.Field(types.String, 'Tally relative error')
+    x = _fields.Field(types.String, 'Tally x direction', optional=True)
+    y = _fields.Field(types.String, 'Tally y direction', optional=True)
+    z = _fields.Field(types.String, 'Tally z direction', optional=True)
+    energy = _fields.Field(types.String, 'Tally energy', optional=True)
+    time = _fields.Field(types.String, 'Tally time', optional=True)
 
     @staticmethod
     def from_mcnp(source: str):

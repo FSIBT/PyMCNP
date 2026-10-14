@@ -1,13 +1,13 @@
 from __future__ import annotations
 import re
-import typing
 
 from . import _block
 from .. import types
 from .. import errors
+from .. import _fields
 
 
-class Header(_block.Block):
+class Header(_fields.Fields, _block.Block):
     """
     Represents MESHTAL header blocks.
 
@@ -33,87 +33,24 @@ class Header(_block.Block):
         re.IGNORECASE,
     )
 
-    def __init__(
-        self,
-        code: types.String,
-        version: types.String,
-        ld: types.String,
-        probid: types.String,
-        title: types.String,
-        histories: types.Integer,
-        number: types.Integer,
-        particle: types.String,
-        columns: types.String,
-        bins_x: types.String = None,
-        bins_y: types.String = None,
-        bins_z: types.String = None,
-        bins_energy: types.String = None,
-        bins_time: types.String = None,
-    ):
-        """
-        Initializes `Header`.
+    _ERROR = errors.MeshtalError
+    _CODE = errors.MeshtalCode.SEMANTICS_BLOCK
+    _ORDER = ('code', 'version', 'ld', 'probid', 'title', 'histories', 'number', 'particle', 'columns', 'bins_x', 'bins_y', 'bins_z', 'bins_energy', 'bins_time')
 
-        Parameters:
-            code: Simulation name.
-            version: Simulation version.
-            ld: Simulation load date.
-            probid: Simulation problem identification description.
-            title: Simulation title.
-            histories: Number of histories used.
-            number: Mesh tally number.
-            particle: Mesh tally particle type.
-            bins_x: Mesh tally x-direction bins.
-            bins_y: Mesh tally y-direction bins.
-            bins_z: Mesh tally z-direction bins.
-            bins_energy: Mesh tally energy bins.
-            bins_time: Mesh tally time bins.
-            columns: Tallies heading.
-
-        Raises:
-            PtracError: SEMANTICS_BLOCK.
-        """
-
-        if code is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK, code)
-
-        if version is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK, version)
-
-        if ld is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK, ld)
-
-        if probid is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK, probid)
-
-        if title is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK, title)
-
-        if histories is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK, histories)
-
-        if number is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK, number)
-
-        if particle is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK, particle)
-
-        if columns is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK, columns)
-
-        self.code: typing.Final[types.String] = code
-        self.version: typing.Final[types.String] = version
-        self.ld: typing.Final[types.String] = ld
-        self.probid: typing.Final[types.String] = probid
-        self.title: typing.Final[types.String] = title
-        self.histories: typing.Final[types.Integer] = histories
-        self.number: typing.Final[types.Integer] = number
-        self.particle: typing.Final[types.String] = particle
-        self.bins_x: typing.Final[types.String] = bins_x
-        self.bins_y: typing.Final[types.String] = bins_y
-        self.bins_z: typing.Final[types.String] = bins_z
-        self.bins_energy: typing.Final[types.String] = bins_energy
-        self.bins_time: typing.Final[types.String] = bins_time
-        self.columns: typing.Final[types.String] = columns
+    code = _fields.Field(types.String, 'Simulation name')
+    version = _fields.Field(types.String, 'Simulation version')
+    ld = _fields.Field(types.String, 'Simulation load date')
+    probid = _fields.Field(types.String, 'Simulation problem identification description')
+    title = _fields.Field(types.String, 'Simulation title')
+    histories = _fields.Field(types.Integer, 'Number of histories used')
+    number = _fields.Field(types.Integer, 'Mesh tally number')
+    particle = _fields.Field(types.String, 'Mesh tally particle type')
+    bins_x = _fields.Field(types.String, 'Mesh tally x-direction bins', optional=True)
+    bins_y = _fields.Field(types.String, 'Mesh tally y-direction bins', optional=True)
+    bins_z = _fields.Field(types.String, 'Mesh tally z-direction bins', optional=True)
+    bins_energy = _fields.Field(types.String, 'Mesh tally energy bins', optional=True)
+    bins_time = _fields.Field(types.String, 'Mesh tally time bins', optional=True)
+    columns = _fields.Field(types.String, 'Tallies heading')
 
     @staticmethod
     def from_mcnp(source: str):

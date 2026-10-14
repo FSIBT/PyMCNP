@@ -1,12 +1,12 @@
 import re
-import typing
 
 from . import _block
 from .. import types
 from .. import errors
+from .. import _fields
 
 
-class UnnormedTallyDensity(_block.Block):
+class UnnormedTallyDensity(_fields.Fields, _block.Block):
     """
     Represents `1unnormed tally density` blocks.
 
@@ -23,39 +23,13 @@ class UnnormedTallyDensity(_block.Block):
         r'((?:.+\n)+  (?:total.+))\Z'
     )
 
-    def __init__(
-        self,
-        tally: types.String,
-        mean: types.String,
-        nps: types.String,
-        chart: types.String,
-    ):
-        """
-        Initializes `UnnormedTallyDensity`.
+    _ERROR = errors.OutpError
+    _CODE = errors.OutpCode.SEMANTICS_TABLE
 
-        Parameters:
-            tally: Tally number.
-            mean: Nonzero tally mean.
-            nps: Tally nps.
-            chart: Tally chart.
-
-        Raises:
-            OutpError: SEMANTICS_TABLE.
-        """
-
-        if tally is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, tally)
-        if mean is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, mean)
-        if nps is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, nps)
-        if chart is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, chart)
-
-        self.tally: typing.Final[types.String] = tally
-        self.mean: typing.Final[types.String] = mean
-        self.nps: typing.Final[types.String] = nps
-        self.chart: typing.Final[types.String] = chart
+    tally = _fields.Field(types.String, 'Tally number')
+    mean = _fields.Field(types.String, 'Nonzero tally mean')
+    nps = _fields.Field(types.String, 'Tally nps')
+    chart = _fields.Field(types.String, 'Tally chart')
 
     @staticmethod
     def from_mcnp(source: str):

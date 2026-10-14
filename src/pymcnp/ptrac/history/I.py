@@ -1,13 +1,13 @@
 import re
-import typing
 
 from . import event
 from . import _line
 from ... import types
 from ... import errors
+from ... import _fields
 
 
-class I(_line.HistoryLine):
+class I(_fields.Fields, _line.HistoryLine):
     """
     Represents PTRAC history block I lines.
 
@@ -20,36 +20,13 @@ class I(_line.HistoryLine):
 
     _REGEX = re.compile(r'\A\s(.{10})(.{10})(.{10})?(.{13})?\Z', re.IGNORECASE)
 
-    def __init__(
-        self,
-        nps: types.Integer,
-        event_type: event.j.EventType,
-        number: types.Integer = None,
-        tfc: types.Real = None,
-    ):
-        """
-        Initializes `I`.
+    _ERROR = errors.PtracError
+    _CODE = errors.PtracCode.SEMANTICS_LINE
 
-        Parameters:
-            nps: I nps.
-            event_type: I first event type.
-            number: Cell/surface/tally number.
-            tfc: TFC bin tally.
-
-        Raises:
-            PtracError: SEMANTICS_LINE.
-        """
-
-        if nps is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, nps)
-
-        if event_type is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, event_type)
-
-        self.nps: typing.Final[types.Integer] = nps
-        self.event_type: typing.Final[event.j.EventType] = event_type
-        self.number: typing.Final[types.Integer] = number
-        self.tfc: typing.Final[types.Real] = tfc
+    nps = _fields.Field(types.Integer, 'I nps')
+    event_type = _fields.Field(event.j.EventType, 'I first event type')
+    number = _fields.Field(types.Integer, 'Cell/surface/tally number', optional=True)
+    tfc = _fields.Field(types.Real, 'TFC bin tally', optional=True)
 
     def from_mcnp(source: str):
         """

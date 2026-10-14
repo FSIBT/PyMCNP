@@ -1,14 +1,14 @@
 import re
-import typing
 
 import pandas
 
 from . import _subblock
 from .... import types
 from .... import errors
+from .... import _fields
 
 
-class Line(_subblock.LineSubblock):
+class Line(_fields.Fields, _subblock.LineSubblock):
     """
     Represents OUTP `1tally 1 nps` subtally.
 
@@ -20,34 +20,12 @@ class Line(_subblock.LineSubblock):
 
     _REGEX = re.compile(r'\A    (\S+)   (\S+) (\S+)\n\Z', re.IGNORECASE)
 
-    def __init__(
-        self,
-        bucket: types.String,
-        count: types.String,
-        error: types.String,
-    ):
-        """
-        Initializes `Line`.
+    _ERROR = errors.OutpError
+    _CODE = errors.OutpCode.SYNTAX_TABLE
 
-        Parameters:
-            bucket: Tally bucket.
-            count: Tally count.
-            error: Tally count error.
-
-        Raises:
-            OutpError: SEMANTICS_TABLE.
-        """
-
-        if bucket is None:
-            raise errors.OutpError(errors.OutpCode.SYNTAX_TABLE, bucket)
-        if count is None:
-            raise errors.OutpError(errors.OutpCode.SYNTAX_TABLE, count)
-        if error is None:
-            raise errors.OutpError(errors.OutpCode.SYNTAX_TABLE, error)
-
-        self.bucket: typing.Final[types.String] = bucket
-        self.count: typing.Final[types.String] = count
-        self.error: typing.Final[types.String] = error
+    bucket = _fields.Field(types.String, 'Tally bucket')
+    count = _fields.Field(types.String, 'Tally count')
+    error = _fields.Field(types.String, 'Tally count error')
 
     @staticmethod
     def from_mcnp(source: str):

@@ -1,13 +1,13 @@
 import re
-import typing
 
 from . import j
 from . import _line
 from .... import types
 from .... import errors
+from .... import _fields
 
 
-class J_0(_line.EventLine):
+class J_0(_fields.Fields, _line.EventLine):
     """
     Represents PTRAC history block j lines form #1a.
 
@@ -21,48 +21,14 @@ class J_0(_line.EventLine):
 
     _REGEX = re.compile(r'\A\s(.{10})(.{10})(.{10})(.{10})(.{10})\Z', re.IGNORECASE)
 
-    def __init__(
-        self,
-        next_type: j.EventType,
-        pbl: types.Integer,
-        nsr: types.Integer,
-        ncl: types.Integer,
-        mat: types.Integer,
-    ):
-        """
-        Initializes `J_0`.
+    _ERROR = errors.PtracError
+    _CODE = errors.PtracCode.SEMANTICS_LINE
 
-        Parameters:
-            next_type: Next J line event type.
-            pbl: Number of nodes in track from source.
-            nsr: Source type.
-            ncl: Problem numbers of the cells.
-            mat: Material numbers of the cells.
-
-        Raises:
-            PtracError: SEMANTICS_LINE.
-        """
-
-        if next_type is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, next_type)
-
-        if pbl is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, pbl)
-
-        if nsr is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, nsr)
-
-        if ncl is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, ncl)
-
-        if mat is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, mat)
-
-        self.next_type: typing.Final[j.EventType] = next_type
-        self.pbl: typing.Final[types.Integer] = pbl
-        self.nsr: typing.Final[types.Integer] = nsr
-        self.ncl: typing.Final[types.Integer] = ncl
-        self.mat: typing.Final[types.Integer] = mat
+    next_type = _fields.Field(j.EventType, 'Next J line event type')
+    pbl = _fields.Field(types.Integer, 'Number of nodes in track from source')
+    nsr = _fields.Field(types.Integer, 'Source type')
+    ncl = _fields.Field(types.Integer, 'Problem numbers of the cells')
+    mat = _fields.Field(types.Integer, 'Material numbers of the cells')
 
     def from_mcnp(source: str):
         """

@@ -1,12 +1,12 @@
 import re
-import typing
 
 from . import _line
 from ... import types
 from ... import errors
+from ... import _fields
 
 
-class V(_line.HeaderLine):
+class V(_fields.Fields, _line.HeaderLine):
     """
     Represents PTRAC header block l lines.
 
@@ -16,21 +16,10 @@ class V(_line.HeaderLine):
 
     _REGEX = re.compile(r'\A((?:.{5,121}?\n)+)\Z', re.IGNORECASE)
 
-    def __init__(self, variables: types.Tuple(types.Real)):
-        """
-        Initializes `V`.
+    _ERROR = errors.PtracError
+    _CODE = errors.PtracCode.SEMANTICS_LINE
 
-        Parameters:
-            variables: Variable for lines/events.
-
-        Raises:
-            PtracError: SEMANTICS_LINE.
-        """
-
-        if variables is None or None in variables:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, variables)
-
-        self.variables: typing.Final[types.Real] = variables
+    variables = _fields.Field(types.Tuple(types.Real), 'Variable for lines/events', many=True)
 
     def from_mcnp(source: str):
         """

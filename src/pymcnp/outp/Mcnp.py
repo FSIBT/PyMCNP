@@ -1,12 +1,12 @@
 import re
-import typing
 
 from . import _block
 from .. import types
 from .. import errors
+from .. import _fields
 
 
-class Mcnp(_block.Block):
+class Mcnp(_fields.Fields, _block.Block):
     """
     Represents OUTP `1mcnp` tables.
 
@@ -44,102 +44,23 @@ class Mcnp(_block.Block):
         r'((?:.*\n)*)\Z'
     )
 
-    def __init__(
-        self,
-        version: types.String,
-        code_date: types.String,
-        run_date: types.String,
-        run_time: types.String,
-        probid: types.String,
-        command: types.String,
-        lines: types.String,
-        random_generator: types.String,
-        random_seed: types.String,
-        random_multiplier: types.String,
-        random_adder: types.String,
-        random_bits: types.String,
-        random_stride: types.String,
-        messages: types.String,
-    ):
-        """
-        Initializes `Mcnp`.
+    _ERROR = errors.OutpError
+    _CODE = errors.OutpCode.SEMANTICS_TABLE
 
-        Parameters:
-            version: Simulation version.
-            code_date: Simulation compilation date.
-            run_date: Simulation run date.
-            run_time: Simulation run time.
-            probid: Simulation problem ID.
-            command: Simulation command.
-            lines: Input lines.
-            random_generator: Simulation random number generator.
-            random_seed: Simulation random number seed.
-            random_multiplier: Simulation random number multiplier.
-            random_adder: Simulation random number adder.
-            random_bits: Simulation random number bits.
-            random_stride: Simulation random number stride.
-            messages: Input messages.
-
-        Raises:
-            OutpError: SEMANTICS_TABLE.
-        """
-
-        if version is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, version)
-
-        if code_date is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, code_date)
-
-        if run_date is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, run_date)
-
-        if run_time is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, run_time)
-
-        if probid is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, probid)
-
-        if command is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, command)
-
-        if random_generator is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, random_generator)
-
-        if random_seed is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, random_seed)
-
-        if random_multiplier is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, random_multiplier)
-
-        if random_adder is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, random_adder)
-
-        if random_bits is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, random_bits)
-
-        if random_stride is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, random_stride)
-
-        if lines is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, lines)
-
-        if messages is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, messages)
-
-        self.version: typing.Final[types.String] = version
-        self.code_date: typing.Final[types.String] = code_date
-        self.run_date: typing.Final[types.String] = run_date
-        self.run_time: typing.Final[types.String] = run_time
-        self.probid: typing.Final[types.String] = probid
-        self.command: typing.Final[types.String] = command
-        self.lines: typing.Final[types.String] = lines
-        self.random_generator: typing.Final[types.String] = random_generator
-        self.random_seed: typing.Final[types.String] = random_seed
-        self.random_multiplier: typing.Final[types.String] = random_multiplier
-        self.random_adder: typing.Final[types.String] = random_adder
-        self.random_bits: typing.Final[types.String] = random_bits
-        self.random_stride: typing.Final[types.String] = random_stride
-        self.messages: typing.Final[types.String] = messages
+    version = _fields.Field(types.String, 'Simulation version')
+    code_date = _fields.Field(types.String, 'Simulation compilation date')
+    run_date = _fields.Field(types.String, 'Simulation run date')
+    run_time = _fields.Field(types.String, 'Simulation run time')
+    probid = _fields.Field(types.String, 'Simulation problem ID')
+    command = _fields.Field(types.String, 'Simulation command')
+    lines = _fields.Field(types.String, 'Input lines')
+    random_generator = _fields.Field(types.String, 'Simulation random number generator')
+    random_seed = _fields.Field(types.String, 'Simulation random number seed')
+    random_multiplier = _fields.Field(types.String, 'Simulation random number multiplier')
+    random_adder = _fields.Field(types.String, 'Simulation random number adder')
+    random_bits = _fields.Field(types.String, 'Simulation random number bits')
+    random_stride = _fields.Field(types.String, 'Simulation random number stride')
+    messages = _fields.Field(types.String, 'Input messages')
 
     @staticmethod
     def from_mcnp(source: str):

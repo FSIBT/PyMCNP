@@ -1,12 +1,12 @@
 import re
-import typing
 
 from . import _line
 from .... import types
 from .... import errors
+from .... import _fields
 
 
-class P_1(_line.EventLine):
+class P_1(_fields.Fields, _line.EventLine):
     """
     Represents PTRAC history block p lines form #2.
 
@@ -24,72 +24,18 @@ class P_1(_line.EventLine):
 
     _REGEX = re.compile(r'\A\s(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})\Z', re.IGNORECASE)
 
-    def __init__(
-        self,
-        x: types.Real,
-        y: types.Real,
-        z: types.Real,
-        u: types.Real,
-        v: types.Real,
-        w: types.Real,
-        erg: types.Real,
-        wgt: types.Real,
-        tme: types.Real,
-    ):
-        """
-        Initializes `P_1`.
+    _ERROR = errors.PtracError
+    _CODE = errors.PtracCode.SEMANTICS_LINE
 
-        Parameters:
-            x: X coordinate of the particle position.
-            y: Y coordinate of the particle position.
-            z: Z coordinate of the particle position.
-            u: Particle direction cosine with x axis.
-            v: Particle direction cosine with y axis.
-            w: Particle direction cosine with z axis.
-            erg: Particle energy.
-            wgt: Particle weight.
-            tme: Time at the particles position.
-
-        Raises:
-            PtracError: SEMANTICS_LINE.
-        """
-
-        if x is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, x)
-
-        if y is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, y)
-
-        if z is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, z)
-
-        if u is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, u)
-
-        if v is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, v)
-
-        if w is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, w)
-
-        if erg is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, erg)
-
-        if wgt is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, wgt)
-
-        if tme is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, tme)
-
-        self.x: typing.Final[types.Real] = x
-        self.y: typing.Final[types.Real] = y
-        self.z: typing.Final[types.Real] = z
-        self.u: typing.Final[types.Real] = u
-        self.v: typing.Final[types.Real] = v
-        self.w: typing.Final[types.Real] = w
-        self.erg: typing.Final[types.Real] = erg
-        self.wgt: typing.Final[types.Real] = wgt
-        self.tme: typing.Final[types.Real] = tme
+    x = _fields.Field(types.Real, 'X coordinate of the particle position')
+    y = _fields.Field(types.Real, 'Y coordinate of the particle position')
+    z = _fields.Field(types.Real, 'Z coordinate of the particle position')
+    u = _fields.Field(types.Real, 'Particle direction cosine with x axis')
+    v = _fields.Field(types.Real, 'Particle direction cosine with y axis')
+    w = _fields.Field(types.Real, 'Particle direction cosine with z axis')
+    erg = _fields.Field(types.Real, 'Particle energy')
+    wgt = _fields.Field(types.Real, 'Particle weight')
+    tme = _fields.Field(types.Real, 'Time at the particles position')
 
     def from_mcnp(source: str):
         """

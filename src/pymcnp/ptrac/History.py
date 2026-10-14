@@ -1,13 +1,13 @@
 import re
-import typing
 
 from . import history
 from .. import types
 from .. import errors
 from .. import _symbol
+from .. import _fields
 
 
-class History(_symbol.Nonterminal):
+class History(_fields.Fields, _symbol.Nonterminal):
     """
     Represents PTRAC history blocks.
 
@@ -18,30 +18,11 @@ class History(_symbol.Nonterminal):
 
     _REGEX = re.compile(r'\A(.+)\n' rf'((?:{history.Event._REGEX.pattern[2:-2]})+)\Z', re.IGNORECASE)
 
-    def __init__(
-        self,
-        i_line: history.I,
-        events: types.Tuple(history.Event),
-    ):
-        """
-        Initializes `History`.
+    _ERROR = errors.PtracError
+    _CODE = errors.PtracCode.SEMANTICS_BLOCK
 
-        Parameters:
-            i_line: PTRAC history i-line.
-            events: PTRAC history events.
-
-        Raises:
-            PtracError: SEMANTICS_BLOCK.
-        """
-
-        if i_line is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, i_line)
-
-        if events is None or None in events:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, events)
-
-        self.i_line: typing.Final[history.I] = i_line
-        self.events: typing.Final[types.Tuple(history.Event)] = events
+    i_line = _fields.Field(history.I, 'PTRAC history i-line')
+    events = _fields.Field(types.Tuple(history.Event), 'PTRAC history events', many=True)
 
     @staticmethod
     def from_mcnp(source: str):

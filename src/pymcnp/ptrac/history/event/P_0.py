@@ -1,12 +1,12 @@
 import re
-import typing
 
 from . import _line
 from .... import types
 from .... import errors
+from .... import _fields
 
 
-class P_0(_line.EventLine):
+class P_0(_fields.Fields, _line.EventLine):
     """
     Represents PTRAC history block p lines form #1.
 
@@ -18,36 +18,12 @@ class P_0(_line.EventLine):
 
     _REGEX = re.compile(r'\A\s(.{13})(.{13})(.{13})\Z', re.IGNORECASE)
 
-    def __init__(
-        self,
-        x: types.Real,
-        y: types.Real,
-        z: types.Real,
-    ):
-        """
-        Initializes `P_0`.
+    _ERROR = errors.PtracError
+    _CODE = errors.PtracCode.SEMANTICS_LINE
 
-        Parameters:
-            x: X coordinate of the particle position.
-            y: Y coordinate of the particle position.
-            z: Z coordinate of the particle position.
-
-        Raises:
-            PtracError: SEMANTICS_LINE.
-        """
-
-        if x is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, x)
-
-        if y is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, y)
-
-        if z is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, z)
-
-        self.x: typing.Final[types.Real] = x
-        self.y: typing.Final[types.Real] = y
-        self.z: typing.Final[types.Real] = z
+    x = _fields.Field(types.Real, 'X coordinate of the particle position')
+    y = _fields.Field(types.Real, 'Y coordinate of the particle position')
+    z = _fields.Field(types.Real, 'Z coordinate of the particle position')
 
     def from_mcnp(source: str):
         """

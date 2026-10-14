@@ -1,13 +1,13 @@
 import re
-import typing
 
 
 from . import event
 from . import _block
 from ... import errors
+from ... import _fields
 
 
-class Event(_block.HistoryBlock):
+class Event(_fields.Fields, _block.HistoryBlock):
     """
     Represents PTRAC history block events.
 
@@ -21,30 +21,11 @@ class Event(_block.HistoryBlock):
         re.IGNORECASE,
     )
 
-    def __init__(
-        self,
-        j_line: event.J_0 | event.J_1 | event.J_2 | event.J_3 | event.J_4 | event.J_5 | event.J_6 | event.J_7,
-        p_line: event.P_0 | event.P_1,
-    ):
-        """
-        Initializes `Event`.
+    _ERROR = errors.PtracError
+    _CODE = errors.PtracCode.SEMANTICS_LINE
 
-        Parameters:
-            j_line: Event j-line.
-            p_line: Event p-line.
-
-        Raises:
-            PtracError: SEMANTICS_LINE.
-        """
-
-        if j_line is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, j_line)
-
-        if p_line is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, p_line)
-
-        self.j_line: typing.Final[event.J_0 | event.J_1 | event.J_2 | event.J_3 | event.J_4 | event.J_5 | event.J_6 | event.J_7] = j_line
-        self.p_line: typing.Final[event.P_0 | event.P_1] = p_line
+    j_line = _fields.Field(event.J_0 | event.J_1 | event.J_2 | event.J_3 | event.J_4 | event.J_5 | event.J_6 | event.J_7, 'Event j-line')
+    p_line = _fields.Field(event.P_0 | event.P_1, 'Event p-line')
 
     def from_mcnp(source: str):
         """

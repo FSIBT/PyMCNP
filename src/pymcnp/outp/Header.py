@@ -1,12 +1,12 @@
 import re
-import typing
 
 from . import _block
 from .. import types
 from .. import errors
+from .. import _fields
 
 
-class Header(_block.Block):
+class Header(_fields.Fields, _block.Block):
     """
     Represents OUTP header tables.
 
@@ -23,31 +23,12 @@ class Header(_block.Block):
         r'  \n\Z'
     )
 
-    def __init__(self, name: types.String, logo: types.String, box: types.String):
-        """
-        Initializes `Header`.
+    _ERROR = errors.OutpError
+    _CODE = errors.OutpCode.SEMANTICS_TABLE
 
-        Parameters:
-            name: Simulation name.
-            logo: MCNP logo.
-            box: Simulation disclaimer.
-
-        Raises:
-            OutpError: SEMANTICS_TABLE.
-        """
-
-        if name is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, name)
-
-        if logo is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, logo)
-
-        if box is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, box)
-
-        self.name: typing.Final[types.String] = name
-        self.logo: typing.Final[types.String] = logo
-        self.box: typing.Final[types.String] = box
+    name = _fields.Field(types.String, 'Simulation name')
+    logo = _fields.Field(types.String, 'MCNP logo')
+    box = _fields.Field(types.String, 'Simulation disclaimer')
 
     @staticmethod
     def from_mcnp(source: str):
