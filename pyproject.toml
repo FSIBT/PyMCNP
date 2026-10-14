@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0", "setuptools_scm[toml]>=6.2"]
+requires = ["setuptools>=77.0", "setuptools_scm>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -11,19 +11,20 @@ authors = [
 ]
 description = "Python-based MCNP tools."
 readme = "README.md"
-license = {file = "LICENSE"}
+license = "BSD-3-Clause-LBNL"
+license-files = ["LICENSE"]
+keywords = ["MCNP", "Monte Carlo", "particle transport", "radiation transport", "input files"]
 dynamic = ["version"]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
     "Development Status :: 5 - Production/Stable",
-    "License :: OSI Approved :: BSD License",
     "Intended Audience :: Science/Research",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Scientific/Engineering :: Physics",
 ]
 dependencies = [
@@ -71,7 +72,7 @@ pymcnp = "pymcnp._cli.main:main"
 where = ["./src"]
 
 [tool.setuptools_scm]
-write_to = "./src/version.py"
+version_file = "src/version.py"
 
 [tool.pytest.ini_options]
 addopts = "--testmon --cov --cov-report=term-missing:skip-covered"
@@ -81,6 +82,7 @@ testpaths = [
 
 [tool.ruff]
 line-length = 200
+target-version = "py311"
 lint.ignore = ["E741", "E742"]
 
 [tool.ruff.format]
