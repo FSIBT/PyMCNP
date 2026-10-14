@@ -15,12 +15,15 @@ import pymcnp
 
 
 COMMAND = 'echo'
+HERE = pathlib.Path(__file__).parent
+OUTPUT = HERE / 'output'
+OUTPUT.mkdir(exist_ok=True)
 
 
 class MyRun(pymcnp.Run):
     def posthook_file(self, path, index):
         # Copying OUTP (ECHO used for demo).
-        path_copy = pathlib.Path('example_01.outp')
+        path_copy = HERE / 'example_01.outp'
         path_outp = path / f'run-{index}.outp'
 
         with path_outp.open('w') as file_outp:
@@ -44,7 +47,7 @@ class MyRun(pymcnp.Run):
 
 
 # Reading INP.
-path_inp = pathlib.Path('example_04.inp')
+path_inp = HERE / 'example_04.inp'
 inp = pymcnp.Inp.from_file(path_inp)
 
 # Scanning.
@@ -60,6 +63,6 @@ for inp in inps:
     visualization.show()
 
 # Running.
-print(f'Running parameter scan `{COMMAND}` in the current working directory:')
+print(f'Running parameter scan `{COMMAND}` in `{OUTPUT}`:')
 runner = MyRun(inps, command=COMMAND)
-runner.run('.')
+runner.run(OUTPUT)

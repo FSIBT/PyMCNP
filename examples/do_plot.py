@@ -12,9 +12,12 @@ import matplotlib.pyplot
 import pymcnp
 
 TALLY = '1'
+HERE = pathlib.Path(__file__).parent
+OUTPUT = HERE / 'output'
+OUTPUT.mkdir(exist_ok=True)
 
 # Reading OUTP.
-path = pathlib.Path('example_00.outp')
+path = HERE / 'example_00.outp'
 outp = pymcnp.Outp.from_file(path)
 
 # Initializing `Plot`
@@ -27,5 +30,5 @@ matplotlib.pyplot.show()
 matplotlib.pyplot.close()
 
 # Writting PDF.
-print(f'Writing plots tally #{TALLY} from {path} to `example_00-{TALLY}.pdf`.')
-plotter.to_pdf(TALLY, f'example_00-{TALLY}.pdf')
+print(f'Writing plots tally #{TALLY} from {path} to `{OUTPUT}/example_00-{TALLY}.pdf`.')
+plotter.to_pdf(TALLY, OUTPUT / f'example_00-{TALLY}.pdf')

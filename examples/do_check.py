@@ -6,11 +6,18 @@ reformats it using `Check.fix`.
 """
 
 import pathlib
+import shutil
 
 import pymcnp
 
+HERE = pathlib.Path(__file__).parent
+OUTPUT = HERE / 'output'
+OUTPUT.mkdir(exist_ok=True)
+
 # Initializing `Check`.
-path = pathlib.Path('example_00.inp')
+# Working on a copy, since `fix` rewrites the file in place.
+path = OUTPUT / 'example_00.inp'
+shutil.copy(HERE / 'example_00.inp', path)
 checker = pymcnp.Check(path)
 
 # Checking.

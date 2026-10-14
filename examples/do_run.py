@@ -13,6 +13,9 @@ import pymcnp
 
 
 COMMAND = 'echo'
+HERE = pathlib.Path(__file__).parent
+OUTPUT = HERE / 'output'
+OUTPUT.mkdir(exist_ok=True)
 
 
 # Creating `Run` subclass.
@@ -31,9 +34,9 @@ class MyRun(pymcnp.Run):
 
 
 # Reading INP.
-path0 = pathlib.Path('example_00.inp')
-path1 = pathlib.Path('example_01.inp')
-path2 = pathlib.Path('example_02.inp')
+path0 = HERE / 'example_00.inp'
+path1 = HERE / 'example_01.inp'
+path2 = HERE / 'example_02.inp'
 inp0 = pymcnp.Inp.from_file(path0)
 inp1 = pymcnp.Inp.from_file(path1)
 inp2 = pymcnp.Inp.from_file(path2)
@@ -46,6 +49,6 @@ inp1.seed = 123534727
 inp2.seed = 123534727
 
 # Running.
-print(f'Running `{COMMAND}` in the current working directory:')
+print(f'Running `{COMMAND}` in `{OUTPUT}`:')
 runner = MyRun([inp0, inp1, inp2], command=COMMAND)
-runner.run('.')
+runner.run(OUTPUT)

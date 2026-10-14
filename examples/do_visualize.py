@@ -9,8 +9,12 @@ import pathlib
 
 import pymcnp
 
+HERE = pathlib.Path(__file__).parent
+OUTPUT = HERE / 'output'
+OUTPUT.mkdir(exist_ok=True)
+
 # Reading INP.
-path = pathlib.Path('example_05.inp')
+path = HERE / 'example_05.inp'
 inp = pymcnp.Inp.from_file(path)
 
 # Visualizing surfaces.
@@ -19,5 +23,5 @@ visualizer = pymcnp.Visualize(inp)
 visualizer.to_show_surfaces(skip=(1, 3)).show()
 
 # Converting to PDF.
-print(f'Writing visualizations of all surfaces from `{path}` to `example_05-surfaces.pdf`')
-visualizer.to_pdf_surfaces('example_05-surfaces.pdf')
+print(f'Writing visualizations of all surfaces from `{path}` to `{OUTPUT}/example_05-surfaces.pdf`')
+visualizer.to_pdf_surfaces(OUTPUT / 'example_05-surfaces.pdf')
