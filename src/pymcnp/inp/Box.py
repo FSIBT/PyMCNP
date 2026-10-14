@@ -9,6 +9,34 @@ from .. import types
 from .. import errors
 
 
+_VECTORS = ('a1', 'a2', 'a3')
+_TOLERANCE = 0.05
+
+
+def _orthogonal(name):
+    """
+    Builds a validator checking the three box vectors with `name` replaced by the new value.
+
+    MCNP stops on zero-length vectors and on a cosine between vectors of about 0.05 or more.
+    Nothing is checked until all components are set.
+    """
+
+    def invalid(self, value):
+        values = {n: getattr(self, f'_{n}', None) for n in ('a1x', 'a1y', 'a1z', 'a2x', 'a2y', 'a2z', 'a3x', 'a3y', 'a3z')}
+        values[name] = value
+        if any(v is None for v in values.values()):
+            return False
+
+        vectors = [numpy.array([float(values[f'{v}{c}']) for c in 'xyz']) for v in _VECTORS]
+        norms = [numpy.linalg.norm(v) for v in vectors]
+        if not all(norms):
+            return True
+
+        return any(abs(vectors[i] @ vectors[j]) / (norms[i] * norms[j]) >= _TOLERANCE for i in range(3) for j in range(i + 1, 3))
+
+    return invalid
+
+
 class Box(_surface.Surface):
     """
     Represents INP `box` surface cards.
@@ -21,15 +49,15 @@ class Box(_surface.Surface):
     vx = _field.Field(types.Real, 'Box macrobody position vector x component', required=True)
     vy = _field.Field(types.Real, 'Box macrobody position vector y component', required=True)
     vz = _field.Field(types.Real, 'Box macrobody position vector z component', required=True)
-    a1x = _field.Field(types.Real, 'Box macrobody vector #1 x component', required=True)
-    a1y = _field.Field(types.Real, 'Box macrobody vector #1 y component', required=True)
-    a1z = _field.Field(types.Real, 'Box macrobody vector #1 z component', required=True)
-    a2x = _field.Field(types.Real, 'Box macrobody vector #2 x component', required=True)
-    a2y = _field.Field(types.Real, 'Box macrobody vector #2 y component', required=True)
-    a2z = _field.Field(types.Real, 'Box macrobody vector #2 z component', required=True)
-    a3x = _field.Field(types.Real, 'Box macrobody vector #3 x component', required=True)
-    a3y = _field.Field(types.Real, 'Box macrobody vector #3 y component', required=True)
-    a3z = _field.Field(types.Real, 'Box macrobody vector #3 z component', required=True)
+    a1x = _field.Field(types.Real, 'Box macrobody vector #1 x component', required=True, invalid=_orthogonal('a1x'))
+    a1y = _field.Field(types.Real, 'Box macrobody vector #1 y component', required=True, invalid=_orthogonal('a1y'))
+    a1z = _field.Field(types.Real, 'Box macrobody vector #1 z component', required=True, invalid=_orthogonal('a1z'))
+    a2x = _field.Field(types.Real, 'Box macrobody vector #2 x component', required=True, invalid=_orthogonal('a2x'))
+    a2y = _field.Field(types.Real, 'Box macrobody vector #2 y component', required=True, invalid=_orthogonal('a2y'))
+    a2z = _field.Field(types.Real, 'Box macrobody vector #2 z component', required=True, invalid=_orthogonal('a2z'))
+    a3x = _field.Field(types.Real, 'Box macrobody vector #3 x component', required=True, invalid=_orthogonal('a3x'))
+    a3y = _field.Field(types.Real, 'Box macrobody vector #3 y component', required=True, invalid=_orthogonal('a3y'))
+    a3z = _field.Field(types.Real, 'Box macrobody vector #3 z component', required=True, invalid=_orthogonal('a3z'))
 
     _REGEX = re.compile(
         rf'\A(\+|\*)?(\S+)( \S+)? box( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z',
