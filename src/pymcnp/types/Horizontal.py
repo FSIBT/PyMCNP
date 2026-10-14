@@ -14,132 +14,90 @@ class Horizontal(_type.Type):
     pass
 
 
-class Repeat(Horizontal):
+class _Counted:
+    """
+    Represents horizontal syntax with an optional count and a keyword suffix.
+
+    Attributes:
+        n: Count.
+    """
+
+    _SUFFIX: str
+    _ZERO = False
+
+    def __init__(self, n: int = None):
+        """
+        Initializes the horizontal syntax.
+
+        Parameters:
+            n: Count.
+
+        Raises:
+            TypesError: SEMANTICS_TYPE.
+        """
+
+        if n is not None and not (n >= 0):
+            raise errors.TypesError(errors.TypesCode.SEMANTICS_TYPE, n)
+
+        self.n: typing.Final[int] = n
+
+    @classmethod
+    def from_mcnp(cls, source: str):
+        """
+        Generates the horizontal syntax from MCNP.
+
+        Parameters:
+            source: MCNP horizontal syntax.
+
+        Returns:
+            Horizontal syntax.
+
+        Raises:
+            TypesError: SYNTAX_TYPE.
+        """
+
+        tokens = cls._REGEX.match(source)
+
+        if not tokens:
+            raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source)
+
+        return cls(int(tokens[1]) if tokens[1] else None)
+
+    def to_mcnp(self):
+        """
+        Generates MCNP from the horizontal syntax.
+
+        Returns:
+            MCNP horizontal syntax.
+        """
+
+        n = '' if self.n is None or (not self.n and not self._ZERO) else self.n
+
+        return f'{n}{self._SUFFIX}'
+
+
+class Repeat(_Counted, Horizontal):
     """
     Represents MCNP repeats.
 
     Attributes:
-        n: Repetition number.
+        n: Count.
     """
 
-    _REGEX = re.compile(r'\A(\d+)?r\Z', re.IGNORECASE)
-
-    def __init__(self, n: int = None):
-        """
-        Initializes `Repeat`.
-
-        Parameters:
-            n: Repetition number.
-
-        Returns:
-            `Repeat`
-
-        Raises
-            TypesError: SEMANTICS_TYPE.
-        """
-
-        if n is not None and not (n >= 0):
-            raise errors.TypesError(errors.TypesCode.SEMANTICS_TYPE, n)
-
-        self.n: typing.Final[int] = n
-
-    @staticmethod
-    def from_mcnp(source: str):
-        """
-        Generates `Repeat` from MCNP.
-
-        Parameters:
-            source: MCNP repeats.
-
-        Returns:
-            `Repeat`.
-
-        Raises:
-            TypesError: SYNTAX_TYPE.
-        """
-
-        tokens = Repeat._REGEX.match(source)
-
-        if not tokens:
-            raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source)
-
-        n = int(tokens[1]) if tokens[1] else None
-
-        return Repeat(n)
-
-    def to_mcnp(self):
-        """
-        Genereates MCNP repeats from `Repeat`.
-
-        Returns:
-            MCNP repeats.
-        """
-
-        return f'{self.n or ""}r'
+    _REGEX = re.compile('\\A(\\d+)?r\\Z', re.IGNORECASE)
+    _SUFFIX = 'r'
 
 
-class Insert(Horizontal):
+class Insert(_Counted, Horizontal):
     """
     Represents MCNP inserts.
 
     Attributes:
-        n: Repetition number.
+        n: Count.
     """
 
-    _REGEX = re.compile(r'\A(\d+)?i\Z', re.IGNORECASE)
-
-    def __init__(self, n: int = None):
-        """
-        Initializes `Insert`.
-
-        Parameters:
-            n: Repetition number.
-
-        Returns:
-            `Insert`
-
-        Raises:
-            TypesError: SEMANTICS_TYPE.
-        """
-
-        if n is not None and not (n >= 0):
-            raise errors.TypesError(errors.TypesCode.SEMANTICS_TYPE, n)
-
-        self.n: typing.Final[int] = n
-
-    @staticmethod
-    def from_mcnp(source: str):
-        """
-        Generates `Insert` from MCNP.
-
-        Parameters:
-            source: MCNP inserts.
-
-        Returns:
-            `Insert`.
-
-        Raises:
-            TypesError: SYNTAX_TYPE.
-        """
-
-        tokens = Insert._REGEX.match(source)
-
-        if not tokens:
-            raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source)
-
-        n = int(tokens[1]) if tokens[1] else None
-
-        return Insert(n)
-
-    def to_mcnp(self):
-        """
-        Genereates MCNP inserts from `Insert`.
-
-        Returns:
-            MCNP inserts.
-        """
-
-        return f'{self.n or ""}i'
+    _REGEX = re.compile('\\A(\\d+)?i\\Z', re.IGNORECASE)
+    _SUFFIX = 'i'
 
 
 class Multiply(Horizontal):
@@ -206,129 +164,26 @@ class Multiply(Horizontal):
         return f'{self.x}m'
 
 
-class Jump(_symbol.Nonterminal):
+class Jump(_Counted, _symbol.Nonterminal):
     """
     Represents MCNP jumps.
 
     Attributes:
-        n: Repetition number.
+        n: Count.
     """
 
-    _REGEX = re.compile(r'\A(\d+)?j\Z', re.IGNORECASE)
-
-    def __init__(self, n: int = None):
-        """
-        Initializes `Jump`.
-
-        Parameters:
-            n: Repetition number.
-
-        Returns:
-            `Jump`
-
-        Raises:
-            TypesError: SEMANTICS_TYPE.
-        """
-
-        if n is not None and not (n >= 0):
-            raise errors.TypesError(errors.TypesCode.SEMANTICS_TYPE, n)
-
-        self.n: typing.Final[int] = n
-
-    @staticmethod
-    def from_mcnp(source: str):
-        """
-        Generates `Jump` from MCNP.
-
-        Parameters:
-            source: MCNP jump.
-
-        Returns:
-            `Jump`.
-
-        Raises:
-            TypesError: SYNTAX_TYPE.
-        """
-
-        tokens = Jump._REGEX.match(source)
-
-        if not tokens:
-            raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source)
-
-        n = int(tokens[1]) if tokens[1] else None
-
-        return Jump(n)
-
-    def to_mcnp(self):
-        """
-        Genereates MCNP from `Jump`.
-
-        Returns:
-            MCNP jumps.
-        """
-
-        return f'{self.n if self.n is not None else ""}j'
+    _REGEX = re.compile('\\A(\\d+)?j\\Z', re.IGNORECASE)
+    _SUFFIX = 'j'
+    _ZERO = True
 
 
-class Log(Horizontal):
+class Log(_Counted, Horizontal):
     """
     Represents MCNP logs.
 
     Attributes:
-        n: Repetition number.
+        n: Count.
     """
 
-    _REGEX = re.compile(r'\A(\d+)?(log|ilog)\Z', re.IGNORECASE)
-
-    def __init__(self, n: int = None):
-        """
-        Initializes `Log`.
-
-        Parameters:
-            n: Repetition number.
-
-        Returns:
-            `Log`
-
-        Raises:
-            TypesError: SEMANTICS_TYPE.
-        """
-
-        if n is not None and not (n >= 0):
-            raise errors.TypesError(errors.TypesCode.SEMANTICS_TYPE, n)
-
-        self.n: typing.Final[int] = n
-
-    @staticmethod
-    def from_mcnp(source: str):
-        """
-        Generates `Log` from MCNP.
-
-        Parameters:
-            source: MCNP log.
-
-        Returns:
-            `Log`.
-
-        Raises:
-            TypesError: SYNTAX_TYPE.
-        """
-
-        tokens = Log._REGEX.match(source)
-
-        if not tokens:
-            raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source)
-
-        n = int(tokens[1]) if tokens[1] else None
-
-        return Log(n)
-
-    def to_mcnp(self):
-        """
-        Genereates MCNP logs. from `Logs`.
-
-        Returns:
-            MCNP logs.
-        """
-
-        return f'{self.n or ""}log'
+    _REGEX = re.compile('\\A(\\d+)?(log|ilog)\\Z', re.IGNORECASE)
+    _SUFFIX = 'log'
