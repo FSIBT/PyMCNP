@@ -333,6 +333,9 @@ class Inp(_file.File):
                 lines = match[2].split('\n')[:-1]
                 for line in lines:
                     parameters = re.split(r'\s+', line)
+                    if len(parameters) != len(rows):
+                        raise errors.InpError(errors.InpCode.SYNTAX_FILE, line)
+
                     for parameter, row in zip(parameters, rows):
                         row.append(parameter)
 
