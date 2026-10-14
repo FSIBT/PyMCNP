@@ -1,107 +1,22 @@
 import re
 
+from .. import _field
 from . import _option
 from ... import types
 from ... import errors
 
 
-class Trcl_0(_option.LikeOption):
+class Trcl_0(_field.Fields, _option.LikeOption):
     """
     Represents INP `trcl` elements variation #0.
     """
 
     _KEYWORD = 'trcl'
 
-    _ATTRS = {
-        'prefix': types.String,
-        'transformation': types.Integer,
-    }
+    _CODE = errors.InpCode.SEMANTICS_OPTION
+    _ORDER = ('transformation', 'prefix')
+
+    prefix = _field.Field(types.String, 'Gets `prefix`', numeric=(), invalid=lambda self, value: value is not None and value.value.lower() not in {'*'})
+    transformation = _field.Field(types.Integer, 'Gets `transformation`', required=True, numeric=int, invalid=lambda self, value: not (value >= 0 and value <= 999))
 
     _REGEX = re.compile(rf'\A([*])?trcl( {types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
-
-    def __init__(self, transformation: str | int | types.Integer, prefix: str | types.String = None):
-        """
-        Initializes `Trcl_0`.
-
-        Parameters:
-            prefix: Star prefix.
-            transformation: Cell transformation number.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-        """
-
-        self.prefix: types.String = prefix
-        self.transformation: types.Integer = transformation
-
-    @property
-    def prefix(self) -> types.String:
-        """
-        Gets `prefix`.
-
-        Returns:
-            `prefix`.
-        """
-
-        return self._prefix
-
-    @prefix.setter
-    def prefix(self, prefix: str | types.String) -> None:
-        """
-        Sets `prefix`.
-
-        Parameters:
-            prefix: Star prefix.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
-        """
-
-        if prefix is not None:
-            if isinstance(prefix, types.String):
-                prefix = prefix
-            elif isinstance(prefix, str):
-                prefix = types.String.from_mcnp(prefix)
-
-        if prefix is not None and prefix.value.lower() not in {'*'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
-
-        self._prefix: types.String = prefix
-
-    @property
-    def transformation(self) -> types.Integer:
-        """
-        Gets `transformation`.
-
-        Returns:
-            `transformation`.
-        """
-
-        return self._transformation
-
-    @transformation.setter
-    def transformation(self, transformation: str | int | types.Integer) -> None:
-        """
-        Sets `transformation`.
-
-        Parameters:
-            transformation: Cell transformation number.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
-        """
-
-        if transformation is not None:
-            if isinstance(transformation, types.Integer):
-                transformation = transformation
-            elif isinstance(transformation, int):
-                transformation = types.Integer(transformation)
-            elif isinstance(transformation, str):
-                transformation = types.Integer.from_mcnp(transformation)
-
-        if transformation is None or not (transformation >= 0 and transformation <= 999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, transformation)
-
-        self._transformation: types.Integer = transformation

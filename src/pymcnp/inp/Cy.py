@@ -2,93 +2,31 @@ import re
 
 import numpy
 
+from . import _field
 from . import _card
 from .. import _show
 from .. import types
 from .. import errors
 
 
-class Cy(_card.Card):
+class Cy(_field.Fields, _card.Card):
     """
     Represents INP `cy` surface cards.
     """
 
     _KEYWORD = 'cy'
 
-    _ATTRS = {
-        'prefix': types.String,
-        'number': types.Integer,
-        'transform': types.Integer,
-        'r': types.Real,
-    }
+    _ORDER = ('r', 'number', 'transform', 'prefix')
+    _SET = ('r', 'transform', 'number', 'prefix')
+
+    prefix = _field.Field(types.String, 'Surface whitebody/reflecting flag', numeric=(), invalid=lambda self, value: value is not None and value.value.lower() not in {'*', '+'})
+    number = _field.Field(
+        types.Integer, 'Surface number', required=True, default=lambda card: next(_card.NUMBER), numeric=int, invalid=lambda self, value: not 1 <= value <= (99999999 if not self.transform else 999)
+    )
+    transform = _field.Field(types.Integer, 'Surface transform', numeric=int, invalid=lambda self, value: value is not None and (not 0 <= value <= 999))
+    r = _field.Field(types.Real, 'On-y-axis cylinder radius', required=True, code=errors.InpCode.SEMANTICS_OPTION)
 
     _REGEX = re.compile(rf'\A(\+|\*)?(\S+)( \S+)? cy( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
-
-    def __init__(
-        self,
-        r: str | int | float | types.Real,
-        number: types.Integer = None,
-        transform: types.Integer = None,
-        prefix: str = None,
-    ):
-        """
-        Initializes `Cy`.
-
-        Parameters:
-            r: On-y-axis cylinder radius.
-            number: surface number.
-            transform: surface transformation.
-            prefix: surface whitebody flag.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-        """
-
-        if number is None:
-            number = next(_card.NUMBER)
-
-        self.r: types.Real = r
-        self.transform: types.Integer = transform
-        self.number: types.Integer = number
-        self.prefix: types.String = prefix
-
-    @property
-    def r(self) -> types.Real:
-        """
-        On-y-axis cylinder radius
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._r
-
-    @r.setter
-    def r(self, r: str | int | float | types.Real) -> None:
-        """
-        Sets `r`.
-
-        Parameters:
-            r: On-y-axis cylinder radius.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if r is not None:
-            if isinstance(r, types.Real):
-                r = r
-            elif isinstance(r, int) or isinstance(r, float):
-                r = types.Real(r)
-            elif isinstance(r, str):
-                r = types.Real.from_mcnp(r)
-
-        if r is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r)
-
-        self._r: types.Real = r
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
@@ -163,118 +101,6 @@ class Cy(_card.Card):
         """
 
         return types.Geometry.from_mcnp(f'#{self.number}')
-
-    @property
-    def number(self) -> types.Integer:
-        """
-        Surface number.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._number
-
-    @number.setter
-    def number(self, number: str | int | types.Integer) -> None:
-        """
-        Sets `number`.
-
-        Parameters:
-            number: Surface number.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if number is not None:
-            if isinstance(number, types.Integer):
-                number = number
-            elif isinstance(number, int):
-                number = types.Integer(number)
-            elif isinstance(number, str):
-                number = types.Integer.from_mcnp(number)
-
-        if number is None or not (1 <= number <= (99_999_999 if not self.transform else 999)):
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, number)
-
-        self._number: types.Integer = number
-
-    @property
-    def transform(self) -> types.Integer:
-        """
-        Surface transform.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._transform
-
-    @transform.setter
-    def transform(self, transform: str | int | types.Integer = None) -> None:
-        """
-        Sets `transform`.
-
-        Parameters:
-            transform: Surface transform.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if transform is not None:
-            if isinstance(transform, types.Integer):
-                transform = transform
-            elif isinstance(transform, int):
-                transform = types.Integer(transform)
-            elif isinstance(transform, str):
-                transform = types.Integer.from_mcnp(transform)
-
-        if transform is not None and not (0 <= transform <= 999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, transform)
-
-        self._transform: types.Integer = transform
-
-    @property
-    def prefix(self) -> types.String:
-        """
-        Surface whitebody/reflecting flag.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._prefix
-
-    @prefix.setter
-    def prefix(self, prefix: str | types.String) -> None:
-        """
-        Sets `prefix`.
-
-        Parameters:
-            prefix: Surface whitebody/reflecting flag.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if prefix is not None:
-            if isinstance(prefix, types.String):
-                prefix = prefix
-            elif isinstance(prefix, str):
-                prefix = types.String.from_mcnp(prefix)
-
-        if prefix is not None and prefix.value.lower() not in {'*', '+'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, prefix)
-
-        self._prefix: types.String = prefix
 
     def to_mcnp(self):
         """

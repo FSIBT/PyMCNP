@@ -7,7 +7,7 @@ class Option(_symbol.InpNonterminal):
     Represents generic INP options.
     """
 
-    _ATTRS: tuple
+    _ATTRS: dict
     _KEYWORD: str
 
     @classmethod

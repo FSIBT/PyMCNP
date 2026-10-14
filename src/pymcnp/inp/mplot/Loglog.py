@@ -1,28 +1,14 @@
 import re
 
+from .. import _field
 from . import _option
 
 
-class Loglog(_option.MplotOption):
+class Loglog(_field.Fields, _option.MplotOption):
     """
     Represents INP `loglog` elements.
     """
 
     _KEYWORD = 'loglog'
 
-    _ATTRS = {}
-
     _REGEX = re.compile(r'\Aloglog\Z', re.IGNORECASE)
-
-    def __init__(
-        self,
-    ):
-        """
-        Initializes `Loglog`.
-
-        Parameters:
-
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-        """

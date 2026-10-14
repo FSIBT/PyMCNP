@@ -7,7 +7,7 @@ class Entry(_symbol.InpNonterminal):
     Represents generic INP entries.
     """
 
-    _ATTRS: tuple
+    _ATTRS: dict
     _KEYWORD: str
 
     @classmethod

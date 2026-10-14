@@ -1,73 +1,20 @@
 import re
 
+from .. import _field
 from . import _option
 from ... import types
 from ... import errors
 
 
-class Imesh(_option.MeshOption):
+class Imesh(_field.Fields, _option.MeshOption):
     """
     Represents INP `imesh` elements.
     """
 
     _KEYWORD = 'imesh'
 
-    _ATTRS = {
-        'vector': types.Tuple(types.Real),
-    }
+    _CODE = errors.InpCode.SEMANTICS_OPTION
+
+    vector = _field.Field.tuple(types.Real, 'Locations of the coarse meshes in the x/r directions', required=True)
 
     _REGEX = re.compile(rf'\Aimesh((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
-
-    def __init__(self, vector: list[str] | list[float] | list[types.Real]):
-        """
-        Initializes `Imesh`.
-
-        Parameters:
-            vector: Locations of the coarse meshes in the x/r directions.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-        """
-
-        self.vector: types.Tuple(types.Real) = vector
-
-    @property
-    def vector(self) -> types.Tuple(types.Real):
-        """
-        Locations of the coarse meshes in the x/r directions
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
-        """
-
-        return self._vector
-
-    @vector.setter
-    def vector(self, vector: list[str] | list[float] | list[types.Real]) -> None:
-        """
-        Sets `vector`.
-
-        Parameters:
-            vector: Locations of the coarse meshes in the x/r directions.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
-        """
-
-        if vector is not None:
-            array = []
-            for item in vector:
-                if isinstance(item, types.Real):
-                    array.append(item)
-                elif isinstance(item, int) or isinstance(item, float):
-                    array.append(types.Real(item))
-                elif isinstance(item, str):
-                    array.append(types.Real.from_mcnp(item))
-            vector = types.Tuple(types.Real)(array)
-
-        if vector is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vector)
-
-        self._vector: types.Tuple(types.Real) = vector

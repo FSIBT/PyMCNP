@@ -3,162 +3,29 @@ import re
 import molmass
 
 from . import m_0
+from . import _field
 from . import _card
 from .. import types
-from .. import errors
 from .. import _elements
 
 
 NUMBER = iter(range(1, 100000000))
 
 
-class M_0(_card.Card):
+class M_0(_field.Fields, _card.Card):
     """
     Represents INP `m` elements variation #0.
     """
 
     _KEYWORD = 'm'
 
-    _ATTRS = {
-        'suffix': types.Integer,
-        'substances': types.Tuple(types.Substance),
-        'options': types.Tuple(m_0.MOption_0),
-    }
+    _ORDER = ('substances', 'suffix', 'options')
+
+    suffix = _field.Field(types.Integer, 'Data card option suffix', required=True, default=lambda card: next(NUMBER), numeric=int, invalid=lambda self, value: not 1 <= value <= 99_999_999)
+    substances = _field.Field.tuple(types.Substance, 'Tuple of material constituents', required=True, numeric=())
+    options = _field.Field.tuple(m_0.MOption_0, 'Dictionary of options', numeric=())
 
     _REGEX = re.compile(rf'\Am(\d+)((?: {types.Substance._REGEX.pattern[2:-2]})+?)((?: (?:{m_0.MOption_0._REGEX.pattern[2:-2]}))+?)?\Z', re.IGNORECASE)
-
-    def __init__(self, substances: list[str] | list[types.Substance], suffix: str | int | types.Integer = None, options: list[str] | list[m_0.MOption_0] = None):
-        """
-        Initializes `M_0`.
-
-        Parameters:
-            suffix: Data card option suffix.
-            substances: Tuple of material constituents.
-            options: Dictionary of options.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-        """
-
-        if suffix is None:
-            suffix = next(NUMBER)
-
-        self.suffix: types.Integer = suffix
-        self.substances: types.Tuple(types.Substance) = substances
-        self.options: types.Tuple(m_0.MOption_0) = options
-
-    @property
-    def suffix(self) -> types.Integer:
-        """
-        Data card option suffix
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._suffix
-
-    @suffix.setter
-    def suffix(self, suffix: str | int | types.Integer) -> None:
-        """
-        Sets `suffix`.
-
-        Parameters:
-            suffix: Data card option suffix.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if suffix is not None:
-            if isinstance(suffix, types.Integer):
-                suffix = suffix
-            elif isinstance(suffix, int):
-                suffix = types.Integer(suffix)
-            elif isinstance(suffix, str):
-                suffix = types.Integer.from_mcnp(suffix)
-
-        if suffix is None or not (1 <= suffix <= 99_999_999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, suffix)
-
-        self._suffix: types.Integer = suffix
-
-    @property
-    def substances(self) -> types.Tuple(types.Substance):
-        """
-        Tuple of material constituents
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._substances
-
-    @substances.setter
-    def substances(self, substances: list[str] | list[types.Substance]) -> None:
-        """
-        Sets `substances`.
-
-        Parameters:
-            substances: Tuple of material constituents.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if substances is not None:
-            array = []
-            for item in substances:
-                if isinstance(item, types.Substance):
-                    array.append(item)
-                elif isinstance(item, str):
-                    array.append(types.Substance.from_mcnp(item))
-            substances = types.Tuple(types.Substance)(array)
-
-        if substances is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, substances)
-
-        self._substances: types.Tuple(types.Substance) = substances
-
-    @property
-    def options(self) -> types.Tuple(m_0.MOption_0):
-        """
-        Dictionary of options
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._options
-
-    @options.setter
-    def options(self, options: list[str] | list[m_0.MOption_0]) -> None:
-        """
-        Sets `options`.
-
-        Parameters:
-            options: Dictionary of options.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if options is not None:
-            array = []
-            for item in options:
-                if isinstance(item, m_0.MOption_0):
-                    array.append(item)
-                elif isinstance(item, str):
-                    array.append(m_0.MOption_0.from_mcnp(item))
-            options = types.Tuple(m_0.MOption_0)(array)
-
-        self._options: types.Tuple(m_0.MOption_0) = options
 
     @staticmethod
     def from_formula(formulas: dict[str, float], is_weight: bool = True, cutoff: float = 0.01):

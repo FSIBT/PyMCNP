@@ -2,306 +2,48 @@ import re
 
 import numpy
 
+from . import _field
 from . import _card
 from .. import _show
 from .. import types
 from .. import errors
 
 
-class Tx(_card.Card):
+class Tx(_field.Fields, _card.Card):
     """
     Represents INP `tx` surface cards.
     """
 
     _KEYWORD = 'tx'
 
-    _ATTRS = {
-        'prefix': types.String,
-        'number': types.Integer,
-        'transform': types.Integer,
-        'x': types.Real,
-        'y': types.Real,
-        'z': types.Real,
-        'a': types.Real,
-        'b': types.Real,
-        'c': types.Real,
-    }
+    _CODE = errors.InpCode.SEMANTICS_OPTION
+    _ORDER = ('x', 'y', 'z', 'a', 'b', 'c', 'number', 'transform', 'prefix')
+    _SET = ('x', 'y', 'z', 'a', 'b', 'c', 'transform', 'number', 'prefix')
+
+    prefix = _field.Field(
+        types.String, 'Surface whitebody/reflecting flag', numeric=(), invalid=lambda self, value: value is not None and value.value.lower() not in {'*', '+'}, code=errors.InpCode.SEMANTICS_CARD
+    )
+    number = _field.Field(
+        types.Integer,
+        'Surface number',
+        required=True,
+        default=lambda card: next(_card.NUMBER),
+        numeric=int,
+        invalid=lambda self, value: not 1 <= value <= (99999999 if not self.transform else 999),
+        code=errors.InpCode.SEMANTICS_CARD,
+    )
+    transform = _field.Field(types.Integer, 'Surface transform', numeric=int, invalid=lambda self, value: value is not None and (not 0 <= value <= 999), code=errors.InpCode.SEMANTICS_CARD)
+    x = _field.Field(types.Real, 'Parallel-to-x-axis tori center x component', required=True)
+    y = _field.Field(types.Real, 'Parallel-to-x-axis tori center y component', required=True)
+    z = _field.Field(types.Real, 'Parallel-to-x-axis tori center z component', required=True)
+    a = _field.Field(types.Real, 'Parallel-to-x-axis tori A coefficent', required=True)
+    b = _field.Field(types.Real, 'Parallel-to-x-axis tori B coefficent', required=True)
+    c = _field.Field(types.Real, 'Parallel-to-x-axis tori C coefficent', required=True)
 
     _REGEX = re.compile(
         rf'\A(\+|\*)?(\S+)( \S+)? tx( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z',
         re.IGNORECASE,
     )
-
-    def __init__(
-        self,
-        x: str | int | float | types.Real,
-        y: str | int | float | types.Real,
-        z: str | int | float | types.Real,
-        a: str | int | float | types.Real,
-        b: str | int | float | types.Real,
-        c: str | int | float | types.Real,
-        number: types.Integer = None,
-        transform: types.Integer = None,
-        prefix: str = None,
-    ):
-        """
-        Initializes `Tx`.
-
-        Parameters:
-            x: Parallel-to-x-axis tori center x component.
-            y: Parallel-to-x-axis tori center y component.
-            z: Parallel-to-x-axis tori center z component.
-            a: Parallel-to-x-axis tori A coefficent.
-            b: Parallel-to-x-axis tori B coefficent.
-            c: Parallel-to-x-axis tori C coefficent.
-            number: surface number.
-            transform: surface transformation.
-            prefix: surface whitebody flag.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-        """
-
-        if number is None:
-            number = next(_card.NUMBER)
-
-        self.x: types.Real = x
-        self.y: types.Real = y
-        self.z: types.Real = z
-        self.a: types.Real = a
-        self.b: types.Real = b
-        self.c: types.Real = c
-        self.transform: types.Integer = transform
-        self.number: types.Integer = number
-        self.prefix: types.String = prefix
-
-    @property
-    def x(self) -> types.Real:
-        """
-        Parallel-to-x-axis tori center x component
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._x
-
-    @x.setter
-    def x(self, x: str | int | float | types.Real) -> None:
-        """
-        Sets `x`.
-
-        Parameters:
-            x: Parallel-to-x-axis tori center x component.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if x is not None:
-            if isinstance(x, types.Real):
-                x = x
-            elif isinstance(x, int) or isinstance(x, float):
-                x = types.Real(x)
-            elif isinstance(x, str):
-                x = types.Real.from_mcnp(x)
-
-        if x is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
-
-        self._x: types.Real = x
-
-    @property
-    def y(self) -> types.Real:
-        """
-        Parallel-to-x-axis tori center y component
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._y
-
-    @y.setter
-    def y(self, y: str | int | float | types.Real) -> None:
-        """
-        Sets `y`.
-
-        Parameters:
-            y: Parallel-to-x-axis tori center y component.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if y is not None:
-            if isinstance(y, types.Real):
-                y = y
-            elif isinstance(y, int) or isinstance(y, float):
-                y = types.Real(y)
-            elif isinstance(y, str):
-                y = types.Real.from_mcnp(y)
-
-        if y is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y)
-
-        self._y: types.Real = y
-
-    @property
-    def z(self) -> types.Real:
-        """
-        Parallel-to-x-axis tori center z component
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._z
-
-    @z.setter
-    def z(self, z: str | int | float | types.Real) -> None:
-        """
-        Sets `z`.
-
-        Parameters:
-            z: Parallel-to-x-axis tori center z component.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if z is not None:
-            if isinstance(z, types.Real):
-                z = z
-            elif isinstance(z, int) or isinstance(z, float):
-                z = types.Real(z)
-            elif isinstance(z, str):
-                z = types.Real.from_mcnp(z)
-
-        if z is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z)
-
-        self._z: types.Real = z
-
-    @property
-    def a(self) -> types.Real:
-        """
-        Parallel-to-x-axis tori A coefficent
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._a
-
-    @a.setter
-    def a(self, a: str | int | float | types.Real) -> None:
-        """
-        Sets `a`.
-
-        Parameters:
-            a: Parallel-to-x-axis tori A coefficent.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if a is not None:
-            if isinstance(a, types.Real):
-                a = a
-            elif isinstance(a, int) or isinstance(a, float):
-                a = types.Real(a)
-            elif isinstance(a, str):
-                a = types.Real.from_mcnp(a)
-
-        if a is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
-
-        self._a: types.Real = a
-
-    @property
-    def b(self) -> types.Real:
-        """
-        Parallel-to-x-axis tori B coefficent
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._b
-
-    @b.setter
-    def b(self, b: str | int | float | types.Real) -> None:
-        """
-        Sets `b`.
-
-        Parameters:
-            b: Parallel-to-x-axis tori B coefficent.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if b is not None:
-            if isinstance(b, types.Real):
-                b = b
-            elif isinstance(b, int) or isinstance(b, float):
-                b = types.Real(b)
-            elif isinstance(b, str):
-                b = types.Real.from_mcnp(b)
-
-        if b is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, b)
-
-        self._b: types.Real = b
-
-    @property
-    def c(self) -> types.Real:
-        """
-        Parallel-to-x-axis tori C coefficent
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._c
-
-    @c.setter
-    def c(self, c: str | int | float | types.Real) -> None:
-        """
-        Sets `c`.
-
-        Parameters:
-            c: Parallel-to-x-axis tori C coefficent.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if c is not None:
-            if isinstance(c, types.Real):
-                c = c
-            elif isinstance(c, int) or isinstance(c, float):
-                c = types.Real(c)
-            elif isinstance(c, str):
-                c = types.Real.from_mcnp(c)
-
-        if c is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, c)
-
-        self._c: types.Real = c
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
@@ -377,118 +119,6 @@ class Tx(_card.Card):
         """
 
         return types.Geometry.from_mcnp(f'#{self.number}')
-
-    @property
-    def number(self) -> types.Integer:
-        """
-        Surface number.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._number
-
-    @number.setter
-    def number(self, number: str | int | types.Integer) -> None:
-        """
-        Sets `number`.
-
-        Parameters:
-            number: Surface number.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if number is not None:
-            if isinstance(number, types.Integer):
-                number = number
-            elif isinstance(number, int):
-                number = types.Integer(number)
-            elif isinstance(number, str):
-                number = types.Integer.from_mcnp(number)
-
-        if number is None or not (1 <= number <= (99_999_999 if not self.transform else 999)):
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, number)
-
-        self._number: types.Integer = number
-
-    @property
-    def transform(self) -> types.Integer:
-        """
-        Surface transform.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._transform
-
-    @transform.setter
-    def transform(self, transform: str | int | types.Integer = None) -> None:
-        """
-        Sets `transform`.
-
-        Parameters:
-            transform: Surface transform.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if transform is not None:
-            if isinstance(transform, types.Integer):
-                transform = transform
-            elif isinstance(transform, int):
-                transform = types.Integer(transform)
-            elif isinstance(transform, str):
-                transform = types.Integer.from_mcnp(transform)
-
-        if transform is not None and not (0 <= transform <= 999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, transform)
-
-        self._transform: types.Integer = transform
-
-    @property
-    def prefix(self) -> types.String:
-        """
-        Surface whitebody/reflecting flag.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._prefix
-
-    @prefix.setter
-    def prefix(self, prefix: str | types.String) -> None:
-        """
-        Sets `prefix`.
-
-        Parameters:
-            prefix: Surface whitebody/reflecting flag.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if prefix is not None:
-            if isinstance(prefix, types.String):
-                prefix = prefix
-            elif isinstance(prefix, str):
-                prefix = types.String.from_mcnp(prefix)
-
-        if prefix is not None and prefix.value.lower() not in {'*', '+'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, prefix)
-
-        self._prefix: types.String = prefix
 
     def to_mcnp(self):
         """

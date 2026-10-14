@@ -1,28 +1,14 @@
 import re
 
+from ... import _field
 from . import _option
 
 
-class Noall(_option.ContourOption):
+class Noall(_field.Fields, _option.ContourOption):
     """
     Represents INP `noall` elements.
     """
 
     _KEYWORD = 'noall'
 
-    _ATTRS = {}
-
     _REGEX = re.compile(r'\Anoall\Z', re.IGNORECASE)
-
-    def __init__(
-        self,
-    ):
-        """
-        Initializes `Noall`.
-
-        Parameters:
-
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-        """

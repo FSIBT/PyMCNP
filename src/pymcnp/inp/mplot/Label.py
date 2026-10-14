@@ -1,68 +1,20 @@
 import re
 
+from .. import _field
 from . import _option
 from ... import types
 from ... import errors
 
 
-class Label(_option.MplotOption):
+class Label(_field.Fields, _option.MplotOption):
     """
     Represents INP `label` elements.
     """
 
     _KEYWORD = 'label'
 
-    _ATTRS = {
-        'aa': types.String,
-    }
+    _CODE = errors.InpCode.SEMANTICS_OPTION
+
+    aa = _field.Field(types.String, 'Line to substitute', required=True, numeric=(), invalid=lambda self, value: not len(value) <= 10)
 
     _REGEX = re.compile(rf'\Alabel( \"{types.String._REGEX.pattern[2:-2]}\")\Z', re.IGNORECASE)
-
-    def __init__(self, aa: str | types.String):
-        """
-        Initializes `Label`.
-
-        Parameters:
-            aa: Line to substitute.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-        """
-
-        self.aa: types.String = aa
-
-    @property
-    def aa(self) -> types.String:
-        """
-        Line to substitute
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
-        """
-
-        return self._aa
-
-    @aa.setter
-    def aa(self, aa: str | types.String) -> None:
-        """
-        Sets `aa`.
-
-        Parameters:
-            aa: Line to substitute.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
-        """
-
-        if aa is not None:
-            if isinstance(aa, types.String):
-                aa = aa
-            elif isinstance(aa, str):
-                aa = types.String.from_mcnp(aa)
-
-        if aa is None or not (len(aa) <= 10):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, aa)
-
-        self._aa: types.String = aa

@@ -1,220 +1,44 @@
 import re
 
+from . import _field
 from . import _card
 from .. import _show
 from .. import types
 from .. import errors
 
 
-class P_0(_card.Card):
+class P_0(_field.Fields, _card.Card):
     """
     Represents INP `p` surface cards variation #0.
     """
 
     _KEYWORD = 'p'
 
-    _ATTRS = {
-        'prefix': types.String,
-        'number': types.Integer,
-        'transform': types.Integer,
-        'a': types.Real,
-        'b': types.Real,
-        'c': types.Real,
-        'd': types.Real,
-    }
+    _CODE = errors.InpCode.SEMANTICS_OPTION
+    _ORDER = ('a', 'b', 'c', 'd', 'number', 'transform', 'prefix')
+    _SET = ('a', 'b', 'c', 'd', 'transform', 'number', 'prefix')
+
+    prefix = _field.Field(
+        types.String, 'Surface whitebody/reflecting flag', numeric=(), invalid=lambda self, value: value is not None and value.value.lower() not in {'*', '+'}, code=errors.InpCode.SEMANTICS_CARD
+    )
+    number = _field.Field(
+        types.Integer,
+        'Surface number',
+        required=True,
+        default=lambda card: next(_card.NUMBER),
+        numeric=int,
+        invalid=lambda self, value: not 1 <= value <= (99999999 if not self.transform else 999),
+        code=errors.InpCode.SEMANTICS_CARD,
+    )
+    transform = _field.Field(types.Integer, 'Surface transform', numeric=int, invalid=lambda self, value: value is not None and (not 0 <= value <= 999), code=errors.InpCode.SEMANTICS_CARD)
+    a = _field.Field(types.Real, 'Equation-defined general plane A coefficent', required=True)
+    b = _field.Field(types.Real, 'Equation-defined general plane B coefficent', required=True)
+    c = _field.Field(types.Real, 'Equation-defined general plane C coefficent', required=True)
+    d = _field.Field(types.Real, 'Equation-defined general plane D coefficent', required=True)
 
     _REGEX = re.compile(
         rf'\A(\+|\*)?(\S+)( \S+)? p( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE
     )
-
-    def __init__(
-        self,
-        a: str | int | float | types.Real,
-        b: str | int | float | types.Real,
-        c: str | int | float | types.Real,
-        d: str | int | float | types.Real,
-        number: types.Integer = None,
-        transform: types.Integer = None,
-        prefix: str = None,
-    ):
-        """
-        Initializes `P_0`.
-
-        Parameters:
-            a: Equation-defined general plane A coefficent.
-            b: Equation-defined general plane B coefficent.
-            c: Equation-defined general plane C coefficent.
-            d: Equation-defined general plane D coefficent.
-            number: surface number.
-            transform: surface transformation.
-            prefix: surface whitebody flag.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-        """
-
-        if number is None:
-            number = next(_card.NUMBER)
-
-        self.a: types.Real = a
-        self.b: types.Real = b
-        self.c: types.Real = c
-        self.d: types.Real = d
-        self.transform: types.Integer = transform
-        self.number: types.Integer = number
-        self.prefix: types.String = prefix
-
-    @property
-    def a(self) -> types.Real:
-        """
-        Equation-defined general plane A coefficent
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._a
-
-    @a.setter
-    def a(self, a: str | int | float | types.Real) -> None:
-        """
-        Sets `a`.
-
-        Parameters:
-            a: Equation-defined general plane A coefficent.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if a is not None:
-            if isinstance(a, types.Real):
-                a = a
-            elif isinstance(a, int) or isinstance(a, float):
-                a = types.Real(a)
-            elif isinstance(a, str):
-                a = types.Real.from_mcnp(a)
-
-        if a is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
-
-        self._a: types.Real = a
-
-    @property
-    def b(self) -> types.Real:
-        """
-        Equation-defined general plane B coefficent
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._b
-
-    @b.setter
-    def b(self, b: str | int | float | types.Real) -> None:
-        """
-        Sets `b`.
-
-        Parameters:
-            b: Equation-defined general plane B coefficent.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if b is not None:
-            if isinstance(b, types.Real):
-                b = b
-            elif isinstance(b, int) or isinstance(b, float):
-                b = types.Real(b)
-            elif isinstance(b, str):
-                b = types.Real.from_mcnp(b)
-
-        if b is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, b)
-
-        self._b: types.Real = b
-
-    @property
-    def c(self) -> types.Real:
-        """
-        Equation-defined general plane C coefficent
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._c
-
-    @c.setter
-    def c(self, c: str | int | float | types.Real) -> None:
-        """
-        Sets `c`.
-
-        Parameters:
-            c: Equation-defined general plane C coefficent.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if c is not None:
-            if isinstance(c, types.Real):
-                c = c
-            elif isinstance(c, int) or isinstance(c, float):
-                c = types.Real(c)
-            elif isinstance(c, str):
-                c = types.Real.from_mcnp(c)
-
-        if c is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, c)
-
-        self._c: types.Real = c
-
-    @property
-    def d(self) -> types.Real:
-        """
-        Equation-defined general plane D coefficent
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._d
-
-    @d.setter
-    def d(self, d: str | int | float | types.Real) -> None:
-        """
-        Sets `d`.
-
-        Parameters:
-            d: Equation-defined general plane D coefficent.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if d is not None:
-            if isinstance(d, types.Real):
-                d = d
-            elif isinstance(d, int) or isinstance(d, float):
-                d = types.Real(d)
-            elif isinstance(d, str):
-                d = types.Real.from_mcnp(d)
-
-        if d is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, d)
-
-        self._d: types.Real = d
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
@@ -288,118 +112,6 @@ class P_0(_card.Card):
         """
 
         return types.Geometry.from_mcnp(f'#{self.number}')
-
-    @property
-    def number(self) -> types.Integer:
-        """
-        Surface number.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._number
-
-    @number.setter
-    def number(self, number: str | int | types.Integer) -> None:
-        """
-        Sets `number`.
-
-        Parameters:
-            number: Surface number.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if number is not None:
-            if isinstance(number, types.Integer):
-                number = number
-            elif isinstance(number, int):
-                number = types.Integer(number)
-            elif isinstance(number, str):
-                number = types.Integer.from_mcnp(number)
-
-        if number is None or not (1 <= number <= (99_999_999 if not self.transform else 999)):
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, number)
-
-        self._number: types.Integer = number
-
-    @property
-    def transform(self) -> types.Integer:
-        """
-        Surface transform.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._transform
-
-    @transform.setter
-    def transform(self, transform: str | int | types.Integer = None) -> None:
-        """
-        Sets `transform`.
-
-        Parameters:
-            transform: Surface transform.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if transform is not None:
-            if isinstance(transform, types.Integer):
-                transform = transform
-            elif isinstance(transform, int):
-                transform = types.Integer(transform)
-            elif isinstance(transform, str):
-                transform = types.Integer.from_mcnp(transform)
-
-        if transform is not None and not (0 <= transform <= 999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, transform)
-
-        self._transform: types.Integer = transform
-
-    @property
-    def prefix(self) -> types.String:
-        """
-        Surface whitebody/reflecting flag.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._prefix
-
-    @prefix.setter
-    def prefix(self, prefix: str | types.String) -> None:
-        """
-        Sets `prefix`.
-
-        Parameters:
-            prefix: Surface whitebody/reflecting flag.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if prefix is not None:
-            if isinstance(prefix, types.String):
-                prefix = prefix
-            elif isinstance(prefix, str):
-                prefix = types.String.from_mcnp(prefix)
-
-        if prefix is not None and prefix.value.lower() not in {'*', '+'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, prefix)
-
-        self._prefix: types.String = prefix
 
     def to_mcnp(self):
         """

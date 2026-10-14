@@ -12,7 +12,7 @@ class Card(_symbol.InpNonterminal):
     Represents generic INP cards.
     """
 
-    _ATTRS: tuple
+    _ATTRS: dict
 
     @classmethod
     def from_mcnp(cls, source: str):

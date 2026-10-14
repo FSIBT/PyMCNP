@@ -1,70 +1,20 @@
 import re
 
+from ... import _field
 from . import _option
 from .... import types
 from .... import errors
 
 
-class Niso(_option.BlockOption):
+class Niso(_field.Fields, _option.BlockOption):
     """
     Represents INP `niso` elements.
     """
 
     _KEYWORD = 'niso'
 
-    _ATTRS = {
-        'setting': types.Integer,
-    }
+    _CODE = errors.InpCode.SEMANTICS_OPTION
+
+    setting = _field.Field(types.Integer, 'Number of isotopes', required=True, numeric=int)
 
     _REGEX = re.compile(rf'\Aniso( {types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
-
-    def __init__(self, setting: str | int | types.Integer):
-        """
-        Initializes `Niso`.
-
-        Parameters:
-            setting: Number of isotopes.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-        """
-
-        self.setting: types.Integer = setting
-
-    @property
-    def setting(self) -> types.Integer:
-        """
-        Number of isotopes
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
-        """
-
-        return self._setting
-
-    @setting.setter
-    def setting(self, setting: str | int | types.Integer) -> None:
-        """
-        Sets `setting`.
-
-        Parameters:
-            setting: Number of isotopes.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
-        """
-
-        if setting is not None:
-            if isinstance(setting, types.Integer):
-                setting = setting
-            elif isinstance(setting, int):
-                setting = types.Integer(setting)
-            elif isinstance(setting, str):
-                setting = types.Integer.from_mcnp(setting)
-
-        if setting is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
-
-        self._setting: types.Integer = setting

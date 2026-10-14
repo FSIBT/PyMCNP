@@ -1,70 +1,20 @@
 import re
 
+from .. import _field
 from . import _option
 from ... import types
 from ... import errors
 
 
-class Dnbais(_option.ActOption):
+class Dnbais(_field.Fields, _option.ActOption):
     """
     Represents INP `dnbais` elements.
     """
 
     _KEYWORD = 'dnbais'
 
-    _ATTRS = {
-        'count': types.Integer,
-    }
+    _CODE = errors.InpCode.SEMANTICS_OPTION
+
+    count = _field.Field(types.Integer, 'Maximum number of neutrons generated per reaction', required=True, numeric=int, invalid=lambda self, value: not (value >= 0 and value <= 10))
 
     _REGEX = re.compile(rf'\Adnbais( {types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
-
-    def __init__(self, count: str | int | types.Integer):
-        """
-        Initializes `Dnbais`.
-
-        Parameters:
-            count: Maximum number of neutrons generated per reaction.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-        """
-
-        self.count: types.Integer = count
-
-    @property
-    def count(self) -> types.Integer:
-        """
-        Maximum number of neutrons generated per reaction
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
-        """
-
-        return self._count
-
-    @count.setter
-    def count(self, count: str | int | types.Integer) -> None:
-        """
-        Sets `count`.
-
-        Parameters:
-            count: Maximum number of neutrons generated per reaction.
-
-        Raises:
-            InpError: SEMANTICS_OPTION.
-            TypeError:
-        """
-
-        if count is not None:
-            if isinstance(count, types.Integer):
-                count = count
-            elif isinstance(count, int):
-                count = types.Integer(count)
-            elif isinstance(count, str):
-                count = types.Integer.from_mcnp(count)
-
-        if count is None or not (count >= 0 and count <= 10):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, count)
-
-        self._count: types.Integer = count

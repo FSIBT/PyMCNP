@@ -2,348 +2,49 @@ import re
 
 import numpy
 
+from . import _field
 from . import _card
 from .. import _show
 from .. import types
 from .. import errors
 
 
-class Rcc(_card.Card):
+class Rcc(_field.Fields, _card.Card):
     """
     Represents INP `rcc` surface cards.
     """
 
     _KEYWORD = 'rcc'
 
-    _ATTRS = {
-        'prefix': types.String,
-        'number': types.Integer,
-        'transform': types.Integer,
-        'vx': types.Real,
-        'vy': types.Real,
-        'vz': types.Real,
-        'hx': types.Real,
-        'hy': types.Real,
-        'hz': types.Real,
-        'r': types.Real,
-    }
+    _CODE = errors.InpCode.SEMANTICS_OPTION
+    _ORDER = ('vx', 'vy', 'vz', 'hx', 'hy', 'hz', 'r', 'number', 'transform', 'prefix')
+    _SET = ('vx', 'vy', 'vz', 'hx', 'hy', 'hz', 'r', 'transform', 'number', 'prefix')
+
+    prefix = _field.Field(
+        types.String, 'Surface whitebody/reflecting flag', numeric=(), invalid=lambda self, value: value is not None and value.value.lower() not in {'*', '+'}, code=errors.InpCode.SEMANTICS_CARD
+    )
+    number = _field.Field(
+        types.Integer,
+        'Surface number',
+        required=True,
+        default=lambda card: next(_card.NUMBER),
+        numeric=int,
+        invalid=lambda self, value: not 1 <= value <= (99999999 if not self.transform else 999),
+        code=errors.InpCode.SEMANTICS_CARD,
+    )
+    transform = _field.Field(types.Integer, 'Surface transform', numeric=int, invalid=lambda self, value: value is not None and (not 0 <= value <= 999), code=errors.InpCode.SEMANTICS_CARD)
+    vx = _field.Field(types.Real, 'Circular cylinder macrobody position vector x component', required=True)
+    vy = _field.Field(types.Real, 'Circular cylinder macrobody position vector y component', required=True)
+    vz = _field.Field(types.Real, 'Circular cylinder macrobody position vector z component', required=True)
+    hx = _field.Field(types.Real, 'Circular cylinder macrobody height vector x component', required=True)
+    hy = _field.Field(types.Real, 'Circular cylinder macrobody height vector y component', required=True)
+    hz = _field.Field(types.Real, 'Circular cylinder macrobody height vector z component', required=True)
+    r = _field.Field(types.Real, 'Circular cylinder macrobody radius', required=True)
 
     _REGEX = re.compile(
         rf'\A(\+|\*)?(\S+)( \S+)? rcc( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z',
         re.IGNORECASE,
     )
-
-    def __init__(
-        self,
-        vx: str | int | float | types.Real,
-        vy: str | int | float | types.Real,
-        vz: str | int | float | types.Real,
-        hx: str | int | float | types.Real,
-        hy: str | int | float | types.Real,
-        hz: str | int | float | types.Real,
-        r: str | int | float | types.Real,
-        number: types.Integer = None,
-        transform: types.Integer = None,
-        prefix: str = None,
-    ):
-        """
-        Initializes `Rcc`.
-
-        Parameters:
-            vx: Circular cylinder macrobody position vector x component.
-            vy: Circular cylinder macrobody position vector y component.
-            vz: Circular cylinder macrobody position vector z component.
-            hx: Circular cylinder macrobody height vector x component.
-            hy: Circular cylinder macrobody height vector y component.
-            hz: Circular cylinder macrobody height vector z component.
-            r: Circular cylinder macrobody radius.
-            number: surface number.
-            transform: surface transformation.
-            prefix: surface whitebody flag.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-        """
-
-        if number is None:
-            number = next(_card.NUMBER)
-
-        self.vx: types.Real = vx
-        self.vy: types.Real = vy
-        self.vz: types.Real = vz
-        self.hx: types.Real = hx
-        self.hy: types.Real = hy
-        self.hz: types.Real = hz
-        self.r: types.Real = r
-        self.transform: types.Integer = transform
-        self.number: types.Integer = number
-        self.prefix: types.String = prefix
-
-    @property
-    def vx(self) -> types.Real:
-        """
-        Circular cylinder macrobody position vector x component
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._vx
-
-    @vx.setter
-    def vx(self, vx: str | int | float | types.Real) -> None:
-        """
-        Sets `vx`.
-
-        Parameters:
-            vx: Circular cylinder macrobody position vector x component.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if vx is not None:
-            if isinstance(vx, types.Real):
-                vx = vx
-            elif isinstance(vx, int) or isinstance(vx, float):
-                vx = types.Real(vx)
-            elif isinstance(vx, str):
-                vx = types.Real.from_mcnp(vx)
-
-        if vx is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vx)
-
-        self._vx: types.Real = vx
-
-    @property
-    def vy(self) -> types.Real:
-        """
-        Circular cylinder macrobody position vector y component
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._vy
-
-    @vy.setter
-    def vy(self, vy: str | int | float | types.Real) -> None:
-        """
-        Sets `vy`.
-
-        Parameters:
-            vy: Circular cylinder macrobody position vector y component.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if vy is not None:
-            if isinstance(vy, types.Real):
-                vy = vy
-            elif isinstance(vy, int) or isinstance(vy, float):
-                vy = types.Real(vy)
-            elif isinstance(vy, str):
-                vy = types.Real.from_mcnp(vy)
-
-        if vy is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vy)
-
-        self._vy: types.Real = vy
-
-    @property
-    def vz(self) -> types.Real:
-        """
-        Circular cylinder macrobody position vector z component
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._vz
-
-    @vz.setter
-    def vz(self, vz: str | int | float | types.Real) -> None:
-        """
-        Sets `vz`.
-
-        Parameters:
-            vz: Circular cylinder macrobody position vector z component.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if vz is not None:
-            if isinstance(vz, types.Real):
-                vz = vz
-            elif isinstance(vz, int) or isinstance(vz, float):
-                vz = types.Real(vz)
-            elif isinstance(vz, str):
-                vz = types.Real.from_mcnp(vz)
-
-        if vz is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vz)
-
-        self._vz: types.Real = vz
-
-    @property
-    def hx(self) -> types.Real:
-        """
-        Circular cylinder macrobody height vector x component
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._hx
-
-    @hx.setter
-    def hx(self, hx: str | int | float | types.Real) -> None:
-        """
-        Sets `hx`.
-
-        Parameters:
-            hx: Circular cylinder macrobody height vector x component.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if hx is not None:
-            if isinstance(hx, types.Real):
-                hx = hx
-            elif isinstance(hx, int) or isinstance(hx, float):
-                hx = types.Real(hx)
-            elif isinstance(hx, str):
-                hx = types.Real.from_mcnp(hx)
-
-        if hx is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hx)
-
-        self._hx: types.Real = hx
-
-    @property
-    def hy(self) -> types.Real:
-        """
-        Circular cylinder macrobody height vector y component
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._hy
-
-    @hy.setter
-    def hy(self, hy: str | int | float | types.Real) -> None:
-        """
-        Sets `hy`.
-
-        Parameters:
-            hy: Circular cylinder macrobody height vector y component.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if hy is not None:
-            if isinstance(hy, types.Real):
-                hy = hy
-            elif isinstance(hy, int) or isinstance(hy, float):
-                hy = types.Real(hy)
-            elif isinstance(hy, str):
-                hy = types.Real.from_mcnp(hy)
-
-        if hy is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hy)
-
-        self._hy: types.Real = hy
-
-    @property
-    def hz(self) -> types.Real:
-        """
-        Circular cylinder macrobody height vector z component
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._hz
-
-    @hz.setter
-    def hz(self, hz: str | int | float | types.Real) -> None:
-        """
-        Sets `hz`.
-
-        Parameters:
-            hz: Circular cylinder macrobody height vector z component.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if hz is not None:
-            if isinstance(hz, types.Real):
-                hz = hz
-            elif isinstance(hz, int) or isinstance(hz, float):
-                hz = types.Real(hz)
-            elif isinstance(hz, str):
-                hz = types.Real.from_mcnp(hz)
-
-        if hz is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hz)
-
-        self._hz: types.Real = hz
-
-    @property
-    def r(self) -> types.Real:
-        """
-        Circular cylinder macrobody radius
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._r
-
-    @r.setter
-    def r(self, r: str | int | float | types.Real) -> None:
-        """
-        Sets `r`.
-
-        Parameters:
-            r: Circular cylinder macrobody radius.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if r is not None:
-            if isinstance(r, types.Real):
-                r = r
-            elif isinstance(r, int) or isinstance(r, float):
-                r = types.Real(r)
-            elif isinstance(r, str):
-                r = types.Real.from_mcnp(r)
-
-        if r is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r)
-
-        self._r: types.Real = r
 
     def to_show(self, shapes: _show.Endpoint = _show.pyvista) -> _show.Shape:
         """
@@ -431,118 +132,6 @@ class Rcc(_card.Card):
         """
 
         return types.Geometry.from_mcnp(f'#{self.number}')
-
-    @property
-    def number(self) -> types.Integer:
-        """
-        Surface number.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._number
-
-    @number.setter
-    def number(self, number: str | int | types.Integer) -> None:
-        """
-        Sets `number`.
-
-        Parameters:
-            number: Surface number.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if number is not None:
-            if isinstance(number, types.Integer):
-                number = number
-            elif isinstance(number, int):
-                number = types.Integer(number)
-            elif isinstance(number, str):
-                number = types.Integer.from_mcnp(number)
-
-        if number is None or not (1 <= number <= (99_999_999 if not self.transform else 999)):
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, number)
-
-        self._number: types.Integer = number
-
-    @property
-    def transform(self) -> types.Integer:
-        """
-        Surface transform.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._transform
-
-    @transform.setter
-    def transform(self, transform: str | int | types.Integer = None) -> None:
-        """
-        Sets `transform`.
-
-        Parameters:
-            transform: Surface transform.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if transform is not None:
-            if isinstance(transform, types.Integer):
-                transform = transform
-            elif isinstance(transform, int):
-                transform = types.Integer(transform)
-            elif isinstance(transform, str):
-                transform = types.Integer.from_mcnp(transform)
-
-        if transform is not None and not (0 <= transform <= 999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, transform)
-
-        self._transform: types.Integer = transform
-
-    @property
-    def prefix(self) -> types.String:
-        """
-        Surface whitebody/reflecting flag.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        return self._prefix
-
-    @prefix.setter
-    def prefix(self, prefix: str | types.String) -> None:
-        """
-        Sets `prefix`.
-
-        Parameters:
-            prefix: Surface whitebody/reflecting flag.
-
-        Raises:
-            InpError: SEMANTICS_CARD.
-            TypeError:
-        """
-
-        if prefix is not None:
-            if isinstance(prefix, types.String):
-                prefix = prefix
-            elif isinstance(prefix, str):
-                prefix = types.String.from_mcnp(prefix)
-
-        if prefix is not None and prefix.value.lower() not in {'*', '+'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, prefix)
-
-        self._prefix: types.String = prefix
 
     def to_mcnp(self):
         """
