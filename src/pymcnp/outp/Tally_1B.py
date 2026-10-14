@@ -1,15 +1,15 @@
 import re
 
-import pandas
 
 from . import _block
+from . import _dataframe
 from . import tally
 from .. import types
 from .. import errors
 from .. import _fields
 
 
-class Tally_1B(_fields.Fields, _block.Block):
+class Tally_1B(_fields.Fields, _dataframe.Dataframe, _block.Block):
     """
     Represents OUTP `1tally 1 nps` blocks.
 
@@ -126,18 +126,3 @@ class Tally_1B(_fields.Fields, _block.Block):
  warning.  the tally in the tally fluctuation chart bin did not pass {self.fails} of the 10 statistical checks.
 
 """[1:-1]
-
-    def to_dataframe(self):
-        """
-        Generates `pandas.DataFrame` from `Tally_1B`.
-
-        Returns:
-            `pandas.DataFrame`.
-        """
-
-        df = pandas.concat((subtally.to_dataframe() for subtally in self.subtallies), ignore_index=True)
-        df['number'] = self.number.value.strip()
-        df['type'] = self.tally_type.value.strip()
-        df['particles'] = self.particles.value.strip()
-        df['nps'] = self.nps.value.strip()
-        return df
