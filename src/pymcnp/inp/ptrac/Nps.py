@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Nps(_field.Fields, _option.PtracOption):
@@ -12,8 +11,6 @@ class Nps(_field.Fields, _option.PtracOption):
     """
 
     _KEYWORD = 'nps'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     particles = _field.Field.tuple(types.Integer, 'Sets the range of particle histories for which events will be output', required=True, numeric=int)
 

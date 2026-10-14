@@ -3,7 +3,6 @@ import re
 from ... import _field
 from . import _entry
 from .... import types
-from .... import errors
 
 
 class Bias(_field.Fields, _entry.DgebEntry):
@@ -12,8 +11,6 @@ class Bias(_field.Fields, _entry.DgebEntry):
     """
 
     _KEYWORD = ''
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     weight = _field.Field(types.Real, 'Weight for bias', required=True)
     energy = _field.Field(types.Real, 'Energy boundary for bias', required=True)

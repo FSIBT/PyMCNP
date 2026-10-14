@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Zlev(_field.Fields, _option.MplotOption):
@@ -12,8 +11,6 @@ class Zlev(_field.Fields, _option.MplotOption):
     """
 
     _KEYWORD = 'zlev'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     n = _field.Field.tuple(types.String, 'Scales of tally plots', required=True, numeric=())
 

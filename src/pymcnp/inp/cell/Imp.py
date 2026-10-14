@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Imp(_field.Fields, _option.CellOption):
@@ -12,8 +11,6 @@ class Imp(_field.Fields, _option.CellOption):
     """
 
     _KEYWORD = 'imp'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     designator = _field.Field(types.Designator, 'Data option particle designator', required=True, numeric=())
     importance = _field.Field(types.Real, 'Cell particle importance', required=True)

@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class List(_field.Fields, _option.EmbeeOption):
@@ -12,8 +11,6 @@ class List(_field.Fields, _option.EmbeeOption):
     """
 
     _KEYWORD = 'list'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     reactions = _field.Field(types.Real, 'List of reactions', required=True)
 

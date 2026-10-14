@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Vec(_field.Fields, _option.BfldOption):
@@ -12,8 +11,6 @@ class Vec(_field.Fields, _option.BfldOption):
     """
 
     _KEYWORD = 'vec'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     vector = _field.Field.tuple(types.Real, 'Direction of mangentic field or plane corresponding to the x-axis of the quadrapole', required=True)
 

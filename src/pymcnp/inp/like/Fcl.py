@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Fcl(_field.Fields, _option.LikeOption):
@@ -12,8 +11,6 @@ class Fcl(_field.Fields, _option.LikeOption):
     """
 
     _KEYWORD = 'fcl'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     designator = _field.Field(types.Designator, 'Gets `designator`', required=True, numeric=())
     control = _field.Field(types.Real, 'Gets `control`', required=True, invalid=lambda self, value: not (value >= -1 and value <= 1))

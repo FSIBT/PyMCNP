@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Imesh(_field.Fields, _option.FmeshOption):
@@ -12,8 +11,6 @@ class Imesh(_field.Fields, _option.FmeshOption):
     """
 
     _KEYWORD = 'imesh'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     locations = _field.Field.tuple(types.Real, 'Locations of mesh points x/r for rectangular/cylindrical geometry', required=True)
 

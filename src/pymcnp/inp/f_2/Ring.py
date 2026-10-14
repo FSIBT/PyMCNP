@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _entry
 from ... import types
-from ... import errors
 
 
 class Ring(_field.Fields, _entry.FEntry_2):
@@ -12,8 +11,6 @@ class Ring(_field.Fields, _entry.FEntry_2):
     """
 
     _KEYWORD = ''
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     distance = _field.Field(types.Real, 'Ring position', required=True)
     radius = _field.Field(types.Real, 'Ring radius', required=True)

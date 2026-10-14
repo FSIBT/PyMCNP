@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Ara_0(_field.Fields, _option.SdefOption):
@@ -12,8 +11,6 @@ class Ara_0(_field.Fields, _option.SdefOption):
     """
 
     _KEYWORD = 'ara'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     area = _field.Field(types.Real, 'Area of surface', required=True)
 

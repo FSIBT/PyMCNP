@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Fmesh(_field.Fields, _option.MplotOption):
@@ -12,8 +11,6 @@ class Fmesh(_field.Fields, _option.MplotOption):
     """
 
     _KEYWORD = 'fmesh'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     n = _field.Field(types.Integer, 'Tally to plot', required=True, numeric=int)
 

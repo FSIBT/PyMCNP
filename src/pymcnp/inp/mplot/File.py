@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class File(_field.Fields, _option.MplotOption):
@@ -12,8 +11,6 @@ class File(_field.Fields, _option.MplotOption):
     """
 
     _KEYWORD = 'file'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     aa = _field.Field(types.String, 'Graphics metafile on/off', numeric=(), invalid=lambda self, value: value is not None and value.value.lower() not in {'all', 'none'})
 

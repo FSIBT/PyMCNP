@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Xs_1(_field.Fields, _option.MplotOption):
@@ -12,8 +11,6 @@ class Xs_1(_field.Fields, _option.MplotOption):
     """
 
     _KEYWORD = 'xs'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     m = _field.Field(types.Zaid, 'Material ZAID', required=True, numeric=())
 

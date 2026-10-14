@@ -3,7 +3,6 @@ import re
 from ... import _field
 from . import _option
 from .... import types
-from .... import errors
 
 
 class Asfrnt(_field.Fields, _option.BlockOption):
@@ -12,8 +11,6 @@ class Asfrnt(_field.Fields, _option.BlockOption):
     """
 
     _KEYWORD = 'asfrnt'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     setting = _field.Field(types.Integer, 'Back-going flux at plane k', required=True, numeric=int)
 

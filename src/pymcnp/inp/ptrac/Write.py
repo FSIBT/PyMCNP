@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Write(_field.Fields, _option.PtracOption):
@@ -12,8 +11,6 @@ class Write(_field.Fields, _option.PtracOption):
     """
 
     _KEYWORD = 'write'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     setting = _field.Field(types.String, 'Controls what particle parameters are written', required=True, numeric=(), invalid=lambda self, value: value.value.lower() not in {'pos', 'all'})
 

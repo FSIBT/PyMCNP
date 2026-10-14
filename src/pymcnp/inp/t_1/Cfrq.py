@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Cfrq(_field.Fields, _option.TOption_1):
@@ -12,8 +11,6 @@ class Cfrq(_field.Fields, _option.TOption_1):
     """
 
     _KEYWORD = 'cfrq'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     frequency = _field.Field(types.Real, 'Frequency of cycling', required=True)
 

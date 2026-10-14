@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Fmatnx(_field.Fields, _option.KoptsOption):
@@ -12,8 +11,6 @@ class Fmatnx(_field.Fields, _option.KoptsOption):
     """
 
     _KEYWORD = 'fmatnx'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     fmat_nx = _field.Field(types.Real, 'Fmat_nx', required=True)
 

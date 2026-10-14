@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Ein(_field.Fields, _option.KsenOption):
@@ -12,8 +11,6 @@ class Ein(_field.Fields, _option.KsenOption):
     """
 
     _KEYWORD = 'ein'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     energies = _field.Field.tuple(types.Real, 'List of ranges for incident energies', required=True)
 

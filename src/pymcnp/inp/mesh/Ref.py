@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Ref(_field.Fields, _option.MeshOption):
@@ -12,8 +11,6 @@ class Ref(_field.Fields, _option.MeshOption):
     """
 
     _KEYWORD = 'ref'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     point = _field.Field.tuple(types.Real, 'Mesh reference point', required=True)
 

@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Lat(_field.Fields, _option.CellOption):
@@ -12,8 +11,6 @@ class Lat(_field.Fields, _option.CellOption):
     """
 
     _KEYWORD = 'lat'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     shape = _field.Field(types.Integer, 'Cell lattice shape', required=True, numeric=int, invalid=lambda self, value: value not in {1, 2})
 

@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Pos_1(_field.Fields, _option.SdefOption):
@@ -12,8 +11,6 @@ class Pos_1(_field.Fields, _option.SdefOption):
     """
 
     _KEYWORD = 'pos'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     vector = _field.Field(types.Distribution, 'Position sampling vector-coordinate', required=True, numeric=())
 

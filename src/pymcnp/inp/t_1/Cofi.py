@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Cofi(_field.Fields, _option.TOption_1):
@@ -12,8 +11,6 @@ class Cofi(_field.Fields, _option.TOption_1):
     """
 
     _KEYWORD = 'cofi'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     time = _field.Field(types.Real, 'Dead time interval', required=True)
 

@@ -3,13 +3,13 @@ import re
 import numpy
 
 from . import _field
-from . import _card
+from . import _surface
 from .. import _show
 from .. import types
 from .. import errors
 
 
-class Box(_field.Fields, _card.Card):
+class Box(_surface.Surface):
     """
     Represents INP `box` surface cards.
     """
@@ -17,22 +17,7 @@ class Box(_field.Fields, _card.Card):
     _KEYWORD = 'box'
 
     _CODE = errors.InpCode.SEMANTICS_OPTION
-    _ORDER = ('vx', 'vy', 'vz', 'a1x', 'a1y', 'a1z', 'a2x', 'a2y', 'a2z', 'a3x', 'a3y', 'a3z', 'number', 'transform', 'prefix')
-    _SET = ('vx', 'vy', 'vz', 'a1x', 'a1y', 'a1z', 'a2x', 'a2y', 'a2z', 'a3x', 'a3y', 'a3z', 'transform', 'number', 'prefix')
 
-    prefix = _field.Field(
-        types.String, 'Surface whitebody/reflecting flag', numeric=(), invalid=lambda self, value: value is not None and value.value.lower() not in {'*', '+'}, code=errors.InpCode.SEMANTICS_CARD
-    )
-    number = _field.Field(
-        types.Integer,
-        'Surface number',
-        required=True,
-        default=lambda card: next(_card.NUMBER),
-        numeric=int,
-        invalid=lambda self, value: not 1 <= value <= (99999999 if not self.transform else 999),
-        code=errors.InpCode.SEMANTICS_CARD,
-    )
-    transform = _field.Field(types.Integer, 'Surface transform', numeric=int, invalid=lambda self, value: value is not None and (not 0 <= value <= 999), code=errors.InpCode.SEMANTICS_CARD)
     vx = _field.Field(types.Real, 'Box macrobody position vector x component', required=True)
     vy = _field.Field(types.Real, 'Box macrobody position vector y component', required=True)
     vz = _field.Field(types.Real, 'Box macrobody position vector z component', required=True)
@@ -75,74 +60,3 @@ class Box(_field.Fields, _card.Card):
         vis = vis.translate(v + 0.5 * (a1 + a2 + a3))
 
         return vis
-
-    def __and__(a, b):
-        """
-        Unites `Surface`.
-
-        Parameters:
-            a: Operand #1.
-            b: Operand #2.
-
-        Returns:
-            `Surface` union.
-        """
-
-        return types.Geometry.from_mcnp(f'{a.number}:{b.number}')
-
-    def __or__(a, b):
-        """
-        Intersects `Surface`.
-
-        Parameters:
-            a: Operand #1.
-            b: Operand #2.
-
-        Returns:
-            `Surface` intersection.
-        """
-
-        return types.Geometry.from_mcnp(f'{a.number} {b.number}')
-
-    def __neg__(self):
-        """
-        Negatives `Surface`.
-
-        Returns:
-            `Surface` negative.
-        """
-
-        return types.Geometry.from_mcnp(f'-{self.number}')
-
-    def __pos__(self):
-        """
-        Positives `Surface`.
-
-        Returns:
-            `Surface` positive.
-        """
-
-        return types.Geometry.from_mcnp(f'+{self.number}')
-
-    def __invert__(self):
-        """
-        Inverts `Surface`.
-
-        Returns:
-            `Surface` complement.
-        """
-
-        return types.Geometry.from_mcnp(f'#{self.number}')
-
-    def to_mcnp(self):
-        """
-        Generates INP from `Box`.
-
-        Returns:
-            INP surface card.
-        """
-
-        source = f'{self.prefix if self.prefix is not None else ""}{self.number} {self.transform if self.transform is not None else ""} {self._KEYWORD} {self.vx} {self.vy} {self.vz} {self.a1x} {self.a1y} {self.a1z} {self.a2x} {self.a2y} {self.a2z} {self.a3x} {self.a3y} {self.a3z}'
-        source = _card.Card._postprocess(source)
-
-        return source

@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Fcl(_field.Fields, _option.CellOption):
@@ -12,8 +11,6 @@ class Fcl(_field.Fields, _option.CellOption):
     """
 
     _KEYWORD = 'fcl'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     designator = _field.Field(types.Designator, 'Cell particle designator', required=True, numeric=())
     control = _field.Field(types.Real, 'Cell forced-collision control', required=True, invalid=lambda self, value: not (value >= -1 and value <= 1))

@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Dir_1(_field.Fields, _option.SdefOption):
@@ -12,8 +11,6 @@ class Dir_1(_field.Fields, _option.SdefOption):
     """
 
     _KEYWORD = 'dir'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     cosine = _field.Field(types.Distribution, 'Cosine of the angle between VEC and particle', required=True, numeric=())
 

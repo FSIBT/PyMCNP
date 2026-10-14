@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Mat(_field.Fields, _option.EmbeeOption):
@@ -12,8 +11,6 @@ class Mat(_field.Fields, _option.EmbeeOption):
     """
 
     _KEYWORD = 'mat'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     number = _field.Field(types.Integer, 'Material number', required=True, numeric=int, invalid=lambda self, value: not (value >= 0 and value <= 99999999))
 

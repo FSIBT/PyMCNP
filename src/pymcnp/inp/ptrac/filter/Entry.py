@@ -3,7 +3,6 @@ import re
 from ... import _field
 from . import _entry
 from .... import types
-from .... import errors
 
 
 class Entry(_field.Fields, _entry.FilterEntry):
@@ -13,7 +12,6 @@ class Entry(_field.Fields, _entry.FilterEntry):
 
     _KEYWORD = ''
 
-    _CODE = errors.InpCode.SEMANTICS_OPTION
     _ORDER = ('lower', 'upper', 'variable')
 
     lower = _field.Field(types.Real, 'Lower bound for filtering', required=True)

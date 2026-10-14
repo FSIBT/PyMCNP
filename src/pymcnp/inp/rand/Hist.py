@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Hist(_field.Fields, _option.RandOption):
@@ -12,8 +11,6 @@ class Hist(_field.Fields, _option.RandOption):
     """
 
     _KEYWORD = 'hist'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     hist = _field.Field(types.Integer, 'Starting pseudorandom number', required=True, numeric=int)
 

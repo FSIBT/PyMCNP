@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Sample(_field.Fields, _option.ActOption):
@@ -12,8 +11,6 @@ class Sample(_field.Fields, _option.ActOption):
     """
 
     _KEYWORD = 'sample'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     setting = _field.Field(types.String, 'Flag for correlated or uncorrelated', required=True, numeric=(), invalid=lambda self, value: value.value.lower() not in {'correlate', 'nonfiss_cor'})
 

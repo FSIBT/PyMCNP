@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Dn(_field.Fields, _option.ActOption):
@@ -12,8 +11,6 @@ class Dn(_field.Fields, _option.ActOption):
     """
 
     _KEYWORD = 'dn'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     source = _field.Field(types.String, 'Delayed neutron data source', required=True, numeric=(), invalid=lambda self, value: value.value.lower() not in {'model', 'library', 'both', 'prompt'})
 

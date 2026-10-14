@@ -4,7 +4,6 @@ from .. import _field
 from . import free
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Free(_field.Fields, _option.MplotOption):
@@ -13,8 +12,6 @@ class Free(_field.Fields, _option.MplotOption):
     """
 
     _KEYWORD = 'free'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     x = _field.Field(types.String, 'Independent variable', required=True, numeric=(), invalid=lambda self, value: value.value.lower() not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't', 'i', 'j', 'k'})
     y = _field.Field(types.String, 'Dependent variable', required=True, numeric=(), invalid=lambda self, value: value.value.lower() not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't', 'i', 'j', 'k'})

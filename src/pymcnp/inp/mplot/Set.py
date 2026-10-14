@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Set(_field.Fields, _option.MplotOption):
@@ -12,8 +11,6 @@ class Set(_field.Fields, _option.MplotOption):
     """
 
     _KEYWORD = 'set'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     f = _field.Field(types.Integer, 'F bin number', required=True, numeric=int)
     d = _field.Field(types.Integer, 'D bin number', required=True, numeric=int)

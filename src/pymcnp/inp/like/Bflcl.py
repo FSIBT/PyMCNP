@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Bflcl(_field.Fields, _option.LikeOption):
@@ -12,8 +11,6 @@ class Bflcl(_field.Fields, _option.LikeOption):
     """
 
     _KEYWORD = 'bflcl'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     number = _field.Field(types.Integer, 'Gets `number`', required=True, numeric=int, invalid=lambda self, value: not value >= 0)
 

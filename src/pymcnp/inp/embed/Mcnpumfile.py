@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Mcnpumfile(_field.Fields, _option.EmbedOption):
@@ -12,8 +11,6 @@ class Mcnpumfile(_field.Fields, _option.EmbedOption):
     """
 
     _KEYWORD = 'mcnpumfile'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     filename = _field.Field(types.String, 'Name of the MCNPUM output file', required=True, numeric=())
 

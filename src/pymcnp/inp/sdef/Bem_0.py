@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Bem_0(_field.Fields, _option.SdefOption):
@@ -12,8 +11,6 @@ class Bem_0(_field.Fields, _option.SdefOption):
     """
 
     _KEYWORD = 'bem'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     exn = _field.Field(types.Real, 'Normalized beam emittance parameter for x coordinates', required=True)
     eyn = _field.Field(types.Real, 'Normalized beam emittance parameter for x coordinates', required=True)

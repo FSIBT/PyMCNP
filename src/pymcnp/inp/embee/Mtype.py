@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Mtype(_field.Fields, _option.EmbeeOption):
@@ -12,8 +11,6 @@ class Mtype(_field.Fields, _option.EmbeeOption):
     """
 
     _KEYWORD = 'mtype'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     kind = _field.Field(
         types.String, 'Multiplier type', required=True, numeric=(), invalid=lambda self, value: value.value.lower() not in {'flux', 'isotropic', 'population', 'reaction', 'source', 'track'}

@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Fill_1(_field.Fields, _option.CellOption):
@@ -13,7 +12,6 @@ class Fill_1(_field.Fields, _option.CellOption):
 
     _KEYWORD = 'fill'
 
-    _CODE = errors.InpCode.SEMANTICS_OPTION
     _ORDER = ('universe', 'prefix', 'transformation')
 
     prefix = _field.Field(types.String, 'Star prefix', numeric=(), invalid=lambda self, value: value is not None and value.value.lower() not in {'*'})

@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class U(_field.Fields, _option.CellOption):
@@ -12,8 +11,6 @@ class U(_field.Fields, _option.CellOption):
     """
 
     _KEYWORD = 'u'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     number = _field.Field(types.Integer, 'Cell universe number', required=True, numeric=int, invalid=lambda self, value: not (value == 10000000000 or (value >= -9 and value <= 99999999)))
 

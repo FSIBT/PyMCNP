@@ -1,13 +1,13 @@
 import re
 
 from . import _field
-from . import _card
+from . import _surface
 from .. import _show
 from .. import types
 from .. import errors
 
 
-class P_0(_field.Fields, _card.Card):
+class P_0(_surface.Surface):
     """
     Represents INP `p` surface cards variation #0.
     """
@@ -15,22 +15,7 @@ class P_0(_field.Fields, _card.Card):
     _KEYWORD = 'p'
 
     _CODE = errors.InpCode.SEMANTICS_OPTION
-    _ORDER = ('a', 'b', 'c', 'd', 'number', 'transform', 'prefix')
-    _SET = ('a', 'b', 'c', 'd', 'transform', 'number', 'prefix')
 
-    prefix = _field.Field(
-        types.String, 'Surface whitebody/reflecting flag', numeric=(), invalid=lambda self, value: value is not None and value.value.lower() not in {'*', '+'}, code=errors.InpCode.SEMANTICS_CARD
-    )
-    number = _field.Field(
-        types.Integer,
-        'Surface number',
-        required=True,
-        default=lambda card: next(_card.NUMBER),
-        numeric=int,
-        invalid=lambda self, value: not 1 <= value <= (99999999 if not self.transform else 999),
-        code=errors.InpCode.SEMANTICS_CARD,
-    )
-    transform = _field.Field(types.Integer, 'Surface transform', numeric=int, invalid=lambda self, value: value is not None and (not 0 <= value <= 999), code=errors.InpCode.SEMANTICS_CARD)
     a = _field.Field(types.Real, 'Equation-defined general plane A coefficent', required=True)
     b = _field.Field(types.Real, 'Equation-defined general plane B coefficent', required=True)
     c = _field.Field(types.Real, 'Equation-defined general plane C coefficent', required=True)
@@ -54,74 +39,3 @@ class P_0(_field.Fields, _card.Card):
         vis = shapes.Plane(float(self.a), float(self.b), float(self.c), float(self.d))
 
         return vis
-
-    def __and__(a, b):
-        """
-        Unites `Surface`.
-
-        Parameters:
-            a: Operand #1.
-            b: Operand #2.
-
-        Returns:
-            `Surface` union.
-        """
-
-        return types.Geometry.from_mcnp(f'{a.number}:{b.number}')
-
-    def __or__(a, b):
-        """
-        Intersects `Surface`.
-
-        Parameters:
-            a: Operand #1.
-            b: Operand #2.
-
-        Returns:
-            `Surface` intersection.
-        """
-
-        return types.Geometry.from_mcnp(f'{a.number} {b.number}')
-
-    def __neg__(self):
-        """
-        Negatives `Surface`.
-
-        Returns:
-            `Surface` negative.
-        """
-
-        return types.Geometry.from_mcnp(f'-{self.number}')
-
-    def __pos__(self):
-        """
-        Positives `Surface`.
-
-        Returns:
-            `Surface` positive.
-        """
-
-        return types.Geometry.from_mcnp(f'+{self.number}')
-
-    def __invert__(self):
-        """
-        Inverts `Surface`.
-
-        Returns:
-            `Surface` complement.
-        """
-
-        return types.Geometry.from_mcnp(f'#{self.number}')
-
-    def to_mcnp(self):
-        """
-        Generates INP from `P_0`.
-
-        Returns:
-            INP surface card.
-        """
-
-        source = f'{self.prefix if self.prefix is not None else ""}{self.number} {self.transform if self.transform is not None else ""} {self._KEYWORD} {self.a} {self.b} {self.c} {self.d}'
-        source = _card.Card._postprocess(source)
-
-        return source

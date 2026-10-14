@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Debug(_field.Fields, _option.EmbedOption):
@@ -12,8 +11,6 @@ class Debug(_field.Fields, _option.EmbedOption):
     """
 
     _KEYWORD = 'debug'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     parameter = _field.Field(types.String, 'Debug parameter', required=True, numeric=(), invalid=lambda self, value: value.value.lower() not in {'echomesh'})
 

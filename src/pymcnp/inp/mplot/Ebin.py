@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Ebin(_field.Fields, _option.MplotOption):
@@ -12,8 +11,6 @@ class Ebin(_field.Fields, _option.MplotOption):
     """
 
     _KEYWORD = 'ebin'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     n = _field.Field(types.Integer, 'Energy bin to plot', required=True, numeric=int)
 

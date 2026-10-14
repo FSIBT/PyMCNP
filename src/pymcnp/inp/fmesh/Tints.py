@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Tints(_field.Fields, _option.FmeshOption):
@@ -12,8 +11,6 @@ class Tints(_field.Fields, _option.FmeshOption):
     """
 
     _KEYWORD = 'tints'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     count = _field.Field(types.Integer, 'Number of mesh points for each mesh time', required=True, numeric=int)
 

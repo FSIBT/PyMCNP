@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Alib(_field.Fields, _option.MOption_0):
@@ -12,8 +11,6 @@ class Alib(_field.Fields, _option.MOption_0):
     """
 
     _KEYWORD = 'alib'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     abx = _field.Field(types.String, 'Default alpha table identifier', required=True, numeric=())
 

@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Meph(_field.Fields, _option.PtracOption):
@@ -12,8 +11,6 @@ class Meph(_field.Fields, _option.PtracOption):
     """
 
     _KEYWORD = 'meph'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     events = _field.Field(types.Integer, 'Maximum number of events per history to write', required=True, numeric=int, invalid=lambda self, value: not value > 0)
 

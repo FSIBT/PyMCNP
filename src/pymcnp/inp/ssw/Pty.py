@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Pty(_field.Fields, _option.SswOption):
@@ -12,8 +11,6 @@ class Pty(_field.Fields, _option.SswOption):
     """
 
     _KEYWORD = 'pty'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     tracks = _field.Field.tuple(types.Designator, 'Tracks to record', required=True, numeric=())
 

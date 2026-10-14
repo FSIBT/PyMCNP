@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Plib(_field.Fields, _option.MOption_0):
@@ -12,8 +11,6 @@ class Plib(_field.Fields, _option.MOption_0):
     """
 
     _KEYWORD = 'plib'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     abx = _field.Field(types.String, 'Default photoatomic table identifier', required=True, numeric=())
 

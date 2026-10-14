@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Elpt(_field.Fields, _option.CellOption):
@@ -12,8 +11,6 @@ class Elpt(_field.Fields, _option.CellOption):
     """
 
     _KEYWORD = 'elpt'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     designator = _field.Field(types.Designator, 'Cell particle designator', required=True, numeric=())
     cutoff = _field.Field(types.Real, 'Cell energy cutoff', required=True)

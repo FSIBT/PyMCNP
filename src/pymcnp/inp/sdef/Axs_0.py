@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Axs_0(_field.Fields, _option.SdefOption):
@@ -12,8 +11,6 @@ class Axs_0(_field.Fields, _option.SdefOption):
     """
 
     _KEYWORD = 'axs'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     x = _field.Field(types.Real, 'Reference vector for EXT and RAD x-component', required=True)
     y = _field.Field(types.Real, 'Reference vector for EXT and RAD y-component', required=True)

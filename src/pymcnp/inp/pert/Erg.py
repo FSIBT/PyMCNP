@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Erg(_field.Fields, _option.PertOption):
@@ -12,8 +11,6 @@ class Erg(_field.Fields, _option.PertOption):
     """
 
     _KEYWORD = 'erg'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     energy_lower_bound = _field.Field(types.Real, 'Lower bound for energy pertubation', required=True)
     energy_upper_bound = _field.Field(types.Real, 'Upper bound for energy pertubation', required=True)

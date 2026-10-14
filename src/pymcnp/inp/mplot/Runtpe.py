@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Runtpe(_field.Fields, _option.MplotOption):
@@ -12,8 +11,6 @@ class Runtpe(_field.Fields, _option.MplotOption):
     """
 
     _KEYWORD = 'runtpe'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     filename = _field.Field(types.String, 'RUNTPE file to read dump', required=True, numeric=())
     n = _field.Field(types.Integer, 'RUNTPE read dump number', numeric=int)

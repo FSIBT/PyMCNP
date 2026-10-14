@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Maxdeflc(_field.Fields, _option.BfldOption):
@@ -12,8 +11,6 @@ class Maxdeflc(_field.Fields, _option.BfldOption):
     """
 
     _KEYWORD = 'maxdeflc'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     angle = _field.Field(types.Real, 'Maximum deflection angles', required=True)
 

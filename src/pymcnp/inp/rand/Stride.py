@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Stride(_field.Fields, _option.RandOption):
@@ -12,8 +11,6 @@ class Stride(_field.Fields, _option.RandOption):
     """
 
     _KEYWORD = 'stride'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     stride = _field.Field(types.Integer, 'Number of random numbers between source particle', required=True, numeric=int)
 

@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Dat_0(_field.Fields, _option.SdefOption):
@@ -12,8 +11,6 @@ class Dat_0(_field.Fields, _option.SdefOption):
     """
 
     _KEYWORD = 'dat'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     month = _field.Field(types.Integer, 'Month for cosmic-ray & background sources', required=True, numeric=int, invalid=lambda self, value: not (value >= 1 and value <= 12))
     day = _field.Field(types.Integer, 'Day for cosmic-ray & background sources', required=True, numeric=int, invalid=lambda self, value: not (value >= 1 and value <= 31))

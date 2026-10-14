@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Ext(_field.Fields, _option.CellOption):
@@ -12,8 +11,6 @@ class Ext(_field.Fields, _option.CellOption):
     """
 
     _KEYWORD = 'ext'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     designator = _field.Field(types.Designator, 'Cell particle designator', required=True, numeric=())
     stretch = _field.Field(types.String, 'Cell exponential transform stretching specifier', required=True, numeric=())

@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _entry
 from ... import types
-from ... import errors
 
 
 class Photonbias(_field.Fields, _entry.PikmtEntry):
@@ -12,8 +11,6 @@ class Photonbias(_field.Fields, _entry.PikmtEntry):
     """
 
     _KEYWORD = ''
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     zaid = _field.Field(types.Zaid, 'Bias nuclide identifier', required=True, numeric=())
     ipiki = _field.Field(types.Integer, 'Bias controls', required=True, numeric=int)

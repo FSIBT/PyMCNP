@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Xlims(_field.Fields, _option.MplotOption):
@@ -12,8 +11,6 @@ class Xlims(_field.Fields, _option.MplotOption):
     """
 
     _KEYWORD = 'xlims'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     lower = _field.Field(types.Real, 'X-axis lower limit', required=True)
     upper = _field.Field(types.Real, 'X-axis upper limit', required=True, invalid=lambda self, value: not self.lower < value)

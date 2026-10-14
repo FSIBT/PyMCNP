@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import f
 from . import _option
-from ... import errors
 
 
 class Loc_1(_field.Fields, _option.SdefOption):
@@ -12,8 +11,6 @@ class Loc_1(_field.Fields, _option.SdefOption):
     """
 
     _KEYWORD = 'loc'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     option = _field.Field(f.FOption, 'Dependent distribution option', required=True, numeric=())
 

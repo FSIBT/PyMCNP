@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Thick(_field.Fields, _option.MplotOption):
@@ -12,8 +11,6 @@ class Thick(_field.Fields, _option.MplotOption):
     """
 
     _KEYWORD = 'thick'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     x = _field.Field(types.Real, 'Thickness of plot curves', required=True)
 

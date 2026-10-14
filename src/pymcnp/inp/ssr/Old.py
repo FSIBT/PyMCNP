@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Old(_field.Fields, _option.SsrOption):
@@ -12,8 +11,6 @@ class Old(_field.Fields, _option.SsrOption):
     """
 
     _KEYWORD = 'old'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     numbers = _field.Field.tuple(types.Integer, 'Tuple of surface numbers from subset of surfaces on SSW card', required=True, numeric=int)
 

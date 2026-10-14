@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Kcode(_field.Fields, _option.MplotOption):
@@ -12,8 +11,6 @@ class Kcode(_field.Fields, _option.MplotOption):
     """
 
     _KEYWORD = 'kcode'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     i = _field.Field(types.Integer, 'Lifetime to remove', required=True, numeric=int, invalid=lambda self, value: not (value >= 1 and value <= 6 or (value >= 1 and value <= 19)))
 

@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Gas(_field.Fields, _option.MOption_0):
@@ -12,8 +11,6 @@ class Gas(_field.Fields, _option.MOption_0):
     """
 
     _KEYWORD = 'gas'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     setting = _field.Field(
         types.String, 'Flag for density-effect correction to electron stopping power', required=True, numeric=(), invalid=lambda self, value: value.value.lower() not in {'yes', 'no'}

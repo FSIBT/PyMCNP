@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Width(_field.Fields, _option.FmultOption):
@@ -12,8 +11,6 @@ class Width(_field.Fields, _option.FmultOption):
     """
 
     _KEYWORD = 'width'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     width = _field.Field(types.Real, 'Width for sampling spontaneous fission', required=True)
 

@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Dg(_field.Fields, _option.ActOption):
@@ -12,8 +11,6 @@ class Dg(_field.Fields, _option.ActOption):
     """
 
     _KEYWORD = 'dg'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     source = _field.Field(types.String, 'Delayed gamma data source', required=True, numeric=(), invalid=lambda self, value: value.value.lower() not in {'line', 'mg', 'none'})
 

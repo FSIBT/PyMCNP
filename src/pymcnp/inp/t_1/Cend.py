@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Cend(_field.Fields, _option.TOption_1):
@@ -12,8 +11,6 @@ class Cend(_field.Fields, _option.TOption_1):
     """
 
     _KEYWORD = 'cend'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     time = _field.Field(types.Real, 'Reference ending time', required=True)
 

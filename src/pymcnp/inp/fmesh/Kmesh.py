@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Kmesh(_field.Fields, _option.FmeshOption):
@@ -12,8 +11,6 @@ class Kmesh(_field.Fields, _option.FmeshOption):
     """
 
     _KEYWORD = 'kmesh'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     locations = _field.Field.tuple(types.Real, 'Locations of mesh points z/theta for rectangular/cylindrical geometry', required=True)
 

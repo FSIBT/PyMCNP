@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Ic(_field.Fields, _option.DfOption_1):
@@ -12,8 +11,6 @@ class Ic(_field.Fields, _option.DfOption_1):
     """
 
     _KEYWORD = 'ic'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     function = _field.Field(
         types.Integer, 'Standard dose function', required=True, numeric=int, invalid=lambda self, value: not (isinstance(value.value, types.Jump) or value in {10, 20, 31, 32, 33, 34, 35, 40, 99})

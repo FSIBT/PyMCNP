@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Y_1(_field.Fields, _option.SdefOption):
@@ -12,8 +11,6 @@ class Y_1(_field.Fields, _option.SdefOption):
     """
 
     _KEYWORD = 'y'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     position = _field.Field(types.Distribution, 'Position y-component', required=True, numeric=())
 

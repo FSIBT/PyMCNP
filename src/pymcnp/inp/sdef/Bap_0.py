@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Bap_0(_field.Fields, _option.SdefOption):
@@ -12,8 +11,6 @@ class Bap_0(_field.Fields, _option.SdefOption):
     """
 
     _KEYWORD = 'bap'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     ba1 = _field.Field(types.Real, 'Beam aperture half-width in the x transverse direction', required=True)
     ba2 = _field.Field(types.Real, 'Beam aperture half-width in the y transverse direction', required=True)

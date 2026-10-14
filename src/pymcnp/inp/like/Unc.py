@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Unc(_field.Fields, _option.LikeOption):
@@ -12,8 +11,6 @@ class Unc(_field.Fields, _option.LikeOption):
     """
 
     _KEYWORD = 'unc'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     designator = _field.Field(types.Designator, 'Gets `designator`', required=True, numeric=())
     setting = _field.Field(types.Integer, 'Gets `setting`', required=True, numeric=int, invalid=lambda self, value: value not in {0, 1})

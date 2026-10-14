@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Conic(_field.Fields, _option.PtracOption):
@@ -12,8 +11,6 @@ class Conic(_field.Fields, _option.PtracOption):
     """
 
     _KEYWORD = 'conic'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     setting = _field.Field(
         types.String, 'Activates a PTRAC file format specifically for coincidence tally scoring', required=True, numeric=(), invalid=lambda self, value: value.value.lower() not in {'col', 'lin'}

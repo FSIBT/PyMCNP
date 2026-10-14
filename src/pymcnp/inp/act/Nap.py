@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Nap(_field.Fields, _option.ActOption):
@@ -12,8 +11,6 @@ class Nap(_field.Fields, _option.ActOption):
     """
 
     _KEYWORD = 'nap'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     count = _field.Field(types.Integer, 'Number of activation products', required=True, numeric=int, invalid=lambda self, value: not value >= 0)
 

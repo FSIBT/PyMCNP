@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Mat(_field.Fields, _option.KpertOption):
@@ -12,8 +11,6 @@ class Mat(_field.Fields, _option.KpertOption):
     """
 
     _KEYWORD = 'mat'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     numbers = _field.Field.tuple(types.Integer, 'List of materials', required=True, numeric=int)
 

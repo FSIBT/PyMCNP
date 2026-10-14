@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Erg_1(_field.Fields, _option.SdefOption):
@@ -12,8 +11,6 @@ class Erg_1(_field.Fields, _option.SdefOption):
     """
 
     _KEYWORD = 'erg'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     energy = _field.Field(types.Distribution, 'Kinetic energy', required=True, numeric=())
 

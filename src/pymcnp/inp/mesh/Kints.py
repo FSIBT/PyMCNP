@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Kints(_field.Fields, _option.MeshOption):
@@ -12,8 +11,6 @@ class Kints(_field.Fields, _option.MeshOption):
     """
 
     _KEYWORD = 'kints'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     number = _field.Field.tuple(types.Integer, 'Number of fine meshes within corresponding coarse meshes in the z/theta directions', required=True, numeric=int)
 

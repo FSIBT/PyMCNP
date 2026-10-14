@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Fac(_field.Fields, _option.DfOption_1):
@@ -12,8 +11,6 @@ class Fac(_field.Fields, _option.DfOption_1):
     """
 
     _KEYWORD = 'fac'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     normalization = _field.Field(types.Integer, 'Normalization factor for dose', required=True, numeric=int, invalid=lambda self, value: not (isinstance(value.value, types.Jump) or value >= -3))
 

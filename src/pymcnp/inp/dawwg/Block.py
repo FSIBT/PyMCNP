@@ -4,7 +4,6 @@ from .. import _field
 from . import block
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Block(_field.Fields, _option.DawwgOption):
@@ -13,8 +12,6 @@ class Block(_field.Fields, _option.DawwgOption):
     """
 
     _KEYWORD = 'block'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     setting = _field.Field(types.Integer, 'Destination of key-value pairs', required=True, numeric=int, invalid=lambda self, value: value not in {1, 3, 5, 6})
     options = _field.Field.tuple(block.BlockOption, 'Dictionary of options', numeric=())

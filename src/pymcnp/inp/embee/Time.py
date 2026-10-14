@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Time(_field.Fields, _option.EmbeeOption):
@@ -12,8 +11,6 @@ class Time(_field.Fields, _option.EmbeeOption):
     """
 
     _KEYWORD = 'time'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     factor = _field.Field(types.Real, 'Multiplicative conversion factor for time-related output', required=True, invalid=lambda self, value: not value > 0)
 

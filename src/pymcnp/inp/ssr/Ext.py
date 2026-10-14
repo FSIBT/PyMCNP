@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Ext(_field.Fields, _option.SsrOption):
@@ -12,8 +11,6 @@ class Ext(_field.Fields, _option.SsrOption):
     """
 
     _KEYWORD = 'ext'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     number = _field.Field(types.Distribution, 'Distribution number for baising sampling', required=True, numeric=())
 

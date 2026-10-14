@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Par(_field.Fields, _option.MplotOption):
@@ -12,8 +11,6 @@ class Par(_field.Fields, _option.MplotOption):
     """
 
     _KEYWORD = 'par'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     particle = _field.Field(types.Designator, 'Particle type to plot', required=True, numeric=())
 

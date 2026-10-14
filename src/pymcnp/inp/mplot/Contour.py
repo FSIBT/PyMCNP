@@ -4,7 +4,6 @@ from .. import _field
 from . import contour
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Contour(_field.Fields, _option.MplotOption):
@@ -13,8 +12,6 @@ class Contour(_field.Fields, _option.MplotOption):
     """
 
     _KEYWORD = 'contour'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     cmin = _field.Field(types.Real, 'Contour lower limit', required=True)
     cmax = _field.Field(types.Real, 'Contour upper limit', required=True)

@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Type(_field.Fields, _option.PtracOption):
@@ -12,8 +11,6 @@ class Type(_field.Fields, _option.PtracOption):
     """
 
     _KEYWORD = 'type'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     particles = _field.Field.tuple(types.Designator, 'Filters events based on one or more particle types', required=True, numeric=())
 

@@ -3,7 +3,6 @@ import re
 from ... import _field
 from . import _option
 from .... import types
-from .... import errors
 
 
 class Astop(_field.Fields, _option.BlockOption):
@@ -12,8 +11,6 @@ class Astop(_field.Fields, _option.BlockOption):
     """
 
     _KEYWORD = 'astop'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     setting = _field.Field(types.Integer, 'Bottom-going flux at plane j', required=True, numeric=int)
 

@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Cel(_field.Fields, _option.SsrOption):
@@ -12,8 +11,6 @@ class Cel(_field.Fields, _option.SsrOption):
     """
 
     _KEYWORD = 'cel'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     numbers = _field.Field.tuple(types.Integer, 'Tuple of cell from subset of cells on SSW card', required=True, numeric=int)
 

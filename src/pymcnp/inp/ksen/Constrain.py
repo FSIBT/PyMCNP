@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Constrain(_field.Fields, _option.KsenOption):
@@ -12,8 +11,6 @@ class Constrain(_field.Fields, _option.KsenOption):
     """
 
     _KEYWORD = 'constrain'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     setting = _field.Field(types.String, 'Renormalize sensitivity distribution on/off', required=True, numeric=(), invalid=lambda self, value: value.value.lower() not in {'yes', 'no'})
 

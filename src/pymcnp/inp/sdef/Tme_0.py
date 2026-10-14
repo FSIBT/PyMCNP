@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Tme_0(_field.Fields, _option.SdefOption):
@@ -12,8 +11,6 @@ class Tme_0(_field.Fields, _option.SdefOption):
     """
 
     _KEYWORD = 'tme'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     time = _field.Field(types.Real, 'Time in shakes', required=True)
 

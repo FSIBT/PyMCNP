@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Xsec(_field.Fields, _option.DawwgOption):
@@ -12,8 +11,6 @@ class Xsec(_field.Fields, _option.DawwgOption):
     """
 
     _KEYWORD = 'xsec'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     name = _field.Field(types.String, 'Cross section library', required=True, numeric=())
 

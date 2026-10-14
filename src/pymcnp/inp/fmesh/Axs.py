@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Axs(_field.Fields, _option.FmeshOption):
@@ -12,8 +11,6 @@ class Axs(_field.Fields, _option.FmeshOption):
     """
 
     _KEYWORD = 'axs'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     x = _field.Field(types.Real, 'Cylindrical mesh axis vector x component', required=True)
     y = _field.Field(types.Real, 'Cylindrical mesh axis vector y component', required=True)

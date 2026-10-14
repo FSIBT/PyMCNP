@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Mt(_field.Fields, _option.MplotOption):
@@ -12,8 +11,6 @@ class Mt(_field.Fields, _option.MplotOption):
     """
 
     _KEYWORD = 'mt'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     n = _field.Field(types.Integer, 'Reaction number to print', required=True, numeric=int)
 

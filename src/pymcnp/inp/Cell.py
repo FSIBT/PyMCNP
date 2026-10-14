@@ -46,7 +46,6 @@ from .Y import Y
 from .Z import Z
 from .. import _show
 from .. import types
-from .. import errors
 
 
 NUMBER = iter(range(1, 100000000))
@@ -100,7 +99,6 @@ class Cell(_field.Fields, _card.Card):
     Represents INP cell cards.
     """
 
-    _CODE = errors.InpCode.SEMANTICS_CARD
     _ORDER = ('material', 'geometry', 'density', 'number', 'options')
 
     number = _field.Field(types.Integer, 'Cell number', required=True, default=lambda card: next(NUMBER), numeric=int, invalid=lambda self, value: not 1 <= value <= 99_999_999)

@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Fission(_field.Fields, _option.ActOption):
@@ -12,8 +11,6 @@ class Fission(_field.Fields, _option.ActOption):
     """
 
     _KEYWORD = 'fission'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     kind = _field.Field(
         types.String,

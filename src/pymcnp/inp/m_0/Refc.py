@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Refc(_field.Fields, _option.MOption_0):
@@ -12,8 +11,6 @@ class Refc(_field.Fields, _option.MOption_0):
     """
 
     _KEYWORD = 'refc'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     coefficents = _field.Field.tuple(types.Real, 'Cauchy coefficents', required=True)
 

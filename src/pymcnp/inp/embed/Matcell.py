@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import matcell
 from . import _option
-from ... import errors
 
 
 class Matcell(_field.Fields, _option.EmbedOption):
@@ -12,8 +11,6 @@ class Matcell(_field.Fields, _option.EmbedOption):
     """
 
     _KEYWORD = 'matcell'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     pairs = _field.Field.tuple(matcell.Entry, 'Tuple of material-cell paris', required=True, numeric=())
 

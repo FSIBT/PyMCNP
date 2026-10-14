@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Wash(_field.Fields, _option.MplotOption):
@@ -12,8 +11,6 @@ class Wash(_field.Fields, _option.MplotOption):
     """
 
     _KEYWORD = 'wash'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     aa = _field.Field(types.String, 'Color-wash on/offs', required=True, numeric=(), invalid=lambda self, value: value.value.lower() not in {'on', 'off'})
 

@@ -3,7 +3,6 @@ import re
 from ... import _field
 from . import _option
 from .... import types
-from .... import errors
 
 
 class Lib(_field.Fields, _option.BlockOption):
@@ -12,8 +11,6 @@ class Lib(_field.Fields, _option.BlockOption):
     """
 
     _KEYWORD = 'lib'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     setting = _field.Field(types.String, 'Name of cross-section file', required=True, numeric=())
 

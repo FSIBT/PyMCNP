@@ -3,7 +3,6 @@ import re
 from ... import _field
 from . import _option
 from .... import types
-from .... import errors
 
 
 class Tsabeta(_field.Fields, _option.BlockOption):
@@ -12,8 +11,6 @@ class Tsabeta(_field.Fields, _option.BlockOption):
     """
 
     _KEYWORD = 'tsabeta'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     setting = _field.Field(types.Real, 'Scattering cross-section reduction for TSA', required=True)
 

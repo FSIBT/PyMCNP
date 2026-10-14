@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Refs(_field.Fields, _option.MOption_0):
@@ -12,8 +11,6 @@ class Refs(_field.Fields, _option.MOption_0):
     """
 
     _KEYWORD = 'refs'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     coefficents = _field.Field.tuple(types.Real, 'Sellmeier coefficents', required=True)
 

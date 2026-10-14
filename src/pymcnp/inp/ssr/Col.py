@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Col(_field.Fields, _option.SsrOption):
@@ -12,8 +11,6 @@ class Col(_field.Fields, _option.SsrOption):
     """
 
     _KEYWORD = 'col'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     setting = _field.Field(types.Integer, 'Collision option setting', required=True, numeric=int, invalid=lambda self, value: value not in {-1, 0, 1})
 

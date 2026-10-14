@@ -3,7 +3,6 @@ import re
 from ... import _field
 from . import _option
 from .... import types
-from .... import errors
 
 
 class Tsasn(_field.Fields, _option.BlockOption):
@@ -12,8 +11,6 @@ class Tsasn(_field.Fields, _option.BlockOption):
     """
 
     _KEYWORD = 'tsasn'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     setting = _field.Field(types.Integer, 'Sn order for lower order TSA sweeps', required=True, numeric=int)
 

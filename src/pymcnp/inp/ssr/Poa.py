@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Poa(_field.Fields, _option.SsrOption):
@@ -12,8 +11,6 @@ class Poa(_field.Fields, _option.SsrOption):
     """
 
     _KEYWORD = 'poa'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     angle = _field.Field(types.Real, 'Angle within which particles accepeted for transport', required=True)
 

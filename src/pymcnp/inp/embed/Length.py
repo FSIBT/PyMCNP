@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Length(_field.Fields, _option.EmbedOption):
@@ -12,8 +11,6 @@ class Length(_field.Fields, _option.EmbedOption):
     """
 
     _KEYWORD = 'length'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     factor = _field.Field(types.Real, 'Conversion factor to centimeters for all mesh dimentions', required=True, invalid=lambda self, value: not value > 0)
 

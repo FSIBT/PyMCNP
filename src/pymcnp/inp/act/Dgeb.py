@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import dgeb
 from . import _option
-from ... import errors
 
 
 class Dgeb(_field.Fields, _option.ActOption):
@@ -12,8 +11,6 @@ class Dgeb(_field.Fields, _option.ActOption):
     """
 
     _KEYWORD = 'dgeb'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     biases = _field.Field.tuple(dgeb.Bias, 'Delayed neutron energy biases', required=True, numeric=())
 

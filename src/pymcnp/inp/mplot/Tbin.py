@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Tbin(_field.Fields, _option.MplotOption):
@@ -12,8 +11,6 @@ class Tbin(_field.Fields, _option.MplotOption):
     """
 
     _KEYWORD = 'tbin'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     n = _field.Field(types.Integer, 'Time bin to plot', required=True, numeric=int)
 

@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Blocksize(_field.Fields, _option.KoptsOption):
@@ -12,8 +11,6 @@ class Blocksize(_field.Fields, _option.KoptsOption):
     """
 
     _KEYWORD = 'blocksize'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     ncy = _field.Field(types.Integer, 'Number of cycles in every outer iteration', required=True, numeric=int, invalid=lambda self, value: not value >= 2)
 

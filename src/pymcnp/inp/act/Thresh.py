@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Thresh(_field.Fields, _option.ActOption):
@@ -12,8 +11,6 @@ class Thresh(_field.Fields, _option.ActOption):
     """
 
     _KEYWORD = 'thresh'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     fraction = _field.Field(types.Real, 'Fraction of highest-amplitude discrete delayed-gamma lines retained', required=True, invalid=lambda self, value: not (value >= 0 and value <= 1))
 

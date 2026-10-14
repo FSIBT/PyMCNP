@@ -3,7 +3,6 @@ import re
 from ... import _field
 from . import _entry
 from .... import types
-from .... import errors
 
 
 class Entry(_field.Fields, _entry.MatcellEntry):
@@ -12,8 +11,6 @@ class Entry(_field.Fields, _entry.MatcellEntry):
     """
 
     _KEYWORD = ''
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     material = _field.Field(types.Integer, 'Material number', required=True, numeric=int, invalid=lambda self, value: not 0 <= value.value <= 99999999)
     cell = _field.Field(types.Integer, 'Geometry number', required=True, numeric=int, invalid=lambda self, value: not 0 <= value.value <= 99999999)

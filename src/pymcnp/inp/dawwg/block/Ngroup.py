@@ -3,7 +3,6 @@ import re
 from ... import _field
 from . import _option
 from .... import types
-from .... import errors
 
 
 class Ngroup(_field.Fields, _option.BlockOption):
@@ -12,8 +11,6 @@ class Ngroup(_field.Fields, _option.BlockOption):
     """
 
     _KEYWORD = 'ngroup'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     value = _field.Field(types.Integer, 'Number of energy groups', required=True, numeric=int)
 

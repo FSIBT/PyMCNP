@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Cond(_field.Fields, _option.MOption_0):
@@ -12,8 +11,6 @@ class Cond(_field.Fields, _option.MOption_0):
     """
 
     _KEYWORD = 'cond'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     setting = _field.Field(types.Real, 'Conduction state for EL03 electron-transport evaluation', required=True)
 

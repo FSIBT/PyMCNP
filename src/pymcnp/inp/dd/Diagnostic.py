@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _entry
 from ... import types
-from ... import errors
 
 
 class Diagnostic(_field.Fields, _entry.DdEntry):
@@ -12,8 +11,6 @@ class Diagnostic(_field.Fields, _entry.DdEntry):
     """
 
     _KEYWORD = ''
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     playing_setting = _field.Field(types.Real, 'Criterion for playing Russian roulette for DXTRAN', required=True)
     printing_setting = _field.Field(types.Real, 'Criterion for printing diagnostics for large contributions for DXTRAN', required=True)

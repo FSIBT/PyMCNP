@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Cel_1(_field.Fields, _option.SdefOption):
@@ -12,8 +11,6 @@ class Cel_1(_field.Fields, _option.SdefOption):
     """
 
     _KEYWORD = 'cel'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     number = _field.Field(types.Distribution, 'Cell number', required=True, numeric=())
 

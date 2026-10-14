@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Factor(_field.Fields, _option.MplotOption):
@@ -12,8 +11,6 @@ class Factor(_field.Fields, _option.MplotOption):
     """
 
     _KEYWORD = 'factor'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     a = _field.Field(types.String, 'Multiplication axis', required=True, numeric=(), invalid=lambda self, value: value.value.lower() not in {'x', 'y', 'z'})
     f = _field.Field(types.Real, 'Multiplication factor', required=True)

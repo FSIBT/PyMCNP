@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Inc(_field.Fields, _option.FmeshOption):
@@ -12,8 +11,6 @@ class Inc(_field.Fields, _option.FmeshOption):
     """
 
     _KEYWORD = 'inc'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     lower = _field.Field(types.Real, 'Collision for FMESH tally lower bound', required=True)
     upper = _field.Field(types.Real, 'Collision for FMESH tally upper bound')

@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Axs(_field.Fields, _option.MeshOption):
@@ -12,8 +11,6 @@ class Axs(_field.Fields, _option.MeshOption):
     """
 
     _KEYWORD = 'axs'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     vector = _field.Field.tuple(types.Real, 'Vector giving the direction of the polar axis', required=True)
 

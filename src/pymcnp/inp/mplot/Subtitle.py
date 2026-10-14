@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Subtitle(_field.Fields, _option.MplotOption):
@@ -12,8 +11,6 @@ class Subtitle(_field.Fields, _option.MplotOption):
     """
 
     _KEYWORD = 'subtitle'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     x = _field.Field(types.Integer, 'X-coordinate of location', required=True, numeric=int)
     y = _field.Field(types.Integer, 'Y-coordinate of location', required=True, numeric=int)

@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Field(_field.Fields, _option.BfldOption):
@@ -12,8 +11,6 @@ class Field(_field.Fields, _option.BfldOption):
     """
 
     _KEYWORD = 'field'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     strength_gradient = _field.Field(types.Real, 'Magnetic field strength/gradient', required=True)
 

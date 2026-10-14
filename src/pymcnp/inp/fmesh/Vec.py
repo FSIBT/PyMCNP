@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Vec(_field.Fields, _option.FmeshOption):
@@ -12,8 +11,6 @@ class Vec(_field.Fields, _option.FmeshOption):
     """
 
     _KEYWORD = 'vec'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     x = _field.Field(types.Real, 'Plane vector x component', required=True)
     y = _field.Field(types.Real, 'Plane vector y component', required=True)

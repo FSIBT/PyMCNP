@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Bcw(_field.Fields, _option.SsrOption):
@@ -12,8 +11,6 @@ class Bcw(_field.Fields, _option.SsrOption):
     """
 
     _KEYWORD = 'bcw'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     radius = _field.Field(types.Real, 'Radius of cylindrical window', required=True)
     zb = _field.Field(types.Real, 'Bottom of cylindrical window', required=True, invalid=lambda self, value: not value > 0)

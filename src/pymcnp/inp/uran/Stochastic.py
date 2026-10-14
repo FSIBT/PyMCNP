@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _entry
 from ... import types
-from ... import errors
 
 
 class Stochastic(_field.Fields, _entry.UranEntry):
@@ -12,8 +11,6 @@ class Stochastic(_field.Fields, _entry.UranEntry):
     """
 
     _KEYWORD = ''
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     universe = _field.Field(types.Integer, 'Universe number', required=True, numeric=int, invalid=lambda self, value: not 0 <= value.value <= 99999999)
     maximum_x = _field.Field(types.Real, 'Maximum x displacement', required=True)

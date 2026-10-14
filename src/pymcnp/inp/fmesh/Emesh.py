@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Emesh(_field.Fields, _option.FmeshOption):
@@ -12,8 +11,6 @@ class Emesh(_field.Fields, _option.FmeshOption):
     """
 
     _KEYWORD = 'emesh'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     energy = _field.Field(types.Real, 'Values of mesh points in energy', required=True)
 

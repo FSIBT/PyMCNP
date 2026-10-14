@@ -13,6 +13,7 @@ class Card(_symbol.InpNonterminal):
     """
 
     _ATTRS: dict
+    _CODE = errors.InpCode.SEMANTICS_CARD
 
     @classmethod
     def from_mcnp(cls, source: str):

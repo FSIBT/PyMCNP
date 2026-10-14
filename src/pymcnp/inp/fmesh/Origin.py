@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Origin(_field.Fields, _option.FmeshOption):
@@ -12,8 +11,6 @@ class Origin(_field.Fields, _option.FmeshOption):
     """
 
     _KEYWORD = 'origin'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     x = _field.Field(types.Real, 'Origin x coordinate', required=True)
     y = _field.Field(types.Real, 'Origin y coordinate', required=True)

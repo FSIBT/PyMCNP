@@ -3,12 +3,15 @@ import re
 from .. import _field
 from . import _option
 from ... import types
+from ... import errors
 
 
 class Genxs(_field.Fields, _option.TroptOption):
     """
     Represents INP `genxs` elements.
     """
+
+    _CODE = errors.InpCode.SEMANTICS_CARD
 
     _KEYWORD = 'genxs'
 

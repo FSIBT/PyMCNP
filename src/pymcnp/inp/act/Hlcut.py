@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Hlcut(_field.Fields, _option.ActOption):
@@ -12,8 +11,6 @@ class Hlcut(_field.Fields, _option.ActOption):
     """
 
     _KEYWORD = 'hlcut'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     cutoff = _field.Field(types.Real, 'Spontaneous-decay half-life threshold', required=True)
 

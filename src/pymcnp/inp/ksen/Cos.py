@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Cos(_field.Fields, _option.KsenOption):
@@ -12,8 +11,6 @@ class Cos(_field.Fields, _option.KsenOption):
     """
 
     _KEYWORD = 'cos'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     cosines = _field.Field.tuple(types.Real, 'Range of direction-change cosines', required=True)
 

@@ -1,12 +1,12 @@
 import re
 
 from . import _field
-from . import _card
+from . import _surface
 from .. import types
 from .. import errors
 
 
-class Arb(_field.Fields, _card.Card):
+class Arb(_surface.Surface):
     """
     Represents INP `arb` surface cards.
     """
@@ -14,90 +14,7 @@ class Arb(_field.Fields, _card.Card):
     _KEYWORD = 'arb'
 
     _CODE = errors.InpCode.SEMANTICS_OPTION
-    _ORDER = (
-        'ax',
-        'ay',
-        'az',
-        'bx',
-        'by',
-        'bz',
-        'cx',
-        'cy',
-        'cz',
-        'dx',
-        'dy',
-        'dz',
-        'ex',
-        'ey',
-        'ez',
-        'fx',
-        'fy',
-        'fz',
-        'gx',
-        'gy',
-        'gz',
-        'hx',
-        'hy',
-        'hz',
-        'n1',
-        'n2',
-        'n3',
-        'n4',
-        'n5',
-        'n6',
-        'number',
-        'transform',
-        'prefix',
-    )
-    _SET = (
-        'ax',
-        'ay',
-        'az',
-        'bx',
-        'by',
-        'bz',
-        'cx',
-        'cy',
-        'cz',
-        'dx',
-        'dy',
-        'dz',
-        'ex',
-        'ey',
-        'ez',
-        'fx',
-        'fy',
-        'fz',
-        'gx',
-        'gy',
-        'gz',
-        'hx',
-        'hy',
-        'hz',
-        'n1',
-        'n2',
-        'n3',
-        'n4',
-        'n5',
-        'n6',
-        'transform',
-        'number',
-        'prefix',
-    )
 
-    prefix = _field.Field(
-        types.String, 'Surface whitebody/reflecting flag', numeric=(), invalid=lambda self, value: value is not None and value.value.lower() not in {'*', '+'}, code=errors.InpCode.SEMANTICS_CARD
-    )
-    number = _field.Field(
-        types.Integer,
-        'Surface number',
-        required=True,
-        default=lambda card: next(_card.NUMBER),
-        numeric=int,
-        invalid=lambda self, value: not 1 <= value <= (99999999 if not self.transform else 999),
-        code=errors.InpCode.SEMANTICS_CARD,
-    )
-    transform = _field.Field(types.Integer, 'Surface transform', numeric=int, invalid=lambda self, value: value is not None and (not 0 <= value <= 999), code=errors.InpCode.SEMANTICS_CARD)
     ax = _field.Field(types.Real, 'Polyhedron corner #1 x component', required=True)
     ay = _field.Field(types.Real, 'Polyhedron corner #1 y component', required=True)
     az = _field.Field(types.Real, 'Polyhedron corner #1 z component', required=True)
@@ -133,74 +50,3 @@ class Arb(_field.Fields, _card.Card):
         rf'\A(\+|\*)?(\S+)( \S+)? arb( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z',
         re.IGNORECASE,
     )
-
-    def to_mcnp(self):
-        """
-        Generates INP from `Arb`.
-
-        Returns:
-            INP surface card.
-        """
-
-        source = f'{self.prefix if self.prefix is not None else ""}{self.number} {self.transform if self.transform is not None else ""} {self._KEYWORD} {self.ax} {self.ay} {self.az} {self.bx} {self.by} {self.bz} {self.cx} {self.cy} {self.cz} {self.dx} {self.dy} {self.dz} {self.ex} {self.ey} {self.ez} {self.fx} {self.fy} {self.fz} {self.gx} {self.gy} {self.gz} {self.hx} {self.hy} {self.hz} {self.n1} {self.n2} {self.n3} {self.n4} {self.n5} {self.n6}'
-        source = _card.Card._postprocess(source)
-
-        return source
-
-    def __and__(a, b):
-        """
-        Unites `Surface`.
-
-        Parameters:
-            a: Operand #1.
-            b: Operand #2.
-
-        Returns:
-            `Surface` union.
-        """
-
-        return types.Geometry.from_mcnp(f'{a.number}:{b.number}')
-
-    def __or__(a, b):
-        """
-        Intersects `Surface`.
-
-        Parameters:
-            a: Operand #1.
-            b: Operand #2.
-
-        Returns:
-            `Surface` intersection.
-        """
-
-        return types.Geometry.from_mcnp(f'{a.number} {b.number}')
-
-    def __neg__(self):
-        """
-        Negatives `Surface`.
-
-        Returns:
-            `Surface` negative.
-        """
-
-        return types.Geometry.from_mcnp(f'-{self.number}')
-
-    def __pos__(self):
-        """
-        Positives `Surface`.
-
-        Returns:
-            `Surface` positive.
-        """
-
-        return types.Geometry.from_mcnp(f'+{self.number}')
-
-    def __invert__(self):
-        """
-        Inverts `Surface`.
-
-        Returns:
-            `Surface` complement.
-        """
-
-        return types.Geometry.from_mcnp(f'#{self.number}')

@@ -85,17 +85,17 @@ class Fields:
     """
     Mixin building `_ATTRS`, the signature and `__init__` from `Field` attributes.
 
-    Fields are declared in `_ATTRS` order (the order of the regular expression groups).
+    Fields are declared in `_ATTRS` order (the order of the regular expression groups), inherited ones first.
     `_ORDER` overrides the order of `__init__` arguments and `_SET` the order in
     which they are assigned (validators may depend on other fields).
     """
 
-    _CODE = errors.InpCode.SEMANTICS_CARD
-
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
 
-        fields = {name: field for name, field in vars(cls).items() if isinstance(field, Field)}
+        # Multiple bases (e.g. `types.Union`) must not merge the fields of unrelated classes.
+        chain = reversed(cls.__mro__) if len(cls.__bases__) == 1 else (cls,)
+        fields = {name: field for klass in chain for name, field in vars(klass).items() if isinstance(field, Field)}
         cls._ATTRS = {name: field.type for name, field in fields.items()}
         cls._ORDER = tuple(vars(cls).get('_ORDER', fields))
         cls._SET = tuple(vars(cls).get('_SET', fields))

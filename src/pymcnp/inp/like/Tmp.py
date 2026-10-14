@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Tmp(_field.Fields, _option.LikeOption):
@@ -13,7 +12,6 @@ class Tmp(_field.Fields, _option.LikeOption):
 
     _KEYWORD = 'tmp'
 
-    _CODE = errors.InpCode.SEMANTICS_OPTION
     _ORDER = ('temperature', 'suffix')
 
     suffix = _field.Field(types.Integer, 'Gets `suffix`', numeric=int)

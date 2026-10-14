@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Ctme(_field.Fields, _option.StopOption):
@@ -12,8 +11,6 @@ class Ctme(_field.Fields, _option.StopOption):
     """
 
     _KEYWORD = 'ctme'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     tme = _field.Field(types.Real, 'Computer time before stop', required=True)
 

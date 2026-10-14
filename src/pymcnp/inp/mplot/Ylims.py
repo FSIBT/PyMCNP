@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Ylims(_field.Fields, _option.MplotOption):
@@ -12,8 +11,6 @@ class Ylims(_field.Fields, _option.MplotOption):
     """
 
     _KEYWORD = 'ylims'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     lower = _field.Field(types.Real, 'Y-axis lower limit', required=True)
     upper = _field.Field(types.Real, 'Y-axis upper limit', required=True, invalid=lambda self, value: not self.lower < value)

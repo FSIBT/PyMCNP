@@ -8,6 +8,7 @@ class Entry(_symbol.InpNonterminal):
     """
 
     _ATTRS: dict
+    _CODE = errors.InpCode.SEMANTICS_OPTION
     _KEYWORD: str
 
     @classmethod

@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Iso(_field.Fields, _option.KsenOption):
@@ -12,8 +11,6 @@ class Iso(_field.Fields, _option.KsenOption):
     """
 
     _KEYWORD = 'iso'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     zaids = _field.Field.tuple(types.Zaid, 'List of ZAIDs for pertubation', required=True, numeric=())
 

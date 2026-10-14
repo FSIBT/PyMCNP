@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Imesh(_field.Fields, _option.MeshOption):
@@ -12,8 +11,6 @@ class Imesh(_field.Fields, _option.MeshOption):
     """
 
     _KEYWORD = 'imesh'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     vector = _field.Field.tuple(types.Real, 'Locations of the coarse meshes in the x/r directions', required=True)
 

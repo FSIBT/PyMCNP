@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Term(_field.Fields, _option.MplotOption):
@@ -12,8 +11,6 @@ class Term(_field.Fields, _option.MplotOption):
     """
 
     _KEYWORD = 'term'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     n = _field.Field(types.Integer, 'Output decive specifier', required=True, numeric=int, invalid=lambda self, value: value not in {0, 1})
 

@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Mgeoin(_field.Fields, _option.EmbedOption):
@@ -12,8 +11,6 @@ class Mgeoin(_field.Fields, _option.EmbedOption):
     """
 
     _KEYWORD = 'mgeoin'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     filename = _field.Field(types.String, 'Name of the input file containing the mesh description', required=True, numeric=())
 

@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Axs(_field.Fields, _option.SsrOption):
@@ -12,8 +11,6 @@ class Axs(_field.Fields, _option.SsrOption):
     """
 
     _KEYWORD = 'axs'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     cosines = _field.Field.tuple(types.Real, 'Direction cosines defining', required=True)
 

@@ -3,7 +3,6 @@ import re
 from ... import _field
 from . import _option
 from .... import types
-from .... import errors
 
 
 class Fsur(_field.Fields, _option.FOption):
@@ -12,8 +11,6 @@ class Fsur(_field.Fields, _option.FOption):
     """
 
     _KEYWORD = 'fsur'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     distribution = _field.Field(types.Distribution, 'Dependent distribution', required=True, numeric=())
 

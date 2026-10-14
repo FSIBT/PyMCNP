@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _entry
 from ... import types
-from ... import errors
 
 
 class Sphere(_field.Fields, _entry.FEntry_1):
@@ -12,8 +11,6 @@ class Sphere(_field.Fields, _entry.FEntry_1):
     """
 
     _KEYWORD = ''
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     x = _field.Field(types.Real, 'Vector x coordinate', required=True)
     y = _field.Field(types.Real, 'Vector y coordinate', required=True)

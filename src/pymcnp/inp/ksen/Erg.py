@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Erg(_field.Fields, _option.KsenOption):
@@ -12,8 +11,6 @@ class Erg(_field.Fields, _option.KsenOption):
     """
 
     _KEYWORD = 'erg'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     energies = _field.Field.tuple(types.Real, 'List of energies', required=True)
 

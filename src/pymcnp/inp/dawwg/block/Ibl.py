@@ -3,7 +3,6 @@ import re
 from ... import _field
 from . import _option
 from .... import types
-from .... import errors
 
 
 class Ibl(_field.Fields, _option.BlockOption):
@@ -12,8 +11,6 @@ class Ibl(_field.Fields, _option.BlockOption):
     """
 
     _KEYWORD = 'ibl'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     setting = _field.Field(types.Integer, 'Left boundary condition', required=True, numeric=int)
 

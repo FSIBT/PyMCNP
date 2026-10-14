@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Ffedges(_field.Fields, _option.BfldOption):
@@ -12,8 +11,6 @@ class Ffedges(_field.Fields, _option.BfldOption):
     """
 
     _KEYWORD = 'ffedges'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     numbers = _field.Field.tuple(types.Real, 'Surface numbers to apply field fringe edges', required=True)
 

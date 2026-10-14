@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Watt(_field.Fields, _option.FmultOption):
@@ -12,8 +11,6 @@ class Watt(_field.Fields, _option.FmultOption):
     """
 
     _KEYWORD = 'watt'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     a = _field.Field(types.Real, 'Watt energy spectrum parameters a', required=True)
     b = _field.Field(types.Real, 'Watt energy spectrum parameters b', required=True)

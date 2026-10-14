@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Csub(_field.Fields, _option.TOption_1):
@@ -12,8 +11,6 @@ class Csub(_field.Fields, _option.TOption_1):
     """
 
     _KEYWORD = 'csub'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     count = _field.Field(types.Integer, 'Number of subdivisions to use', required=True, numeric=int)
 

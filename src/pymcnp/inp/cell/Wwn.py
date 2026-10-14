@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Wwn(_field.Fields, _option.CellOption):
@@ -12,8 +11,6 @@ class Wwn(_field.Fields, _option.CellOption):
     """
 
     _KEYWORD = 'wwn'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     suffix = _field.Field(types.Integer, 'Cell option suffix', required=True, numeric=int)
     designator = _field.Field(types.Designator, 'Cell particle designator', required=True, numeric=())

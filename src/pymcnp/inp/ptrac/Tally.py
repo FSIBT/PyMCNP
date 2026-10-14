@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Tally(_field.Fields, _option.PtracOption):
@@ -12,8 +11,6 @@ class Tally(_field.Fields, _option.PtracOption):
     """
 
     _KEYWORD = 'tally'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     numbers = _field.Field.tuple(types.Integer, 'List of tally numbers for filtering', required=True, numeric=int)
 

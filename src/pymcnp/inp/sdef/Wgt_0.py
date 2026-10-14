@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Wgt_0(_field.Fields, _option.SdefOption):
@@ -12,8 +11,6 @@ class Wgt_0(_field.Fields, _option.SdefOption):
     """
 
     _KEYWORD = 'wgt'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     weight = _field.Field(types.Real, 'Particle weight', required=True)
 

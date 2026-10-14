@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Rxn(_field.Fields, _option.PertOption):
@@ -12,8 +11,6 @@ class Rxn(_field.Fields, _option.PertOption):
     """
 
     _KEYWORD = 'rxn'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     numbers = _field.Field.tuple(types.Integer, 'ENDF/B reaction number', required=True, numeric=int)
 

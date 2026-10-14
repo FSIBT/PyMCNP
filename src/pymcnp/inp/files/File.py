@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _entry
 from ... import types
-from ... import errors
 
 
 class File(_field.Fields, _entry.FilesEntry):
@@ -12,8 +11,6 @@ class File(_field.Fields, _entry.FilesEntry):
     """
 
     _KEYWORD = ''
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     unit = _field.Field(types.Integer, 'Unit number of file to create', required=True, numeric=int)
     filename = _field.Field(types.String, 'Name of file to create', required=True, numeric=())

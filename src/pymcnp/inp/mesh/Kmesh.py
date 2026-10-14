@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Kmesh(_field.Fields, _option.MeshOption):
@@ -12,8 +11,6 @@ class Kmesh(_field.Fields, _option.MeshOption):
     """
 
     _KEYWORD = 'kmesh'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     vector = _field.Field.tuple(types.Real, 'Locations of the coarse meshes in the z/theta directions', required=True)
 

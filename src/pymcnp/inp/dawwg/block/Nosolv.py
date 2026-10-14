@@ -3,7 +3,6 @@ import re
 from ... import _field
 from . import _option
 from .... import types
-from .... import errors
 
 
 class Nosolv(_field.Fields, _option.BlockOption):
@@ -12,8 +11,6 @@ class Nosolv(_field.Fields, _option.BlockOption):
     """
 
     _KEYWORD = 'nosolv'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     setting = _field.Field(types.Integer, 'Suppress solver module on/off', required=True, numeric=int, invalid=lambda self, value: value not in {0, 1})
 

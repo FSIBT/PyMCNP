@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Rho(_field.Fields, _option.LikeOption):
@@ -12,8 +11,6 @@ class Rho(_field.Fields, _option.LikeOption):
     """
 
     _KEYWORD = 'rho'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     density = _field.Field(types.Real, 'Gets `density`', required=True)
 

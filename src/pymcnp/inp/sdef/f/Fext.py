@@ -3,7 +3,6 @@ import re
 from ... import _field
 from . import _option
 from .... import types
-from .... import errors
 
 
 class Fext(_field.Fields, _option.FOption):
@@ -12,8 +11,6 @@ class Fext(_field.Fields, _option.FOption):
     """
 
     _KEYWORD = 'fext'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     distribution = _field.Field(types.Distribution, 'Dependent distribution', required=True, numeric=())
 

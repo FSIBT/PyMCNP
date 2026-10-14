@@ -3,7 +3,6 @@ import re
 from ... import _field
 from . import _option
 from .... import types
-from .... import errors
 
 
 class Fissneut(_field.Fields, _option.BlockOption):
@@ -12,8 +11,6 @@ class Fissneut(_field.Fields, _option.BlockOption):
     """
 
     _KEYWORD = 'fissneut'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     setting = _field.Field(types.Integer, 'Fission neutron flag', required=True, numeric=int)
 

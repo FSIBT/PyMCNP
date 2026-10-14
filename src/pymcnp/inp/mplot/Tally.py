@@ -3,12 +3,15 @@ import re
 from .. import _field
 from . import _option
 from ... import types
+from ... import errors
 
 
 class Tally(_field.Fields, _option.MplotOption):
     """
     Represents INP `tally` elements.
     """
+
+    _CODE = errors.InpCode.SEMANTICS_CARD
 
     _KEYWORD = 'tally'
 

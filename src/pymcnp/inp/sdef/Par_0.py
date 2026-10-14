@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Par_0(_field.Fields, _option.SdefOption):
@@ -12,8 +11,6 @@ class Par_0(_field.Fields, _option.SdefOption):
     """
 
     _KEYWORD = 'par'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     kind = _field.Field(types.String, 'Source particle type', required=True, numeric=())
 

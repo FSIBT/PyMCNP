@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _entry
 from ... import types
-from ... import errors
 
 
 class Shell(_field.Fields, _entry.DxtEntry):
@@ -12,8 +11,6 @@ class Shell(_field.Fields, _entry.DxtEntry):
     """
 
     _KEYWORD = ''
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     x = _field.Field(types.Real, 'Vector x coordinate', required=True)
     y = _field.Field(types.Real, 'Vector y coordinate', required=True)

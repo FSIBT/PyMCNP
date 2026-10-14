@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Freq(_field.Fields, _option.MplotOption):
@@ -12,8 +11,6 @@ class Freq(_field.Fields, _option.MplotOption):
     """
 
     _KEYWORD = 'freq'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     n = _field.Field(types.Integer, 'Number of histories between plotting calls', required=True, numeric=int)
 

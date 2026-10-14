@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Xtitle(_field.Fields, _option.MplotOption):
@@ -12,8 +11,6 @@ class Xtitle(_field.Fields, _option.MplotOption):
     """
 
     _KEYWORD = 'xtitle'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     aa = _field.Field(types.String, 'Line to substitute', required=True, numeric=(), invalid=lambda self, value: not len(value) <= 40)
 

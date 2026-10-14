@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Energy(_field.Fields, _option.EmbeeOption):
@@ -12,8 +11,6 @@ class Energy(_field.Fields, _option.EmbeeOption):
     """
 
     _KEYWORD = 'energy'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     factor = _field.Field(types.Real, 'Multiplicative conversion factor for energy-related output', required=True, invalid=lambda self, value: not value > 0)
 

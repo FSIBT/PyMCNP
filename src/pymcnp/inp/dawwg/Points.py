@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Points(_field.Fields, _option.DawwgOption):
@@ -12,8 +11,6 @@ class Points(_field.Fields, _option.DawwgOption):
     """
 
     _KEYWORD = 'points'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     count = _field.Field(types.Integer, 'Number of sample points for each direction in each mesh', required=True, numeric=int)
 

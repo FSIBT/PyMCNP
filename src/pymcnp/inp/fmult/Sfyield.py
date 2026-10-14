@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Sfyield(_field.Fields, _option.FmultOption):
@@ -12,8 +11,6 @@ class Sfyield(_field.Fields, _option.FmultOption):
     """
 
     _KEYWORD = 'sfyield'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     fission_yield = _field.Field(types.Real, 'Spontaneous fission yield', required=True)
 

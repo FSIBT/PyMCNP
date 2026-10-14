@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Fmat(_field.Fields, _option.KoptsOption):
@@ -12,8 +11,6 @@ class Fmat(_field.Fields, _option.KoptsOption):
     """
 
     _KEYWORD = 'fmat'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     setting = _field.Field(types.String, 'Yes/No FMAT', required=True, numeric=(), invalid=lambda self, value: value.value.lower() not in {'yes', 'no'})
 

@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Origin(_field.Fields, _option.MeshOption):
@@ -12,8 +11,6 @@ class Origin(_field.Fields, _option.MeshOption):
     """
 
     _KEYWORD = 'origin'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     point = _field.Field.tuple(types.Real, 'Mesh origin point', required=True)
 

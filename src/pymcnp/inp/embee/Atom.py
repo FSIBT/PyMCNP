@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Atom(_field.Fields, _option.EmbeeOption):
@@ -12,8 +11,6 @@ class Atom(_field.Fields, _option.EmbeeOption):
     """
 
     _KEYWORD = 'atom'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     setting = _field.Field(types.String, 'Flag to multiply by atom density', required=True, numeric=(), invalid=lambda self, value: value.value.lower() not in {'yes', 'no'})
 

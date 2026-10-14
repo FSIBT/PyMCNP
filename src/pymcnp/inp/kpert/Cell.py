@@ -3,7 +3,6 @@ import re
 from .. import _field
 from . import _option
 from ... import types
-from ... import errors
 
 
 class Cell(_field.Fields, _option.KpertOption):
@@ -12,8 +11,6 @@ class Cell(_field.Fields, _option.KpertOption):
     """
 
     _KEYWORD = 'cell'
-
-    _CODE = errors.InpCode.SEMANTICS_OPTION
 
     numbers = _field.Field.tuple(types.Integer, 'List of cells', required=True, numeric=int)
 
