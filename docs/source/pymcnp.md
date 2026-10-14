@@ -1,10 +1,5 @@
 # PyMCNP Library
 
-```{eval-rst}
-.. warning:: 
-   PyMCNP is in active development! Please, double check everything works. Reports error on [GitHub](https://github.com/FSIBT/PyMCNP).
-```
-
 PyMCNP provides the backend for the CLI and useful tools for programatically interfacing with
 MCNP. This package supports INP, OUTP, PTRAC, and MESHTAL parsing using subpackages.
 
