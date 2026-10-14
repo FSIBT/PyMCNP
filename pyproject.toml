@@ -63,7 +63,7 @@ test = [
 Documentation = "https://pymcnp.readthedocs.io/en/latest/"
 Homepage = "https://github.com/FSIBT/PyMCNP"
 Issues = "https://github.com/FSIBT/PyMCNP/issues"
-Changelog = "https://github.com/FSIBT/PyMCNP/blob/master/CHANGELOG.md"
+Changelog = "https://github.com/FSIBT/PyMCNP/blob/main/CHANGELOG.md"
 
 [project.scripts]
 pymcnp = "pymcnp._cli.main:main"

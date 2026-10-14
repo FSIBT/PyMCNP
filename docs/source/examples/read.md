@@ -6,7 +6,7 @@ PyMCNP provides endpoints to read MCNP files.
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_00.inp>`_.
+   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/main/examples/example_00.inp>`_.
 ```
 
 Code:
@@ -34,7 +34,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_00.inp>`_.
+   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/main/examples/example_00.inp>`_.
 ```
 
 Code:
@@ -53,7 +53,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_00.inp>`_.
+   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/main/examples/example_00.inp>`_.
 ```
 
 Code:
@@ -78,7 +78,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_00.inp>`_.
+   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/main/examples/example_00.inp>`_.
 ```
 
 Code:
@@ -97,7 +97,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_00.outp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_00.outp>`_.
+   This example requires `example_00.outp <https://github.com/FSIBT/PyMCNP/blob/main/examples/example_00.outp>`_.
 ```
 
 Code:
@@ -123,7 +123,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_00.outp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_00.outp>`_.
+   This example requires `example_00.outp <https://github.com/FSIBT/PyMCNP/blob/main/examples/example_00.outp>`_.
 ```
 
 Code:
@@ -155,7 +155,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_03.outp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_03.outp>`_.
+   This example requires `example_03.outp <https://github.com/FSIBT/PyMCNP/blob/main/examples/example_03.outp>`_.
 ```
 
 Code:
@@ -187,7 +187,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_02.outp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_02.outp>`_.
+   This example requires `example_02.outp <https://github.com/FSIBT/PyMCNP/blob/main/examples/example_02.outp>`_.
 ```
 
 Code:
@@ -219,7 +219,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_01.outp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_01.outp>`_.
+   This example requires `example_01.outp <https://github.com/FSIBT/PyMCNP/blob/main/examples/example_01.outp>`_.
 ```
 
 Code:
@@ -251,7 +251,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_02.ptrac <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_02.ptrac>`_.
+   This example requires `example_02.ptrac <https://github.com/FSIBT/PyMCNP/blob/main/examples/example_02.ptrac>`_.
 ```
 
 Code:

@@ -6,7 +6,7 @@ PyMCNP enables common workflows using `pyvista`, `pandas`, `subprocesss`, `matpl
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_00.inp>`_.
+   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/main/examples/example_00.inp>`_.
 ```
 
 Code:
@@ -25,7 +25,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_00.outp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_00.outp>`_.
+   This example requires `example_00.outp <https://github.com/FSIBT/PyMCNP/blob/main/examples/example_00.outp>`_.
 ```
 
 Code:
@@ -44,7 +44,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_00.outp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_00.outp>`_.
+   This example requires `example_00.outp <https://github.com/FSIBT/PyMCNP/blob/main/examples/example_00.outp>`_.
 ```
 
 Code:
@@ -68,7 +68,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_00.inp>`_, `example_01.inp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_01.inp>`_, and `example_02.inp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_02.inp>`_.
+   This example requires `example_00.inp <https://github.com/FSIBT/PyMCNP/blob/main/examples/example_00.inp>`_, `example_01.inp <https://github.com/FSIBT/PyMCNP/blob/main/examples/example_01.inp>`_, and `example_02.inp <https://github.com/FSIBT/PyMCNP/blob/main/examples/example_02.inp>`_.
 ```
 
 Code:
@@ -97,7 +97,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_05.inp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_05.inp>`_.
+   This example requires `example_05.inp <https://github.com/FSIBT/PyMCNP/blob/main/examples/example_05.inp>`_.
 ```
 
 Code:
@@ -118,7 +118,7 @@ Output:
 
 ```{eval-rst}
 .. note:: 
-   This example requires `example_01.outp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_01.outp>`_ and `example_04.inp <https://github.com/FSIBT/PyMCNP/blob/master/examples/example_04.inp>`_.
+   This example requires `example_01.outp <https://github.com/FSIBT/PyMCNP/blob/main/examples/example_01.outp>`_ and `example_04.inp <https://github.com/FSIBT/PyMCNP/blob/main/examples/example_04.inp>`_.
 ```
 
 Code:
