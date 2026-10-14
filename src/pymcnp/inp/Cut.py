@@ -118,13 +118,10 @@ class Cut(_card.Card):
             TypeError:
         """
 
-        if time_cutoff is not None:
-            if isinstance(time_cutoff, types.Real):
-                time_cutoff = time_cutoff
-            elif isinstance(time_cutoff, int) or isinstance(time_cutoff, float):
-                time_cutoff = types.Real(time_cutoff)
-            elif isinstance(time_cutoff, str):
-                time_cutoff = types.Real.from_mcnp(time_cutoff)
+        if isinstance(time_cutoff, int | float):
+            time_cutoff = types.Real(time_cutoff)
+        elif isinstance(time_cutoff, str):
+            time_cutoff = types.Real.from_mcnp(time_cutoff)
 
         self._time_cutoff: types.Real = time_cutoff
 

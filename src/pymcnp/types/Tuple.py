@@ -5,7 +5,7 @@ from . import _type
 from .. import errors
 
 
-def Tuple(element: typing.Type) -> object:
+def Tuple(element: type) -> object:
     """
     Curries tuples and inner type.
 

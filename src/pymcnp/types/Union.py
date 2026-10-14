@@ -1,10 +1,9 @@
 import re
-import typing
 
 from .. import errors
 
 
-def Union(*elements: typing.Type) -> object:
+def Union(*elements: type) -> object:
     """
     Curries unions and inner type.
 

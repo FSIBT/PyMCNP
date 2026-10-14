@@ -23,8 +23,8 @@ class Event(_block.HistoryBlock):
 
     def __init__(
         self,
-        j_line: typing.Union[event.J_0, event.J_1, event.J_2, event.J_3, event.J_4, event.J_5, event.J_6, event.J_7],
-        p_line: typing.Union[event.P_0, event.P_1],
+        j_line: event.J_0 | event.J_1 | event.J_2 | event.J_3 | event.J_4 | event.J_5 | event.J_6 | event.J_7,
+        p_line: event.P_0 | event.P_1,
     ):
         """
         Initializes `Event`.
@@ -43,8 +43,8 @@ class Event(_block.HistoryBlock):
         if p_line is None:
             raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, p_line)
 
-        self.j_line: typing.Final[typing.Union[event.J_0, event.J_1, event.J_2, event.J_3, event.J_4, event.J_5, event.J_6, event.J_7]] = j_line
-        self.p_line: typing.Final[typing.Union[event.P_0, event.P_1]] = p_line
+        self.j_line: typing.Final[event.J_0 | event.J_1 | event.J_2 | event.J_3 | event.J_4 | event.J_5 | event.J_6 | event.J_7] = j_line
+        self.p_line: typing.Final[event.P_0 | event.P_1] = p_line
 
     def from_mcnp(source: str):
         """

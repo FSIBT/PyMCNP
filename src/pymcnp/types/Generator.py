@@ -6,7 +6,7 @@ from . import _type
 from .. import errors
 
 
-def Generator(element: typing.Type) -> object:
+def Generator(element: type) -> object:
     """
     Curries generators and inner type.
 
