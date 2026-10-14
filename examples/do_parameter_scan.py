@@ -50,7 +50,7 @@ inp = pymcnp.Inp.from_file(path_inp)
 # Scanning.
 inps = []
 for vy in [-2, -1, 0, 1, 2]:
-    inp.surfaces[0].option.vy = vy
+    inp.surfaces[0].vy = vy
     inps.append(copy.deepcopy(inp))
 
 # Visualizing.
