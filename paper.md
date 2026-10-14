@@ -117,59 +117,59 @@ multiple tools and enables streamlined, reproducible MCNP workflows.
 # Software Design
 
 
-                                                                                                                                               
+
   PyMCNP's design addresses two key challenges: parsing MCNP's complex, context-dependent syntax and ensuring complete validation of
-  user-generated files.                                                                                                                        
-   
-  Parsing strategy: MCNP input files use inconsistent syntax across different card types, with context-dependent keywords and optional         
+  user-generated files.
+
+  Parsing strategy: MCNP input files use inconsistent syntax across different card types, with context-dependent keywords and optional
   parameters. PyMCNP implements a recursive-descent parser that handles this complexity through card-specific parsing logic. Each of MCNP's
   ~200 data cards is represented by a dedicated class (e.g., pymcnp.inp.M for materials, pymcnp.inp.So for sources) that knows how to parse and
    validate its specific syntax. This approach ensures that PyMCNP correctly handles edge cases and variations that would break
   pattern-matching or regular expression approaches.
 
-  Validation and correctness: PyMCNP validates MCNP syntax at both read and write time. When loading existing files, the parser checks         
+  Validation and correctness: PyMCNP validates MCNP syntax at both read and write time. When loading existing files, the parser checks
   card-specific requirements—for example, verifying that the vectors defining a BOX surface are orthogonal. When constructing files
   programmatically, classes validate parameters as they are set, preventing users from creating syntactically invalid files. If a PyMCNP object
    exists, it represents valid MCNP syntax.
 
   Consistent API: All file format parsers (pymcnp.Inp, pymcnp.Ptrac, pymcnp.Meshtal, pymcnp.Outp) provide from_mcnp() and to_mcnp() methods for
    reading and writing files. This consistency simplifies workflows that process multiple file types. For example, a parameter scan script
-  follows the same pattern whether modifying input geometry or parsing output tallies.                                                         
-                  
-  Pythonic interface: PyMCNP represents MCNP constructs using Python idioms. Cell geometry, normally specified with boolean operators in MCNP  
+  follows the same pattern whether modifying input geometry or parsing output tallies.
+
+  Pythonic interface: PyMCNP represents MCNP constructs using Python idioms. Cell geometry, normally specified with boolean operators in MCNP
   syntax (e.g., 1 -2 3), can be constructed using Python's & and | operators: surface1 & ~surface2 & surface3. This allows users familiar with
-  Python to work with MCNP concepts naturally while maintaining the underlying MCNP semantics.                                                 
-                  
-  The result is a library where common tasks—loading a file, modifying parameters, validating geometry, writing output—require minimal code    
+  Python to work with MCNP concepts naturally while maintaining the underlying MCNP semantics.
+
+  The result is a library where common tasks—loading a file, modifying parameters, validating geometry, writing output—require minimal code
   while providing strong guarantees about correctness. This design philosophy prioritizes user productivity and error prevention over
-  flexibility that could produce invalid MCNP files.                       
+  flexibility that could produce invalid MCNP files.
 
 PyMCNP's design follows object oriented design principles by emphasizing: abstraction, inheritance, polymorphism, and encapsulation. PyMCNP abstracts INP, PTRAC, OUTP, and MESHTAL nonterminals and utilities into Pythonic classes. For example, the `pymcnp.types.Geometry` class represents INP cell card geometry formula and implements dunder methods, such as `pymcnp.types.Geometry.__and__` to provide a Pythonic interface for MCNP. Similarly, PyMCNP breaks down utilities, such as parallel simulation running and PTRAC filtering, into classes, namely `pymcnp.Run` and `pymcnp.FilterPtrac`. The Python package `pymcnp` integrates these abstractions into a coherent system by creating a hierarchy of classes. Every class in PyMCNP builds on layers of abstract base classes, enabling sophisticated type hinting, consistent overriding, and Pythonic duck typing. For example, all INP cards, including `pymcnp.inp.So` and `pymcnp.inp.M`, inherit from `pymcnp.inp.Card` base class. Moreover, PyMCNP supports nonterminals with different variations, e.g., INP cards or PTRAC blocks with multiple forms, by providing superclasses that dispatch between specific variations, simplifying parsing. The abstract base classes at the center of the PyMCNP library support polymorphism and duck typing by providing a common interface for working with INP, PTRAC, OUTP, and MESHTAL nonterminals, streamlining the PyMCNP workflow. For instance, the parser subpackages, namely `pymcnp.inp`, `pymcnp.ptrac`, `pymcnp.outp`, and `pymcnp.meshtal`, all implement the `from_mcnp` and `to_mcnp` methods which always read and write MCNP, respectively. Finally, PyMCNP leverages encapsulation to guarantee that if the syntax tree exists, its valid. PyMCNP's abstract syntax tree classes hide their internal state and validate new values whenever set, so any existing object remains valid through runtime. For example, when setting or initializing the vectors of an INP `BOX` surface card, PyMCNP checks that they are orthogonal, enforcing the restriction outlined in the manual. By emphasizing on abstraction, inheritance, polymorphism, and encapsulation, PyMCNP provides an ergonomic, Pythonic, and object-oriented interface for MCNP files and tooling that simplifies user workflows.
 
 # Research Impact Statement
 
-                                                                                                                                             
+
   PyMCNP enables computational physics workflows that would be impractical with MCNP's native file formats. Parameter optimization studies—such
-   as determining optimal shielding thickness for radiation protection or tuning detector geometries for maximum sensitivity—can now be        
+   as determining optimal shielding thickness for radiation protection or tuning detector geometries for maximum sensitivity—can now be
   automated through simple Python loops that generate inputs, execute simulations in parallel, parse results, and produce publication-ready
-  plots. What previously required manual file editing and ad-hoc parsing scripts for each study becomes a reusable, shareable Python script.   
-                  
+  plots. What previously required manual file editing and ad-hoc parsing scripts for each study becomes a reusable, shareable Python script.
+
   The package particularly impacts workflows involving complex materials. MCNP requires explicit isotopic composition for all materials, making
    it cumbersome to model materials with variable properties (soil with varying water content, concrete with different aggregate compositions,
-  biological tissue with patient-specific densities). With PyMCNP, researchers can define Python functions that generate material cards from   
+  biological tissue with patient-specific densities). With PyMCNP, researchers can define Python functions that generate material cards from
   high-level parameters, enabling sensitivity studies across material variations without manual isotope tabulation.
 
-  Early validation catches costly errors before simulation. PyMCNP's geometry visualization allows researchers to visually verify complex      
+  Early validation catches costly errors before simulation. PyMCNP's geometry visualization allows researchers to visually verify complex
   shielding configurations, detector arrangements, or phantom geometries before committing computational resources to potentially flawed
-  simulations. This is particularly valuable for large-scale studies on shared computing clusters where failed simulations waste limited       
+  simulations. This is particularly valuable for large-scale studies on shared computing clusters where failed simulations waste limited
   allocation time.
 
   By integrating MCNP into the Python scientific computing ecosystem, PyMCNP makes Monte Carlo particle transport accessible to researchers who
    are proficient in Python but not in MCNP's text-based workflow. Graduate students and domain scientists can leverage existing Python
-  knowledge to conduct radiation transport studies without first mastering MCNP's syntax and file manipulation conventions. This lowers the    
+  knowledge to conduct radiation transport studies without first mastering MCNP's syntax and file manipulation conventions. This lowers the
   barrier to entry for fields increasingly reliant on Monte Carlo methods: medical physics, nuclear engineering, radiation protection, and
   detector development.
 
 # AI Usage Disclosure
 
-General artificial intelligence was not used to create, document, or author this paper or the software it describes.
+General artificial intelligence was used for additional code review and not to create, document, or author this paper or the software it describes.
