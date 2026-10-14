@@ -10,3 +10,4 @@ author = 'Devin Pease, Arun Persaud, Mauricio Ayllon Unzueta'
 
 extensions = ['sphinx.ext.napoleon', 'myst_parser']
 autodoc_member_order = 'groupwise'
+napoleon_use_ivar = True
