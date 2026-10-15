@@ -38,7 +38,7 @@ def Tuple(element: type) -> object:
                 TypesError: SEMANTICS_TYPE.
             """
 
-            if value is None or value == tuple() or None in value:
+            if value is None or value == () or None in value:
                 raise errors.TypesError(errors.TypesCode.SEMANTICS_TYPE, value)
 
             self.value: typing.Final[tuple[element]] = value

@@ -49,7 +49,7 @@ class Visualize(_doer.Doer):
             origin=(-(surfaces.bounds[1] - surfaces.bounds[0]) / 2, -(surfaces.bounds[3] - surfaces.bounds[2]) / 2, -(surfaces.bounds[5] - surfaces.bounds[4]) / 2),
         )
 
-    def to_show_cells(self, skip=tuple()) -> pyvista.Plotter:
+    def to_show_cells(self, skip=()) -> pyvista.Plotter:
         """
         Visualizes INP all cells.
         """
@@ -124,7 +124,7 @@ class Visualize(_doer.Doer):
 
         return plot
 
-    def to_show_surfaces(self, skip=tuple()) -> pyvista.Plotter:
+    def to_show_surfaces(self, skip=()) -> pyvista.Plotter:
         """
         Visualizes INP all surfaces.
         """
