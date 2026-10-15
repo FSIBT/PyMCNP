@@ -1,7 +1,7 @@
 import functools
 import re
-import re._constants as _constants
-import re._parser as _parser
+from re import _constants
+from re import _parser
 
 from .. import _symbol
 
