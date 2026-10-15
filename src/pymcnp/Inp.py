@@ -408,9 +408,7 @@ class Inp(_field.Fields, _file.File):
         """
 
         if nps is not None:
-            if isinstance(nps, types.Integer):
-                nps = nps
-            elif isinstance(nps, int):
+            if isinstance(nps, int):
                 nps = types.Integer(nps)
             elif isinstance(nps, str):
                 nps = types.Integer.from_mcnp(nps)
@@ -452,9 +450,7 @@ class Inp(_field.Fields, _file.File):
         """
 
         if seed is not None:
-            if isinstance(seed, types.Integer):
-                seed = seed
-            elif isinstance(seed, int):
+            if isinstance(seed, int):
                 seed = types.Integer(seed)
             elif isinstance(seed, str):
                 seed = types.Integer.from_mcnp(seed)
