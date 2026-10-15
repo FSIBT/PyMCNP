@@ -13,6 +13,7 @@ Options:
 """
 
 import os
+import sys
 import pathlib
 
 from docopt import docopt
@@ -38,13 +39,13 @@ def main() -> None:
         visualize = Visualize(inpt)
     except errors.InpError as err:
         _io.error(str(err))
-        exit(1)
+        sys.exit(1)
     except errors.CliError as err:
         _io.error(str(err))
-        exit(2)
+        sys.exit(2)
     except errors.TypesError as err:
         _io.error(str(err))
-        exit(3)
+        sys.exit(3)
 
     if not (args['--cells-skip'] or args['--surfaces-skip'] or args['--cells'] or args['--surfaces'] or args['--cell'] or args['--surface']):
         args['--cells'] = True
@@ -115,6 +116,6 @@ def main() -> None:
                     plot.show()
     except errors.TypesError as err:
         _io.error(str(err))
-        exit(3)
+        sys.exit(3)
 
     _io.done()

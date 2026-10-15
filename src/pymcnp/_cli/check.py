@@ -7,6 +7,7 @@ Options:
 """
 
 import pathlib
+import sys
 
 from docopt import docopt
 
@@ -30,13 +31,13 @@ def main() -> None:
         check.check()
     except errors.InpError as err:
         _io.error(str(err))
-        exit(1)
+        sys.exit(1)
     except errors.CliError as err:
         _io.error(str(err))
-        exit(2)
+        sys.exit(2)
     except errors.TypesError as err:
         _io.error(str(err))
-        exit(3)
+        sys.exit(3)
 
     if args['--fix']:
         check.fix()

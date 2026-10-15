@@ -12,6 +12,7 @@ a pandas dataframe as parquet or csv file.
 """
 
 import pathlib
+import sys
 
 from docopt import docopt
 
@@ -37,10 +38,10 @@ def main() -> None:
         convert = Convert(outp)
     except errors.OutpError as err:
         _io.error(str(err))
-        exit(1)
+        sys.exit(1)
     except errors.CliError as err:
         _io.error(str(err))
-        exit(2)
+        sys.exit(2)
     # except errors.TypesError as err:
     # _io.error(str(err))
     # exit(3)

@@ -7,6 +7,7 @@ Options:
 """
 
 import os
+import sys
 import pathlib
 
 import matplotlib.pyplot
@@ -46,10 +47,10 @@ def main() -> None:
             matplotlib.pyplot.close()
     except errors.OutpError as err:
         _io.error(str(err))
-        exit(1)
+        sys.exit(1)
     except errors.CliError as err:
         _io.error(str(err))
-        exit(2)
+        sys.exit(2)
     # except errors.TypesError as err:
     # _io.error(str(err))
     # exit(3)

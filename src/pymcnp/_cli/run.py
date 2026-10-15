@@ -8,6 +8,7 @@ Options:
 """
 
 import os
+import sys
 import pathlib
 
 from docopt import docopt
@@ -33,13 +34,13 @@ def main() -> None:
         inps = list(map(Inp.from_file, map(pathlib.Path, args['<inp>'])))
     except errors.InpError as err:
         _io.error(str(err))
-        exit(1)
+        sys.exit(1)
     except errors.CliError as err:
         _io.error(str(err))
-        exit(2)
+        sys.exit(2)
     except errors.TypesError as err:
         _io.error(str(err))
-        exit(3)
+        sys.exit(3)
 
     # Running!
     try:
