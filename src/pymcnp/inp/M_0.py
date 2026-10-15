@@ -27,6 +27,44 @@ class M_0(_field.Fields, _card.Card):
 
     _REGEX = re.compile(rf'\Am(\d+)((?: {types.Substance._REGEX.pattern[2:-2]})+?)((?: (?:{m_0.MOption_0._REGEX.pattern[2:-2]}))+?)?\Z', re.IGNORECASE)
 
+    _SINGLE = frozenset({'nlib', 'hlib', 'plib', 'pnlib', 'elib', 'alib', 'slib', 'tlib', 'dlib', 'cond', 'estep', 'hstep', 'gas', 'refi'})
+
+    @classmethod
+    def from_mcnp(cls, source: str):
+        """
+        Generates `M_0` from INP.
+
+        MCNP accepts the single-valued keywords, such as `plib=84p`, between
+        the substances, so they are moved behind the substances before parsing.
+
+        Parameters:
+            source: INP for `M_0`.
+
+        Returns:
+            `M_0`.
+
+        Raises:
+            InpError: SYNTAX_CARD.
+        """
+
+        cleaned, comments = _card.Card._preprocess(source)
+
+        tokens = cleaned.split(' ')
+        substances = []
+        options = []
+        index = 1
+        while index < len(tokens) and tokens[index].lower() not in {'refc', 'refs'}:
+            if tokens[index].lower() in cls._SINGLE and index + 1 < len(tokens):
+                options += tokens[index : index + 2]
+                index += 2
+            else:
+                substances.append(tokens[index])
+                index += 1
+
+        card = super().from_mcnp(' '.join([tokens[0], *substances, *options, *tokens[index:]]))
+        card.comments = comments
+        return card
+
     @staticmethod
     def from_formula(formulas: dict[str, float], is_weight: bool = True, cutoff: float = 0.01):
         """

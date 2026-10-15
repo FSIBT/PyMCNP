@@ -141,3 +141,47 @@ class Test_Inp:
         EXAMPLES_INVALID = [
             *(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp').glob('invalid*.inp'),
         ]
+
+
+class Test_Inp_Issue_7:
+    SOURCE = """MCNP Test Model for MOAA
+C cells
+1 1 20
+         -1000  $ dollar comment
+        imp:n,p=1 U=350 trcl=5
+99 0
+      1010
+     imp:n,p=0
+
+C surfaces
+1000 SO 1
+1010 SO 3
+
+C data
+C UO2 5 atpt enriched
+m1        92235.80c           5 &
+92238.80c          95
+C Iron
+m2        26054.80c        5.85
+          plib= 80p
+          26056           91.75
+          26057        2.12 $ trailing comment
+          26058.80c        0.28
+C water
+m3        1001.80c           2
+           8016.80c           1
+           plib=84p
+MT3 lwtr.23t h-zr.20t h/zr.28t
+mode n p
+"""
+
+    def test_library_keyword_between_substances_parses(self):
+        written = pymcnp.Inp.from_mcnp(self.SOURCE).to_mcnp()
+
+        assert 'm2 026054.80c 5.85 026056 91.75 026057 2.12 026058.80c 0.28 plib 80p' in ' '.join(written.replace('&', '').split())
+        assert 'plib 84p' in written
+
+    def test_written_issue_input_is_stable(self):
+        written = pymcnp.Inp.from_mcnp(self.SOURCE).to_mcnp()
+
+        assert pymcnp.Inp.from_mcnp(written).to_mcnp() == written

@@ -1,3 +1,5 @@
+import pytest
+
 import pymcnp
 from ... import consts
 from ... import classes
@@ -44,6 +46,37 @@ class Test_M_0_Options:
         material = pymcnp.inp.M_0.from_mcnp('m1 1001 2 8016 1 nlib=80c plib=84p')
 
         assert ' '.join(material.to_mcnp().split()) == 'm1 001001 2 008016 1 nlib 80c plib 84p'
+
+
+class Test_M_0_Keywords_Between_Substances:
+    def test_keyword_in_the_middle_moves_behind_the_substances(self):
+        material = pymcnp.inp.M_0.from_mcnp('m2 26054.80c 5.85 plib= 80p 26056 91.75 26057 2.12 26058.80c 0.28')
+
+        assert ' '.join(material.to_mcnp().replace('&', '').split()) == 'm2 026054.80c 5.85 026056 91.75 026057 2.12 026058.80c 0.28 plib 80p'
+
+    def test_several_keywords_keep_their_order(self):
+        material = pymcnp.inp.M_0.from_mcnp('m2 26054.80c 5.85 plib 80p nlib=80c 26056 91.75')
+
+        assert ' '.join(material.to_mcnp().split()) == 'm2 026054.80c 5.85 026056 91.75 plib 80p nlib 80c'
+
+    def test_keyword_before_the_substances(self):
+        material = pymcnp.inp.M_0.from_mcnp('m1 plib=84p 6000.80c 1')
+
+        assert ' '.join(material.to_mcnp().split()) == 'm1 006000.80c 1 plib 84p'
+
+    def test_trailing_comment_is_kept(self):
+        material = pymcnp.inp.M_0.from_mcnp('m2 26054.80c 5.85 plib=80p 26056 91.75 $ note')
+
+        assert material.comments == [' note']
+
+    def test_refc_still_ends_the_substances(self):
+        material = pymcnp.inp.M_0.from_mcnp('m1 6000 1 plib 84p refc 1 2 3')
+
+        assert ' '.join(material.to_mcnp().split()) == 'm1 006000 1 plib 84p refc 1 2 3'
+
+    def test_keyword_without_value_is_rejected(self):
+        with pytest.raises(pymcnp.errors.InpError):
+            pymcnp.inp.M_0.from_mcnp('m1 6000.80c 1 plib')
 
 
 class Test_M_0_Wrapping:
