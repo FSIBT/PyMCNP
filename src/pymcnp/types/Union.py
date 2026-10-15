@@ -45,7 +45,7 @@ def Union(*elements: type) -> object:
                     return element.from_mcnp(source)
                 except errors.Error:
                     pass
-            else:
-                raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source)
+
+            raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source)
 
     return _Union
