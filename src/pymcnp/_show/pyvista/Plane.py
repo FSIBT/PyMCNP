@@ -23,11 +23,7 @@ class Plane(_shape.PyvistaShape):
             point = (d / a, 0, 0)
         elif c == 0 and a == 0:
             point = (0, d / b, 0)
-        elif a == 0 and b == 0:
-            point = (0, 0, d / c)
-        elif a == 0:
-            point = (0, 0, d / c)
-        elif b == 0:
+        elif a == 0 or b == 0:
             point = (0, 0, d / c)
         elif c == 0:
             point = (0, d / b, 0)
