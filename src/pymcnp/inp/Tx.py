@@ -41,7 +41,7 @@ class Tx(_surface.Surface):
             `_show.Shape` for `Tx`
         """
 
-        vis = shapes.Torus(float(self.b), float(self.c), float(self.a))
+        vis = shapes.Torus(float(self.c), float(self.b), float(self.a))
         vis = vis.rotate(numpy.array((0, 1, 0)), 90, (0, 0, 0))
         vis = vis.translate(numpy.array((float(self.x), float(self.y), float(self.z))))
 

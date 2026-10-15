@@ -1,5 +1,6 @@
 import math
 
+import numpy
 import pyvista
 
 from . import _shape
@@ -15,8 +16,8 @@ class Torus(_shape.PyvistaShape):
         Initializes `Torus`.
 
         Parameters:
-            a: Torus tube semi-major axis length.
-            b: Torus tube semi-minor axis length.
+            a: Torus tube semi-axis length in the radial direction.
+            b: Torus tube semi-axis length along the torus axis.
             r: Torus ring radius.
         """
 
@@ -29,5 +30,5 @@ class Torus(_shape.PyvistaShape):
                 capping=False,
                 resolution=_shape.RESOLUTION,
             ),
-            lambda p: (p[:, 0] ** 2 + (a - (p[:, 1] ** 2 / a**2 + p[:, 2] ** 2 / b**2) ** 0.5 * a) ** 2 - r**2) ** 2,
+            lambda p: ((numpy.hypot(p[:, 0], p[:, 1]) - r) / a) ** 2 + (p[:, 2] / b) ** 2 > 1,
         )
