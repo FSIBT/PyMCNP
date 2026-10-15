@@ -53,7 +53,7 @@ class Entry(_symbol.InpNonterminal):
         """
 
         value = []
-        for name in self._ATTRS.keys():
+        for name in self._ATTRS:
             if (attribute := getattr(type(self), name).__get__(self)) is not None:
                 value.append(attribute)
         value = ' '.join(map(str, value))
