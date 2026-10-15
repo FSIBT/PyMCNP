@@ -17,7 +17,7 @@ class Zaid(_type.Type):
 
     _REGEX = re.compile(r'\A(\d{1,3})(\d\d\d)(?:[.](\S+))?\Z', re.IGNORECASE)
 
-    def __init__(self, z: int, a: int, abx: str = None):
+    def __init__(self, z: int, a: int, abx: str | None = None):
         """
         Initializes `Zaid`.
 

@@ -25,7 +25,7 @@ class _Counted:
     _SUFFIX: str
     _ZERO = False
 
-    def __init__(self, n: int = None):
+    def __init__(self, n: int | None = None):
         """
         Initializes the horizontal syntax.
 
