@@ -4,6 +4,11 @@ Usage:
 
 Options:
     -f --fix        Reformat input file.
+    -d --diff       Show the changes --fix would make.
+
+Lines wider than 80 columns are reported as errors. A card that PyMCNP cannot
+parse is reported as a warning, since MCNP may still accept it. Checking stops
+at the first such card, so run the check again after fixing it.
 """
 
 import pathlib
@@ -25,21 +30,36 @@ def main() -> None:
     args = docopt(__doc__)
     file = pathlib.Path(args['<inp>'])
 
-    # Reading INP.
+    # Checking INP.
     try:
         check = Check(file)
-        check.check()
-    except errors.InpError as err:
-        _io.error(str(err))
-        sys.exit(1)
+        problems = check.problems()
     except errors.CliError as err:
         _io.error(str(err))
         sys.exit(2)
-    except errors.TypesError as err:
-        _io.error(str(err))
-        sys.exit(3)
+
+    for problem in problems:
+        report = _io.error if problem.kind == 'error' else _io.warning
+        report(f'Line {problem.line}: {problem.message}')
+
+    unparseable = any(problem.kind == 'warning' for problem in problems)
+
+    if args['--diff'] and not unparseable:
+        diff = [line.rstrip('\n') for line in check.check()]
+        if diff:
+            print('\n'.join(diff))
 
     if args['--fix']:
-        check.fix()
+        if unparseable:
+            _io.warning('Not reformatting, since PyMCNP cannot parse the file.')
+        else:
+            check.fix()
 
-    _io.done()
+    if unparseable:
+        sys.exit(3)
+
+    if any(problem.kind == 'error' for problem in problems) and not args['--fix']:
+        sys.exit(1)
+
+    if not problems or args['--fix']:
+        _io.done()
