@@ -38,3 +38,11 @@ class Test_ConeTruncated:
         def test_translate(self):
             for a, b in self.EXAMPLES:
                 a.translate(numpy.array((1, 1, 1)))
+
+
+class Test_ConeTruncated_Sense:
+    def test_true_outside_false_inside(self):
+        shape = pymcnp._show.pyvista.ConeTruncated(2, 1, 2)
+        points = numpy.array([[0, 0, 1], [0.9, 0, 0.1], [1.9, 0, 1.9], [1.4, 0, 0.1], [0, 0, -0.1], [0, 0, 2.1], [50, 50, 50]], dtype=float)
+
+        assert shape.cell(points).tolist() == [False, False, False, True, True, True, True]
