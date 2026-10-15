@@ -20,7 +20,7 @@ class F_2(_field.Fields, _card.Card):
     a = _field.Field(types.String, 'Letter', required=True, numeric=(), invalid=lambda self, value: value.value.lower() not in {'x', 'y', 'z'})
     designator = _field.Field(types.Designator, 'Data card particle designator', numeric=())
     rings = _field.Field.tuple(f_2.Ring, 'Detector points', required=True, numeric=())
-    nd = _field.Field(types.String, 'Total/average specified surfaces/cells option', numeric=(), invalid=lambda self, value: value is not None and (not value == 'nd'))
+    nd = _field.Field(types.String, 'Total/average specified surfaces/cells option', numeric=(), invalid=lambda self, value: value is not None and value != 'nd')
 
     _REGEX = re.compile(r'\A([*+])?f(\d*[5])([xyz])(?::(\S+))?((?: \S+ \S+ \S+)+?)( nd)?\Z', re.IGNORECASE)
 

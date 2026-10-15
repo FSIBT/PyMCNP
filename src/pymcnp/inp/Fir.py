@@ -19,7 +19,7 @@ class Fir(_field.Fields, _card.Card):
     x1 = _field.Field(types.Real, 'Rectangular grid center x-coordinate', required=True)
     y1 = _field.Field(types.Real, 'Rectangular grid center y-coordinate', required=True)
     z1 = _field.Field(types.Real, 'Rectangular grid center z-coordinate', required=True)
-    ro = _field.Field(types.Real, 'Rectangular grid exclusion radius', required=True, invalid=lambda self, value: not value == 0)
+    ro = _field.Field(types.Real, 'Rectangular grid exclusion radius', required=True, invalid=lambda self, value: value != 0)
     x2 = _field.Field(types.Real, 'Reference direction x-coordinate', required=True)
     y2 = _field.Field(types.Real, 'Reference direction y-coordinate', required=True)
     z2 = _field.Field(types.Real, 'Reference direction z-coordinate', required=True)

@@ -12,6 +12,6 @@ class Max(_field.Fields, _option.PtracOption):
 
     _KEYWORD = 'max'
 
-    events = _field.Field(types.Integer, 'Maximum number of events to write', required=True, numeric=int, invalid=lambda self, value: not value != 0)
+    events = _field.Field(types.Integer, 'Maximum number of events to write', required=True, numeric=int, invalid=lambda self, value: value == 0)
 
     _REGEX = re.compile(rf'\Amax( {types.Integer._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
