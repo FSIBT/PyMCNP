@@ -36,9 +36,10 @@ class Card(_symbol.InpNonterminal):
         if not tokens:
             raise errors.InpError(errors.InpCode.SYNTAX_CARD, source)
 
+        groups = _symbol._top_groups(cls._REGEX)
         attrs = {}
         for i, (name, attr) in enumerate(cls._ATTRS.items()):
-            attrs[name] = attr.from_mcnp(tokens[i + 1].strip()) if tokens[i + 1] else None
+            attrs[name] = attr.from_mcnp(tokens[groups[i]].strip()) if tokens[groups[i]] else None
 
         card = cls(**attrs)
         card.comments = comments

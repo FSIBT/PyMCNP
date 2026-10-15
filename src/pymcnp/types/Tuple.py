@@ -59,7 +59,14 @@ def Tuple(element: type) -> object:
                 TypesError: SYNTAX_TYPE.
             """
 
-            tokens = re.finditer(element._REGEX.pattern[2:-2], source, re.IGNORECASE)
+            pattern = element._REGEX.pattern[2:-2]
+            tokens = list(re.finditer(rf'(?:{pattern})(?=(?:\s+(?:{pattern}))*\s*\Z)', source, re.IGNORECASE))
+            leftover = source
+            for token in reversed(tokens):
+                leftover = leftover[: token.start()] + leftover[token.end() :]
+            if leftover.strip():
+                raise errors.TypesError(errors.TypesCode.SYNTAX_TYPE, source)
+
             return _Tuple([element.from_mcnp(token[0]) for token in tokens])
 
         def to_mcnp(self):

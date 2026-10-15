@@ -193,3 +193,40 @@ class Test_Cell:
             for example in self.EXAMPLES:
                 with pytest.raises(pymcnp.errors.TypesError):
                     pymcnp.inp.Cell.from_mcnp(example).to_show({}, {})
+
+
+class Test_Cell_Options:
+    """
+    Tests that cell options roundtrip without losing data.
+    """
+
+    @pytest.mark.parametrize(
+        'source',
+        [
+            '1 0 -1 fill 2 (1 2 3)',
+            '1 0 -1 trcl (1 2 3)',
+            '1 0 -1 *fill 2 (30 60 90)',
+            '1 0 -1 imp:n 1 u 2 lat 1 fill -1:1 -1:1 0:0 1 2 3 4 5 6 7 8 9',
+            '1 0 -1 tmp 2.5E-8',
+            '1 0 -1 tmp1 2.5E-8',
+            '1 0 -1 pd 0.5',
+            '1 0 -1 dxc:n 0.5',
+        ],
+    )
+    def test_roundtrip(self, source):
+        assert ' '.join(pymcnp.inp.Cell.from_mcnp(source).to_mcnp().split()) == source
+
+    def test_equals_sign_is_whitespace(self):
+        cell = pymcnp.inp.Cell.from_mcnp('1 0 -1 fill=2 (1 2 3) imp:n=1')
+
+        assert ' '.join(cell.to_mcnp().split()) == '1 0 -1 fill 2 (1 2 3) imp:n 1'
+
+    def test_unknown_option_raises(self):
+        with pytest.raises(pymcnp.errors.Error):
+            pymcnp.inp.Cell.from_mcnp('1 0 -1 bogus=3')
+
+
+class Test_Tuple_Leftover:
+    def test_leftover_raises(self):
+        with pytest.raises(pymcnp.errors.TypesError):
+            pymcnp.types.Tuple(pymcnp.inp.cell.CellOption).from_mcnp('fill 2 (1 2 3 4 5)')

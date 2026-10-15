@@ -12,8 +12,10 @@ class Dxc(_field.Fields, _option.CellOption):
 
     _KEYWORD = 'dxc'
 
-    suffix = _field.Field(types.Integer, 'Cell option suffix', required=True, numeric=int)
+    _ORDER = ('designator', 'probability', 'suffix')
+
+    suffix = _field.Field(types.Integer, 'Cell option suffix', numeric=int)
     designator = _field.Field(types.Designator, 'Cell particle designator', required=True, numeric=())
     probability = _field.Field(types.Real, 'Cell probability of DXTRAN contribution', required=True, invalid=lambda self, value: not (value >= 0 and value <= 1))
 
-    _REGEX = re.compile(rf'\Adxc(\d+):(\S+)( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
+    _REGEX = re.compile(rf'\Adxc(\d*):(\S+)( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)

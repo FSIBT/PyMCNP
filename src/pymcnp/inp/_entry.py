@@ -37,9 +37,10 @@ class Entry(_symbol.InpNonterminal):
         else:
             raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
+        groups = _symbol._top_groups(subclass._REGEX)
         attrs = {}
         for i, (name, attr) in enumerate(subclass._ATTRS.items()):
-            attrs[name] = attr.from_mcnp(tokens[i + 1].strip()) if tokens[i + 1] else None
+            attrs[name] = attr.from_mcnp(tokens[groups[i]].strip()) if tokens[groups[i]] else None
 
         return subclass(**attrs)
 

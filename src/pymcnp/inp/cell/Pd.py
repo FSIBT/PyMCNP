@@ -12,7 +12,9 @@ class Pd(_field.Fields, _option.CellOption):
 
     _KEYWORD = 'pd'
 
-    suffix = _field.Field(types.Integer, 'Cell option suffix', required=True, numeric=int)
+    _ORDER = ('probability', 'suffix')
+
+    suffix = _field.Field(types.Integer, 'Cell option suffix', numeric=int)
     probability = _field.Field(types.Real, 'Cell probability of DXTRAN contribution', required=True, invalid=lambda self, value: not (value >= 0 and value <= 1))
 
-    _REGEX = re.compile(rf'\Apd(\d+)( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)
+    _REGEX = re.compile(rf'\Apd(\d*)( {types.Real._REGEX.pattern[2:-2]})\Z', re.IGNORECASE)

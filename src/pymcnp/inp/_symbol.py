@@ -1,6 +1,37 @@
+import functools
 import re
+import re._constants as _constants
+import re._parser as _parser
 
 from .. import _symbol
+
+
+@functools.cache
+def _top_groups(regex: re.Pattern) -> tuple[int, ...]:
+    """
+    Finds the capture groups of a pattern that are not nested in another capture group.
+
+    Embedded sub-patterns bring their own capture groups, which shift the group numbers.
+    """
+
+    found = []
+
+    def walk(items):
+        for op, arg in items:
+            if op is _constants.SUBPATTERN:
+                group, _, _, body = arg
+                if group:
+                    found.append(group)
+                else:
+                    walk(body)
+            elif op in (_constants.MAX_REPEAT, _constants.MIN_REPEAT):
+                walk(arg[2])
+            elif op is _constants.BRANCH:
+                for branch in arg[1]:
+                    walk(branch)
+
+    walk(_parser.parse(regex.pattern, regex.flags))
+    return tuple(found)
 
 
 class InpNonterminal(_symbol.Nonterminal):

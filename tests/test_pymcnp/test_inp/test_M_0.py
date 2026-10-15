@@ -37,3 +37,10 @@ class Test_M_0:
 
             for example in self.EXAMPLES:
                 self.element.from_formula(**example)
+
+
+class Test_M_0_Options:
+    def test_options_roundtrip(self):
+        material = pymcnp.inp.M_0.from_mcnp('m1 1001 2 8016 1 nlib=80c plib=84p')
+
+        assert ' '.join(material.to_mcnp().split()) == 'm1 001001 2 008016 1 nlib 80c plib 84p'
