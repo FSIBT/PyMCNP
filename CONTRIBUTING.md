@@ -1,20 +1,30 @@
 # Contributing to PyMCNP
 
-Thanks for your interest in PyMCNP. Contributions of code, tests, documentation,
-and example files are welcome. Please follow the [Code of Conduct](CODE_OF_CONDUCT.md).
+We are happy when people submit issues and pull requests, and we welcome
+contributions of code, tests, documentation, and example files. Please follow the
+[Code of Conduct](CODE_OF_CONDUCT.md).
+
+## MCNP input files that don't work
+
+We especially welcome MCNP input files that PyMCNP can't handle, whether it fails
+to parse them or fails to visualize them. MCNP has a very large number of options,
+and PyMCNP does not cover all of them yet. We are happy to improve coverage, and to
+provide extra support if you need a particular feature to make use of PyMCNP. Just
+tell us what you are trying to do.
+
+Inputs that MCNP rejects after a PyMCNP round trip are also very useful.
 
 ## Reporting bugs and requesting features
 
-Open a [GitHub issue](https://github.com/FSIBT/PyMCNP/issues). For bugs, please include:
+Report issues on [GitHub](https://github.com/FSIBT/PyMCNP/issues) with a small,
+working example that reproduces the problem. Trim your input down to the few cards
+that trigger it where you can. Please include:
 
 - the PyMCNP version and Python version (`pip show pymcnp`, `python --version`),
 - the MCNP version that produced or consumes the file (we mostly test MCNP 6.1, and have started testing 6.3),
-- a minimal input, output, or PTRAC snippet that reproduces the problem,
 - the full traceback or the unexpected output.
 
-Input files that PyMCNP fails to parse, or that MCNP rejects after a PyMCNP
-round trip, are especially useful. Please remove anything export-controlled or
-otherwise sensitive before attaching a file.
+Please remove anything export-controlled or otherwise sensitive before attaching a file.
 
 ## Setting up
 
@@ -27,7 +37,9 @@ We recommend [uv](https://docs.astral.sh/uv/); the pip equivalents work too.
     uv pip install -e .[dev,test,docs]
     pre-commit install
 
-PyMCNP supports Python 3.11 to 3.14.
+Code must work on the minimum Python version PyMCNP supports (`requires-python` in
+`pyproject.toml`, currently 3.11), so don't use syntax or standard-library features
+that are newer. CI tests Python 3.11 to 3.14.
 
 ## Making a change
 
@@ -40,9 +52,10 @@ PyMCNP supports Python 3.11 to 3.14.
 
 ## Code style
 
-Style is enforced by [ruff](https://docs.astral.sh/ruff/), pinned to the version in
-`pyproject.toml` so that local and CI results agree. Configuration lives in `pyproject.toml`
-(single quotes, 200-column lines).
+Pull requests must pass [ruff](https://docs.astral.sh/ruff/) with the same rules we use.
+The ruff version is pinned and the rules are configured in `pyproject.toml` (single
+quotes, 200-column lines), so local and CI results agree. Installing the `dev` extra and
+running `pre-commit install` applies them automatically.
 
     ruff check .
     ruff format .
