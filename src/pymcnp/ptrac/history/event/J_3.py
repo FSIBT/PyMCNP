@@ -28,7 +28,7 @@ class J_3(_fields.Fields, _line.EventLine):
 
     next_type = _fields.Field(j.EventType, 'Next event type')
     node = _fields.Field(types.Integer, 'Number of node in track from source')
-    nsx_nsf_nter = _fields.Field(types.Integer, 'NSR or NSF or NTER')
+    nsx_nsf_nter = _fields.Field(types.Real, 'NSR or NSF or NTER')
     ntyn_mtp_angle_branch = _fields.Field(types.Integer, 'NTYN/MTP or 13 or 15')
     ipt = _fields.Field(types.Integer, 'Particle type')
     ncl = _fields.Field(types.Integer, 'Problem numbers of the cells')
@@ -55,7 +55,7 @@ class J_3(_fields.Fields, _line.EventLine):
 
         next_type = j.EventType.from_mcnp(tokens[1].strip())
         node = types.Integer.from_mcnp(tokens[2])
-        nsx_nsf_nter = types.Integer.from_mcnp(tokens[3])
+        nsx_nsf_nter = types.Real.from_mcnp(tokens[3])
         ntyn_mtp_angle_branch = types.Integer.from_mcnp(tokens[4])
         ipt = types.Integer.from_mcnp(tokens[5])
         ncl = types.Integer.from_mcnp(tokens[6])

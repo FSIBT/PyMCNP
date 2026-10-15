@@ -1,3 +1,4 @@
+import pytest
 import pymcnp
 from ... import consts
 from ... import classes
@@ -169,3 +170,12 @@ class Test_Integer:
         def test__rtruediv__(self):
             for a, b in self.EXAMPLES:
                 a.__rtruediv__(b)
+
+
+class Test_Integer_Fraction:
+    def test_fraction_is_rejected(self):
+        with pytest.raises(pymcnp.errors.TypesError):
+            pymcnp.types.Integer.from_mcnp('2.5')
+
+    def test_whole_float_is_accepted(self):
+        assert pymcnp.types.Integer.from_mcnp('2.0').value == 2

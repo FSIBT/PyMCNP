@@ -1,3 +1,4 @@
+import decimal
 import re
 
 from . import _number
@@ -19,6 +20,9 @@ class Integer(_number.Number):
 
     @staticmethod
     def _convert(value):
+        if value != value.to_integral_value():
+            raise decimal.InvalidOperation(value)
+
         return int(value)
 
     @staticmethod

@@ -25,3 +25,15 @@ class Test_F_0:
         element = pymcnp.inp.F_0
         EXAMPLES_VALID = [consts.string.inp.F_0]
         EXAMPLES_INVALID = ['hello']
+
+
+class Test_F_0_Facets:
+    def test_facet_numbers_survive_roundtrip(self):
+        card = pymcnp.inp.F_0.from_mcnp('f1:p 2.1 2.2 2.3')
+
+        assert card.to_mcnp() == 'f1:p 2.1 2.2 2.3'
+
+    def test_integer_numbers_still_parse(self):
+        card = pymcnp.inp.F_0.from_mcnp('f4:n 1 2 3')
+
+        assert card.to_mcnp() == 'f4:n 1 2 3'

@@ -334,7 +334,7 @@ class string:
                 FLUXONE = 'fluxone 1'
 
         class embed:
-            BACKGROUND = 'background 3.1'
+            BACKGROUND = 'background 1'
             MATCELL = 'matcell 1 2 1 2 1 2'
             MESHGEO = 'meshgeo lnk3dnt'
             MGEOIN = 'mgeoin hello'
@@ -752,7 +752,7 @@ class string:
             DXC = 'dxc1:@=0.8'
             NONU = 'nonu=1'
             PD = 'pd1=0.8'
-            U = 'u=3.1'
+            U = 'u=1'
             TRCL_0 = 'trcl=1'
             TRCL_1 = 'trcl=1 1 1 2 2 2 3 3 3 4 4 4'
             TRCL_2 = 'trcl=1 1 1 2 2 2 3 3 3'
@@ -783,7 +783,7 @@ class string:
             DXC = 'dxc1:@=0.8'
             NONU = 'nonu=1'
             PD = 'pd1=0.8'
-            U = 'u=3.1'
+            U = 'u=1'
             TRCL_0 = 'trcl=1'
             TRCL_1 = 'trcl=1 1 1 2 2 2 3 3 3 4 4 4'
             TRCL_2 = 'trcl=1 1 1 2 2 2 3 3 3'
