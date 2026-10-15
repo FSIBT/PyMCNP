@@ -5,6 +5,8 @@ from .. import errors
 
 
 NUMBER = iter(range(1, 100000000))
+_WIDTH = 80
+_INDENT = 5
 
 
 class Card(_symbol.InpNonterminal):
@@ -111,15 +113,12 @@ class Card(_symbol.InpNonterminal):
         source = re.sub(r'((?: [lL][oO][gG]){2,})(\s|\Z|\n)', lambda match: f' {len(match[1].strip().split())}log' + match[2], source)
         source = re.sub(r'((?: [iI][lL][oO][gG]){2,})(\s|\Z|\n)', lambda match: f' {len(match[1].strip().split())}ilog' + match[2], source)
 
-        lines = []
-        length = 0
-
+        lines = ['']
         for word in source.split(' '):
-            if len(word) + length > 78:
-                lines.append('&\n     ')
-                length = 5
+            if lines[-1].strip() and len(lines[-1]) + 1 + len(word) + len(' &') > _WIDTH:
+                lines[-1] += ' &'
+                lines.append(' ' * _INDENT)
 
-            lines.append(word)
-            length += len(word) + 1
+            lines[-1] += word if lines[-1].strip() == '' else ' ' + word
 
-        return ' '.join(lines)
+        return '\n'.join(lines)
