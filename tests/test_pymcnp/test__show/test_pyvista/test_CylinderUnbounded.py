@@ -30,7 +30,7 @@ class Test_CylinderUnbounded:
 
         def test__invert__(self):
             for a, b in self.EXAMPLES:
-                ~a
+                assert (~a) is not None
 
         def test_rotate(self):
             for a, b in self.EXAMPLES:

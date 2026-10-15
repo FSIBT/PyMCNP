@@ -132,7 +132,7 @@ class Test_Operations:
         """
 
         for a, b in self.EXAMPLES:
-            -a
+            assert (-a) is not None
 
     def test_pos(self):
         """
@@ -140,7 +140,7 @@ class Test_Operations:
         """
 
         for a, b in self.EXAMPLES:
-            +a
+            assert (+a) is not None
 
     def test_invert(self):
         """
@@ -148,4 +148,4 @@ class Test_Operations:
         """
 
         for a, b in self.EXAMPLES:
-            ~a
+            assert (~a) is not None

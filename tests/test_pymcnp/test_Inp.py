@@ -100,24 +100,24 @@ class Test_Inp:
         def test_nps(self):
             for example in self.EXAMPLES:
                 inp = pymcnp.Inp(**example)
-                inp.nps
+                _ = inp.nps
 
                 inp.nps = '1e3'
                 inp.nps = 10
                 inp.nps = pymcnp.types.Integer(1234938)
-                inp.nps
+                _ = inp.nps
 
         def test_seed(self):
             for example in self.EXAMPLES:
                 inp = pymcnp.Inp(**example)
-                inp.seed
+                _ = inp.seed
 
                 save = inp.data
 
                 inp.seed = '11'
                 inp.seed = 11
                 inp.seed = pymcnp.types.Integer(11)
-                inp.seed
+                _ = inp.seed
 
                 inp.data = save
                 inp.data = [*inp.data, pymcnp.inp.Rand()]
@@ -125,7 +125,7 @@ class Test_Inp:
                 inp.seed = '11'
                 inp.seed = 11
                 inp.seed = pymcnp.types.Integer(11)
-                inp.seed
+                _ = inp.seed
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.Inp

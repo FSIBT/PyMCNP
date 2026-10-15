@@ -39,4 +39,4 @@ class Test_Tuple:
         def test__contains__(self):
             for example in self.EXAMPLES:
                 element = pymcnp.types.Tuple(pymcnp.types.Real)(**example)
-                'hello' in element
+                assert ('hello' in element) is False
