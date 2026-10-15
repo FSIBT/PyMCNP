@@ -55,3 +55,11 @@ class Test_Plane:
         def test_translate(self):
             for a, b in self.EXAMPLES:
                 a.translate(numpy.array((1, 1, 1)))
+
+
+class Test_Plane_Center:
+    def test_center_lies_on_plane(self):
+        for a, b, c, d in [(1, 1, 2, 4), (1, 2, 3, 6), (1, 0, 1, 2), (0, 1, 2, 4), (1, 1, 0, 2), (3, 0, 0, 6), (0, 2, 0, 4), (0, 0, 2, 4), (1, -2, 3, -5)]:
+            center = pymcnp._show.pyvista.Plane(a, b, c, d).surface.center
+
+            assert abs(a * center[0] + b * center[1] + c * center[2] - d) < 1e-4

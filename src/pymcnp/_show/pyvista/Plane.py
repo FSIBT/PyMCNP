@@ -19,16 +19,8 @@ class Plane(_shape.PyvistaShape):
             d: Plane equation parameter #4.
         """
 
-        if c == 0 and b == 0:
-            point = (d / a, 0, 0)
-        elif c == 0 and a == 0:
-            point = (0, d / b, 0)
-        elif a == 0 or b == 0:
-            point = (0, 0, d / c)
-        elif c == 0:
-            point = (0, d / b, 0)
-        else:
-            point = (0, 0, d)
+        norm = a * a + b * b + c * c
+        point = (d * a / norm, d * b / norm, d * c / norm)
 
         super().__init__(
             pyvista.Plane(center=point, i_size=_shape.BOUND, j_size=_shape.BOUND, direction=(a, b, c)),
