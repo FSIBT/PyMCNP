@@ -84,7 +84,7 @@ testpaths = [
 [tool.ruff]
 line-length = 200
 target-version = "py311"
-lint.select = ["E4", "E7", "E9", "F", "PLW", "BLE", "S112", "PLR1722", "SIM", "RUF013", "C4", "RUF100", "PLR0402", "B", "PIE"]
+lint.select = ["E4", "E7", "E9", "F", "PLW0127", "PLW0120", "BLE001", "S112", "PLR1722", "SIM114", "SIM117", "SIM118", "SIM201", "SIM202", "RUF013", "RUF100", "C408", "C417", "PLR0402", "B015", "B018", "PIE790"]
 lint.ignore = ["E741", "E742"]
 
 [tool.ruff.format]
