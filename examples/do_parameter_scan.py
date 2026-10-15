@@ -26,9 +26,8 @@ class MyRun(pymcnp.Run):
         path_copy = HERE / 'example_01.outp'
         path_outp = path / f'run-{index}.outp'
 
-        with path_outp.open('w') as file_outp:
-            with path_copy.open('r') as file_copy:
-                file_outp.write(file_copy.read())
+        with path_outp.open('w') as file_outp, path_copy.open('r') as file_copy:
+            file_outp.write(file_copy.read())
 
         # Reading OUTP.
         path_outp = path / f'run-{index}.outp'
