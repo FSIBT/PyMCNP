@@ -70,7 +70,7 @@ c
 F1:p 2.1 2.2 2.3 $ body, base, top
 *C1 90 0
 E1 0.1 511I 10
-F21:p 3.1 3.2 3.3 $ body, base, top
+F21:p 3.1 3.2 $ body, base
 *C21 90 0
 E21 0.1 511I 10
 F8:p 200
