@@ -78,7 +78,7 @@ class Outp(_file.File):
                 try:
                     if block := subclass.from_mcnp(subsource):
                         break
-                except Exception:
+                except errors.Error:
                     continue
             else:
                 continue
