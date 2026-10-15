@@ -13,14 +13,12 @@ class MeshtalProcessor(_doer.Doer):
         Runs before processing.
         """
 
-        pass
 
     def posthook(self):
         """
         Runs after processing.
         """
 
-        pass
 
     def process(self, tally: meshtal.Tally):
         """
@@ -30,7 +28,6 @@ class MeshtalProcessor(_doer.Doer):
             tally: Tally to process.
         """
 
-        pass
 
     def __call__(self, file: Meshtal):
         """

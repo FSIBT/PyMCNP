@@ -6,4 +6,3 @@ class FilterEntry(_entry.Entry):
     Represents generic INP filter entries.
     """
 
-    pass

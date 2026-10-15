@@ -11,7 +11,6 @@ class Horizontal(_type.Type):
     Represents MCNP horizontal input sytnax.
     """
 
-    pass
 
 
 class _Counted:

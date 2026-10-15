@@ -10,7 +10,6 @@ class Code(enum.EnumMeta):
     Represents generic PyMCNP error codes.
     """
 
-    pass
 
 
 class Error(Exception):

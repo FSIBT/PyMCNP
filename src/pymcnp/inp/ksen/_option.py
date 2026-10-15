@@ -6,4 +6,3 @@ class KsenOption(_option.Option):
     Represents generic INP ksen options.
     """
 
-    pass

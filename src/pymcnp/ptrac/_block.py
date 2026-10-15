@@ -6,4 +6,3 @@ class Block(_symbol.Nonterminal):
     Represents generic PTRAC blocks.
     """
 
-    pass

@@ -6,4 +6,3 @@ class Line(_symbol.Nonterminal):
     Represents generic PTRAC lines.
     """
 
-    pass

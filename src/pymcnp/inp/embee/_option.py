@@ -6,4 +6,3 @@ class EmbeeOption(_option.Option):
     Represents generic INP embee options.
     """
 
-    pass

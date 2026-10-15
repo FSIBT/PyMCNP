@@ -47,7 +47,6 @@ class Run(_doer.Doer):
             index: Run number.
         """
 
-        pass
 
     def posthook_file(self, path: pathlib.Path, index: int):
         """
@@ -58,7 +57,6 @@ class Run(_doer.Doer):
             index: Run number.
         """
 
-        pass
 
     def prehook_batch(self, path: pathlib.Path):
         """
@@ -68,7 +66,6 @@ class Run(_doer.Doer):
             path: Path to batch directory.
         """
 
-        pass
 
     def posthook_batch(self, path: pathlib.Path):
         """
@@ -78,7 +75,6 @@ class Run(_doer.Doer):
             path: Path to batch directory.
         """
 
-        pass
 
     def run(self, path: str | pathlib.Path):
         """
