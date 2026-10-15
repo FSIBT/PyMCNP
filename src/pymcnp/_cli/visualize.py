@@ -1,12 +1,12 @@
 """
 Usage:
-    pymcnp visualize <inp> [ options... ]
+    pymcnp visualize [options...] <inp>
 
 Options:
-    -c --cells                     Visualize all cells.
-    -s --surfaces                  Visualize all surfaces.
-    -c --cells-skip=<numbers>      Visualize all cells except listed cells.
-    -s --surfaces-skip=<numbers>   Visualize all surfaces excepted listed surfaces.
+    --cells                        Visualize all cells.
+    --surfaces                     Visualize all surfaces.
+    --cells-skip=<numbers>         Visualize all cells except listed cells.
+    --surfaces-skip=<numbers>      Visualize all surfaces excepted listed surfaces.
     -c --cell=<numbers>            Visualize listed cells.
     -s --surface=<numbers>         Visualize listed surfaces.
     --pdf                          Write PDF.
@@ -51,6 +51,16 @@ def main() -> None:
         args['--cells'] = True
         args['--surfaces'] = True
 
+    for option, items in (('--cell', inpt.cells), ('--surface', inpt.surfaces), ('--cells-skip', inpt.cells), ('--surfaces-skip', inpt.surfaces)):
+        known = {str(item.number) for item in items if hasattr(item, 'number')}
+
+        for numbers in args[option]:
+            missing = [number for number in numbers.split(',') if number not in known]
+
+            if missing:
+                _io.error(f'{option}: no such {"cell" if "cell" in option else "surface"}: {", ".join(missing)}.')
+                sys.exit(2)
+
     # Visualizing!
     try:
         if args['--cells']:
@@ -75,7 +85,7 @@ def main() -> None:
             number = tuple(map(int, number.split(',')))
 
             if args['--pdf']:
-                visualize.to_pdf_cells(_io.get_outfile(file, 'pdf', 'cells'))
+                visualize.to_pdf_cells(_io.get_outfile(file, 'pdf', 'cells-skip'), skip=number)
             else:
                 plot = visualize.to_show_cells(skip=number)
 
@@ -86,7 +96,7 @@ def main() -> None:
             number = tuple(map(int, number.split(',')))
 
             if args['--pdf']:
-                visualize.to_pdf_surfaces(_io.get_outfile(file, 'pdf', 'surfaces'))
+                visualize.to_pdf_surfaces(_io.get_outfile(file, 'pdf', 'surfaces-skip'), skip=number)
             else:
                 plot = visualize.to_show_surfaces(skip=number)
 
@@ -97,18 +107,18 @@ def main() -> None:
             number = number.split(',')
 
             if args['--pdf']:
-                visualize.to_pdf_cell(number, _io.get_outfile(file, 'pdf', f'cell_{number}'))
+                visualize.to_pdf_cell(number, _io.get_outfile(file, 'pdf', 'cell-' + '_'.join(number)))
             else:
                 plot = visualize.to_show_cell(number)
 
-            if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-                plot.show()
+                if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
+                    plot.show()
 
         for number in args['--surface']:
             number = number.split(',')
 
             if args['--pdf']:
-                visualize.to_pdf_cells(number, _io.get_outfile(file, 'pdf', f'surface_{number}'))
+                visualize.to_pdf_surface(number, _io.get_outfile(file, 'pdf', 'surface-' + '_'.join(number)))
             else:
                 plot = visualize.to_show_surface(number)
 

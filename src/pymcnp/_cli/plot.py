@@ -1,6 +1,6 @@
 """
 Usage:
-    pymcnp plot <outp> <number> [ options ]
+    pymcnp plot [options] <outp> <number>
 
 Options:
     --pdf       Write PDF.

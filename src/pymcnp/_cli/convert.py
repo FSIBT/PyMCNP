@@ -1,7 +1,6 @@
 """
 Usage:
-    pymcnp convert <outp> <number> --csv
-    pymcnp convert <outp> <number> --parquet
+    pymcnp convert (--csv | --parquet) <outp> <number>
 
 Options:
     -c --csv        Write CSV.

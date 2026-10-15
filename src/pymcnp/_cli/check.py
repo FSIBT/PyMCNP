@@ -1,6 +1,6 @@
 """
 Usage:
-    pymcnp check <inp> [options]
+    pymcnp check [options] <inp>
 
 Options:
     -f --fix        Reformat input file.

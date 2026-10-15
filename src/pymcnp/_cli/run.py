@@ -1,6 +1,6 @@
 """
 Usage:
-    pymcnp run <inp>... [ options ]
+    pymcnp run [options] <inp>...
 
 Options:
     -c --command=<command>        Command to run.

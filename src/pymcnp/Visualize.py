@@ -133,6 +133,9 @@ class Visualize(_doer.Doer):
         plot.add_axes()
 
         for surface in self.inpt.surfaces:
+            if getattr(surface, 'number', None) in skip:
+                continue
+
             if not any(
                 (
                     isinstance(surface, inp.Arb),
@@ -331,28 +334,30 @@ class Visualize(_doer.Doer):
 
         return plot
 
-    def to_pdf_cells(self, path: str | pathlib.Path):
+    def to_pdf_cells(self, path: str | pathlib.Path, skip=()):
         """
         Saves render of cells as PDF.
 
         Parameters:
             path: Path to new pdf file.
+            skip: Cells numbers to leave out.
         """
 
-        plot = self.to_show_cells()
+        plot = self.to_show_cells(skip=skip)
 
         if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
             plot.save_graphic(str(path))
 
-    def to_pdf_surfaces(self, path: str | pathlib.Path):
+    def to_pdf_surfaces(self, path: str | pathlib.Path, skip=()):
         """
         Saves render of surfaces as PDF.
 
         Parameters:
             path: Path to new pdf file.
+            skip: Surfaces numbers to leave out.
         """
 
-        plot = self.to_show_surfaces()
+        plot = self.to_show_surfaces(skip=skip)
 
         if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
             plot.save_graphic(str(path))
