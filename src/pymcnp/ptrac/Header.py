@@ -1,5 +1,3 @@
-# noqa: E741
-
 import re
 
 from . import header
