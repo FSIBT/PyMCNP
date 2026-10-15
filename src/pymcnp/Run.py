@@ -47,7 +47,6 @@ class Run(_doer.Doer):
             index: Run number.
         """
 
-
     def posthook_file(self, path: pathlib.Path, index: int):
         """
         Runs after a file.
@@ -57,7 +56,6 @@ class Run(_doer.Doer):
             index: Run number.
         """
 
-
     def prehook_batch(self, path: pathlib.Path):
         """
         Runs before the batch.
@@ -66,7 +64,6 @@ class Run(_doer.Doer):
             path: Path to batch directory.
         """
 
-
     def posthook_batch(self, path: pathlib.Path):
         """
         Runs after the batch.
@@ -74,7 +71,6 @@ class Run(_doer.Doer):
         Parameters:
             path: Path to batch directory.
         """
-
 
     def run(self, path: str | pathlib.Path):
         """

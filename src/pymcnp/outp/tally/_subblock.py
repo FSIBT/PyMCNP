@@ -5,4 +5,3 @@ class TallySubblock(_subblock.Subblock):
     """
     Represents tallynps PTRAC subblocks.
     """
-

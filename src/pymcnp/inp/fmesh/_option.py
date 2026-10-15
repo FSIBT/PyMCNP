@@ -5,4 +5,3 @@ class FmeshOption(_option.Option):
     """
     Represents generic INP fmesh options.
     """
-

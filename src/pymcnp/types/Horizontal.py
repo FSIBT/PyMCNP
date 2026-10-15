@@ -12,7 +12,6 @@ class Horizontal(_type.Type):
     """
 
 
-
 class _Counted:
     """
     Represents horizontal syntax with an optional count and a keyword suffix.

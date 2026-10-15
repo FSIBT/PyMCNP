@@ -5,4 +5,3 @@ class MplotOption(_option.Option):
     """
     Represents generic INP mplot options.
     """
-

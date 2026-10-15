@@ -5,4 +5,3 @@ class JKeyword(_keyword.Keyword):
     """
     Represents generic PTRAC history block keywords.
     """
-

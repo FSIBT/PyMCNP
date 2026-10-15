@@ -13,12 +13,10 @@ class PtracProcessor(_doer.Doer):
         Runs before processing.
         """
 
-
     def posthook(self):
         """
         Runs after processing.
         """
-
 
     def process_source(self, event: ptrac.history.event.j.EventType):
         """
@@ -28,7 +26,6 @@ class PtracProcessor(_doer.Doer):
             event: Event to process.
         """
 
-
     def process_bank(self, event: ptrac.history.event.j.EventType):
         """
         Runs when processing bank events.
@@ -36,7 +33,6 @@ class PtracProcessor(_doer.Doer):
         Parameters:
             event: Event to process.
         """
-
 
     def process_surface(self, event: ptrac.history.event.j.EventType):
         """
@@ -46,7 +42,6 @@ class PtracProcessor(_doer.Doer):
             event: Event to process.
         """
 
-
     def process_collision(self, event: ptrac.history.event.j.EventType):
         """
         Runs when processing collision events.
@@ -55,7 +50,6 @@ class PtracProcessor(_doer.Doer):
             event: Event to process.
         """
 
-
     def process_terminal(self, event: ptrac.history.event.j.EventType):
         """
         Runs when processing termianl events.
@@ -63,7 +57,6 @@ class PtracProcessor(_doer.Doer):
         Parameters:
             event: Event to process.
         """
-
 
     def __call__(self, file: Ptrac):
         """

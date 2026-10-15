@@ -5,4 +5,3 @@ class SswOption(_option.Option):
     """
     Represents generic INP ssw options.
     """
-

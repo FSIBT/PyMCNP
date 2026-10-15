@@ -5,4 +5,3 @@ class StopOption(_option.Option):
     """
     Represents generic INP stop options.
     """
-

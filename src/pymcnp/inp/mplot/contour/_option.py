@@ -5,4 +5,3 @@ class ContourOption(_option.Option):
     """
     Represents generic INP contour options.
     """
-

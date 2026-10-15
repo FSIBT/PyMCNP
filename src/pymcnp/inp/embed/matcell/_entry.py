@@ -5,4 +5,3 @@ class MatcellEntry(_entry.Entry):
     """
     Represents generic INP matcell entries.
     """
-

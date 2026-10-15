@@ -11,7 +11,6 @@ class Code(enum.EnumMeta):
     """
 
 
-
 class Error(Exception):
     """
     Represents generic PyMCNP errors.

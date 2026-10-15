@@ -5,4 +5,3 @@ class BfldOption(_option.Option):
     """
     Represents generic INP bfld options.
     """
-

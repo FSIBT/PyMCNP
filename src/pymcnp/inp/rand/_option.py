@@ -5,4 +5,3 @@ class RandOption(_option.Option):
     """
     Represents generic INP rand options.
     """
-

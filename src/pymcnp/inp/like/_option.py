@@ -5,4 +5,3 @@ class LikeOption(_option.Option):
     """
     Represents generic INP like cell options.
     """
-

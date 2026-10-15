@@ -5,4 +5,3 @@ class TroptOption(_option.Option):
     """
     Represents generic INP tropt options.
     """
-

@@ -5,4 +5,3 @@ class ActOption(_option.Option):
     """
     Represents generic INP act options.
     """
-

@@ -5,4 +5,3 @@ class FreeOption(_option.Option):
     """
     Represents generic INP free options.
     """
-
