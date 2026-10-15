@@ -18,48 +18,7 @@ PyMCNP supports Python 3.11 to 3.14. As of 2026-10-14, Python 3.15 does not work
 
 ## Contributing
 
-PyMCNP source code is accessable for contributions, suggestions, and bug reports on [GitHub](https://github.com/FSIBT/PyMCNP):
-
-    # Installing
-    git clone https://github.com/FSIBT/PyMCNP
-    cd PyMCNP
-    pip install -e .
-
-    # Running
-    pymcnp
-
-To contribute, use [pre-commit](https://pre-commit.com) and [ruff](https://docs.astral.sh/ruff/):
-
-    # Installing
-    pip install pre-commit ruff
-    cd PyMCNP
-    pre-commit install
-
-    # Running
-    pre-commit
-
-## Testing
-
-To run the PyMCNP test suite, after cloning the PyMCNP GitHub repository, use the following commands to install [pytest](https://docs.pytest.org/en/stable/) with [pytest-cov](https://pytest-cov.readthedocs.io/en/latest/) inside the PyMCNP directory:
-
-    # Installing
-    pip install pytest-cov
-    cd PyMCNP
-    python -m pytest
-
-    # Running
-    pytest --cov --cov-report term-missing:skip-covered
-
-## Documenting
-
-To rebuild the documentation using [Sphinx](https://www.sphinx-doc.org/en/master/) and [Napolean](https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html):
-
-    # Installing
-    pip install sphinx
-
-    # Running
-    cd docs
-    make html
+Contributions are welcome: issues, pull requests, and in particular MCNP input files that PyMCNP fails to parse or visualize. See [CONTRIBUTING.md](CONTRIBUTING.md) for how to report bugs, set up a development environment, run the tests, and build the documentation.
 
 ## Copyright and License
 
