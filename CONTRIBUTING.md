@@ -2,7 +2,7 @@
 
 We are happy when people submit issues and pull requests, and we welcome
 contributions of code, tests, documentation, and example files. Please follow the
-[Code of Conduct](CODE_OF_CONDUCT.md).
+[Code of Conduct](https://github.com/FSIBT/PyMCNP/blob/main/CODE_OF_CONDUCT.md).
 
 ## MCNP input files that don't work
 
@@ -47,7 +47,7 @@ that are newer. CI tests Python 3.11 to 3.14.
 2. Create a branch from `main`.
 3. Keep commits small and focused, one logical change each, with a message that says why.
 4. Add or update tests and docs along with the code.
-5. Add an entry to [CHANGELOG.md](CHANGELOG.md) (under an `Unreleased` heading) for user-visible changes.
+5. Add an entry to [CHANGELOG.md](https://github.com/FSIBT/PyMCNP/blob/main/CHANGELOG.md) (under an `Unreleased` heading) for user-visible changes.
 6. Open a pull request against `main` and describe what changed and how you checked it.
 
 ## Code style
@@ -96,4 +96,4 @@ modest, and say which MCNP versions a feature was checked against.
 ## Licence
 
 By contributing you agree that your contribution is licensed under the project's
-[licence](LICENSE).
+[licence](https://github.com/FSIBT/PyMCNP/blob/main/LICENSE).
