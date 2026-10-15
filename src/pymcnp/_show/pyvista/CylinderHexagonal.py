@@ -1,8 +1,19 @@
 import math
 
+import numpy
 import pyvista
 
 from . import _shape
+
+
+def _inside_hexagon(vertices, p):
+    inside = numpy.ones(len(p), dtype=bool)
+
+    for start, end in zip(vertices, vertices[1:] + vertices[:1]):
+        edge = (end[0] - start[0], end[1] - start[1])
+        inside &= edge[0] * (p[:, 1] - start[1]) - edge[1] * (p[:, 0] - start[0]) >= -1e-12
+
+    return inside
 
 
 class CylinderHexagonal(_shape.PyvistaShape):
@@ -39,5 +50,5 @@ class CylinderHexagonal(_shape.PyvistaShape):
 
         super().__init__(
             pyvista.UnstructuredGrid(cells, [pyvista.CellType.HEXAGONAL_PRISM], points),
-            lambda p: 0 <= p[:, 2] <= h and all(abs(p[:, 0] * math.cos(i * math.pi / 3) + p[:, 1] * math.sin(i * math.pi / 3)) <= (a, b, c)[i % 3] for i in range(6)),
+            lambda p: ~((p[:, 2] >= 0) & (p[:, 2] <= h) & _inside_hexagon(points[:6], p)),
         )

@@ -38,3 +38,12 @@ class Test_CylinderHexagonal:
         def test_translate(self):
             for a, b in self.EXAMPLES:
                 a.translate(numpy.array((1, 1, 1)))
+
+
+class Test_CylinderHexagonal_Sense:
+    def test_true_outside_false_inside(self):
+        shape = pymcnp._show.pyvista.CylinderHexagonal(2, 1, 1, 1)
+        points = numpy.array([[0, 0, 1], [0.9, 0, 1], [0, 0.8, 1], [1.1, 0, 1], [0, 0.9, 1], [0, 0, -0.1], [0, 0, 2.1]], dtype=float)
+
+        assert shape.cell(points).dtype == bool
+        assert shape.cell(points).tolist() == [False, False, False, True, True, True, True]
