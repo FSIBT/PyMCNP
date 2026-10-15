@@ -22,7 +22,7 @@ def Union(*elements: type) -> object:
             value: Union value.
         """
 
-        REGEX = re.compile(rf'\A{r"|".join(map(lambda element: f"(?:{element._REGEX.pattern[2:-2]})", elements))}\Z', re.IGNORECASE)
+        REGEX = re.compile(rf'\A{r"|".join(f"(?:{element._REGEX.pattern[2:-2]})" for element in elements)}\Z', re.IGNORECASE)
 
         @classmethod
         def from_mcnp(cls, source: str):

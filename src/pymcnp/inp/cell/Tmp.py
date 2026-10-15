@@ -15,6 +15,6 @@ class Tmp(_field.Fields, _option.CellOption):
     _ORDER = ('temperature', 'suffix')
 
     suffix = _field.Field(types.Integer, 'Thermal time index', numeric=int)
-    temperature = _field.Field.tuple(types.Real, 'Temperature at time index', required=True, invalid=lambda self, value: not min(map(lambda temp: temp, value)) > 0)
+    temperature = _field.Field.tuple(types.Real, 'Temperature at time index', required=True, invalid=lambda self, value: not min(value) > 0)
 
     _REGEX = re.compile(rf'\Atmp(\d*)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z', re.IGNORECASE)
