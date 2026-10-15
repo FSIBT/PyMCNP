@@ -22,8 +22,9 @@ class Kcode(_field.Fields, _card.Card):
         types.Integer,
         'Number of source points to allocate for',
         numeric=int,
-        invalid=lambda self, value: value is not None
-        and (not (isinstance(value.value, types.Jump) or value < 40 * (1000 if not self.nsrck or isinstance(self.nsrck.value, types.Jump) else self.nsrck))),
+        invalid=lambda self, value: (
+            value is not None and (not (isinstance(value.value, types.Jump) or value < 40 * (1000 if not self.nsrck or isinstance(self.nsrck.value, types.Jump) else self.nsrck)))
+        ),
     )
     knrm = _field.Field(
         types.Integer, 'Normalization of tallies setting', numeric=int, invalid=lambda self, value: value is not None and (not (isinstance(value.value, types.Jump) or value in {0, 1}))
