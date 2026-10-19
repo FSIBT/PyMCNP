@@ -48,7 +48,7 @@ class T_0(T):
 
         assert isinstance(self.suffix, literal.Integer)
 
-        if not (1 <= self.suffix <= 99_999_999):
+        if not (0 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')
 
 
@@ -78,5 +78,5 @@ class T_1(T):
 
         assert isinstance(self.suffix, literal.Integer)
 
-        if not (1 <= self.suffix <= 99_999_999):
+        if not (0 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')
