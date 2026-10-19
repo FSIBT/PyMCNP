@@ -86,9 +86,12 @@ class Check(abc.Utility):
         found = [Problem(number, 'error', f'Line is {len(line)} columns wide, MCNP reads at most {_WIDTH}.') for number, line in enumerate(lines, 1) if len(line) > _WIDTH]
 
         try:
-            Inp.from_mcnp(text)
+            remainder = Inp.from_mcnp(text)[1]
         except abc.Error as err:
             found.append(self._unparseable(lines, err))
+        else:
+            if remainder.strip():
+                found.append(self._unparseable(lines, abc.Error('Expected end of file.', f'{remainder=}')))
 
         return sorted(found, key=lambda problem: problem.line)
 
@@ -101,7 +104,7 @@ class Check(abc.Utility):
         stop = 'Checking stops at the first problem: fix it and run the check again to find further problems.'
 
         index = 2 if lines and lines[0].lower().startswith('message:') else 1
-        for union in inp.Card._forms:
+        for union in (inp.card.Cell, inp.card.Surface, inp.card.Data):
             while index < len(lines) and not lines[index].strip():
                 index += 1
 
