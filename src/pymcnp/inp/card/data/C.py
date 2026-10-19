@@ -47,5 +47,11 @@ class C(Data):
         if not (1 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')
 
-        if isinstance(self.ck, abc.Array) and not (len(self.ck) > 0 and self.ck[0] > -1 and self.ck[-1] == 1):
-            raise abc.Error('Invalid value.', f'{self.ck=}')
+        if isinstance(self.ck, abc.Array):
+            if self.prefix == '*':
+                valid = len(self.ck) > 0 and self.ck[0] < 180 and self.ck[-1] == 0
+            else:
+                valid = len(self.ck) > 0 and self.ck[0] > -1 and self.ck[-1] == 1
+
+            if not valid:
+                raise abc.Error('Invalid value.', f'{self.ck=}')
