@@ -14,5 +14,5 @@ class Ptrac(abc.File):
     """
 
     header: ptrac.block.Header
-    histories: typing.Annotated[abc.Array, ptrac.block.History, typing.Annotated[abc.Terminal, r'']]
+    histories: typing.Annotated[abc.Array, ptrac.block.History, typing.Annotated[abc.Terminal, r'\n']]
     newline: typing.Annotated[abc.Terminal, r'\n?']
