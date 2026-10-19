@@ -132,6 +132,7 @@ from .Fu import Fu
 from .Ft import Ft
 from .Fs import Fs
 from .Fq import Fq
+from .Fm import Fm
 from .Fc import Fc
 from .Em import Em
 from .Ds import Ds
@@ -232,6 +233,7 @@ __all__ = (
     'Fip',
     'Fir',
     'Fic',
+    'Fm',
     'Fc',
     'E',
     'T',

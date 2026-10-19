@@ -394,6 +394,14 @@
    :inherited-members:
 ```
 
+### `Fm` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.card.data.Fm
+   :members:
+   :inherited-members:
+```
+
 ### `Fcl` Class
 
 ```{eval-rst}
