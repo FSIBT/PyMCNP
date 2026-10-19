@@ -22,7 +22,7 @@ class Fm(Data):
     prefix: typing.Annotated[abc.Terminal, r'[*+]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
     keyword: typing.Annotated[abc.Terminal, r'FM'] | str = abc.Terminal[r'FM']('FM')
     suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    bins: typing.Annotated[abc.Terminal, r'[^$\n]*(?:\n {1,5}[^$\n]*)*'] | str = dataclasses.field(kw_only=True)
+    bins: typing.Annotated[abc.Terminal, r'[^\s$](?:[^$\n]*[^\s$])?(?:\n {1,5}[^\s$](?:[^$\n]*[^\s$])?)*'] | str = dataclasses.field(kw_only=True)
 
     def __post_init__(self) -> None:
         """

@@ -61,3 +61,19 @@ class Test_Inp_Block_Ends:
         inp, remainder = pymcnp.Inp.from_mcnp(self.HEAD + 'mode n $\nnps 10 $\n')
         assert remainder == ''
         assert inp.nps == 10
+
+
+class Test_Inp_Trailing_Comments:
+    HEAD = 'Hello\n1 0 -1\n\n1 SO 1\n\n'
+
+    def test_comment_after_fm_card(self) -> None:
+        source = self.HEAD + 'fm4 1 2 -5 $ multiplier\nnps 1e9 $ histories\n'
+        inp, remainder = pymcnp.Inp.from_mcnp(source)
+        assert remainder == ''
+        assert inp.to_mcnp() == source
+
+    def test_continued_fm_card_with_comment(self) -> None:
+        source = self.HEAD + 'fm4 1 2\n     -5 $ multiplier\nnps 1e9\n'
+        inp, remainder = pymcnp.Inp.from_mcnp(source)
+        assert remainder == ''
+        assert inp.to_mcnp() == source
