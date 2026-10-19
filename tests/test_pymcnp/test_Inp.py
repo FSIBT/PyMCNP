@@ -1,5 +1,7 @@
 import pathlib
 
+import pytest
+
 import pymcnp
 from .. import classes
 
@@ -183,3 +185,27 @@ mode n p
         again, remainder = pymcnp.Inp.from_mcnp(inp.to_mcnp())
         assert remainder == ''
         assert again.to_mcnp() == inp.to_mcnp()
+
+
+class Test_Inp_Horizontal_Format:
+    HEAD = 'Hello\n1 0 -1\n\n1 SO 1\n\n'
+
+    def _values(self, card: str) -> list[float]:
+        inp, remainder = pymcnp.Inp.from_mcnp(self.HEAD + card + '\nnps 10\n')
+        assert remainder == ''
+        return [float(value) for value in inp.data[0].to_mcnp().split()[1:]]
+
+    def test_repeat(self) -> None:
+        assert self._values('si1 1 2r 5') == [1, 1, 1, 5]
+
+    def test_insert_adds_values_between_the_endpoints(self) -> None:
+        assert self._values('si1 0 2i 3 10') == [0, 1, 2, 3, 10]
+
+    def test_insert_log_adds_values_between_the_endpoints(self) -> None:
+        values = self._values('si1 1 2ilog 100 1000')
+        assert values == pytest.approx([1, 100 ** (1 / 3), 100 ** (2 / 3), 100, 1000])
+
+    def test_jump(self) -> None:
+        inp, remainder = pymcnp.Inp.from_mcnp(self.HEAD + 'imp:n 1 2j 1\nnps 10\n')
+        assert remainder == ''
+        assert inp.data[0].to_mcnp().lower().split() == ['imp:n', '1', 'j', 'j', '1']

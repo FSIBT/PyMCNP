@@ -135,9 +135,9 @@ class Inp(abc.File):
 
         # Preprocessing horizontal data format.
         source = _REGEX_REPEAT.sub(lambda match: f'{match[1]} {" ".join([match[1]] * int(match[2]))}', source)
-        source = _REGEX_INSERT.sub(lambda match: ' '.join(map(str, numpy.linspace(float(match[1]), float(match[3]), num=int(match[2])))), source)
+        source = _REGEX_INSERT.sub(lambda match: ' '.join(map(str, numpy.linspace(float(match[1]), float(match[3]), num=int(match[2]) + 2))), source)
         source = _REGEX_JUMP.sub(lambda match: ' '.join([match[2]] * int(match[1])), source)
-        source = _REGEX_LOG.sub(lambda match: ' '.join(map(str, numpy.logspace(float(match[1]), float(match[3]), num=int(match[2])))), source)
+        source = _REGEX_LOG.sub(lambda match: ' '.join(map(str, numpy.geomspace(float(match[1]), float(match[3]), num=int(match[2]) + 2))), source)
 
         return super().from_mcnp(source)
 
