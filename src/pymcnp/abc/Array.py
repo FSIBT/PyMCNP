@@ -149,41 +149,32 @@ class Array(Symbol, list):
         return CACHE[parameters]
 
     @classmethod
-    def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
-        """
-        Compiles source strings into their corresponding arrays of symbols.
-
-        Parameters:
-            source: Source string to compile.
-
-        Returns:
-            List of symbols corresponding to `source`.
-        """
-
-        assert isinstance(source, str)
-
+    def _from(cls, source: str, pos: int) -> tuple[typing.Self, int]:
         spaces: list[Terminal] = []
         parameters: list[Symbol] = []
+        before_space = pos
         while True:
             try:
-                parse = _parse(cls._kind, source)
+                parse = _parse(cls._kind, source, pos)
             except Error:
                 if spaces:
-                    source = spaces.pop(-1).to_mcnp() + source
+                    spaces.pop(-1)
+                    pos = before_space
                 break
 
             parameters.append(parse[0])
-            source = parse[1]
+            pos = parse[1]
 
             if cls._space is not None:
+                before_space = pos
                 try:
-                    parse = _parse(cls._space, source)
+                    parse = _parse(cls._space, source, pos)
                 except Error:
                     break
                 spaces.append(typing.cast(Terminal, parse[0]))
-                source = parse[1]
+                pos = parse[1]
 
-        return cls(*parameters, spaces=spaces), source
+        return cls(*parameters, spaces=spaces), pos
 
     def to_mcnp(self) -> str:
         """

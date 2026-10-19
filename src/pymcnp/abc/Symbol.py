@@ -11,6 +11,17 @@ class Symbol(abc.ABC):
 
     @classmethod
     @abc.abstractmethod
+    def _from(cls, source: str, pos: int) -> tuple[typing.Self, int]:
+        """
+        Compiles `source` starting at `pos` into the corresponding symbol.
+
+        Returns:
+            Symbol and the position in `source` after it.
+        """
+
+        raise NotImplementedError
+
+    @classmethod
     def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
         """
         Compiles source strings into their corresponding symbols.
@@ -19,10 +30,13 @@ class Symbol(abc.ABC):
             source: Source string to compile.
 
         Returns:
-            Symbol corresponding to `source`.
+            Symbol corresponding to `source` and the unparsed remainder.
         """
 
-        raise NotImplementedError
+        assert isinstance(source, str)
+
+        symbol, pos = cls._from(source, 0)
+        return symbol, source[pos:]
 
     @abc.abstractmethod
     def to_mcnp(self) -> str:
@@ -43,7 +57,15 @@ class Symbol(abc.ABC):
         return self.to_mcnp()
 
 
-def _parse(kinds: tuple[type[Symbol], ...], source: str) -> tuple[Symbol, str]:
+def _excerpt(source: str, pos: int) -> str:
+    """
+    Shortens `source` from `pos` for error messages.
+    """
+
+    return f'source={source[pos : pos + 80]!r}'
+
+
+def _parse(kinds: tuple[type[Symbol], ...], source: str, pos: int) -> tuple[Symbol, int]:
     """
     Matches `source` to symbol in `kinds`.
 
@@ -63,13 +85,13 @@ def _parse(kinds: tuple[type[Symbol], ...], source: str) -> tuple[Symbol, str]:
 
     # Searching for longest match.
     error: Error | None = None
-    longest: tuple[Symbol | None, str] = (None, source)
+    longest: tuple[Symbol | None, int] = (None, pos)
     for kind in kinds:
         try:
-            parse = kind.from_mcnp(source)
+            parse = kind._from(source, pos)
 
             # Updating `longest`.
-            if longest[0] is None or len(parse[0].to_mcnp()) > len(longest[0].to_mcnp()):
+            if longest[0] is None or parse[1] > longest[1]:
                 longest = parse
         except Error as err:
             if error is None:

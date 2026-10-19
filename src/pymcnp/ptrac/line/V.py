@@ -29,41 +29,26 @@ class _Nv(abc.Nonterminal):
     v: typing.Annotated[abc.Array, typing.Annotated[abc.Terminal, r'.{12}'], Space] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     @classmethod
-    def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
-        """
-        Compiles source strings into their corresponding nonterminal symbols.
+    def _from(cls, source: str, pos: int) -> tuple[typing.Self, int]:
+        term = abc.Terminal[r'.{12}']
 
-        Parameters:
-            source: Source string to compile.
-
-        Returns:
-            Nonterminal symbol corresponding to `source`.
-
-        Raises:
-            Error: Invalid source string.
-        """
-
-        assert isinstance(source, str)
-
-        spaces = {}
-
-        n, source = abc.Terminal[r'.{12}'].from_mcnp(source)
-        space, source = Space.from_mcnp(source)
+        n, pos = term._from(source, pos)
+        space, pos = Space._from(source, pos)
 
         v = []
         spaces = []
         _n = int(decimal.Decimal(n).to_integral_value(rounding=None))
         if _n != 0:
             for i in range(_n - 1):
-                vi, source = abc.Terminal[r'.{12}'].from_mcnp(source)
+                vi, pos = term._from(source, pos)
                 v.append(vi)
-                space, source = Space.from_mcnp(source)
+                space, pos = Space._from(source, pos)
                 spaces.append(space)
 
-            vi, source = abc.Terminal[r'.{12}'].from_mcnp(source)
+            vi, pos = term._from(source, pos)
             v.append(vi)
 
-        return cls(n=n, v=abc.Array[abc.Terminal[r'.{12}'], Space](*v, spaces=spaces), **{'spaces': {'n': space}}), source
+        return cls(n=n, v=abc.Array[abc.Terminal[r'.{12}'], Space](*v, spaces=spaces), **{'spaces': {'n': space}}), pos
 
 
 class V(Line):

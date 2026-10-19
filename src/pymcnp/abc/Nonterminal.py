@@ -8,6 +8,7 @@ from .Array import Array
 from .Array import _parse_hint
 from .Symbol import Symbol
 from .Symbol import _parse
+from .Symbol import _excerpt
 from .Terminal import Terminal
 
 
@@ -74,12 +75,12 @@ def _parse_value(kinds: tuple[type[Symbol], ...], value: typing.Any) -> Symbol:
 
     # Compiling `str`s into symbols
     if isinstance(value, str):
-        match, _ = _parse(kinds, value)
+        match, _ = _parse(kinds, value, 0)
         return match
 
     # Compiling `int`s, `float`d, `decimal.Decimal`s into symbols.
     if isinstance(value, (int, float, decimal.Decimal)):
-        match, _ = _parse(kinds, str(value))
+        match, _ = _parse(kinds, str(value), 0)
         return match
 
     # Compiling non-string sequences into symbols.
@@ -217,52 +218,39 @@ class Nonterminal(Symbol):
         return cls._forms[index]
 
     @classmethod
-    def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
-        """
-        Compiles source strings into their corresponding nonterminal symbols.
-
-        Parameters:
-            source: Source string to compile.
-
-        Returns:
-            Nonterminal symbol corresponding to `source`.
-
-        Raises:
-            Error: Expected symbol.
-            Error: Expected space.
-        """
-
-        assert isinstance(source, str)
-
+    def _from(cls, source: str, pos: int) -> tuple[typing.Self, int]:
         # Compiling mono-form nonterminal.
         if len(cls._forms) == 0:
             spaces: dict[str, Terminal] = {}
             parameters: dict[str, Symbol] = {}
+            end = len(source)
+            space_end: dict[str, int] = {}
 
             # Iterating over consituents.
             for name, kinds in cls._fields.items():
                 try:
-                    parse = _parse(kinds, source)
+                    parse = _parse(kinds, source, pos)
                     parameters[name] = parse[0]
-                    source = parse[1]
+                    pos = parse[1]
                 except Error as err:
-                    err.append(Error(f'Expected `{cls.__name__}.{name}`.', f'{source=}'))
-                    # print(err)
+                    err.append(Error(f'Expected `{cls.__name__}.{name}`.', _excerpt(source, pos)))
                     raise err
 
                 if (
-                    source != ''  # Checking match is not complete.
+                    pos != end  # Checking match is not complete.
                     and not isinstance(parameters[name], Terminal[r''])  # Checking parameter is not empty.
                     and cls._space is not None  # Checking if this consituent has spaces.
                     and name not in _space_null(cls._fields)
                 ):
                     try:
-                        parse = _parse(cls._space, source)
+                        before = pos
+                        parse = _parse(cls._space, source, pos)
                         spaces[name] = typing.cast(Terminal, parse[0])
-                        source = parse[1]
+                        space_end[name] = before
+                        pos = parse[1]
                     except Error as err:
                         if name not in _space_nullable(cls._fields):  # Checking consituent is not space null.
-                            err.append(Error(f'Expected `{"` `".join(Space.__name__ for Space in cls._space)}.{name}`.', f'{source=}'))
+                            err.append(Error(f'Expected `{"` `".join(Space.__name__ for Space in cls._space)}.{name}`.', _excerpt(source, pos)))
                             raise err
                         else:
                             if name in _space_end(cls._fields):  # Checking consituent is not last when null.
@@ -280,18 +268,20 @@ class Nonterminal(Symbol):
 
             try:
                 if last is not None and last in spaces:
-                    source = str(spaces.pop(last)) + source
-                return cls(**(parameters | {'spaces': spaces})), source
+                    spaces.pop(last)
+                    if last in space_end:
+                        pos = space_end[last]
+                return cls(**(parameters | {'spaces': spaces})), pos
             except TypeError:
-                raise Error(f'Expected `{cls.__name__}.{name}`.', f'{source=}')
+                raise Error(f'Expected `{cls.__name__}.{name}`.', _excerpt(source, pos))
 
         # Compiling multi-form nonterminal.
         else:
             try:
-                parse = _parse(cls._forms, source)
-                return typing.cast(tuple[typing.Self, str], parse)
+                parse = _parse(cls._forms, source, pos)
+                return typing.cast(tuple[typing.Self, int], parse)
             except Error as err:
-                err.append(Error(f'Expected `{cls.__name__}`.', f'{source=}'))
+                err.append(Error(f'Expected `{cls.__name__}`.', _excerpt(source, pos)))
                 raise err
 
     def to_mcnp(self) -> str:

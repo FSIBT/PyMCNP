@@ -3,6 +3,7 @@ import typing
 
 from .Error import Error
 from .Symbol import Symbol
+from .Symbol import _excerpt
 
 
 CACHE: dict[str, type[Symbol]] = {}
@@ -27,7 +28,7 @@ class Terminal(Symbol, str):
         cls._token = re.compile(cls._pattern.pattern.removesuffix(r'([\s\S]*)'), cls._pattern.flags)
 
         if cls._default is not None:
-            cls.from_mcnp(cls._default)
+            cls._from(cls._default, 0)
 
     def __new__(cls, value: str) -> typing.Self:
         """
@@ -77,27 +78,12 @@ class Terminal(Symbol, str):
         return typing.cast(type[typing.Self], CACHE[pattern])
 
     @classmethod
-    def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
-        """
-        Compiles source strings into their corresponding terminal symbols.
-
-        Parameters:
-            source: Source string to compile.
-
-        Returns:
-            Terminal symbol corresponding to `source`.
-
-        Raises:
-            Error: Expected terminal.
-        """
-
-        assert isinstance(source, str)
-
-        match = cls._token.match(source)
+    def _from(cls, source: str, pos: int) -> tuple[typing.Self, int]:
+        match = cls._token.match(source, pos)
         if match is None:
-            raise Error(f"Expected Terminal[r'{cls._pattern.pattern}']", f'{source=}')
+            raise Error(f"Expected Terminal[r'{cls._pattern.pattern}']", _excerpt(source, pos))
 
-        return cls(match[1]), source[match.end() :]
+        return cls(match[1]), match.end()
 
     def to_mcnp(self) -> str:
         """
