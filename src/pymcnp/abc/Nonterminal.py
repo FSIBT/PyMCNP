@@ -118,6 +118,7 @@ def _field(name: str, kinds: tuple[type[Symbol], ...]) -> property:
     assert all(isinstance(kind, type) and issubclass(kind, Symbol) for kind in kinds)
 
     name_private: str = f'_{name}'
+    missing = dataclasses.MISSING
 
     def getter(self) -> typing.Any:
         return getattr(self, name_private)
@@ -127,8 +128,10 @@ def _field(name: str, kinds: tuple[type[Symbol], ...]) -> property:
         setattr(self, name_private, value)
 
         # Validating if complete.
-        if dataclasses.MISSING not in [getattr(self, field) for field in type(self)._fields]:
-            self.__post_init__()
+        for private in type(self)._privates:
+            if getattr(self, private) is missing:
+                return
+        self.__post_init__()
 
     return property(getter, setter)
 
@@ -147,6 +150,7 @@ class Nonterminal(Symbol):
     _space: typing.ClassVar[tuple[type[Terminal], ...]] = (Terminal[r''],)
     _forms: typing.ClassVar[tuple[type[typing.Self], ...]] = ()
     _fields: typing.ClassVar[dict[str, tuple[type[Symbol], ...]]] = {}
+    _privates: typing.ClassVar[tuple[str, ...]] = ()
     _null: typing.ClassVar[frozenset[str]] = frozenset()
     _nullable: typing.ClassVar[frozenset[str]] = frozenset()
     _end: typing.ClassVar[frozenset[str]] = frozenset()
@@ -187,6 +191,7 @@ class Nonterminal(Symbol):
         cls._space = cls._space if cls._space is not dataclasses.MISSING else (Terminal[r''],)
         cls._forms = ()
         cls._fields = fields_ordered
+        cls._privates = tuple(f'_{name}' for name in fields_ordered)
         cls._null = frozenset(_space_null(fields_ordered))
         cls._nullable = frozenset(_space_nullable(fields_ordered))
         cls._end = frozenset(_space_end(fields_ordered))
