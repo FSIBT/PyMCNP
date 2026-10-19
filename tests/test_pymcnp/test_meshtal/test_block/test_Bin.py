@@ -9,4 +9,6 @@ class Test_Bin(classes.Test_Nonterminal):
     ]
     EXAMPLES_INVALID = [
         'hello',
+        ' Tally bin boundaries:\n    hello:   -100.00    -50.00',
+        ' Tally bin boundaries:\n',
     ]

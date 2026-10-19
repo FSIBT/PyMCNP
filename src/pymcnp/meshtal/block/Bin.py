@@ -18,4 +18,15 @@ class Bin(Block):
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     label: typing.Annotated[abc.Terminal, r' Tally bin boundaries:\n'] = dataclasses.field(kw_only=True)
-    boundaries: typing.Annotated[abc.Array, line.Boundary, typing.Annotated[abc.Terminal, r'\n']] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    boundaries: typing.Annotated[abc.Array, line.Boundary, typing.Annotated[abc.Terminal, r'\n']] = dataclasses.field(kw_only=True)
+
+    def __post_init__(self) -> None:
+        """
+        Validates bin blocks.
+
+        Raises:
+            Error: Invalid value.
+        """
+
+        if len(self.boundaries) == 0:
+            raise abc.Error('Invalid value.', f'{self.boundaries=}')
