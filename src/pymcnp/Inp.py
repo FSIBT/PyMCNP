@@ -54,7 +54,7 @@ class Inp(abc.File):
     surfaces: typing.Annotated[abc.Array, inp.card.Surface | inp.card.Comment, SpaceCard] | collections.abc.Sequence[inp.card.Surface | inp.card.Comment | str] | str = dataclasses.field(kw_only=True)
     blank_1: typing.Annotated[abc.Terminal, r' *(?:\$.*)?\n\n'] | str = abc.Terminal[r' *(?:\$.*)?\n\n']('\n\n')
     data: typing.Annotated[abc.Array, inp.card.Data | inp.card.Comment, SpaceCard] | collections.abc.Sequence[inp.card.Data | inp.card.Comment | str] | str = dataclasses.field(kw_only=True)
-    blank_2: typing.Annotated[abc.Terminal, r' *(?:\$.*)?\n'] | str = abc.Terminal[r' *(?:\$.*)?\n']('\n')
+    blank_2: typing.Annotated[abc.Terminal, r' *(?:\$.*)?(?:\n|\Z)'] | str = abc.Terminal[r' *(?:\$.*)?(?:\n|\Z)']('\n')
     other: typing.Annotated[abc.Terminal, r'\n[\s\S]*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
 
     @classmethod

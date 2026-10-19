@@ -77,3 +77,13 @@ class Test_Inp_Trailing_Comments:
         inp, remainder = pymcnp.Inp.from_mcnp(source)
         assert remainder == ''
         assert inp.to_mcnp() == source
+
+    def test_no_newline_after_last_line(self) -> None:
+        inp, remainder = pymcnp.Inp.from_mcnp(self.HEAD + 'nps 10\nc end of file')
+        assert remainder == ''
+        assert inp.nps == 10
+
+    def test_no_newline_after_last_card(self) -> None:
+        inp, remainder = pymcnp.Inp.from_mcnp(self.HEAD + 'nps 10')
+        assert remainder == ''
+        assert inp.nps == 10
