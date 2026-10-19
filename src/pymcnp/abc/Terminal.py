@@ -14,12 +14,17 @@ class Terminal(Symbol, str):
     """
 
     _pattern: typing.ClassVar[re.Pattern] = re.compile(r'(\S+)([\s\S]*)', re.IGNORECASE)
+    _token: typing.ClassVar[re.Pattern] = re.compile(r'(\S+)', re.IGNORECASE)
     _default: typing.ClassVar[str | None] = None
 
     def __init_subclass__(cls) -> None:
         """
         Validates subclasses.
         """
+
+        # Matching `_pattern` without its trailing `([\s\S]*)`, which would
+        # scan and copy the rest of the source on every match.
+        cls._token = re.compile(cls._pattern.pattern.removesuffix(r'([\s\S]*)'), cls._pattern.flags)
 
         if cls._default is not None:
             cls.from_mcnp(cls._default)
@@ -88,11 +93,11 @@ class Terminal(Symbol, str):
 
         assert isinstance(source, str)
 
-        match = cls._pattern.match(source)
+        match = cls._token.match(source)
         if match is None:
             raise Error(f"Expected Terminal[r'{cls._pattern.pattern}']", f'{source=}')
 
-        return cls(match[1]), match[2]
+        return cls(match[1]), source[match.end() :]
 
     def to_mcnp(self) -> str:
         """
