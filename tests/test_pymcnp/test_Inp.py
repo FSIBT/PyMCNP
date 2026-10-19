@@ -47,3 +47,17 @@ class Test_Inp(classes.Test_Nonterminal):
         a, _ = pymcnp.Inp.from_file(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_42.inp')
         b, _ = self.element.from_mcnp(a.to_mcnp())
         assert a.to_mcnp() == b.to_mcnp()
+
+
+class Test_Inp_Block_Ends:
+    HEAD = 'Hello\n1 0 -1\n\n1 SO 1\n\n'
+
+    def test_trailing_spaces_after_last_card(self) -> None:
+        inp, remainder = pymcnp.Inp.from_mcnp(self.HEAD + 'nps 10' + ' ' * 40 + '\n')
+        assert remainder == ''
+        assert inp.nps == 10
+
+    def test_empty_comment_after_card(self) -> None:
+        inp, remainder = pymcnp.Inp.from_mcnp(self.HEAD + 'mode n $\nnps 10 $\n')
+        assert remainder == ''
+        assert inp.nps == 10

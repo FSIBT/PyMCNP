@@ -29,7 +29,7 @@ class SpaceCard(abc.Terminal):
     Represents spaces for cards.
     """
 
-    _pattern = re.compile(r'( *\n| +\$.+\n(?! {1,5})| *\n)([\s\S]*)', re.IGNORECASE)
+    _pattern = re.compile(r'( *\n| *\$.*\n(?! {1,5})| *\n)([\s\S]*)', re.IGNORECASE)
     _default = '\n'
 
 
@@ -50,11 +50,11 @@ class Inp(abc.File):
 
     title: typing.Annotated[abc.Terminal, r'.+\n'] | str
     cells: typing.Annotated[abc.Array, inp.card.Cell | inp.card.Comment, SpaceCard] | collections.abc.Sequence[inp.card.Cell | inp.card.Comment | str] | str = dataclasses.field(kw_only=True)
-    blank_0: typing.Annotated[abc.Terminal, r'(?: *\$.+)?\n\n'] | str = abc.Terminal[r'(?: *\$.+)?\n\n']('\n\n')
+    blank_0: typing.Annotated[abc.Terminal, r' *(?:\$.*)?\n\n'] | str = abc.Terminal[r' *(?:\$.*)?\n\n']('\n\n')
     surfaces: typing.Annotated[abc.Array, inp.card.Surface | inp.card.Comment, SpaceCard] | collections.abc.Sequence[inp.card.Surface | inp.card.Comment | str] | str = dataclasses.field(kw_only=True)
-    blank_1: typing.Annotated[abc.Terminal, r'(?: *\$.+)?\n\n'] | str = abc.Terminal[r'(?: *\$.+)?\n\n']('\n\n')
+    blank_1: typing.Annotated[abc.Terminal, r' *(?:\$.*)?\n\n'] | str = abc.Terminal[r' *(?:\$.*)?\n\n']('\n\n')
     data: typing.Annotated[abc.Array, inp.card.Data | inp.card.Comment, SpaceCard] | collections.abc.Sequence[inp.card.Data | inp.card.Comment | str] | str = dataclasses.field(kw_only=True)
-    blank_2: typing.Annotated[abc.Terminal, r'(?: *\$.+)?\n'] | str = abc.Terminal[r'(?: *\$.+)?\n']('\n')
+    blank_2: typing.Annotated[abc.Terminal, r' *(?:\$.*)?\n'] | str = abc.Terminal[r' *(?:\$.*)?\n']('\n')
     other: typing.Annotated[abc.Terminal, r'\n[\s\S]*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
 
     @classmethod
