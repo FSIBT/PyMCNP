@@ -122,7 +122,7 @@ class Test_Data(classes.Test_Nonterminal):
         'e1 3.1 3.1 3.1 nt c',
         't1 3.1 3.1 3.1 nt c',
         't1 cbeg 3.1',
-        '*c1 3.1 3.1 1 t c',
+        '*c1 90 45 0 t c',
         'fq1 f f f f f f f',
         # '*fm1 hello',
         'de1 log 3.1 3.1 3.1',
