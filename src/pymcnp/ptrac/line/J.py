@@ -26,7 +26,7 @@ class J_0(J):
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     blank: typing.Annotated[abc.Terminal, r' '] = dataclasses.field(kw_only=True)
-    type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:[0-2][1-9]|3[1-4])'] = dataclasses.field(kw_only=True)
+    type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:0[1-9]|1\d|2[0-6]|3[0-4])'] = dataclasses.field(kw_only=True)
     pbl: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
     nsr: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
     ncl: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
@@ -49,7 +49,7 @@ class J_1(J):
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     blank: typing.Annotated[abc.Terminal, r' '] = dataclasses.field(kw_only=True)
-    type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:[0-2][1-9]|3[1-4])'] = dataclasses.field(kw_only=True)
+    type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:0[1-9]|1\d|2[0-6]|3[0-4])'] = dataclasses.field(kw_only=True)
     node: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
     nsr__nsx_nsf_nter: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
     ncl__ipt__ntyn_mtp_angle_branch: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
@@ -74,7 +74,7 @@ class J_2(J):
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     blank: typing.Annotated[abc.Terminal, r' '] = dataclasses.field(kw_only=True)
-    type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:[0-2][1-9]|3[1-4])'] = dataclasses.field(kw_only=True)
+    type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:0[1-9]|1\d|2[0-6]|3[0-4])'] = dataclasses.field(kw_only=True)
     node: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
     nsr__nsx_nsf_nter: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
     ipt__ntyn_mtp_angle_branch: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
@@ -101,7 +101,7 @@ class J_3(J):
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     blank: typing.Annotated[abc.Terminal, r' '] = dataclasses.field(kw_only=True)
-    type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:[0-2][1-9]|3[1-4])'] = dataclasses.field(kw_only=True)
+    type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:0[1-9]|1\d|2[0-6]|3[0-4])'] = dataclasses.field(kw_only=True)
     node: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
     nsx_nsf_nter: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
     ntyn_mtp_angle_branch: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
