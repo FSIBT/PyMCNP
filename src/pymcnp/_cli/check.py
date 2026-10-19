@@ -36,7 +36,7 @@ def main() -> None:
         problems = check.problems()
     except abc.Error as err:
         _io.error(str(err))
-        sys.exit(1)
+        sys.exit(2)
 
     for problem in problems:
         report = _io.error if problem.kind == 'error' else _io.warning
@@ -49,7 +49,6 @@ def main() -> None:
         if diff:
             print('\n'.join(diff))
 
-    # Fixing!
     if args['--fix']:
         if unparseable:
             _io.warning('Not reformatting, since PyMCNP cannot parse the file.')
@@ -57,10 +56,10 @@ def main() -> None:
             check.fix()
 
     if unparseable:
-        sys.exit(2)
+        sys.exit(3)
 
     if any(problem.kind == 'error' for problem in problems) and not args['--fix']:
-        sys.exit(3)
+        sys.exit(1)
 
     if not problems or args['--fix']:
         _io.done()
