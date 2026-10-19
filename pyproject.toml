@@ -49,6 +49,7 @@ docs = [
 dev = [
     "pre-commit",
     "ruff==0.17.0",
+    "ty",
 ]
 
 test = [
@@ -75,10 +76,14 @@ where = ["./src"]
 version_file = "src/version.py"
 
 [tool.pytest.ini_options]
-addopts = "--testmon --cov --cov-report=term-missing:skip-covered"
-env = ["MPLBACKEND=Agg"]
 testpaths = [
     "tests"
+]
+[tool.coverage.report]
+exclude_also = [
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "assert ",
 ]
 
 [tool.ruff]
@@ -86,6 +91,8 @@ line-length = 200
 target-version = "py311"
 lint.select = ["E4", "E7", "E9", "F", "PLW0127", "PLW0120", "BLE001", "S112", "PLR1722", "SIM114", "SIM117", "SIM118", "SIM201", "SIM202", "RUF013", "RUF100", "C408", "C417", "PLR0402", "B015", "B018", "PIE790"]
 lint.ignore = ["E741", "E742"]
+lint.extend-select = ["PYI016"] 
+lint.extend-safe-fixes = ["PYI016"]
 
 [tool.ruff.format]
 quote-style = "single"

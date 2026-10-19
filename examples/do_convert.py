@@ -16,7 +16,7 @@ OUTPUT.mkdir(exist_ok=True)
 
 # Reading OUTP.
 path = HERE / 'example_00.outp'
-outp = pymcnp.Outp.from_file(path)
+outp, _ = pymcnp.Outp.from_file(path)
 
 # Initializing `Convert`.
 converter = pymcnp.Convert(outp)

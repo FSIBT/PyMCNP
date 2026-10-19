@@ -1,0 +1,75 @@
+import typing
+import decimal
+import dataclasses
+
+import numpy
+
+from .... import abc
+from .... import _show
+from ... import literal
+from ..Surface import Surface
+
+
+class Ty(Surface):
+    """
+    Represents ty surface cards.
+
+    Attributes:
+        prefix: ty surface card `prefix` parameter.
+        j: ty surface card `j` parameter.
+        n: ty surface card `n` parameter.
+        keyword: ty surface card `TY` symbol.
+        x: ty surface card `x` parameter.
+        y: ty surface card `y` parameter.
+        z: ty surface card `z` parameter.
+        a: ty surface card `A` parameter.
+        b: ty surface card `B` parameter.
+        c: ty surface card `C` parameter.
+    """
+
+    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
+
+    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
+    j: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    n: literal.Integer | typing.Annotated[abc.Terminal, r''] | int | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'TY'] | str = abc.Terminal[r'TY']('TY')
+    x: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    y: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    z: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    a: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    b: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    c: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+
+    def __post_init__(self) -> None:
+        """
+        Validates ty surface cards.
+
+        Raises:
+            Error: Invalid value.
+        """
+
+        assert isinstance(self.j, literal.Integer)
+        assert isinstance(self.n, (literal.Integer, abc.Terminal[r'']))
+
+        if not (1 <= self.j <= 99_999_999):
+            raise abc.Error('Invalid value.', f'{self.j=}')
+
+        if isinstance(self.n, literal.Integer) and not (1 <= self.n <= 999):
+            raise abc.Error('Invalid value.', f'{self.n=}')
+
+    def to_show(self, shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
+        """
+        Visualizes ty surface cards.
+
+        Parameters:
+            shapes: Collection of shapes.
+
+        Returns:
+            Visualizations of ty surface cards.
+        """
+
+        vis = shapes.Torus(float(self.b), float(self.c), float(self.a))
+        vis = vis.rotate(numpy.array((1, 0, 0)), 90, numpy.zeros(3))
+        vis = vis.translate(numpy.array((float(self.x), float(self.y), float(self.z))))
+
+        return vis

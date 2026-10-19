@@ -21,7 +21,7 @@ IMP:N 1 1 1 0
 SDEF POS=0 -4 -2.5
 F2:N 8 $ flux across surface 8
 F4:N 2 $ track length in cell 2
-E0 1 12I 14
+E0 1 14
 M1 8016 1 $ oxygen 16
 M2 26000 1 $ natural iron
 M3 6000 1 $ carbon

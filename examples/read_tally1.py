@@ -16,13 +16,13 @@ ANGLE_FROM = '180.0'
 
 # Reading OUTP.
 path = pathlib.Path('example_00.outp')
-outp = pymcnp.Outp.from_file(path)
+outp, _ = pymcnp.Outp.from_file(path)
 
 # Reading tallies.
 tallies = outp.to_dataframe()
 tally = tallies[TALLY]
-tally = tally.loc[tally['surface'] == SURFACE]
+tally = tally.loc[tally['surface_number'] == SURFACE]
 tally = tally.loc[tally['angle_from'] == ANGLE_FROM]
 
-print(f'Reading tally #{TALLY} cell #{SURFACE} from `{path}`:')
+print(f'Reading tally #{TALLY} surface #{SURFACE} from `{path}`:')
 print(tally)

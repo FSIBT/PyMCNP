@@ -14,12 +14,16 @@ PyMCNP is available on [PyPI](https://pypi.org/project/pymcnp/) and can be "pip 
 
     pip install pymcnp
 
-PyMCNP supports Python 3.11 to 3.14. As of 2026-10-14, Python 3.15 does not work yet because a dependency, `vtk` (through `pyvista`), does not publish wheels for it.
+PyMCNP supports Python 3.11 to 3.14.
+
+As of 2026-10-14, PyMCNP doe snot support Python 3.15 since PyMCNP dependency `vtk` via `pyvista` does not support Python 3.15.
 
 ## Contributing
 
-Contributions are welcome: issues, pull requests, and in particular MCNP input files that PyMCNP fails to parse or visualize. See [CONTRIBUTING.md](CONTRIBUTING.md) for how to report bugs, set up a development environment, run the tests, and build the documentation.
+PyMCNP welcomes contributions, including issues, pull requests, and MCNP files that PyMCNP fails to parse or visualize.
+
+For more information, see the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
 ## Copyright and License
 
-For copyright and license information, see the `COPYRIGHT` and `LICENSE` files in the top level directory.
+For copyright and license information, see the [COPYRIGHT.md](COPYRIGHT.md) and [LICENSE.md](LICENSE.md) files.

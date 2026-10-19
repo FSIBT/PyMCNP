@@ -12,13 +12,13 @@ import pymcnp
 
 # Reading PTRAC using `from_file`.
 path = pathlib.Path('example_02.ptrac')
-ptrac = pymcnp.Ptrac.from_file(path)
+ptrac, _ = pymcnp.Ptrac.from_file(path)
 
 print(f'Reading PTRAC from `{path}`:')
 print(ptrac)
 
 # Reading PTRAC using `from_mcnp`.
-ptrac = pymcnp.Ptrac.from_mcnp("""   -1
+ptrac, _ = pymcnp.Ptrac.from_mcnp("""   -1
 mcnp    6                        05/08/13 07/14/25 11:39:04 
 Sample Problem Input Deck                                                       
    1.4000E+01  1.0000E+00  1.0000E+02  0.0000E+00  0.0000E+00  1.0000E+00  1.0000E+00  0.0000E+00  1.0000E+00  1.0000E+04

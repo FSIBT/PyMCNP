@@ -12,16 +12,15 @@ import pymcnp
 
 # Reading INP using `from_file`.
 path = pathlib.Path('example_00.inp')
-inp = pymcnp.Inp.from_file(path)
+inp, _ = pymcnp.Inp.from_file(path)
 
 print(f'Reading INP from `{path}`:')
 print(inp)
 
 # Reading INP using `from_mcnp`.
-inp = pymcnp.Inp.from_mcnp(
+inp, _ = pymcnp.Inp.from_mcnp(
     """
 Create `Inp`
-
 1 0  -12 imp:n=1
 2 23 0.5 +12:-13 imp:n=1
 3 21 0.5 -12 +13:-14 imp:n=1
@@ -33,7 +32,7 @@ Create `Inp`
 
 m21 007014 -0.797088 008016 -0.199514
 m23 082204 -0.014 082206 -0.241 082207 -0.221 082208 -0.524
-"""[1:-1]
+"""[1:]
 )
 
 print('Reading INP file from string:')

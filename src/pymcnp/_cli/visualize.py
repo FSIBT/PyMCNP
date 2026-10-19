@@ -19,7 +19,8 @@ import pathlib
 from docopt import docopt
 
 from . import _io
-from .. import errors
+from .. import abc
+from .. import inp
 from ..Inp import Inp
 from ..Visualize import Visualize
 
@@ -33,29 +34,23 @@ def main() -> None:
     args = docopt(__doc__)
     file = pathlib.Path(args['<inp>'])
 
-    # Reading INP.
+    # Reading input file.
     try:
-        inpt = Inp.from_file(file)
+        inpt = Inp.from_file(file)[0]
         visualize = Visualize(inpt)
-    except errors.InpError as err:
+    except abc.Error as err:
         _io.error(str(err))
         sys.exit(1)
-    except errors.CliError as err:
-        _io.error(str(err))
-        sys.exit(2)
-    except errors.TypesError as err:
-        _io.error(str(err))
-        sys.exit(3)
 
     if not (args['--cells-skip'] or args['--surfaces-skip'] or args['--cells'] or args['--surfaces'] or args['--cell'] or args['--surface']):
         args['--cells'] = True
         args['--surfaces'] = True
 
     for option, items in (('--cell', inpt.cells), ('--surface', inpt.surfaces), ('--cells-skip', inpt.cells), ('--surfaces-skip', inpt.surfaces)):
-        known = {str(item.number) for item in items if hasattr(item, 'number')}
+        known = {str(item.j) for item in items if hasattr(item, 'j')}
 
         for numbers in args[option]:
-            missing = [number for number in numbers.split(',') if number not in known]
+            missing = [number for number in numbers.split(',') if inp.literal.Integer(number) not in known]
 
             if missing:
                 _io.error(f'{option}: no such {"cell" if "cell" in option else "surface"}: {", ".join(missing)}.')
@@ -107,7 +102,7 @@ def main() -> None:
             number = number.split(',')
 
             if args['--pdf']:
-                visualize.to_pdf_cell(number, _io.get_outfile(file, 'pdf', 'cell-' + '_'.join(number)))
+                visualize.to_pdf_cell(_io.get_outfile(file, 'pdf', f'cell_{number}'), *number)
             else:
                 plot = visualize.to_show_cell(number)
 
@@ -118,14 +113,14 @@ def main() -> None:
             number = number.split(',')
 
             if args['--pdf']:
-                visualize.to_pdf_surface(number, _io.get_outfile(file, 'pdf', 'surface-' + '_'.join(number)))
+                visualize.to_pdf_surface(_io.get_outfile(file, 'pdf', f'surface_{number}'), *number)
             else:
                 plot = visualize.to_show_surface(number)
 
                 if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
                     plot.show()
-    except errors.TypesError as err:
+    except abc.Error as err:
         _io.error(str(err))
-        sys.exit(3)
+        sys.exit(2)
 
     _io.done()

@@ -1,9 +1,9 @@
-from . import _doer
+from . import abc
 from . import ptrac
 from .Ptrac import Ptrac
 
 
-class PtracProcessor(_doer.Doer):
+class PtracProcessor(abc.Utility):
     """
     Processes `Ptrac`.
     """
@@ -18,71 +18,71 @@ class PtracProcessor(_doer.Doer):
         Runs after processing.
         """
 
-    def process_source(self, event: ptrac.history.event.j.EventType):
+    def process_source(self, event: ptrac.block.Event):
         """
-        Runs when processing source events.
+        Processes source events.
 
         Parameters:
-            event: Event to process.
+            event: Source event to process.
         """
 
-    def process_bank(self, event: ptrac.history.event.j.EventType):
+    def process_bank(self, event: ptrac.block.Event):
         """
-        Runs when processing bank events.
-
-        Parameters:
-            event: Event to process.
-        """
-
-    def process_surface(self, event: ptrac.history.event.j.EventType):
-        """
-        Runs when processing surface events.
+        Processes bank events.
 
         Parameters:
-            event: Event to process.
+            event: Bank event to process.
         """
 
-    def process_collision(self, event: ptrac.history.event.j.EventType):
+    def process_surface(self, event: ptrac.block.Event):
         """
-        Runs when processing collision events.
-
-        Parameters:
-            event: Event to process.
-        """
-
-    def process_terminal(self, event: ptrac.history.event.j.EventType):
-        """
-        Runs when processing termianl events.
+        Processes surface events.
 
         Parameters:
-            event: Event to process.
+            event: Surface event to process.
         """
 
-    def __call__(self, file: Ptrac):
+    def process_collision(self, event: ptrac.block.Event):
         """
-        Processes `Ptrac`.
+        Processes collision events.
 
         Parameters:
-            file: File to process.
+            event: Collision event to process.
+        """
+
+    def process_terminal(self, event: ptrac.block.Event):
+        """
+        Processes terminal events.
+
+        Parameters:
+            event: Terminal event to process.
+        """
+
+    def run(self, file: Ptrac):
+        """
+        Processes ptrac files.
+
+        Parameters:
+            file: Ptrac file to process.
         """
 
         self.prehook()
 
         for history in file.histories:
-            kind = history.i_line.event_type
+            kind = history.i.event_type
             for event in history.events:
-                match kind:
-                    case ptrac.history.event.j.EventType.SOURCE:
+                match kind.strip():
+                    case '1000':
                         self.process_source(event)
-                    case ptrac.history.event.j.EventType.SURFACE:
+                    case '3000':
                         self.process_surface(event)
-                    case ptrac.history.event.j.EventType.COLLISION:
+                    case '4000':
                         self.process_collision(event)
-                    case ptrac.history.event.j.EventType.TERMINAL:
+                    case '5000':
                         self.process_terminal(event)
                     case _:
                         self.process_bank(event)
 
-                kind = event.j_line.next_type
+                kind = event.j.type
 
         self.posthook()

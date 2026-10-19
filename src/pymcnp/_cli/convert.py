@@ -16,7 +16,7 @@ import sys
 from docopt import docopt
 
 from . import _io
-from .. import errors
+from .. import abc
 from ..Outp import Outp
 from ..Convert import Convert
 
@@ -31,19 +31,13 @@ def main() -> None:
     number = args['<number>']
     file = pathlib.Path(args['<outp>'])
 
-    # Reading OUTP.
+    # Reading output file.
     try:
-        outp = Outp.from_file(file)
+        outp = Outp.from_file(file)[0]
         convert = Convert(outp)
-    except errors.OutpError as err:
+    except abc.Error as err:
         _io.error(str(err))
         sys.exit(1)
-    except errors.CliError as err:
-        _io.error(str(err))
-        sys.exit(2)
-    # except errors.TypesError as err:
-    # _io.error(str(err))
-    # exit(3)
 
     # Converting!
     if args['--csv']:

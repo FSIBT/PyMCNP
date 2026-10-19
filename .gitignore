@@ -1,6 +1,6 @@
-.pymcnp
 src/version.py
 .ruff_cache
+.testmondata
 
 # Editor backups
 *~

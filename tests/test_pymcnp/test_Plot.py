@@ -1,34 +1,17 @@
 import pathlib
 
-import matplotlib.pyplot
+import pytest
 
 import pymcnp
-from .. import consts
-from .. import classes
 
 
 class Test_Plot:
-    class Test_Init(classes.Test_Init):
-        element = pymcnp.Plot
-        EXAMPLES_VALID = [
-            {'outp': consts.ast.OUTP},
-        ]
-        EXAMPLES_INVALID = [{'outp': None}]
+    def test_to_show_valid(self, plot: pymcnp.Plot) -> None:
+        plot.to_show('21')
 
-    class Test_Methods:
-        element = pymcnp.Plot
-        EXAMPLES = [{'outp': consts.ast.OUTP, 'number': '1'}]
+    def test_to_show_invalid(self, plot: pymcnp.Plot) -> None:
+        with pytest.raises(pymcnp.abc.Error):
+            plot.to_show('23423432')
 
-        def test_to_show(self):
-            for example in self.EXAMPLES:
-                element = self.element(example['outp'])
-                element.to_show(example['number'])
-
-            matplotlib.pyplot.close()
-
-        def test_to_pdf(self):
-            path = pathlib.Path('hello.pdf')
-
-            for example in self.EXAMPLES:
-                element = self.element(example['outp'])
-                element.to_pdf(example['number'], path)
+    def test_to_pdf_valid(self, plot: pymcnp.Plot) -> None:
+        plot.to_pdf('1', pathlib.Path('hello.pdf'))

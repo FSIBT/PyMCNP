@@ -1,0 +1,58 @@
+import pymcnp
+from .... import classes
+
+
+class Test_Cell(classes.Test_Nonterminal):
+    element = pymcnp.inp.option.Cell
+    EXAMPLES_VALID = [
+        'imp:@=1',
+        'vol=1',
+        'pwt=3.1',
+        'ext:@=3.1X',
+        'fcl:@=0.8',
+        'wwn1:@=3.1',
+        'wwn:@=3.1',
+        'dxc1:@=0.8',
+        'nonu=1',
+        'nonu',
+        'pd1=0.8',
+        'u=1',
+        'trcl=1',
+        'trcl=1 1 1 2 2 2 3 3 3 4 4 4',
+        'trcl=1 1 1 2 2 2 3 3 3',
+        'trcl=1 1 1 2 2 2 3 3',
+        'trcl=1 1 1 2 2 2',
+        'trcl=1 1 1',
+        'trcl=(1 1 1 2 2 2 3 3 3 4 4 4)',
+        'trcl=(1 1 1 2 2 2 3 3 3)',
+        'trcl=(1 1 1 2 2 2 3 3)',
+        'trcl=(1 1 1 2 2 2)',
+        'trcl=(1 1 1)',
+        'lat=1',
+        'fill=1:2 1:2 1:2 1 1 1 1 1 1 1',
+        '*fill=1 (1 1 1 2 2 2 3 3 3 4 4 4)',
+        '*fill=1 (1 1 1 2 2 2 3 3 3)',
+        '*fill=1 (1 1 1 2 2 2 3 3)',
+        '*fill=1 (1 1 1 2 2 2)',
+        '*fill=1 (1 1 1)',
+        'fill=1 (1)',
+        'fill=1',
+        'elpt:@=3.1',
+        'tmp1=3.1',
+        'tmp=3.1',
+        'cosy=1',
+        'bflcl=1',
+        'unc:@=1',
+        'mat 1',
+        'rho -9',
+    ]
+    EXAMPLES_INVALID = [
+        'unc:@=3',
+        '*trcl=-1',
+        'mat=-1',
+        'lat=-1',
+        'fill=-1',
+        'fill=-1 (1)',
+        '*fill=-1 (1 1 1 2 2 2)',
+        'hello',
+    ]

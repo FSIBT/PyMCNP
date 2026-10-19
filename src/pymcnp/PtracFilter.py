@@ -1,20 +1,19 @@
-from . import _doer
+from . import abc
 from . import ptrac
 from .Ptrac import Ptrac
 
 
-class PtracFilter(_doer.Doer):
+class PtracFilter(abc.Utility):
     """
     Filters PTRAC files.
     """
 
-    @staticmethod
-    def check_source(event: ptrac.history.event.j.EventType) -> bool:
+    def check_source(self, event: ptrac.block.Event) -> bool:
         """
-        Runs when filtering source events.
+        Checks source events.
 
         Parameters:
-            event: Event to filter.
+            event: Source event to check.
 
         Returns:
             True/False if the given event should/shouldn't be kept.
@@ -22,13 +21,12 @@ class PtracFilter(_doer.Doer):
 
         return True
 
-    @staticmethod
-    def check_bank(event: ptrac.history.event.j.EventType) -> bool:
+    def check_bank(self, event: ptrac.block.Event) -> bool:
         """
-        Runs when filtering bank events.
+        Checks bank events.
 
         Parameters:
-            event: Event to filter.
+            event: Bank event to check.
 
         Returns:
             True/False if the given event should/shouldn't be kept.
@@ -36,13 +34,12 @@ class PtracFilter(_doer.Doer):
 
         return True
 
-    @staticmethod
-    def check_surface(event: ptrac.history.event.j.EventType) -> bool:
+    def check_surface(self, event: ptrac.block.Event) -> bool:
         """
-        Runs when filtering surface events.
+        Checks surface events.
 
         Parameters:
-            event: Event to filter.
+            event: Surface event to check.
 
         Returns:
             True/False if the given event should/shouldn't be kept.
@@ -50,13 +47,12 @@ class PtracFilter(_doer.Doer):
 
         return True
 
-    @staticmethod
-    def check_collision(event: ptrac.history.event.j.EventType) -> bool:
+    def check_collision(self, event: ptrac.block.Event) -> bool:
         """
-        Runs when filtering collision events.
+        Checks collision events.
 
         Parameters:
-            event: Event to filter.
+            event: Collision event to check.
 
         Returns:
             True/False if the given event should/shouldn't be kept.
@@ -64,13 +60,12 @@ class PtracFilter(_doer.Doer):
 
         return True
 
-    @staticmethod
-    def check_terminal(event: ptrac.history.event.j.EventType) -> bool:
+    def check_terminal(self, event: ptrac.block.Event) -> bool:
         """
-        Runs when filtering terminal events.
+        Checks terminal events.
 
         Parameters:
-            event: Event to filter.
+            event: Terminal event to check.
 
         Returns:
             True/False if the given event should/shouldn't be kept.
@@ -78,38 +73,35 @@ class PtracFilter(_doer.Doer):
 
         return True
 
-    def __call__(self, file: Ptrac):
+    def run(self, file: Ptrac):
         """
-        Filters `Ptrac`.
+        Filters ptrac files.
 
         Parameters:
-            file: File to filter.
+            file: Ptrac file to check.
 
         Yields:
             Accepted events.
         """
 
-        def histories():
-            for history in file.histories:
-                kind = history.i_line.event_type
-                for event in history.events:
-                    match kind:
-                        case ptrac.history.event.j.EventType.SOURCE:
-                            check = self.check_source
-                        case ptrac.history.event.j.EventType.SURFACE:
-                            check = self.check_surface
-                        case ptrac.history.event.j.EventType.COLLISION:
-                            check = self.check_collision
-                        case ptrac.history.event.j.EventType.TERMINAL:
-                            check = self.check_terminal
-                        case _:
-                            check = self.check_bank
+        for history in file.histories:
+            kind = history.i.event_type
+            for event in history.events:
+                match kind.strip():
+                    case '1000':
+                        check = self.check_source
+                    case '3000':
+                        check = self.check_surface
+                    case '4000':
+                        check = self.check_collision
+                    case '5000':
+                        check = self.check_terminal
+                    case _:
+                        check = self.check_bank
 
-                    kind = event.j_line.next_type
+                kind = event.j.type
 
-                    if check(event):
-                        yield event
-                    else:
-                        continue
-
-        return histories()
+                if check(event):
+                    yield event
+                else:
+                    continue

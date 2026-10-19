@@ -15,7 +15,7 @@ import matplotlib.backends.backend_pdf
 from docopt import docopt
 
 from . import _io
-from .. import errors
+from .. import abc
 from ..Outp import Outp
 from ..Plot import Plot
 
@@ -30,12 +30,16 @@ def main() -> None:
     number = args['<number>']
     file = pathlib.Path(args['<outp>'])
 
-    # Reading OUTP.
+    # Reading output file.
     try:
-        outp = Outp.from_file(file)
+        outp = Outp.from_file(file)[0]
         plot = Plot(outp)
+    except abc.Error as err:
+        _io.error(str(err))
+        sys.exit(1)
 
-        # Plotting!
+    # Plotting!
+    try:
         if args['--pdf']:
             plot.to_pdf(number, pathlib.Path(_io.get_outfile(file, 'pdf')))
         else:
@@ -45,14 +49,8 @@ def main() -> None:
                 matplotlib.pyplot.show()
 
             matplotlib.pyplot.close()
-    except errors.OutpError as err:
-        _io.error(str(err))
-        sys.exit(1)
-    except errors.CliError as err:
+    except abc.Error as err:
         _io.error(str(err))
         sys.exit(2)
-    # except errors.TypesError as err:
-    # _io.error(str(err))
-    # exit(3)
 
     _io.done()

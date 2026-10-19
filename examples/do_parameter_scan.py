@@ -8,7 +8,6 @@ the output files. Finaly, it runs the input files in parallel.
 """
 
 import copy
-import shutil
 import pathlib
 
 import pymcnp
@@ -30,28 +29,28 @@ class MyRun(pymcnp.Run):
             file_outp.write(file_copy.read())
 
         # Reading OUTP.
-        path_outp = path / f'run-{index}.outp'
-        outp = pymcnp.Outp.from_file(path_outp)
+        # path_outp = path / f'run-{index}.outp'
+        # outp, _ = pymcnp.Outp.from_file(path_outp)
 
         # Plotting.
-        path_pdf = path / '..' / f'run-{index}.pdf'
-        plotter = pymcnp.Plot(outp)
-        plotter.to_pdf('1', path_pdf)
-
-        # Deleting Run.
-        shutil.rmtree(path)
+        # path_pdf = path / '..' / f'run-{index}.pdf'
+        # plotter = pymcnp.Plot(outp)
+        # plotter.to_pdf('1', path_pdf)
 
     def posthook_batch(self, path):
+        # Deleting Run.
+        # shutil.rmtree(path)
         print('DONE! :)')
 
 
 # Reading INP.
 path_inp = HERE / 'example_04.inp'
-inp = pymcnp.Inp.from_file(path_inp)
+inp, _ = pymcnp.Inp.from_file(path_inp)
 
 # Scanning.
 inps = []
 for vy in [-2, -1, 0, 1, 2]:
+    assert isinstance(inp.surfaces[0], pymcnp.inp.card.surface.Sph)
     inp.surfaces[0].vy = vy
     inps.append(copy.deepcopy(inp))
 

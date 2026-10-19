@@ -4,9 +4,9 @@ import pathlib
 import difflib
 import dataclasses
 
-from . import _doer
-from . import errors
-from .Inp import Inp, Cell, Surface, Data
+from . import abc
+from . import inp
+from .Inp import Inp
 
 _WIDTH = 80
 
@@ -27,43 +27,40 @@ class Problem:
     message: str
 
 
-class Check(_doer.Doer):
+@dataclasses.dataclass
+class Check(abc.Utility):
     """
-    Checks OUTP files.
+    Represents utilities that check input files.
 
     Attribute:
-        path: File to check.
+        path: Path to input file to check.
     """
 
-    def __init__(self, path: str | pathlib.Path):
-        """
-        Initializes `Check`.
+    path: pathlib.Path | str
 
-        Attribute:
-            path: File to check.
+    def __post_init__(self):
+        """
+        Validates utitlites that check input files.
 
         Raises:
-            CLIError: RUNTIME_DOER.
+            Error.
         """
 
-        if path is None:
-            raise errors.CliError(errors.CliCode.RUNTIME_PATH, path)
-
-        self.path = pathlib.Path(path)
+        self.path = pathlib.Path(self.path)
+        if not self.path.exists():
+            raise abc.Error('File not found', f'{self.path=}')
 
     def check(self):
         """
-        Checks a file.
+        Checks the input file at `path`.
         """
 
-        try:
-            with self.path.open('r') as file:
-                current = file.read()
-                correct = Inp.from_mcnp(current).to_mcnp()
+        assert isinstance(self.path, pathlib.Path)
 
-                return difflib.unified_diff(current.split('\n'), correct.split('\n'))
-        except FileNotFoundError as err:
-            raise errors.CliError(errors.CliCode.RUNTIME_PATH, self.path) from err
+        current = self.path.read_text()
+        correct = Inp.from_mcnp(current)[0].to_mcnp()
+
+        return difflib.unified_diff(current.split('\n'), correct.split('\n'))
 
     def problems(self):
         """
@@ -78,17 +75,19 @@ class Check(_doer.Doer):
             List of `Problem`, ordered by line.
         """
 
+        assert isinstance(self.path, pathlib.Path)
+
         try:
             text = self.path.read_text()
         except FileNotFoundError as err:
-            raise errors.CliError(errors.CliCode.RUNTIME_PATH, self.path) from err
+            raise abc.Error('File not found', f'{self.path=}') from err
 
         lines = text.split('\n')
         found = [Problem(number, 'error', f'Line is {len(line)} columns wide, MCNP reads at most {_WIDTH}.') for number, line in enumerate(lines, 1) if len(line) > _WIDTH]
 
         try:
             Inp.from_mcnp(text)
-        except (errors.TypesError, errors.InpError) as err:
+        except abc.Error as err:
             found.append(self._unparseable(lines, err))
 
         return sorted(found, key=lambda problem: problem.line)
@@ -102,7 +101,7 @@ class Check(_doer.Doer):
         stop = 'Checking stops at the first problem: fix it and run the check again to find further problems.'
 
         index = 2 if lines and lines[0].lower().startswith('message:') else 1
-        for union in (Cell, Surface, Data):
+        for union in inp.Card._forms:
             while index < len(lines) and not lines[index].strip():
                 index += 1
 
@@ -124,18 +123,19 @@ class Check(_doer.Doer):
 
             for number, card in cards:
                 try:
-                    union.from_mcnp(Inp._preprocess('\n'.join(card)))
-                except (errors.TypesError, errors.InpError) as card_err:
+                    union.from_mcnp('\n'.join(card))
+                except abc.Error as card_err:
                     return Problem(number, 'warning', f'PyMCNP cannot parse this card: {str(card_err).splitlines()[0]} {stop}')
 
         return Problem(1, 'warning', f'PyMCNP cannot parse this file: {str(err).splitlines()[0]} {stop}')
 
     def fix(self):
         """
-        Fixes a file.
+        Fixes the input file at `path`.
         """
 
-        inp = Inp.from_file(self.path)
+        assert isinstance(self.path, pathlib.Path)
 
+        file = Inp.from_file(self.path)[0]
         if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-            inp.to_file(self.path)
+            file.to_file(self.path)

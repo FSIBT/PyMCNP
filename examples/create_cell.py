@@ -8,15 +8,13 @@ the result.
 
 import pymcnp
 
-# Creating option.
-imp = pymcnp.inp.cell.Imp(designator='n', importance=1.0)
-
 # Creating cell.
-cell = pymcnp.inp.Cell(
-    material=1,
-    geometry='#(99:3)',
-    density=0.5,
-    options=[imp],
+cell = pymcnp.inp.card.Cell_0(
+    j=2,
+    m=1,
+    geom='#(99:3)',
+    d=0.5,
+    options=['imp:n=1.0'],
 )
 
 print('INP cell created using `__init__`:')

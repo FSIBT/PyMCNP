@@ -12,13 +12,13 @@ import pymcnp
 
 # Reading OUTP using `from_file`.
 path = pathlib.Path('example_00.outp')
-outp = pymcnp.Outp.from_file(path)
+outp, _ = pymcnp.Outp.from_file(path)
 
 print(f'Reading OUTP from `{path}`:')
 print(outp)
 
 # Reading OUTP using `from_mcnp`.
-outp = pymcnp.Outp.from_mcnp("""          Code Name & Version = MCNP_6.20, 6.2.0
+outp, _ = pymcnp.Outp.from_mcnp("""          Code Name & Version = MCNP_6.20, 6.2.0
   
      _/      _/        _/_/_/       _/      _/       _/_/_/         _/_/_/ 
     _/_/  _/_/      _/             _/_/    _/       _/    _/     _/        

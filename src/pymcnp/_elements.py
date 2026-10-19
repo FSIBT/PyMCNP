@@ -1,10 +1,6 @@
-"""
-Contains the `ELEMENTS` constant of `Istopes-NIST-2` data.
-"""
-
 import typing
 
-
+# `Istopes-NIST-2` data.
 ELEMENTS: typing.Final[dict[str, dict]] = {
     'H': {
         'z': 1,

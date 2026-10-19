@@ -1,0 +1,69 @@
+Embedded source simulation of PNG
+c
+c ===============================================================
+c                        cell definitions
+c ===============================================================
+c cell
+1       0  -8    imp:n=1
+2       0   8    imp:n=0 $ outside world
+c
+
+c ===============================================================
+c                       surface definitions
+c ===============================================================
+c neutron surface for tally
+c
+8 so  1     $ outside world
+c         ***** Anything else? *****
+c
+c ===============================================================
+
+c          *****physics and tracking*****
+c turn on elastic recoil and NCIA
+c phys:n 50000 4 100
+c enable photonuclear physics
+c phys:p 100 -1
+c cut:h,t,d,s,a,# j 1e-8
+cut:n 100000000 j 0 0
+mode n
+c
+c
+c ===============================================================
+c          *****material compositions*****
+c
+c m0 nlib=80c
+c Aluminum is 7.874 g/cm3
+m13      13027 1
+c
+c Source definition
+c
+c burst=10 us
+c period=35 us
+c burst packets=32
+c capture gate=380 us
+c sigma packets=3
+c sdef par=n erg=14 TME=D1<D2
+# SI1 SP1
+0  0
+10e2  1
+35e2 0
+45e2  1
+70e2 0
+80e2  1
+105e2 0
+115e2  1
+140e2 0
+150e2  1
+175e2 0
+185e2  1
+210e2 0
+SI2 0 4500e2
+SP2 0 1
+c ===============================================================
+c
+t0 0 4499i 4500e2
+f2:n   8
+fq2  t  f
+c
+c ===============================================================
+nps    100000                                                                   

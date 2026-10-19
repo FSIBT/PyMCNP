@@ -1,52 +1,43 @@
 import os
+import typing
 import pathlib
+import dataclasses
 
 import matplotlib.pyplot
 import matplotlib.backends.backend_pdf
 
-from . import _doer
-from . import errors
+from . import abc
 from .Outp import Outp
 
 
 matplotlib.pyplot.rcParams['figure.max_open_warning'] = 0
 
 
-class Plot(_doer.Doer):
+@dataclasses.dataclass
+class Plot(abc.Utility):
     """
-    Plots OUTP files.
+    Represents utilties that plot output files.
 
     Attribute:
-        path: File to plot.
+        file: Output file to plot.
     """
 
-    def __init__(self, outp: Outp):
-        """
-        Initializes `Plot`.
-
-        Parameters:
-            path: File to plot.
-
-        Raises:
-            CliError: RUNTIME_DOER.
-        """
-
-        if outp is None:
-            raise errors.CliError(errors.CliCode.RUNTIME_DOER, outp)
-
-        self.outp = outp
+    file: Outp
 
     def to_show(self, number: str):
         """
-        Plots file in window.
+        Plots tally `number` of output files in window.
 
         Parameter:
-            number: Tally number.
+            number: Tally number to plot.
+
+        Raises:
+            Error: Tally not found.
         """
 
-        tallies = self.outp.to_dataframe()
+        tallies = self.file.to_dataframe()
         if number not in tallies:
-            raise errors.CliError(errors.CliCode.RUNTIME_DOER, number)
+            raise abc.Error('Tally not found.', f'{number=}')
 
         names = tallies[number].columns[3:-4]
 
@@ -64,7 +55,7 @@ class Plot(_doer.Doer):
                 zorder=1,
                 fmt='none',
             )
-            ax.set_title(f'Counts vs Bins\n{" ".join(f"{name}: {ident}" for name, ident in zip(names, idents))}', fontsize=12)
+            ax.set_title(f'Counts vs Bins\n{" ".join(f"{name}: {ident}" for name, ident in zip(names, idents if isinstance(idents, typing.Iterable) else (idents,)))}', fontsize=12)
             ax.set_xlabel('Bins', fontsize=12)
             ax.set_ylabel('Counts', fontsize=12)
             ax.step(subtally['bins'], subtally['counts'], color='blue', where='mid', zorder=2, label='Tally')
@@ -74,12 +65,12 @@ class Plot(_doer.Doer):
 
         return figures
 
-    def to_pdf(self, number: str, path: str | pathlib.Path):
+    def to_pdf(self, number: str, path: pathlib.Path | str):
         """
-        Plots file in PDF.
+        Plots tally `number` of output files in PDF file.
 
         Parameters:
-            number: Tally number.
+            number: Tally number to plot.
             path: Path to new pdf file.
         """
 

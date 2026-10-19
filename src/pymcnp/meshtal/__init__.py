@@ -1,9 +1,11 @@
-from ._block import Block
-from .Header import Header
-from .Tally import Tally
+from . import line
+from . import block
+from .Line import Line
+from .Block import Block
 
-__all__ = [
+__all__ = (
+    'Line',
     'Block',
-    'Header',
-    'Tally',
-]
+    'line',
+    'block',
+)
