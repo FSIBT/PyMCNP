@@ -138,3 +138,48 @@ class Test_Inp_Continuation:
         assert remainder == ''
         assert inp.to_mcnp() == source
         assert inp.nps == 10
+
+
+class Test_Inp_Issue_7:
+    SOURCE = """MCNP Test Model for MOAA
+C cells
+1 1 20
+         -1000  $ dollar comment
+        imp:n,p=1 U=350 trcl=5
+99 0
+      1010
+     imp:n,p=0
+
+C surfaces
+1000 SO 1
+1010 SO 3
+
+C data
+C UO2 5 atpt enriched
+m1        92235.80c           5 &
+92238.80c          95
+C Iron
+m2        26054.80c        5.85
+          plib= 80p
+          26056           91.75
+          26057        2.12 $ trailing comment
+          26058.80c        0.28
+C water
+m3        1001.80c           2
+           8016.80c           1
+           plib=84p
+MT3 lwtr.23t h-zr.20t h/zr.28t
+mode n p
+"""
+
+    def test_library_keyword_between_substances_parses(self) -> None:
+        inp, remainder = pymcnp.Inp.from_mcnp(self.SOURCE)
+        assert remainder == ''
+        assert 'plib= 80p' in inp.to_mcnp()
+        assert 'plib=84p' in inp.to_mcnp()
+
+    def test_written_issue_input_is_stable(self) -> None:
+        inp, _ = pymcnp.Inp.from_mcnp(self.SOURCE)
+        again, remainder = pymcnp.Inp.from_mcnp(inp.to_mcnp())
+        assert remainder == ''
+        assert again.to_mcnp() == inp.to_mcnp()

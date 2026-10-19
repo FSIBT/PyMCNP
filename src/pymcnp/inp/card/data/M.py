@@ -27,7 +27,7 @@ class M(Data):
 
     keyword: typing.Annotated[abc.Terminal, r'M'] | str = abc.Terminal[r'M']('M')
     suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    z_f: typing.Annotated[abc.Array, group.Constituent, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[group.Constituent | str] | str = abc.Terminal[r'']('')
+    z_f: typing.Annotated[abc.Array, option.data.M | group.Constituent, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.M | group.Constituent | str] | str = abc.Terminal[r'']('')
     options: typing.Annotated[abc.Array, option.data.M, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.M | str] | str = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
