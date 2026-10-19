@@ -127,3 +127,14 @@ class Test_Inp_Wrapping:
         source = self.HEAD + 'si1 0 10 20\nnps 10\n'
         inp, _ = pymcnp.Inp.from_mcnp(source)
         assert inp.to_mcnp() == source
+
+
+class Test_Inp_Continuation:
+    HEAD = 'Hello\n1 0 -1\n\n1 SO 1\n\n'
+
+    def test_unindented_line_after_ampersand(self) -> None:
+        source = self.HEAD + 'm1 92235.80c 5 &\n92238.80c 95\nnps 10\n'
+        inp, remainder = pymcnp.Inp.from_mcnp(source)
+        assert remainder == ''
+        assert inp.to_mcnp() == source
+        assert inp.nps == 10

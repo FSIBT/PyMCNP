@@ -60,7 +60,7 @@ class Space(Terminal):
     Represents spaces for array items.
     """
 
-    _pattern = re.compile(r'( *(?:\$.+)?\n {1,5} *| +&\n +| *\n +| +)([\s\S]*)', re.IGNORECASE)
+    _pattern = re.compile(r'( *(?:\$.+)?\n {1,5} *| +&\n *| *\n +| +)([\s\S]*)', re.IGNORECASE)
     _default = ' '
 
 
