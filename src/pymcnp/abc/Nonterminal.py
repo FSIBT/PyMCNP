@@ -147,6 +147,9 @@ class Nonterminal(Symbol):
     _space: typing.ClassVar[tuple[type[Terminal], ...]] = (Terminal[r''],)
     _forms: typing.ClassVar[tuple[type[typing.Self], ...]] = ()
     _fields: typing.ClassVar[dict[str, tuple[type[Symbol], ...]]] = {}
+    _null: typing.ClassVar[frozenset[str]] = frozenset()
+    _nullable: typing.ClassVar[frozenset[str]] = frozenset()
+    _end: typing.ClassVar[frozenset[str]] = frozenset()
 
     def __post_init__(self) -> None:
         # Checks `__init__` if multi-form nonterminal.
@@ -184,6 +187,9 @@ class Nonterminal(Symbol):
         cls._space = cls._space if cls._space is not dataclasses.MISSING else (Terminal[r''],)
         cls._forms = ()
         cls._fields = fields_ordered
+        cls._null = frozenset(_space_null(fields_ordered))
+        cls._nullable = frozenset(_space_nullable(fields_ordered))
+        cls._end = frozenset(_space_end(fields_ordered))
 
         # Creating `dataclasses.Dataclass`.
         cls.__annotations__ = fields_missing | fields_default | {'spaces': dict[str, Symbol]}
@@ -240,7 +246,7 @@ class Nonterminal(Symbol):
                     pos != end  # Checking match is not complete.
                     and not isinstance(parameters[name], Terminal[r''])  # Checking parameter is not empty.
                     and cls._space is not None  # Checking if this consituent has spaces.
-                    and name not in _space_null(cls._fields)
+                    and name not in cls._null
                 ):
                     try:
                         before = pos
@@ -249,11 +255,11 @@ class Nonterminal(Symbol):
                         space_end[name] = before
                         pos = parse[1]
                     except Error as err:
-                        if name not in _space_nullable(cls._fields):  # Checking consituent is not space null.
+                        if name not in cls._nullable:  # Checking consituent is not space null.
                             err.append(Error(f'Expected `{"` `".join(Space.__name__ for Space in cls._space)}.{name}`.', _excerpt(source, pos)))
                             raise err
                         else:
-                            if name in _space_end(cls._fields):  # Checking consituent is not last when null.
+                            if name in cls._end:  # Checking consituent is not last when null.
                                 break
                             else:
                                 spaces[name] = typing.cast(Terminal, '')
@@ -293,7 +299,7 @@ class Nonterminal(Symbol):
         """
 
         Space = type(self)._space[0]
-        null = _space_null(type(self)._fields)
+        null = type(self)._null
 
         last: str | None = None
         for field in reversed(type(self)._fields.keys()):
