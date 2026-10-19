@@ -76,6 +76,7 @@ where = ["./src"]
 version_file = "src/version.py"
 
 [tool.pytest.ini_options]
+env = ["MPLBACKEND=Agg"]
 testpaths = [
     "tests"
 ]
