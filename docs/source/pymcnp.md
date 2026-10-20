@@ -44,6 +44,8 @@ PyMCNP represents MCNP files using the `Inp`, `Meshtal`, and `Ptrac` AST classes
    :inherited-members:
 ```
 
+`Meshtal.from_file` reads the first mesh tally of a file; use `Meshtal.iter_tallies(path)` for files that hold several.
+
 [meshtal subpackage](pymcnp/outp)
 
 ### `Ptrac` Class
@@ -69,6 +71,8 @@ originating nuclide `parent_zaid`) and `Ptrac.iter_histories(path)` yields one h
    :members:
    :inherited-members:
 ```
+
+`Meshtal.from_file` reads the first mesh tally of a file; use `Meshtal.iter_tallies(path)` for files that hold several.
 
 [meshtal subpackage](pymcnp/meshtal)
 

@@ -80,3 +80,34 @@ class Test_Meshtal_Data:
     def test_full_file_row_count(self) -> None:
         meshtal, _ = pymcnp.Meshtal.from_mcnp((FILES / 'valid_40.meshtal').read_text())
         assert len(meshtal.rows) == 576 and len(meshtal.to_dataframe()) == 576
+
+
+class Test_Meshtal_Tallies:
+    MULTI = FILES / 'multi_00.meshtal'
+
+    def test_iter_tallies_reads_every_tally(self) -> None:
+        tallies = list(pymcnp.Meshtal.iter_tallies(self.MULTI))
+        assert [tally.tally_number for tally in tallies] == [4, 14]
+        assert [tally.particle_name for tally in tallies] == ['neutron', 'photon']
+        assert [tally.names for tally in tallies] == [['X', 'Y', 'Z', 'Result', 'Rel Error'], ['Energy', 'X', 'Y', 'Z', 'Result', 'Rel Error']]
+        assert [len(tally.to_dataframe()) for tally in tallies] == [8, 9]
+        assert all('two mesh tallies' in str(tally.title) for tally in tallies)
+
+    def test_iter_tallies_single_tally_file(self) -> None:
+        tallies = list(pymcnp.Meshtal.iter_tallies(FILES / 'valid_40.meshtal'))
+        whole, _ = pymcnp.Meshtal.from_file(FILES / 'valid_40.meshtal')
+        assert len(tallies) == 1
+        assert tallies[0].to_mcnp() == whole.to_mcnp()
+
+    def test_iter_tallies_values_match_the_file(self) -> None:
+        frame = list(pymcnp.Meshtal.iter_tallies(self.MULTI))[1].to_dataframe()
+        assert frame['Energy'].tolist()[-1] == 'Total'
+        assert frame['Result'].iloc[0] == pytest.approx(3.37456e-05)
+
+    def test_iter_tallies_errors(self, tmp_path: pathlib.Path) -> None:
+        with pytest.raises(pymcnp.abc.Error):
+            list(pymcnp.Meshtal.iter_tallies(tmp_path / 'missing'))
+        path = tmp_path / 'junk.mesh'
+        path.write_text('hello\nworld\n')
+        with pytest.raises(pymcnp.abc.Error):
+            list(pymcnp.Meshtal.iter_tallies(path))

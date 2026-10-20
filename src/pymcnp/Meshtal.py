@@ -1,5 +1,7 @@
 import re
 import typing
+import pathlib
+import collections.abc
 
 import pandas
 
@@ -55,6 +57,75 @@ class Meshtal(abc.File):
             for name, value in zip(names, row.values):
                 if name not in ('Energy', 'Time') and value.lower() == 'total':
                     raise abc.Error('Invalid value.', f'{row=}\n{name=}')
+
+    @staticmethod
+    def iter_tallies(path: pathlib.Path | str) -> collections.abc.Iterator['Meshtal']:
+        """
+        Parses meshtal files with any number of mesh tallies, one tally at a time.
+
+        Every tally is a `Meshtal` with the file's header, title and histories.
+        `from_file` only reads the first tally of a file.
+
+        Parameters:
+            path: Path to meshtal file to read.
+
+        Yields:
+            One `Meshtal` per mesh tally, in file order.
+
+        Raises:
+            Error: File not found.
+            Error: Expected mesh tally.
+        """
+
+        path = pathlib.Path(path)
+        if not path.is_file():
+            raise abc.Error('File not found.', f'{path=}')
+
+        def parse(head: list[str], body: list[str]) -> Meshtal:
+            while body and body[-1].strip() == '':
+                body.pop()
+            text = ''.join(head + body)
+            if not text.endswith('\n'):
+                text += '\n'
+            tally, remainder = Meshtal.from_mcnp(text)
+            if remainder != '':
+                raise abc.Error('Expected mesh tally.', f'{remainder[:80]!r}')
+            return tally
+
+        head: list[str] = []
+        body: list[str] = []
+        found = False
+        with path.open() as file:
+            for line in file:
+                if line.startswith(' Mesh Tally Number'):
+                    if found:
+                        yield parse(head, body)
+                        body = []
+                    found = True
+                if found:
+                    body.append(line)
+                else:
+                    head.append(line)
+
+        if not found:
+            raise abc.Error('Expected mesh tally.', f'{path=}')
+        yield parse(head, body)
+
+    @property
+    def tally_number(self) -> int:
+        """
+        Mesh tally number, e.g., `4`.
+        """
+
+        return int(re.search(r'\d+', self.number)[0])  # ty: ignore[not-subscriptable]
+
+    @property
+    def particle_name(self) -> str:
+        """
+        Particle of the mesh tally, e.g., `'neutron'`.
+        """
+
+        return self.particle.split()[0]
 
     @property
     def names(self) -> list[str]:
