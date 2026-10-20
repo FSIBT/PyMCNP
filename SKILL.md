@@ -49,26 +49,31 @@ Run: `pymcnp.Run(inps, command='mcnp6').run(directory)` writes `directory/pymcnp
 - `pymcnp.Convert(outp).to_csv('1', path)` / `.to_parquet('1', path)`; `pymcnp.Plot(outp).to_pdf('1', path)` / `.to_show('1')`. Tally number is a string. CLI: `pymcnp convert --csv f.outp 1`, `pymcnp plot --pdf f.outp 1`.
 - `ptrac, rest = pymcnp.Ptrac.from_file(p)`; `ptrac.histories` is a list. Subclass `pymcnp.PtracProcessor` (override `process_source/bank/surface/collision/terminal`, then `.run(ptrac)`) or `pymcnp.PtracFilter` (override `check_*`, `.run(ptrac)` yields accepted events).
 - PTRAC object model (`ptrac.header`, `ptrac.histories`; check `rest == ''` and `len(ptrac.histories) > 0`, a header-only file gives zero histories):
-  - `history.i.nps` and `history.i.event_type` (type of the first event); `history.events` is a list of `Event` with `event.j` and `event.p`. All fields are fixed-width strings: `float(event.p.x)`, `int(event.j.type)`.
-  - `event.j.type`: `1000` source, `3000` surface, `4000` collision, `5000` terminal, `9000` end of history, `2xxx` bank (`PtracProcessor.run` applies the same rule, and the first event's type comes from `history.i`).
-  - `event.j` has forms `J_0`..`J_3` with generic field names that depend on the event type (e.g. `nsr__nsx_nsf_nter`, `ipt__ntyn_mtp_angle_branch`, `ncl`, `mat`): the same positional slot means a different thing per event type, so read it from the manual's PTRAC tables. For a collision (`4000`, `J_1` in the samples) the nuclide ZAID is in `nsr__nsx_nsf_nter` (e.g. `6000` = carbon) and the reaction number in the next field. Verify the slot you use on a few events before building on it.
-  - `event.p` is `P_0` (only `x y z`, the default `WRITE=POS`) or `P_1` (`x y z u v w erg wgt tme`, needs `WRITE=ALL` on the `PTRAC` card). **`u v w erg wgt tme` are only in the file if the run used `PTRAC ... WRITE=ALL`**; with `P_0` events direction and energy do not exist, so rerun MCNP instead of guessing. The particle type (`ipt`, 1 = neutron, 2 = photon) is only in some J forms, so confirm it (or use `TYPE=P` on the `PTRAC` card to get photons only). Selecting by cell (`CELL=3`) or surface (`SURFACE=3.1`) filters happen in MCNP; to keep only some events in Python use `PtracFilter`.
-  - Pattern for "per-event table to parquet":
+  - `history.i.nps`, `history.i.event_type`; `history.events` is a list of `Event` with `event.j` and `event.p`. All fields are fixed-width strings: `float(event.p.x)`, `int(event.j.type)`.
+  - **The type on an event's `J` line is the type of the NEXT event, not of this one.** An event's own type is the previous event's `j.type`; for the first event it is `history.i.event_type`. Types: `1000` source, `3000` surface, `4000` collision, `5000` terminal, `9000` end of history, `2xxx` bank (`PtracProcessor.run` does this bookkeeping already). The other `J` fields and the `P` line belong to the current event.
+  - `event.j` has forms `J_0`..`J_3` with generic slot names (e.g. `nsr__nsx_nsf_nter`, `ipt__ntyn_mtp_angle_branch`, `ncl__ipt`, `mat__ncl`): the same slot means different things per event type, so read the manual's PTRAC tables and check a few events. Verified on the sample files: `nsr__nsx_nsf_nter` is the nuclide ZAID of a collision (`4000`) and the surface number of a surface crossing (`3000`, e.g. `3.1`); in `J_2`, `ncl__ipt` is the particle type `ipt` (1 neutron, 2 photon, 34 alpha), and bank events (`2xxx`) carry the banked particle's `ipt` there too.
+  - `event.p` is `P_0` (`x y z`, default `WRITE=POS`) or `P_1` (`x y z u v w erg wgt tme`, needs `PTRAC ... WRITE=ALL`). **Direction and energy exist only with `WRITE=ALL`**; with `P_0` they are not in the file, so rerun MCNP rather than guess. `TYPE=P` restricts to photons, `CELL=`/`SURFACE=` (macrobody facets like `3.1` work) restrict events inside MCNP.
+  - **Originating isotope**: it is on the collision (`4000`) event, never on the surface event. The card needs `EVENT=` with `COL` (e.g. `EVENT=SUR,COL`; add `BNK` to see where secondaries are born). Walk each history in order and remember the ZAID of the latest collision; a photon created in that collision is then banked and later crosses the surface, so attach that ZAID to it. Without collision events the isotope is unknowable: say so and ask for a rerun.
+  - Pattern, table of surface crossings with the last collision's isotope (gammas at a detector surface: `TYPE=P`, and compare the surface number to the detector's):
 
     ```python
     import pandas, pymcnp
     ptrac, rest = pymcnp.Ptrac.from_file('ptrac'); assert rest == '' and ptrac.histories
     rows = []
     for h in ptrac.histories:
+        kind, zaid = h.i.event_type.strip(), None    # type of the current event
         for e in h.events:
-            if e.j.type.strip() != '3000' or not isinstance(e.p, pymcnp.ptrac.line.P_1):
-                continue                      # surface crossings that carry direction/energy
-            rows.append({'nps': int(h.i.nps), 'x': float(e.p.x), 'y': float(e.p.y), 'z': float(e.p.z),
-                         'u': float(e.p.u), 'v': float(e.p.v), 'w': float(e.p.w), 'erg': float(e.p.erg)})
+            if kind == '4000':
+                zaid = int(e.j.nsr__nsx_nsf_nter)    # nuclide of the latest collision
+            elif kind == '3000' and isinstance(e.p, pymcnp.ptrac.line.P_1):
+                rows.append({'nps': int(h.i.nps), 'surface': float(e.j.nsr__nsx_nsf_nter), 'zaid': zaid,
+                             'x': float(e.p.x), 'y': float(e.p.y), 'z': float(e.p.z),
+                             'u': float(e.p.u), 'v': float(e.p.v), 'w': float(e.p.w), 'erg': float(e.p.erg)})
+            kind = e.j.type.strip()                  # the J line announces the NEXT event
     pandas.DataFrame(rows).to_parquet('out.parquet')
     ```
 
-    The originating isotope is not on the surface event: it needs `EVENT=` including collisions (`COL`) or source/bank events, then following the history's earlier `4000` events (nuclide ZAID) before the surface crossing. If the file has no such events, say so and ask for a rerun with a wider `PTRAC` card.
+    The `J` slot names above are for `J_2` (particle type present); for another form check `type(e.j)._fields` first.
 - `pymcnp.Meshtal.from_file(p)` parses header, title, histories, tally number, particle, bin boundaries and every data row (`.rows`). `meshtal.names` lists the columns (`Energy`/`Time` only if present, then `X Y Z Result Rel Error`); `meshtal.to_dataframe()` returns a `pandas.DataFrame` with float columns (Energy/Time stay strings if any bin is `Total`).
 - Parsing time is linear in file size: a 1 MB PTRAC file takes about a second. Older versions (before the offset-based parser) were quadratic, so upgrade before parsing large PTRAC or OUTP files.
 
