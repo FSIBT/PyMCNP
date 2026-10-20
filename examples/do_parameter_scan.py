@@ -2,12 +2,11 @@
 Example parameter scan.
 
 This example mocks the parameter scan workflow. First, it reads INP file `example_04.inp`.
-Second, it create multiple INP files by iterates over a surface's `vy` parameter. Thrid,
+Second, it creates independent copies of the input with `Inp.scan_with`, setting a surface's `vy` parameter (`Inp.scan(nps=..., seed=...)` does the same for `nps` and `seed`). Thrid,
 it visualizes the surfaces. Fourth, it subclasses `Run`, adding callbacks that process
 the output files. Finaly, it runs the input files in parallel.
 """
 
-import copy
 import pathlib
 
 import pymcnp
@@ -46,12 +45,14 @@ class MyRun(pymcnp.Run):
 path_inp = HERE / 'example_04.inp'
 inp, _ = pymcnp.Inp.from_file(path_inp)
 
+
 # Scanning.
-inps = []
-for vy in [-2, -1, 0, 1, 2]:
+def set_vy(inp, vy):
     assert isinstance(inp.surfaces[0], pymcnp.inp.card.surface.Sph)
     inp.surfaces[0].vy = vy
-    inps.append(copy.deepcopy(inp))
+
+
+inps = list(inp.scan_with([-2, -1, 0, 1, 2], set_vy))
 
 # Visualizing.
 for inp in inps:

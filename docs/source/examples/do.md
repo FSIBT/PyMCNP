@@ -131,11 +131,6 @@ Code:
 Output:
 
     Running parameter scan `echo` in `examples/output`:
-    inp=examples/output/pymcnp-2025-08-22--01-52-15/run-00000/run-00000.inp outp=examples/output/pymcnp-2025-08-22--01-52-15/run-00000/run-00000.outp ptrac=examples/output/pymcnp-2025-08-22--01-52-15/run-00000/run-00000.ptrac
-    inp=examples/output/pymcnp-2025-08-22--01-52-15/run-00001/run-00001.inp outp=examples/output/pymcnp-2025-08-22--01-52-15/run-00001/run-00001.outp ptrac=examples/output/pymcnp-2025-08-22--01-52-15/run-00001/run-00001.ptrac
-    inp=examples/output/pymcnp-2025-08-22--01-52-15/run-00002/run-00002.inp outp=examples/output/pymcnp-2025-08-22--01-52-15/run-00002/run-00002.outp ptrac=examples/output/pymcnp-2025-08-22--01-52-15/run-00002/run-00002.ptrac
-    inp=examples/output/pymcnp-2025-08-22--01-52-15/run-00003/run-00003.inp outp=examples/output/pymcnp-2025-08-22--01-52-15/run-00003/run-00003.outp ptrac=examples/output/pymcnp-2025-08-22--01-52-15/run-00003/run-00003.ptrac
-    inp=examples/output/pymcnp-2025-08-22--01-52-15/run-00004/run-00004.inp outp=examples/output/pymcnp-2025-08-22--01-52-15/run-00004/run-00004.outp ptrac=examples/output/pymcnp-2025-08-22--01-52-15/run-00004/run-00004.ptrac
     DONE! :)
 
 ![do_parameter_scan_0](../images/do_parameter_scan_0.png)

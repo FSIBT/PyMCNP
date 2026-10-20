@@ -16,7 +16,7 @@ Python API and CLI for MCNP inputs and outputs (`pip install pymcnp`, Python 3.1
 ## a) Create inputs, scan, run
 
 ```python
-import copy, pymcnp
+import pymcnp
 from pymcnp.inp import card
 from pymcnp.inp.card import surface, data
 s = surface.So(j=1, r=10)
@@ -31,15 +31,15 @@ inp.seed = 42
 
 Import the subpackages (`from pymcnp.inp import card`, `from pymcnp.inp.card import surface, data`) instead of spelling out `pymcnp.inp.card.surface.` each time; scripts read much better. Cards also accept strings (`geom='#(99:3)'`, `options=['imp:n=1.0']`). Field names follow the class, not the manual: `Nps(npp=...)`, `Rcc` has `h1 h2 h3` for the height vector. `M.from_formula(..., library='80c')` appends a library suffix to every ZAID (without it MCNP needs a default library); fractions are weight (negative) or atom (positive) fractions per element and isotope. See `examples/create_inp.py` for tallies and multi-surface geometry.
 
-Scan: read a file, mutate a field, `copy.deepcopy` per value (`examples/do_parameter_scan.py`):
+Scan: read a file, then `inp.scan(nps=[...], seed=[...])` yields independent deep copies for every combination (`nps` and `seed` only; the last field varies fastest). For any other field use `inp.scan_with(values, apply)`, which deep-copies per value and calls `apply(copy, value)` (`examples/do_parameter_scan.py`). Use `list(...)` to pass the copies to `Run`:
 
 ```python
 base, rest = pymcnp.Inp.from_file('model.inp'); assert rest == ''
-inps = []
-for r in (9, 10, 11):
-    base.surfaces[0].r = r            # surfaces/cells/data are indexable lists of cards; fields are named as in the MCNP manual
-    inps.append(copy.deepcopy(base))
+inps = list(base.scan_with((9, 10, 11), lambda inp, r: setattr(inp.surfaces[0], 'r', r)))  # surfaces/cells/data are indexable lists of cards; fields are named as in the MCNP manual
+inps += list(base.scan(nps=[10**4, 10**5]))
 ```
+
+(`copy.deepcopy(inp)` also works; never reuse one mutated `Inp` for several runs.)
 
 Run: `results = pymcnp.Run(inps, command='mcnp6', max_workers=4, names='case-{index}').run(directory)` runs each input in its own directory `directory/pymcnp-<timestamp>/<name>/` (default names `run-00000`, ...; MCNP refuses to reuse output files, so never share one directory), at most `max_workers` at a time (default: CPU count). It returns one `Result` per input, in order, with `.inp`, `.outp`, `.ptrac`, `.runtpe` (paths, `None` if not written), `.log`, `.returncode`, `.fatal_errors` and `.ok`. It waits for all runs, then raises `abc.Error` listing the failed ones (non-zero exit code or `fatal error` in the output), unless `check=False`; then test `result.ok`. `Run(...)` raises `abc.Error` if `command` is not on `PATH` (use `command='echo'` to dry-run). Subclass `Run` and override `prehook_file(path, index)`, `posthook_file(result)` (runs in the worker thread, so heavy post-processing such as PTRAC to parquet runs in parallel without your own pool; skipped for failed runs), `prehook_batch(path)`, `posthook_batch(path)` (`examples/do_run.py`). `Outp.fatal_errors` lists the fatal errors of any parsed output. CLI: `pymcnp run [-c CMD] [-p DIR] a.inp b.inp`.
 

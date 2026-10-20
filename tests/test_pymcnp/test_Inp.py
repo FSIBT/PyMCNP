@@ -235,3 +235,41 @@ class Test_Inp_Copy:
         inp.seed = 3
 
         assert copy.deepcopy(inp).to_mcnp() == inp.to_mcnp()
+
+
+class Test_Inp_Scan:
+    @staticmethod
+    def _inp() -> pymcnp.Inp:
+        surface = pymcnp.inp.card.surface.So(j=1, r=1)
+        cell = pymcnp.inp.card.Cell_1(j=1, m=0, geom=-surface, options=['imp:n=1'])
+        return pymcnp.Inp(title='t\n', cells=[cell], surfaces=[surface], data=[])
+
+    def test_scan_nps(self) -> None:
+        base = self._inp()
+        copies = list(base.scan(nps=[10, 100, 1000]))
+
+        assert [int(copy_.nps or 0) for copy_ in copies] == [10, 100, 1000]
+        assert base.nps is None  # the original is untouched
+        assert len({id(copy_) for copy_ in copies}) == 3
+
+    def test_scan_product_last_varies_fastest(self) -> None:
+        copies = list(self._inp().scan(nps=[1, 2], seed=[7, 9]))
+
+        assert [(int(copy_.nps or 0), int(copy_.seed or 0)) for copy_ in copies] == [(1, 7), (1, 9), (2, 7), (2, 9)]
+
+    def test_scan_copies_roundtrip(self) -> None:
+        for copy_ in self._inp().scan(nps=[5, 6]):
+            assert pymcnp.Inp.from_mcnp(copy_.to_mcnp())[0].to_mcnp() == copy_.to_mcnp()
+
+    def test_scan_invalid(self) -> None:
+        with pytest.raises(pymcnp.abc.Error):
+            list(self._inp().scan())
+        with pytest.raises(pymcnp.abc.Error):
+            list(self._inp().scan(radius=[1]))
+
+    def test_scan_with(self) -> None:
+        base = self._inp()
+        copies = list(base.scan_with([2, 3], lambda inp, r: setattr(inp.surfaces[0], 'r', r)))
+
+        assert [float(copy_.surfaces[0].r) for copy_ in copies] == [2, 3]
+        assert float(base.surfaces[0].r) == 1

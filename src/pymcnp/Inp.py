@@ -1,5 +1,7 @@
 import re
+import copy
 import typing
+import itertools
 import collections
 import dataclasses
 
@@ -172,6 +174,48 @@ class Inp(abc.File):
 
             if isinstance(card, inp.card.data.Area) and len(card.x) != cell_count:
                 raise abc.Error('Invalid value.', f'{card=}')
+
+    def scan_with(self, values: collections.abc.Iterable[typing.Any], apply: collections.abc.Callable[[typing.Self, typing.Any], None]) -> collections.abc.Iterator[typing.Self]:
+        """
+        Yields one deep copy of the input per value, changed by `apply`.
+
+        Parameters:
+            values: Values to scan.
+            apply: Function that changes a copy for one value, e.g., `lambda inp, r: setattr(inp.surfaces[0], 'r', r)`.
+
+        Yields:
+            Independent copies, in the order of `values`. Use `list(...)` to pass them to `Run`.
+        """
+
+        for value in values:
+            inp = copy.deepcopy(self)
+            apply(inp, value)
+            yield inp
+
+    def scan(self, **fields: collections.abc.Iterable[typing.Any]) -> collections.abc.Iterator[typing.Self]:
+        """
+        Yields deep copies of the input for every combination of the values of `nps` and `seed`.
+
+        Parameters:
+            fields: Settable fields (`nps`, `seed`) with their values. With several fields, the last one varies fastest.
+
+        Yields:
+            Independent copies with the fields set. Use `list(...)` to pass them to `Run`.
+
+        Raises:
+            Error: Unknown field or no field.
+        """
+
+        unknown = [name for name in fields if name not in ('nps', 'seed')]
+        if unknown or not fields:
+            raise abc.Error('Invalid value.', f'cannot scan {unknown or "nothing"}; use `scan_with` for other fields')
+
+        values = [list(value) for value in fields.values()]
+        for combination in itertools.product(*values):
+            inp = copy.deepcopy(self)
+            for name, value in zip(fields, combination):
+                setattr(inp, name, value)
+            yield inp
 
     @property
     def nps(self) -> inp.literal.Integer | None:
