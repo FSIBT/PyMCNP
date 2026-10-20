@@ -22,4 +22,4 @@ class Surface(Ptrac):
 
     keyword: typing.Annotated[abc.Terminal, r'SURFACE'] | str = abc.Terminal[r'SURFACE']('SURFACE')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    s: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')
+    s: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Real | float | str] | str = abc.Terminal[r'']('')

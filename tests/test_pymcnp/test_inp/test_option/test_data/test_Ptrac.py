@@ -18,9 +18,17 @@ class Test_Ptrac(classes.Test_Nonterminal):
         'nps 1 1 1',
         'cell 1 1 1',
         'surface 1 1 1',
+        'surface 3.1 3.2 3.3',
         'tally 1 1 1',
         'value 3.1',
     ]
     EXAMPLES_INVALID = [
         'hello',
     ]
+
+    def test_macrobody_facets_survive_parsing(self) -> None:
+        source = 'PTRAC FILE=ASC EVENT=SUR SURFACE=3.1 3.2 3.3 TYPE=P\n'
+        card, rest = pymcnp.inp.card.data.Ptrac.from_mcnp(source)
+
+        assert rest == '\n'
+        assert card.to_mcnp() == source.rstrip('\n')
