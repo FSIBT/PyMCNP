@@ -122,3 +122,17 @@ class Ptrac(abc.File):
 
         for history in Ptrac.iter_histories(path):
             yield from _history_events(history)
+
+    @staticmethod
+    def tracks(path: pathlib.Path | str) -> collections.abc.Iterator[ptrac.Track]:
+        """
+        Streams the particle tracks of ptrac files, with banked particles linked to their parents.
+
+        Parameters:
+            path: Path to ptrac file to read.
+
+        Yields:
+            Tracks in file order; see `ptrac.Track`.
+        """
+
+        yield from ptrac.tracks(Ptrac.stream(path))

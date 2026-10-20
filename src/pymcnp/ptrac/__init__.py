@@ -4,6 +4,7 @@ from .Line import Line
 from .Block import Block
 from .Types import EventType, Particle, Surface
 from .Event import Event
+from .Track import Track, tracks
 
 __all__ = (
     'Line',
@@ -14,4 +15,6 @@ __all__ = (
     'Particle',
     'Surface',
     'Event',
+    'Track',
+    'tracks',
 )

@@ -131,3 +131,25 @@ def test_iter_junk_is_rejected(tmp_path: pathlib.Path) -> None:
     path.write_text('hello\nworld\n')
     with pytest.raises(pymcnp.abc.Error):
         list(pymcnp.Ptrac.iter_histories(path))
+
+
+def test_tracks_group_events_and_link_parents() -> None:
+    tracks = list(pymcnp.Ptrac.tracks(FILES / 'valid_27.ptrac'))
+    events = list(pymcnp.Ptrac.stream(FILES / 'valid_27.ptrac'))
+    assert [event for track in tracks for event in track.events] == events
+    for track in tracks:
+        assert track.creation.type in (pymcnp.ptrac.EventType.SOURCE, pymcnp.ptrac.EventType.BANK)
+        assert track.events[0] is track.creation
+        assert {event.nps for event in track.events} == {track.nps}
+        if track.parent is not None:
+            assert track.parent.index < track.index
+            assert track.parent.nps == track.nps
+        if track.creation.zaid:
+            assert track.parent_zaid == track.creation.zaid
+
+
+def test_tracks_inherit_zaid_from_parent() -> None:
+    # A photon banked with ZAID 0 (made by a photon interaction) takes its parent's ZAID, `None` if there is no parent.
+    for track in pymcnp.Ptrac.tracks(FILES / 'valid_27.ptrac'):
+        if track.creation.type is pymcnp.ptrac.EventType.BANK and not track.creation.zaid:
+            assert track.parent_zaid == (track.parent.parent_zaid if track.parent else None)
