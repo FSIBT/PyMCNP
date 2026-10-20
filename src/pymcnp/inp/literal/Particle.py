@@ -9,6 +9,6 @@ class Particle(Literal):
     """
 
     _pattern = re.compile(
-        r'([-NPE|QUV[HL+XYO!<>G/ZKB_~CW@DTSA*?#](?:,[-NPE|QUV[HL+XYO!<>G/ZKB_~CW@DTSA*?#])*)([\s\S]*)',
+        r'([-NPE|QUV[HL+XYO!<>G/ZKB_~CW@DTSA*?#](?:,[-NPE|QUV[HL+XYO!<>G/ZKB_~CW@DTSA*?#])*)(?![A-Za-z])([\s\S]*)',
         re.IGNORECASE,
     )

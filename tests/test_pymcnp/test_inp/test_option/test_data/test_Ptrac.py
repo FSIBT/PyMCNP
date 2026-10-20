@@ -32,3 +32,15 @@ class Test_Ptrac(classes.Test_Nonterminal):
 
         assert rest == '\n'
         assert card.to_mcnp() == source.rstrip('\n')
+
+    def test_write_after_type_is_not_cut(self) -> None:
+        source = 'PTRAC FILE=ASC EVENT=SUR SURFACE=3.1 3.2 TYPE=P WRITE=ALL\n'
+        card, rest = pymcnp.inp.card.data.Ptrac.from_mcnp(source)
+
+        assert rest == '\n'
+        assert card.to_mcnp() == source.rstrip('\n')
+
+    def test_constructor_keeps_facets_and_later_options(self) -> None:
+        card = pymcnp.inp.card.data.Ptrac(options=['FILE=ASC', 'EVENT=SUR', 'SURFACE=3.1 3.2 3.3', 'TYPE=P', 'WRITE=ALL'])
+
+        assert card.to_mcnp() == 'PTRAC FILE=ASC EVENT=SUR SURFACE=3.1 3.2 3.3 TYPE=P WRITE=ALL'
