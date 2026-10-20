@@ -1,3 +1,5 @@
+import pathlib
+
 import pymcnp
 
 
@@ -44,3 +46,8 @@ class Test_PtracFilter:
         assert not list(generator)
         generator = pymcnp.PtracFilter().run(ptrac)
         assert list(generator)
+
+    def test_run_path_matches_object(self, ptrac: pymcnp.Ptrac) -> None:
+        path = pathlib.Path(__file__).parents[2] / 'files' / 'ptrac' / 'valid_00.ptrac'
+        full, _ = pymcnp.Ptrac.from_file(path)
+        assert [event.to_mcnp() for event in pymcnp.PtracFilter().run(path)] == [event.to_mcnp() for event in pymcnp.PtracFilter().run(full)]
