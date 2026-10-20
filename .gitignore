@@ -207,3 +207,4 @@ cython_debug/
 # Example outputs
 examples/output/
 examples/script_example_01_output/
+examples/script_example_02_output/
