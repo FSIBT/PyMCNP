@@ -27,3 +27,11 @@
    :members:
    :inherited-members:
 ```
+
+### `Row` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.meshtal.line.Row
+   :members:
+   :inherited-members:
+```

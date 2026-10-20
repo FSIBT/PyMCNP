@@ -46,7 +46,7 @@ Run: `pymcnp.Run(inps, command='mcnp6').run(directory)` writes `directory/pymcnp
 - `outp, rest = pymcnp.Outp.from_file(p)`; `outp.to_dataframe()` returns `{tally_number: pandas.DataFrame}`.
 - `pymcnp.Convert(outp).to_csv('1', path)` / `.to_parquet('1', path)`; `pymcnp.Plot(outp).to_pdf('1', path)` / `.to_show('1')`. Tally number is a string. CLI: `pymcnp convert --csv f.outp 1`, `pymcnp plot --pdf f.outp 1`.
 - `ptrac, rest = pymcnp.Ptrac.from_file(p)`; `ptrac.histories` is a list. Subclass `pymcnp.PtracProcessor` (override `process_source/bank/surface/collision/terminal`, then `.run(ptrac)`) or `pymcnp.PtracFilter` (override `check_*`, `.run(ptrac)` yields accepted events).
-- `pymcnp.Meshtal.from_file(p)` parses header, title, histories, tally number, particle and bin boundaries; the data columns are one unparsed string (`.columns`).
+- `pymcnp.Meshtal.from_file(p)` parses header, title, histories, tally number, particle, bin boundaries and every data row (`.rows`). `meshtal.names` lists the columns (`Energy`/`Time` only if present, then `X Y Z Result Rel Error`); `meshtal.to_dataframe()` returns a `pandas.DataFrame` with float columns (Energy/Time stay strings if any bin is `Total`).
 - Parsing time is linear in file size: a 1 MB PTRAC file takes about a second. Older versions (before the offset-based parser) were quadratic, so upgrade before parsing large PTRAC or OUTP files.
 
 ## c) Check and modify existing files
