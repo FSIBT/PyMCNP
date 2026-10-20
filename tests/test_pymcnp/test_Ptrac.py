@@ -53,12 +53,47 @@ def _kinds(ptrac: pymcnp.Ptrac) -> list[tuple[int, str, str]]:
     return result
 
 
+def _type_of(code: str) -> pymcnp.ptrac.EventType:
+    return pymcnp.ptrac.EventType.from_code(int(code))
+
+
 @pytest.mark.parametrize('path', sorted(FILES.glob('valid*.ptrac')), ids=lambda path: path.name)
-def test_iter_events_matches_full_parse(path: pathlib.Path) -> None:
+def test_stream_matches_full_parse(path: pathlib.Path) -> None:
     ptrac, remainder = pymcnp.Ptrac.from_file(path)
     assert remainder == ''
-    streamed = [(nps, kind, event.to_mcnp()) for nps, kind, event in pymcnp.Ptrac.iter_events(path)]
-    assert streamed == _kinds(ptrac)
+    streamed = [(event.nps, event.type, event.raw) for event in pymcnp.Ptrac.stream(path)]
+    assert streamed == [(nps, _type_of(kind), raw) for nps, kind, raw in _kinds(ptrac)]
+    assert all(event.creation_code is not None for event in pymcnp.Ptrac.stream(path) if event.type is pymcnp.ptrac.EventType.BANK)
+
+
+@pytest.mark.parametrize('path', sorted(FILES.glob('valid*.ptrac')), ids=lambda path: path.name)
+def test_stream_accessors_never_fail(path: pathlib.Path) -> None:
+    for event in pymcnp.Ptrac.stream(path):
+        row = event.to_dict()
+        assert row['type'] == event.type.name
+        assert event.type is pymcnp.ptrac.EventType.SURFACE or event.surface is None
+        assert (event.energy is None) == (event.direction is None)
+
+
+def test_stream_values_on_surface_and_collision() -> None:
+    events = list(pymcnp.Ptrac.stream(FILES / 'valid_27.ptrac'))
+    surface = next(event for event in events if event.type is pymcnp.ptrac.EventType.SURFACE)
+    assert surface.particle is pymcnp.ptrac.Particle.PHOTON
+    assert surface.surface == pymcnp.ptrac.Surface(11, 0)
+    assert surface.cell_entered == surface.cell == 2
+    collision = next(event for event in events if event.type is pymcnp.ptrac.EventType.COLLISION)
+    assert collision.zaid == 2000
+    assert collision.surface is None
+    bank = next(event for event in events if event.type is pymcnp.ptrac.EventType.BANK)
+    assert bank.creation_code == 2011
+    assert bank.particle is pymcnp.ptrac.Particle.ELECTRON
+
+
+def test_surface_parse() -> None:
+    assert pymcnp.ptrac.Surface.parse('3.1') == pymcnp.ptrac.Surface(3, 1)
+    assert pymcnp.ptrac.Surface.parse('12') == pymcnp.ptrac.Surface(12, 0)
+    assert pymcnp.ptrac.Surface.parse(' -5.2 ') == pymcnp.ptrac.Surface(5, 2)
+    assert str(pymcnp.ptrac.Surface(3, 1)) == '3.1'
 
 
 def test_iter_histories_matches_full_parse() -> None:

@@ -9,16 +9,22 @@ from . import ptrac
 _REGEX_HISTORY = re.compile(r' *\d+ +(?:[1345]000|-?20\d\d)(?: |$)')
 
 
-def _events(file: 'Ptrac | pathlib.Path | str') -> collections.abc.Iterator[tuple[int, str, ptrac.block.Event]]:
-    if isinstance(file, Ptrac):
-        for history in file.histories:
-            nps = int(history.i.nps)
-            kind = str(history.i.event_type).strip()
-            for event in history.events:
-                yield nps, kind, event
-                kind = str(event.j.type).strip()
-    else:
-        yield from Ptrac.iter_events(file)
+def _events(file: 'Ptrac | pathlib.Path | str') -> collections.abc.Iterator[ptrac.Event]:
+    if not isinstance(file, Ptrac):
+        yield from Ptrac.stream(file)
+        return
+
+    for history in file.histories:
+        yield from _history_events(history)
+
+
+def _history_events(history: ptrac.block.History) -> collections.abc.Iterator[ptrac.Event]:
+    nps = int(history.i.nps)
+    code = abs(int(history.i.event_type))
+    for event in history.events:
+        kind = ptrac.EventType.from_code(code)
+        yield ptrac.Event(nps, kind, code if kind is ptrac.EventType.BANK else None, event.j, event.p)
+        code = abs(int(event.j.type))
 
 
 class Ptrac(abc.File):
@@ -97,22 +103,22 @@ class Ptrac(abc.File):
                         break
 
     @staticmethod
-    def iter_events(path: pathlib.Path | str) -> collections.abc.Iterator[tuple[int, str, ptrac.block.Event]]:
+    def stream(path: pathlib.Path | str) -> collections.abc.Iterator[ptrac.Event]:
         """
-        Parses ptrac files one event at a time in a single pass.
+        Parses ptrac files one event at a time in a single pass, with flat memory use.
 
-        An event's `j` line announces the type of the next event, so each event is paired with its own type here.
+        An event's `j` line announces the type of the next event, so each event is given its own type here.
 
         Parameters:
             path: Path to ptrac file to read.
 
         Yields:
-            Tuples of history number (`nps`), event type (`'1000'`, `'3000'`, ...) and event.
+            Events in file order, each with its history number (`nps`) and type.
+
+        Raises:
+            Error: File not found.
+            Error: Expected history.
         """
 
         for history in Ptrac.iter_histories(path):
-            nps = int(history.i.nps)
-            kind = str(history.i.event_type).strip()
-            for event in history.events:
-                yield nps, kind, event
-                kind = str(event.j.type).strip()
+            yield from _history_events(history)

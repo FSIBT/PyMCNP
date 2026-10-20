@@ -21,7 +21,7 @@ class PtracProcessor(abc.Utility):
         Runs after processing.
         """
 
-    def process_source(self, event: ptrac.block.Event):
+    def process_source(self, event: ptrac.Event):
         """
         Processes source events.
 
@@ -29,7 +29,7 @@ class PtracProcessor(abc.Utility):
             event: Source event to process.
         """
 
-    def process_bank(self, event: ptrac.block.Event):
+    def process_bank(self, event: ptrac.Event):
         """
         Processes bank events.
 
@@ -37,7 +37,7 @@ class PtracProcessor(abc.Utility):
             event: Bank event to process.
         """
 
-    def process_surface(self, event: ptrac.block.Event):
+    def process_surface(self, event: ptrac.Event):
         """
         Processes surface events.
 
@@ -45,7 +45,7 @@ class PtracProcessor(abc.Utility):
             event: Surface event to process.
         """
 
-    def process_collision(self, event: ptrac.block.Event):
+    def process_collision(self, event: ptrac.Event):
         """
         Processes collision events.
 
@@ -53,7 +53,7 @@ class PtracProcessor(abc.Utility):
             event: Collision event to process.
         """
 
-    def process_terminal(self, event: ptrac.block.Event):
+    def process_terminal(self, event: ptrac.Event):
         """
         Processes terminal events.
 
@@ -73,15 +73,15 @@ class PtracProcessor(abc.Utility):
 
         self.prehook()
 
-        for _, kind, event in _events(file):
-            match kind:
-                case '1000':
+        for event in _events(file):
+            match event.type:
+                case ptrac.EventType.SOURCE:
                     self.process_source(event)
-                case '3000':
+                case ptrac.EventType.SURFACE:
                     self.process_surface(event)
-                case '4000':
+                case ptrac.EventType.COLLISION:
                     self.process_collision(event)
-                case '5000':
+                case ptrac.EventType.TERMINAL:
                     self.process_terminal(event)
                 case _:
                     self.process_bank(event)

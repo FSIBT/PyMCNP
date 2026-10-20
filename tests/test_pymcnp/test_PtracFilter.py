@@ -50,4 +50,4 @@ class Test_PtracFilter:
     def test_run_path_matches_object(self, ptrac: pymcnp.Ptrac) -> None:
         path = pathlib.Path(__file__).parents[2] / 'files' / 'ptrac' / 'valid_00.ptrac'
         full, _ = pymcnp.Ptrac.from_file(path)
-        assert [event.to_mcnp() for event in pymcnp.PtracFilter().run(path)] == [event.to_mcnp() for event in pymcnp.PtracFilter().run(full)]
+        assert [event.raw for event in pymcnp.PtracFilter().run(path)] == [event.raw for event in pymcnp.PtracFilter().run(full)]

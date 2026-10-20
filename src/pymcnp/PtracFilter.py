@@ -11,7 +11,7 @@ class PtracFilter(abc.Utility):
     Filters PTRAC files.
     """
 
-    def check_source(self, event: ptrac.block.Event) -> bool:
+    def check_source(self, event: ptrac.Event) -> bool:
         """
         Checks source events.
 
@@ -24,7 +24,7 @@ class PtracFilter(abc.Utility):
 
         return True
 
-    def check_bank(self, event: ptrac.block.Event) -> bool:
+    def check_bank(self, event: ptrac.Event) -> bool:
         """
         Checks bank events.
 
@@ -37,7 +37,7 @@ class PtracFilter(abc.Utility):
 
         return True
 
-    def check_surface(self, event: ptrac.block.Event) -> bool:
+    def check_surface(self, event: ptrac.Event) -> bool:
         """
         Checks surface events.
 
@@ -50,7 +50,7 @@ class PtracFilter(abc.Utility):
 
         return True
 
-    def check_collision(self, event: ptrac.block.Event) -> bool:
+    def check_collision(self, event: ptrac.Event) -> bool:
         """
         Checks collision events.
 
@@ -63,7 +63,7 @@ class PtracFilter(abc.Utility):
 
         return True
 
-    def check_terminal(self, event: ptrac.block.Event) -> bool:
+    def check_terminal(self, event: ptrac.Event) -> bool:
         """
         Checks terminal events.
 
@@ -89,15 +89,15 @@ class PtracFilter(abc.Utility):
             Accepted events.
         """
 
-        for _, kind, event in _events(file):
-            match kind:
-                case '1000':
+        for event in _events(file):
+            match event.type:
+                case ptrac.EventType.SOURCE:
                     check = self.check_source
-                case '3000':
+                case ptrac.EventType.SURFACE:
                     check = self.check_surface
-                case '4000':
+                case ptrac.EventType.COLLISION:
                     check = self.check_collision
-                case '5000':
+                case ptrac.EventType.TERMINAL:
                     check = self.check_terminal
                 case _:
                     check = self.check_bank
