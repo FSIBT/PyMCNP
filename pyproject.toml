@@ -28,7 +28,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Physics",
 ]
 dependencies = [
-    "docopt",
+    "docopt-ng",
     "fastparquet",
     "matplotlib",
     "molmass",
