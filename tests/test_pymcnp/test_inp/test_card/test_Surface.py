@@ -169,3 +169,14 @@ class Test_Surface(classes.Test_Nonterminal):
 
     def test___pos__(self, surface_a: pymcnp.inp.card.Surface) -> None:
         assert +surface_a
+
+    def test_and_or_build_intersections_and_unions(self) -> None:
+        a, b, c = (pymcnp.inp.card.surface.So(j=i, r=i) for i in (1, 2, 3))
+
+        assert str(-a & +b & +c) == '-1 +2 +3'
+        assert str(-a | +b) == '(-1:+2)'
+        assert str(-a | (+b & -c)) == '(-1:+2 -3)'
+        assert str((-a | +b) & -c) == '(-1:+2) -3'
+        assert str(-a & (+b | -c)) == '-1 (+2:-3)'
+        assert str(a & b) == '1 2'
+        assert str(a | b) == '(1:2)'

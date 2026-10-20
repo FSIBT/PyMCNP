@@ -30,7 +30,7 @@ class Surface(Card):
         assert hasattr(a, 'j')
         assert hasattr(b, 'j')
 
-        return literal.Geometry.from_mcnp(f'{a.j}:{b.j}')[0]
+        return literal.Geometry.from_mcnp(f'{a.j} {b.j}')[0]
 
     def __or__(a: Surface, b: Surface) -> literal.Geometry:
         """
@@ -47,7 +47,7 @@ class Surface(Card):
         assert hasattr(a, 'j')
         assert hasattr(b, 'j')
 
-        return literal.Geometry.from_mcnp(f'({a.j} {b.j})')[0]
+        return literal.Geometry.from_mcnp(f'({a.j}:{b.j})')[0]
 
     def __neg__(self) -> literal.Geometry:
         """

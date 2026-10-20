@@ -131,6 +131,19 @@ class _Primary_0(_Primary):
         return self.ast.to_show(surfaces, cells, shapes, is_cell)
 
 
+def _operand(geometry: Geometry) -> str:
+    text = str(geometry.ast).strip()
+
+    depth = 0
+    for char in text:
+        depth += char == '('
+        depth -= char == ')'
+        if char == ':' and depth == 0:
+            return f'({text})'
+
+    return text
+
+
 class Geometry(_Subexpression):
     """
     Represents geometry literals.
@@ -172,7 +185,7 @@ class Geometry(_Subexpression):
             Intersections of geometry formulas.
         """
 
-        return Geometry.from_mcnp(f'({a.ast}:{b.ast})')[0]
+        return Geometry.from_mcnp(f'{_operand(a)} {_operand(b)}')[0]
 
     def __or__(a: Geometry, b: Geometry) -> Geometry:
         """
@@ -186,7 +199,7 @@ class Geometry(_Subexpression):
             Unions of geometry formulas.
         """
 
-        return Geometry.from_mcnp(f'({a.ast} {b.ast})')[0]
+        return Geometry.from_mcnp(f'({a.ast}:{b.ast})')[0]
 
     def __invert__(self) -> Geometry:
         """
