@@ -273,3 +273,50 @@ class Test_Inp_Scan:
 
         assert [float(copy_.surfaces[0].r) for copy_ in copies] == [2, 3]
         assert float(base.surfaces[0].r) == 1
+
+
+class Test_Inp_Lookup:
+    _SOURCE = (
+        'title\n'
+        '1 1 -1.0 -1 imp:n=1\n'
+        '2 like 1 but mat=2 rho=-2.0\n'
+        '3 like 1 but trcl=(0 0 5)\n'
+        '4 0 1 imp:n=0\n'
+        '\n'
+        '1 so 1\n'
+        '\n'
+        'm1 1001 1\n'
+        'm2 8016 1\n'
+        'f4:n 1\n'
+        'fmesh14:p geom=xyz origin=0 0 0 imesh=1 iints=1 jmesh=1 jints=1 kmesh=1 kints=1\n'
+        'nps 10\n'
+    )
+
+    def _inp(self) -> pymcnp.Inp:
+        inp, _ = pymcnp.Inp.from_mcnp(self._SOURCE)
+        return inp
+
+    def test_lookup_by_number(self) -> None:
+        inp = self._inp()
+        assert str(inp.cell(4).j) == '4'
+        assert str(inp.cell('1').m) == '1'
+        assert inp.surface(1).keyword.upper() == 'SO'
+        assert str(inp.material(2).suffix) == '2'
+        assert str(inp.tally(4).suffix) == '4'
+        assert str(inp.tally(14).suffix) == '14'
+
+    def test_lookup_returns_the_card_itself(self) -> None:
+        inp = self._inp()
+        inp.surface(1).r = 5
+        assert 'so 5' in inp.to_mcnp().lower()
+
+    @pytest.mark.parametrize('lookup', ['cell', 'surface', 'material', 'tally'])
+    def test_missing(self, lookup: str) -> None:
+        with pytest.raises(pymcnp.abc.Error):
+            getattr(self._inp(), lookup)(99)
+
+    def test_cells_with_material(self) -> None:
+        inp = self._inp()
+        assert [str(c.j) for c in inp.cells_with_material(1)] == ['1', '3']
+        assert [str(c.j) for c in inp.cells_with_material(2)] == ['2']
+        assert [str(c.j) for c in inp.cells_with_material(0)] == ['4']

@@ -217,6 +217,73 @@ class Inp(abc.File):
                 setattr(inp, name, value)
             yield inp
 
+    def _find(self, cards: collections.abc.Iterable[typing.Any], number: int | str, attribute: str, *types: type) -> typing.Any:
+        wanted = int(str(number).strip())
+        for card in cards:
+            if (not types or isinstance(card, types)) and hasattr(card, attribute) and int(str(getattr(card, attribute)).strip()) == wanted:
+                return card
+        kind = types[0].__name__ if types else 'Card'
+        raise abc.Error('Card not found.', f'{kind} {number=}')
+
+    def cell(self, number: int | str) -> inp.card.Cell:
+        """
+        Returns the cell card with this number.
+
+        Raises:
+            Error: Cell not found.
+        """
+
+        return self._find(self.cells, number, 'j', inp.card.Cell)
+
+    def surface(self, number: int | str) -> inp.card.Surface:
+        """
+        Returns the surface card with this number.
+
+        Raises:
+            Error: Surface not found.
+        """
+
+        return self._find(self.surfaces, number, 'j', inp.card.Surface)
+
+    def material(self, number: int | str) -> inp.card.data.M:
+        """
+        Returns the `M` card of this material.
+
+        Raises:
+            Error: Material not found.
+        """
+
+        return self._find(self.data, number, 'suffix', inp.card.data.M)
+
+    def tally(self, number: int | str) -> inp.card.data.F | inp.card.data.Fmesh:
+        """
+        Returns the `F` or `FMESH` card of this tally.
+
+        Raises:
+            Error: Tally not found.
+        """
+
+        return self._find(self.data, number, 'suffix', inp.card.data.F, inp.card.data.Fmesh)
+
+    def cells_with_material(self, number: int | str) -> list[inp.card.Cell]:
+        """
+        Returns the cells filled with this material, in file order.
+        This includes `LIKE n BUT` cells, which have the material of cell `n` unless a `MAT=` option replaces it.
+        """
+
+        wanted = int(str(number).strip())
+
+        def material(cell: typing.Any, seen: tuple[int, ...] = ()) -> int | None:
+            if hasattr(cell, 'like'):
+                for option in cell.options:
+                    if isinstance(option, inp.option.cell.Mat):
+                        return int(str(option.m).strip())
+                origin = int(str(cell.n).strip())
+                return None if origin in seen else material(self.cell(origin), (*seen, int(str(cell.j).strip())))
+            return int(str(cell.m).strip()) if hasattr(cell, 'm') else None
+
+        return [cell for cell in self.cells if isinstance(cell, inp.card.Cell) and material(cell) == wanted]
+
     @property
     def nps(self) -> inp.literal.Integer | None:
         """
