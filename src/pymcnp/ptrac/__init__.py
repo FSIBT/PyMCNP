@@ -5,6 +5,7 @@ from .Block import Block
 from .Types import EventType, Particle, Surface
 from .Event import Event
 from .Track import Track, tracks
+from .Table import to_dataframe, ParquetWriter
 
 __all__ = (
     'Line',
@@ -17,4 +18,6 @@ __all__ = (
     'Event',
     'Track',
     'tracks',
+    'to_dataframe',
+    'ParquetWriter',
 )

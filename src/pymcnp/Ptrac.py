@@ -124,15 +124,81 @@ class Ptrac(abc.File):
             yield from _history_events(history)
 
     @staticmethod
-    def tracks(path: pathlib.Path | str) -> collections.abc.Iterator[ptrac.Track]:
+    def tracks(
+        path: pathlib.Path | str,
+        particle: ptrac.Particle | None = None,
+        entered: int | None = None,
+    ) -> collections.abc.Iterator[ptrac.Track]:
         """
         Streams the particle tracks of ptrac files, with banked particles linked to their parents.
 
         Parameters:
             path: Path to ptrac file to read.
+            particle: Only yield tracks of this particle.
+            entered: Only yield tracks with a surface crossing that enters this cell.
 
         Yields:
             Tracks in file order; see `ptrac.Track`.
         """
 
-        yield from ptrac.tracks(Ptrac.stream(path))
+        yield from ptrac.tracks(Ptrac.stream(path), particle, entered)
+
+    @staticmethod
+    def to_parquet(
+        path: pathlib.Path | str,
+        out: pathlib.Path | str,
+        *,
+        particle: ptrac.Particle | None = None,
+        types: collections.abc.Collection[ptrac.EventType] | None = None,
+        cell_entered: int | None = None,
+        surface: int | None = None,
+        chunk: int = 100_000,
+    ) -> int:
+        """
+        Writes events of a ptrac file to a parquet file in one pass, `chunk` rows at a time, so files of any size fit in memory.
+
+        Columns are those of `Event.to_dict` plus `track` (track number within the history) and `parent_zaid` (see `ptrac.Track`).
+        If `cell_entered` or `surface` is given, only surface crossings that match are written.
+
+        Parameters:
+            path: Path to ptrac file to read.
+            out: Path to parquet file to write.
+            particle: Only write events of tracks of this particle.
+            types: Only write events of these types.
+            cell_entered: Only write surface crossings entering this cell.
+            surface: Only write surface crossings of this surface number (any facet).
+            chunk: Number of rows held in memory before they are written.
+
+        Returns:
+            Number of rows written.
+
+        Raises:
+            Error: Invalid value.
+        """
+
+        if chunk < 1:
+            raise abc.Error('Invalid value.', f'{chunk=}')
+
+        surfaces_only = cell_entered is not None or surface is not None
+        writer = ptrac.ParquetWriter(out)
+        rows: list[dict] = []
+        total = 0
+        try:
+            for track in Ptrac.tracks(path, particle, cell_entered):
+                events = track.entries(cell=cell_entered, surface=surface) if surfaces_only else track.events
+                for event in events:
+                    if types is not None and event.type not in types:
+                        continue
+                    rows.append({**event.to_dict(), 'track': track.index, 'parent_zaid': track.parent_zaid})
+                    if len(rows) >= chunk:
+                        writer.write(rows)
+                        total += len(rows)
+                        rows = []
+            if rows:
+                writer.write(rows)
+                total += len(rows)
+            writer.close()
+        except BaseException:
+            writer.abort()
+            raise
+        return total

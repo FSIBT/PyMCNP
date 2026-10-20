@@ -27,6 +27,20 @@ class Track:
     parent: 'Track | None' = None
     parent_zaid: int | None = None
 
+    def entries(self, cell: int | None = None, surface: int | None = None) -> collections.abc.Iterator[Event]:
+        """
+        Yields the surface crossings of the track, optionally only those entering `cell` and/or crossing `surface` (any facet).
+        """
+
+        for event in self.events:
+            if event.type is not EventType.SURFACE:
+                continue
+            if cell is not None and event.cell_entered != cell:
+                continue
+            if surface is not None and (event.surface is None or event.surface.number != surface):
+                continue
+            yield event
+
     @property
     def particle(self) -> Particle | int | None:
         return self.creation.particle
@@ -44,19 +58,38 @@ def _key(event: Event) -> tuple[float, float, float, float | None]:
     return (*event.position, event.time)
 
 
-def tracks(events: collections.abc.Iterable[Event]) -> collections.abc.Iterator[Track]:
+def tracks(
+    events: collections.abc.Iterable[Event],
+    particle: Particle | None = None,
+    entered: int | None = None,
+) -> collections.abc.Iterator[Track]:
     """
     Groups events into tracks and resolves where banked particles came from.
 
     A banked particle is written at the point where it was created, so its parent is the earlier track that has an event at the same position (and time, if written) in the same history.
 
+    Parents are resolved for every track, so filtering never changes `parent` or `parent_zaid`.
+
     Parameters:
         events: Events in file order.
+        particle: Only yield tracks of this particle.
+        entered: Only yield tracks with a surface crossing that enters this cell.
 
     Yields:
         Tracks in file order; parents come before their children.
     """
 
+    def wanted(track: Track) -> bool:
+        if particle is not None and track.particle != particle:
+            return False
+        return entered is None or next(track.entries(cell=entered), None) is not None
+
+    for track in _tracks(events):
+        if wanted(track):
+            yield track
+
+
+def _tracks(events: collections.abc.Iterable[Event]) -> collections.abc.Iterator[Track]:
     nps: int | None = None
     current: Track | None = None
     seen: dict[tuple, Track] = {}

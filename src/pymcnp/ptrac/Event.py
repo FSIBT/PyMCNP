@@ -142,7 +142,8 @@ class Event:
 
     def to_dict(self) -> dict:
         """
-        Converts the event to a flat dictionary, e.g., for `pandas.DataFrame`.
+        Converts the event to a flat dictionary with plain Python values (`int`, `float`, `str`, `None`), e.g., for `pandas.DataFrame`.
+        Use `pymcnp.ptrac.to_dataframe` for columns with proper dtypes (nullable `Int64` for the integers).
         """
 
         x, y, z = self.position
@@ -153,7 +154,7 @@ class Event:
             'nps': self.nps,
             'type': self.type.name,
             'creation_code': self.creation_code,
-            'particle': getattr(particle, 'name', particle),
+            'particle': None if particle is None else getattr(particle, 'name', str(particle)),
             'cell': self.cell,
             'material': self.material,
             'surface': None if surface is None else surface.number,

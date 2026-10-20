@@ -153,3 +153,51 @@ def test_tracks_inherit_zaid_from_parent() -> None:
     for track in pymcnp.Ptrac.tracks(FILES / 'valid_27.ptrac'):
         if track.creation.type is pymcnp.ptrac.EventType.BANK and not track.creation.zaid:
             assert track.parent_zaid == (track.parent.parent_zaid if track.parent else None)
+
+
+def test_to_dict_has_plain_values() -> None:
+    for event in pymcnp.Ptrac.stream(FILES / 'valid_27.ptrac'):
+        for value in event.to_dict().values():
+            assert value is None or type(value) in (int, float, str)
+
+
+def test_tracks_filters_keep_parents() -> None:
+    path = FILES / 'valid_27.ptrac'
+    everything = list(pymcnp.Ptrac.tracks(path))
+    photons = list(pymcnp.Ptrac.tracks(path, particle=pymcnp.ptrac.Particle.PHOTON))
+    assert photons and len(photons) < len(everything)
+    assert all(track.particle is pymcnp.ptrac.Particle.PHOTON for track in photons)
+    entered = list(pymcnp.Ptrac.tracks(path, entered=2))
+    assert entered and all(list(track.entries(cell=2)) for track in entered)
+    assert list(pymcnp.Ptrac.tracks(path, entered=99999)) == []
+    by_key = {(track.nps, track.index): track.parent_zaid for track in everything}
+    assert all(by_key[(track.nps, track.index)] == track.parent_zaid for track in photons)
+
+
+def test_to_parquet(tmp_path: pathlib.Path) -> None:
+    pandas = pytest.importorskip('pandas')
+    path = FILES / 'valid_27.ptrac'
+    out = tmp_path / 'out.parquet'
+    count = pymcnp.Ptrac.to_parquet(path, out, chunk=7)
+    frame = pandas.read_parquet(out)
+    assert count == len(frame) == len(list(pymcnp.Ptrac.stream(path)))
+    assert str(frame['nps'].dtype) == 'Int64' and str(frame['zaid'].dtype) == 'Int64' and str(frame['type'].dtype) in ('string', 'str')
+    assert {'track', 'parent_zaid'} <= set(frame.columns)
+    assert not list(tmp_path.glob('*.partial'))
+
+    photons = pymcnp.Ptrac.to_parquet(path, out, particle=pymcnp.ptrac.Particle.PHOTON, types={pymcnp.ptrac.EventType.SURFACE}, cell_entered=2)
+    frame = pandas.read_parquet(out)
+    assert photons == len(frame)
+    assert set(frame['type']) <= {'SURFACE'} and set(frame['particle']) <= {'PHOTON'} and set(frame['cell']) <= {2}
+
+
+def test_to_parquet_empty_and_invalid(tmp_path: pathlib.Path) -> None:
+    pandas = pytest.importorskip('pandas')
+    out = tmp_path / 'out.parquet'
+    assert pymcnp.Ptrac.to_parquet(FILES / 'valid_27.ptrac', out, cell_entered=99999) == 0
+    assert len(pandas.read_parquet(out)) == 0
+    with pytest.raises(pymcnp.abc.Error):
+        pymcnp.Ptrac.to_parquet(FILES / 'valid_27.ptrac', out, chunk=0)
+    with pytest.raises(pymcnp.abc.Error):
+        pymcnp.Ptrac.to_parquet(tmp_path / 'missing', tmp_path / 'never.parquet')
+    assert not (tmp_path / 'never.parquet').exists() and not list(tmp_path.glob('*.partial'))
