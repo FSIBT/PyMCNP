@@ -83,7 +83,7 @@ class Terminal(Symbol, str):
         if match is None:
             raise Error(f"Expected Terminal[r'{cls._pattern.pattern}']", _excerpt(source, pos))
 
-        return cls(match[1]), match.end()
+        return str.__new__(cls, match[1]), match.end()
 
     def to_mcnp(self) -> str:
         """
