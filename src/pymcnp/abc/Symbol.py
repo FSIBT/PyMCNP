@@ -80,8 +80,10 @@ def _parse(kinds: tuple[type[Symbol], ...], source: str, pos: int) -> tuple[Symb
     """
 
     assert isinstance(kinds, tuple)
-    assert all(isinstance(kind, type) and issubclass(kind, Symbol) for kind in kinds)
     assert isinstance(source, str)
+
+    if len(kinds) == 1:
+        return kinds[0]._from(source, pos)
 
     # Searching for longest match.
     error: Error | None = None
