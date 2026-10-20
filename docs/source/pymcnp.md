@@ -54,6 +54,10 @@ PyMCNP represents MCNP files using the `Inp`, `Meshtal`, and `Ptrac` AST classes
    :inherited-members:
 ```
 
+PTRAC files can be very large, and `from_file` keeps the whole object tree in memory (about 35 times the file size).
+For large files, stream them instead: `Ptrac.iter_events(path)` yields `(nps, kind, event)` one event at a time and
+`Ptrac.iter_histories(path)` yields one history at a time, both with flat memory use.
+
 [ptrac subpackage](pymcnp/ptrac)
 
 ### `Meshtal` Class
@@ -73,7 +77,7 @@ overridable methods for filtering data, and `PtracProcessor` have overridable me
 
 * `check_*`. Returns `True`/`False` if data should be kept/removed.
 * `process_*`. Operates with side effects on data.
-* `run`. Runs the filter or processor.
+* `run`. Runs the filter or processor. It accepts a `Ptrac` or a path to a PTRAC file; a path is streamed event by event.
 
 ### `PtracFilter` Class
 
