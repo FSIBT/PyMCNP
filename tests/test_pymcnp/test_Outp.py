@@ -104,3 +104,38 @@ class Test_Outp_Summary:
         empty = pymcnp.outp.Summary.from_text('')
         assert empty == pymcnp.outp.Summary()
         assert empty.checks_passed is None and not empty.ok
+
+
+class Test_Outp_Tallies:
+    def _outp(self, name: str) -> pymcnp.Outp:
+        outp, _ = pymcnp.Outp.from_file(FILES_OUTP / name)
+        return outp
+
+    def test_table(self) -> None:
+        table = self._outp('valid_38.outp').tallies()
+        assert list(table.number) == [1, 21]
+        assert set(table.quantity) == {'number of particles crossing a surface.'}
+        assert set(table.particles) == {'photons'}
+        assert list(table.nps) == [1_000_000, 1_000_000]
+        assert list(table.checks_passed) == [False, False]
+
+    def test_quantity_without_units(self) -> None:
+        table = self._outp('valid_00.outp').tallies()
+        assert table.quantity[0] == 'track length estimate of particle flux.'
+
+    def test_no_tallies(self) -> None:
+        assert self._outp('valid_01.outp').tallies().empty
+
+    def test_typed_surface_tally(self) -> None:
+        frame = self._outp('valid_38.outp').tally(21)
+        assert list(frame.columns) == ['bins', 'counts', 'errors', 'angle_from', 'angle_to', 'surface', 'facet', 'number', 'quantity', 'particles', 'nps']
+        assert frame.angle_from.dtype == float and str(frame.surface.dtype) == 'Int64'
+        assert set(frame.surface) == {2, 3} and set(frame.number) == {21}
+        assert frame.nps.dtype == int
+
+    def test_tally_by_string_and_missing(self) -> None:
+        outp = self._outp('valid_00.outp')
+        assert outp.tally('4').equals(outp.tally(4))
+        assert 'cell' in outp.tally(4)
+        with pytest.raises(pymcnp.abc.Error):
+            outp.tally(99)
