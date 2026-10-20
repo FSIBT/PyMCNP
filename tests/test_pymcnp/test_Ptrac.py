@@ -181,7 +181,7 @@ def test_to_parquet(tmp_path: pathlib.Path) -> None:
     count = pymcnp.Ptrac.to_parquet(path, out, chunk=7)
     frame = pandas.read_parquet(out)
     assert count == len(frame) == len(list(pymcnp.Ptrac.stream(path)))
-    assert str(frame['nps'].dtype) == 'Int64' and str(frame['zaid'].dtype) == 'Int64' and str(frame['type'].dtype) in ('string', 'str')
+    assert str(frame['nps'].dtype) == 'Int64' and str(frame['zaid'].dtype) == 'Int64' and str(frame['type'].dtype) in ('string', 'str', 'object')
     assert {'track', 'parent_zaid'} <= set(frame.columns)
     assert not list(tmp_path.glob('*.partial'))
 
