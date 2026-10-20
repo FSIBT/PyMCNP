@@ -62,6 +62,8 @@ class Run(abc.Utility):
         max_workers: Maximum number of simultaneous runs, defaults to the number of CPUs.
         names: Names of the runs: a sequence with one name per file, or a template with `{index}`, e.g., `'case-{index}'`. Defaults to `run-{index:05}`.
         check: Whether `run` raises if a run failed.
+        batch: Whether `run` puts the runs in a new `pymcnp-<timestamp>` directory inside the given path. If not, the run directories `<path>/<name>` are created directly in the given path, which must not contain them yet.
+        directory: Directory holding the run directories, set by `run`.
     """
 
     files: collections.abc.Sequence[Inp]
@@ -69,6 +71,8 @@ class Run(abc.Utility):
     max_workers: int | None = None
     names: collections.abc.Sequence[str] | str | None = None
     check: bool = True
+    batch: bool = True
+    directory: pathlib.Path | None = dataclasses.field(default=None, init=False)
 
     def __post_init__(self):
         """
@@ -174,7 +178,7 @@ class Run(abc.Utility):
         Runs the input files, at most `max_workers` at a time.
 
         Parameters:
-            path: Directory for run.
+            path: Directory for run, or, with `batch` unset, the directory that gets the run directories.
 
         Returns:
             Results of the runs, in the order of the input files.
@@ -183,20 +187,30 @@ class Run(abc.Utility):
             Error: A run failed and `check` is set, raised after all runs finished.
         """
 
-        stamp = datetime.datetime.today().strftime('%Y-%m-%d--%H-%M-%S')
-        directory = pathlib.Path(path) / f'pymcnp-{stamp}'
-        suffix = 0
-        while True:
-            try:
-                directory.mkdir(parents=True)
-                break
-            except FileExistsError:
-                suffix += 1
-                directory = pathlib.Path(path) / f'pymcnp-{stamp}-{suffix}'
+        path = pathlib.Path(path)
+        names = self._names()
 
+        if self.batch:
+            stamp = datetime.datetime.today().strftime('%Y-%m-%d--%H-%M-%S')
+            directory = path / f'pymcnp-{stamp}'
+            suffix = 0
+            while True:
+                try:
+                    directory.mkdir(parents=True)
+                    break
+                except FileExistsError:
+                    suffix += 1
+                    directory = path / f'pymcnp-{stamp}-{suffix}'
+        else:
+            directory = path
+            directory.mkdir(parents=True, exist_ok=True)
+            existing = [name for name in names if (directory / name).exists()]
+            if existing:
+                raise abc.Error('Run directory exists.', f'{directory=} {existing[:3]=}')
+
+        self.directory = directory
         self.prehook_batch(directory)
 
-        names = self._names()
         with concurrent.futures.ThreadPoolExecutor(max_workers=self.max_workers or os.cpu_count() or 1) as pool:
             futures = [pool.submit(self._run_one, directory / name, name, i, file) for i, (name, file) in enumerate(zip(names, self.files))]
             results = [future.result() for future in futures]

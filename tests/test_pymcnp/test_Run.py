@@ -113,6 +113,23 @@ class Test_Run:
             pymcnp.Run(_inps(inp, 1), command=fake).run(tmp_path)
         assert len(list(tmp_path.glob('pymcnp-*'))) == 2
 
+    def test_run_sets_directory(self, inp: pymcnp.Inp, fake: str, tmp_path: pathlib.Path) -> None:
+        run = pymcnp.Run(_inps(inp, 2), command=fake)
+        assert run.directory is None
+        results = run.run(tmp_path)
+        assert run.directory and run.directory.parent == tmp_path and run.directory.name.startswith('pymcnp-')
+        assert all(result.directory.parent == run.directory for result in results)
+
+    def test_run_without_batch_directory(self, inp: pymcnp.Inp, fake: str, tmp_path: pathlib.Path) -> None:
+        run = pymcnp.Run(_inps(inp, 2), command=fake, names='case-{index}', batch=False)
+        results = run.run(tmp_path / 'runs')
+        assert run.directory == tmp_path / 'runs'
+        assert [result.directory for result in results] == [tmp_path / 'runs' / 'case-0', tmp_path / 'runs' / 'case-1']
+        assert all(result.ok for result in results)
+
+        with pytest.raises(pymcnp.abc.Error):
+            pymcnp.Run(_inps(inp, 2), command=fake, names='case-{index}', batch=False).run(tmp_path / 'runs')
+
 
 @pytest.mark.skipif(shutil.which('mcnp6') is None, reason='mcnp6 not installed')
 def test_run_mcnp6(tmp_path: pathlib.Path) -> None:
