@@ -39,6 +39,30 @@ class Outp(abc.File):
 
         return _fatal_errors(self.to_mcnp())
 
+    def activity(self, particle: str) -> pandas.DataFrame:
+        """
+        Generates a dataframe from the activity table of a particle (print table 126).
+
+        Parameters:
+            particle: `'neutron'` or `'photon'`.
+
+        Returns:
+            Dataframe with one row per cell (columns `cell`, `tracks` entering, `population`, `collisions`, ...) and a final row for the totals.
+
+        Raises:
+            Error: Unknown particle or the output has no such table.
+        """
+
+        kinds = {'neutron': outp.block.NeutronActivity, 'photon': outp.block.PhotonActivity}
+        if particle not in kinds:
+            raise abc.Error('Invalid value.', f'{particle=}, expected one of {sorted(kinds)}')
+
+        for block in self.blocks:
+            if isinstance(block, kinds[particle]):
+                return block.to_dataframe()
+
+        raise abc.Error('Missing table.', f'no {particle} activity table (print table 126) in this output')
+
     def to_dataframe(self) -> dict[str, pandas.DataFrame]:
         """
         Generates pandas dataframes from output files.

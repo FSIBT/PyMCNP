@@ -1,7 +1,10 @@
 import typing
 import dataclasses
 
+import pandas
+
 from ... import abc
+from . import _activity
 from ..Block import Block
 
 
@@ -66,3 +69,13 @@ class NeutronActivity(Block):
     table_total_collisions: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
     table_total_weighted_collisions_preamble: typing.Annotated[abc.Terminal, r'    '] = abc.Terminal[r'    ']('    ')
     table_total_weighted_collisions: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
+
+    def to_dataframe(self) -> pandas.DataFrame:
+        """
+        Generates a dataframe from the activity table, one row per cell and a final row for the totals (`cell` is missing there).
+
+        Returns:
+            Dataframe with the columns `cell`, `tracks`, `population`, `collisions`, `collisions_weighted`, `number_weighted_energy`, `flux_weighted_energy`, `average_track_weight` and `average_track_mfp`.
+        """
+
+        return _activity.to_dataframe(self)
