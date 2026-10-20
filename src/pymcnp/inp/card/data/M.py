@@ -27,7 +27,9 @@ class M(Data):
 
     keyword: typing.Annotated[abc.Terminal, r'M'] | str = abc.Terminal[r'M']('M')
     suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    z_f: typing.Annotated[abc.Array, option.data.M | group.Constituent, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.M | group.Constituent | str] | str = abc.Terminal[r'']('')
+    z_f: typing.Annotated[abc.Array, option.data.M | group.Constituent, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.M | group.Constituent | str] | str = (
+        abc.Terminal[r'']('')
+    )
     options: typing.Annotated[abc.Array, option.data.M, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.M | str] | str = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
@@ -44,7 +46,7 @@ class M(Data):
             raise abc.Error('Invalid value.', f'{self.suffix=}')
 
     @staticmethod
-    def from_formula(suffix: literal.Integer | int | str, formulas: dict[str, float], is_weight: bool = True, cutoff: float = 0.01):
+    def from_formula(suffix: literal.Integer | int | str, formulas: dict[str, float], is_weight: bool = True, cutoff: float = 0.01, library: str | None = None):
         """
         Generates m data cards from formulas.
 
@@ -52,6 +54,7 @@ class M(Data):
             formulas: Dictionary of formulas and atomic/weight fractions.
             is_weight: Weight (atomic) fraction true (false) flag.
             cutoff: Nuclide fraction cutoff.
+            library: Library suffix appended to every ZAID, e.g., `80c`, or `None` for the default library.
 
         Returns:
             Corresponding M data cards.
@@ -62,12 +65,15 @@ class M(Data):
             formula = molmass.Formula(formula)
 
             composition = formula.composition()
+            atoms = sum(composition[element].count for element in composition)
             for element in composition:
-                compound_fraction = composition[element].fraction if is_weight else composition[element].mass / formula.mass
+                compound_fraction = composition[element].mass / formula.mass if is_weight else composition[element].count / atoms
 
-                zaids = [(f'{_elements.ELEMENTS[element]["z"]:03}{a:03}', isotropic_fraction) for a, isotropic_fraction in _elements.ELEMENTS[element]['fraction'].items()]
+                zaids = [
+                    (f'{_elements.ELEMENTS[element]["z"]:03}{a:03}{f".{library}" if library else ""}', isotropic_fraction) for a, isotropic_fraction in _elements.ELEMENTS[element]['fraction'].items()
+                ]
                 entries = [
-                    group.Constituent(z=zaid, f=-1 if is_weight else 1 * mixture_fraction * compound_fraction * isotropic_fraction)
+                    group.Constituent(z=zaid, f=(-1 if is_weight else 1) * mixture_fraction * compound_fraction * isotropic_fraction)
                     for zaid, isotropic_fraction in zaids
                     if mixture_fraction * compound_fraction * isotropic_fraction > cutoff
                 ]
