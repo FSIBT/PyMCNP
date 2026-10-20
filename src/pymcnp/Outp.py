@@ -39,6 +39,18 @@ class Outp(abc.File):
 
         return _fatal_errors(self.to_mcnp())
 
+    @property
+    def summary(self) -> outp.Summary:
+        """
+        Headline results: version, histories, run time, termination, `keff`, fatal errors, warnings and the statistical checks of each tally.
+
+        Returns:
+            Summary of the output file, with `None` for values the output does not contain.
+        """
+
+        text = self.to_mcnp()
+        return outp.Summary.from_text(text, _fatal_errors(text))
+
     def activity(self, particle: str) -> pandas.DataFrame:
         """
         Generates a dataframe from the activity table of a particle (print table 126).
