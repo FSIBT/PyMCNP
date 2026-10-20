@@ -1,3 +1,4 @@
+import copy
 import pathlib
 
 import pytest
@@ -209,3 +210,19 @@ class Test_Inp_Horizontal_Format:
         inp, remainder = pymcnp.Inp.from_mcnp(self.HEAD + 'imp:n 1 2j 1\nnps 10\n')
         assert remainder == ''
         assert inp.data[0].to_mcnp().lower().split() == ['imp:n', '1', 'j', 'j', '1']
+
+
+class Test_Inp_Copy:
+    def test_deepcopy_keeps_blocks_separated_by_one_blank_line(self) -> None:
+        surface = pymcnp.inp.card.surface.So(j=1, r=1)
+        cell = pymcnp.inp.card.Cell_1(j=1, m=0, geom=-surface, options=['imp:n=1'])
+        inp = pymcnp.Inp(title='t\n', cells=[cell], surfaces=[surface], data=[])
+
+        assert copy.deepcopy(inp).to_mcnp() == inp.to_mcnp()
+
+    def test_deepcopy_of_parsed_file_roundtrips(self) -> None:
+        source = (pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_11.inp').read_text()
+        inp, remainder = pymcnp.Inp.from_mcnp(source)
+
+        assert remainder == ''
+        assert copy.deepcopy(inp).to_mcnp() == inp.to_mcnp()

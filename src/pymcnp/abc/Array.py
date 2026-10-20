@@ -67,6 +67,10 @@ class Space(Terminal):
 CACHE: dict[tuple[typing.Any, typing.Any], type[Array]] = {}
 
 
+def _rebuild(kind: type[Array], items: list[Symbol], spaces: list[Symbol]) -> Array:
+    return kind(*items, spaces=spaces)
+
+
 class Array(Symbol, list):
     """
     Represents arrays of symbols.
@@ -185,6 +189,10 @@ class Array(Symbol, list):
         """
 
         return ''.join(itertools.chain.from_iterable(itertools.zip_longest((item.to_mcnp() for item in self), self.spaces, fillvalue='')))
+
+    def __reduce__(self) -> tuple[typing.Any, ...]:
+        # The default list reconstruction replays `append`, which would add a second set of spaces.
+        return _rebuild, (type(self), list(self), self.spaces)
 
     def append(self, item: typing.Any) -> None:
         """
