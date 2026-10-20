@@ -1,26 +1,21 @@
 # .readthedocs.yaml
 # Read the Docs configuration file
-# See https://docs.readthedocs.io/en/stable/config-file/v2.html for details
+# See https://docs.readthedocs.com/platform/stable/config-file/v2.html for details
 
-# Required
 version: 2
 
-# Set the OS, Python version and other tools you might need
 build:
-  os: ubuntu-24.04
+  os: ubuntu-26.04
   tools:
-    python: "3.13"
-    # You can also specify other tool versions:
-    # nodejs: "19"
-    # rust: "1.64"
-    # golang: "1.19"
+    python: "3.14"
 
 sphinx:
   configuration: docs/source/conf.py
 
 python:
-   install:
-   - method: pip
-     path: .
-     extra_requirements:
+  install:
+    - method: uv
+      command: pip
+      path: .
+      extras:
         - docs
