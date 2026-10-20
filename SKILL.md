@@ -17,17 +17,19 @@ Python API and CLI for MCNP inputs and outputs (`pip install pymcnp`, Python 3.1
 
 ```python
 import copy, pymcnp
-s = pymcnp.inp.card.surface.So(j=1, r=10)
-mat = pymcnp.inp.card.data.M.from_formula(suffix=1, formulas={'H2O': 1}, is_weight=False)  # default is weight fractions
-cell = pymcnp.inp.card.Cell_0(j=1, m=1, d=1.0, geom=-s, options=['imp:n=1'])  # -s, +s build senses; & is intersection ('1 2'), | is union ('(1:2)')
-outside = pymcnp.inp.card.Cell_1(j=2, m=0, geom=+s, options=['imp:n=0'])      # Cell_1 = void (no density)
+from pymcnp.inp import card
+from pymcnp.inp.card import surface, data
+s = surface.So(j=1, r=10)
+mat = data.M.from_formula(suffix=1, formulas={'H2O': 1}, is_weight=False)  # default is weight fractions
+cell = card.Cell_0(j=1, m=1, d=1.0, geom=-s, options=['imp:n=1'])  # -s, +s build senses; & is intersection ('1 2'), | is union ('(1:2)')
+outside = card.Cell_1(j=2, m=0, geom=+s, options=['imp:n=0'])      # Cell_1 = void (no density)
 inp = pymcnp.Inp(title='Sphere\n', cells=[cell, outside], surfaces=[s],
-                 data=[mat, pymcnp.inp.card.data.Sdef(options=['ERG=14'])])
+                 data=[mat, data.Sdef(options=['ERG=14'])])
 inp.nps = 1000      # setters add the card if missing
 inp.seed = 42
 ```
 
-Cards also accept strings (`geom='#(99:3)'`, `options=['imp:n=1.0']`). Field names follow the class, not the manual: `Nps(npp=...)`, `Rcc` has `h1 h2 h3` for the height vector. `M.from_formula(..., library='80c')` appends a library suffix to every ZAID (without it MCNP needs a default library); fractions are weight (negative) or atom (positive) fractions per element and isotope. See `examples/create_inp.py` for tallies and multi-surface geometry.
+Import the subpackages (`from pymcnp.inp import card`, `from pymcnp.inp.card import surface, data`) instead of spelling out `pymcnp.inp.card.surface.` each time; scripts read much better. Cards also accept strings (`geom='#(99:3)'`, `options=['imp:n=1.0']`). Field names follow the class, not the manual: `Nps(npp=...)`, `Rcc` has `h1 h2 h3` for the height vector. `M.from_formula(..., library='80c')` appends a library suffix to every ZAID (without it MCNP needs a default library); fractions are weight (negative) or atom (positive) fractions per element and isotope. See `examples/create_inp.py` for tallies and multi-surface geometry.
 
 Scan: read a file, mutate a field, `copy.deepcopy` per value (`examples/do_parameter_scan.py`):
 
