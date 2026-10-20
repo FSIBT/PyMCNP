@@ -226,3 +226,12 @@ class Test_Inp_Copy:
 
         assert remainder == ''
         assert copy.deepcopy(inp).to_mcnp() == inp.to_mcnp()
+
+    def test_deepcopy_after_adding_the_first_data_card(self) -> None:
+        surface = pymcnp.inp.card.surface.So(j=1, r=1)
+        cell = pymcnp.inp.card.Cell_1(j=1, m=0, geom=-surface, options=['imp:n=1'])
+        inp = pymcnp.Inp(title='t\n', cells=[cell], surfaces=[surface], data=[])
+        inp.nps = 5
+        inp.seed = 3
+
+        assert copy.deepcopy(inp).to_mcnp() == inp.to_mcnp()

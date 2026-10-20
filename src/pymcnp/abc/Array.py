@@ -203,5 +203,6 @@ class Array(Symbol, list):
         """
 
         super().append(item)
-        space = type(self)._space[0](type(self)._space[0]._default or '' if len(type(self)._space) > 0 else '')
-        self.spaces.append(space)
+        if len(self) > 1:
+            space = type(self)._space[0](type(self)._space[0]._default or '' if len(type(self)._space) > 0 else '')
+            self.spaces.append(space)
