@@ -19,13 +19,13 @@ Python API and CLI for MCNP inputs and outputs (`pip install pymcnp`, Python 3.1
 import pymcnp
 from pymcnp.inp import card
 from pymcnp.inp.card import surface, data
+
 s = surface.So(j=1, r=10)
 mat = data.M.from_formula(suffix=1, formulas={'H2O': 1}, is_weight=False)  # default is weight fractions
 cell = card.Cell_0(j=1, m=1, d=1.0, geom=-s, options=['imp:n=1'])  # -s, +s build senses; & is intersection ('1 2'), | is union ('(1:2)')
-outside = card.Cell_1(j=2, m=0, geom=+s, options=['imp:n=0'])      # Cell_1 = void (no density)
-inp = pymcnp.Inp(title='Sphere\n', cells=[cell, outside], surfaces=[s],
-                 data=[mat, data.Sdef(options=['ERG=14'])])
-inp.nps = 1000      # setters add the card if missing
+outside = card.Cell_1(j=2, m=0, geom=+s, options=['imp:n=0'])  # Cell_1 = void (no density)
+inp = pymcnp.Inp(title='Sphere\n', cells=[cell, outside], surfaces=[s], data=[mat, data.Sdef(options=['ERG=14'])])
+inp.nps = 1000  # setters add the card if missing
 inp.seed = 42
 ```
 
@@ -34,7 +34,8 @@ Import the subpackages (`from pymcnp.inp import card`, `from pymcnp.inp.card imp
 Scan: read a file, then `inp.scan(nps=[...], seed=[...])` yields independent deep copies for every combination (`nps` and `seed` only; the last field varies fastest). For any other field use `inp.scan_with(values, apply)`, which deep-copies per value and calls `apply(copy, value)` (`examples/do_parameter_scan.py`). Use `list(...)` to pass the copies to `Run`:
 
 ```python
-base, rest = pymcnp.Inp.from_file('model.inp'); assert rest == ''
+base, rest = pymcnp.Inp.from_file('model.inp')
+assert rest == ''
 inps = list(base.scan_with((9, 10, 11), lambda inp, r: setattr(inp.surfaces[0], 'r', r)))  # surfaces/cells/data are indexable lists of cards; fields are named as in the MCNP manual
 inps += list(base.scan(nps=[10**4, 10**5]))
 ```
@@ -59,6 +60,7 @@ Run: `results = pymcnp.Run(inps, command='mcnp6', max_workers=4, names='case-{in
 
     ```python
     import pandas, pymcnp
+
     rows = []
     for track in pymcnp.Ptrac.tracks('ptrac', particle=pymcnp.ptrac.Particle.PHOTON, entered=3):
         for e in track.entries(cell=3, surface=3):
