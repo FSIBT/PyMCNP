@@ -55,8 +55,10 @@ PyMCNP represents MCNP files using the `Inp`, `Meshtal`, and `Ptrac` AST classes
 ```
 
 PTRAC files can be very large, and `from_file` keeps the whole object tree in memory (about 35 times the file size).
-For large files, stream them instead: `Ptrac.iter_events(path)` yields `(nps, kind, event)` one event at a time and
-`Ptrac.iter_histories(path)` yields one history at a time, both with flat memory use.
+For large files, stream them instead: `Ptrac.stream(path)` yields one `ptrac.Event` at a time (with `nps`, `type`, and values
+such as `particle`, `surface`, `cell_entered`, `zaid`, `position`, `energy`; `to_dict()` gives a flat row),
+`Ptrac.tracks(path)` yields `ptrac.Track` objects (one particle each, linked to the parent it was banked from and the
+originating nuclide `parent_zaid`) and `Ptrac.iter_histories(path)` yields one history at a time, all with flat memory use.
 
 [ptrac subpackage](pymcnp/ptrac)
 
