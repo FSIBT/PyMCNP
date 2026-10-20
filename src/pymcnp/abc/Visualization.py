@@ -6,6 +6,9 @@ import dataclasses
 
 import numpy
 
+if typing.TYPE_CHECKING:
+    import pymcnp
+
 
 T = typing.TypeVar('T')
 
@@ -290,7 +293,7 @@ class Endpoint(abc.ABC):
     BOUND: typing.Final[float]
     RESOLUTION: typing.Final[int]
     Visualization: typing.Final[type[Visualization]]
-    Box: typing.Final[type[Box]]
+    Box: typing.Final[type[pymcnp.abc.Box]]
     ConeTruncated: typing.Final[type[ConeTruncated]]
     ConeUnbounded: typing.Final[type[ConeUnbounded]]
     CylinderCircular: typing.Final[type[CylinderCircular]]
