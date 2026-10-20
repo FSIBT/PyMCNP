@@ -4,7 +4,8 @@ Example running INP files using `Run`.
 This example runs three input files, `example_00.inp`, `example_01.inp`, and
 `example_02.inp`. First, it subclasses `Run`, adding callbacks. Second, it
 reads the input files and sets their nps and seed. Finally, it runs the INP
-files inp parallel.
+files in parallel (two at a time) and prints the result of each run. `Run` also
+collects `.outp`, `.ptrac` and `.runtpe` files, and raises if a run failed.
 """
 
 import pathlib
@@ -23,8 +24,8 @@ class MyRun(pymcnp.Run):
     def prehook_file(self, path, index):
         print(f'Calling `prehook_file` {path} {index}')
 
-    def posthook_file(self, path, index):
-        print(f'Calling `posthook_file` {path} {index}')
+    def posthook_file(self, result):
+        print(f'Calling `posthook_file` {result.directory} {result.index} (ok={result.ok})')
 
     def prehook_batch(self, path):
         print(f'Calling `prehook_batch` {path}')
@@ -50,5 +51,7 @@ inp2.seed = 123534727
 
 # Running.
 print(f'Running `{COMMAND}` in `{OUTPUT}`:')
-runner = MyRun([inp0, inp1, inp2], command=COMMAND)
-runner.run(OUTPUT)
+runner = MyRun([inp0, inp1, inp2], command=COMMAND, max_workers=2)
+results = runner.run(OUTPUT)
+for result in results:
+    print(f'Run {result.index}: exit code {result.returncode}, input `{result.inp.name}`, output `{result.outp}`')

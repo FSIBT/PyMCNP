@@ -15,6 +15,7 @@ from .Plot import Plot
 from .PtracFilter import PtracFilter
 from .PtracProcessor import PtracProcessor
 from .Run import Run
+from .Run import Result
 from .Visualize import Visualize
 
 __all__ = (
@@ -37,5 +38,6 @@ __all__ = (
     'PtracFilter',
     'PtracProcessor',
     'Run',
+    'Result',
     'Visualize',
 )

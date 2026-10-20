@@ -81,17 +81,17 @@ Code:
 Output:
 
     Running `echo` in `examples/output`:
-    Calling `prehook_batch` examples/output/pymcnp-2025-08-22--01-12-44
-    Calling `prehook_file` examples/output/pymcnp-2025-08-22--01-12-44/run-00000 0
-    inp=examples/output/pymcnp-2025-08-22--01-12-44/run-00000/run-00000.inp outp=examples/output/pymcnp-2025-08-22--01-12-44/run-00000/run-00000.outp ptrac=examples/output/pymcnp-2025-08-22--01-12-44/run-00000/run-00000.ptrac
-    Calling `prehook_file` examples/output/pymcnp-2025-08-22--01-12-44/run-00001 1
-    inp=examples/output/pymcnp-2025-08-22--01-12-44/run-00001/run-00001.inp outp=examples/output/pymcnp-2025-08-22--01-12-44/run-00001/run-00001.outp ptrac=examples/output/pymcnp-2025-08-22--01-12-44/run-00001/run-00001.ptrac
-    Calling `prehook_file` examples/output/pymcnp-2025-08-22--01-12-44/run-00002 2
-    Calling `posthook_file` examples/output/pymcnp-2025-08-22--01-12-44/run-00000 0
-    Calling `posthook_file` examples/output/pymcnp-2025-08-22--01-12-44/run-00001 1
-    inp=examples/output/pymcnp-2025-08-22--01-12-44/run-00002/run-00002.inp outp=examples/output/pymcnp-2025-08-22--01-12-44/run-00002/run-00002.outp ptrac=examples/output/pymcnp-2025-08-22--01-12-44/run-00002/run-00002.ptrac
-    Calling `posthook_file` examples/output/pymcnp-2025-08-22--01-12-44/run-00002 2
-    Calling `posthook_batch` examples/output/pymcnp-2025-08-22--01-12-44
+    Calling `prehook_batch` examples/output/pymcnp-2026-10-19--20-03-42
+    Calling `prehook_file` examples/output/pymcnp-2026-10-19--20-03-42/run-00001 1
+    Calling `prehook_file` examples/output/pymcnp-2026-10-19--20-03-42/run-00000 0
+    Calling `posthook_file` examples/output/pymcnp-2026-10-19--20-03-42/run-00001 1 (ok=True)
+    Calling `posthook_file` examples/output/pymcnp-2026-10-19--20-03-42/run-00000 0 (ok=True)
+    Calling `prehook_file` examples/output/pymcnp-2026-10-19--20-03-42/run-00002 2
+    Calling `posthook_file` examples/output/pymcnp-2026-10-19--20-03-42/run-00002 2 (ok=True)
+    Calling `posthook_batch` examples/output/pymcnp-2026-10-19--20-03-42
+    Run 0: exit code 0, input `run-00000.inp`, output `None`
+    Run 1: exit code 0, input `run-00001.inp`, output `None`
+    Run 2: exit code 0, input `run-00002.inp`, output `None`
 
 ## Visualizing INP Files
 

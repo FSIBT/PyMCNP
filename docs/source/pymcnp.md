@@ -127,12 +127,19 @@ overridable methods for filtering data, and `PtracProcessor` have overridable me
 
 ### `Run` Class
 
-`Run` runs MCNP simulations in parallel, using `subprocess`.
+`Run` runs MCNP simulations in parallel (at most `max_workers` at a time), using `subprocess`. Every input runs in its own
+directory, and `run` returns one `Result` per input with `.inp`, `.outp`, `.ptrac`, `.runtpe`, `.log`, `.returncode`,
+`.fatal_errors` and `.ok`. A failed run raises after all runs finished, unless `check=False`.
 
 ```{eval-rst}
 .. autoclass:: pymcnp.Run
    :members:
    :inherited-members:
+```
+
+```{eval-rst}
+.. autoclass:: pymcnp.Result
+   :members:
 ```
 
 ### `Visualize` Class
