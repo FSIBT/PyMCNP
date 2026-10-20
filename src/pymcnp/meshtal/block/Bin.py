@@ -11,7 +11,7 @@ class Bin(Block):
     Represents bin blocks.
 
     Attributes:
-        label: bin block ` Tally bin boundaries:\\n` symbol.
+        label: bin block ``' Tally bin boundaries:\\n'`` symbol.
         boundaries: bin block boundaries.
     """
 

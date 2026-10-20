@@ -23,14 +23,14 @@ class Surface(Tally):
     Represents surface subtally blocks.
 
     Attributes:
-        surface_number_preamble: surface subtally block `      surface.
+        surface_number_preamble: surface subtally block ``'      surface'`` symbol.
         surface_number: surface subtally block surface number.
-        table_heading: surface subtally block `\n        time   ` symbol.
-        table_body_preamble: surface subtally block `\n\n` symbol.
+        table_heading: surface subtally block ``'\\n        time   '`` symbol.
+        table_body_preamble: surface subtally block ``'\\n\\n'`` symbol.
         table_body: surface subtally block table body.
-        table_total_preamble: surface subtally block `\n      total      ` symbol.
+        table_total_preamble: surface subtally block ``'\\n      total      '`` symbol.
         table_total: surface subtally block table total.
-        table_footing: surface subtally block `\n ?\n` symbol.
+        table_footing: surface subtally block ``'\\n ?\\n'`` symbol.
     """
 
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)

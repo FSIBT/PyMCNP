@@ -53,84 +53,84 @@ class Tally_0(Tally):
     Attributes:
         name: tally block name.
         number: tally block number.
-        nps_preamble: tally block `        nps = ` symbol.
+        nps_preamble: tally block ``'        nps = '`` symbol.
         nps: tally block nps.
-        tally_type_preamble: tally block `\\n           tally type ` symbol.
+        tally_type_preamble: tally block ``'\\n           tally type '`` symbol.
         tally_type: tally block tally type.
-        particles_preamble: tally block `\\n           particle(s)` symbol.
+        particles_preamble: tally block ``'\\n           particle(s)'`` symbol.
         particles: tally block particles.
-        subtallies_preamble: tally block `\\n \\n` symbol.
+        subtallies_preamble: tally block ``'\\n \\n'`` symbol.
         subtallies: tally block subtallies.
-        table_preamble: tally block `\\n ===================================================================================================================================` symbol.
-        table_number_preamble: tally block `\\n\\n           results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc)` symbol.
+        table_preamble: tally block ``'\\n ==================================================================================================================================='`` symbol.
+        table_number_preamble: tally block ``'\\n\\n           results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc)'`` symbol.
         table_number: tally block table number.
-        table_heading_1: tally block `\\n\\n tfc bin     --mean--      ---------relative error---------      ----variance of the variance----      --figure of merit--     -pdf-` symbol.
-        table_heading_2: tally block `\\n behavior    behavior      value   decrease   decrease rate      value   decrease   decrease rate       value     behavior     slope` symbol.
-        table_desired_preamble: tally block `\\n\\n desired     ` symbol.
+        table_heading_1: tally block ``'\\n\\n tfc bin     --mean--      ---------relative error---------      ----variance of the variance----      --figure of merit--     -pdf-'`` symbol.
+        table_heading_2: tally block ``'\\n behavior    behavior      value   decrease   decrease rate      value   decrease   decrease rate       value     behavior     slope'`` symbol.
+        table_desired_preamble: tally block ``'\\n\\n desired     '`` symbol.
         table_desired_mean_behavior: tally block table desired mean behavior.
-        table_desired_relative_error_value_preamble: tally block `      ` symbol.
+        table_desired_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_desired_relative_error_value: tally block table desired relative error value.
-        table_desired_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_desired_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_desired_relative_error_decrease: tally block table desired relative error decrease.
-        table_desired_relative_error_rate_preamble: tally block `   ` symbol.
+        table_desired_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_desired_relative_error_rate: tally block table desired relative error rate.
-        table_desired_variance_variance_value_preamble: tally block `      ` symbol.
+        table_desired_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_desired_variance_variance_value: tally block table desired variance variance value.
-        table_desired_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_desired_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_desired_variance_variance_decrease: tally block table desired variance variance decrease.
-        table_desired_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_desired_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_desired_variance_variance_rate: tally block table desired variance variance rate.
-        table_desired_figure_merit_value_preamble: tally block `      ` symbol.
+        table_desired_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_desired_figure_merit_value: tally block table desired figure merit value.
-        table_desired_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_desired_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_desired_figure_merit_behavior: tally block table desired figure merit behavior.
-        table_desired_pdf_preamble: tally block `     ` symbol.
+        table_desired_pdf_preamble: tally block ``'     '`` symbol.
         table_desired_pdf: tally block table desired pdf.
-        table_observed_preamble: tally block `\\n observed    ` symbol.
+        table_observed_preamble: tally block ``'\\n observed    '`` symbol.
         table_observed_mean_behavior: tally block table observed mean behavior.
-        table_observed_relative_error_value_preamble: tally block `      ` symbol.
+        table_observed_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_observed_relative_error_value: tally block table observed relative error value.
-        table_observed_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_observed_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_observed_relative_error_decrease: tally block table observed relative error decrease.
-        table_observed_relative_error_rate_preamble: tally block `   ` symbol.
+        table_observed_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_observed_relative_error_rate: tally block table observed relative error rate.
-        table_observed_variance_variance_value_preamble: tally block `      ` symbol.
+        table_observed_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_observed_variance_variance_value: tally block table observed variance variance value.
-        table_observed_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_observed_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_observed_variance_variance_decrease: tally block table observed variance variance decrease.
-        table_observed_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_observed_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_observed_variance_variance_rate: tally block table observed variance variance rate.
-        table_observed_figure_merit_value_preamble: tally block `      ` symbol.
+        table_observed_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_observed_figure_merit_value: tally block table observed figure merit value.
-        table_observed_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_observed_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_observed_figure_merit_behavior: tally block table observed figure merit behavior.
-        table_observed_pdf_preamble: tally block `     ` symbol.
+        table_observed_pdf_preamble: tally block ``'     '`` symbol.
         table_observed_pdf: tally block table observed pdf.
-        table_passed_preamble: tally block `\\n passed?     ` symbol.
+        table_passed_preamble: tally block ``'\\n passed?     '`` symbol.
         table_passed_mean_behavior: tally block table passed mean behavior.
-        table_passed_relative_error_value_preamble: tally block `      ` symbol.
+        table_passed_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_passed_relative_error_value: tally block table passed relative error value.
-        table_passed_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_passed_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_passed_relative_error_decrease: tally block table passed relative error decrease.
-        table_passed_relative_error_rate_preamble: tally block `   ` symbol.
+        table_passed_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_passed_relative_error_rate: tally block table passed relative error rate.
-        table_passed_variance_variance_value_preamble: tally block `      ` symbol.
+        table_passed_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_passed_variance_variance_value: tally block table passed variance variance value.
-        table_passed_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_passed_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_passed_variance_variance_decrease: tally block table passed variance variance decrease.
-        table_passed_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_passed_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_passed_variance_variance_rate: tally block table passed variance variance rate.
-        table_passed_figure_merit_value_preamble: tally block `      ` symbol.
+        table_passed_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_passed_figure_merit_value: tally block table passed figure merit value.
-        table_passed_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_passed_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_passed_figure_merit_behavior: tally block table passed figure merit behavior.
-        table_passed_pdf_preamble: tally block `     ` symbol.
+        table_passed_pdf_preamble: tally block ``'     '`` symbol.
         table_passed_pdf: tally block table passed pdf.
         table_postamble: tally block table postamble.
-        confidence_interval_preamble: tally block `\\n\\n\\n this tally meets the statistical criteria used to form confidence intervals.
-        estimated_asymmetric_confidence_interval_preamble: tally block `\\n\\n estimated asymmetric confidence interval(1,2,3 sigma)` symbol.
+        confidence_interval_preamble: tally block ``'\\n\\n\\n this tally meets the statistical criteria used to form confidence intervals'`` symbol.
+        estimated_asymmetric_confidence_interval_preamble: tally block ``'\\n\\n estimated asymmetric confidence interval(1,2,3 sigma)'`` symbol.
         estimated_asymmet = dataclasses.field(kw_only=True)ric_confidence_interval: tally block estimated asymmetric confidence interval.
-        estimated_symmetric_confidence_interval_preamble: tally block `\\n estimated  symmetric confidence interval(1,2,3 sigma)` symbol.
+        estimated_symmetric_confidence_interval_preamble: tally block ``'\\n estimated  symmetric confidence interval(1,2,3 sigma)'`` symbol.
         estimated_symmetric_confidence_interval: tally block estimated symmetric confidence interval.
     """
 
@@ -254,81 +254,81 @@ class Tally_1(Tally):
     Attributes:
         name: tally block name.
         number: tally block number.
-        nps_preamble: tally block `        nps = ` symbol.
+        nps_preamble: tally block ``'        nps = '`` symbol.
         nps: tally block nps.
-        tally_type_preamble: tally block `\\n           tally type ` symbol.
+        tally_type_preamble: tally block ``'\\n           tally type '`` symbol.
         tally_type: tally block tally type.
-        particles_preamble: tally block `\\n           particle(s)` symbol.
+        particles_preamble: tally block ``'\\n           particle(s)'`` symbol.
         particles: tally block particles.
-        subtallies_preamble: tally block `\\n \\n` symbol.
+        subtallies_preamble: tally block ``'\\n \\n'`` symbol.
         subtallies: tally block subtallies.
-        table_preamble: tally block `\\n ===================================================================================================================================` symbol.
-        table_number_preamble: tally block `\\n\\n           results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc)` symbol.
+        table_preamble: tally block ``'\\n ==================================================================================================================================='`` symbol.
+        table_number_preamble: tally block ``'\\n\\n           results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc)'`` symbol.
         table_number: tally block table number.
-        table_heading_1: tally block `\\n\\n tfc bin     --mean--      ---------relative error---------      ----variance of the variance----      --figure of merit--     -pdf-` symbol.
-        table_heading_2: tally block `\\n behavior    behavior      value   decrease   decrease rate      value   decrease   decrease rate       value     behavior     slope` symbol.
-        table_desired_preamble: tally block `\\n\\n desired     ` symbol.
+        table_heading_1: tally block ``'\\n\\n tfc bin     --mean--      ---------relative error---------      ----variance of the variance----      --figure of merit--     -pdf-'`` symbol.
+        table_heading_2: tally block ``'\\n behavior    behavior      value   decrease   decrease rate      value   decrease   decrease rate       value     behavior     slope'`` symbol.
+        table_desired_preamble: tally block ``'\\n\\n desired     '`` symbol.
         table_desired_mean_behavior: tally block table desired mean behavior.
-        table_desired_relative_error_value_preamble: tally block `      ` symbol.
+        table_desired_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_desired_relative_error_value: tally block table desired relative error value.
-        table_desired_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_desired_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_desired_relative_error_decrease: tally block table desired relative error decrease.
-        table_desired_relative_error_rate_preamble: tally block `   ` symbol.
+        table_desired_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_desired_relative_error_rate: tally block table desired relative error rate.
-        table_desired_variance_variance_value_preamble: tally block `      ` symbol.
+        table_desired_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_desired_variance_variance_value: tally block table desired variance variance value.
-        table_desired_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_desired_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_desired_variance_variance_decrease: tally block table desired variance variance decrease.
-        table_desired_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_desired_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_desired_variance_variance_rate: tally block table desired variance variance rate.
-        table_desired_figure_merit_value_preamble: tally block `      ` symbol.
+        table_desired_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_desired_figure_merit_value: tally block table desired figure merit value.
-        table_desired_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_desired_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_desired_figure_merit_behavior: tally block table desired figure merit behavior.
-        table_desired_pdf_preamble: tally block `     ` symbol.
+        table_desired_pdf_preamble: tally block ``'     '`` symbol.
         table_desired_pdf: tally block table desired pdf.
-        table_observed_preamble: tally block `\\n observed    ` symbol.
+        table_observed_preamble: tally block ``'\\n observed    '`` symbol.
         table_observed_mean_behavior: tally block table observed mean behavior.
-        table_observed_relative_error_value_preamble: tally block `      ` symbol.
+        table_observed_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_observed_relative_error_value: tally block table observed relative error value.
-        table_observed_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_observed_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_observed_relative_error_decrease: tally block table observed relative error decrease.
-        table_observed_relative_error_rate_preamble: tally block `   ` symbol.
+        table_observed_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_observed_relative_error_rate: tally block table observed relative error rate.
-        table_observed_variance_variance_value_preamble: tally block `      ` symbol.
+        table_observed_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_observed_variance_variance_value: tally block table observed variance variance value.
-        table_observed_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_observed_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_observed_variance_variance_decrease: tally block table observed variance variance decrease.
-        table_observed_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_observed_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_observed_variance_variance_rate: tally block table observed variance variance rate.
-        table_observed_figure_merit_value_preamble: tally block `      ` symbol.
+        table_observed_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_observed_figure_merit_value: tally block table observed figure merit value.
-        table_observed_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_observed_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_observed_figure_merit_behavior: tally block table observed figure merit behavior.
-        table_observed_pdf_preamble: tally block `     ` symbol.
+        table_observed_pdf_preamble: tally block ``'     '`` symbol.
         table_observed_pdf: tally block table observed pdf.
-        table_passed_preamble: tally block `\\n passed?     ` symbol.
+        table_passed_preamble: tally block ``'\\n passed?     '`` symbol.
         table_passed_mean_behavior: tally block table passed mean behavior.
-        table_passed_relative_error_value_preamble: tally block `      ` symbol.
+        table_passed_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_passed_relative_error_value: tally block table passed relative error value.
-        table_passed_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_passed_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_passed_relative_error_decrease: tally block table passed relative error decrease.
-        table_passed_relative_error_rate_preamble: tally block `   ` symbol.
+        table_passed_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_passed_relative_error_rate: tally block table passed relative error rate.
-        table_passed_variance_variance_value_preamble: tally block `      ` symbol.
+        table_passed_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_passed_variance_variance_value: tally block table passed variance variance value.
-        table_passed_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_passed_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_passed_variance_variance_decrease: tally block table passed variance variance decrease.
-        table_passed_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_passed_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_passed_variance_variance_rate: tally block table passed variance variance rate.
-        table_passed_figure_merit_value_preamble: tally block `      ` symbol.
+        table_passed_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_passed_figure_merit_value: tally block table passed figure merit value.
-        table_passed_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_passed_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_passed_figure_merit_behavior: tally block table passed figure merit behavior.
-        table_passed_pdf_preamble: tally block `     ` symbol.
+        table_passed_pdf_preamble: tally block ``'     '`` symbol.
         table_passed_pdf: tally block table passed pdf.
         table_postamble: tally block table postamble.
-        fails_preamble: tally block `\\n\\n\\n warning.  the tally in the tally fluctuation chart bin did not pass ` symbol.
+        fails_preamble: tally block ``'\\n\\n\\n warning.  the tally in the tally fluctuation chart bin did not pass '`` symbol.
         fails: tally block fails.
         fails_postamble:  = dataclasses.field(kw_only=True)tally block fails postamble.
     """
@@ -445,88 +445,88 @@ class Tally_2(Tally):
     Attributes:
         name: tally block name.
         number: tally block number.
-        nps_preamble: tally block `        nps = ` symbol.
+        nps_preamble: tally block ``'        nps = '`` symbol.
         nps: tally block nps.
-        tally_type_preamble: tally block `\\n           tally type ` symbol.
+        tally_type_preamble: tally block ``'\\n           tally type '`` symbol.
         tally_type: tally block tally type.
-        particles_preamble: tally block `\\n           particle(s)` symbol.
+        particles_preamble: tally block ``'\\n           particle(s)'`` symbol.
         particles: tally block particles.
-        surface_preamble: tally block `           areas   \n                surface.
+        surface_preamble: tally block ``'           areas   \\n                surface'`` symbol.
         surface_number: tally block surface number.
-        surface_area_preamble: tally block `\\n                         ` symbol.
+        surface_area_preamble: tally block ``'\\n                         '`` symbol.
         surface_area: tally block surface area.
-        subtallies_preamble: tally block `\\n \\n` symbol.
+        subtallies_preamble: tally block ``'\\n \\n'`` symbol.
         subtallies: tally block subtallies.
-        table_preamble: tally block `\\n ===================================================================================================================================` symbol.
-        table_number_preamble: tally block `\\n\\n           results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc)` symbol.
+        table_preamble: tally block ``'\\n ==================================================================================================================================='`` symbol.
+        table_number_preamble: tally block ``'\\n\\n           results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc)'`` symbol.
         table_number: tally block table number.
-        table_heading_1: tally block `\\n\\n tfc bin     --mean--      ---------relative error---------      ----variance of the variance----      --figure of merit--     -pdf-` symbol.
-        table_heading_2: tally block `\\n behavior    behavior      value   decrease   decrease rate      value   decrease   decrease rate       value     behavior     slope` symbol.
-        table_desired_preamble: tally block `\\n\\n desired     ` symbol.
+        table_heading_1: tally block ``'\\n\\n tfc bin     --mean--      ---------relative error---------      ----variance of the variance----      --figure of merit--     -pdf-'`` symbol.
+        table_heading_2: tally block ``'\\n behavior    behavior      value   decrease   decrease rate      value   decrease   decrease rate       value     behavior     slope'`` symbol.
+        table_desired_preamble: tally block ``'\\n\\n desired     '`` symbol.
         table_desired_mean_behavior: tally block table desired mean behavior.
-        table_desired_relative_error_value_preamble: tally block `      ` symbol.
+        table_desired_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_desired_relative_error_value: tally block table desired relative error value.
-        table_desired_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_desired_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_desired_relative_error_decrease: tally block table desired relative error decrease.
-        table_desired_relative_error_rate_preamble: tally block `   ` symbol.
+        table_desired_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_desired_relative_error_rate: tally block table desired relative error rate.
-        table_desired_variance_variance_value_preamble: tally block `      ` symbol.
+        table_desired_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_desired_variance_variance_value: tally block table desired variance variance value.
-        table_desired_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_desired_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_desired_variance_variance_decrease: tally block table desired variance variance decrease.
-        table_desired_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_desired_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_desired_variance_variance_rate: tally block table desired variance variance rate.
-        table_desired_figure_merit_value_preamble: tally block `      ` symbol.
+        table_desired_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_desired_figure_merit_value: tally block table desired figure merit value.
-        table_desired_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_desired_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_desired_figure_merit_behavior: tally block table desired figure merit behavior.
-        table_desired_pdf_preamble: tally block `     ` symbol.
+        table_desired_pdf_preamble: tally block ``'     '`` symbol.
         table_desired_pdf: tally block table desired pdf.
-        table_observed_preamble: tally block `\\n observed    ` symbol.
+        table_observed_preamble: tally block ``'\\n observed    '`` symbol.
         table_observed_mean_behavior: tally block table observed mean behavior.
-        table_observed_relative_error_value_preamble: tally block `      ` symbol.
+        table_observed_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_observed_relative_error_value: tally block table observed relative error value.
-        table_observed_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_observed_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_observed_relative_error_decrease: tally block table observed relative error decrease.
-        table_observed_relative_error_rate_preamble: tally block `   ` symbol.
+        table_observed_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_observed_relative_error_rate: tally block table observed relative error rate.
-        table_observed_variance_variance_value_preamble: tally block `      ` symbol.
+        table_observed_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_observed_variance_variance_value: tally block table observed variance variance value.
-        table_observed_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_observed_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_observed_variance_variance_decrease: tally block table observed variance variance decrease.
-        table_observed_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_observed_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_observed_variance_variance_rate: tally block table observed variance variance rate.
-        table_observed_figure_merit_value_preamble: tally block `      ` symbol.
+        table_observed_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_observed_figure_merit_value: tally block table observed figure merit value.
-        table_observed_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_observed_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_observed_figure_merit_behavior: tally block table observed figure merit behavior.
-        table_observed_pdf_preamble: tally block `     ` symbol.
+        table_observed_pdf_preamble: tally block ``'     '`` symbol.
         table_observed_pdf: tally block table observed pdf.
-        table_passed_preamble: tally block `\\n passed?     ` symbol.
+        table_passed_preamble: tally block ``'\\n passed?     '`` symbol.
         table_passed_mean_behavior: tally block table passed mean behavior.
-        table_passed_relative_error_value_preamble: tally block `      ` symbol.
+        table_passed_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_passed_relative_error_value: tally block table passed relative error value.
-        table_passed_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_passed_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_passed_relative_error_decrease: tally block table passed relative error decrease.
-        table_passed_relative_error_rate_preamble: tally block `   ` symbol.
+        table_passed_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_passed_relative_error_rate: tally block table passed relative error rate.
-        table_passed_variance_variance_value_preamble: tally block `      ` symbol.
+        table_passed_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_passed_variance_variance_value: tally block table passed variance variance value.
-        table_passed_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_passed_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_passed_variance_variance_decrease: tally block table passed variance variance decrease.
-        table_passed_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_passed_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_passed_variance_variance_rate: tally block table passed variance variance rate.
-        table_passed_figure_merit_value_preamble: tally block `      ` symbol.
+        table_passed_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_passed_figure_merit_value: tally block table passed figure merit value.
-        table_passed_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_passed_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_passed_figure_merit_behavior: tally block table passed figure merit behavior.
-        table_passed_pdf_preamble: tally block `     ` symbol.
+        table_passed_pdf_preamble: tally block ``'     '`` symbol.
         table_passed_pdf: tally block table passed pdf.
         table_postamble: tally block table postamble.
-        confidence_interval_preamble: tally block `\\n\\n\\n this tally meets the statistical criteria used to form confidence intervals.
-        estimated_asymmetric_confidence_interval_preamble: tally block `\\n\\n estimated asymmetric confidence interval(1,2,3 sigma)` symbol.
+        confidence_interval_preamble: tally block ``'\\n\\n\\n this tally meets the statistical criteria used to form confidence intervals'`` symbol.
+        estimated_asymmetric_confidence_interval_preamble: tally block ``'\\n\\n estimated asymmetric confidence interval(1,2,3 sigma)'`` symbol.
         estimated_asymmet = dataclasses.field(kw_only=True)ric_confidence_interval: tally block estimated asymmetric confidence interval.
-        estimated_symmetric_confidence_interval_preamble: tally block `\\n estimated  symmetric confidence interval(1,2,3 sigma)` symbol.
+        estimated_symmetric_confidence_interval_preamble: tally block ``'\\n estimated  symmetric confidence interval(1,2,3 sigma)'`` symbol.
         estimated_symmetric_confidence_interval: tally block estimated symmetric confidence interval.
     """
 
@@ -646,85 +646,85 @@ class Tally_3(Tally):
     Attributes:
         name: tally block name.
         number: tally block number.
-        nps_preamble: tally block `        nps = ` symbol.
+        nps_preamble: tally block ``'        nps = '`` symbol.
         nps: tally block nps.
-        tally_type_preamble: tally block `\\n           tally type ` symbol.
+        tally_type_preamble: tally block ``'\\n           tally type '`` symbol.
         tally_type: tally block tally type.
-        particles_preamble: tally block `\\n           particle(s)` symbol.
+        particles_preamble: tally block ``'\\n           particle(s)'`` symbol.
         particles: tally block particles.
-        surface_preamble: tally block `           areas   \n                surface.
+        surface_preamble: tally block ``'           areas   \\n                surface'`` symbol.
         surface_number: tally block surface number.
-        surface_area_preamble: tally block `\\n                         ` symbol.
+        surface_area_preamble: tally block ``'\\n                         '`` symbol.
         surface_area: tally block surface area.
-        subtallies_preamble: tally block `\\n \\n` symbol.
+        subtallies_preamble: tally block ``'\\n \\n'`` symbol.
         subtallies: tally block subtallies.
-        table_preamble: tally block `\\n ===================================================================================================================================` symbol.
-        table_number_preamble: tally block `\\n\\n           results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc)` symbol.
+        table_preamble: tally block ``'\\n ==================================================================================================================================='`` symbol.
+        table_number_preamble: tally block ``'\\n\\n           results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc)'`` symbol.
         table_number: tally block table number.
-        table_heading_1: tally block `\\n\\n tfc bin     --mean--      ---------relative error---------      ----variance of the variance----      --figure of merit--     -pdf-` symbol.
-        table_heading_2: tally block `\\n behavior    behavior      value   decrease   decrease rate      value   decrease   decrease rate       value     behavior     slope` symbol.
-        table_desired_preamble: tally block `\\n\\n desired     ` symbol.
+        table_heading_1: tally block ``'\\n\\n tfc bin     --mean--      ---------relative error---------      ----variance of the variance----      --figure of merit--     -pdf-'`` symbol.
+        table_heading_2: tally block ``'\\n behavior    behavior      value   decrease   decrease rate      value   decrease   decrease rate       value     behavior     slope'`` symbol.
+        table_desired_preamble: tally block ``'\\n\\n desired     '`` symbol.
         table_desired_mean_behavior: tally block table desired mean behavior.
-        table_desired_relative_error_value_preamble: tally block `      ` symbol.
+        table_desired_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_desired_relative_error_value: tally block table desired relative error value.
-        table_desired_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_desired_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_desired_relative_error_decrease: tally block table desired relative error decrease.
-        table_desired_relative_error_rate_preamble: tally block `   ` symbol.
+        table_desired_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_desired_relative_error_rate: tally block table desired relative error rate.
-        table_desired_variance_variance_value_preamble: tally block `      ` symbol.
+        table_desired_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_desired_variance_variance_value: tally block table desired variance variance value.
-        table_desired_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_desired_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_desired_variance_variance_decrease: tally block table desired variance variance decrease.
-        table_desired_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_desired_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_desired_variance_variance_rate: tally block table desired variance variance rate.
-        table_desired_figure_merit_value_preamble: tally block `      ` symbol.
+        table_desired_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_desired_figure_merit_value: tally block table desired figure merit value.
-        table_desired_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_desired_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_desired_figure_merit_behavior: tally block table desired figure merit behavior.
-        table_desired_pdf_preamble: tally block `     ` symbol.
+        table_desired_pdf_preamble: tally block ``'     '`` symbol.
         table_desired_pdf: tally block table desired pdf.
-        table_observed_preamble: tally block `\\n observed    ` symbol.
+        table_observed_preamble: tally block ``'\\n observed    '`` symbol.
         table_observed_mean_behavior: tally block table observed mean behavior.
-        table_observed_relative_error_value_preamble: tally block `      ` symbol.
+        table_observed_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_observed_relative_error_value: tally block table observed relative error value.
-        table_observed_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_observed_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_observed_relative_error_decrease: tally block table observed relative error decrease.
-        table_observed_relative_error_rate_preamble: tally block `   ` symbol.
+        table_observed_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_observed_relative_error_rate: tally block table observed relative error rate.
-        table_observed_variance_variance_value_preamble: tally block `      ` symbol.
+        table_observed_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_observed_variance_variance_value: tally block table observed variance variance value.
-        table_observed_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_observed_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_observed_variance_variance_decrease: tally block table observed variance variance decrease.
-        table_observed_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_observed_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_observed_variance_variance_rate: tally block table observed variance variance rate.
-        table_observed_figure_merit_value_preamble: tally block `      ` symbol.
+        table_observed_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_observed_figure_merit_value: tally block table observed figure merit value.
-        table_observed_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_observed_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_observed_figure_merit_behavior: tally block table observed figure merit behavior.
-        table_observed_pdf_preamble: tally block `     ` symbol.
+        table_observed_pdf_preamble: tally block ``'     '`` symbol.
         table_observed_pdf: tally block table observed pdf.
-        table_passed_preamble: tally block `\\n passed?     ` symbol.
+        table_passed_preamble: tally block ``'\\n passed?     '`` symbol.
         table_passed_mean_behavior: tally block table passed mean behavior.
-        table_passed_relative_error_value_preamble: tally block `      ` symbol.
+        table_passed_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_passed_relative_error_value: tally block table passed relative error value.
-        table_passed_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_passed_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_passed_relative_error_decrease: tally block table passed relative error decrease.
-        table_passed_relative_error_rate_preamble: tally block `   ` symbol.
+        table_passed_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_passed_relative_error_rate: tally block table passed relative error rate.
-        table_passed_variance_variance_value_preamble: tally block `      ` symbol.
+        table_passed_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_passed_variance_variance_value: tally block table passed variance variance value.
-        table_passed_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_passed_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_passed_variance_variance_decrease: tally block table passed variance variance decrease.
-        table_passed_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_passed_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_passed_variance_variance_rate: tally block table passed variance variance rate.
-        table_passed_figure_merit_value_preamble: tally block `      ` symbol.
+        table_passed_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_passed_figure_merit_value: tally block table passed figure merit value.
-        table_passed_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_passed_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_passed_figure_merit_behavior: tally block table passed figure merit behavior.
-        table_passed_pdf_preamble: tally block `     ` symbol.
+        table_passed_pdf_preamble: tally block ``'     '`` symbol.
         table_passed_pdf: tally block table passed pdf.
         table_postamble: tally block table postamble.
-        fails_preamble: tally block `\\n\\n\\n warning.  the tally in the tally fluctuation chart bin did not pass ` symbol.
+        fails_preamble: tally block ``'\\n\\n\\n warning.  the tally in the tally fluctuation chart bin did not pass '`` symbol.
         fails: tally block fails.
         fails_postamble:  = dataclasses.field(kw_only=True)tally block fails postamble.
     """
@@ -837,88 +837,88 @@ class Tally_4(Tally):
     Attributes:
         name: tally block name.
         number: tally block number.
-        nps_preamble: tally block `        nps = ` symbol.
+        nps_preamble: tally block ``'        nps = '`` symbol.
         nps: tally block nps.
-        tally_type_preamble: tally block `\\n           tally type ` symbol.
+        tally_type_preamble: tally block ``'\\n           tally type '`` symbol.
         tally_type: tally block tally type.
-        particles_preamble: tally block `\\n           particle(s)` symbol.
+        particles_preamble: tally block ``'\\n           particle(s)'`` symbol.
         particles: tally block particles.
-        cell_preamble: tally block `           volumes \\n                   cell.
+        cell_preamble: tally block ``'           volumes \\n                   cell'`` symbol.
         cell_number: tally block cell number.
-        cell_volume_preamble: tally block `\\n                         ` symbol.
+        cell_volume_preamble: tally block ``'\\n                         '`` symbol.
         cell_volume: tally block cell volume.
-        subtallies_preamble: tally block `\\n \\n` symbol.
+        subtallies_preamble: tally block ``'\\n \\n'`` symbol.
         subtallies: tally block subtallies.
-        table_preamble: tally block `\\n ===================================================================================================================================` symbol.
-        table_number_preamble: tally block `\\n\\n           results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc)` symbol.
+        table_preamble: tally block ``'\\n ==================================================================================================================================='`` symbol.
+        table_number_preamble: tally block ``'\\n\\n           results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc)'`` symbol.
         table_number: tally block table number.
-        table_heading_1: tally block `\\n\\n tfc bin     --mean--      ---------relative error---------      ----variance of the variance----      --figure of merit--     -pdf-` symbol.
-        table_heading_2: tally block `\\n behavior    behavior      value   decrease   decrease rate      value   decrease   decrease rate       value     behavior     slope` symbol.
-        table_desired_preamble: tally block `\\n\\n desired     ` symbol.
+        table_heading_1: tally block ``'\\n\\n tfc bin     --mean--      ---------relative error---------      ----variance of the variance----      --figure of merit--     -pdf-'`` symbol.
+        table_heading_2: tally block ``'\\n behavior    behavior      value   decrease   decrease rate      value   decrease   decrease rate       value     behavior     slope'`` symbol.
+        table_desired_preamble: tally block ``'\\n\\n desired     '`` symbol.
         table_desired_mean_behavior: tally block table desired mean behavior.
-        table_desired_relative_error_value_preamble: tally block `      ` symbol.
+        table_desired_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_desired_relative_error_value: tally block table desired relative error value.
-        table_desired_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_desired_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_desired_relative_error_decrease: tally block table desired relative error decrease.
-        table_desired_relative_error_rate_preamble: tally block `   ` symbol.
+        table_desired_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_desired_relative_error_rate: tally block table desired relative error rate.
-        table_desired_variance_variance_value_preamble: tally block `      ` symbol.
+        table_desired_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_desired_variance_variance_value: tally block table desired variance variance value.
-        table_desired_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_desired_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_desired_variance_variance_decrease: tally block table desired variance variance decrease.
-        table_desired_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_desired_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_desired_variance_variance_rate: tally block table desired variance variance rate.
-        table_desired_figure_merit_value_preamble: tally block `      ` symbol.
+        table_desired_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_desired_figure_merit_value: tally block table desired figure merit value.
-        table_desired_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_desired_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_desired_figure_merit_behavior: tally block table desired figure merit behavior.
-        table_desired_pdf_preamble: tally block `     ` symbol.
+        table_desired_pdf_preamble: tally block ``'     '`` symbol.
         table_desired_pdf: tally block table desired pdf.
-        table_observed_preamble: tally block `\\n observed    ` symbol.
+        table_observed_preamble: tally block ``'\\n observed    '`` symbol.
         table_observed_mean_behavior: tally block table observed mean behavior.
-        table_observed_relative_error_value_preamble: tally block `      ` symbol.
+        table_observed_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_observed_relative_error_value: tally block table observed relative error value.
-        table_observed_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_observed_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_observed_relative_error_decrease: tally block table observed relative error decrease.
-        table_observed_relative_error_rate_preamble: tally block `   ` symbol.
+        table_observed_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_observed_relative_error_rate: tally block table observed relative error rate.
-        table_observed_variance_variance_value_preamble: tally block `      ` symbol.
+        table_observed_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_observed_variance_variance_value: tally block table observed variance variance value.
-        table_observed_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_observed_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_observed_variance_variance_decrease: tally block table observed variance variance decrease.
-        table_observed_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_observed_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_observed_variance_variance_rate: tally block table observed variance variance rate.
-        table_observed_figure_merit_value_preamble: tally block `      ` symbol.
+        table_observed_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_observed_figure_merit_value: tally block table observed figure merit value.
-        table_observed_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_observed_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_observed_figure_merit_behavior: tally block table observed figure merit behavior.
-        table_observed_pdf_preamble: tally block `     ` symbol.
+        table_observed_pdf_preamble: tally block ``'     '`` symbol.
         table_observed_pdf: tally block table observed pdf.
-        table_passed_preamble: tally block `\\n passed?     ` symbol.
+        table_passed_preamble: tally block ``'\\n passed?     '`` symbol.
         table_passed_mean_behavior: tally block table passed mean behavior.
-        table_passed_relative_error_value_preamble: tally block `      ` symbol.
+        table_passed_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_passed_relative_error_value: tally block table passed relative error value.
-        table_passed_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_passed_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_passed_relative_error_decrease: tally block table passed relative error decrease.
-        table_passed_relative_error_rate_preamble: tally block `   ` symbol.
+        table_passed_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_passed_relative_error_rate: tally block table passed relative error rate.
-        table_passed_variance_variance_value_preamble: tally block `      ` symbol.
+        table_passed_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_passed_variance_variance_value: tally block table passed variance variance value.
-        table_passed_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_passed_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_passed_variance_variance_decrease: tally block table passed variance variance decrease.
-        table_passed_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_passed_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_passed_variance_variance_rate: tally block table passed variance variance rate.
-        table_passed_figure_merit_value_preamble: tally block `      ` symbol.
+        table_passed_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_passed_figure_merit_value: tally block table passed figure merit value.
-        table_passed_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_passed_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_passed_figure_merit_behavior: tally block table passed figure merit behavior.
-        table_passed_pdf_preamble: tally block `     ` symbol.
+        table_passed_pdf_preamble: tally block ``'     '`` symbol.
         table_passed_pdf: tally block table passed pdf.
         table_postamble: tally block table postamble.
-        confidence_interval_preamble: tally block `\\n\\n\\n this tally meets the statistical criteria used to form confidence intervals.
-        estimated_asymmetric_confidence_interval_preamble: tally block `\\n\\n estimated asymmetric confidence interval(1,2,3 sigma)` symbol.
+        confidence_interval_preamble: tally block ``'\\n\\n\\n this tally meets the statistical criteria used to form confidence intervals'`` symbol.
+        estimated_asymmetric_confidence_interval_preamble: tally block ``'\\n\\n estimated asymmetric confidence interval(1,2,3 sigma)'`` symbol.
         estimated_asymmet = dataclasses.field(kw_only=True)ric_confidence_interval: tally block estimated asymmetric confidence interval.
-        estimated_symmetric_confidence_interval_preamble: tally block `\\n estimated  symmetric confidence interval(1,2,3 sigma)` symbol.
+        estimated_symmetric_confidence_interval_preamble: tally block ``'\\n estimated  symmetric confidence interval(1,2,3 sigma)'`` symbol.
         estimated_symmetric_confidence_interval: tally block estimated symmetric confidence interval.
     """
 
@@ -1042,85 +1042,85 @@ class Tally_5(Tally):
     Attributes:
         name: tally block name.
         number: tally block number.
-        nps_preamble: tally block `        nps = ` symbol.
+        nps_preamble: tally block ``'        nps = '`` symbol.
         nps: tally block nps.
-        tally_type_preamble: tally block `\\n           tally type ` symbol.
+        tally_type_preamble: tally block ``'\\n           tally type '`` symbol.
         tally_type: tally block tally type.
-        particles_preamble: tally block `\\n           particle(s)` symbol.
+        particles_preamble: tally block ``'\\n           particle(s)'`` symbol.
         particles: tally block particles.
-        cell_preamble: tally block `\\n\\n           volumes \\n                   cell: `
+        cell_preamble: tally block ``'\\n\\n           volumes \\n                   cell: '`` symbol.
         cell_number: tally block cell number.
-        cell_volume_preamble: tally block `\\n                         ` symbol.
+        cell_volume_preamble: tally block ``'\\n                         '`` symbol.
         cell_volume: tally block cell volume.
-        subtallies_preamble: tally block `\\n \\n` symbol.
+        subtallies_preamble: tally block ``'\\n \\n'`` symbol.
         subtallies: tally block subtallies.
-        table_preamble: tally block `\\n ===================================================================================================================================` symbol.
-        table_number_preamble: tally block `\\n\\n           results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc)` symbol.
+        table_preamble: tally block ``'\\n ==================================================================================================================================='`` symbol.
+        table_number_preamble: tally block ``'\\n\\n           results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc)'`` symbol.
         table_number: tally block table number.
-        table_heading_1: tally block `\\n\\n tfc bin     --mean--      ---------relative error---------      ----variance of the variance----      --figure of merit--     -pdf-` symbol.
-        table_heading_2: tally block `\\n behavior    behavior      value   decrease   decrease rate      value   decrease   decrease rate       value     behavior     slope` symbol.
-        table_desired_preamble: tally block `\\n\\n desired     ` symbol.
+        table_heading_1: tally block ``'\\n\\n tfc bin     --mean--      ---------relative error---------      ----variance of the variance----      --figure of merit--     -pdf-'`` symbol.
+        table_heading_2: tally block ``'\\n behavior    behavior      value   decrease   decrease rate      value   decrease   decrease rate       value     behavior     slope'`` symbol.
+        table_desired_preamble: tally block ``'\\n\\n desired     '`` symbol.
         table_desired_mean_behavior: tally block table desired mean behavior.
-        table_desired_relative_error_value_preamble: tally block `      ` symbol.
+        table_desired_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_desired_relative_error_value: tally block table desired relative error value.
-        table_desired_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_desired_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_desired_relative_error_decrease: tally block table desired relative error decrease.
-        table_desired_relative_error_rate_preamble: tally block `   ` symbol.
+        table_desired_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_desired_relative_error_rate: tally block table desired relative error rate.
-        table_desired_variance_variance_value_preamble: tally block `      ` symbol.
+        table_desired_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_desired_variance_variance_value: tally block table desired variance variance value.
-        table_desired_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_desired_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_desired_variance_variance_decrease: tally block table desired variance variance decrease.
-        table_desired_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_desired_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_desired_variance_variance_rate: tally block table desired variance variance rate.
-        table_desired_figure_merit_value_preamble: tally block `      ` symbol.
+        table_desired_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_desired_figure_merit_value: tally block table desired figure merit value.
-        table_desired_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_desired_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_desired_figure_merit_behavior: tally block table desired figure merit behavior.
-        table_desired_pdf_preamble: tally block `     ` symbol.
+        table_desired_pdf_preamble: tally block ``'     '`` symbol.
         table_desired_pdf: tally block table desired pdf.
-        table_observed_preamble: tally block `\\n observed    ` symbol.
+        table_observed_preamble: tally block ``'\\n observed    '`` symbol.
         table_observed_mean_behavior: tally block table observed mean behavior.
-        table_observed_relative_error_value_preamble: tally block `      ` symbol.
+        table_observed_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_observed_relative_error_value: tally block table observed relative error value.
-        table_observed_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_observed_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_observed_relative_error_decrease: tally block table observed relative error decrease.
-        table_observed_relative_error_rate_preamble: tally block `   ` symbol.
+        table_observed_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_observed_relative_error_rate: tally block table observed relative error rate.
-        table_observed_variance_variance_value_preamble: tally block `      ` symbol.
+        table_observed_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_observed_variance_variance_value: tally block table observed variance variance value.
-        table_observed_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_observed_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_observed_variance_variance_decrease: tally block table observed variance variance decrease.
-        table_observed_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_observed_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_observed_variance_variance_rate: tally block table observed variance variance rate.
-        table_observed_figure_merit_value_preamble: tally block `      ` symbol.
+        table_observed_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_observed_figure_merit_value: tally block table observed figure merit value.
-        table_observed_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_observed_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_observed_figure_merit_behavior: tally block table observed figure merit behavior.
-        table_observed_pdf_preamble: tally block `     ` symbol.
+        table_observed_pdf_preamble: tally block ``'     '`` symbol.
         table_observed_pdf: tally block table observed pdf.
-        table_passed_preamble: tally block `\\n passed?     ` symbol.
+        table_passed_preamble: tally block ``'\\n passed?     '`` symbol.
         table_passed_mean_behavior: tally block table passed mean behavior.
-        table_passed_relative_error_value_preamble: tally block `      ` symbol.
+        table_passed_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_passed_relative_error_value: tally block table passed relative error value.
-        table_passed_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_passed_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_passed_relative_error_decrease: tally block table passed relative error decrease.
-        table_passed_relative_error_rate_preamble: tally block `   ` symbol.
+        table_passed_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_passed_relative_error_rate: tally block table passed relative error rate.
-        table_passed_variance_variance_value_preamble: tally block `      ` symbol.
+        table_passed_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_passed_variance_variance_value: tally block table passed variance variance value.
-        table_passed_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_passed_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_passed_variance_variance_decrease: tally block table passed variance variance decrease.
-        table_passed_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_passed_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_passed_variance_variance_rate: tally block table passed variance variance rate.
-        table_passed_figure_merit_value_preamble: tally block `      ` symbol.
+        table_passed_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_passed_figure_merit_value: tally block table passed figure merit value.
-        table_passed_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_passed_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_passed_figure_merit_behavior: tally block table passed figure merit behavior.
-        table_passed_pdf_preamble: tally block `     ` symbol.
+        table_passed_pdf_preamble: tally block ``'     '`` symbol.
         table_passed_pdf: tally block table passed pdf.
         table_postamble: tally block table postamble.
-        fails_preamble: tally block `\\n\\n\\n warning.  the tally in the tally fluctuation chart bin did not pass ` symbol.
+        fails_preamble: tally block ``'\\n\\n\\n warning.  the tally in the tally fluctuation chart bin did not pass '`` symbol.
         fails: tally block fails.
         fails_postamble:  = dataclasses.field(kw_only=True)tally block fails postamble.
     """
@@ -1237,84 +1237,84 @@ class Tally_6(Tally):
     Attributes:
         name: tally block name.
         number: tally block number.
-        nps_preamble: tally block `        nps = ` symbol.
+        nps_preamble: tally block ``'        nps = '`` symbol.
         nps: tally block nps.
-        tally_type_preamble: tally block `\\n           tally type ` symbol.
+        tally_type_preamble: tally block ``'\\n           tally type '`` symbol.
         tally_type: tally block tally type.
-        particles_preamble: tally block `\\n           particle(s)` symbol.
+        particles_preamble: tally block ``'\\n           particle(s)'`` symbol.
         particles: tally block particles.
-        subtallies_preamble: tally block `\\n \\n` symbol.
+        subtallies_preamble: tally block ``'\\n \\n'`` symbol.
         subtallies: tally block subtallies.
-        table_preamble: tally block `\\n ===================================================================================================================================` symbol.
-        table_number_preamble: tally block `\\n\\n           results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc)` symbol.
+        table_preamble: tally block ``'\\n ==================================================================================================================================='`` symbol.
+        table_number_preamble: tally block ``'\\n\\n           results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc)'`` symbol.
         table_number: tally block table number.
-        table_heading_1: tally block `\\n\\n tfc bin     --mean--      ---------relative error---------      ----variance of the variance----      --figure of merit--     -pdf-` symbol.
-        table_heading_2: tally block `\\n behavior    behavior      value   decrease   decrease rate      value   decrease   decrease rate       value     behavior     slope` symbol.
-        table_desired_preamble: tally block `\\n\\n desired     ` symbol.
+        table_heading_1: tally block ``'\\n\\n tfc bin     --mean--      ---------relative error---------      ----variance of the variance----      --figure of merit--     -pdf-'`` symbol.
+        table_heading_2: tally block ``'\\n behavior    behavior      value   decrease   decrease rate      value   decrease   decrease rate       value     behavior     slope'`` symbol.
+        table_desired_preamble: tally block ``'\\n\\n desired     '`` symbol.
         table_desired_mean_behavior: tally block table desired mean behavior.
-        table_desired_relative_error_value_preamble: tally block `      ` symbol.
+        table_desired_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_desired_relative_error_value: tally block table desired relative error value.
-        table_desired_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_desired_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_desired_relative_error_decrease: tally block table desired relative error decrease.
-        table_desired_relative_error_rate_preamble: tally block `   ` symbol.
+        table_desired_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_desired_relative_error_rate: tally block table desired relative error rate.
-        table_desired_variance_variance_value_preamble: tally block `      ` symbol.
+        table_desired_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_desired_variance_variance_value: tally block table desired variance variance value.
-        table_desired_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_desired_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_desired_variance_variance_decrease: tally block table desired variance variance decrease.
-        table_desired_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_desired_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_desired_variance_variance_rate: tally block table desired variance variance rate.
-        table_desired_figure_merit_value_preamble: tally block `      ` symbol.
+        table_desired_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_desired_figure_merit_value: tally block table desired figure merit value.
-        table_desired_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_desired_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_desired_figure_merit_behavior: tally block table desired figure merit behavior.
-        table_desired_pdf_preamble: tally block `     ` symbol.
+        table_desired_pdf_preamble: tally block ``'     '`` symbol.
         table_desired_pdf: tally block table desired pdf.
-        table_observed_preamble: tally block `\\n observed    ` symbol.
+        table_observed_preamble: tally block ``'\\n observed    '`` symbol.
         table_observed_mean_behavior: tally block table observed mean behavior.
-        table_observed_relative_error_value_preamble: tally block `      ` symbol.
+        table_observed_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_observed_relative_error_value: tally block table observed relative error value.
-        table_observed_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_observed_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_observed_relative_error_decrease: tally block table observed relative error decrease.
-        table_observed_relative_error_rate_preamble: tally block `   ` symbol.
+        table_observed_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_observed_relative_error_rate: tally block table observed relative error rate.
-        table_observed_variance_variance_value_preamble: tally block `      ` symbol.
+        table_observed_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_observed_variance_variance_value: tally block table observed variance variance value.
-        table_observed_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_observed_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_observed_variance_variance_decrease: tally block table observed variance variance decrease.
-        table_observed_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_observed_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_observed_variance_variance_rate: tally block table observed variance variance rate.
-        table_observed_figure_merit_value_preamble: tally block `      ` symbol.
+        table_observed_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_observed_figure_merit_value: tally block table observed figure merit value.
-        table_observed_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_observed_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_observed_figure_merit_behavior: tally block table observed figure merit behavior.
-        table_observed_pdf_preamble: tally block `     ` symbol.
+        table_observed_pdf_preamble: tally block ``'     '`` symbol.
         table_observed_pdf: tally block table observed pdf.
-        table_passed_preamble: tally block `\\n passed?     ` symbol.
+        table_passed_preamble: tally block ``'\\n passed?     '`` symbol.
         table_passed_mean_behavior: tally block table passed mean behavior.
-        table_passed_relative_error_value_preamble: tally block `      ` symbol.
+        table_passed_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_passed_relative_error_value: tally block table passed relative error value.
-        table_passed_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_passed_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_passed_relative_error_decrease: tally block table passed relative error decrease.
-        table_passed_relative_error_rate_preamble: tally block `   ` symbol.
+        table_passed_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_passed_relative_error_rate: tally block table passed relative error rate.
-        table_passed_variance_variance_value_preamble: tally block `      ` symbol.
+        table_passed_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_passed_variance_variance_value: tally block table passed variance variance value.
-        table_passed_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_passed_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_passed_variance_variance_decrease: tally block table passed variance variance decrease.
-        table_passed_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_passed_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_passed_variance_variance_rate: tally block table passed variance variance rate.
-        table_passed_figure_merit_value_preamble: tally block `      ` symbol.
+        table_passed_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_passed_figure_merit_value: tally block table passed figure merit value.
-        table_passed_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_passed_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_passed_figure_merit_behavior: tally block table passed figure merit behavior.
-        table_passed_pdf_preamble: tally block `     ` symbol.
+        table_passed_pdf_preamble: tally block ``'     '`` symbol.
         table_passed_pdf: tally block table passed pdf.
         table_postamble: tally block table postamble.
-        confidence_interval_preamble: tally block `\\n\\n\\n this tally meets the statistical criteria used to form confidence intervals.
-        estimated_asymmetric_confidence_interval_preamble: tally block `\\n\\n estimated asymmetric confidence interval(1,2,3 sigma)` symbol.
+        confidence_interval_preamble: tally block ``'\\n\\n\\n this tally meets the statistical criteria used to form confidence intervals'`` symbol.
+        estimated_asymmetric_confidence_interval_preamble: tally block ``'\\n\\n estimated asymmetric confidence interval(1,2,3 sigma)'`` symbol.
         estimated_asymmet = dataclasses.field(kw_only=True)ric_confidence_interval: tally block estimated asymmetric confidence interval.
-        estimated_symmetric_confidence_interval_preamble: tally block `\\n estimated  symmetric confidence interval(1,2,3 sigma)` symbol.
+        estimated_symmetric_confidence_interval_preamble: tally block ``'\\n estimated  symmetric confidence interval(1,2,3 sigma)'`` symbol.
         estimated_symmetric_confidence_interval: tally block estimated symmetric confidence interval.
     """
 
@@ -1434,81 +1434,81 @@ class Tally_7(Tally):
     Attributes:
         name: tally block name.
         number: tally block number.
-        nps_preamble: tally block `        nps = ` symbol.
+        nps_preamble: tally block ``'        nps = '`` symbol.
         nps: tally block nps.
-        tally_type_preamble: tally block `\\n           tally type ` symbol.
+        tally_type_preamble: tally block ``'\\n           tally type '`` symbol.
         tally_type: tally block tally type.
-        particles_preamble: tally block `\\n           particle(s)` symbol.
+        particles_preamble: tally block ``'\\n           particle(s)'`` symbol.
         particles: tally block particles.
-        subtallies_preamble: tally block `\\n \\n` symbol.
+        subtallies_preamble: tally block ``'\\n \\n'`` symbol.
         subtallies: tally block subtallies.
-        table_preamble: tally block `\\n ===================================================================================================================================` symbol.
-        table_number_preamble: tally block `\\n\\n           results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc)` symbol.
+        table_preamble: tally block ``'\\n ==================================================================================================================================='`` symbol.
+        table_number_preamble: tally block ``'\\n\\n           results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc)'`` symbol.
         table_number: tally block table number.
-        table_heading_1: tally block `\\n\\n tfc bin     --mean--      ---------relative error---------      ----variance of the variance----      --figure of merit--     -pdf-` symbol.
-        table_heading_2: tally block `\\n behavior    behavior      value   decrease   decrease rate      value   decrease   decrease rate       value     behavior     slope` symbol.
-        table_desired_preamble: tally block `\\n\\n desired     ` symbol.
+        table_heading_1: tally block ``'\\n\\n tfc bin     --mean--      ---------relative error---------      ----variance of the variance----      --figure of merit--     -pdf-'`` symbol.
+        table_heading_2: tally block ``'\\n behavior    behavior      value   decrease   decrease rate      value   decrease   decrease rate       value     behavior     slope'`` symbol.
+        table_desired_preamble: tally block ``'\\n\\n desired     '`` symbol.
         table_desired_mean_behavior: tally block table desired mean behavior.
-        table_desired_relative_error_value_preamble: tally block `      ` symbol.
+        table_desired_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_desired_relative_error_value: tally block table desired relative error value.
-        table_desired_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_desired_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_desired_relative_error_decrease: tally block table desired relative error decrease.
-        table_desired_relative_error_rate_preamble: tally block `   ` symbol.
+        table_desired_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_desired_relative_error_rate: tally block table desired relative error rate.
-        table_desired_variance_variance_value_preamble: tally block `      ` symbol.
+        table_desired_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_desired_variance_variance_value: tally block table desired variance variance value.
-        table_desired_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_desired_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_desired_variance_variance_decrease: tally block table desired variance variance decrease.
-        table_desired_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_desired_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_desired_variance_variance_rate: tally block table desired variance variance rate.
-        table_desired_figure_merit_value_preamble: tally block `      ` symbol.
+        table_desired_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_desired_figure_merit_value: tally block table desired figure merit value.
-        table_desired_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_desired_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_desired_figure_merit_behavior: tally block table desired figure merit behavior.
-        table_desired_pdf_preamble: tally block `     ` symbol.
+        table_desired_pdf_preamble: tally block ``'     '`` symbol.
         table_desired_pdf: tally block table desired pdf.
-        table_observed_preamble: tally block `\\n observed    ` symbol.
+        table_observed_preamble: tally block ``'\\n observed    '`` symbol.
         table_observed_mean_behavior: tally block table observed mean behavior.
-        table_observed_relative_error_value_preamble: tally block `      ` symbol.
+        table_observed_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_observed_relative_error_value: tally block table observed relative error value.
-        table_observed_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_observed_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_observed_relative_error_decrease: tally block table observed relative error decrease.
-        table_observed_relative_error_rate_preamble: tally block `   ` symbol.
+        table_observed_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_observed_relative_error_rate: tally block table observed relative error rate.
-        table_observed_variance_variance_value_preamble: tally block `      ` symbol.
+        table_observed_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_observed_variance_variance_value: tally block table observed variance variance value.
-        table_observed_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_observed_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_observed_variance_variance_decrease: tally block table observed variance variance decrease.
-        table_observed_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_observed_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_observed_variance_variance_rate: tally block table observed variance variance rate.
-        table_observed_figure_merit_value_preamble: tally block `      ` symbol.
+        table_observed_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_observed_figure_merit_value: tally block table observed figure merit value.
-        table_observed_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_observed_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_observed_figure_merit_behavior: tally block table observed figure merit behavior.
-        table_observed_pdf_preamble: tally block `     ` symbol.
+        table_observed_pdf_preamble: tally block ``'     '`` symbol.
         table_observed_pdf: tally block table observed pdf.
-        table_passed_preamble: tally block `\\n passed?     ` symbol.
+        table_passed_preamble: tally block ``'\\n passed?     '`` symbol.
         table_passed_mean_behavior: tally block table passed mean behavior.
-        table_passed_relative_error_value_preamble: tally block `      ` symbol.
+        table_passed_relative_error_value_preamble: tally block ``'      '`` symbol.
         table_passed_relative_error_value: tally block table passed relative error value.
-        table_passed_relative_error_decrease_preamble: tally block `   ` symbol.
+        table_passed_relative_error_decrease_preamble: tally block ``'   '`` symbol.
         table_passed_relative_error_decrease: tally block table passed relative error decrease.
-        table_passed_relative_error_rate_preamble: tally block `   ` symbol.
+        table_passed_relative_error_rate_preamble: tally block ``'   '`` symbol.
         table_passed_relative_error_rate: tally block table passed relative error rate.
-        table_passed_variance_variance_value_preamble: tally block `      ` symbol.
+        table_passed_variance_variance_value_preamble: tally block ``'      '`` symbol.
         table_passed_variance_variance_value: tally block table passed variance variance value.
-        table_passed_variance_variance_decrease_preamble: tally block `   ` symbol.
+        table_passed_variance_variance_decrease_preamble: tally block ``'   '`` symbol.
         table_passed_variance_variance_decrease: tally block table passed variance variance decrease.
-        table_passed_variance_variance_rate_preamble: tally block `   ` symbol.
+        table_passed_variance_variance_rate_preamble: tally block ``'   '`` symbol.
         table_passed_variance_variance_rate: tally block table passed variance variance rate.
-        table_passed_figure_merit_value_preamble: tally block `      ` symbol.
+        table_passed_figure_merit_value_preamble: tally block ``'      '`` symbol.
         table_passed_figure_merit_value: tally block table passed figure merit value.
-        table_passed_figure_merit_behavior_preamble: tally block `   ` symbol.
+        table_passed_figure_merit_behavior_preamble: tally block ``'   '`` symbol.
         table_passed_figure_merit_behavior: tally block table passed figure merit behavior.
-        table_passed_pdf_preamble: tally block `     ` symbol.
+        table_passed_pdf_preamble: tally block ``'     '`` symbol.
         table_passed_pdf: tally block table passed pdf.
         table_postamble: tally block table postamble.
-        fails_preamble: tally block `\\n\\n\\n warning.  the tally in the tally fluctuation chart bin did not pass ` symbol.
+        fails_preamble: tally block ``'\\n\\n\\n warning.  the tally in the tally fluctuation chart bin did not pass '`` symbol.
         fails: tally block fails.
         fails_postamble:  = dataclasses.field(kw_only=True)tally block fails postamble.
     """

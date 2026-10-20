@@ -25,17 +25,17 @@ class SurfaceAngle(Tally):
     Attributes:
         surface_number_preamble: surface angle subtally block surface number preamble.
         surface_number: surface angle subtally block surface number.
-        angle_from_preamble: surface angle subtally block `\n angle bin.
+        angle_from_preamble: surface angle subtally block ``'\\n angle bin'`` symbol.
         angle_from: surface angle subtally block angle from.
-        angle_to_preamble: surface angle subtally block ` to  ` symbol.
+        angle_to_preamble: surface angle subtally block ``' to  '`` symbol.
         angle_to: surface angle subtally block angle to.
         angle_to_postamble: surface angle subtally block angle to postamble.
-        table_heading: surface angle subtally block `\n {6}energy {3}` symbol.
-        table_body_preamble: surface angle subtally block `\n\n` symbol.
+        table_heading: surface angle subtally block ``'\\n {6}energy {3}'`` symbol.
+        table_body_preamble: surface angle subtally block ``'\\n\\n'`` symbol.
         table_body: surface angle subtally block table body.
-        table_total_preamble: surface angle subtally block `\n {6}total {6}` symbol.
+        table_total_preamble: surface angle subtally block ``'\\n {6}total {6}'`` symbol.
         table_total: surface angle subtally block table total.
-        table_footing: surface angle subtally block `\n ?\n` symbol.
+        table_footing: surface angle subtally block ``'\\n ?\\n'`` symbol.
     """
 
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)

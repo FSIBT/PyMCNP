@@ -11,7 +11,7 @@ class Event(abc.Nonterminal):
 
     Attributes:
         j: event block j line.
-        newline: event block `\\n` symbol.
+        newline: event block ``'\\n'`` symbol.
         p: event block p line.
     """
 

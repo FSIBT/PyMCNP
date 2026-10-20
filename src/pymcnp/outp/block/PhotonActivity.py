@@ -14,21 +14,21 @@ class PhotonActivity(Block):
 
     Attributes:
         name: photon activity block `1photon   activity in each cell` symbol.
-        print_preamble: photon activity block `                                                                         print table ` symbol.
+        print_preamble: photon activity block ``'                                                                         print table '`` symbol.
         print: photon activity block `126` symbol.
-        table_heading_1: photon activity block `\\n\\n                       tracks     population   collisions   collisions     number        flux        average      average` symbol.
-        table_heading_2: photon activity block `\\n              cell    entering                               * weight     weighted     weighted   track weight   track mfp` symbol.
-        table_heading_3: photon activity block `\\n                                                          (per history)` symbol.
-        table_body_preamble: photon activity block `\\n\\n` symbol.
+        table_heading_1: photon activity block ``'\\n\\n                       tracks     population   collisions   collisions     number        flux        average      average'`` symbol.
+        table_heading_2: photon activity block ``'\\n              cell    entering                               * weight     weighted     weighted   track weight   track mfp'`` symbol.
+        table_heading_3: photon activity block ``'\\n                                                          (per history)'`` symbol.
+        table_body_preamble: photon activity block ``'\\n\\n'`` symbol.
         table_body: photon activity block table body.
-        table_total_preamble: photon activity block `\\n           total` symbol.
-        table_total_tracks_preamble: photon activity block `    ` symbol.
+        table_total_preamble: photon activity block ``'\\n           total'`` symbol.
+        table_total_tracks_preamble: photon activity block ``'    '`` symbol.
         table_total_tracks: photon activity block table total tracks.
-        table_total_population_preamble: photon activity block `    ` symbol.
+        table_total_population_preamble: photon activity block ``'    '`` symbol.
         table_total_population: photon activity block table total population.
-        table_total_collisions_preamble: photon activity block `  ` symbol.
+        table_total_collisions_preamble: photon activity block ``'  '`` symbol.
         table_total_collisions: photon activity block table total collisions.
-        table_total_weighted_collisions_preamble: photon activity block `    ` symbol.
+        table_total_weighted_collisions_preamble: photon activity block ``'    '`` symbol.
         table_total_weighted_collisions: photon activity block table total weighted collisions.
     """
 

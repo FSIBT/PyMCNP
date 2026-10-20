@@ -10,7 +10,7 @@ class Z(Boundary):
     Represents z boundary lines.
 
     Attributes:
-        label: z boundary line `    Z direction:` symbol.
+        label: z boundary line ``'    Z direction:'`` symbol.
         bins: z boundary line bins.
     """
 

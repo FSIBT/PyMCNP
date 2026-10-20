@@ -10,7 +10,7 @@ class Time(Boundary):
     Represents time boundary lines.
 
     Attributes:
-        label: time boundary line `    Time bin boundaries:  ` symbol.
+        label: time boundary line ``'    Time bin boundaries:  '`` symbol.
         bins: time boundary line bins.
     """
 

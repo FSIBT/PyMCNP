@@ -11,7 +11,7 @@ class Header(Block):
     Represents header blocks.
 
     Attributes:
-        magic: header block `   -1\n` symbol.
+        magic: header block ``'   -1\\n'`` symbol.
         code: header block `code` parameter.
         version: header block `version` parameter.
         code_date: header block code `date` parameter.

@@ -11,14 +11,14 @@ class StartingMcrun(Block):
 
     Attributes:
         name: startingmcrun block `1starting mcrun.` symbol.
-        cp0_preamble: startingmcrun block `      cp0 = ` symbol.
+        cp0_preamble: startingmcrun block ``'      cp0 = '`` symbol.
         cp0: startingmcrun block cp0.
-        print_preamble: startingmcrun block `                                                                       print table ` symbol.
+        print_preamble: startingmcrun block ``'                                                                       print table '`` symbol.
         print: startingmcrun block `110` symbol.
-        title_preamble: startingmcrun block `\\n\\n      ` symbol.
+        title_preamble: startingmcrun block ``'\\n\\n      '`` symbol.
         title: startingmcrun block title.
-        table_heading: startingmcrun block `\\n\\n\\n     nps    x          y          z          cell       surf     u          v          w        energy     weight      time` symbol.
-        table_body_preamble: startingmcrun block `\\n \\n` symbol.
+        table_heading: startingmcrun block ``'\\n\\n\\n     nps    x          y          z          cell       surf     u          v          w        energy     weight      time'`` symbol.
+        table_body_preamble: startingmcrun block ``'\\n \\n'`` symbol.
         table_body: startingmcrun block table body.
     """
 

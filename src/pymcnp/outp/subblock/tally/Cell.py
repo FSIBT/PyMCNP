@@ -23,14 +23,14 @@ class Cell(Tally):
     Represents cell subtally blocks.
 
     Attributes:
-        cell_number_preamble: cell subtally block ` cell  ` symbol.
+        cell_number_preamble: cell subtally block ``' cell  '`` symbol.
         cell_number: cell subtally block cell number.
-        table_heading: cell subtally block `\n      energy   ` symbol.
-        table_body_preamble: cell subtally block `\n\n` symbol.
+        table_heading: cell subtally block ``'\\n      energy   '`` symbol.
+        table_body_preamble: cell subtally block ``'\\n\\n'`` symbol.
         table_body: cell subtally block table body.
-        table_total_preamble: cell subtally block `\n      total      ` symbol.
+        table_total_preamble: cell subtally block ``'\\n      total      '`` symbol.
         table_total: cell subtally block table total.
-        table_footing: cell subtally block `\n ?\n` symbol.
+        table_footing: cell subtally block ``'\\n ?\\n'`` symbol.
     """
 
     spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)

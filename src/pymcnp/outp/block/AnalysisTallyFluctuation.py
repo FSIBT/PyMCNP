@@ -11,65 +11,65 @@ class AnalysisTallyFluctuation(Block):
 
     Attributes:
         name: analysis tally fluctuation block `1analysis of the results in the tally fluctuation chart bin (tfc)` symbol.
-        tally_preamble: analysis tally fluctuation block `for tally ` symbol.
+        tally_preamble: analysis tally fluctuation block ``'for tally '`` symbol.
         tally: analysis tally fluctuation block tally.
-        nps_preamble: analysis tally fluctuation block ` with nps = ` symbol.
+        nps_preamble: analysis tally fluctuation block ``' with nps = '`` symbol.
         nps: analysis tally fluctuation block nps.
-        print_preamble: analysis tally fluctuation block ` print table ` symbol.
+        print_preamble: analysis tally fluctuation block ``' print table '`` symbol.
         print: analysis tally fluctuation block `160` symbol.
-        normed_average_tally_per_history_preamble: analysis tally fluctuation block `\\n\\n\\n normed average tally per history  = ` symbol.
+        normed_average_tally_per_history_preamble: analysis tally fluctuation block ``'\\n\\n\\n normed average tally per history  = '`` symbol.
         normed_average_tally_per_history: analysis tally fluctuation block normed average tally per history.
-        unnormed_average_tally_per_history_preamble: analysis tally fluctuation block `          unnormed average tally per history  = ` symbol.
+        unnormed_average_tally_per_history_preamble: analysis tally fluctuation block ``'          unnormed average tally per history  = '`` symbol.
         unnormed_average_tally_per_history: analysis tally fluctuation block unnormed average tally per history.
-        estimated_tally_relative_error_preamble: analysis tally fluctuation block `\\n estimated tally relative error    = ` symbol.
+        estimated_tally_relative_error_preamble: analysis tally fluctuation block ``'\\n estimated tally relative error    = '`` symbol.
         estimated_tally_relative_error: analysis tally fluctuation block estimated tally relative error.
-        estimated_variance_variance_preamble: analysis tally fluctuation block `          estimated variance of the variance  = ` symbol.
+        estimated_variance_variance_preamble: analysis tally fluctuation block ``'          estimated variance of the variance  = '`` symbol.
         estimated_variance_variance: analysis tally fluctuation block estimated variance variance.
-        relative_error_zero_tallies_preamble: analysis tally fluctuation block `\\n relative error from zero tallies  = ` symbol.
+        relative_error_zero_tallies_preamble: analysis tally fluctuation block ``'\\n relative error from zero tallies  = '`` symbol.
         relative_error_zero_tallies: analysis tally fluctuation block relative error zero tallies.
-        relative_error_nonzero_scores_preamble: analysis tally fluctuation block `          relative error from nonzero scores  = ` symbol.
+        relative_error_nonzero_scores_preamble: analysis tally fluctuation block ``'          relative error from nonzero scores  = '`` symbol.
         relative_error_nonzero_scores: analysis tally fluctuation block relative error nonzero scores.
-        number_nonzero_history_tallies_preamble: analysis tally fluctuation block `\\n\\n number of nonzero history tallies = ` symbol.
+        number_nonzero_history_tallies_preamble: analysis tally fluctuation block ``'\\n\\n number of nonzero history tallies = '`` symbol.
         number_nonzero_history_tallies: analysis tally fluctuation block number nonzero history tallies.
-        efficiency_nonzero_tallies_preamble: analysis tally fluctuation block `          efficiency for the nonzero tallies  = ` symbol.
+        efficiency_nonzero_tallies_preamble: analysis tally fluctuation block ``'          efficiency for the nonzero tallies  = '`` symbol.
         efficiency_nonzero_tallies: analysis tally fluctuation block efficiency nonzero tallies.
         history_number_largest_tally_preamble: analysis tally fluctuation block history number largest tally preamble.
         history_number_largest_tally: analysis tally fluctuation block history number largest tally.
-        largest_unnormalized_history_tally_preamble: analysis tally fluctuation block `          largest  unnormalized history tally = ` symbol.
+        largest_unnormalized_history_tally_preamble: analysis tally fluctuation block ``'          largest  unnormalized history tally = '`` symbol.
         largest_unnormalized_history_tally: analysis tally fluctuation block largest unnormalized history tally.
-        largest_tally_per_average_tally_preamble: analysis tally fluctuation block `\\n (largest  tally[` symbol.
+        largest_tally_per_average_tally_preamble: analysis tally fluctuation block ``'\\n (largest  tally['`` symbol.
         largest_tally_per_average_tally: analysis tally fluctuation block largest tally per average tally.
-        largest_tally_per_average_nonzero_tally_preamble: analysis tally fluctuation block `          (largest  tally)` symbol.
+        largest_tally_per_average_nonzero_tally_preamble: analysis tally fluctuation block ``'          (largest  tally)'`` symbol.
         largest_tally_per_average_nonzero_tally: analysis tally fluctuation block largest tally per average nonzero tally.
-        confidence_interval_shift_per_mean_preamble: analysis tally fluctuation block `\n\n (confidence interval shift)` symbol.
+        confidence_interval_shift_per_mean_preamble: analysis tally fluctuation block ``'\\n\\n (confidence interval shift)'`` symbol.
         confidence_interval_shift_per_mean: analysis tally fluctuation block confidence interval shift per mean.
-        shifted_confidence_interval_center_preamble: analysis tally fluctuation block `          shifted confidence interval center  = ` symbol.
+        shifted_confidence_interval_center_preamble: analysis tally fluctuation block ``'          shifted confidence interval center  = '`` symbol.
         shifted_confidence_interval_center: analysis tally fluctuation block shifted confidence interval center.
-        table_preamble: analysis tally fluctuation block `\\n\\n\\n if the largest  history score sampled so far were to occur on the next history, the tfc bin quantities would change as follows:` symbol.
-        table_heading: analysis tally fluctuation block `\\n\\n      estimated quantities           value at nps           value at nps+1           value(nps+1)` symbol.
-        table_mean_preamble: analysis tally fluctuation block `\\n\\n      mean` symbol.
+        table_preamble: analysis tally fluctuation block ``'\\n\\n\\n if the largest  history score sampled so far were to occur on the next history, the tfc bin quantities would change as follows:'`` symbol.
+        table_heading: analysis tally fluctuation block ``'\\n\\n      estimated quantities           value at nps           value at nps+1           value(nps+1)'`` symbol.
+        table_mean_preamble: analysis tally fluctuation block ``'\\n\\n      mean'`` symbol.
         table_mean_nps: analysis tally fluctuation block table mean nps.
         table_mean_nps_plus: analysis tally fluctuation block table mean nps plus.
         table_mean_nps_times: analysis tally fluctuation block table mean nps times.
-        table_relative_error_preamble: analysis tally fluctuation block `\\n      relative error` symbol.
+        table_relative_error_preamble: analysis tally fluctuation block ``'\\n      relative error'`` symbol.
         table_relative_error: analysis tally fluctuation block table relative error.
         table_relative_error_plus: analysis tally fluctuation block table relative error plus.
         table_relative_error_times: analysis tally fluctuation block table relative error times.
-        table_variance_variance_preamble: analysis tally fluctuation block `\\n      variance of the variance` symbol.
+        table_variance_variance_preamble: analysis tally fluctuation block ``'\\n      variance of the variance'`` symbol.
         table_variance_variance: analysis tally fluctuation block table variance variance.
         table_variance_variance_plus: analysis tally fluctuation block table variance variance plus.
         table_variance_variance_times: analysis tally fluctuation block table variance variance times.
-        table_shifted_center_preamble: analysis tally fluctuation block `\\n      shifted center` symbol.
+        table_shifted_center_preamble: analysis tally fluctuation block ``'\\n      shifted center'`` symbol.
         table_shifted_center: analysis tally fluctuation block table shifted center.
         table_shifted_center_plus: analysis tally fluctuation block table shifted center plus.
         table_shifted_center_times: analysis tally fluctuation block table shifted center times.
-        table_figure_merit_preamble: analysis tally fluctuation block `\\n      figure of merit` symbol.
+        table_figure_merit_preamble: analysis tally fluctuation block ``'\\n      figure of merit'`` symbol.
         table_figure_merit: analysis tally fluctuation block table figure of merit.
         table_figure_merit_plus: analysis tally fluctuation block table figure of merit plus.
         table_figure_merit_times: analysis tally fluctuation block table figure of merit times.
-        message_preamble: analysis tally fluctuation block `\\n\\n` symbol.
+        message_preamble: analysis tally fluctuation block ``'\\n\\n'`` symbol.
         message: analysis tally fluctuation block message.
-        figure_merit_preamble: analysis tally fluctuation block `\\n fom = (histories/minute)` symbol.
+        figure_merit_preamble: analysis tally fluctuation block ``'\\n fom = (histories/minute)'`` symbol.
         figure_merit: analysis tally fluctuation block figure of merit.
     """
 
