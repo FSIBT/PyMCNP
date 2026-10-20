@@ -251,6 +251,5 @@ radiation protection, and detector development.
 # AI Usage Disclosure
 
 General artificial intelligence (claude-code) was used for additional
-code review and code fixes before the submission. Most of the code was
-written without the use of coding agents.
-
+code review, rewrite, and code fixes for version 0.10.0 and 1.0.0. Version 0.9
+an earlier were written without the use of coding agents and AI.
