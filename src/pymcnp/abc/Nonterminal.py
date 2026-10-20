@@ -12,6 +12,9 @@ from .Symbol import _excerpt
 from .Terminal import Terminal
 
 
+_EMPTY = Terminal[r'']
+
+
 def _space_null(fields: dict[str, tuple[type[Symbol], ...]]) -> set[str]:
     s = {'colon', 'prefix'}
     if 'colon' in fields:
@@ -124,7 +127,8 @@ def _field(name: str, kinds: tuple[type[Symbol], ...]) -> property:
         return getattr(self, name_private)
 
     def setter(self, value: typing.Any) -> None:
-        value = _parse_value(kinds, value)
+        if not isinstance(value, kinds):
+            value = _parse_value(kinds, value)
         setattr(self, name_private, value)
 
         # Validating if complete.
@@ -249,7 +253,7 @@ class Nonterminal(Symbol):
 
                 if (
                     pos != end  # Checking match is not complete.
-                    and not isinstance(parameters[name], Terminal[r''])  # Checking parameter is not empty.
+                    and not isinstance(parameters[name], _EMPTY)  # Checking parameter is not empty.
                     and cls._space is not None  # Checking if this consituent has spaces.
                     and name not in cls._null
                 ):
