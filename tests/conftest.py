@@ -117,7 +117,7 @@ def plot(outp: pymcnp.Outp) -> pymcnp.Plot:
 
 @pytest.fixture(scope='session')
 def run(inp: pymcnp.Inp) -> pymcnp.Run:
-    return pymcnp.Run((inp,), command="echo")
+    return pymcnp.Run((inp,), command='echo')
 
 
 @pytest.fixture(scope='session')

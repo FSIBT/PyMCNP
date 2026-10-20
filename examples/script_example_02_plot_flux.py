@@ -1,8 +1,8 @@
 """2D heatmap of the FMESH neutron flux at z = 30 cm, saved to script_example_02_output/flux.png.
 
-    python script_example_02_ground_model.py
-    pymcnp run -p script_example_02_output/run script_example_02_output/ground.inp
-    python script_example_02_plot_flux.py [meshtal_path]
+python script_example_02_ground_model.py
+pymcnp run -p script_example_02_output/run script_example_02_output/ground.inp
+python script_example_02_plot_flux.py [meshtal_path]
 """
 
 import glob

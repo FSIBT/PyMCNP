@@ -89,9 +89,7 @@ m_air = data.M.from_formula(suffix=4, formulas={'N2': 0.8, 'O2': 0.2}, is_weight
 sdef = data.Sdef(options=[f'POS=0 0 {SOURCE_Z}', f'ERG={SOURCE_ENERGY}', 'PAR=1'])  # isotropic by default
 nbin = int(2 * MESH_HALF / MESH_BIN)
 fmesh = data.Fmesh.from_mcnp(
-    f'FMESH4:N GEOM=REC ORIGIN={-MESH_HALF} {-MESH_HALF} {MESH_Z - MESH_THICK / 2} '
-    f'IMESH={MESH_HALF} IINTS={nbin} JMESH={MESH_HALF} JINTS={nbin} '
-    f'KMESH={MESH_Z + MESH_THICK / 2} KINTS=1\n'
+    f'FMESH4:N GEOM=REC ORIGIN={-MESH_HALF} {-MESH_HALF} {MESH_Z - MESH_THICK / 2} IMESH={MESH_HALF} IINTS={nbin} JMESH={MESH_HALF} JINTS={nbin} KMESH={MESH_Z + MESH_THICK / 2} KINTS=1\n'
 )[0]
 
 inp = pymcnp.Inp(

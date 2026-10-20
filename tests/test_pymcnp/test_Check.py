@@ -16,6 +16,7 @@ class Test_Check:
     def test_fix_valid(self, check: pymcnp.Check) -> None:
         check.fix()
 
+
 VALID = pathlib.Path(__file__).parents[2] / 'files' / 'inp' / 'valid_00.inp'
 SOURCE = 'Title\n1 0 -1 imp:n=1\n2 0 1 imp:n=0\n\n1 so 5\n\nnps 10\n\n'
 

@@ -12,8 +12,7 @@ for s in g.tile_surfaces:
     plotter.add_mesh(box, color='#b8b2a7', show_edges=True, edge_color='#8a857c', line_width=0.5)
 for s in g.disc_surfaces:
     h = float(s.h3)
-    disc = pyvista.Cylinder(center=(float(s.vx), float(s.vy), float(s.vz) + h / 2), direction=(0, 0, 1),
-                            radius=float(s.r), height=h, resolution=32)
+    disc = pyvista.Cylinder(center=(float(s.vx), float(s.vy), float(s.vz) + h / 2), direction=(0, 0, 1), radius=float(s.r), height=h, resolution=32)
     plotter.add_mesh(disc, color='#c0392b', smooth_shading=True)
 
 source = (0.0, 0.0, g.SOURCE_Z)
