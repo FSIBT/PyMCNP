@@ -3,8 +3,8 @@ import typing
 import pandas
 
 from ... import abc
-from ..Block import Block
 from .. import subblock
+from ..Block import Block
 
 
 class Tally(Block):
@@ -124,7 +124,7 @@ class Tally_0(Tally):
         table_passed_pdf_preamble: tally block `     ` symbol.
         table_passed_pdf: tally block table passed pdf.
         table_postamble: tally block table postamble.
-        confidence_interval_preamble: tally block `\\n\\n\\n this tally meets the statistical criteria used to form confidence intervals` symbol.
+        confidence_interval_preamble: tally block `\\n\\n\\n this tally meets the statistical criteria used to form confidence intervals.
         estimated_asymmetric_confidence_interval_preamble: tally block `\\n\\n estimated asymmetric confidence interval(1,2,3 sigma)` symbol.
         estimated_asymmetric_confidence_interval: tally block estimated asymmetric confidence interval.
         estimated_symmetric_confidence_interval_preamble: tally block `\\n estimated  symmetric confidence interval(1,2,3 sigma)` symbol.
@@ -444,7 +444,7 @@ class Tally_2(Tally):
         tally_type: tally block tally type.
         particles_preamble: tally block `\\n           particle(s)` symbol.
         particles: tally block particles.
-        surface_preamble: tally block `           areas   \\n                surface` symbol.
+        surface_preamble: tally block `           areas   \n                surface.
         surface_number: tally block surface number.
         surface_area_preamble: tally block `\\n                         ` symbol.
         surface_area: tally block surface area.
@@ -516,7 +516,7 @@ class Tally_2(Tally):
         table_passed_pdf_preamble: tally block `     ` symbol.
         table_passed_pdf: tally block table passed pdf.
         table_postamble: tally block table postamble.
-        confidence_interval_preamble: tally block `\\n\\n\\n this tally meets the statistical criteria used to form confidence intervals` symbol.
+        confidence_interval_preamble: tally block `\\n\\n\\n this tally meets the statistical criteria used to form confidence intervals.
         estimated_asymmetric_confidence_interval_preamble: tally block `\\n\\n estimated asymmetric confidence interval(1,2,3 sigma)` symbol.
         estimated_asymmetric_confidence_interval: tally block estimated asymmetric confidence interval.
         estimated_symmetric_confidence_interval_preamble: tally block `\\n estimated  symmetric confidence interval(1,2,3 sigma)` symbol.
@@ -643,7 +643,7 @@ class Tally_3(Tally):
         tally_type: tally block tally type.
         particles_preamble: tally block `\\n           particle(s)` symbol.
         particles: tally block particles.
-        surface_preamble: tally block `           areas   \\n                surface` symbol.
+        surface_preamble: tally block `           areas   \n                surface.
         surface_number: tally block surface number.
         surface_area_preamble: tally block `\\n                         ` symbol.
         surface_area: tally block surface area.
@@ -832,7 +832,7 @@ class Tally_4(Tally):
         tally_type: tally block tally type.
         particles_preamble: tally block `\\n           particle(s)` symbol.
         particles: tally block particles.
-        cell_preamble: tally block `           volumes \\n                   cell` symbol.
+        cell_preamble: tally block `           volumes \\n                   cell.
         cell_number: tally block cell number.
         cell_volume_preamble: tally block `\\n                         ` symbol.
         cell_volume: tally block cell volume.
@@ -904,7 +904,7 @@ class Tally_4(Tally):
         table_passed_pdf_preamble: tally block `     ` symbol.
         table_passed_pdf: tally block table passed pdf.
         table_postamble: tally block table postamble.
-        confidence_interval_preamble: tally block `\\n\\n\\n this tally meets the statistical criteria used to form confidence intervals` symbol.
+        confidence_interval_preamble: tally block `\\n\\n\\n this tally meets the statistical criteria used to form confidence intervals.
         estimated_asymmetric_confidence_interval_preamble: tally block `\\n\\n estimated asymmetric confidence interval(1,2,3 sigma)` symbol.
         estimated_asymmetric_confidence_interval: tally block estimated asymmetric confidence interval.
         estimated_symmetric_confidence_interval_preamble: tally block `\\n estimated  symmetric confidence interval(1,2,3 sigma)` symbol.
@@ -1035,7 +1035,7 @@ class Tally_5(Tally):
         tally_type: tally block tally type.
         particles_preamble: tally block `\\n           particle(s)` symbol.
         particles: tally block particles.
-        cell_preamble: tally block `\\n\\n           volumes \\n                   cell: ` symbol.
+        cell_preamble: tally block `\\n\\n           volumes \\n                   cell: `
         cell_number: tally block cell number.
         cell_volume_preamble: tally block `\\n                         ` symbol.
         cell_volume: tally block cell volume.
@@ -1296,7 +1296,7 @@ class Tally_6(Tally):
         table_passed_pdf_preamble: tally block `     ` symbol.
         table_passed_pdf: tally block table passed pdf.
         table_postamble: tally block table postamble.
-        confidence_interval_preamble: tally block `\\n\\n\\n this tally meets the statistical criteria used to form confidence intervals` symbol.
+        confidence_interval_preamble: tally block `\\n\\n\\n this tally meets the statistical criteria used to form confidence intervals.
         estimated_asymmetric_confidence_interval_preamble: tally block `\\n\\n estimated asymmetric confidence interval(1,2,3 sigma)` symbol.
         estimated_asymmetric_confidence_interval: tally block estimated asymmetric confidence interval.
         estimated_symmetric_confidence_interval_preamble: tally block `\\n estimated  symmetric confidence interval(1,2,3 sigma)` symbol.

@@ -1,9 +1,9 @@
+from .Cell import Cell
 from .Surface import Surface
 from .SurfaceAngle import SurfaceAngle
-from .Cell import Cell
 
 __all__ = (
+    'Cell',
     'Surface',
     'SurfaceAngle',
-    'Cell',
 )
