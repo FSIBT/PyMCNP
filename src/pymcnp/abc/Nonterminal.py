@@ -216,6 +216,23 @@ class Nonterminal(Symbol):
 
         return cls._forms[index]
 
+    def __deepcopy__(self, memo: dict[int, typing.Any]) -> typing.Self:
+        """
+        Deep copies nonterminal symbols.
+
+        Parameters:
+            memo: Memory for copy objects.
+        """
+
+        if id(self) in memo:
+            return memo[id(self)]
+            
+        clone = type(self).from_mcnp(self.to_mcnp())[0]
+        
+        memo[id(self)] = clone
+        
+        return clone
+
     @classmethod
     def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
         """
