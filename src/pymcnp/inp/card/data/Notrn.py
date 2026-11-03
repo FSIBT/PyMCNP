@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 
 from .... import abc
@@ -13,7 +12,5 @@ class Notrn(Data):
     Attributes:
         keyword: notrn data card `NOTRN` symbol.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'NOTRN'] | str = abc.Terminal[r'NOTRN']('NOTRN')

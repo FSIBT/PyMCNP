@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -27,10 +26,8 @@ class Ds_0(Ds):
         j: ds data card `j` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'DS'] | str = abc.Terminal[r'DS']('DS')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
     option: typing.Annotated[abc.Terminal, r'H|L|S'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
     j: (
         typing.Annotated[abc.Array, literal.Distribution | typing.Annotated[abc.Terminal, r'0'], None]
@@ -64,10 +61,8 @@ class Ds_1(Ds):
         i_j: ds data card `i_j` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'DS'] | str = abc.Terminal[r'DS']('DS')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
     t: typing.Annotated[abc.Terminal, r'T'] | str = abc.Terminal[r'T']('T')
     i_j: typing.Annotated[abc.Array, group.I_J, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[group.I_J | str] | str = abc.Terminal[r'']('')
 
@@ -96,10 +91,8 @@ class Ds_2(Ds):
         v_s: ds data card `v_s` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'DS'] | str = abc.Terminal[r'DS']('DS')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
     q: typing.Annotated[abc.Terminal, r'Q'] | str = abc.Terminal[r'Q']('Q')
     v_s: typing.Annotated[abc.Array, group.V_S, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[group.V_S | str] | str = abc.Terminal[r'']('')
 

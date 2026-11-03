@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from .... import abc
 from ..Cell import Cell
@@ -17,8 +16,6 @@ class Bflcl(Cell):
         x: bflcl cell option `x` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'BFLCL'] | str = abc.Terminal[r'BFLCL']('BFLCL')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    x: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    x: literal.Real | int | float | decimal.Decimal | str

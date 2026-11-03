@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from ..Fmesh import Fmesh
@@ -15,8 +14,6 @@ class Out(Fmesh):
         value: out fmesh data option `value` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'OUT'] | str = abc.Terminal[r'OUT']('OUT')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:COL|COLSCI|CF|CFSCI|IJ|IK|JK|NONE|XDMF)'] | str = dataclasses.field(kw_only=True)
+    value: typing.Annotated[abc.Terminal, r'(?:COL|COLSCI|CF|CFSCI|IJ|IK|JK|NONE|XDMF)'] | str

@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from ..Fmult import Fmult
@@ -18,9 +17,7 @@ class Watt(Fmult):
         b: watt fmult data option `b` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'WATT'] | str = abc.Terminal[r'WATT']('WATT')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    a: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    a: literal.Real | int | float | decimal.Decimal | str
+    b: literal.Real | int | float | decimal.Decimal | str

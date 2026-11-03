@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 
 from .... import abc
@@ -32,10 +31,8 @@ class Tf(Data):
         it2: tf data card `it2` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'TF'] | str = abc.Terminal[r'TF']('TF')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
     if1: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | str = literal.Jump('J')
     id1: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | str = literal.Jump('J')
     iu1: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | str = literal.Jump('J')

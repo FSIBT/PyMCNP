@@ -1,7 +1,6 @@
 import typing
 import decimal
 import collections
-import dataclasses
 
 
 from .... import abc
@@ -26,10 +25,8 @@ class Sb_0(Sb):
         b: sb data card `b` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'SB'] | str = abc.Terminal[r'SB']('SB')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
     option: typing.Annotated[abc.Terminal, r'D|C|V|W'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
     b: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Real | int | float | decimal.Decimal | str] | str = abc.Terminal[r''](
         ''
@@ -66,13 +63,11 @@ class Sb_1(Sb):
         b: sb data card `b` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'SB'] | str = abc.Terminal[r'SB']('SB')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    f: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    a: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
+    f: literal.Integer | int | str
+    a: literal.Real | int | float | decimal.Decimal | str
+    b: literal.Real | int | float | decimal.Decimal | str
 
     def __post_init__(self) -> None:
         """

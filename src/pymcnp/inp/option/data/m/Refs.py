@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from .... import literal
@@ -22,13 +21,11 @@ class Refs(M):
         c3: refs m data option `c3` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'REFS'] | str = abc.Terminal[r'REFS']('REFS')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    b1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    c1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    c2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b3: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    c3: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    b1: literal.Real | int | float | decimal.Decimal | str
+    c1: literal.Real | int | float | decimal.Decimal | str
+    b2: literal.Real | int | float | decimal.Decimal | str
+    c2: literal.Real | int | float | decimal.Decimal | str
+    b3: literal.Real | int | float | decimal.Decimal | str
+    c3: literal.Real | int | float | decimal.Decimal | str

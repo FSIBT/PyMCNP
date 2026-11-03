@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -16,8 +15,6 @@ class Mode(Data):
         keyword: mode data card `MODE` symbol.
         p: mode data card `p` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'MODE'] | str = abc.Terminal[r'MODE']('MODE')
     p: typing.Annotated[abc.Array, literal.Particle, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Particle | str] | str = abc.Terminal[r'']('')

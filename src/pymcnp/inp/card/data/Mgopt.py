@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -21,11 +20,9 @@ class Mgopt(Data):
         rim: mgopt data card `rim` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'MGOPT'] | str = abc.Terminal[r'MGOPT']('MGOPT')
-    mcal: typing.Annotated[abc.Terminal, r'F|A'] | str = dataclasses.field(kw_only=True)
-    igm: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    mcal: typing.Annotated[abc.Terminal, r'F|A'] | str
+    igm: literal.Integer | int | str
     iplt: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | str = literal.Jump('J')
     isb: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | str = literal.Jump('J')
     icw: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | str = literal.Jump('J')

@@ -6,9 +6,6 @@ import dataclasses
 
 import numpy
 
-if typing.TYPE_CHECKING:
-    import pymcnp
-
 
 T = typing.TypeVar('T')
 
@@ -35,7 +32,7 @@ class Visualization(abc.ABC, typing.Generic[T]):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def __add__(a: typing.Self, b: typing.Self) -> typing.Self:
+    def __add__(a, b: Visualization) -> Visualization:
         """
         Merges visualizations, `a` and `b`.
 
@@ -50,7 +47,7 @@ class Visualization(abc.ABC, typing.Generic[T]):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def __and__(a: typing.Self, b: typing.Self) -> typing.Self:
+    def __and__(a, b: Visualization) -> Visualization:
         """
         Intersects visualizations, `a` and `b`.
 
@@ -65,7 +62,7 @@ class Visualization(abc.ABC, typing.Generic[T]):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def __or__(a: typing.Self, b: typing.Self) -> typing.Self:
+    def __or__(a, b: Visualization) -> Visualization:
         """
         Unites visualizations, `a` and `b`.
 
@@ -79,7 +76,7 @@ class Visualization(abc.ABC, typing.Generic[T]):
 
         raise NotImplementedError
 
-    def __invert__(self) -> typing.Self:
+    def __invert__(self) -> Visualization:
         """
         Negates visualizations.
 
@@ -293,7 +290,7 @@ class Endpoint(abc.ABC):
     BOUND: typing.Final[float]
     RESOLUTION: typing.Final[int]
     Visualization: typing.Final[type[Visualization]]
-    Box: typing.Final[type[pymcnp.abc.Box]]
+    Box: typing.Final[type[Box]]
     ConeTruncated: typing.Final[type[ConeTruncated]]
     ConeUnbounded: typing.Final[type[ConeUnbounded]]
     CylinderCircular: typing.Final[type[CylinderCircular]]

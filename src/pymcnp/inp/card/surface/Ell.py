@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 import numpy
 
@@ -27,18 +26,16 @@ class Ell(Surface):
         r: ell surface card `r` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    j: literal.Integer | int | str
     keyword: typing.Annotated[abc.Terminal, r'ELL'] | str = abc.Terminal[r'ELL']('ELL')
-    v1x: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    v1y: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    v1z: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    v2x: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    v2y: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    v2z: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    r: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    v1x: literal.Real | int | float | decimal.Decimal | str
+    v1y: literal.Real | int | float | decimal.Decimal | str
+    v1z: literal.Real | int | float | decimal.Decimal | str
+    v2x: literal.Real | int | float | decimal.Decimal | str
+    v2y: literal.Real | int | float | decimal.Decimal | str
+    v2z: literal.Real | int | float | decimal.Decimal | str
+    r: literal.Real | int | float | decimal.Decimal | str
 
     def __post_init__(self) -> None:
         """

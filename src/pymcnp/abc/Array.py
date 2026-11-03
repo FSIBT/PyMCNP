@@ -67,10 +67,6 @@ class Space(Terminal):
 CACHE: dict[tuple[typing.Any, typing.Any], type[Array]] = {}
 
 
-def _rebuild(kind: type[Array], items: list[Symbol], spaces: list[Symbol]) -> Array:
-    return kind(*items, spaces=spaces)
-
-
 class Array(Symbol, list):
     """
     Represents arrays of symbols.
@@ -97,7 +93,7 @@ class Array(Symbol, list):
         if len(cls._space) == 0:
             raise Error('`Array._space` must be nonempty.', f'{cls._space=}')
 
-    def __init__(self, *items: Symbol, spaces: collections.abc.Sequence[Symbol] | None = None) -> None:
+    def __init__(self, *items: Symbol, spaces: collections.abc.Sequence[Terminal] | None = None) -> None:
         """
         Constructs `Array`.
 
@@ -153,32 +149,41 @@ class Array(Symbol, list):
         return CACHE[parameters]
 
     @classmethod
-    def _from(cls, source: str, pos: int) -> tuple[typing.Self, int]:
+    def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
+        """
+        Compiles source strings into their corresponding arrays of symbols.
+
+        Parameters:
+            source: Source string to compile.
+
+        Returns:
+            List of symbols corresponding to `source`.
+        """
+
+        assert isinstance(source, str)
+
         spaces: list[Terminal] = []
         parameters: list[Symbol] = []
-        before_space = pos
         while True:
             try:
-                parse = _parse(cls._kind, source, pos)
+                parse = _parse(cls._kind, source)
             except Error:
                 if spaces:
-                    spaces.pop(-1)
-                    pos = before_space
+                    source = spaces.pop(-1).to_mcnp() + source
                 break
 
             parameters.append(parse[0])
-            pos = parse[1]
+            source = parse[1]
 
             if cls._space is not None:
-                before_space = pos
                 try:
-                    parse = _parse(cls._space, source, pos)
+                    parse = _parse(cls._space, source)
                 except Error:
                     break
                 spaces.append(typing.cast(Terminal, parse[0]))
-                pos = parse[1]
+                source = parse[1]
 
-        return cls(*parameters, spaces=spaces), pos
+        return cls(*parameters, spaces=spaces), source
 
     def to_mcnp(self) -> str:
         """
@@ -190,10 +195,6 @@ class Array(Symbol, list):
 
         return ''.join(itertools.chain.from_iterable(itertools.zip_longest((item.to_mcnp() for item in self), self.spaces, fillvalue='')))
 
-    def __reduce__(self) -> tuple[typing.Any, ...]:
-        # The default list reconstruction replays `append`, which would add a second set of spaces.
-        return _rebuild, (type(self), list(self), self.spaces)
-
     def append(self, item: typing.Any) -> None:
         """
         Appends to array.
@@ -203,6 +204,5 @@ class Array(Symbol, list):
         """
 
         super().append(item)
-        if len(self) > 1:
-            space = type(self)._space[0](type(self)._space[0]._default or '' if len(type(self)._space) > 0 else '')
-            self.spaces.append(space)
+        space = type(self)._space[0](type(self)._space[0]._default or '' if len(type(self)._space) > 0 else '')
+        self.spaces.append(space)

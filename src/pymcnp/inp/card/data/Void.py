@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -16,8 +15,6 @@ class Void(Data):
         keyword: void data card `VOID` symbol.
         c: void data card `c` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'VOID'] | str = abc.Terminal[r'VOID']('VOID')
     c: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')

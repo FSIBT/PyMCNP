@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from ..Sdef import Sdef
@@ -16,8 +15,6 @@ class Ccc(Sdef):
         x: ccc sdef data option `x` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'CCC'] | str = abc.Terminal[r'CCC']('CCC')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    x: literal.Integer | literal.Distribution | literal.DependentDistribution | int | str = dataclasses.field(kw_only=True)
+    x: literal.Integer | literal.Distribution | literal.DependentDistribution | int | str

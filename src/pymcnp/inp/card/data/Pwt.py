@@ -1,7 +1,6 @@
 import typing
 import decimal
 import collections
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -17,12 +16,10 @@ class Pwt(Data):
         w: pwt data card `w` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'PWT'] | str = abc.Terminal[r'PWT']('PWT')
     w: (
         typing.Annotated[abc.Array, literal.Real | literal.Jump, None]
         | typing.Annotated[abc.Terminal, r'']
         | collections.abc.Sequence[literal.Real | literal.Jump | int | float | decimal.Decimal | str]
         | str
-    ) = dataclasses.field(kw_only=True)
+    )

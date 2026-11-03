@@ -1,7 +1,6 @@
 import typing
 import decimal
 import collections
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -18,8 +17,6 @@ class Vol(Data):
         x: vol data card `x` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'VOL'] | str = abc.Terminal[r'VOL']('VOL')
     no: typing.Annotated[abc.Terminal, r'NO'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
     x: (
@@ -27,4 +24,4 @@ class Vol(Data):
         | typing.Annotated[abc.Terminal, r'']
         | collections.abc.Sequence[literal.Real | literal.Jump | int | float | decimal.Decimal | str]
         | str
-    ) = dataclasses.field(kw_only=True)
+    )

@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -22,8 +21,6 @@ class Kcode(Data):
         mrkp: kcode data card `mrkp` parameter.
         kc8: kcode data card `kc8` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'KCODE'] | str = abc.Terminal[r'KCODE']('KCODE')
     nsrck: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | str = literal.Jump('J')

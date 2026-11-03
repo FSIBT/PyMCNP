@@ -1,7 +1,6 @@
 import typing
 import decimal
 import collections
-import dataclasses
 
 from ..... import abc
 from .... import literal
@@ -17,8 +16,6 @@ class Erg(Ksen):
         equals: erg ksen data option `=` symbol.
         e: erg ksen data option `e` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'ERG'] | str = abc.Terminal[r'ERG']('ERG')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

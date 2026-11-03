@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from .... import literal
@@ -14,8 +13,6 @@ class Fns(Ft):
         id: fns group `FNS` symbol.
         nt: fns group `nt` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     id: typing.Annotated[abc.Terminal, r'FNS'] | str = abc.Terminal[r'FNS']('FNS')
     nt: literal.Integer | typing.Annotated[abc.Terminal, r''] | int | str = abc.Terminal[r'']('')

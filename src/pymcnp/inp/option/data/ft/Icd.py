@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from ..Ft import Ft
@@ -12,7 +11,5 @@ class Icd(Ft):
     Attributes:
         id: icd group `ICD` symbol.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     id: typing.Annotated[abc.Terminal, r'ICD'] | str = abc.Terminal[r'ICD']('ICD')

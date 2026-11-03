@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from ..Sdef import Sdef
@@ -17,8 +16,6 @@ class X(Sdef):
         x: x sdef data option `x` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'X'] | str = abc.Terminal[r'X']('X')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    x: literal.Real | literal.Distribution | literal.DependentDistribution | literal.EmbeddedDistribution | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    x: literal.Real | literal.Distribution | literal.DependentDistribution | literal.EmbeddedDistribution | int | float | decimal.Decimal | str

@@ -1,7 +1,6 @@
 import typing
 import decimal
 import collections
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -16,8 +15,6 @@ class Thtme(Data):
         keyword: thtme data card `THTME` symbol.
         t: thtme data card `t` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'THTME'] | str = abc.Terminal[r'THTME']('THTME')
     t: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Real | int | float | decimal.Decimal | str] | str = abc.Terminal[r''](

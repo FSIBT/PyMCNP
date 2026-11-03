@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ... import abc
 from .Distribution import Distribution
@@ -15,6 +14,6 @@ class DependentDistribution(abc.Nonterminal):
         distribution: dependent distribution literal `distribution` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'F(?:CEL|SUR|ERG|TME|DIR|VEC|NRM|POS|RAD|EXT|AXS|X|Y|Z|CCC|ARA|WGT|TR|EFF|PAR|DAT|LOC|BEM|BAP)'] | str = dataclasses.field(kw_only=True)
+    keyword: typing.Annotated[abc.Terminal, r'F(?:CEL|SUR|ERG|TME|DIR|VEC|NRM|POS|RAD|EXT|AXS|X|Y|Z|CCC|ARA|WGT|TR|EFF|PAR|DAT|LOC|BEM|BAP)'] | str
     equals: typing.Annotated[abc.Terminal, r'=| ']
-    distribution: Distribution | str = dataclasses.field(kw_only=True)
+    distribution: Distribution | str

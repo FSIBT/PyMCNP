@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -20,9 +19,7 @@ class Esplt(Data):
         r_e: esplt data card `r_e` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'ESPLT'] | str = abc.Terminal[r'ESPLT']('ESPLT')
     colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str = dataclasses.field(kw_only=True)
+    particle: literal.Particle | str
     r_e: typing.Annotated[abc.Array, group.EspltEntry, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[group.EspltEntry | str] | str = abc.Terminal[r'']('')

@@ -8,11 +8,7 @@ from .Array import Array
 from .Array import _parse_hint
 from .Symbol import Symbol
 from .Symbol import _parse
-from .Symbol import _excerpt
 from .Terminal import Terminal
-
-
-_EMPTY = Terminal[r'']
 
 
 def _space_null(fields: dict[str, tuple[type[Symbol], ...]]) -> set[str]:
@@ -78,12 +74,12 @@ def _parse_value(kinds: tuple[type[Symbol], ...], value: typing.Any) -> Symbol:
 
     # Compiling `str`s into symbols
     if isinstance(value, str):
-        match, _ = _parse(kinds, value, 0)
+        match, _ = _parse(kinds, value)
         return match
 
     # Compiling `int`s, `float`d, `decimal.Decimal`s into symbols.
     if isinstance(value, (int, float, decimal.Decimal)):
-        match, _ = _parse(kinds, str(value), 0)
+        match, _ = _parse(kinds, str(value))
         return match
 
     # Compiling non-string sequences into symbols.
@@ -121,26 +117,22 @@ def _field(name: str, kinds: tuple[type[Symbol], ...]) -> property:
     assert all(isinstance(kind, type) and issubclass(kind, Symbol) for kind in kinds)
 
     name_private: str = f'_{name}'
-    missing = dataclasses.MISSING
 
     def getter(self) -> typing.Any:
         return getattr(self, name_private)
 
     def setter(self, value: typing.Any) -> None:
-        if not isinstance(value, kinds):
-            value = _parse_value(kinds, value)
+        value = _parse_value(kinds, value)
         setattr(self, name_private, value)
 
         # Validating if complete.
-        for private in type(self)._privates:
-            if getattr(self, private) is missing:
-                return
-        self.__post_init__()
+        if dataclasses.MISSING not in [getattr(self, field) for field in type(self)._fields]:
+            self.__post_init__()
 
     return property(getter, setter)
 
 
-@typing.dataclass_transform(kw_only=True)
+@typing.dataclass_transform(kw_only_default=True)
 class Nonterminal(Symbol):
     """
     Represents nonterminal symbols.
@@ -154,10 +146,6 @@ class Nonterminal(Symbol):
     _space: typing.ClassVar[tuple[type[Terminal], ...]] = (Terminal[r''],)
     _forms: typing.ClassVar[tuple[type[typing.Self], ...]] = ()
     _fields: typing.ClassVar[dict[str, tuple[type[Symbol], ...]]] = {}
-    _privates: typing.ClassVar[tuple[str, ...]] = ()
-    _null: typing.ClassVar[frozenset[str]] = frozenset()
-    _nullable: typing.ClassVar[frozenset[str]] = frozenset()
-    _end: typing.ClassVar[frozenset[str]] = frozenset()
 
     def __post_init__(self) -> None:
         # Checks `__init__` if multi-form nonterminal.
@@ -195,10 +183,6 @@ class Nonterminal(Symbol):
         cls._space = cls._space if cls._space is not dataclasses.MISSING else (Terminal[r''],)
         cls._forms = ()
         cls._fields = fields_ordered
-        cls._privates = tuple(f'_{name}' for name in fields_ordered)
-        cls._null = frozenset(_space_null(fields_ordered))
-        cls._nullable = frozenset(_space_nullable(fields_ordered))
-        cls._end = frozenset(_space_end(fields_ordered))
 
         # Creating `dataclasses.Dataclass`.
         cls.__annotations__ = fields_missing | fields_default | {'spaces': dict[str, Symbol]}
@@ -233,42 +217,55 @@ class Nonterminal(Symbol):
         return cls._forms[index]
 
     @classmethod
-    def _from(cls, source: str, pos: int) -> tuple[typing.Self, int]:
+    def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
+        """
+        Compiles source strings into their corresponding nonterminal symbols.
+
+        Parameters:
+            source: Source string to compile.
+
+        Returns:
+            Nonterminal symbol corresponding to `source`.
+
+        Raises:
+            Error: Expected symbol.
+            Error: Expected space.
+        """
+
+        assert isinstance(source, str)
+
         # Compiling mono-form nonterminal.
         if len(cls._forms) == 0:
             spaces: dict[str, Terminal] = {}
             parameters: dict[str, Symbol] = {}
-            end = len(source)
-            space_end: dict[str, int] = {}
 
             # Iterating over consituents.
             for name, kinds in cls._fields.items():
                 try:
-                    parse = _parse(kinds, source, pos)
+                    parse = _parse(kinds, source)
                     parameters[name] = parse[0]
-                    pos = parse[1]
+                    source = parse[1]
                 except Error as err:
-                    err.append(Error(f'Expected `{cls.__name__}.{name}`.', _excerpt(source, pos)))
+                    err.append(Error(f'Expected `{cls.__name__}.{name}`.', f'{source=}'))
+                    # print(err)
                     raise err
 
                 if (
-                    pos != end  # Checking match is not complete.
-                    and not isinstance(parameters[name], _EMPTY)  # Checking parameter is not empty.
+                    source != ''  # Checking match is not complete.
+                    and not isinstance(parameters[name], Terminal[r''])  # Checking parameter is not empty.
                     and cls._space is not None  # Checking if this consituent has spaces.
-                    and name not in cls._null
+                    and name not in _space_null(cls._fields)
                 ):
                     try:
-                        before = pos
-                        parse = _parse(cls._space, source, pos)
+                        parse = _parse(cls._space, source)
                         spaces[name] = typing.cast(Terminal, parse[0])
-                        space_end[name] = before
-                        pos = parse[1]
+                        source = parse[1]
                     except Error as err:
-                        if name not in cls._nullable:  # Checking consituent is not space null.
-                            err.append(Error(f'Expected `{"` `".join(Space.__name__ for Space in cls._space)}.{name}`.', _excerpt(source, pos)))
+                        if name not in _space_nullable(cls._fields):  # Checking consituent is not space null.
+                            err.append(Error(f'Expected `{"` `".join(Space.__name__ for Space in cls._space)}.{name}`.', f'{source=}'))
                             raise err
                         else:
-                            if name in cls._end:  # Checking consituent is not last when null.
+                            if name in _space_end(cls._fields):  # Checking consituent is not last when null.
                                 break
                             else:
                                 spaces[name] = typing.cast(Terminal, '')
@@ -283,20 +280,18 @@ class Nonterminal(Symbol):
 
             try:
                 if last is not None and last in spaces:
-                    spaces.pop(last)
-                    if last in space_end:
-                        pos = space_end[last]
-                return cls(**(parameters | {'spaces': spaces})), pos
+                    source = str(spaces.pop(last)) + source
+                return cls(**(parameters | {'spaces': spaces})), source
             except TypeError:
-                raise Error(f'Expected `{cls.__name__}.{name}`.', _excerpt(source, pos))
+                raise Error(f'Expected `{cls.__name__}.{name}`.', f'{source=}')
 
         # Compiling multi-form nonterminal.
         else:
             try:
-                parse = _parse(cls._forms, source, pos)
-                return typing.cast(tuple[typing.Self, int], parse)
+                parse = _parse(cls._forms, source)
+                return typing.cast(tuple[typing.Self, str], parse)
             except Error as err:
-                err.append(Error(f'Expected `{cls.__name__}`.', _excerpt(source, pos)))
+                err.append(Error(f'Expected `{cls.__name__}`.', f'{source=}'))
                 raise err
 
     def to_mcnp(self) -> str:
@@ -308,7 +303,7 @@ class Nonterminal(Symbol):
         """
 
         Space = type(self)._space[0]
-        null = type(self)._null
+        null = _space_null(type(self)._fields)
 
         last: str | None = None
         for field in reversed(type(self)._fields.keys()):

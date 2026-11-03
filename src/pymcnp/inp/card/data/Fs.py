@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 from .... import abc
@@ -19,10 +18,8 @@ class Fs(Data):
         c: fs data card `C` symbol.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'FS'] | str = abc.Terminal[r'FS']('FS')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
     s: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')
     t: typing.Annotated[abc.Terminal, r'T'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
     c: typing.Annotated[abc.Terminal, r'C'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

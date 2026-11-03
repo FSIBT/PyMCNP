@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -20,5 +19,3 @@ class Awtab(Data):
 
     keyword: typing.Annotated[abc.Terminal, r'AWTAB'] | str = abc.Terminal[r'AWTAB']('AWTAB')
     z_a: typing.Annotated[abc.Array, group.Constituent, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[group.Constituent | str] | str = abc.Terminal[r'']('')
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)

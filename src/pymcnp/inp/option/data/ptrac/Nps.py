@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -17,8 +16,6 @@ class Nps(Ptrac):
         equals: nps ptrac data option `=` symbol.
         n: nps ptrac data option `n` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'NPS'] | str = abc.Terminal[r'NPS']('NPS')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

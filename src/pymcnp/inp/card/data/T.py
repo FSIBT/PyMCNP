@@ -1,7 +1,6 @@
 import typing
 import decimal
 import collections
-import dataclasses
 
 
 from .... import abc
@@ -28,10 +27,8 @@ class T_0(T):
         c: t data card `C` symbol.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'T'] | str = abc.Terminal[r'T']('T')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
     t: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Real | int | float | decimal.Decimal | str] | str = abc.Terminal[r''](
         ''
     )
@@ -62,10 +59,8 @@ class T_1(T):
         options: t data card `options` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'T'] | str = abc.Terminal[r'T']('T')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
     options: typing.Annotated[abc.Array, option.data.T, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.T | str] | str = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:

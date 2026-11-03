@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import dataclasses
 
 from ... import abc
 from ... import _show
@@ -12,8 +11,6 @@ class Surface(Card):
     """
     Represents surface cards.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     def __and__(a: Surface, b: Surface) -> literal.Geometry:
         """

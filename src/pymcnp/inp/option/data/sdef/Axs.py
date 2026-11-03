@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from ..Sdef import Sdef
@@ -25,13 +24,11 @@ class Axs_0(Axs):
         z: axs sdef data option `z` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'AXS'] | str = abc.Terminal[r'AXS']('AXS')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    x: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    y: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    z: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    x: literal.Real | int | float | decimal.Decimal | str
+    y: literal.Real | int | float | decimal.Decimal | str
+    z: literal.Real | int | float | decimal.Decimal | str
 
 
 class Axs_1(Axs):
@@ -44,8 +41,6 @@ class Axs_1(Axs):
         value: axs sdef data option `value` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'AXS'] | str = abc.Terminal[r'AXS']('AXS')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Distribution | literal.DependentDistribution | str = dataclasses.field(kw_only=True)
+    value: literal.Distribution | literal.DependentDistribution | str

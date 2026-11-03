@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from ..Act import Act
@@ -17,8 +16,6 @@ class Thresh(Act):
         f: thresh act data option `f` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'THRESH'] | str = abc.Terminal[r'THRESH']('THRESH')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    f: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    f: literal.Real | int | float | decimal.Decimal | str

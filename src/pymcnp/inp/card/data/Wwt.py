@@ -1,7 +1,6 @@
 import typing
 import decimal
 import collections
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -19,11 +18,9 @@ class Wwt(Data):
         t: wwt data card `t` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'WWT'] | str = abc.Terminal[r'WWT']('WWT')
     colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str = dataclasses.field(kw_only=True)
+    particle: literal.Particle | str
     t: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Real | int | float | decimal.Decimal | str] | str = abc.Terminal[r''](
         ''
     )

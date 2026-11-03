@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -18,8 +17,6 @@ class Leb(Data):
         yzero: leb data card `yzero` parameter.
         bzero: leb data card `bzero` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'LEB'] | str = abc.Terminal[r'LEB']('LEB')
     yzere: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')

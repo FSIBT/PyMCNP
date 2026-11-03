@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from .... import literal
@@ -17,8 +16,6 @@ class Power(Burn):
         pwr: power burn data option `pwr` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'POWER'] | str = abc.Terminal[r'POWER']('POWER')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    pwr: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    pwr: literal.Real | int | float | decimal.Decimal | str

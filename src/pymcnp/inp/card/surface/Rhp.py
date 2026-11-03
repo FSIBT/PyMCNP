@@ -1,7 +1,6 @@
 import math
 import typing
 import decimal
-import dataclasses
 
 import numpy
 
@@ -42,26 +41,24 @@ class Rhp_0(Rhp):
         t3: rhp surface card `t3` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    j: literal.Integer | int | str
     keyword: typing.Annotated[abc.Terminal, r'(?:RHP|HEX)'] | str = abc.Terminal[r'(?:RHP|HEX)']('RHP')
-    vx: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    vy: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    vz: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    h1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    h2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    h3: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    r1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    r2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    r3: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    s1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    s2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    s3: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    t1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    t2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    t3: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    vx: literal.Real | int | float | decimal.Decimal | str
+    vy: literal.Real | int | float | decimal.Decimal | str
+    vz: literal.Real | int | float | decimal.Decimal | str
+    h1: literal.Real | int | float | decimal.Decimal | str
+    h2: literal.Real | int | float | decimal.Decimal | str
+    h3: literal.Real | int | float | decimal.Decimal | str
+    r1: literal.Real | int | float | decimal.Decimal | str
+    r2: literal.Real | int | float | decimal.Decimal | str
+    r3: literal.Real | int | float | decimal.Decimal | str
+    s1: literal.Real | int | float | decimal.Decimal | str
+    s2: literal.Real | int | float | decimal.Decimal | str
+    s3: literal.Real | int | float | decimal.Decimal | str
+    t1: literal.Real | int | float | decimal.Decimal | str
+    t2: literal.Real | int | float | decimal.Decimal | str
+    t3: literal.Real | int | float | decimal.Decimal | str
 
     def __post_init__(self) -> None:
         """
@@ -124,19 +121,17 @@ class Rhp_1(Rhp):
         r3: rhp surface card `r3` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
-    j: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    j: literal.Integer | int | str
     keyword: typing.Annotated[abc.Terminal, r'(?:RHP|HEX)'] | str = abc.Terminal[r'(?:RHP|HEX)']('RHP')
-    vx: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    vy: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    vz: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    h1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    h2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    h3: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    r1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    r2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    r3: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    vx: literal.Real | int | float | decimal.Decimal | str
+    vy: literal.Real | int | float | decimal.Decimal | str
+    vz: literal.Real | int | float | decimal.Decimal | str
+    h1: literal.Real | int | float | decimal.Decimal | str
+    h2: literal.Real | int | float | decimal.Decimal | str
+    h3: literal.Real | int | float | decimal.Decimal | str
+    r1: literal.Real | int | float | decimal.Decimal | str
+    r2: literal.Real | int | float | decimal.Decimal | str
+    r3: literal.Real | int | float | decimal.Decimal | str
 
     def __post_init__(self) -> None:
         """

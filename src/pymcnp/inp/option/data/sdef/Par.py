@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from ..Sdef import Sdef
@@ -16,8 +15,6 @@ class Par(Sdef):
         m: par sdef data option `m` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'PAR'] | str = abc.Terminal[r'PAR']('PAR')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
     m: (
@@ -28,4 +25,4 @@ class Par(Sdef):
             abc.Terminal, r'(?:-?CR)|(?:-?CH)|(?:-?C1001)|(?:-?CA)|(?:-?C2004)|(?:-?C7014)|(?:-?C14028)|(?:-?C26056)|(?:-?BG)|(?:-?BN)|(?:-?BP)|(?:-?SF)|(?:SN)|(?:SP)|(?:SB)|(?:ST)|(?:SA)|(?:SD)'
         ]
         | str
-    ) = dataclasses.field(kw_only=True)
+    )

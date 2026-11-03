@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -24,18 +23,16 @@ class Hsrc(Data):
         zmax: hsrc data card `zmax` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'HSRC'] | str = abc.Terminal[r'HSRC']('HSRC')
-    nx: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    xmin: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    xmax: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    ny: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    ymin: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    ymax: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    nz: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    zmin: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    zmax: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    nx: literal.Integer | int | str
+    xmin: literal.Real | int | float | decimal.Decimal | str
+    xmax: literal.Real | int | float | decimal.Decimal | str
+    ny: literal.Integer | int | str
+    ymin: literal.Real | int | float | decimal.Decimal | str
+    ymax: literal.Real | int | float | decimal.Decimal | str
+    nz: literal.Integer | int | str
+    zmin: literal.Real | int | float | decimal.Decimal | str
+    zmax: literal.Real | int | float | decimal.Decimal | str
 
     def __post_init__(self) -> None:
         """

@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 from .... import abc
@@ -18,10 +17,8 @@ class Embed(Data):
         options: embed data card `options` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'EMBED'] | str = abc.Terminal[r'EMBED']('EMBED')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
     options: typing.Annotated[abc.Array, option.data.Embed, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Embed | str] | str = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:

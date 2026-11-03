@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 from .... import abc
@@ -24,12 +23,10 @@ class Fill_0(Fill):
         n: fill cell option `n` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
     keyword: typing.Annotated[abc.Terminal, r'FILL'] | str = abc.Terminal[r'FILL']('FILL')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    n: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    n: literal.Integer | int | str
 
     def __post_init__(self) -> None:
         """
@@ -58,14 +55,12 @@ class Fill_1(Fill):
         parenthesis_close: fill cell option `)` symbol.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
     keyword: typing.Annotated[abc.Terminal, r'FILL'] | str = abc.Terminal[r'FILL']('FILL')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    n: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    n: literal.Integer | int | str
     parenthesis_open: typing.Annotated[abc.Terminal, r'\('] | str = abc.Terminal[r'\(']('(')
-    q: group.Rotation | literal.Integer | int | str = dataclasses.field(kw_only=True)
+    q: group.Rotation | literal.Integer | int | str
     parenthesis_close: typing.Annotated[abc.Terminal, r'\)'] | str = abc.Terminal[r'\)'](')')
 
     def __post_init__(self) -> None:
@@ -101,13 +96,11 @@ class Fill_2(Fill):
         nijk: fill cell option `nijk` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'FILL'] | str = abc.Terminal[r'FILL']('FILL')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    i: literal.LatticeRange | str = dataclasses.field(kw_only=True)
-    j: literal.LatticeRange | str = dataclasses.field(kw_only=True)
-    k: literal.LatticeRange | str = dataclasses.field(kw_only=True)
+    i: literal.LatticeRange | str
+    j: literal.LatticeRange | str
+    k: literal.LatticeRange | str
     nijk: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')
 
 
@@ -133,14 +126,12 @@ class Fill_3(Fill):
         parenthesis_close: fill cell option `)` symbol.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'FILL'] | str = abc.Terminal[r'FILL']('FILL')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    i: literal.LatticeRange | str = dataclasses.field(kw_only=True)
-    j: literal.LatticeRange | str = dataclasses.field(kw_only=True)
-    k: literal.LatticeRange | str = dataclasses.field(kw_only=True)
+    i: literal.LatticeRange | str
+    j: literal.LatticeRange | str
+    k: literal.LatticeRange | str
     nijk: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')
     parenthesis_open: typing.Annotated[abc.Terminal, r'\('] | str = abc.Terminal[r'\(']('(')
-    q: group.Rotation | literal.Integer | int | str = dataclasses.field(kw_only=True)
+    q: group.Rotation | literal.Integer | int | str
     parenthesis_close: typing.Annotated[abc.Terminal, r'\)'] | str = abc.Terminal[r'\)'](')')

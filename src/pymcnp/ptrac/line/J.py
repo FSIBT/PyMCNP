@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ... import abc
 from ..Line import Line
@@ -23,14 +22,12 @@ class J_0(J):
         mat: j line `mat` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
-    blank: typing.Annotated[abc.Terminal, r' '] = dataclasses.field(kw_only=True)
-    type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:0[1-9]|1\d|2[0-6]|3[0-4])'] = dataclasses.field(kw_only=True)
-    pbl: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
-    nsr: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
-    ncl: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
-    mat: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
+    blank: typing.Annotated[abc.Terminal, r' ']
+    type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:0[1-9]|1\d|2[0-6]|3[0-4])']
+    pbl: typing.Annotated[abc.Terminal, r'.{10}']
+    nsr: typing.Annotated[abc.Terminal, r'.{10}']
+    ncl: typing.Annotated[abc.Terminal, r'.{10}']
+    mat: typing.Annotated[abc.Terminal, r'.{10}']
 
 
 class J_1(J):
@@ -46,15 +43,13 @@ class J_1(J):
         mat: j line `mat` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
-    blank: typing.Annotated[abc.Terminal, r' '] = dataclasses.field(kw_only=True)
-    type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:0[1-9]|1\d|2[0-6]|3[0-4])'] = dataclasses.field(kw_only=True)
-    node: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
-    nsr__nsx_nsf_nter: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
-    ncl__ipt__ntyn_mtp_angle_branch: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
-    mat__ncl: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
-    ncp__mat: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
+    blank: typing.Annotated[abc.Terminal, r' ']
+    type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:0[1-9]|1\d|2[0-6]|3[0-4])']
+    node: typing.Annotated[abc.Terminal, r'.{10}']
+    nsr__nsx_nsf_nter: typing.Annotated[abc.Terminal, r'.{10}']
+    ncl__ipt__ntyn_mtp_angle_branch: typing.Annotated[abc.Terminal, r'.{10}']
+    mat__ncl: typing.Annotated[abc.Terminal, r'.{10}']
+    ncp__mat: typing.Annotated[abc.Terminal, r'.{10}']
 
 
 class J_2(J):
@@ -71,16 +66,14 @@ class J_2(J):
         mat: j line `mat` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
-    blank: typing.Annotated[abc.Terminal, r' '] = dataclasses.field(kw_only=True)
-    type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:0[1-9]|1\d|2[0-6]|3[0-4])'] = dataclasses.field(kw_only=True)
-    node: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
-    nsr__nsx_nsf_nter: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
-    ipt__ntyn_mtp_angle_branch: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
-    ncl__ipt: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
-    mat__ncl: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
-    ncp__mat: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
+    blank: typing.Annotated[abc.Terminal, r' ']
+    type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:0[1-9]|1\d|2[0-6]|3[0-4])']
+    node: typing.Annotated[abc.Terminal, r'.{10}']
+    nsr__nsx_nsf_nter: typing.Annotated[abc.Terminal, r'.{10}']
+    ipt__ntyn_mtp_angle_branch: typing.Annotated[abc.Terminal, r'.{10}']
+    ncl__ipt: typing.Annotated[abc.Terminal, r'.{10}']
+    mat__ncl: typing.Annotated[abc.Terminal, r'.{10}']
+    ncp__mat: typing.Annotated[abc.Terminal, r'.{10}']
 
 
 class J_3(J):
@@ -98,14 +91,12 @@ class J_3(J):
         ncp: j line `ncp` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
-    blank: typing.Annotated[abc.Terminal, r' '] = dataclasses.field(kw_only=True)
-    type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:0[1-9]|1\d|2[0-6]|3[0-4])'] = dataclasses.field(kw_only=True)
-    node: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
-    nsx_nsf_nter: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
-    ntyn_mtp_angle_branch: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
-    ipt: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
-    ncl: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
-    mat: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
-    ncp: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
+    blank: typing.Annotated[abc.Terminal, r' ']
+    type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:0[1-9]|1\d|2[0-6]|3[0-4])']
+    node: typing.Annotated[abc.Terminal, r'.{10}']
+    nsx_nsf_nter: typing.Annotated[abc.Terminal, r'.{10}']
+    ntyn_mtp_angle_branch: typing.Annotated[abc.Terminal, r'.{10}']
+    ipt: typing.Annotated[abc.Terminal, r'.{10}']
+    ncl: typing.Annotated[abc.Terminal, r'.{10}']
+    mat: typing.Annotated[abc.Terminal, r'.{10}']
+    ncp: typing.Annotated[abc.Terminal, r'.{10}']

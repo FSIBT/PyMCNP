@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ... import abc
 from ..Group import Group
@@ -24,12 +23,10 @@ class SpecialTreatment_0(SpecialTreatment):
         v3: specialtreatment group `v3` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     id: typing.Annotated[abc.Terminal, r'FRV'] | str = abc.Terminal[r'FRV']('FRV')
-    v1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    v2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    v3: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    v1: literal.Real | int | float | decimal.Decimal | str
+    v2: literal.Real | int | float | decimal.Decimal | str
+    v3: literal.Real | int | float | decimal.Decimal | str
 
 
 class SpecialTreatment_1(SpecialTreatment):
@@ -43,12 +40,10 @@ class SpecialTreatment_1(SpecialTreatment):
         c: specialtreatment group `c` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     id: typing.Annotated[abc.Terminal, r'GEB'] | str = abc.Terminal[r'GEB']('GEB')
-    a: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    c: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    a: literal.Real | int | float | decimal.Decimal | str
+    b: literal.Real | int | float | decimal.Decimal | str
+    c: literal.Real | int | float | decimal.Decimal | str
 
 
 class SpecialTreatment_2(SpecialTreatment):
@@ -61,11 +56,9 @@ class SpecialTreatment_2(SpecialTreatment):
         b: specialtreatment group `b` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     id: typing.Annotated[abc.Terminal, r'TMC'] | str = abc.Terminal[r'TMC']('TMC')
-    a: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    a: literal.Real | int | float | decimal.Decimal | str
+    b: literal.Real | int | float | decimal.Decimal | str
 
 
 class SpecialTreatment_3(SpecialTreatment):
@@ -75,8 +68,6 @@ class SpecialTreatment_3(SpecialTreatment):
     Attributes:
         id: specialtreatment group `INC` symbol.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     id: typing.Annotated[abc.Terminal, r'INC'] | str = abc.Terminal[r'INC']('INC')
 
@@ -88,8 +79,6 @@ class SpecialTreatment_4(SpecialTreatment):
     Attributes:
         id: specialtreatment group `ICD` symbol.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     id: typing.Annotated[abc.Terminal, r'ICD'] | str = abc.Terminal[r'ICD']('ICD')
 
@@ -103,10 +92,8 @@ class SpecialTreatment_5(SpecialTreatment):
         k: specialtreatment group `k` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     id: typing.Annotated[abc.Terminal, r'SCX'] | str = abc.Terminal[r'SCX']('SCX')
-    k: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    k: literal.Integer | int | str
 
 
 class SpecialTreatment_6(SpecialTreatment):
@@ -116,8 +103,6 @@ class SpecialTreatment_6(SpecialTreatment):
     Attributes:
         id: specialtreatment group `SCD` symbol.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     id: typing.Annotated[abc.Terminal, r'SCD'] | str = abc.Terminal[r'SCD']('SCD')
 
@@ -131,10 +116,8 @@ class SpecialTreatment_7(SpecialTreatment):
         c: specialtreatment group `c` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     id: typing.Annotated[abc.Terminal, r'ELC'] | str = abc.Terminal[r'ELC']('ELC')
-    c: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    c: literal.Integer | int | str
 
 
 class SpecialTreatment_8(SpecialTreatment):
@@ -144,8 +127,6 @@ class SpecialTreatment_8(SpecialTreatment):
     Attributes:
         id: specialtreatment group `CAP` symbol.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     id: typing.Annotated[abc.Terminal, r'CAP'] | str = abc.Terminal[r'CAP']('CAP')
 
@@ -159,10 +140,8 @@ class SpecialTreatment_9(SpecialTreatment):
         a: specialtreatment group `a` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     id: typing.Annotated[abc.Terminal, r'TAG'] | str = abc.Terminal[r'TAG']('TAG')
-    a: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    a: literal.Integer | int | str
 
 
 class SpecialTreatment_10(SpecialTreatment):
@@ -172,8 +151,6 @@ class SpecialTreatment_10(SpecialTreatment):
     Attributes:
         id: specialtreatment group `LET` symbol.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     id: typing.Annotated[abc.Terminal, r'LET'] | str = abc.Terminal[r'LET']('LET')
 
@@ -187,10 +164,8 @@ class SpecialTreatment_11(SpecialTreatment):
         nhb: specialtreatment group `nhb` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     id: typing.Annotated[abc.Terminal, r'ROC'] | str = abc.Terminal[r'ROC']('ROC')
-    nhb: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    nhb: literal.Real | int | float | decimal.Decimal | str
 
 
 class SpecialTreatment_12(SpecialTreatment):
@@ -202,10 +177,8 @@ class SpecialTreatment_12(SpecialTreatment):
         c: specialtreatment group `c` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     id: typing.Annotated[abc.Terminal, r'PDS'] | str = abc.Terminal[r'PDS']('PDS')
-    c: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    c: literal.Integer | int | str
 
 
 class SpecialTreatment_13(SpecialTreatment):
@@ -217,10 +190,8 @@ class SpecialTreatment_13(SpecialTreatment):
         lkji: specialtreatment group `lkji` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     id: typing.Annotated[abc.Terminal, r'FFT'] | str = abc.Terminal[r'FFT']('FFT')
-    lkji: typing.Annotated[abc.Terminal, r'[01]{4}'] | str = dataclasses.field(kw_only=True)
+    lkji: typing.Annotated[abc.Terminal, r'[01]{4}'] | str
 
 
 class SpecialTreatment_14(SpecialTreatment):
@@ -233,11 +204,9 @@ class SpecialTreatment_14(SpecialTreatment):
         a: specialtreatment group `a` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     id: typing.Annotated[abc.Terminal, r'COM'] | str = abc.Terminal[r'COM']('COM')
-    t: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    a: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    t: literal.Integer | int | str
+    a: literal.Integer | int | str
 
 
 class SpecialTreatment_15(SpecialTreatment):
@@ -248,8 +217,6 @@ class SpecialTreatment_15(SpecialTreatment):
         id: specialtreatment group `MGC` symbol.
         fg: specialtreatment group `fg` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     id: typing.Annotated[abc.Terminal, r'MGC'] | str = abc.Terminal[r'MGC']('MGC')
     fg: literal.Real | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = abc.Terminal[r'']('')
@@ -264,8 +231,6 @@ class SpecialTreatment_16(SpecialTreatment):
         nt: specialtreatment group `nt` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     id: typing.Annotated[abc.Terminal, r'FNS'] | str = abc.Terminal[r'FNS']('FNS')
     nt: literal.Integer | typing.Annotated[abc.Terminal, r''] | int | str = abc.Terminal[r'']('')
 
@@ -278,8 +243,6 @@ class SpecialTreatment_17(SpecialTreatment):
         id: specialtreatment group `LCS` symbol.
         lo: specialtreatment group `lo` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     id: typing.Annotated[abc.Terminal, r'LCS'] | str = abc.Terminal[r'LCS']('LCS')
     lo: literal.Real | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = abc.Terminal[r'']('')

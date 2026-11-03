@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from ..Bfld import Bfld
@@ -17,8 +16,6 @@ class Mxdeflc(Bfld):
         a: mxdeflc bfld data option `a` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'MXDEFLC'] | str = abc.Terminal[r'MXDEFLC']('MXDEFLC')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    a: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    a: literal.Real | int | float | decimal.Decimal | str

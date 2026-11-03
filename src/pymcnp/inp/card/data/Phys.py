@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 
 from .... import abc
@@ -34,8 +33,6 @@ class Phys_0(Phys):
         i_int_model: phys data card `i_int_model` parameter.
         i_els_model: phys data card `i_els_model` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'PHYS:N'] | str = abc.Terminal[r'PHYS:N']('PHYS:N')
     emax: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
@@ -96,8 +93,6 @@ class Phys_1(Phys):
         fism: phys data card `fism` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'PHYS:P'] | str = abc.Terminal[r'PHYS:P']('PHYS:P')
     emcpf: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
     ides: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
@@ -154,8 +149,6 @@ class Phys_2(Phys):
         electron_method_boundary: phys data card `electron_method_boundary` parameter.
         ckvnum: phys data card `ckvnum` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'PHYS:E'] | str = abc.Terminal[r'PHYS:E']('PHYS:E')
     emax: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
@@ -245,8 +238,6 @@ class Phys_3(Phys):
         drp: phys data card `drp` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'PHYS:H'] | str = abc.Terminal[r'PHYS:H']('PHYS:H')
     emax: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
     ean: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
@@ -329,11 +320,9 @@ class Phys_4(Phys):
         drp: phys data card `drp` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'PHYS'] | str = abc.Terminal[r'PHYS']('PHYS')
     colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str = dataclasses.field(kw_only=True)
+    particle: literal.Particle | str
     emax: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
     j_0: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
     j_1: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')

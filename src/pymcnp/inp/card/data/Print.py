@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -16,8 +15,6 @@ class Print(Data):
         keyword: print data card `PRINT` symbol.
         x: print data card `x` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'PRINT'] | str = abc.Terminal[r'PRINT']('PRINT')
     x: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')

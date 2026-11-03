@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from .... import literal
@@ -16,8 +15,6 @@ class Hstep(M):
         n: hstep m data option `n` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'HSTEP'] | str = abc.Terminal[r'HSTEP']('HSTEP')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    n: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    n: literal.Integer | int | str

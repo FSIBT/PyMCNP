@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from ..Sdef import Sdef
@@ -16,8 +15,6 @@ class Sur(Sdef):
         s: sur sdef data option `s` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'SUR'] | str = abc.Terminal[r'SUR']('SUR')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    s: literal.Integer | literal.Distribution | literal.DependentDistribution | int | str = dataclasses.field(kw_only=True)
+    s: literal.Integer | literal.Distribution | literal.DependentDistribution | int | str

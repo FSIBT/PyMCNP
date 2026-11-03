@@ -3,7 +3,6 @@ from __future__ import annotations
 import re
 import abc as _abc
 import typing
-import dataclasses
 
 from ... import abc
 from ... import _show
@@ -25,7 +24,7 @@ class _Primary(_Subexpression):
 
 
 class _Primary_1(_Primary):
-    ast: _Number = dataclasses.field(kw_only=True)
+    ast: _Number
 
     def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista, is_cell: bool = False) -> abc.Visualization:
         # assert isinstance(surfaces, dict)
@@ -48,7 +47,7 @@ class _Primary_1(_Primary):
 
 class _Complement(_Subexpression):
     operator: typing.Annotated[abc.Terminal, r'#'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
-    ast: _Primary = dataclasses.field(kw_only=True)
+    ast: _Primary
 
     def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista, is_cell: bool = False) -> abc.Visualization:
         if isinstance(self.ast, _Primary_1):
@@ -62,8 +61,8 @@ class _IntersectionPrime(_Subexpression):
 
 
 class _Intersection(_Subexpression):
-    ast_left: _Complement = dataclasses.field(kw_only=True)
-    ast_right: _IntersectionPrime = dataclasses.field(kw_only=True)
+    ast_left: _Complement
+    ast_right: _IntersectionPrime
 
     def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista, is_cell: bool = False) -> abc.Visualization:
         if isinstance(self.ast_right, (_IntersectionPrime_0, _IntersectionPrime_1)):
@@ -77,8 +76,8 @@ class _UnionPrime(_Subexpression):
 
 
 class _Union(_Subexpression):
-    ast_left: _Intersection = dataclasses.field(kw_only=True)
-    ast_right: _UnionPrime = dataclasses.field(kw_only=True)
+    ast_left: _Intersection
+    ast_right: _UnionPrime
 
     def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista, is_cell: bool = False) -> abc.Visualization:
         if isinstance(self.ast_right, _UnionPrime_0):
@@ -89,12 +88,12 @@ class _Union(_Subexpression):
 
 class _IntersectionPrime_0(_IntersectionPrime):
     operator: typing.Annotated[abc.Terminal, r' *(?:\$.+)?\n {1,5} *| +&\n +| +'] = abc.Terminal[r' *(?:\$.+)?\n {1,5} *| +&\n +| +'](' ')
-    ast: _Intersection = dataclasses.field(kw_only=True)
+    ast: _Intersection
 
 
 class _IntersectionPrime_1(_IntersectionPrime):
     operator_left: typing.Annotated[abc.Terminal, r'\('] = abc.Terminal[r'\(']('(')
-    ast: _Union = dataclasses.field(kw_only=True)
+    ast: _Union
     operator_right: typing.Annotated[abc.Terminal, r'\)'] = abc.Terminal[r'\)'](')')
 
 
@@ -104,7 +103,7 @@ class _IntersectionPrime_2(_IntersectionPrime):
 
 class _UnionPrime_0(_UnionPrime):
     operator: typing.Annotated[abc.Terminal, r' *: *'] = abc.Terminal[r' *: *'](':')
-    ast: _Union = dataclasses.field(kw_only=True)
+    ast: _Union
 
 
 class _UnionPrime_1(_UnionPrime):
@@ -113,7 +112,7 @@ class _UnionPrime_1(_UnionPrime):
 
 class _Primary_0(_Primary):
     operator_left: typing.Annotated[abc.Terminal, r'\('] = abc.Terminal[r'\(']('(')
-    ast: _Union = dataclasses.field(kw_only=True)
+    ast: _Union
     operator_right: typing.Annotated[abc.Terminal, r'\)'] = abc.Terminal[r'\)'](')')
 
     def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista, is_cell: bool = False) -> abc.Visualization:
@@ -152,9 +151,7 @@ class Geometry(_Subexpression):
         ast: geometry literal `ast` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
-    ast: _Union | str = dataclasses.field(kw_only=True)
+    ast: _Union | str
 
     def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista, is_cell: bool = False) -> abc.Visualization:
         """

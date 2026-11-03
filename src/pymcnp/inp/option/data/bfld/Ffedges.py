@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -17,8 +16,6 @@ class Ffedges(Bfld):
         equals: ffedges bfld data option `=` symbol.
         s: ffedges bfld data option `s` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'FFEDGES'] | str = abc.Terminal[r'FFEDGES']('FFEDGES')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

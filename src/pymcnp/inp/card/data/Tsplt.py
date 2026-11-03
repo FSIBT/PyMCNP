@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -20,9 +19,7 @@ class Tsplt(Data):
         r_t: tsplt data card `r_t` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'TSPLT'] | str = abc.Terminal[r'TSPLT']('TSPLT')
     colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str = dataclasses.field(kw_only=True)
+    particle: literal.Particle | str
     r_t: typing.Annotated[abc.Array, group.TspltEntry, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[group.TspltEntry | str] | str = abc.Terminal[r'']('')

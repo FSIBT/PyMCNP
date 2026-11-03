@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from ..Embed import Embed
@@ -15,8 +14,6 @@ class Meein(Embed):
         filename: meein embed data option `filename` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'MEEIN'] | str = abc.Terminal[r'MEEIN']('MEEIN')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    filename: typing.Annotated[abc.Terminal, r'\S+'] | str = dataclasses.field(kw_only=True)
+    filename: typing.Annotated[abc.Terminal, r'\S+'] | str

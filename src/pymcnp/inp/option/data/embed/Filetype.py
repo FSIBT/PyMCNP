@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from ..Embed import Embed
@@ -15,8 +14,6 @@ class Filetype(Embed):
         type: filetype embed data option `type` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'FILETYPE'] | str = abc.Terminal[r'FILETYPE']('FILETYPE')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    type: typing.Annotated[abc.Terminal, r'(?:ASCII|BINARY)'] | str = dataclasses.field(kw_only=True)
+    type: typing.Annotated[abc.Terminal, r'(?:ASCII|BINARY)'] | str

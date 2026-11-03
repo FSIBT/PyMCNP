@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from ..Bfld import Bfld
@@ -17,8 +16,6 @@ class Maxstep(Bfld):
         ss: maxstep bfld data option `ss` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'MAXSTEP'] | str = abc.Terminal[r'MAXSTEP']('MAXSTEP')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    ss: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    ss: literal.Real | int | float | decimal.Decimal | str

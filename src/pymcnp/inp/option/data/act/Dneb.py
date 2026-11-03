@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -17,8 +16,6 @@ class Dneb(Act):
         equals: dneb act data option `=` symbol.
         value: dneb act data option `value` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'DNEB'] | str = abc.Terminal[r'DNEB']('DNEB')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

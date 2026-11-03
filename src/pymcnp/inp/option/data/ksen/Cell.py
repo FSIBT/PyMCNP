@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -17,8 +16,6 @@ class Cell(Ksen):
         equals: cell ksen data option `=` symbol.
         c: cell ksen data option `c` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'CELL'] | str = abc.Terminal[r'CELL']('CELL')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

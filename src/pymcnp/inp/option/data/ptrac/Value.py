@@ -1,7 +1,6 @@
 import typing
 import decimal
 import collections
-import dataclasses
 
 from ..... import abc
 from ..Ptrac import Ptrac
@@ -17,8 +16,6 @@ class Value(Ptrac):
         equals: value ptrac data option `=` symbol.
         value: value ptrac data option `value` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'VALUE'] | str = abc.Terminal[r'VALUE']('VALUE')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

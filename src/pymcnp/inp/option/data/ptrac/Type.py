@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -17,8 +16,6 @@ class Type(Ptrac):
         equals: type ptrac data option `=` symbol.
         value: type ptrac data option `value` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'TYPE'] | str = abc.Terminal[r'TYPE']('TYPE')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

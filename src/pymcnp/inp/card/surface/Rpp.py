@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 
 from .... import abc
@@ -25,17 +24,15 @@ class Rpp(Surface):
         zmax: rpp surface card `zmax` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    j: literal.Integer | int | str
     keyword: typing.Annotated[abc.Terminal, r'RPP'] | str = abc.Terminal[r'RPP']('RPP')
-    xmin: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    xmax: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    ymin: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    ymax: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    zmin: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    zmax: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    xmin: literal.Real | int | float | decimal.Decimal | str
+    xmax: literal.Real | int | float | decimal.Decimal | str
+    ymin: literal.Real | int | float | decimal.Decimal | str
+    ymax: literal.Real | int | float | decimal.Decimal | str
+    zmin: literal.Real | int | float | decimal.Decimal | str
+    zmax: literal.Real | int | float | decimal.Decimal | str
 
     def __post_init__(self) -> None:
         """

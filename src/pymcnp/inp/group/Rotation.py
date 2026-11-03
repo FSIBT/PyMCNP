@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ... import abc
 from ..Group import Group
@@ -33,20 +32,18 @@ class Rotation_0(Rotation):
         m: rotation group `m` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
-    o1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    o2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    o3: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    xx: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    yx: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    zx: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    xy: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    yy: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    zy: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    xz: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    yz: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    zz: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    o1: literal.Real | int | float | decimal.Decimal | str
+    o2: literal.Real | int | float | decimal.Decimal | str
+    o3: literal.Real | int | float | decimal.Decimal | str
+    xx: literal.Real | int | float | decimal.Decimal | str
+    yx: literal.Real | int | float | decimal.Decimal | str
+    zx: literal.Real | int | float | decimal.Decimal | str
+    xy: literal.Real | int | float | decimal.Decimal | str
+    yy: literal.Real | int | float | decimal.Decimal | str
+    zy: literal.Real | int | float | decimal.Decimal | str
+    xz: literal.Real | int | float | decimal.Decimal | str
+    yz: literal.Real | int | float | decimal.Decimal | str
+    zz: literal.Real | int | float | decimal.Decimal | str
     m: literal.Real | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = abc.Terminal[r'']('')
 
 
@@ -67,17 +64,15 @@ class Rotation_1(Rotation):
         m: rotation group `m` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
-    o1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    o2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    o3: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    xx: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    yx: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    zx: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    xy: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    yy: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    zy: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    o1: literal.Real | int | float | decimal.Decimal | str
+    o2: literal.Real | int | float | decimal.Decimal | str
+    o3: literal.Real | int | float | decimal.Decimal | str
+    xx: literal.Real | int | float | decimal.Decimal | str
+    yx: literal.Real | int | float | decimal.Decimal | str
+    zx: literal.Real | int | float | decimal.Decimal | str
+    xy: literal.Real | int | float | decimal.Decimal | str
+    yy: literal.Real | int | float | decimal.Decimal | str
+    zy: literal.Real | int | float | decimal.Decimal | str
     m: literal.Real | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = abc.Terminal[r'']('')
 
 
@@ -97,16 +92,14 @@ class Rotation_2(Rotation):
         m: rotation group `m` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
-    o1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    o2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    o3: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    xx: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    yx: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    zx: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    xy: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    yy: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    o1: literal.Real | int | float | decimal.Decimal | str
+    o2: literal.Real | int | float | decimal.Decimal | str
+    o3: literal.Real | int | float | decimal.Decimal | str
+    xx: literal.Real | int | float | decimal.Decimal | str
+    yx: literal.Real | int | float | decimal.Decimal | str
+    zx: literal.Real | int | float | decimal.Decimal | str
+    xy: literal.Real | int | float | decimal.Decimal | str
+    yy: literal.Real | int | float | decimal.Decimal | str
     m: literal.Real | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = abc.Terminal[r'']('')
 
 
@@ -124,14 +117,12 @@ class Rotation_3(Rotation):
         m: rotation group `m` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
-    o1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    o2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    o3: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    xx: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    yx: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    zx: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    o1: literal.Real | int | float | decimal.Decimal | str
+    o2: literal.Real | int | float | decimal.Decimal | str
+    o3: literal.Real | int | float | decimal.Decimal | str
+    xx: literal.Real | int | float | decimal.Decimal | str
+    yx: literal.Real | int | float | decimal.Decimal | str
+    zx: literal.Real | int | float | decimal.Decimal | str
     m: literal.Real | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = abc.Terminal[r'']('')
 
 
@@ -146,9 +137,7 @@ class Rotation_4(Rotation):
         m: rotation group `m` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
-    o1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    o2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    o3: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    o1: literal.Real | int | float | decimal.Decimal | str
+    o2: literal.Real | int | float | decimal.Decimal | str
+    o3: literal.Real | int | float | decimal.Decimal | str
     m: literal.Real | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = abc.Terminal[r'']('')

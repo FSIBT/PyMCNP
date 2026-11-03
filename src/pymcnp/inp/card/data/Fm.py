@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from .... import abc
 from ..Data import Data
@@ -17,12 +16,10 @@ class Fm(Data):
         bins: fm data card `bins` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     prefix: typing.Annotated[abc.Terminal, r'[*+]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
     keyword: typing.Annotated[abc.Terminal, r'FM'] | str = abc.Terminal[r'FM']('FM')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    bins: typing.Annotated[abc.Terminal, r'[^\s$](?:[^$\n]*[^\s$])?(?:\n {1,5}[^\s$](?:[^$\n]*[^\s$])?)*'] | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
+    bins: typing.Annotated[abc.Terminal, r'[^\s$](?:[^$\n]*[^\s$])?(?:\n {1,5}[^\s$](?:[^$\n]*[^\s$])?)*'] | str
 
     def __post_init__(self) -> None:
         """

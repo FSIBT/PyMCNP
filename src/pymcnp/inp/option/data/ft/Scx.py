@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from .... import literal
@@ -15,7 +14,5 @@ class Scx(Ft):
         k: scx group `k` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     id: typing.Annotated[abc.Terminal, r'SCX'] | str = abc.Terminal[r'SCX']('SCX')
-    k: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    k: literal.Integer | int | str

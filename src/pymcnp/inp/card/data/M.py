@@ -1,6 +1,5 @@
 import typing
 import collections
-import dataclasses
 
 import molmass
 
@@ -23,10 +22,8 @@ class M(Data):
         options: m data card `options` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'M'] | str = abc.Terminal[r'M']('M')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
     z_f: typing.Annotated[abc.Array, option.data.M | group.Constituent, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.M | group.Constituent | str] | str = (
         abc.Terminal[r'']('')
     )

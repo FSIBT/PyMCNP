@@ -11,17 +11,6 @@ class Symbol(abc.ABC):
 
     @classmethod
     @abc.abstractmethod
-    def _from(cls, source: str, pos: int) -> tuple[typing.Self, int]:
-        """
-        Compiles `source` starting at `pos` into the corresponding symbol.
-
-        Returns:
-            Symbol and the position in `source` after it.
-        """
-
-        raise NotImplementedError
-
-    @classmethod
     def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
         """
         Compiles source strings into their corresponding symbols.
@@ -30,13 +19,10 @@ class Symbol(abc.ABC):
             source: Source string to compile.
 
         Returns:
-            Symbol corresponding to `source` and the unparsed remainder.
+            Symbol corresponding to `source`.
         """
 
-        assert isinstance(source, str)
-
-        symbol, pos = cls._from(source, 0)
-        return symbol, source[pos:]
+        raise NotImplementedError
 
     @abc.abstractmethod
     def to_mcnp(self) -> str:
@@ -57,15 +43,7 @@ class Symbol(abc.ABC):
         return self.to_mcnp()
 
 
-def _excerpt(source: str, pos: int) -> str:
-    """
-    Shortens `source` from `pos` for error messages.
-    """
-
-    return f'source={source[pos : pos + 80]!r}'
-
-
-def _parse(kinds: tuple[type[Symbol], ...], source: str, pos: int) -> tuple[Symbol, int]:
+def _parse(kinds: tuple[type[Symbol], ...], source: str) -> tuple[Symbol, str]:
     """
     Matches `source` to symbol in `kinds`.
 
@@ -80,20 +58,18 @@ def _parse(kinds: tuple[type[Symbol], ...], source: str, pos: int) -> tuple[Symb
     """
 
     assert isinstance(kinds, tuple)
+    assert all(isinstance(kind, type) and issubclass(kind, Symbol) for kind in kinds)
     assert isinstance(source, str)
-
-    if len(kinds) == 1:
-        return kinds[0]._from(source, pos)
 
     # Searching for longest match.
     error: Error | None = None
-    longest: tuple[Symbol | None, int] = (None, pos)
+    longest: tuple[Symbol | None, str] = (None, source)
     for kind in kinds:
         try:
-            parse = kind._from(source, pos)
+            parse = kind.from_mcnp(source)
 
             # Updating `longest`.
-            if longest[0] is None or parse[1] > longest[1]:
+            if longest[0] is None or len(parse[0].to_mcnp()) > len(longest[0].to_mcnp()):
                 longest = parse
         except Error as err:
             if error is None:

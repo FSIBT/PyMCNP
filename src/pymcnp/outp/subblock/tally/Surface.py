@@ -1,6 +1,5 @@
 import re
 import typing
-import dataclasses
 
 import pandas
 
@@ -23,25 +22,23 @@ class Surface(Tally):
     Represents surface subtally blocks.
 
     Attributes:
-        surface_number_preamble: surface subtally block ``'      surface'`` symbol.
+        surface_number_preamble: surface subtally block `      surface` symbol.
         surface_number: surface subtally block surface number.
-        table_heading: surface subtally block ``'\\n        time   '`` symbol.
-        table_body_preamble: surface subtally block ``'\\n\\n'`` symbol.
+        table_heading: surface subtally block `\\n        time   ` symbol.
+        table_body_preamble: surface subtally block `\\n\\n` symbol.
         table_body: surface subtally block table body.
-        table_total_preamble: surface subtally block ``'\\n      total      '`` symbol.
+        table_total_preamble: surface subtally block `\\n      total      ` symbol.
         table_total: surface subtally block table total.
-        table_footing: surface subtally block ``'\\n ?\\n'`` symbol.
+        table_footing: surface subtally block `\\n ?\\n` symbol.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     surface_number_preamble: typing.Annotated[abc.Terminal, r'      surface:'] = abc.Terminal[r'      surface:']('      surface:')
-    surface_number: typing.Annotated[abc.Terminal, r'.+(?=\n|\Z)'] = dataclasses.field(kw_only=True)
+    surface_number: typing.Annotated[abc.Terminal, r'.+(?=\n|\Z)']
     table_heading: typing.Annotated[abc.Terminal, r'\n        time   '] = abc.Terminal[r'\n        time   ']('\n        time   ')
     table_body_preamble: typing.Annotated[abc.Terminal, r'\n'] = abc.Terminal[r'\n']('\n')
     table_body: typing.Annotated[abc.Array, line.Tally, Space] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
     table_total_preamble: typing.Annotated[abc.Terminal, r'\n      total      '] = abc.Terminal[r'\n      total      ']('\n      total      ')
-    table_total: typing.Annotated[abc.Terminal, r'.+(?=\n|\Z)'] = dataclasses.field(kw_only=True)
+    table_total: typing.Annotated[abc.Terminal, r'.+(?=\n|\Z)']
     table_footing: typing.Annotated[abc.Terminal, r'\n ?\n'] = abc.Terminal[r'\n ?\n']('\n\n')
 
     def to_dataframe(self) -> pandas.DataFrame:

@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -16,8 +15,6 @@ class Dawwg(Data):
         keyword: dawwg data card `DAWWG` symbol.
         options: dawwg data card `options` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'DAWWG'] | str = abc.Terminal[r'DAWWG']('DAWWG')
     options: typing.Annotated[abc.Array, option.data.Dawwg, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Dawwg | str] | str = abc.Terminal[r'']('')

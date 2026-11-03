@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from ..Bfld import Bfld
@@ -19,10 +18,8 @@ class Axs(Bfld):
         wq: axs bfld data option `wq` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'AXS'] | str = abc.Terminal[r'AXS']('AXS')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    uq: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    vq: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    wq: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    uq: literal.Real | int | float | decimal.Decimal | str
+    vq: literal.Real | int | float | decimal.Decimal | str
+    wq: literal.Real | int | float | decimal.Decimal | str

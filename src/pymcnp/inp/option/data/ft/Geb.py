@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from .... import literal
@@ -18,9 +17,7 @@ class Geb(Ft):
         c: geb group `c` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     id: typing.Annotated[abc.Terminal, r'GEB'] | str = abc.Terminal[r'GEB']('GEB')
-    a: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    c: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    a: literal.Real | int | float | decimal.Decimal | str
+    b: literal.Real | int | float | decimal.Decimal | str
+    c: literal.Real | int | float | decimal.Decimal | str

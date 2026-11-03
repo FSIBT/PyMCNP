@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -18,12 +17,10 @@ class Tr(Data):
         o_xyz_m: tr data card `o_xyz_m` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
     keyword: typing.Annotated[abc.Terminal, r'TR'] | str = abc.Terminal[r'TR']('TR')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    o_xyz_m: group.Rotation | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
+    o_xyz_m: group.Rotation | str
 
     def __post_init__(self) -> None:
         """

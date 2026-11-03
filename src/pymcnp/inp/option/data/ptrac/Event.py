@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from ..Ptrac import Ptrac
@@ -15,8 +14,6 @@ class Event(Ptrac):
         value: event ptrac data option `value` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'EVENT'] | str = abc.Terminal[r'EVENT']('EVENT')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:SRC|BNK|SUR|COL|TER|CAP)'] | str = dataclasses.field(kw_only=True)
+    value: typing.Annotated[abc.Terminal, r'(?:SRC|BNK|SUR|COL|TER|CAP)'] | str

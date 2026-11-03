@@ -1,7 +1,6 @@
 import typing
 import decimal
 import collections
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -67,55 +66,53 @@ class Bbrem(Data):
     """
 
     keyword: typing.Annotated[abc.Terminal, r'BBREM'] | str = abc.Terminal[r'BBREM']('BBREM')
-    b1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b3: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b4: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b5: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b6: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b7: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b8: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b9: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b10: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b11: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b12: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b13: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b14: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b15: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b16: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b17: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b18: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b19: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b20: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b21: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b22: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b23: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b24: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b25: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b26: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b27: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b28: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b29: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b30: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b31: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b32: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b33: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b34: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b35: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b36: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b37: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b38: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b39: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b40: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b41: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b42: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b43: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b44: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b45: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b46: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b47: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b48: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b49: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    b1: literal.Real | int | float | decimal.Decimal | str
+    b2: literal.Real | int | float | decimal.Decimal | str
+    b3: literal.Real | int | float | decimal.Decimal | str
+    b4: literal.Real | int | float | decimal.Decimal | str
+    b5: literal.Real | int | float | decimal.Decimal | str
+    b6: literal.Real | int | float | decimal.Decimal | str
+    b7: literal.Real | int | float | decimal.Decimal | str
+    b8: literal.Real | int | float | decimal.Decimal | str
+    b9: literal.Real | int | float | decimal.Decimal | str
+    b10: literal.Real | int | float | decimal.Decimal | str
+    b11: literal.Real | int | float | decimal.Decimal | str
+    b12: literal.Real | int | float | decimal.Decimal | str
+    b13: literal.Real | int | float | decimal.Decimal | str
+    b14: literal.Real | int | float | decimal.Decimal | str
+    b15: literal.Real | int | float | decimal.Decimal | str
+    b16: literal.Real | int | float | decimal.Decimal | str
+    b17: literal.Real | int | float | decimal.Decimal | str
+    b18: literal.Real | int | float | decimal.Decimal | str
+    b19: literal.Real | int | float | decimal.Decimal | str
+    b20: literal.Real | int | float | decimal.Decimal | str
+    b21: literal.Real | int | float | decimal.Decimal | str
+    b22: literal.Real | int | float | decimal.Decimal | str
+    b23: literal.Real | int | float | decimal.Decimal | str
+    b24: literal.Real | int | float | decimal.Decimal | str
+    b25: literal.Real | int | float | decimal.Decimal | str
+    b26: literal.Real | int | float | decimal.Decimal | str
+    b27: literal.Real | int | float | decimal.Decimal | str
+    b28: literal.Real | int | float | decimal.Decimal | str
+    b29: literal.Real | int | float | decimal.Decimal | str
+    b30: literal.Real | int | float | decimal.Decimal | str
+    b31: literal.Real | int | float | decimal.Decimal | str
+    b32: literal.Real | int | float | decimal.Decimal | str
+    b33: literal.Real | int | float | decimal.Decimal | str
+    b34: literal.Real | int | float | decimal.Decimal | str
+    b35: literal.Real | int | float | decimal.Decimal | str
+    b36: literal.Real | int | float | decimal.Decimal | str
+    b37: literal.Real | int | float | decimal.Decimal | str
+    b38: literal.Real | int | float | decimal.Decimal | str
+    b39: literal.Real | int | float | decimal.Decimal | str
+    b40: literal.Real | int | float | decimal.Decimal | str
+    b41: literal.Real | int | float | decimal.Decimal | str
+    b42: literal.Real | int | float | decimal.Decimal | str
+    b43: literal.Real | int | float | decimal.Decimal | str
+    b44: literal.Real | int | float | decimal.Decimal | str
+    b45: literal.Real | int | float | decimal.Decimal | str
+    b46: literal.Real | int | float | decimal.Decimal | str
+    b47: literal.Real | int | float | decimal.Decimal | str
+    b48: literal.Real | int | float | decimal.Decimal | str
+    b49: literal.Real | int | float | decimal.Decimal | str
     m: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)

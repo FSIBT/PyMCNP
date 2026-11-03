@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -24,8 +23,6 @@ class Lca(Data):
         ilaq: lca data card `ilaq` parameter.
         nevtype: lca data card `nevtype` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'LCA'] | str = abc.Terminal[r'LCA']('LCA')
     ielas: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | str = literal.Jump('J')

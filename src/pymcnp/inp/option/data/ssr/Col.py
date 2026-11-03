@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from ..Ssr import Ssr
@@ -16,11 +15,9 @@ class Col(Ssr):
         value: col ssr data option `value` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'COL'] | str = abc.Terminal[r'COL']('COL')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    value: literal.Integer | int | str
 
     def __post_init__(self) -> None:
         """

@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -20,11 +19,9 @@ class Bfld(Data):
         options: bfld data card `options` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'BFLD'] | str = abc.Terminal[r'BFLD']('BFLD')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    type: typing.Annotated[abc.Terminal, r'CONST|QUAD|QUADFF'] | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
+    type: typing.Annotated[abc.Terminal, r'CONST|QUAD|QUADFF'] | str
     options: typing.Annotated[abc.Array, option.data.Bfld, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Bfld | str] | str = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:

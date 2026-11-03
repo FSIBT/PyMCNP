@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 
 from .... import abc
@@ -16,7 +15,5 @@ class Disable(Data):
         options: disable data card `options` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'DISABLE'] | str = abc.Terminal[r'DISABLE']('DISABLE')
-    options: option.data.Disable | str = dataclasses.field(kw_only=True)
+    options: option.data.Disable | str

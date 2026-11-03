@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -19,10 +18,8 @@ class Wwg(Data):
         ie: wwg data card `ie` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'WWG'] | str = abc.Terminal[r'WWG']('WWG')
-    it: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    it: literal.Integer | int | str
     ic: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
     wg: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
     ie: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | str = literal.Jump('J')

@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from .... import abc
 from ..Cell import Cell
@@ -22,11 +21,9 @@ class Nonu_0(Nonu):
         a: nonu cell option `a` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'NONU'] | str = abc.Terminal[r'NONU']('NONU')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    a: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    a: literal.Integer | int | str
 
 
 class Nonu_1(Nonu):
@@ -36,7 +33,5 @@ class Nonu_1(Nonu):
     Attributes:
         keyword: nonu cell option `NONU` symbol.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'NONU'] | str = abc.Terminal[r'NONU']('NONU')

@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from .... import literal
@@ -17,8 +16,6 @@ class Cofi(T):
         value: cofi t data option `value` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'COFI'] | str = abc.Terminal[r'COFI']('COFI')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    value: literal.Real | int | float | decimal.Decimal | str

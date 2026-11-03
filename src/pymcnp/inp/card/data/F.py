@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -29,13 +28,11 @@ class F_0(F):
         s: f data card `s` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     prefix: typing.Annotated[abc.Terminal, r'\+'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
     keyword: typing.Annotated[abc.Terminal, r'F'] | str = abc.Terminal[r'F']('F')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
     colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str = dataclasses.field(kw_only=True)
+    particle: literal.Particle | str
     s: typing.Annotated[abc.Array, group.ParenthesizedIntegers | literal.Real, None] | collections.abc.Sequence[int | str] | str = abc.Terminal[r'']('')
     t: typing.Annotated[abc.Terminal, r'T'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
 
@@ -66,12 +63,10 @@ class F_1(F):
         nd: f data card `ND` symbol.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'F'] | str = abc.Terminal[r'F']('F')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
     colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str = dataclasses.field(kw_only=True)
+    particle: literal.Particle | str
     x_y_z_ro: typing.Annotated[abc.Array, group.Xyzro, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[group.Xyzro | str] | str = abc.Terminal[r'']('')
     nd: typing.Annotated[abc.Terminal, r'ND'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
 
@@ -103,13 +98,11 @@ class F_2(F):
         nd: f data card `ND` symbol.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'F'] | str = abc.Terminal[r'F']('F')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    suffix_a: typing.Annotated[abc.Terminal, r'X|Y|Z'] | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
+    suffix_a: typing.Annotated[abc.Terminal, r'X|Y|Z'] | str
     colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str = dataclasses.field(kw_only=True)
+    particle: literal.Particle | str
     ao_r_ro: typing.Annotated[abc.Array, group.Aorro, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[group.Aorro | str] | str = abc.Terminal[r'']('')
     nd: typing.Annotated[abc.Terminal, r'ND'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
 

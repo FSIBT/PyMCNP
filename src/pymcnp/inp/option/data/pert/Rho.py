@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from ..Pert import Pert
@@ -17,8 +16,6 @@ class Rho(Pert):
         r: rho pert data option `r` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'RHO'] | str = abc.Terminal[r'RHO']('RHO')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    r: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    r: literal.Real | int | float | decimal.Decimal | str

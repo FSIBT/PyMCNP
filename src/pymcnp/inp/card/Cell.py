@@ -1,7 +1,6 @@
 import typing
 import decimal
 import collections
-import dataclasses
 
 from ... import _show
 from ... import abc
@@ -14,8 +13,6 @@ class Cell(Card):
     """
     Represents cell cards.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     def __invert__(self) -> literal.Geometry:
         """
@@ -42,12 +39,10 @@ class Cell_0(Cell):
         options: cell card `options` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
-    j: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    m: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    d: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    geom: literal.Geometry | str = dataclasses.field(kw_only=True)
+    j: literal.Integer | int | str
+    m: literal.Integer | int | str
+    d: literal.Real | int | float | decimal.Decimal | str
+    geom: literal.Geometry | str
     options: typing.Annotated[abc.Array, option.Cell, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.Cell | str] | str = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
@@ -99,11 +94,9 @@ class Cell_1(Cell):
         options: cell card `options` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
-    j: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    m: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    geom: literal.Geometry | str = dataclasses.field(kw_only=True)
+    j: literal.Integer | int | str
+    m: literal.Integer | int | str
+    geom: literal.Geometry | str
     options: typing.Annotated[abc.Array, option.Cell, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.Cell | str] | str = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
@@ -157,11 +150,9 @@ class Cell_2(Cell):
         options: cell card `options` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
-    j: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    j: literal.Integer | int | str
     like: typing.Annotated[abc.Terminal, r'LIKE'] | str = abc.Terminal[r'LIKE']('LIKE')
-    n: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    n: literal.Integer | int | str
     but: typing.Annotated[abc.Terminal, r'BUT'] | str = abc.Terminal[r'BUT']('BUT')
     options: typing.Annotated[abc.Array, option.Cell, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.Cell | str] | str = abc.Terminal[r'']('')
 

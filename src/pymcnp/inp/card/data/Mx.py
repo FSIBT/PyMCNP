@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -20,12 +19,10 @@ class Mx(Data):
         z: mx data card `z` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'MX'] | str = abc.Terminal[r'MX']('MX')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
     colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str = dataclasses.field(kw_only=True)
+    particle: literal.Particle | str
     z: (
         typing.Annotated[abc.Array, literal.Zaid | typing.Annotated[abc.Terminal, r'MODEL|0'], None]
         | typing.Annotated[abc.Terminal, r'']

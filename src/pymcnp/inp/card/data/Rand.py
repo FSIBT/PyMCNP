@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -16,8 +15,6 @@ class Rand(Data):
         keyword: rand data card `RAND` symbol.
         options: rand data card `options` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'RAND'] | str = abc.Terminal[r'RAND']('RAND')
     options: typing.Annotated[abc.Array, option.data.Rand, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Rand | str] | str = abc.Terminal[r'']('')

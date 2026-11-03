@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -20,10 +19,8 @@ class Overlap(Embed):
         value: overlap embed data option `value` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'OVERLAP'] | str = abc.Terminal[r'OVERLAP']('OVERLAP')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    key1: typing.Annotated[abc.Terminal, r'EXIT|ENTRY|AVERAGE'] | str = dataclasses.field(kw_only=True)
+    key1: typing.Annotated[abc.Terminal, r'EXIT|ENTRY|AVERAGE'] | str
     key2: typing.Annotated[abc.Terminal, r'EXIT|ENTRY|AVERAGE'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
     value: typing.Annotated[abc.Array, group.MatCell, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[group.MatCell | str] | str = abc.Terminal[r'']('')

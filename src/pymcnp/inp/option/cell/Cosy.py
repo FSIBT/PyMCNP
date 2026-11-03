@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from .... import abc
 from ..Cell import Cell
@@ -16,8 +15,6 @@ class Cosy(Cell):
         m: cosy cell option `m` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'COSY'] | str = abc.Terminal[r'COSY']('COSY')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    m: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    m: literal.Integer | int | str

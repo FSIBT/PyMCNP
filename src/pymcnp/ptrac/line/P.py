@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ... import abc
 from ..Line import Line
@@ -21,12 +20,10 @@ class P_0(P):
         z: p line `z` parameter.
     """
 
-    blank: typing.Annotated[abc.Terminal, r' '] = dataclasses.field(kw_only=True)
-    x: typing.Annotated[abc.Terminal, r'.{13}'] = dataclasses.field(kw_only=True)
-    y: typing.Annotated[abc.Terminal, r'.{13}'] = dataclasses.field(kw_only=True)
-    z: typing.Annotated[abc.Terminal, r'.{13}'] = dataclasses.field(kw_only=True)
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
+    blank: typing.Annotated[abc.Terminal, r' ']
+    x: typing.Annotated[abc.Terminal, r'.{13}']
+    y: typing.Annotated[abc.Terminal, r'.{13}']
+    z: typing.Annotated[abc.Terminal, r'.{13}']
 
 
 class P_1(P):
@@ -45,15 +42,13 @@ class P_1(P):
         tme: p line `tme` parameter.
     """
 
-    blank: typing.Annotated[abc.Terminal, r' '] = dataclasses.field(kw_only=True)
-    x: typing.Annotated[abc.Terminal, r'.{13}'] = dataclasses.field(kw_only=True)
-    y: typing.Annotated[abc.Terminal, r'.{13}'] = dataclasses.field(kw_only=True)
-    z: typing.Annotated[abc.Terminal, r'.{13}'] = dataclasses.field(kw_only=True)
-    u: typing.Annotated[abc.Terminal, r'.{13}'] = dataclasses.field(kw_only=True)
-    v: typing.Annotated[abc.Terminal, r'.{13}'] = dataclasses.field(kw_only=True)
-    w: typing.Annotated[abc.Terminal, r'.{13}'] = dataclasses.field(kw_only=True)
-    erg: typing.Annotated[abc.Terminal, r'.{13}'] = dataclasses.field(kw_only=True)
-    wgt: typing.Annotated[abc.Terminal, r'.{13}'] = dataclasses.field(kw_only=True)
-    tme: typing.Annotated[abc.Terminal, r'.{13}'] = dataclasses.field(kw_only=True)
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
+    blank: typing.Annotated[abc.Terminal, r' ']
+    x: typing.Annotated[abc.Terminal, r'.{13}']
+    y: typing.Annotated[abc.Terminal, r'.{13}']
+    z: typing.Annotated[abc.Terminal, r'.{13}']
+    u: typing.Annotated[abc.Terminal, r'.{13}']
+    v: typing.Annotated[abc.Terminal, r'.{13}']
+    w: typing.Annotated[abc.Terminal, r'.{13}']
+    erg: typing.Annotated[abc.Terminal, r'.{13}']
+    wgt: typing.Annotated[abc.Terminal, r'.{13}']
+    tme: typing.Annotated[abc.Terminal, r'.{13}']

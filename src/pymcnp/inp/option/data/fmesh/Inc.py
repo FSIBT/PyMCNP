@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from ..Fmesh import Fmesh
@@ -24,8 +23,6 @@ class Inc_0(Inc):
         high: inc fmesh data option `high` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'INC'] | str = abc.Terminal[r'INC']('INC')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
     low: literal.Integer | literal.Jump | int | str = literal.Jump('J')
@@ -39,7 +36,5 @@ class Inc_1(Inc):
     Attributes:
         keyword: inc fmesh data option `INC` symbol.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'INC'] | str = abc.Terminal[r'INC']('INC')

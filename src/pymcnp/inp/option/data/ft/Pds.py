@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from .... import literal
@@ -15,7 +14,5 @@ class Pds(Ft):
         c: pds group `c` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     id: typing.Annotated[abc.Terminal, r'PDS'] | str = abc.Terminal[r'PDS']('PDS')
-    c: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    c: literal.Integer | int | str

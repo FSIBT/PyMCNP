@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from .... import literal
@@ -16,8 +15,6 @@ class Com(Ft):
         a: com group `a` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     id: typing.Annotated[abc.Terminal, r'COM'] | str = abc.Terminal[r'COM']('COM')
-    t: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    a: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    t: literal.Integer | int | str
+    a: literal.Integer | int | str

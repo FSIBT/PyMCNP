@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -16,8 +15,6 @@ class Sdef(Data):
         keyword: sdef data card `SDEF` symbol.
         options: sdef data card `options` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'SDEF'] | str = abc.Terminal[r'SDEF']('SDEF')
     options: typing.Annotated[abc.Array, option.data.Sdef, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Sdef | str] | str = abc.Terminal[r'']('')

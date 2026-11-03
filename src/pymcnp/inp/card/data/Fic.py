@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -28,22 +27,20 @@ class Fic(Data):
         f3: fic data card `f3` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'FIC'] | str = abc.Terminal[r'FIC']('FIC')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
     colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str = dataclasses.field(kw_only=True)
-    x1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    y1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    z1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    r0: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    x2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    y2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    z2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    f1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    particle: literal.Particle | str
+    x1: literal.Real | int | float | decimal.Decimal | str
+    y1: literal.Real | int | float | decimal.Decimal | str
+    z1: literal.Real | int | float | decimal.Decimal | str
+    r0: literal.Real | int | float | decimal.Decimal | str
+    x2: literal.Real | int | float | decimal.Decimal | str
+    y2: literal.Real | int | float | decimal.Decimal | str
+    z2: literal.Real | int | float | decimal.Decimal | str
+    f1: literal.Real | int | float | decimal.Decimal | str
     f2: literal.Real | literal.Jump | int | float | decimal.Decimal | str = literal.Jump('J')
-    f3: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    f3: literal.Real | int | float | decimal.Decimal | str
 
     def __post_init__(self) -> None:
         """

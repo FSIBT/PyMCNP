@@ -6,9 +6,33 @@ import pymcnp
 
 
 class Test_Check:
+    def test___init___valid(self) -> None:
+        pass
+
     def test___init___invalid(self) -> None:
         with pytest.raises(pymcnp.abc.Error):
             pymcnp.Check('hello.hi')
+
+    def test_check_valid(self) -> None:
+        pass
+
+    def test_check_invalid(self) -> None:
+        pass
+
+    def test_problems_valid(self) -> None:
+        pass
+
+    def test_problems_invalid(self) -> None:
+        pass
+
+    def test_fix_valid(self) -> None:
+        pass
+
+    def test_fix_invalid(self) -> None:
+        pass
+
+    def test___init___valid(self) -> None:
+        pass
 
     def test_check_valid(self, check: pymcnp.Check) -> None:
         check.check()

@@ -1,7 +1,6 @@
 import typing
 import decimal
 import collections
-import dataclasses
 
 from ..... import abc
 from .... import literal
@@ -17,8 +16,6 @@ class Cos(Ksen):
         equals: cos ksen data option `=` symbol.
         angles: cos ksen data option `angles` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'COS'] | str = abc.Terminal[r'COS']('COS')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

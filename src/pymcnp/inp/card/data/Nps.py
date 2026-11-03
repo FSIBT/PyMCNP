@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -17,9 +16,7 @@ class Nps(Data):
         n_per_batch: nps data card `n_per_batch` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'NPS'] | str = abc.Terminal[r'NPS']('NPS')
-    npp: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    npp: literal.Integer | int | str
     npsmg: literal.Integer | typing.Annotated[abc.Terminal, r''] | int | str = abc.Terminal[r'']('')
     n_per_batch: literal.Integer | typing.Annotated[abc.Terminal, r''] | int | str = abc.Terminal[r'']('')

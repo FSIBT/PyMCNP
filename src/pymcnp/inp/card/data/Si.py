@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -19,10 +18,8 @@ class Si(Data):
         i: si data card `i` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'SI'] | str = abc.Terminal[r'SI']('SI')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
     option: typing.Annotated[abc.Terminal, r'H|L|A|S'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
     i: typing.Annotated[abc.Array, literal.Distribution, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Distribution | str] | str = abc.Terminal[r'']('')
 

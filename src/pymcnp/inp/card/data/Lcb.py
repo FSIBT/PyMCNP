@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -22,8 +21,6 @@ class Lcb(Data):
         cotfe: lcb data card `cotfe` parameter.
         film0: lcb data card `film0` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'LCB'] | str = abc.Terminal[r'LCB']('LCB')
     flenb1: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')

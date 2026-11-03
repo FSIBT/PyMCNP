@@ -83,7 +83,7 @@ class Real(Literal):
         else:
             return str.__ge__(self, other)
 
-    def __add__(self, other: typing.Any, /) -> Real | str:  # ty: ignore[invalid-method-override]
+    def __add__(self, other: typing.Any, /) -> Real | str:
         if isinstance(other, (Real, Integer, int, float, decimal.Decimal)):
             return Real(str(decimal.Decimal(self if self[0] not in {'e', 'E'} else f'1{self}').__add__(decimal.Decimal(other))))
         else:
@@ -98,13 +98,13 @@ class Real(Literal):
     def __rsub__(self, other: typing.Any, /) -> Real:
         return Real(str(decimal.Decimal(self if self[0] not in {'e', 'E'} else f'1{self}').__rsub__(decimal.Decimal(other))))
 
-    def __mul__(self, other: typing.Any, /) -> Real:  # ty: ignore[invalid-method-override]
+    def __mul__(self, other: typing.Any, /) -> Real:
         return Real(str(decimal.Decimal(self if self[0] not in {'e', 'E'} else f'1{self}').__mul__(decimal.Decimal(other))))
 
-    def __rmul__(self, other: typing.Any, /) -> Real:  # ty: ignore[invalid-method-override]
+    def __rmul__(self, other: typing.Any, /) -> Real:
         return Real(str(decimal.Decimal(self if self[0] not in {'e', 'E'} else f'1{self}').__rmul__(decimal.Decimal(other))))
 
-    def __mod__(self, other: typing.Any, /) -> Real:  # ty: ignore[invalid-method-override]
+    def __mod__(self, other: typing.Any, /) -> Real:
         return Real(str(decimal.Decimal(self if self[0] not in {'e', 'E'} else f'1{self}').__mod__(decimal.Decimal(other))))
 
     def __rmod__(self, other: typing.Any, /) -> Real:

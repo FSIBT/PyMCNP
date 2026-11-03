@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -15,8 +14,6 @@ class Lost(Data):
         lost1: lost data card `lost1` parameter.
         lost2: lost data card `lost2` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'LOST'] | str = abc.Terminal[r'LOST']('LOST')
     lost1: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | str = literal.Jump('J')

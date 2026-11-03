@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -19,5 +18,3 @@ class Burn(Data):
 
     keyword: typing.Annotated[abc.Terminal, r'BURN'] | str = abc.Terminal[r'BURN']('BURN')
     options: typing.Annotated[abc.Array, option.data.Burn, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Burn | str] | str = abc.Terminal[r'']('')
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)

@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from ..Sdef import Sdef
@@ -18,13 +17,11 @@ class Dat(Sdef):
         y: dat sdef data option `y` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'DAT'] | str = abc.Terminal[r'DAT']('DAT')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    m: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    d: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    y: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    m: literal.Integer | int | str
+    d: literal.Integer | int | str
+    y: literal.Integer | int | str
 
     def __post_init__(self) -> None:
         """

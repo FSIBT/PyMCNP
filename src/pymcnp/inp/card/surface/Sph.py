@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 import numpy
 
@@ -24,15 +23,13 @@ class Sph(Surface):
         r: sph surface card `r` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    j: literal.Integer | int | str
     keyword: typing.Annotated[abc.Terminal, r'SPH'] | str = abc.Terminal[r'SPH']('SPH')
-    vx: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    vy: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    vz: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    r: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    vx: literal.Real | int | float | decimal.Decimal | str
+    vy: literal.Real | int | float | decimal.Decimal | str
+    vz: literal.Real | int | float | decimal.Decimal | str
+    r: literal.Real | int | float | decimal.Decimal | str
 
     def __post_init__(self) -> None:
         """

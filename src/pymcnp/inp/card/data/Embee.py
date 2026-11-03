@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 from .... import abc
@@ -20,12 +19,10 @@ class Embee(Data):
         options: embee data card `options` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'EMBEE'] | str = abc.Terminal[r'EMBEE']('EMBEE')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
     colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str = dataclasses.field(kw_only=True)
+    particle: literal.Particle | str
     options: typing.Annotated[abc.Array, option.data.Embee, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Embee | str] | str = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:

@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from ..Rand import Rand
@@ -16,8 +15,6 @@ class Stride(Rand):
         value: stride rand data option `value` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'STRIDE'] | str = abc.Terminal[r'STRIDE']('STRIDE')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    value: literal.Integer | int | str

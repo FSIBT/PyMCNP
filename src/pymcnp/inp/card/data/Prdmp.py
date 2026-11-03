@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -19,11 +18,9 @@ class Prdmp(Data):
         dmmp: prdmp data card `dmmp` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'PRDMP'] | str = abc.Terminal[r'PRDMP']('PRDMP')
-    ndp: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    ndm: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    mct: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    ndmp: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    dmmp: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    ndp: literal.Integer | int | str
+    ndm: literal.Integer | int | str
+    mct: literal.Integer | int | str
+    ndmp: literal.Integer | int | str
+    dmmp: literal.Integer | int | str

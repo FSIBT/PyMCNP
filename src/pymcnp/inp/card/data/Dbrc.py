@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -16,8 +15,6 @@ class Dbrc(Data):
         keyword: dbrc data card `DBRC` symbol.
         options: dbrc data card `options` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'DBRC'] | str = abc.Terminal[r'DBRC']('DBRC')
     options: typing.Annotated[abc.Array, option.data.Dbrc, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Dbrc | str] | str = abc.Terminal[r'']('')

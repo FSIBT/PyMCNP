@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from .... import literal
@@ -15,7 +14,5 @@ class Tag(Ft):
         a: tag group `a` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     id: typing.Annotated[abc.Terminal, r'TAG'] | str = abc.Terminal[r'TAG']('TAG')
-    a: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    a: literal.Integer | int | str

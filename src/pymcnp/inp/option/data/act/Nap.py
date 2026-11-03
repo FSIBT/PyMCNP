@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from ..Act import Act
@@ -16,8 +15,6 @@ class Nap(Act):
         valuem: nap act data option `valuem` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'NAP'] | str = abc.Terminal[r'NAP']('NAP')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    valuem: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    valuem: literal.Integer | int | str

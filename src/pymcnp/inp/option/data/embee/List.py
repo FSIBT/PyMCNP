@@ -1,7 +1,6 @@
 import typing
 import decimal
 import collections
-import dataclasses
 
 from ..... import abc
 from ..Embee import Embee
@@ -17,8 +16,6 @@ class List(Embee):
         equals: list embee data option `=` symbol.
         value: list embee data option `value` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'LIST'] | str = abc.Terminal[r'LIST']('LIST')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

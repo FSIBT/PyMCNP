@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 import numpy
 
@@ -27,18 +26,16 @@ class Rcc(Surface):
         r: rcc surface card `r` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    j: literal.Integer | int | str
     keyword: typing.Annotated[abc.Terminal, r'RCC'] | str = abc.Terminal[r'RCC']('RCC')
-    vx: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    vy: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    vz: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    h1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    h2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    h3: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    r: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    vx: literal.Real | int | float | decimal.Decimal | str
+    vy: literal.Real | int | float | decimal.Decimal | str
+    vz: literal.Real | int | float | decimal.Decimal | str
+    h1: literal.Real | int | float | decimal.Decimal | str
+    h2: literal.Real | int | float | decimal.Decimal | str
+    h3: literal.Real | int | float | decimal.Decimal | str
+    r: literal.Real | int | float | decimal.Decimal | str
 
     def __post_init__(self) -> None:
         """

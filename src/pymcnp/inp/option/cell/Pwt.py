@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from .... import abc
 from ..Cell import Cell
@@ -17,8 +16,6 @@ class Pwt(Cell):
         w: pwt cell option `w` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'PWT'] | str = abc.Terminal[r'PWT']('PWT')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    w: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    w: literal.Real | int | float | decimal.Decimal | str

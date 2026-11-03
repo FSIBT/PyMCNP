@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 from .... import abc
@@ -21,13 +20,11 @@ class Fmesh(Data):
         options: fmesh data card `options` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
     keyword: typing.Annotated[abc.Terminal, r'FMESH'] | str = abc.Terminal[r'FMESH']('FMESH')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
     colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str = dataclasses.field(kw_only=True)
+    particle: literal.Particle | str
     options: typing.Annotated[abc.Array, option.data.Fmesh, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Fmesh | str] | str = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:

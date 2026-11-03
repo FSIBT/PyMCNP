@@ -3,7 +3,6 @@ import typing
 
 from .Error import Error
 from .Symbol import Symbol
-from .Symbol import _excerpt
 
 
 CACHE: dict[str, type[Symbol]] = {}
@@ -15,7 +14,6 @@ class Terminal(Symbol, str):
     """
 
     _pattern: typing.ClassVar[re.Pattern] = re.compile(r'(\S+)([\s\S]*)', re.IGNORECASE)
-    _token: typing.ClassVar[re.Pattern] = re.compile(r'(\S+)', re.IGNORECASE)
     _default: typing.ClassVar[str | None] = None
 
     def __init_subclass__(cls) -> None:
@@ -23,12 +21,8 @@ class Terminal(Symbol, str):
         Validates subclasses.
         """
 
-        # Matching `_pattern` without its trailing `([\s\S]*)`, which would
-        # scan and copy the rest of the source on every match.
-        cls._token = re.compile(cls._pattern.pattern.removesuffix(r'([\s\S]*)'), cls._pattern.flags)
-
         if cls._default is not None:
-            cls._from(cls._default, 0)
+            cls.from_mcnp(cls._default)
 
     def __new__(cls, value: str) -> typing.Self:
         """
@@ -78,12 +72,27 @@ class Terminal(Symbol, str):
         return typing.cast(type[typing.Self], CACHE[pattern])
 
     @classmethod
-    def _from(cls, source: str, pos: int) -> tuple[typing.Self, int]:
-        match = cls._token.match(source, pos)
-        if match is None:
-            raise Error(f"Expected Terminal[r'{cls._pattern.pattern}']", _excerpt(source, pos))
+    def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
+        """
+        Compiles source strings into their corresponding terminal symbols.
 
-        return str.__new__(cls, match[1]), match.end()
+        Parameters:
+            source: Source string to compile.
+
+        Returns:
+            Terminal symbol corresponding to `source`.
+
+        Raises:
+            Error: Expected terminal.
+        """
+
+        assert isinstance(source, str)
+
+        match = cls._pattern.match(source)
+        if match is None:
+            raise Error(f"Expected Terminal[r'{cls._pattern.pattern}']", f'{source=}')
+
+        return cls(match[1]), match[2]
 
     def to_mcnp(self) -> str:
         """

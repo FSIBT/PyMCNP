@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from ..Sdef import Sdef
@@ -19,13 +18,11 @@ class Loc(Sdef):
         alt: loc sdef data option `alt` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'LOC'] | str = abc.Terminal[r'LOC']('LOC')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    lat: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    lng: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    alt: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    lat: literal.Real | int | float | decimal.Decimal | str
+    lng: literal.Real | int | float | decimal.Decimal | str
+    alt: literal.Real | int | float | decimal.Decimal | str
 
     def __post_init__(self) -> None:
         """

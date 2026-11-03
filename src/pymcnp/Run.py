@@ -9,7 +9,6 @@ import concurrent.futures
 
 from . import abc
 from .Inp import Inp
-from .Outp import _fatal_errors
 
 
 @dataclasses.dataclass
@@ -26,7 +25,6 @@ class Result:
         runtpe: Runtpe file, `None` if the command did not write one.
         log: File with the command's standard output and error.
         returncode: Exit code of the command.
-        fatal_errors: Fatal errors reported in the output file.
     """
 
     index: int
@@ -37,7 +35,6 @@ class Result:
     runtpe: pathlib.Path | None
     log: pathlib.Path
     returncode: int
-    fatal_errors: list[str] = dataclasses.field(default_factory=list)
 
     @property
     def ok(self) -> bool:
@@ -45,7 +42,7 @@ class Result:
         Whether the run exited with 0 and reported no fatal errors.
         """
 
-        return self.returncode == 0 and not self.fatal_errors
+        return self.returncode == 0 and self.outp is not None
 
 
 @dataclasses.dataclass
@@ -165,7 +162,6 @@ class Run(abc.Utility):
             runtpe=found('runtpe'),
             log=log,
             returncode=done.returncode,
-            fatal_errors=_fatal_errors(outp.read_text(errors='replace')) if outp else [],
         )
 
         if result.ok or not self.check:
@@ -219,7 +215,7 @@ class Run(abc.Utility):
         if failed and self.check:
             raise abc.Error(
                 'Run failed.',
-                '\n'.join(f'{result.directory.name}: exit code {result.returncode}' + ''.join(f'\n    {error}' for error in result.fatal_errors[:3]) + f'\n    see {result.log}' for result in failed),
+                '\n'.join(f'{result.directory.name}: exit code {result.returncode}' + f'\n    see {result.log}' for result in failed),
             )
 
         self.posthook_batch(directory)

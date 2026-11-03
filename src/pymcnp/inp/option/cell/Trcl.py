@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from .... import abc
 from ..Cell import Cell
@@ -24,12 +23,10 @@ class Trcl_0(Trcl):
         n: trcl cell option `n` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
     keyword: typing.Annotated[abc.Terminal, r'TRCL'] | str = abc.Terminal[r'TRCL']('TRCL')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    n: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    n: literal.Integer | int | str
 
     def __post_init__(self) -> None:
         """
@@ -56,12 +53,10 @@ class Trcl_1(Trcl):
         o_xyz_m: trcl cell option `o_xyz_m` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
     keyword: typing.Annotated[abc.Terminal, r'TRCL'] | str = abc.Terminal[r'TRCL']('TRCL')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    o_xyz_m: group.Rotation | str = dataclasses.field(kw_only=True)
+    o_xyz_m: group.Rotation | str
 
 
 class Trcl_2(Trcl):
@@ -77,11 +72,9 @@ class Trcl_2(Trcl):
         parenthesis_close: trcl cell option `)` symbol.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
     keyword: typing.Annotated[abc.Terminal, r'TRCL'] | str = abc.Terminal[r'TRCL']('TRCL')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
     parenthesis_open: typing.Annotated[abc.Terminal, r'\('] | str = abc.Terminal[r'\(']('(')
-    o_xyz_m: group.Rotation | str = dataclasses.field(kw_only=True)
+    o_xyz_m: group.Rotation | str
     parenthesis_close: typing.Annotated[abc.Terminal, r'\)'] | str = abc.Terminal[r'\)'](')')

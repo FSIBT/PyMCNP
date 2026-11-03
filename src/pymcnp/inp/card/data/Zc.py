@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -16,8 +15,6 @@ class Zc(Data):
         keyword: zc data card `ZC` symbol.
         x: zc data card `x` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'ZC'] | str = abc.Terminal[r'ZC']('ZC')
     x: (

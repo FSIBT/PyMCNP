@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from ..Sdef import Sdef
@@ -19,10 +18,8 @@ class Bap(Sdef):
         u: bap sdef data option `u` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'BAP'] | str = abc.Terminal[r'BAP']('BAP')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    ba1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    ba2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    ba1: literal.Real | int | float | decimal.Decimal | str
+    ba2: literal.Real | int | float | decimal.Decimal | str
     u: literal.Real | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = abc.Terminal[r'']('')

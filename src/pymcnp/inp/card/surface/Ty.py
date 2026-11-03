@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 import numpy
 
@@ -27,18 +26,16 @@ class Ty(Surface):
         c: ty surface card `C` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    j: literal.Integer | int | str
     n: literal.Integer | typing.Annotated[abc.Terminal, r''] | int | str = abc.Terminal[r'']('')
     keyword: typing.Annotated[abc.Terminal, r'TY'] | str = abc.Terminal[r'TY']('TY')
-    x: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    y: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    z: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    a: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    c: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    x: literal.Real | int | float | decimal.Decimal | str
+    y: literal.Real | int | float | decimal.Decimal | str
+    z: literal.Real | int | float | decimal.Decimal | str
+    a: literal.Real | int | float | decimal.Decimal | str
+    b: literal.Real | int | float | decimal.Decimal | str
+    c: literal.Real | int | float | decimal.Decimal | str
 
     def __post_init__(self) -> None:
         """

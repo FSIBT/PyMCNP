@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from ..Ssr import Ssr
@@ -19,13 +18,11 @@ class Bcw(Ssr):
         ze: bcw ssr data option `ze` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'BCW'] | str = abc.Terminal[r'BCW']('BCW')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    r: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    zb: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    ze: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    r: literal.Real | int | float | decimal.Decimal | str
+    zb: literal.Real | int | float | decimal.Decimal | str
+    ze: literal.Real | int | float | decimal.Decimal | str
 
     def __post_init__(self) -> None:
         """

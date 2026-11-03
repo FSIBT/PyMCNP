@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -21,8 +20,6 @@ class Lea(Data):
         ievap: lea data card `ievap` parameter.
         nofis: lea data card `nofis` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'LEA'] | str = abc.Terminal[r'LEA']('LEA')
     ipht: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | str = literal.Jump('J')

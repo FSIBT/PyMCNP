@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ... import abc
 from ..Line import Line
@@ -16,10 +15,8 @@ class I(Line):
         tfc: i line `tfc` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
-    blank: typing.Annotated[abc.Terminal, r' '] = dataclasses.field(kw_only=True)
-    nps: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
-    event_type: typing.Annotated[abc.Terminal, r'.{10}'] = dataclasses.field(kw_only=True)
+    blank: typing.Annotated[abc.Terminal, r' ']
+    nps: typing.Annotated[abc.Terminal, r'.{10}']
+    event_type: typing.Annotated[abc.Terminal, r'.{10}']
     number: typing.Annotated[abc.Terminal, r'.{10}'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
     tfc: typing.Annotated[abc.Terminal, r'.{13}'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

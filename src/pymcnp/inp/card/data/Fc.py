@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -16,11 +15,9 @@ class Fc(Data):
         info: fc data card `info` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'FC'] | str = abc.Terminal[r'FC']('FC')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    info: typing.Annotated[abc.Terminal, r'[\s\S]*?(?=\n[^ ]{1,5}|\Z)'] | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
+    info: typing.Annotated[abc.Terminal, r'[\s\S]*?(?=\n[^ ]{1,5}|\Z)'] | str
 
     def __post_init__(self) -> None:
         """

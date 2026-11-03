@@ -1,7 +1,6 @@
 import typing
 import decimal
 import collections
-import dataclasses
 
 
 from .... import abc
@@ -25,10 +24,8 @@ class Tmp_0(Tmp):
         t: tmp data card `t` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'TMP'] | str = abc.Terminal[r'TMP']('TMP')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
     t: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Real | int | float | decimal.Decimal | str] | str = abc.Terminal[r''](
         ''
     )
@@ -56,7 +53,5 @@ class Tmp_1(Tmp):
         t: tmp data card `t` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'TMP'] | str = abc.Terminal[r'TMP']('TMP')
-    t: typing.Annotated[abc.Array, literal.Real, None] | collections.abc.Sequence[int | float | decimal.Decimal | str] | str = dataclasses.field(kw_only=True)
+    t: typing.Annotated[abc.Array, literal.Real, None] | collections.abc.Sequence[int | float | decimal.Decimal | str] | str

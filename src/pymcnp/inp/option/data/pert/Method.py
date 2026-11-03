@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from ..Pert import Pert
@@ -17,8 +16,6 @@ class Method(Pert):
         j: method pert data option `j` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'METHOD'] | str = abc.Terminal[r'METHOD']('METHOD')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    j: literal.Real | int | float | decimal.Decimal | str

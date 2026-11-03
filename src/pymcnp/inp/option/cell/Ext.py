@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from .... import abc
 from ..Cell import Cell
@@ -18,10 +17,8 @@ class Ext(Cell):
         a: ext cell option `a` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'EXT'] | str = abc.Terminal[r'EXT']('EXT')
     colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str = dataclasses.field(kw_only=True)
+    particle: literal.Particle | str
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    a: literal.Qvm | str = dataclasses.field(kw_only=True)
+    a: literal.Qvm | str

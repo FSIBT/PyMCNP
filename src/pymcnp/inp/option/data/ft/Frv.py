@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from .... import literal
@@ -18,9 +17,7 @@ class Frv(Ft):
         v3: frv group `v3` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     id: typing.Annotated[abc.Terminal, r'FRV'] | str = abc.Terminal[r'FRV']('FRV')
-    v1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    v2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    v3: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    v1: literal.Real | int | float | decimal.Decimal | str
+    v2: literal.Real | int | float | decimal.Decimal | str
+    v3: literal.Real | int | float | decimal.Decimal | str

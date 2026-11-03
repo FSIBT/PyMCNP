@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from ..Ssr import Ssr
@@ -17,8 +16,6 @@ class Poa(Ssr):
         c: poa ssr data option `c` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'POA'] | str = abc.Terminal[r'POA']('POA')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    c: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    c: literal.Real | int | float | decimal.Decimal | str

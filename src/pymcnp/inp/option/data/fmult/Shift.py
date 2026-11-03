@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from ..Fmult import Fmult
@@ -16,11 +15,9 @@ class Shift(Fmult):
         s: shift fmult data option `s` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'SHIFT'] | str = abc.Terminal[r'SHIFT']('SHIFT')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    s: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    s: literal.Integer | int | str
 
     def __post_init__(self) -> None:
         """

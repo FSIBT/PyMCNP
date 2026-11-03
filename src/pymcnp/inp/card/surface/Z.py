@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from .... import abc
 from ..Surface import Surface
@@ -26,14 +25,12 @@ class Z_0(Z):
         r0: z surface card `r0` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    j: literal.Integer | int | str
     n: literal.Integer | typing.Annotated[abc.Terminal, r''] | int | str = abc.Terminal[r'']('')
     keyword: typing.Annotated[abc.Terminal, r'Z'] | str = abc.Terminal[r'Z']('Z')
-    z0: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    r0: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    z0: literal.Real | int | float | decimal.Decimal | str
+    r0: literal.Real | int | float | decimal.Decimal | str
 
     def __post_init__(self) -> None:
         """
@@ -67,15 +64,13 @@ class Z_1(Z):
         r1: z surface card `r1` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
-    j: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    j: literal.Integer | int | str
     n: literal.Integer | typing.Annotated[abc.Terminal, r''] | int | str = abc.Terminal[r'']('')
     keyword: typing.Annotated[abc.Terminal, r'Z'] | str = abc.Terminal[r'Z']('Z')
-    z0: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    r0: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    z1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    r1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    z0: literal.Real | int | float | decimal.Decimal | str
+    r0: literal.Real | int | float | decimal.Decimal | str
+    z1: literal.Real | int | float | decimal.Decimal | str
+    r1: literal.Real | int | float | decimal.Decimal | str
 
     def __post_init__(self) -> None:
         """
@@ -111,17 +106,15 @@ class Z_2(Z):
         r2: z surface card `r2` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
-    j: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    j: literal.Integer | int | str
     n: literal.Integer | typing.Annotated[abc.Terminal, r''] | int | str = abc.Terminal[r'']('')
     keyword: typing.Annotated[abc.Terminal, r'Z'] | str = abc.Terminal[r'Z']('Z')
-    z0: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    r0: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    z1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    r1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    z2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    r2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    z0: literal.Real | int | float | decimal.Decimal | str
+    r0: literal.Real | int | float | decimal.Decimal | str
+    z1: literal.Real | int | float | decimal.Decimal | str
+    r1: literal.Real | int | float | decimal.Decimal | str
+    z2: literal.Real | int | float | decimal.Decimal | str
+    r2: literal.Real | int | float | decimal.Decimal | str
 
     def __post_init__(self) -> None:
         """

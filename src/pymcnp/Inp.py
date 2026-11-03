@@ -3,7 +3,6 @@ import copy
 import typing
 import itertools
 import collections
-import dataclasses
 
 import numpy
 
@@ -89,11 +88,11 @@ class Inp(abc.File):
     """
 
     title: typing.Annotated[abc.Terminal, r'.+\n'] | str
-    cells: typing.Annotated[abc.Array, inp.card.Cell | inp.card.Comment, SpaceCard] | collections.abc.Sequence[inp.card.Cell | inp.card.Comment | str] | str = dataclasses.field(kw_only=True)
+    cells: typing.Annotated[abc.Array, inp.card.Cell | inp.card.Comment, SpaceCard] | collections.abc.Sequence[inp.card.Cell | inp.card.Comment | str] | str
     blank_0: typing.Annotated[abc.Terminal, r' *(?:\$.*)?\n\n'] | str = abc.Terminal[r' *(?:\$.*)?\n\n']('\n\n')
-    surfaces: typing.Annotated[abc.Array, inp.card.Surface | inp.card.Comment, SpaceCard] | collections.abc.Sequence[inp.card.Surface | inp.card.Comment | str] | str = dataclasses.field(kw_only=True)
+    surfaces: typing.Annotated[abc.Array, inp.card.Surface | inp.card.Comment, SpaceCard] | collections.abc.Sequence[inp.card.Surface | inp.card.Comment | str] | str
     blank_1: typing.Annotated[abc.Terminal, r' *(?:\$.*)?\n\n'] | str = abc.Terminal[r' *(?:\$.*)?\n\n']('\n\n')
-    data: typing.Annotated[abc.Array, inp.card.Data | inp.card.Comment, SpaceCard] | collections.abc.Sequence[inp.card.Data | inp.card.Comment | str] | str = dataclasses.field(kw_only=True)
+    data: typing.Annotated[abc.Array, inp.card.Data | inp.card.Comment, SpaceCard] | collections.abc.Sequence[inp.card.Data | inp.card.Comment | str] | str
     blank_2: typing.Annotated[abc.Terminal, r' *(?:\$.*)?(?:\n|\Z)'] | str = abc.Terminal[r' *(?:\$.*)?(?:\n|\Z)']('\n')
     other: typing.Annotated[abc.Terminal, r'\n[\s\S]*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
 
@@ -151,12 +150,13 @@ class Inp(abc.File):
             Source string corresponding to `self`.
         """
 
+        assert isinstance(self.other, abc.Terminal)
+
         source = super().to_mcnp()
-        other = self.other.to_mcnp() if self.other != '' else ''
-        body = source[: len(source) - len(other)] if other else source
+        body = source[: len(source) - len(self.other)] if self.other else source
         title, _, rest = body.partition('\n')
 
-        return title + '\n' + '\n'.join(_wrap(line) for line in rest.split('\n')) + other
+        return title + '\n' + '\n'.join(_wrap(line) for line in rest.split('\n')) + self.other
 
     def __post_init__(self) -> None:
         """

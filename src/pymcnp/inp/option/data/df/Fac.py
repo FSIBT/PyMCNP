@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from ..Df import Df
@@ -17,11 +16,9 @@ class Fac(Df):
         value: fac df data option `value` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'FAC'] | str = abc.Terminal[r'FAC']('FAC')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    value: literal.Real | int | float | decimal.Decimal | str
 
     def __post_init__(self) -> None:
         """

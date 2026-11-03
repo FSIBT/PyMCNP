@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -19,10 +18,8 @@ class Ft(Data):
         id_pk: ft data card `id_pk` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'FT'] | str = abc.Terminal[r'FT']('FT')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
     id_pk: typing.Annotated[abc.Array, option.data.Ft, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Ft | str] | str = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:

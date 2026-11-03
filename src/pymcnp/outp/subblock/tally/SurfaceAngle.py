@@ -1,6 +1,5 @@
 import re
 import typing
-import dataclasses
 
 import pandas
 
@@ -25,33 +24,31 @@ class SurfaceAngle(Tally):
     Attributes:
         surface_number_preamble: surface angle subtally block surface number preamble.
         surface_number: surface angle subtally block surface number.
-        angle_from_preamble: surface angle subtally block ``'\\n angle bin'`` symbol.
+        angle_from_preamble: surface angle subtally block `\\n angle bin` symbol.
         angle_from: surface angle subtally block angle from.
-        angle_to_preamble: surface angle subtally block ``' to  '`` symbol.
+        angle_to_preamble: surface angle subtally block ` to  ` symbol.
         angle_to: surface angle subtally block angle to.
         angle_to_postamble: surface angle subtally block angle to postamble.
-        table_heading: surface angle subtally block ``'\\n {6}energy {3}'`` symbol.
-        table_body_preamble: surface angle subtally block ``'\\n\\n'`` symbol.
+        table_heading: surface angle subtally block `\\n {6}energy {3}` symbol.
+        table_body_preamble: surface angle subtally block `\\n\\n` symbol.
         table_body: surface angle subtally block table body.
-        table_total_preamble: surface angle subtally block ``'\\n {6}total {6}'`` symbol.
+        table_total_preamble: surface angle subtally block `\\n {6}total {6}` symbol.
         table_total: surface angle subtally block table total.
-        table_footing: surface angle subtally block ``'\\n ?\\n'`` symbol.
+        table_footing: surface angle subtally block `\\n ?\\n` symbol.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     surface_number_preamble: typing.Annotated[abc.Terminal, r' surface '] = abc.Terminal[r' surface '](' surface ')
-    surface_number: typing.Annotated[abc.Terminal, r'.+(?=\n|\Z)'] = dataclasses.field(kw_only=True)
+    surface_number: typing.Annotated[abc.Terminal, r'.+(?=\n|\Z)']
     angle_from_preamble: typing.Annotated[abc.Terminal, r'\n angle  bin:  '] = abc.Terminal[r'\n angle  bin:  ']('\n angle  bin:  ')
-    angle_from: typing.Annotated[abc.Terminal, r'.{12}'] = dataclasses.field(kw_only=True)
+    angle_from: typing.Annotated[abc.Terminal, r'.{12}']
     angle_to_preamble: typing.Annotated[abc.Terminal, r' to  '] = abc.Terminal[r' to  '](' to  ')
-    angle_to: typing.Annotated[abc.Terminal, r'.{11}'] = dataclasses.field(kw_only=True)
-    angle_to_postamble: typing.Annotated[abc.Terminal, r' degrees {85}'] = dataclasses.field(kw_only=True)
+    angle_to: typing.Annotated[abc.Terminal, r'.{11}']
+    angle_to_postamble: typing.Annotated[abc.Terminal, r' degrees {85}']
     table_heading: typing.Annotated[abc.Terminal, r'\n {6}energy {3}'] = abc.Terminal[r'\n {6}energy {3}']('\n      energy   ')
     table_body_preamble: typing.Annotated[abc.Terminal, r'\n'] = abc.Terminal[r'\n']('\n')
     table_body: typing.Annotated[abc.Array, line.Tally, Space] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
     table_total_preamble: typing.Annotated[abc.Terminal, r'\n {6}total {6}'] = abc.Terminal[r'\n {6}total {6}']('\n      total      ')
-    table_total: typing.Annotated[abc.Terminal, r'.+(?=\n|\Z)'] = dataclasses.field(kw_only=True)
+    table_total: typing.Annotated[abc.Terminal, r'.+(?=\n|\Z)']
     table_footing: typing.Annotated[abc.Terminal, r'\n ?\n'] = abc.Terminal[r'\n ?\n']('\n \n')
 
     def to_dataframe(self) -> pandas.DataFrame:

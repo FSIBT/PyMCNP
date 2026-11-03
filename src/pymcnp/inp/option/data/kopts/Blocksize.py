@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from .... import literal
@@ -16,11 +15,9 @@ class Blocksize(Kopts):
         ncy: blocksize kopts data option `ncy` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'BLOCKSIZE'] | str = abc.Terminal[r'BLOCKSIZE']('BLOCKSIZE')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    ncy: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    ncy: literal.Integer | int | str
 
     def __post_init__(self) -> None:
         """

@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from ..Embed import Embed
@@ -16,8 +15,6 @@ class Background(Embed):
         c: background embed data option `c` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'BACKGROUND'] | str = abc.Terminal[r'BACKGROUND']('BACKGROUND')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    c: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    c: literal.Integer | int | str

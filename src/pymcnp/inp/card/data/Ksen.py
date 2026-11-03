@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 from .... import abc
@@ -19,10 +18,8 @@ class Ksen(Data):
         options: ksen data card `options` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'KSEN'] | str = abc.Terminal[r'KSEN']('KSEN')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
     sen: typing.Annotated[abc.Terminal, r'XS'] | str = abc.Terminal[r'XS']('XS')
     options: typing.Annotated[abc.Array, option.data.Ksen, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Ksen | str] | str = abc.Terminal[r'']('')
 

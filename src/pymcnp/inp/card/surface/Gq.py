@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -28,22 +27,20 @@ class Gq(Surface):
         k: gq surface card `K` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    j: literal.Integer | int | str
     n: literal.Integer | typing.Annotated[abc.Terminal, r''] | int | str = abc.Terminal[r'']('')
     keyword: typing.Annotated[abc.Terminal, r'GQ'] | str = abc.Terminal[r'GQ']('GQ')
-    a: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    b: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    c: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    d: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    e: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    f: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    g: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    h: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    J: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    k: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    a: literal.Real | int | float | decimal.Decimal | str
+    b: literal.Real | int | float | decimal.Decimal | str
+    c: literal.Real | int | float | decimal.Decimal | str
+    d: literal.Real | int | float | decimal.Decimal | str
+    e: literal.Real | int | float | decimal.Decimal | str
+    f: literal.Real | int | float | decimal.Decimal | str
+    g: literal.Real | int | float | decimal.Decimal | str
+    h: literal.Real | int | float | decimal.Decimal | str
+    J: literal.Real | int | float | decimal.Decimal | str
+    k: literal.Real | int | float | decimal.Decimal | str
 
     def __post_init__(self) -> None:
         """

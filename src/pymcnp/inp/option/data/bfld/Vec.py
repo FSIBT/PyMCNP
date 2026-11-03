@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from ..Bfld import Bfld
@@ -19,10 +18,8 @@ class Vec(Bfld):
         wf: vec bfld data option `wf` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'VEC'] | str = abc.Terminal[r'VEC']('VEC')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    uf: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    vf: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    wf: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    uf: literal.Real | int | float | decimal.Decimal | str
+    vf: literal.Real | int | float | decimal.Decimal | str
+    wf: literal.Real | int | float | decimal.Decimal | str

@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 
 from .... import abc
@@ -15,7 +14,5 @@ class Mphys(Data):
         toggle: mphys data card `toggle` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'MPHYS'] | str = abc.Terminal[r'MPHYS']('MPHYS')
-    toggle: typing.Annotated[abc.Terminal, r'ON|OFF'] | str = dataclasses.field(kw_only=True)
+    toggle: typing.Annotated[abc.Terminal, r'ON|OFF'] | str

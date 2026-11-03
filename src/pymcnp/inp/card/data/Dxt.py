@@ -1,7 +1,6 @@
 import typing
 import decimal
 import collections
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -23,11 +22,9 @@ class Dxt(Data):
         dpwt: dxt data card `dpwt` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'DXT'] | str = abc.Terminal[r'DXT']('DXT')
     colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str = dataclasses.field(kw_only=True)
+    particle: literal.Particle | str
     x_y_z_ri_ro: typing.Annotated[abc.Array, group.Dxtran, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[group.Dxtran | str] | str = abc.Terminal[r'']('')
     dwc1: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
     dwc2: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')

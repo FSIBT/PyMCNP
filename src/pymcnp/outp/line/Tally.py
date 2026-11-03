@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import pandas
 
@@ -17,11 +16,9 @@ class Tally(Line):
         error: line error.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
-    bin: typing.Annotated[abc.Terminal, r'    \S+'] = dataclasses.field(kw_only=True)
-    count: typing.Annotated[abc.Terminal, r'   \S+'] = dataclasses.field(kw_only=True)
-    error: typing.Annotated[abc.Terminal, r' \S+'] = dataclasses.field(kw_only=True)
+    bin: typing.Annotated[abc.Terminal, r'    \S+']
+    count: typing.Annotated[abc.Terminal, r'   \S+']
+    error: typing.Annotated[abc.Terminal, r' \S+']
 
     def to_dataframe(self) -> pandas.DataFrame:
         """

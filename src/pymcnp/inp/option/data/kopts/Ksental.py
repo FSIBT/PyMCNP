@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from ..Kopts import Kopts
@@ -21,11 +20,9 @@ class Ksental_0(Ksental):
         fileopt: ksental kopts data option `fileopt` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'KSENTAL'] | str = abc.Terminal[r'KSENTAL']('KSENTAL')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    fileopt: typing.Annotated[abc.Terminal, r'MCTAL'] | str = dataclasses.field(kw_only=True)
+    fileopt: typing.Annotated[abc.Terminal, r'MCTAL'] | str
 
 
 class Ksental_1(Ksental):
@@ -35,7 +32,5 @@ class Ksental_1(Ksental):
     Attributes:
         keyword: ksental kopts data option `KSENTAL` symbol.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'KSENTAL'] | str = abc.Terminal[r'KSENTAL']('KSENTAL')

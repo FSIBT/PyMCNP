@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ... import abc
 from ..Line import Line
@@ -32,26 +31,24 @@ class N(Line):
         n20: n line `n20` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
-    blank: typing.Annotated[abc.Terminal, r' '] = dataclasses.field(kw_only=True)
-    n1: typing.Annotated[abc.Terminal, r'.{5}'] = dataclasses.field(kw_only=True)
-    n2: typing.Annotated[abc.Terminal, r'.{5}'] = dataclasses.field(kw_only=True)
-    n3: typing.Annotated[abc.Terminal, r'.{5}'] = dataclasses.field(kw_only=True)
-    n4: typing.Annotated[abc.Terminal, r'.{5}'] = dataclasses.field(kw_only=True)
-    n5: typing.Annotated[abc.Terminal, r'.{5}'] = dataclasses.field(kw_only=True)
-    n6: typing.Annotated[abc.Terminal, r'.{5}'] = dataclasses.field(kw_only=True)
-    n7: typing.Annotated[abc.Terminal, r'.{5}'] = dataclasses.field(kw_only=True)
-    n8: typing.Annotated[abc.Terminal, r'.{5}'] = dataclasses.field(kw_only=True)
-    n9: typing.Annotated[abc.Terminal, r'.{5}'] = dataclasses.field(kw_only=True)
-    n10: typing.Annotated[abc.Terminal, r'.{5}'] = dataclasses.field(kw_only=True)
-    n11: typing.Annotated[abc.Terminal, r'.{5}'] = dataclasses.field(kw_only=True)
-    n12: typing.Annotated[abc.Terminal, r'.{5}'] = dataclasses.field(kw_only=True)
-    n13: typing.Annotated[abc.Terminal, r'.{5}'] = dataclasses.field(kw_only=True)
-    n14: typing.Annotated[abc.Terminal, r'.{5}'] = dataclasses.field(kw_only=True)
-    n15: typing.Annotated[abc.Terminal, r'.{5}'] = dataclasses.field(kw_only=True)
-    n16: typing.Annotated[abc.Terminal, r'.{5}'] = dataclasses.field(kw_only=True)
-    n17: typing.Annotated[abc.Terminal, r'.{5}'] = dataclasses.field(kw_only=True)
-    n18: typing.Annotated[abc.Terminal, r'.{5}'] = dataclasses.field(kw_only=True)
-    n19: typing.Annotated[abc.Terminal, r'.{5}'] = dataclasses.field(kw_only=True)
-    n20: typing.Annotated[abc.Terminal, r'.{5}'] = dataclasses.field(kw_only=True)
+    blank: typing.Annotated[abc.Terminal, r' ']
+    n1: typing.Annotated[abc.Terminal, r'.{5}']
+    n2: typing.Annotated[abc.Terminal, r'.{5}']
+    n3: typing.Annotated[abc.Terminal, r'.{5}']
+    n4: typing.Annotated[abc.Terminal, r'.{5}']
+    n5: typing.Annotated[abc.Terminal, r'.{5}']
+    n6: typing.Annotated[abc.Terminal, r'.{5}']
+    n7: typing.Annotated[abc.Terminal, r'.{5}']
+    n8: typing.Annotated[abc.Terminal, r'.{5}']
+    n9: typing.Annotated[abc.Terminal, r'.{5}']
+    n10: typing.Annotated[abc.Terminal, r'.{5}']
+    n11: typing.Annotated[abc.Terminal, r'.{5}']
+    n12: typing.Annotated[abc.Terminal, r'.{5}']
+    n13: typing.Annotated[abc.Terminal, r'.{5}']
+    n14: typing.Annotated[abc.Terminal, r'.{5}']
+    n15: typing.Annotated[abc.Terminal, r'.{5}']
+    n16: typing.Annotated[abc.Terminal, r'.{5}']
+    n17: typing.Annotated[abc.Terminal, r'.{5}']
+    n18: typing.Annotated[abc.Terminal, r'.{5}']
+    n19: typing.Annotated[abc.Terminal, r'.{5}']
+    n20: typing.Annotated[abc.Terminal, r'.{5}']

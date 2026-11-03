@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from ..Burn import Burn
@@ -12,7 +11,5 @@ class Nostats(Burn):
     Attributes:
         keyword: nostats burn data option `NOSTATS` symbol.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'NOSTATS'] | str = abc.Terminal[r'NOSTATS']('NOSTATS')

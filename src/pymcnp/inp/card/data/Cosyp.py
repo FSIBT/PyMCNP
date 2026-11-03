@@ -1,7 +1,6 @@
 import typing
 import decimal
 import collections
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -20,12 +19,10 @@ class Cosyp(Data):
         emap: cosyp data card `emap` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'COSYP'] | str = abc.Terminal[r'COSYP']('COSYP')
-    pre: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    axsh: literal.Integer | int | str = dataclasses.field(kw_only=True)
-    axsv: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    pre: literal.Integer | int | str
+    axsh: literal.Integer | int | str
+    axsv: literal.Integer | int | str
     emap: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Real | int | float | decimal.Decimal | str] | str = abc.Terminal[
         r''
     ]('')

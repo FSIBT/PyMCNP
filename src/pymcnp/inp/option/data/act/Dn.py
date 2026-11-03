@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from ..... import abc
 from ..Act import Act
@@ -15,8 +14,6 @@ class Dn(Act):
         value: dn act data option `value` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'DN'] | str = abc.Terminal[r'DN']('DN')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:MODEL|LIBRARY|BOTH|PROMPT)'] | str = dataclasses.field(kw_only=True)
+    value: typing.Annotated[abc.Terminal, r'(?:MODEL|LIBRARY|BOTH|PROMPT)'] | str

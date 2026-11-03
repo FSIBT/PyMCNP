@@ -1,7 +1,6 @@
 import typing
 import decimal
 import collections
-import dataclasses
 
 from .... import abc
 from ... import literal
@@ -18,16 +17,14 @@ class Embem(Data):
         m: embem data card `m` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'EMBEM'] | str = abc.Terminal[r'EMBEM']('EMBEM')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
     m: (
         typing.Annotated[abc.Array, literal.Real | literal.Jump, None]
         | typing.Annotated[abc.Terminal, r'']
         | collections.abc.Sequence[literal.Real | literal.Jump | int | float | decimal.Decimal | str]
         | str
-    ) = dataclasses.field(kw_only=True)
+    )
 
     def __post_init__(self) -> None:
         """

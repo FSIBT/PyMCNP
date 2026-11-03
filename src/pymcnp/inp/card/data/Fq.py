@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 import collections
 
@@ -18,10 +17,8 @@ class Fq(Data):
         a: fq data card `a` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'FQ'] | str = abc.Terminal[r'FQ']('FQ')
-    suffix: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    suffix: literal.Integer | int | str
     a: (
         typing.Annotated[abc.Array, typing.Annotated[abc.Terminal, r'F|D|U|S|M|C|E|T'], None]
         | typing.Annotated[abc.Terminal, r'']

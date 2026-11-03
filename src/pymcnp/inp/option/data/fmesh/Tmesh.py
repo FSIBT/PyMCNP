@@ -1,7 +1,6 @@
 import typing
 import decimal
 import collections
-import dataclasses
 
 from ..... import abc
 from ..Fmesh import Fmesh
@@ -17,8 +16,6 @@ class Tmesh(Fmesh):
         equals: tmesh fmesh data option `=` symbol.
         t: tmesh fmesh data option `t` parameter.
     """
-
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
 
     keyword: typing.Annotated[abc.Terminal, r'TMESH'] | str = abc.Terminal[r'TMESH']('TMESH')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

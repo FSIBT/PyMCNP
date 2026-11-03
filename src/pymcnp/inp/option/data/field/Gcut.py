@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from .... import literal
@@ -17,8 +16,6 @@ class Gcut(Field):
         e: gcut field data option `e` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'GCUT'] | str = abc.Terminal[r'GCUT']('GCUT')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    e: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    e: literal.Real | int | float | decimal.Decimal | str

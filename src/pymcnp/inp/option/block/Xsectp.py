@@ -1,5 +1,4 @@
 import typing
-import dataclasses
 
 from .... import abc
 from ..Block import Block
@@ -16,8 +15,6 @@ class Xsectp(Block):
         value: xsectp block suboption `value` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'XSECTP'] | str = abc.Terminal[r'XSECTP']('XSECTP')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    value: literal.Integer | int | str

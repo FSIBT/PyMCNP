@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 from ..... import abc
 from .... import literal
@@ -17,8 +16,6 @@ class Fmatnx(Kopts):
         fmat_nx: fmatnx kopts data option `fmat_nx` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     keyword: typing.Annotated[abc.Terminal, r'FMATNX'] | str = abc.Terminal[r'FMATNX']('FMATNX')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    fmat_nx: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    fmat_nx: literal.Real | int | float | decimal.Decimal | str

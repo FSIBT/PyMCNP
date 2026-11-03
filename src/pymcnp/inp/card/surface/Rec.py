@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 import numpy
 
@@ -38,23 +37,21 @@ class Rec_0(Rec):
         v2z: rec surface card `v2z` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    j: literal.Integer | int | str
     keyword: typing.Annotated[abc.Terminal, r'REC'] | str = abc.Terminal[r'REC']('REC')
-    vx: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    vy: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    vz: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    h1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    h2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    h3: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    v1x: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    v1y: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    v1z: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    v2x: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    v2y: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    v2z: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    vx: literal.Real | int | float | decimal.Decimal | str
+    vy: literal.Real | int | float | decimal.Decimal | str
+    vz: literal.Real | int | float | decimal.Decimal | str
+    h1: literal.Real | int | float | decimal.Decimal | str
+    h2: literal.Real | int | float | decimal.Decimal | str
+    h3: literal.Real | int | float | decimal.Decimal | str
+    v1x: literal.Real | int | float | decimal.Decimal | str
+    v1y: literal.Real | int | float | decimal.Decimal | str
+    v1z: literal.Real | int | float | decimal.Decimal | str
+    v2x: literal.Real | int | float | decimal.Decimal | str
+    v2y: literal.Real | int | float | decimal.Decimal | str
+    v2z: literal.Real | int | float | decimal.Decimal | str
 
     def __post_init__(self) -> None:
         """
@@ -120,20 +117,18 @@ class Rec_1(Rec):
         v2x: rec surface card `v2x` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
-    j: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    j: literal.Integer | int | str
     keyword: typing.Annotated[abc.Terminal, r'REC'] | str = abc.Terminal[r'REC']('REC')
-    vx: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    vy: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    vz: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    h1: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    h2: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    h3: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    v1x: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    v1y: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    v1z: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
-    v2x: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    vx: literal.Real | int | float | decimal.Decimal | str
+    vy: literal.Real | int | float | decimal.Decimal | str
+    vz: literal.Real | int | float | decimal.Decimal | str
+    h1: literal.Real | int | float | decimal.Decimal | str
+    h2: literal.Real | int | float | decimal.Decimal | str
+    h3: literal.Real | int | float | decimal.Decimal | str
+    v1x: literal.Real | int | float | decimal.Decimal | str
+    v1y: literal.Real | int | float | decimal.Decimal | str
+    v1z: literal.Real | int | float | decimal.Decimal | str
+    v2x: literal.Real | int | float | decimal.Decimal | str
 
     def __post_init__(self) -> None:
         """

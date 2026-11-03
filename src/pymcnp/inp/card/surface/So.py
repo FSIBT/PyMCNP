@@ -1,6 +1,5 @@
 import typing
 import decimal
-import dataclasses
 
 
 from .... import abc
@@ -21,13 +20,11 @@ class So(Surface):
         r: so surface card `R` parameter.
     """
 
-    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict, kw_only=True)
-
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str = dataclasses.field(kw_only=True)
+    j: literal.Integer | int | str
     n: literal.Integer | typing.Annotated[abc.Terminal, r''] | int | str = abc.Terminal[r'']('')
     keyword: typing.Annotated[abc.Terminal, r'SO'] | str = abc.Terminal[r'SO']('SO')
-    r: literal.Real | int | float | decimal.Decimal | str = dataclasses.field(kw_only=True)
+    r: literal.Real | int | float | decimal.Decimal | str
 
     def __post_init__(self) -> None:
         """
