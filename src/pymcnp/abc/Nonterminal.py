@@ -226,11 +226,11 @@ class Nonterminal(Symbol):
 
         if id(self) in memo:
             return memo[id(self)]
-            
+
         clone = type(self).from_mcnp(self.to_mcnp())[0]
-        
+
         memo[id(self)] = clone
-        
+
         return clone
 
     @classmethod

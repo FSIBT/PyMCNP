@@ -98,23 +98,7 @@ class Outp(abc.File):
         Output file surface tallies.
         """
 
-        return tuple(block for block in self.blocks if isinstance(block, (outp.block.Tally_0, outp.block.Tally_1))) if isinstance(self.blocks, abc.Array) else ()
-
-    @property
-    def tallies_surface_passed(self) -> tuple[outp.block.Tally, ...]:
-        """
-        Output file passed surface tallies.
-        """
-
-        return tuple(block for block in self.blocks if isinstance(block, outp.block.Tally_0)) if isinstance(self.blocks, abc.Array) else ()
-
-    @property
-    def tallies_surface_failed(self) -> tuple[outp.block.Tally, ...]:
-        """
-        Output file failed surface tallies.
-        """
-
-        return tuple(block for block in self.blocks if isinstance(block, outp.block.Tally_1)) if isinstance(self.blocks, abc.Array) else ()
+        return tuple(block for block in self.blocks if isinstance(block, outp.block.TallySurface)) if isinstance(self.blocks, abc.Array) else ()
 
     @property
     def tallies_angle(self) -> tuple[outp.block.Tally, ...]:
@@ -122,23 +106,7 @@ class Outp(abc.File):
         Output file angle tallies.
         """
 
-        return tuple(block for block in self.blocks if isinstance(block, (outp.block.Tally_2, outp.block.Tally_3))) if isinstance(self.blocks, abc.Array) else ()
-
-    @property
-    def tallies_angle_passed(self) -> tuple[outp.block.Tally, ...]:
-        """
-        Output file passed angle surface tallies.
-        """
-
-        return tuple(block for block in self.blocks if isinstance(block, outp.block.Tally_2)) if isinstance(self.blocks, abc.Array) else ()
-
-    @property
-    def tallies_angle_failed(self) -> tuple[outp.block.Tally, ...]:
-        """
-        Output file failed angle surface tallies.
-        """
-
-        return tuple(block for block in self.blocks if isinstance(block, outp.block.Tally_3)) if isinstance(self.blocks, abc.Array) else ()
+        return tuple(block for block in self.blocks if isinstance(block, outp.block.TallyAngle)) if isinstance(self.blocks, abc.Array) else ()
 
     @property
     def tallies_cell(self) -> tuple[outp.block.Tally, ...]:
@@ -146,25 +114,7 @@ class Outp(abc.File):
         Output file cell tallies.
         """
 
-        return (
-            tuple(block for block in self.blocks if isinstance(block, (outp.block.Tally_4, outp.block.Tally_5, outp.block.Tally_6, outp.block.Tally_7))) if isinstance(self.blocks, abc.Array) else ()
-        )
-
-    @property
-    def tallies_cell_passed(self) -> tuple[outp.block.Tally, ...]:
-        """
-        Output file passed cell tallies.
-        """
-
-        return tuple(block for block in self.blocks if isinstance(block, (outp.block.Tally_4, outp.block.Tally_6))) if isinstance(self.blocks, abc.Array) else ()
-
-    @property
-    def tallies_cell_failed(self) -> tuple[outp.block.Tally, ...]:
-        """
-        Output file failed cell tallies.
-        """
-
-        return tuple(block for block in self.blocks if isinstance(block, (outp.block.Tally_5, outp.block.Tally_7))) if isinstance(self.blocks, abc.Array) else ()
+        return tuple(block for block in self.blocks if isinstance(block, outp.block.TallyCell)) if isinstance(self.blocks, abc.Array) else ()
 
     def to_dataframe(self) -> dict[str, pandas.DataFrame]:
         """

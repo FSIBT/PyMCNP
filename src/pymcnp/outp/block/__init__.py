@@ -1,7 +1,7 @@
 from .Activity import Activity, NeutronActivity, PhotonActivity
 from .AnalysisTallyFluctuation import AnalysisTallyFluctuation
 from .StartingMcrun import StartingMcrun
-from .Tally import Tally, Tally_0, Tally_1, Tally_2, Tally_3, Tally_4, Tally_5, Tally_6, Tally_7
+from .Tally import Tally, TallySurface, TallyAngle, TallyCell, TallyCell_0, TallyCell_1
 from .UnnormedTallyDensity import UnnormedTallyDensity
 from .Else import Else
 
@@ -13,13 +13,10 @@ __all__ = (
     'PhotonActivity',
     'StartingMcrun',
     'Tally',
-    'Tally_0',
-    'Tally_1',
-    'Tally_2',
-    'Tally_3',
-    'Tally_4',
-    'Tally_5',
-    'Tally_6',
-    'Tally_7',
+    'TallySurface',
+    'TallyAngle',
+    'TallyCell',
+    'TallyCell_0',
+    'TallyCell_1',
     'UnnormedTallyDensity',
 )
