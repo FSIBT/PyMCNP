@@ -12,12 +12,12 @@ class Fmesh(Data):
     Represents fmesh data cards.
 
     Attributes:
-        prefix: fmesh data card `prefix` parameter.
-        keyword: fmesh data card `FMESH` symbol.
-        suffix: fmesh data card `n` parameter.
-        colon: fmesh data card `:` symbol.
-        particle: fmesh data card `particle` parameter.
-        options: fmesh data card `options` parameter.
+        prefix: fmesh data card ``prefix`` parameter.
+        keyword: fmesh data card ``r'FMESH'`` symbol.
+        suffix: fmesh data card ``n`` parameter.
+        colon: fmesh data card ``r':'`` symbol.
+        particle: fmesh data card ``particle`` parameter.
+        options: fmesh data card ``options`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

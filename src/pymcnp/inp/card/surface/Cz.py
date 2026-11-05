@@ -13,11 +13,11 @@ class Cz(Surface):
     Represents cz surface cards.
 
     Attributes:
-        prefix: cz surface card `prefix` parameter.
-        j: cz surface card `j` parameter.
-        n: cz surface card `n` parameter.
-        keyword: cz surface card `CZ` symbol.
-        r: cz surface card `R` parameter.
+        prefix: cz surface card ``prefix`` parameter.
+        j: cz surface card ``j`` parameter.
+        n: cz surface card ``n`` parameter.
+        keyword: cz surface card ``r'CZ'`` symbol.
+        r: cz surface card ``R`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

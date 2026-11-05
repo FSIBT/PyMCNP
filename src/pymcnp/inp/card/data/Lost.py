@@ -10,9 +10,9 @@ class Lost(Data):
     Represents lost data cards.
 
     Attributes:
-        keyword: lost data card `LOST` symbol.
-        lost1: lost data card `lost1` parameter.
-        lost2: lost data card `lost2` parameter.
+        keyword: lost data card ``r'LOST'`` symbol.
+        lost1: lost data card ``lost1`` parameter.
+        lost2: lost data card ``lost2`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'LOST'] | str = abc.Terminal[r'LOST']('LOST')

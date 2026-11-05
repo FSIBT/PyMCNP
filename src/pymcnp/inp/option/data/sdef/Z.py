@@ -11,9 +11,9 @@ class Z(Sdef):
     Represents z sdef data options.
 
     Attributes:
-        keyword: z sdef data option `Z` symbol.
-        equals: z sdef data option `equals` parameter.
-        z: z sdef data option `z` parameter.
+        keyword: z sdef data option ``r'Z'`` symbol.
+        equals: z sdef data option ``equals`` parameter.
+        z: z sdef data option ``z`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'Z'] | str = abc.Terminal[r'Z']('Z')

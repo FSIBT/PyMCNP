@@ -9,9 +9,9 @@ class Mcnpumfile(Embed):
     Represents mcnpumfile embed data options.
 
     Attributes:
-        keyword: mcnpumfile embed data option `MCNPUMFILE` symbol.
-        equals: mcnpumfile embed data option `=` symbol.
-        filename: mcnpumfile embed data option `filename` parameter.
+        keyword: mcnpumfile embed data option ``r'MCNPUMFILE'`` symbol.
+        equals: mcnpumfile embed data option ``r'='`` symbol.
+        filename: mcnpumfile embed data option ``filename`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MCNPUMFILE'] | str = abc.Terminal[r'MCNPUMFILE']('MCNPUMFILE')

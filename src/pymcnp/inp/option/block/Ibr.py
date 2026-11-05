@@ -10,9 +10,9 @@ class Ibr(Block):
     Represents ibr block dawwg data options.
 
     Attributes:
-        keyword: ibr block suboption `IBR` symbol.
-        equals: ibr block suboption `=` symbol.
-        value: ibr block suboption `value` parameter.
+        keyword: ibr block suboption ``r'IBR'`` symbol.
+        equals: ibr block suboption ``r'='`` symbol.
+        value: ibr block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'IBR'] | str = abc.Terminal[r'IBR']('IBR')

@@ -13,9 +13,9 @@ class Mt(Data):
     Represents mt data cards.
 
     Attributes:
-        keyword: mt data card `MT` symbol.
-        suffix: mt data card `n` parameter.
-        sabid: mt data card `sabid` parameter.
+        keyword: mt data card ``r'MT'`` symbol.
+        suffix: mt data card ``n`` parameter.
+        sabid: mt data card ``sabid`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MT'] | str = abc.Terminal[r'MT']('MT')

@@ -12,8 +12,8 @@ class Thtme(Data):
     Represents thtme data cards.
 
     Attributes:
-        keyword: thtme data card `THTME` symbol.
-        t: thtme data card `t` parameter.
+        keyword: thtme data card ``r'THTME'`` symbol.
+        t: thtme data card ``t`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'THTME'] | str = abc.Terminal[r'THTME']('THTME')

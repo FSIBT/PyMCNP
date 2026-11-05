@@ -10,9 +10,9 @@ class Tr(Ssr):
     Represents tr ssr data options.
 
     Attributes:
-        keyword: tr ssr data option `TR` symbol.
-        equals: tr ssr data option `=` symbol.
-        n: tr ssr data option `n` parameter.
+        keyword: tr ssr data option ``r'TR'`` symbol.
+        equals: tr ssr data option ``r'='`` symbol.
+        n: tr ssr data option ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TR'] | str = abc.Terminal[r'TR']('TR')

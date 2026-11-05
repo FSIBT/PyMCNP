@@ -13,8 +13,8 @@ class Uran(Data):
     Represents uran data cards.
 
     Attributes:
-        keyword: uran data card `URAN` symbol.
-        nj_dx_dy_dz: uran data card `nj_dx_dy_dz` parameter.
+        keyword: uran data card ``r'URAN'`` symbol.
+        nj_dx_dy_dz: uran data card ``nj_dx_dy_dz`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'URAN'] | str = abc.Terminal[r'URAN']('URAN')

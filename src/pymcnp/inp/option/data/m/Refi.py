@@ -11,9 +11,9 @@ class Refi(M):
     Represents refi m data options.
 
     Attributes:
-        keyword: refi m data option `REFI` symbol.
-        equals: refi m data option `=` symbol.
-        a: refi m data option `a` parameter.
+        keyword: refi m data option ``r'REFI'`` symbol.
+        equals: refi m data option ``r'='`` symbol.
+        a: refi m data option ``a`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'REFI'] | str = abc.Terminal[r'REFI']('REFI')

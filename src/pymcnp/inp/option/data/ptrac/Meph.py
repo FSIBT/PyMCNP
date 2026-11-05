@@ -10,9 +10,9 @@ class Meph(Ptrac):
     Represents meph ptrac data options.
 
     Attributes:
-        keyword: meph ptrac data option `MEPH` symbol.
-        equals: meph ptrac data option `=` symbol.
-        value: meph ptrac data option `value` parameter.
+        keyword: meph ptrac data option ``r'MEPH'`` symbol.
+        equals: meph ptrac data option ``r'='`` symbol.
+        value: meph ptrac data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MEPH'] | str = abc.Terminal[r'MEPH']('MEPH')

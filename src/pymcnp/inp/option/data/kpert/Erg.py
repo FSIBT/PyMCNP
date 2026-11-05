@@ -12,9 +12,9 @@ class Erg(Kpert):
     Represents erg kpert data options.
 
     Attributes:
-        keyword: erg kpert data option `ERG` symbol.
-        equals: erg kpert data option `=` symbol.
-        e: erg kpert data option `e` parameter.
+        keyword: erg kpert data option ``r'ERG'`` symbol.
+        equals: erg kpert data option ``r'='`` symbol.
+        e: erg kpert data option ``e`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ERG'] | str = abc.Terminal[r'ERG']('ERG')

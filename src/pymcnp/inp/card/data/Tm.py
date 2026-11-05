@@ -12,9 +12,9 @@ class Tm(Data):
     Represents tm data cards.
 
     Attributes:
-        keyword: tm data card `TM` symbol.
-        suffix: tm data card `n` parameter.
-        m: tm data card `m` parameter.
+        keyword: tm data card ``r'TM'`` symbol.
+        suffix: tm data card ``n`` parameter.
+        m: tm data card ``m`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TM'] | str = abc.Terminal[r'TM']('TM')

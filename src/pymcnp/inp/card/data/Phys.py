@@ -18,20 +18,20 @@ class Phys_0(Phys):
     Represents phys data cards, form #0.
 
     Attributes:
-        keyword: phys data card `PHYS:N` symbol.
-        emax: phys data card `emax` parameter.
-        emcnf: phys data card `emcnf` parameter.
-        iunr: phys data card `iunr` parameter.
-        j_0: phys data card `J` parameter, #0.
-        j_1: phys data card `J` parameter, #1.
-        j_2: phys data card `J` parameter, #2.
-        coilf: phys data card `coilf` parameter.
-        cutn: phys data card `cutn` parameter.
-        ngam: phys data card `ngam` parameter.
-        j_3: phys data card `J` parameter, #3.
-        j_4: phys data card `J` parameter, #4.
-        i_int_model: phys data card `i_int_model` parameter.
-        i_els_model: phys data card `i_els_model` parameter.
+        keyword: phys data card ``r'PHYS:N'`` symbol.
+        emax: phys data card ``emax`` parameter.
+        emcnf: phys data card ``emcnf`` parameter.
+        iunr: phys data card ``iunr`` parameter.
+        j_0: phys data card ``J`` parameter, #0.
+        j_1: phys data card ``J`` parameter, #1.
+        j_2: phys data card ``J`` parameter, #2.
+        coilf: phys data card ``coilf`` parameter.
+        cutn: phys data card ``cutn`` parameter.
+        ngam: phys data card ``ngam`` parameter.
+        j_3: phys data card ``J`` parameter, #3.
+        j_4: phys data card ``J`` parameter, #4.
+        i_int_model: phys data card ``i_int_model`` parameter.
+        i_els_model: phys data card ``i_els_model`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'PHYS:N'] | str = abc.Terminal[r'PHYS:N']('PHYS:N')
@@ -83,14 +83,14 @@ class Phys_1(Phys):
     Represents phys data cards, form #1.
 
     Attributes:
-        keyword: phys data card `PHYS:P` symbol.
-        emcpf: phys data card `emcpf` parameter.
-        ides: phys data card `ides` parameter.
-        nocoh: phys data card `nocoh` parameter.
-        ispn: phys data card `ispn` parameter.
-        nodop: phys data card `nodop` parameter.
-        j: phys data card `J` parameter.
-        fism: phys data card `fism` parameter.
+        keyword: phys data card ``r'PHYS:P'`` symbol.
+        emcpf: phys data card ``emcpf`` parameter.
+        ides: phys data card ``ides`` parameter.
+        nocoh: phys data card ``nocoh`` parameter.
+        ispn: phys data card ``ispn`` parameter.
+        nodop: phys data card ``nodop`` parameter.
+        j: phys data card ``J`` parameter.
+        fism: phys data card ``fism`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'PHYS:P'] | str = abc.Terminal[r'PHYS:P']('PHYS:P')
@@ -131,23 +131,23 @@ class Phys_2(Phys):
     Represents phys data cards, form #2.
 
     Attributes:
-        keyword: phys data card `PHYS:E` symbol.
-        emax: phys data card `emax` parameter.
-        ides: phys data card `ides` parameter.
-        iphot: phys data card `iphot` parameter.
-        ibad: phys data card `ibad` parameter.
-        istrg: phys data card `istrg` parameter.
-        bnum: phys data card `bnum` parameter.
-        xnum: phys data card `xnum` parameter.
-        rnok: phys data card `rnok` parameter.
-        enum: phys data card `enum` parameter.
-        numb: phys data card `numb` parameter.
-        i_mcs_model: phys data card `i_mcs_model` parameter.
-        mode_electron_elastic: phys data card `mode_electron_elastic` parameter.
-        j: phys data card `J` parameter.
-        efac: phys data card `efac` parameter.
-        electron_method_boundary: phys data card `electron_method_boundary` parameter.
-        ckvnum: phys data card `ckvnum` parameter.
+        keyword: phys data card ``r'PHYS:E'`` symbol.
+        emax: phys data card ``emax`` parameter.
+        ides: phys data card ``ides`` parameter.
+        iphot: phys data card ``iphot`` parameter.
+        ibad: phys data card ``ibad`` parameter.
+        istrg: phys data card ``istrg`` parameter.
+        bnum: phys data card ``bnum`` parameter.
+        xnum: phys data card ``xnum`` parameter.
+        rnok: phys data card ``rnok`` parameter.
+        enum: phys data card ``enum`` parameter.
+        numb: phys data card ``numb`` parameter.
+        i_mcs_model: phys data card ``i_mcs_model`` parameter.
+        mode_electron_elastic: phys data card ``mode_electron_elastic`` parameter.
+        j: phys data card ``J`` parameter.
+        efac: phys data card ``efac`` parameter.
+        electron_method_boundary: phys data card ``electron_method_boundary`` parameter.
+        ckvnum: phys data card ``ckvnum`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'PHYS:E'] | str = abc.Terminal[r'PHYS:E']('PHYS:E')
@@ -218,24 +218,24 @@ class Phys_3(Phys):
     Represents phys data cards, form #3.
 
     Attributes:
-        keyword: phys data card `PHYS:H` symbol.
-        emax: phys data card `emax` parameter.
-        ean: phys data card `ean` parameter.
-        tabl: phys data card `tabl` parameter.
-        j_0: phys data card `J` parameter, #0.
-        istrg: phys data card `istrg` parameter.
-        j_1: phys data card `J` parameter, #1.
-        recl: phys data card `recl` parameter.
-        j_2: phys data card `J` parameter, #2.
-        j_3: phys data card `J` parameter, #3.
-        j_4: phys data card `J` parameter, #4.
-        i_mcs_model: phys data card `i_mcs_model` parameter.
-        i_int_model: phys data card `i_int_model` parameter.
-        i_els_model: phys data card `i_els_model` parameter.
-        efac: phys data card `efac` parameter.
-        j_5: phys data card `J` parameter, #5.
-        ckvnum: phys data card `ckvnum` parameter.
-        drp: phys data card `drp` parameter.
+        keyword: phys data card ``r'PHYS:H'`` symbol.
+        emax: phys data card ``emax`` parameter.
+        ean: phys data card ``ean`` parameter.
+        tabl: phys data card ``tabl`` parameter.
+        j_0: phys data card ``J`` parameter, #0.
+        istrg: phys data card ``istrg`` parameter.
+        j_1: phys data card ``J`` parameter, #1.
+        recl: phys data card ``recl`` parameter.
+        j_2: phys data card ``J`` parameter, #2.
+        j_3: phys data card ``J`` parameter, #3.
+        j_4: phys data card ``J`` parameter, #4.
+        i_mcs_model: phys data card ``i_mcs_model`` parameter.
+        i_int_model: phys data card ``i_int_model`` parameter.
+        i_els_model: phys data card ``i_els_model`` parameter.
+        efac: phys data card ``efac`` parameter.
+        j_5: phys data card ``J`` parameter, #5.
+        ckvnum: phys data card ``ckvnum`` parameter.
+        drp: phys data card ``drp`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'PHYS:H'] | str = abc.Terminal[r'PHYS:H']('PHYS:H')
@@ -298,26 +298,26 @@ class Phys_4(Phys):
     Represents phys data cards, form #4.
 
     Attributes:
-        keyword: phys data card `PHYS` symbol.
-        colon: phys data card `:` symbol.
-        particle: phys data card `particle` parameter.
-        emax: phys data card `emax` parameter.
-        j_0: phys data card `J` parameter, #0.
-        j_1: phys data card `J` parameter, #1.
-        j_2: phys data card `J` parameter, #2.
-        istrg: phys data card `istrg` parameter.
-        j_3: phys data card `J` parameter, #3.
-        xmunum: phys data card `xmunum` parameter.
-        xmugam: phys data card `xmugam` parameter.
-        j_4: phys data card `J` parameter, #4.
-        j_5: phys data card `J` parameter, #5.
-        i_mcs_model: phys data card `i_mcs_model` parameter.
-        i_int_model: phys data card `i_int_model` parameter.
-        i_els_model: phys data card `i_els_model` parameter.
-        efac: phys data card `efac` parameter.
-        j_6: phys data card `J` parameter, #6.
-        ckvnum: phys data card `ckvnum` parameter.
-        drp: phys data card `drp` parameter.
+        keyword: phys data card ``r'PHYS'`` symbol.
+        colon: phys data card ``r':'`` symbol.
+        particle: phys data card ``particle`` parameter.
+        emax: phys data card ``emax`` parameter.
+        j_0: phys data card ``J`` parameter, #0.
+        j_1: phys data card ``J`` parameter, #1.
+        j_2: phys data card ``J`` parameter, #2.
+        istrg: phys data card ``istrg`` parameter.
+        j_3: phys data card ``J`` parameter, #3.
+        xmunum: phys data card ``xmunum`` parameter.
+        xmugam: phys data card ``xmugam`` parameter.
+        j_4: phys data card ``J`` parameter, #4.
+        j_5: phys data card ``J`` parameter, #5.
+        i_mcs_model: phys data card ``i_mcs_model`` parameter.
+        i_int_model: phys data card ``i_int_model`` parameter.
+        i_els_model: phys data card ``i_els_model`` parameter.
+        efac: phys data card ``efac`` parameter.
+        j_6: phys data card ``J`` parameter, #6.
+        ckvnum: phys data card ``ckvnum`` parameter.
+        drp: phys data card ``drp`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'PHYS'] | str = abc.Terminal[r'PHYS']('PHYS')

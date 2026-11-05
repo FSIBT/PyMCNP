@@ -10,9 +10,9 @@ class Ibt(Block):
     Represents ibt block dawwg data options.
 
     Attributes:
-        keyword: ibt block suboption `IBT` symbol.
-        equals: ibt block suboption `=` symbol.
-        value: ibt block suboption `value` parameter.
+        keyword: ibt block suboption ``r'IBT'`` symbol.
+        equals: ibt block suboption ``r'='`` symbol.
+        value: ibt block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'IBT'] | str = abc.Terminal[r'IBT']('IBT')

@@ -15,8 +15,8 @@ class _Nv(abc.Nonterminal):
     Represents nv symbols.
 
     Attributes:
-        n: nv symbols `n` parameter.
-        v: nv symbols `v` parameter.
+        n: nv symbols ``n`` parameter.
+        v: nv symbols ``v`` parameter.
     """
 
     _space = (Space,)
@@ -33,7 +33,7 @@ class _Nv(abc.Nonterminal):
             source: Source string to compile.
 
         Returns:
-            Nonterminal symbol corresponding to `source`.
+            Nonterminal symbol corresponding to ``source``.
 
         Raises:
             Error: Invalid source string.
@@ -67,8 +67,8 @@ class V(Line):
     Represents v lines.
 
     Attributes:
-        m: v line `m` parameter.
-        nv: v v line `nv` parameter.
+        m: v line ``m`` parameter.
+        nv: v v line ``nv`` parameter.
     """
 
     _space = (Space,)

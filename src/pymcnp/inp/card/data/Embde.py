@@ -12,9 +12,9 @@ class Embde(Data):
     Represents embde data cards.
 
     Attributes:
-        keyword: embde data card `EMBDE` symbol.
-        suffix: embde data card `n` parameter.
-        e: embde data card `e` parameter.
+        keyword: embde data card ``r'EMBDE'`` symbol.
+        suffix: embde data card ``n`` parameter.
+        e: embde data card ``e`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'EMBDE'] | str = abc.Terminal[r'EMBDE']('EMBDE')

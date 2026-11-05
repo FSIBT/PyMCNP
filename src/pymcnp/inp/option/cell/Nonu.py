@@ -16,9 +16,9 @@ class Nonu_0(Nonu):
     Represents nonu cell options, form #0.
 
     Attributes:
-        keyword: nonu cell option `NONU` symbol.
-        equals: nonu cell option `=` symbol.
-        a: nonu cell option `a` parameter.
+        keyword: nonu cell option ``r'NONU'`` symbol.
+        equals: nonu cell option ``r'='`` symbol.
+        a: nonu cell option ``a`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'NONU'] | str = abc.Terminal[r'NONU']('NONU')
@@ -31,7 +31,7 @@ class Nonu_1(Nonu):
     Represents nonu cell options, form #1.
 
     Attributes:
-        keyword: nonu cell option `NONU` symbol.
+        keyword: nonu cell option ``r'NONU'`` symbol.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'NONU'] | str = abc.Terminal[r'NONU']('NONU')

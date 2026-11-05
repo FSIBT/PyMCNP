@@ -10,9 +10,9 @@ class Seed(Rand):
     Represents seed rand data options.
 
     Attributes:
-        keyword: seed rand data option `SEED` symbol.
-        equals: seed rand data option `=` symbol.
-        value: seed rand data option `value` parameter.
+        keyword: seed rand data option ``r'SEED'`` symbol.
+        equals: seed rand data option ``r'='`` symbol.
+        value: seed rand data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'SEED'] | str = abc.Terminal[r'SEED']('SEED')

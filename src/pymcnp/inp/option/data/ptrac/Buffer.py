@@ -10,9 +10,9 @@ class Buffer(Ptrac):
     Represents buffer ptrac data options.
 
     Attributes:
-        keyword: buffer ptrac data option `BUFFER` symbol.
-        equals: buffer ptrac data option `=` symbol.
-        value: buffer ptrac data option `value` parameter.
+        keyword: buffer ptrac data option ``r'BUFFER'`` symbol.
+        equals: buffer ptrac data option ``r'='`` symbol.
+        value: buffer ptrac data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'BUFFER'] | str = abc.Terminal[r'BUFFER']('BUFFER')

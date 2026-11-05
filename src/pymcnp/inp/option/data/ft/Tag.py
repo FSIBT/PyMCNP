@@ -10,8 +10,8 @@ class Tag(Ft):
     Represents tag ft data options.
 
     Attributes:
-        id: tag group `TAG` symbol.
-        a: tag group `a` parameter.
+        id: tag group ``r'TAG'`` symbol.
+        a: tag group ``a`` parameter.
     """
 
     id: typing.Annotated[abc.Terminal, r'TAG'] | str = abc.Terminal[r'TAG']('TAG')

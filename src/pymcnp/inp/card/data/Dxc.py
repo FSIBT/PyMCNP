@@ -12,11 +12,11 @@ class Dxc(Data):
     Represents dxc data cards.
 
     Attributes:
-        keyword: dxc data card `DXC` symbol.
-        suffix: dxc data card `n` parameter.
-        colon: dxc data card `colon` parameter.
-        particle: dxc data card `particle` parameter.
-        p: dxc data card `p` parameter.
+        keyword: dxc data card ``r'DXC'`` symbol.
+        suffix: dxc data card ``n`` parameter.
+        colon: dxc data card ``colon`` parameter.
+        particle: dxc data card ``particle`` parameter.
+        p: dxc data card ``p`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DXC'] | str = abc.Terminal[r'DXC']('DXC')

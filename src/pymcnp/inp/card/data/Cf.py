@@ -11,9 +11,9 @@ class Cf(Data):
     Represents cf data cards.
 
     Attributes:
-        keyword: cf data card `CF` symbol.
-        suffix: cf data card `n` parameter.
-        c: cf data card `c` parameter.
+        keyword: cf data card ``r'CF'`` symbol.
+        suffix: cf data card ``n`` parameter.
+        c: cf data card ``c`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'CF'] | str = abc.Terminal[r'CF']('CF')

@@ -12,8 +12,8 @@ class Ssr(Data):
     Represents ssr data cards.
 
     Attributes:
-        keyword: ssr data card `SSR` symbol.
-        options: ssr data card `options` parameter.
+        keyword: ssr data card ``r'SSR'`` symbol.
+        options: ssr data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'SSR'] | str = abc.Terminal[r'SSR']('SSR')

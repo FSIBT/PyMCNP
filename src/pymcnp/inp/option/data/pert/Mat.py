@@ -10,9 +10,9 @@ class Mat(Pert):
     Represents mat pert data options.
 
     Attributes:
-        keyword: mat pert data option `MAT` symbol.
-        equals: mat pert data option `=` symbol.
-        m: mat pert data option `m` parameter.
+        keyword: mat pert data option ``r'MAT'`` symbol.
+        equals: mat pert data option ``r'='`` symbol.
+        m: mat pert data option ``m`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MAT'] | str = abc.Terminal[r'MAT']('MAT')

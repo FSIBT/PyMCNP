@@ -10,8 +10,8 @@ class Scx(Ft):
     Represents scx ft data options.
 
     Attributes:
-        id: scx group `SCX` symbol.
-        k: scx group `k` parameter.
+        id: scx group ``r'SCX'`` symbol.
+        k: scx group ``k`` parameter.
     """
 
     id: typing.Annotated[abc.Terminal, r'SCX'] | str = abc.Terminal[r'SCX']('SCX')

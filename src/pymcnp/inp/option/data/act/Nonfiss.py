@@ -9,9 +9,9 @@ class Nonfiss(Act):
     Represents nofiss act data options.
 
     Attributes:
-        keyword: nofiss act data option `NONFISS` symbol.
-        equals: nofiss act data option `=` symbol.
-        value: nofiss act data option `value` parameter.
+        keyword: nofiss act data option ``r'NONFISS'`` symbol.
+        equals: nofiss act data option ``r'='`` symbol.
+        value: nofiss act data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'NONFISS'] | str = abc.Terminal[r'NONFISS']('NONFISS')

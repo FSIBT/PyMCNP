@@ -11,15 +11,15 @@ class Kcode(Data):
     Represents kcode data cards.
 
     Attributes:
-        keyword: kcode data card `KCODE` symbol.
-        nsrck: kcode data card `nsrck` parameter.
-        rkk: kcode data card `rkk` parameter.
-        ikz: kcode data card `ikz` parameter.
-        kct: kcode data card `kct` parameter.
-        msrk: kcode data card `msrk` parameter.
-        knrm: kcode data card `knrm` parameter.
-        mrkp: kcode data card `mrkp` parameter.
-        kc8: kcode data card `kc8` parameter.
+        keyword: kcode data card ``r'KCODE'`` symbol.
+        nsrck: kcode data card ``nsrck`` parameter.
+        rkk: kcode data card ``rkk`` parameter.
+        ikz: kcode data card ``ikz`` parameter.
+        kct: kcode data card ``kct`` parameter.
+        msrk: kcode data card ``msrk`` parameter.
+        knrm: kcode data card ``knrm`` parameter.
+        mrkp: kcode data card ``mrkp`` parameter.
+        kc8: kcode data card ``kc8`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'KCODE'] | str = abc.Terminal[r'KCODE']('KCODE')

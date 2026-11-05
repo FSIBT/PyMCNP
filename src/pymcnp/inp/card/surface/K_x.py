@@ -14,15 +14,15 @@ class K_x(Surface):
     Represents k/x surface cards.
 
     Attributes:
-        prefix: k/x surface card `prefix` parameter.
-        j: k/x surface card `j` parameter.
-        n: k/x surface card `n` parameter.
-        keyword: k/x surface card `K/X` symbol.
-        x: k/x surface card `x` parameter.
-        y: k/x surface card `y` parameter.
-        z: k/x surface card `z` parameter.
-        t_squared: k/x surface card `t_squared` parameter.
-        plus_minus_1: k/x surface card `plus_minus_1` parameter.
+        prefix: k/x surface card ``prefix`` parameter.
+        j: k/x surface card ``j`` parameter.
+        n: k/x surface card ``n`` parameter.
+        keyword: k/x surface card ``r'K/X'`` symbol.
+        x: k/x surface card ``x`` parameter.
+        y: k/x surface card ``y`` parameter.
+        z: k/x surface card ``z`` parameter.
+        t_squared: k/x surface card ``t_squared`` parameter.
+        plus_minus_1: k/x surface card ``plus_minus_1`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

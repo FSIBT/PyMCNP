@@ -12,8 +12,8 @@ class Pwt(Data):
     Represents pwt data cards.
 
     Attributes:
-        keyword: pwt data card `PWT` symbol.
-        w: pwt data card `w` parameter.
+        keyword: pwt data card ``r'PWT'`` symbol.
+        w: pwt data card ``w`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'PWT'] | str = abc.Terminal[r'PWT']('PWT')

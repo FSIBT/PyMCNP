@@ -9,9 +9,9 @@ class Meeout(Embed):
     Represents meeout embed data options.
 
     Attributes:
-        keyword: meeout embed data option `MEEOUT` symbol.
-        equals: meeout embed data option `=` symbol.
-        filename: meeout embed data option `filename` parameter.
+        keyword: meeout embed data option ``r'MEEOUT'`` symbol.
+        equals: meeout embed data option ``r'='`` symbol.
+        filename: meeout embed data option ``filename`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MEEOUT'] | str = abc.Terminal[r'MEEOUT']('MEEOUT')

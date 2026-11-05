@@ -13,11 +13,11 @@ class Px(Surface):
     Represents px surface cards.
 
     Attributes:
-        prefix: px surface card `prefix` parameter.
-        j: px surface card `j` parameter.
-        n: px surface card `n` parameter.
-        keyword: px surface card `PX` symbol.
-        d: px surface card `D` parameter.
+        prefix: px surface card ``prefix`` parameter.
+        j: px surface card ``j`` parameter.
+        n: px surface card ``n`` parameter.
+        keyword: px surface card ``r'PX'`` symbol.
+        d: px surface card ``D`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

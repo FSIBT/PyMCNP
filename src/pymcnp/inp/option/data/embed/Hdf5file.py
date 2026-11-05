@@ -9,9 +9,9 @@ class Hdf5file(Embed):
     Represents hdf5file embed data options.
 
     Attributes:
-        keyword: hdf5file embed data option `HDF5FILE` symbol.
-        equals: hdf5file embed data option `=` symbol.
-        filename: hdf5file embed data option `filename` parameter.
+        keyword: hdf5file embed data option ``r'HDF5FILE'`` symbol.
+        equals: hdf5file embed data option ``r'='`` symbol.
+        filename: hdf5file embed data option ``filename`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'HDF5FILE'] | str = abc.Terminal[r'HDF5FILE']('HDF5FILE')

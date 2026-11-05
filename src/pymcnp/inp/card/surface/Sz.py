@@ -14,12 +14,12 @@ class Sz(Surface):
     Represents sz surface cards.
 
     Attributes:
-        prefix: sz surface card `prefix` parameter.
-        j: sz surface card `j` parameter.
-        n: sz surface card `n` parameter.
-        keyword: sz surface card `SZ` symbol.
-        z: sz surface card `z` parameter.
-        r: sz surface card `R` parameter.
+        prefix: sz surface card ``prefix`` parameter.
+        j: sz surface card ``j`` parameter.
+        n: sz surface card ``n`` parameter.
+        keyword: sz surface card ``r'SZ'`` symbol.
+        z: sz surface card ``z`` parameter.
+        r: sz surface card ``R`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

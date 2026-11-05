@@ -10,8 +10,8 @@ class Totnu(Data):
     Represents totnu data cards.
 
     Attributes:
-        keyword: totnu data card `TOTNU` symbol.
-        value: totnu data card `NO` symbol.
+        keyword: totnu data card ``r'TOTNU'`` symbol.
+        value: totnu data card ``r'NO'`` symbol.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TOTNU'] | str = abc.Terminal[r'TOTNU']('TOTNU')

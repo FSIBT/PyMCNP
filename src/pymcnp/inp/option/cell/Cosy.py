@@ -10,9 +10,9 @@ class Cosy(Cell):
     Represents cosy cell options.
 
     Attributes:
-        keyword: cosy cell option `COSY` symbol.
-        equals: cosy cell option `=` symbol.
-        m: cosy cell option `m` parameter.
+        keyword: cosy cell option ``r'COSY'`` symbol.
+        equals: cosy cell option ``r'='`` symbol.
+        m: cosy cell option ``m`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'COSY'] | str = abc.Terminal[r'COSY']('COSY')

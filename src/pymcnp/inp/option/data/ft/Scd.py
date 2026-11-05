@@ -9,7 +9,7 @@ class Scd(Ft):
     Represents scd ft data options.
 
     Attributes:
-        id: scd group `SCD` symbol.
+        id: scd group ``r'SCD'`` symbol.
     """
 
     id: typing.Annotated[abc.Terminal, r'SCD'] | str = abc.Terminal[r'SCD']('SCD')

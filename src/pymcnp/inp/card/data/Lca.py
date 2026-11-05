@@ -10,18 +10,18 @@ class Lca(Data):
     Represents lca data cards.
 
     Attributes:
-        keyword: lca data card `LCA` symbol.
-        ielas: lca data card `ielas` parameter.
-        ipreg: lca data card `ipreg` parameter.
-        iexisa: lca data card `iexisa` parameter.
-        ichoic: lca data card `ichoic` parameter.
-        jcoul: lca data card `jcoul` parameter.
-        nexite: lca data card `nexite` parameter.
-        npidk: lca data card `npidk` parameter.
-        noact: lca data card `noact` parameter.
-        icem: lca data card `icem` parameter.
-        ilaq: lca data card `ilaq` parameter.
-        nevtype: lca data card `nevtype` parameter.
+        keyword: lca data card ``r'LCA'`` symbol.
+        ielas: lca data card ``ielas`` parameter.
+        ipreg: lca data card ``ipreg`` parameter.
+        iexisa: lca data card ``iexisa`` parameter.
+        ichoic: lca data card ``ichoic`` parameter.
+        jcoul: lca data card ``jcoul`` parameter.
+        nexite: lca data card ``nexite`` parameter.
+        npidk: lca data card ``npidk`` parameter.
+        noact: lca data card ``noact`` parameter.
+        icem: lca data card ``icem`` parameter.
+        ilaq: lca data card ``ilaq`` parameter.
+        nevtype: lca data card ``nevtype`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'LCA'] | str = abc.Terminal[r'LCA']('LCA')

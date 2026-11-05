@@ -10,9 +10,9 @@ class Asback(Block):
     Represents asback block dawwg data options.
 
     Attributes:
-        keyword: asback block suboption `ASBACK` symbol.
-        equals: asback block suboption `=` symbol.
-        value: asback block suboption `value` parameter.
+        keyword: asback block suboption ``r'ASBACK'`` symbol.
+        equals: asback block suboption ``r'='`` symbol.
+        value: asback block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ASBACK'] | str = abc.Terminal[r'ASBACK']('ASBACK')

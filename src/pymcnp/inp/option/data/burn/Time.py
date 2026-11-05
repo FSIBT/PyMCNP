@@ -12,9 +12,9 @@ class Time(Burn):
     Represents time burn data options.
 
     Attributes:
-        keyword: time burn data option `TIME` symbol.
-        equals: time burn data option `=` symbol.
-        t: time burn data option `t` parameter.
+        keyword: time burn data option ``r'TIME'`` symbol.
+        equals: time burn data option ``r'='`` symbol.
+        t: time burn data option ``t`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TIME'] | str = abc.Terminal[r'TIME']('TIME')

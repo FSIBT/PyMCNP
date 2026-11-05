@@ -9,9 +9,9 @@ class Kinetics(Kopts):
     Represents kinetics kopts data options.
 
     Attributes:
-        keyword: kinetics kopts data option `KINETICS` symbol.
-        equals: kinetics kopts data option `=` symbol.
-        value: kinetics kopts data option `value` parameter.
+        keyword: kinetics kopts data option ``r'KINETICS'`` symbol.
+        equals: kinetics kopts data option ``r'='`` symbol.
+        value: kinetics kopts data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'KINETICS'] | str = abc.Terminal[r'KINETICS']('KINETICS')

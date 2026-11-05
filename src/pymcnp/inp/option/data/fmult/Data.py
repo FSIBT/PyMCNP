@@ -10,9 +10,9 @@ class Data(Fmult):
     Represents data fmult data options.
 
     Attributes:
-        keyword: data fmult data option `DATA` symbol.
-        equals: data fmult data option `=` symbol.
-        d: data fmult data option `d` parameter.
+        keyword: data fmult data option ``r'DATA'`` symbol.
+        equals: data fmult data option ``r'='`` symbol.
+        d: data fmult data option ``d`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DATA'] | str = abc.Terminal[r'DATA']('DATA')

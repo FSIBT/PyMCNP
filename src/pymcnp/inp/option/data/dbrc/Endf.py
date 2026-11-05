@@ -10,9 +10,9 @@ class Endf(Dbrc):
     Represents endf dbrc data options.
 
     Attributes:
-        keyword: endf dbrc data option `ENDF` symbol.
-        equals: endf dbrc data option `=` symbol.
-        nn: endf dbrc data option `nn` parameter.
+        keyword: endf dbrc data option ``r'ENDF'`` symbol.
+        equals: endf dbrc data option ``r'='`` symbol.
+        nn: endf dbrc data option ``nn`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ENDF'] | str = abc.Terminal[r'ENDF']('ENDF')

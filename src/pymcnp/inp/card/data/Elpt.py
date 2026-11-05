@@ -12,10 +12,10 @@ class Elpt(Data):
     Represents elpt data cards.
 
     Attributes:
-        keyword: elpt data card `ELPT` symbol.
-        colon:  elpt data card `:` symbol.
-        particle: elpt data card `particle` parameter.
-        x: elpt data card `x` parameter.
+        keyword: elpt data card ``r'ELPT'`` symbol.
+        colon:  elpt data card ``r':'`` symbol.
+        particle: elpt data card ``particle`` parameter.
+        x: elpt data card ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ELPT'] | str = abc.Terminal[r'ELPT']('ELPT')

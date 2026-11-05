@@ -10,9 +10,9 @@ class Rzmflux(Block):
     Represents rzmflux block dawwg data options.
 
     Attributes:
-        keyword: rzmflux block suboption `RZMFLUX` symbol.
-        equals: rzmflux block suboption `=` symbol.
-        value: rzmflux block suboption `value` parameter.
+        keyword: rzmflux block suboption ``r'RZMFLUX'`` symbol.
+        equals: rzmflux block suboption ``r'='`` symbol.
+        value: rzmflux block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'RZMFLUX'] | str = abc.Terminal[r'RZMFLUX']('RZMFLUX')

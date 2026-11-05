@@ -11,9 +11,9 @@ class Sfyield(Fmult):
     Represents sfyield fmult data options.
 
     Attributes:
-        keyword: sfyield fmult data option `SFYIELD` symbol.
-        equals: sfyield fmult data option `=` symbol.
-        y: sfyield fmult data option `y` parameter.
+        keyword: sfyield fmult data option ``r'SFYIELD'`` symbol.
+        equals: sfyield fmult data option ``r'='`` symbol.
+        y: sfyield fmult data option ``y`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'SFYIELD'] | str = abc.Terminal[r'SFYIELD']('SFYIELD')

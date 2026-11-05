@@ -10,8 +10,8 @@ class Fns(Ft):
     Represents fns ft data options.
 
     Attributes:
-        id: fns group `FNS` symbol.
-        nt: fns group `nt` parameter.
+        id: fns group ``r'FNS'`` symbol.
+        nt: fns group ``nt`` parameter.
     """
 
     id: typing.Annotated[abc.Terminal, r'FNS'] | str = abc.Terminal[r'FNS']('FNS')

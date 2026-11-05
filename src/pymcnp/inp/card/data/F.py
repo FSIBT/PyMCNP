@@ -20,12 +20,12 @@ class F_0(F):
     Represents f data cards, form #0.
 
     Attributes:
-        prefix: f data card `prefix` parameter.
-        keyword: f data card `F` symbol.
-        suffix: f data card `n` parameter.
-        colon: f data card `:` symbol.
-        particle: f data card `particle` parameter.
-        s: f data card `s` parameter.
+        prefix: f data card ``prefix`` parameter.
+        keyword: f data card ``r'F'`` symbol.
+        suffix: f data card ``n`` parameter.
+        colon: f data card ``r':'`` symbol.
+        particle: f data card ``particle`` parameter.
+        s: f data card ``s`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'\+'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
@@ -55,12 +55,12 @@ class F_1(F):
     Represents f data cards, form #1.
 
     Attributes:
-        keyword: f data card `F` symbol.
-        suffix: f data card `n` parameter.
-        colon: f data card `:` symbol.
-        particle: f data card `particle` parameter.
-        x_y_z_ro: f data card `x_y_z_ro` parameter.
-        nd: f data card `ND` symbol.
+        keyword: f data card ``r'F'`` symbol.
+        suffix: f data card ``n`` parameter.
+        colon: f data card ``r':'`` symbol.
+        particle: f data card ``particle`` parameter.
+        x_y_z_ro: f data card ``x_y_z_ro`` parameter.
+        nd: f data card ``r'ND'`` symbol.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'F'] | str = abc.Terminal[r'F']('F')
@@ -89,13 +89,13 @@ class F_2(F):
     Represents f data cards, form #2.
 
     Attributes:
-        keyword: f data card `F` symbol.
-        suffix: f data card `n` parameter.
-        suffix_a: f data card `a` parameter.
-        colon: f data card `:` symbol.
-        particle: f data card `particle` parameter.
-        ao_r_ro: f data card `ao_r_ro` parameter.
-        nd: f data card `ND` symbol.
+        keyword: f data card ``r'F'`` symbol.
+        suffix: f data card ``n`` parameter.
+        suffix_a: f data card ``a`` parameter.
+        colon: f data card ``r':'`` symbol.
+        particle: f data card ``particle`` parameter.
+        ao_r_ro: f data card ``ao_r_ro`` parameter.
+        nd: f data card ``r'ND'`` symbol.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'F'] | str = abc.Terminal[r'F']('F')

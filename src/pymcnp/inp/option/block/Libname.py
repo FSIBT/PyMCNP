@@ -9,9 +9,9 @@ class Libname(Block):
     Represents libname block dawwg data options.
 
     Attributes:
-        keyword: libname block suboption `LIBNAME` symbol.
-        equals: libname block suboption `=` symbol.
-        value: libname block suboption `value` parameter.
+        keyword: libname block suboption ``r'LIBNAME'`` symbol.
+        equals: libname block suboption ``r'='`` symbol.
+        value: libname block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'LIBNAME'] | str = abc.Terminal[r'LIBNAME']('LIBNAME')

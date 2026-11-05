@@ -10,11 +10,11 @@ class Dat(Sdef):
     Represents dat sdef data options.
 
     Attributes:
-        keyword: dat sdef data option `DAT` symbol.
-        equals: dat sdef data option `equals` parameter.
-        m: dat sdef data option `m` parameter.
-        d: dat sdef data option `d` parameter.
-        y: dat sdef data option `y` parameter.
+        keyword: dat sdef data option ``r'DAT'`` symbol.
+        equals: dat sdef data option ``equals`` parameter.
+        m: dat sdef data option ``m`` parameter.
+        d: dat sdef data option ``d`` parameter.
+        y: dat sdef data option ``y`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DAT'] | str = abc.Terminal[r'DAT']('DAT')

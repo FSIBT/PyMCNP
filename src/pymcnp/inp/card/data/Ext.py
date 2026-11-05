@@ -13,10 +13,10 @@ class Ext(Data):
     Represents ext data cards.
 
     Attributes:
-        keyword: ext data card `EXT` symbol.
-        colon: ext data card `colon` parameter.
-        particle: ext data card `particle` parameter.
-        a: ext data card `a` parameter.
+        keyword: ext data card ``r'EXT'`` symbol.
+        colon: ext data card ``colon`` parameter.
+        particle: ext data card ``particle`` parameter.
+        a: ext data card ``a`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'EXT'] | str = abc.Terminal[r'EXT']('EXT')

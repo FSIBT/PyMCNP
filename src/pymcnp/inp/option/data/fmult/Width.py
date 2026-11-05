@@ -11,9 +11,9 @@ class Width(Fmult):
     Represents width fmult data options.
 
     Attributes:
-        keyword: width fmult data option `WIDTH` symbol.
-        equals: width fmult data option `=` symbol.
-        w: width fmult data option `w` parameter.
+        keyword: width fmult data option ``r'WIDTH'`` symbol.
+        equals: width fmult data option ``r'='`` symbol.
+        w: width fmult data option ``w`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'WIDTH'] | str = abc.Terminal[r'WIDTH']('WIDTH')

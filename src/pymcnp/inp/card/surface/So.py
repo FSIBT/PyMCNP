@@ -13,11 +13,11 @@ class So(Surface):
     Represents so surface cards.
 
     Attributes:
-        prefix: so surface card `prefix` parameter.
-        j: so surface card `j` parameter.
-        n: so surface card `n` parameter.
-        keyword: so surface card `SO` symbol.
-        r: so surface card `R` parameter.
+        prefix: so surface card ``prefix`` parameter.
+        j: so surface card ``j`` parameter.
+        n: so surface card ``n`` parameter.
+        keyword: so surface card ``r'SO'`` symbol.
+        r: so surface card ``R`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

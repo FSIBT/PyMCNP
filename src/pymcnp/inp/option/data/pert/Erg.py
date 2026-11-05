@@ -11,10 +11,10 @@ class Erg(Pert):
     Represents erg pert data options.
 
     Attributes:
-        keyword: erg pert data option `ERG` symbol.
-        equals: erg pert data option `=` symbol.
-        elb: erg pert data option `elb` parameter.
-        eub: erg pert data option `eub` parameter.
+        keyword: erg pert data option ``r'ERG'`` symbol.
+        equals: erg pert data option ``r'='`` symbol.
+        elb: erg pert data option ``elb`` parameter.
+        eub: erg pert data option ``eub`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ERG'] | str = abc.Terminal[r'ERG']('ERG')

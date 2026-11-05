@@ -10,9 +10,9 @@ class Ptconv(Block):
     Represents ptconv block dawwg data options.
 
     Attributes:
-        keyword: ptconv block suboption `PTCONV` symbol.
-        equals: ptconv block suboption `=` symbol.
-        value: ptconv block suboption `value` parameter.
+        keyword: ptconv block suboption ``r'PTCONV'`` symbol.
+        equals: ptconv block suboption ``r'='`` symbol.
+        value: ptconv block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'PTCONV'] | str = abc.Terminal[r'PTCONV']('PTCONV')

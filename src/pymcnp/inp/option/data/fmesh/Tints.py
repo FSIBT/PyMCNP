@@ -12,9 +12,9 @@ class Tints(Fmesh):
     Represents tints fmesh data options.
 
     Attributes:
-        keyword: tints fmesh data option `TINTS` symbol.
-        equals: tints fmesh data option `=` symbol.
-        n: tints fmesh data option `n` parameter.
+        keyword: tints fmesh data option ``r'TINTS'`` symbol.
+        equals: tints fmesh data option ``r'='`` symbol.
+        n: tints fmesh data option ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TINTS'] | str = abc.Terminal[r'TINTS']('TINTS')

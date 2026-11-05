@@ -12,9 +12,9 @@ class Embed(Data):
     Represents embed data cards.
 
     Attributes:
-        keyword: embed data card `EMBED` symbol.
-        suffix: embed data card `n` parameter.
-        options: embed data card `options` parameter.
+        keyword: embed data card ``r'EMBED'`` symbol.
+        suffix: embed data card ``n`` parameter.
+        options: embed data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'EMBED'] | str = abc.Terminal[r'EMBED']('EMBED')

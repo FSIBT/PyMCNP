@@ -20,11 +20,11 @@ class T_0(T):
     Represents t data cards, form #0.
 
     Attributes:
-        keyword: t data card `T` symbol.
-        suffix: t data card `n` parameter.
-        t: t data card `t` parameter.
-        nt: t data card `NT` symbol.
-        c: t data card `C` symbol.
+        keyword: t data card ``r'T'`` symbol.
+        suffix: t data card ``n`` parameter.
+        t: t data card ``t`` parameter.
+        nt: t data card ``r'NT'`` symbol.
+        c: t data card ``r'C'`` symbol.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'T'] | str = abc.Terminal[r'T']('T')
@@ -54,9 +54,9 @@ class T_1(T):
     Represents t data cards, form #1.
 
     Attributes:
-        keyword: t data card `T` symbol.
-        suffix: t data card `n` parameter.
-        options: t data card `options` parameter.
+        keyword: t data card ``r'T'`` symbol.
+        suffix: t data card ``n`` parameter.
+        options: t data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'T'] | str = abc.Terminal[r'T']('T')

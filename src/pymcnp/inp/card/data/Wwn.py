@@ -12,11 +12,11 @@ class Wwn(Data):
     Represents wwn data cards.
 
     Attributes:
-        keyword: wwn data card `WWN` symbol.
-        suffix: wwn data card `i` parameter.
-        colon: wwn data card `colon` parameter.
-        particle: wwn data card `particle` parameter.
-        w: wwn data card `w` parameter.
+        keyword: wwn data card ``r'WWN'`` symbol.
+        suffix: wwn data card ``i`` parameter.
+        colon: wwn data card ``colon`` parameter.
+        particle: wwn data card ``particle`` parameter.
+        w: wwn data card ``w`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'WWN'] | str = abc.Terminal[r'WWN']('WWN')

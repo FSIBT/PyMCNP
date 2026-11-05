@@ -12,8 +12,8 @@ class Bflcl(Data):
     Represents bflcl data cards.
 
     Attributes:
-        keyword: bflcl data card `BFLCL` symbol.
-        m: bflcl data card `m` parameter.
+        keyword: bflcl data card ``r'BFLCL'`` symbol.
+        m: bflcl data card ``m`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'BFLCL'] | str = abc.Terminal[r'BFLCL']('BFLCL')

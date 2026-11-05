@@ -10,9 +10,9 @@ class Nrm(Sdef):
     Represents nrm sdef data options.
 
     Attributes:
-        keyword: nrm sdef data option `NRM` symbol.
-        equals: nrm sdef data option `equals` parameter.
-        x: nrm sdef data option `x` parameter.
+        keyword: nrm sdef data option ``r'NRM'`` symbol.
+        equals: nrm sdef data option ``equals`` parameter.
+        x: nrm sdef data option ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'NRM'] | str = abc.Terminal[r'NRM']('NRM')

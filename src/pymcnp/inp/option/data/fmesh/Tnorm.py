@@ -9,9 +9,9 @@ class Tnorm(Fmesh):
     Represents tnorm fmesh data options.
 
     Attributes:
-        keyword: tnorm fmesh data option `TNORM` symbol.
-        equals: tnorm fmesh data option `=` symbol.
-        value: tnorm fmesh data option `value` parameter.
+        keyword: tnorm fmesh data option ``r'TNORM'`` symbol.
+        equals: tnorm fmesh data option ``r'='`` symbol.
+        value: tnorm fmesh data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TNORM'] | str = abc.Terminal[r'TNORM']('TNORM')

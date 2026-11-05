@@ -10,9 +10,9 @@ class Nap(Act):
     Represents nap act data options.
 
     Attributes:
-        keyword: nap act data option `NAP` symbol.
-        equals: nap act data option `=` symbol.
-        valuem: nap act data option `valuem` parameter.
+        keyword: nap act data option ``r'NAP'`` symbol.
+        equals: nap act data option ``r'='`` symbol.
+        valuem: nap act data option ``valuem`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'NAP'] | str = abc.Terminal[r'NAP']('NAP')

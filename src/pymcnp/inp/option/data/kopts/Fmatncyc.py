@@ -10,9 +10,9 @@ class Fmatncyc(Kopts):
     Represents fmatncyc kopts data options.
 
     Attributes:
-        keyword: fmatncyc kopts data option `FMATNCYC` symbol.
-        equals: fmatncyc kopts data option `=` symbol.
-        fmat_ncyc: fmatncyc kopts data option `fmat_ncyc` parameter.
+        keyword: fmatncyc kopts data option ``r'FMATNCYC'`` symbol.
+        equals: fmatncyc kopts data option ``r'='`` symbol.
+        fmat_ncyc: fmatncyc kopts data option ``fmat_ncyc`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FMATNCYC'] | str = abc.Terminal[r'FMATNCYC']('FMATNCYC')

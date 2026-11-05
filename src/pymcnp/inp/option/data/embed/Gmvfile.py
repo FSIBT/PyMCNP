@@ -9,9 +9,9 @@ class Gmvfile(Embed):
     Represents gmvfile embed data options.
 
     Attributes:
-        keyword: gmvfile embed data option `GMVFILE` symbol.
-        equals: gmvfile embed data option `=` symbol.
-        filename: gmvfile embed data option `filename` parameter.
+        keyword: gmvfile embed data option ``r'GMVFILE'`` symbol.
+        equals: gmvfile embed data option ``r'='`` symbol.
+        filename: gmvfile embed data option ``filename`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'GMVFILE'] | str = abc.Terminal[r'GMVFILE']('GMVFILE')

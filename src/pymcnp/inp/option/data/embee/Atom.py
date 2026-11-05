@@ -9,9 +9,9 @@ class Atom(Embee):
     Represents atom embee data options.
 
     Attributes:
-        keyword: atom embee data option `ATOM` symbol.
-        equals: atom embee data option `=` symbol.
-        value: atom embee data option `value` parameter.
+        keyword: atom embee data option ``r'ATOM'`` symbol.
+        equals: atom embee data option ``r'='`` symbol.
+        value: atom embee data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ATOM'] | str = abc.Terminal[r'ATOM']('ATOM')

@@ -12,10 +12,10 @@ class Wwgt(Data):
     Represents wwgt data cards.
 
     Attributes:
-        keyword: wwgt data card `WWGT` symbol.
-        colon: wwgt data card `colon` parameter.
-        particle: wwgt data card `particle` parameter.
-        t: wwgt data card `t` parameter.
+        keyword: wwgt data card ``r'WWGT'`` symbol.
+        colon: wwgt data card ``colon`` parameter.
+        particle: wwgt data card ``particle`` parameter.
+        t: wwgt data card ``t`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'WWGT'] | str = abc.Terminal[r'WWGT']('WWGT')

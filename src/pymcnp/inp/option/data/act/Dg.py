@@ -9,9 +9,9 @@ class Dg(Act):
     Represents dg act data options.
 
     Attributes:
-        keyword: dg act data option `DG` symbol.
-        equals: dg act data option `=` symbol.
-        value: dg act data option `value` parameter.
+        keyword: dg act data option ``r'DG'`` symbol.
+        equals: dg act data option ``r'='`` symbol.
+        value: dg act data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DG'] | str = abc.Terminal[r'DG']('DG')

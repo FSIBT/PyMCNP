@@ -11,11 +11,11 @@ class Bopt(Burn):
     Represents bopt burn data options.
 
     Attributes:
-        keyword: bopt burn data option `BOPT` symbol.
-        equals: bopt burn data option `=` symbol.
-        b1: bopt burn data option `b1` parameter.
-        b2: bopt burn data option `b2` parameter.
-        b3: bopt burn data option `b3` parameter.
+        keyword: bopt burn data option ``r'BOPT'`` symbol.
+        equals: bopt burn data option ``r'='`` symbol.
+        b1: bopt burn data option ``b1`` parameter.
+        b2: bopt burn data option ``b2`` parameter.
+        b3: bopt burn data option ``b3`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'BOPT'] | str = abc.Terminal[r'BOPT']('BOPT')

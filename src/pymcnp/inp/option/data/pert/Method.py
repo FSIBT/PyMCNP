@@ -11,9 +11,9 @@ class Method(Pert):
     Represents method pert data options.
 
     Attributes:
-        keyword: method pert data option `METHOD` symbol.
-        equals: method pert data option `=` symbol.
-        j: method pert data option `j` parameter.
+        keyword: method pert data option ``r'METHOD'`` symbol.
+        equals: method pert data option ``r'='`` symbol.
+        j: method pert data option ``j`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'METHOD'] | str = abc.Terminal[r'METHOD']('METHOD')

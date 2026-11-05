@@ -10,10 +10,10 @@ class Fm(Data):
     Represents fm data cards.
 
     Attributes:
-        prefix: fm data card `prefix` parameter.
-        keyword: fm data card `FM` symbol.
-        suffix: fm data card `n` parameter.
-        bins: fm data card `bins` parameter.
+        prefix: fm data card ``prefix`` parameter.
+        keyword: fm data card ``r'FM'`` symbol.
+        suffix: fm data card ``n`` parameter.
+        bins: fm data card ``bins`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[*+]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

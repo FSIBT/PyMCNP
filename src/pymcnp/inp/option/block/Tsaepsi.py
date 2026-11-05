@@ -11,9 +11,9 @@ class Tsaepsi(Block):
     Represents tsaepsi block dawwg data options.
 
     Attributes:
-        keyword: tsaepsi block suboption `TSAEPSI` symbol.
-        equals: tsaepsi block suboption `=` symbol.
-        value: tsaepsi block suboption `value` parameter.
+        keyword: tsaepsi block suboption ``r'TSAEPSI'`` symbol.
+        equals: tsaepsi block suboption ``r'='`` symbol.
+        value: tsaepsi block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TSAEPSI'] | str = abc.Terminal[r'TSAEPSI']('TSAEPSI')

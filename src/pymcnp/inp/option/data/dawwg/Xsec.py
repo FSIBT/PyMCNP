@@ -9,9 +9,9 @@ class Xsec(Dawwg):
     Represents xsec dawwg data options.
 
     Attributes:
-        keyword: xsec dawwg data option `XSEC` symbol.
-        equals: xsec dawwg data option `=` symbol.
-        name: xsec dawwg data option `name` parameter.
+        keyword: xsec dawwg data option ``r'XSEC'`` symbol.
+        equals: xsec dawwg data option ``r'='`` symbol.
+        name: xsec dawwg data option ``name`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'XSEC'] | str = abc.Terminal[r'XSEC']('XSEC')

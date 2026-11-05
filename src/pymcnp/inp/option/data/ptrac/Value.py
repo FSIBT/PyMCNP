@@ -12,9 +12,9 @@ class Value(Ptrac):
     Represents value ptrac data options.
 
     Attributes:
-        keyword: value ptrac data option `VALUE` symbol.
-        equals: value ptrac data option `=` symbol.
-        value: value ptrac data option `value` parameter.
+        keyword: value ptrac data option ``r'VALUE'`` symbol.
+        equals: value ptrac data option ``r'='`` symbol.
+        value: value ptrac data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'VALUE'] | str = abc.Terminal[r'VALUE']('VALUE')

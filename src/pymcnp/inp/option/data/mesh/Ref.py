@@ -11,11 +11,11 @@ class Ref(Mesh):
     Represents ref mesh data options.
 
     Attributes:
-        keyword: ref mesh data option `REF` symbol.
-        equals: ref mesh data option `=` symbol.
-        x: ref mesh data option `x` parameter.
-        y: ref mesh data option `y` parameter.
-        z: ref mesh data option `z` parameter.
+        keyword: ref mesh data option ``r'REF'`` symbol.
+        equals: ref mesh data option ``r'='`` symbol.
+        x: ref mesh data option ``x`` parameter.
+        y: ref mesh data option ``y`` parameter.
+        z: ref mesh data option ``z`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'REF'] | str = abc.Terminal[r'REF']('REF')

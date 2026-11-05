@@ -12,8 +12,8 @@ class Dawwg(Data):
     Represents dawwg data cards.
 
     Attributes:
-        keyword: dawwg data card `DAWWG` symbol.
-        options: dawwg data card `options` parameter.
+        keyword: dawwg data card ``r'DAWWG'`` symbol.
+        options: dawwg data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DAWWG'] | str = abc.Terminal[r'DAWWG']('DAWWG')

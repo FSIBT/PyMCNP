@@ -11,9 +11,9 @@ class Dir(Sdef):
     Represents dir sdef data options.
 
     Attributes:
-        keyword: dir sdef data option `DIR` symbol.
-        equals: dir sdef data option `equals` parameter.
-        u: dir sdef data option `u` parameter.
+        keyword: dir sdef data option ``r'DIR'`` symbol.
+        equals: dir sdef data option ``equals`` parameter.
+        u: dir sdef data option ``u`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DIR'] | str = abc.Terminal[r'DIR']('DIR')

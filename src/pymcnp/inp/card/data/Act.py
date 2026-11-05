@@ -12,8 +12,8 @@ class Act(Data):
     Represents act data cards.
 
     Attributes:
-        keyword: act data card `ACT` symbol.
-        options: act data card `options` parameter.
+        keyword: act data card ``r'ACT'`` symbol.
+        options: act data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ACT'] | str = abc.Terminal[r'ACT']('ACT')

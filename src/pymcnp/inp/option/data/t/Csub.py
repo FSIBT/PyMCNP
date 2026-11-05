@@ -10,9 +10,9 @@ class Csub(T):
     Represents csub t data options.
 
     Attributes:
-        keyword: csub t data option `CSUB` symbol.
-        equals: csub t data option `=` symbol.
-        value: csub t data option `value` parameter.
+        keyword: csub t data option ``r'CSUB'`` symbol.
+        equals: csub t data option ``r'='`` symbol.
+        value: csub t data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'CSUB'] | str = abc.Terminal[r'CSUB']('CSUB')

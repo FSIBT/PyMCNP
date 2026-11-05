@@ -17,12 +17,12 @@ class Z_0(Z):
     Represents z surface cards, form #0.
 
     Attributes:
-        prefix: z surface card `prefix` parameter.
-        j: z surface card `j` parameter.
-        n: z surface card `n` parameter.
-        keyword: z surface card `Z` symbol.
-        z0: z surface card `z0` parameter.
-        r0: z surface card `r0` parameter.
+        prefix: z surface card ``prefix`` parameter.
+        j: z surface card ``j`` parameter.
+        n: z surface card ``n`` parameter.
+        keyword: z surface card ``r'Z'`` symbol.
+        z0: z surface card ``z0`` parameter.
+        r0: z surface card ``r0`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
@@ -55,13 +55,13 @@ class Z_1(Z):
     Represents z surface cards, form #1.
 
     Attributes:
-        j: z surface card `j` parameter.
-        n: z surface card `n` parameter.
-        keyword: z surface card `Z` symbol.
-        z0: z surface card `z0` parameter.
-        r0: z surface card `r0` parameter.
-        z1: z surface card `z1` parameter.
-        r1: z surface card `r1` parameter.
+        j: z surface card ``j`` parameter.
+        n: z surface card ``n`` parameter.
+        keyword: z surface card ``r'Z'`` symbol.
+        z0: z surface card ``z0`` parameter.
+        r0: z surface card ``r0`` parameter.
+        z1: z surface card ``z1`` parameter.
+        r1: z surface card ``r1`` parameter.
     """
 
     j: literal.Integer | int | str
@@ -95,15 +95,15 @@ class Z_2(Z):
     Represents z surface cards, form #2.
 
     Attributes:
-        j: z surface card `j` parameter.
-        n: z surface card `n` parameter.
-        keyword: z surface card `Z` symbol.
-        z0: z surface card `z0` parameter.
-        r0: z surface card `r0` parameter.
-        z1: z surface card `z1` parameter.
-        r1: z surface card `r1` parameter.
-        z2: z surface card `z2` parameter.
-        r2: z surface card `r2` parameter.
+        j: z surface card ``j`` parameter.
+        n: z surface card ``n`` parameter.
+        keyword: z surface card ``r'Z'`` symbol.
+        z0: z surface card ``z0`` parameter.
+        r0: z surface card ``r0`` parameter.
+        z1: z surface card ``z1`` parameter.
+        r1: z surface card ``r1`` parameter.
+        z2: z surface card ``z2`` parameter.
+        r2: z surface card ``r2`` parameter.
     """
 
     j: literal.Integer | int | str

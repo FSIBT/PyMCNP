@@ -14,13 +14,13 @@ class Kx(Surface):
     Represents kx surface cards.
 
     Attributes:
-        prefix: kx surface card `prefix` parameter.
-        j: kx surface card `j` parameter.
-        n: kx surface card `n` parameter.
-        keyword: kx surface card `KX` symbol.
-        x: kx surface card `x` parameter.
-        t_squared: kx surface card `t_squared` parameter.
-        plus_minus_1: kx surface card `plus_minus_1` parameter.
+        prefix: kx surface card ``prefix`` parameter.
+        j: kx surface card ``j`` parameter.
+        n: kx surface card ``n`` parameter.
+        keyword: kx surface card ``r'KX'`` symbol.
+        x: kx surface card ``x`` parameter.
+        t_squared: kx surface card ``t_squared`` parameter.
+        plus_minus_1: kx surface card ``plus_minus_1`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

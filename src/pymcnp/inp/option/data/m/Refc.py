@@ -11,12 +11,12 @@ class Refc(M):
     Represents refc m data options.
 
     Attributes:
-        keyword: refi m data option `REFI` symbol.
-        equals: refi m data option `=` symbol.
-        a: refi m data option `a` parameter.
-        b: refi m data option `b` parameter.
-        c: refi m data option `c` parameter.
-        d: refi m data option `d` parameter.
+        keyword: refi m data option ``r'REFI'`` symbol.
+        equals: refi m data option ``r'='`` symbol.
+        a: refi m data option ``a`` parameter.
+        b: refi m data option ``b`` parameter.
+        c: refi m data option ``c`` parameter.
+        d: refi m data option ``d`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'REFC'] | str = abc.Terminal[r'REFC']('REFC')

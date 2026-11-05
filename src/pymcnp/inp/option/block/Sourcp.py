@@ -10,9 +10,9 @@ class Sourcp(Block):
     Represents sourcp block dawwg data options.
 
     Attributes:
-        keyword: sourcp block suboption `SOURCP` symbol.
-        equals: sourcp block suboption `=` symbol.
-        value: sourcp block suboption `value` parameter.
+        keyword: sourcp block suboption ``r'SOURCP'`` symbol.
+        equals: sourcp block suboption ``r'='`` symbol.
+        value: sourcp block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'SOURCP'] | str = abc.Terminal[r'SOURCP']('SOURCP')

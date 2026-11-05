@@ -9,9 +9,9 @@ class Plib(M):
     Represents plib m data options.
 
     Attributes:
-        keyword: plib m data option `PLIB` symbol.
-        equals: plib m data option `=` symbol.
-        x: plib m data option `x` parameter.
+        keyword: plib m data option ``r'PLIB'`` symbol.
+        equals: plib m data option ``r'='`` symbol.
+        x: plib m data option ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'PLIB'] | str = abc.Terminal[r'PLIB']('PLIB')

@@ -11,20 +11,20 @@ class Sq(Surface):
     Represents sq surface cards.
 
     Attributes:
-        prefix: sq surface card `prefix` parameter.
-        j: sq surface card `j` parameter.
-        n: sq surface card `n` parameter.
-        keyword: sq surface card `SQ` symbol.
-        a: sq surface card `A` parameter.
-        b: sq surface card `B` parameter.
-        c: sq surface card `C` parameter.
-        d: sq surface card `D` parameter.
-        e: sq surface card `E` parameter.
-        f: sq surface card `F` parameter.
-        g: sq surface card `G` parameter.
-        x: sq surface card `x` parameter.
-        y: sq surface card `y` parameter.
-        z: sq surface card `z` parameter.
+        prefix: sq surface card ``prefix`` parameter.
+        j: sq surface card ``j`` parameter.
+        n: sq surface card ``n`` parameter.
+        keyword: sq surface card ``r'SQ'`` symbol.
+        a: sq surface card ``A`` parameter.
+        b: sq surface card ``B`` parameter.
+        c: sq surface card ``C`` parameter.
+        d: sq surface card ``D`` parameter.
+        e: sq surface card ``E`` parameter.
+        f: sq surface card ``F`` parameter.
+        g: sq surface card ``G`` parameter.
+        x: sq surface card ``x`` parameter.
+        y: sq surface card ``y`` parameter.
+        z: sq surface card ``z`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

@@ -10,9 +10,9 @@ class Angp(Block):
     Represents angp block dawwg data options.
 
     Attributes:
-        keyword: angp block suboption `ANGP` symbol.
-        equals: angp block suboption `=` symbol.
-        value: angp block suboption `value` parameter.
+        keyword: angp block suboption ``r'ANGP'`` symbol.
+        equals: angp block suboption ``r'='`` symbol.
+        value: angp block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ANGP'] | str = abc.Terminal[r'ANGP']('ANGP')

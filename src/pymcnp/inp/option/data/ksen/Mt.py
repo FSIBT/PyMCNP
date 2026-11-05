@@ -12,9 +12,9 @@ class Mt(Ksen):
     Represents mt ksen data options.
 
     Attributes:
-        keyword: mt ksen data option `MT` symbol.
-        equals: mt ksen data option `=` symbol.
-        rx: mt ksen data option `rx` parameter.
+        keyword: mt ksen data option ``r'MT'`` symbol.
+        equals: mt ksen data option ``r'='`` symbol.
+        rx: mt ksen data option ``rx`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MT'] | str = abc.Terminal[r'MT']('MT')

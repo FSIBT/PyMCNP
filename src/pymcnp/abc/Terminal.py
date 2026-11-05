@@ -32,7 +32,7 @@ class Terminal(Symbol, str):
             value: String value of terminal symbol.
 
         Returns:
-            Terminal symbol with value `value`.
+            Terminal symbol with value ``value``.
 
         Raises:
             Error: Expected terminal.
@@ -51,13 +51,13 @@ class Terminal(Symbol, str):
     @classmethod
     def __class_getitem__(cls, pattern: str) -> type[typing.Self]:
         """
-        Gets subclasses of `Terminal` representing terminal symbols matching `pattern`.
+        Gets subclasses of ``Terminal`` representing terminal symbols matching ``pattern``.
 
         Parameters:
-            pattern: Regular expression for terminal symbols `index`.
+            pattern: Regular expression for terminal symbols ``index``.
 
         Returns:
-            Subclass of `Terminal` representing terminal symbols matching `pattern`.
+            Subclass of ``Terminal`` representing terminal symbols matching ``pattern``.
         """
 
         assert isinstance(pattern, str)
@@ -80,7 +80,7 @@ class Terminal(Symbol, str):
             source: Source string to compile.
 
         Returns:
-            Terminal symbol corresponding to `source`.
+            Terminal symbol corresponding to ``source``.
 
         Raises:
             Error: Expected terminal.
@@ -99,7 +99,7 @@ class Terminal(Symbol, str):
         Decompiles symbols into their corresponding terminal source strings.
 
         Returns:
-            Source string corresponding to `self`.
+            Source string corresponding to ``self``.
         """
 
         return self

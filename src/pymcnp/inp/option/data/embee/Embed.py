@@ -10,9 +10,9 @@ class Embed(Embee):
     Represents embed embee data options.
 
     Attributes:
-        keyword: embed embee data option `EMBED` symbol.
-        equals: embed embee data option `=` symbol.
-        value: embed embee data option `value` parameter.
+        keyword: embed embee data option ``r'EMBED'`` symbol.
+        equals: embed embee data option ``r'='`` symbol.
+        value: embed embee data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'EMBED'] | str = abc.Terminal[r'EMBED']('EMBED')

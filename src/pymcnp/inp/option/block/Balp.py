@@ -10,9 +10,9 @@ class Balp(Block):
     Represents balp block dawwg data options.
 
     Attributes:
-        keyword: balp block suboption `BALP` symbol.
-        equals: balp block suboption `=` symbol.
-        value: balp block suboption `value` parameter.
+        keyword: balp block suboption ``r'BALP'`` symbol.
+        equals: balp block suboption ``r'='`` symbol.
+        value: balp block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'BALP'] | str = abc.Terminal[r'BALP']('BALP')

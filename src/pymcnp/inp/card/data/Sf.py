@@ -11,9 +11,9 @@ class Sf(Data):
     Represents sf data cards.
 
     Attributes:
-        keyword: sf data card `SF` symbol.
-        suffix: sf data card `n` parameter.
-        s: sf data card `s` parameter.
+        keyword: sf data card ``r'SF'`` symbol.
+        suffix: sf data card ``n`` parameter.
+        s: sf data card ``s`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'SF'] | str = abc.Terminal[r'SF']('SF')

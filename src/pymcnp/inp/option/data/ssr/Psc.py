@@ -10,9 +10,9 @@ class Psc(Ssr):
     Represents psc ssr data options.
 
     Attributes:
-        keyword: psc ssr data option `PSC` symbol.
-        equals: psc ssr data option `=` symbol.
-        c: psc ssr data option `c` parameter.
+        keyword: psc ssr data option ``r'PSC'`` symbol.
+        equals: psc ssr data option ``r'='`` symbol.
+        c: psc ssr data option ``c`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'PSC'] | str = abc.Terminal[r'PSC']('PSC')

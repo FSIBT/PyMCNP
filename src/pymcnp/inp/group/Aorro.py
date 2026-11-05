@@ -9,9 +9,9 @@ class Aorro(Group):
     Represents aorro groups.
 
     Attributes:
-        ao: aorro group `ao` parameter.
-        r: aorro group `r` parameter.
-        ro: aorro group `ro` parameter.
+        ao: aorro group ``ao`` parameter.
+        r: aorro group ``r`` parameter.
+        ro: aorro group ``ro`` parameter.
     """
 
     ao: literal.Real | int | float | decimal.Decimal | str

@@ -11,9 +11,9 @@ class Tme(Sdef):
     Represents tme sdef data options.
 
     Attributes:
-        keyword: tme sdef data option `TME` symbol.
-        equals: tme sdef data option `equals` parameter.
-        t: tme sdef data option `t` parameter.
+        keyword: tme sdef data option ``r'TME'`` symbol.
+        equals: tme sdef data option ``equals`` parameter.
+        t: tme sdef data option ``t`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TME'] | str = abc.Terminal[r'TME']('TME')

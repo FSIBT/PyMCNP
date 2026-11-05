@@ -15,7 +15,7 @@ class Statistics(Subblock):
     @abc_.abstractmethod
     def is_passed(self) -> bool:
         """
-        `True` if the statistical check passed.
+        ``True`` if the statistical check passed.
         """
 
         raise NotImplementedError
@@ -23,7 +23,7 @@ class Statistics(Subblock):
     @property
     def is_failed(self) -> bool:
         """
-        `True` if the statistical check failed.
+        ``True`` if the statistical check failed.
         """
 
         return not self.is_passed
@@ -133,7 +133,7 @@ class StatisticsPassed(Statistics):
     @property
     def is_passed(self) -> bool:
         """
-        `True` if the statistical check passed.
+        ``True`` if the statistical check passed.
         """
 
         return True
@@ -235,7 +235,7 @@ class StatisticsFailed(Statistics):
     @property
     def is_passed(self) -> bool:
         """
-        `True` if the statistical check passed.
+        ``True`` if the statistical check passed.
         """
 
         return False

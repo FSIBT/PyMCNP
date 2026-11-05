@@ -14,13 +14,13 @@ class C_z(Surface):
     Represents c/z surface cards.
 
     Attributes:
-        prefix: c/z surface card `prefix` parameter.
-        j: c/z surface card `j` parameter.
-        n: c/z surface card `n` parameter.
-        keyword: c/z surface card `C/Z` symbol.
-        x: c/z surface card `x` parameter.
-        y: c/z surface card `y` parameter.
-        R: c/z surface card `R` parameter.
+        prefix: c/z surface card ``prefix`` parameter.
+        j: c/z surface card ``j`` parameter.
+        n: c/z surface card ``n`` parameter.
+        keyword: c/z surface card ``r'C/Z'`` symbol.
+        x: c/z surface card ``x`` parameter.
+        y: c/z surface card ``y`` parameter.
+        R: c/z surface card ``R`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

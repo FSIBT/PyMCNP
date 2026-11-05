@@ -9,9 +9,9 @@ class Elementchk(Embed):
     Represents elementchk embed data options.
 
     Attributes:
-        keyword: elementchk embed data option `ELEMENTCHK` symbol.
-        equals: elementchk embed data option `=` symbol.
-        value: elementchk embed data option `value` parameter.
+        keyword: elementchk embed data option ``r'ELEMENTCHK'`` symbol.
+        equals: elementchk embed data option ``r'='`` symbol.
+        value: elementchk embed data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ELEMENTCHK'] | str = abc.Terminal[r'ELEMENTCHK']('ELEMENTCHK')

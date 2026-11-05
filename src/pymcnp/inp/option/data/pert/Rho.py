@@ -11,9 +11,9 @@ class Rho(Pert):
     Represents rho pert data options.
 
     Attributes:
-        keyword: rho pert data option `RHO` symbol.
-        equals: rho pert data option `=` symbol.
-        r: rho pert data option `r` parameter.
+        keyword: rho pert data option ``r'RHO'`` symbol.
+        equals: rho pert data option ``r'='`` symbol.
+        r: rho pert data option ``r`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'RHO'] | str = abc.Terminal[r'RHO']('RHO')

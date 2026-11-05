@@ -13,9 +13,9 @@ class Dd(Data):
     Represents dd data cards.
 
     Attributes:
-        keyword: dd data card `DD` symbol.
-        suffix: dd data card `n` parameter.
-        k_m: dd data card `k_m` parameter.
+        keyword: dd data card ``r'DD'`` symbol.
+        suffix: dd data card ``n`` parameter.
+        k_m: dd data card ``k_m`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DD'] | str = abc.Terminal[r'DD']('DD')

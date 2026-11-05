@@ -12,9 +12,9 @@ class Embtm(Data):
     Represents embtm data cards.
 
     Attributes:
-        keyword: embtm data card `EMBTM` symbol.
-        suffix: embtm data card `n` parameter.
-        m: embtm data card `m` parameter.
+        keyword: embtm data card ``r'EMBTM'`` symbol.
+        suffix: embtm data card ``n`` parameter.
+        m: embtm data card ``m`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'EMBTM'] | str = abc.Terminal[r'EMBTM']('EMBTM')

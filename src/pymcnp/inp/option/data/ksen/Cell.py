@@ -12,9 +12,9 @@ class Cell(Ksen):
     Represents cell ksen data options.
 
     Attributes:
-        keyword: cell ksen data option `CELL` symbol.
-        equals: cell ksen data option `=` symbol.
-        c: cell ksen data option `c` parameter.
+        keyword: cell ksen data option ``r'CELL'`` symbol.
+        equals: cell ksen data option ``r'='`` symbol.
+        c: cell ksen data option ``c`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'CELL'] | str = abc.Terminal[r'CELL']('CELL')

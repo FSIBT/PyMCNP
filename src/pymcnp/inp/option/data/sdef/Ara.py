@@ -11,9 +11,9 @@ class Ara(Sdef):
     Represents ara sdef data options.
 
     Attributes:
-        keyword: ara sdef data option `ARA` symbol.
-        equals: ara sdef data option `=` symbol.
-        x: ara sdef data option `x` parameter.
+        keyword: ara sdef data option ``r'ARA'`` symbol.
+        equals: ara sdef data option ``r'='`` symbol.
+        x: ara sdef data option ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ARA'] | str = abc.Terminal[r'ARA']('ARA')

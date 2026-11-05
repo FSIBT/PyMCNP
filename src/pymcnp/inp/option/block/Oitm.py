@@ -10,9 +10,9 @@ class Oitm(Block):
     Represents oitm block dawwg data options.
 
     Attributes:
-        keyword: oitm block suboption `OITM` symbol.
-        equals: oitm block suboption `=` symbol.
-        value: oitm block suboption `value` parameter.
+        keyword: oitm block suboption ``r'OITM'`` symbol.
+        equals: oitm block suboption ``r'='`` symbol.
+        value: oitm block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'OITM'] | str = abc.Terminal[r'OITM']('OITM')

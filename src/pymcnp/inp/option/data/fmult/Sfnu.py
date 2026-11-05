@@ -12,9 +12,9 @@ class Sfnu(Fmult):
     Represents sfnu fmult data options.
 
     Attributes:
-        keyword: sfnu fmult data option `SFNU` symbol.
-        equals: sfnu fmult data option `=` symbol.
-        x: sfnu fmult data option `x` parameter.
+        keyword: sfnu fmult data option ``r'SFNU'`` symbol.
+        equals: sfnu fmult data option ``r'='`` symbol.
+        x: sfnu fmult data option ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'SFNU'] | str = abc.Terminal[r'SFNU']('SFNU')

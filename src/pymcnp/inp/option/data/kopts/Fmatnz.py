@@ -11,9 +11,9 @@ class Fmatnz(Kopts):
     Represents fmatnz kopts data options.
 
     Attributes:
-        keyword: fmatnz kopts data option `FMATNZ` symbol.
-        equals: fmatnz kopts data option `=` symbol.
-        fmat_nz: fmatnz kopts data option `fmat_nz` parameter.
+        keyword: fmatnz kopts data option ``r'FMATNZ'`` symbol.
+        equals: fmatnz kopts data option ``r'='`` symbol.
+        fmat_nz: fmatnz kopts data option ``fmat_nz`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FMATNZ'] | str = abc.Terminal[r'FMATNZ']('FMATNZ')

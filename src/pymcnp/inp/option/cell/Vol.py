@@ -11,9 +11,9 @@ class Vol(Cell):
     Represents vol cell options.
 
     Attributes:
-        keyword: vol cell option `VOL` symbol.
-        equals: vol cell option `=` symbol.
-        x: vol cell option `x` parameter.
+        keyword: vol cell option ``r'VOL'`` symbol.
+        equals: vol cell option ``r'='`` symbol.
+        x: vol cell option ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'VOL'] | str = abc.Terminal[r'VOL']('VOL')

@@ -12,11 +12,11 @@ class Mx(Data):
     Represents mx data cards.
 
     Attributes:
-        keyword: mx data card `MX` symbol.
-        suffix: mx data card `n` parameter.
-        colon: mx data card `:` symbol.
-        particle: mx data card `particle` parameter.
-        z: mx data card `z` parameter.
+        keyword: mx data card ``r'MX'`` symbol.
+        suffix: mx data card ``n`` parameter.
+        colon: mx data card ``r':'`` symbol.
+        particle: mx data card ``particle`` parameter.
+        z: mx data card ``z`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MX'] | str = abc.Terminal[r'MX']('MX')

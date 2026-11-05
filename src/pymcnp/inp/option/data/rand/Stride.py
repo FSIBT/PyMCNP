@@ -10,9 +10,9 @@ class Stride(Rand):
     Represents stride rand data options.
 
     Attributes:
-        keyword: stride rand data option `STRIDE` symbol.
-        equals: stride rand data option `=` symbol.
-        value: stride rand data option `value` parameter.
+        keyword: stride rand data option ``r'STRIDE'`` symbol.
+        equals: stride rand data option ``r'='`` symbol.
+        value: stride rand data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'STRIDE'] | str = abc.Terminal[r'STRIDE']('STRIDE')

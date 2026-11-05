@@ -1,6 +1,6 @@
 import typing
 
-# `Istopes-NIST-2` data.
+# ``Istopes-NIST-2`` data.
 ELEMENTS: typing.Final[dict[str, dict]] = {
     'H': {
         'z': 1,

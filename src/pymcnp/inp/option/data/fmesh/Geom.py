@@ -9,9 +9,9 @@ class Geom(Fmesh):
     Represents geom fmesh data options.
 
     Attributes:
-        keyword: geom fmesh data option `GEOM` symbol.
-        equals: geom fmesh data option `=` symbol.
-        value: geom fmesh data option `value` parameter.
+        keyword: geom fmesh data option ``r'GEOM'`` symbol.
+        equals: geom fmesh data option ``r'='`` symbol.
+        value: geom fmesh data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'GEOM'] | str = abc.Terminal[r'GEOM']('GEOM')

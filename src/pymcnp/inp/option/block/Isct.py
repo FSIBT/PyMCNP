@@ -10,9 +10,9 @@ class Isct(Block):
     Represents isct block dawwg data options.
 
     Attributes:
-        keyword: isct block suboption `ISCT` symbol.
-        equals: isct block suboption `=` symbol.
-        value: isct block suboption `value` parameter.
+        keyword: isct block suboption ``r'ISCT'`` symbol.
+        equals: isct block suboption ``r'='`` symbol.
+        value: isct block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ISCT'] | str = abc.Terminal[r'ISCT']('ISCT')

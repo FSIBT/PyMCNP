@@ -12,9 +12,9 @@ class Imesh(Mesh):
     Represents imesh mesh data options.
 
     Attributes:
-        keyword: imesh mesh data option `IMESH` symbol.
-        equals: imesh mesh data option `=` symbol.
-        x: imesh mesh data option `x` parameter.
+        keyword: imesh mesh data option ``r'IMESH'`` symbol.
+        equals: imesh mesh data option ``r'='`` symbol.
+        x: imesh mesh data option ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'IMESH'] | str = abc.Terminal[r'IMESH']('IMESH')

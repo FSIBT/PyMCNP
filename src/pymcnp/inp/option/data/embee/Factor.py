@@ -11,9 +11,9 @@ class Factor(Embee):
     Represents factor embee data options.
 
     Attributes:
-        keyword: factor embee data option `FACTOR` symbol.
-        equals: factor embee data option `=` symbol.
-        value: factor embee data option `value` parameter.
+        keyword: factor embee data option ``r'FACTOR'`` symbol.
+        equals: factor embee data option ``r'='`` symbol.
+        value: factor embee data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FACTOR'] | str = abc.Terminal[r'FACTOR']('FACTOR')

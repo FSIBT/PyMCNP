@@ -12,8 +12,8 @@ class Za(Data):
     Represents za data cards.
 
     Attributes:
-        keyword: za data card `ZA` symbol.
-        x: za data card `x` parameter.
+        keyword: za data card ``r'ZA'`` symbol.
+        x: za data card ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ZA'] | str = abc.Terminal[r'ZA']('ZA')

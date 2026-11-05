@@ -9,10 +9,10 @@ class Xyzro(Group):
     Represents xyzro groups.
 
     Attributes:
-        x: xyzro group `x` parameter.
-        y: xyzro group `y` parameter.
-        z: xyzro group `z` parameter.
-        ro: xyzro group `ro` parameter.
+        x: xyzro group ``x`` parameter.
+        y: xyzro group ``y`` parameter.
+        z: xyzro group ``z`` parameter.
+        ro: xyzro group ``ro`` parameter.
     """
 
     x: literal.Real | int | float | decimal.Decimal | str

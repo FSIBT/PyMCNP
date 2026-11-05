@@ -12,9 +12,9 @@ class Matcell(Embed):
     Represents matcell embed data options.
 
     Attributes:
-        keyword: matcell embed data option `MATCELL` symbol.
-        equals: matcell embed data option `=` symbol.
-        m_c: matcell embed data option `m_c` parameter.
+        keyword: matcell embed data option ``r'MATCELL'`` symbol.
+        equals: matcell embed data option ``r'='`` symbol.
+        m_c: matcell embed data option ``m_c`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MATCELL'] | str = abc.Terminal[r'MATCELL']('MATCELL')

@@ -14,13 +14,13 @@ class Sph(Surface):
     Represents sph surface cards.
 
     Attributes:
-        prefix: sph surface card `prefix` parameter.
-        j: sph surface card `j` parameter.
-        keyword: sph surface card `SPH` symbol.
-        vx: sph surface card `vx` parameter.
-        vy: sph surface card `vy` parameter.
-        vz: sph surface card `vz` parameter.
-        r: sph surface card `r` parameter.
+        prefix: sph surface card ``prefix`` parameter.
+        j: sph surface card ``j`` parameter.
+        keyword: sph surface card ``r'SPH'`` symbol.
+        vx: sph surface card ``vx`` parameter.
+        vy: sph surface card ``vy`` parameter.
+        vz: sph surface card ``vz`` parameter.
+        r: sph surface card ``r`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

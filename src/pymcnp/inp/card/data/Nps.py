@@ -10,10 +10,10 @@ class Nps(Data):
     Represents nps data cards.
 
     Attributes:
-        keyword: nps data card `NPS` symbol.
-        npp: nps data card `npp` parameter.
-        npsmg: nps data card `npsmg` parameter.
-        n_per_batch: nps data card `n_per_batch` parameter.
+        keyword: nps data card ``r'NPS'`` symbol.
+        npp: nps data card ``npp`` parameter.
+        npsmg: nps data card ``npsmg`` parameter.
+        n_per_batch: nps data card ``n_per_batch`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'NPS'] | str = abc.Terminal[r'NPS']('NPS')

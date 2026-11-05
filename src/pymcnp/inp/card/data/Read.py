@@ -12,8 +12,8 @@ class Read(Data):
     Represents read data cards.
 
     Attributes:
-        keyword: read data card `READ` symbol.
-        options: read data card `options` parameter.
+        keyword: read data card ``r'READ'`` symbol.
+        options: read data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'READ'] | str = abc.Terminal[r'READ']('READ')

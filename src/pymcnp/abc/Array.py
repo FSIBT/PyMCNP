@@ -14,10 +14,10 @@ from .Terminal import Terminal
 
 def _parse_hint(hint: typing.Any) -> tuple[type[Symbol], ...]:
     """
-    Evaluates `Nonterminal` annotations.
+    Evaluates ``Nonterminal`` annotations.
 
     Parameters:
-        hint: `Nonterminal` annotation type hint.
+        hint: ``Nonterminal`` annotation type hint.
 
     Returns:
         Tuple of evaluated type hints.
@@ -27,16 +27,16 @@ def _parse_hint(hint: typing.Any) -> tuple[type[Symbol], ...]:
     args = typing.get_args(hint)
 
     if origin is typing.Annotated:
-        # Processing type hints for `Array` and `Terminal`.
+        # Processing type hints for ``Array`` and ``Terminal``.
         assert len(args) > 1
 
-        # `Annotated[Array, (<Symbol>, ...), (<Space>, ...)] -> Array[(<Symbol>, ...), (<Space>, ...)]`
+        # ``Annotated[Array, (<Symbol>, ...), (<Space>, ...)] -> Array[(<Symbol>, ...), (<Space>, ...)]``
         if args[0] is Array:
             assert len(args) == 3
             kind, space = args[1:]
             return (args[0][kind, space],)
 
-        # `Annotated[Terminal, <Pattern>] -> Terminal[<Pattern>]`
+        # ``Annotated[Terminal, <Pattern>] -> Terminal[<Pattern>]``
         if args[0] is Terminal:
             assert len(args) == 2
             pattern = args[1]
@@ -84,14 +84,14 @@ class Array(Symbol, list):
         Validates subclasses.
 
         Raises:
-            Errors: Invalid `Array` subclass.
+            Errors: Invalid ``Array`` subclass.
         """
 
         if len(cls._kind) == 0:
-            raise Error('`Array._kind` must be nonempty.', f'{cls._kind=}')
+            raise Error('``Array._kind`` must be nonempty.', f'{cls._kind=}')
 
         if len(cls._space) == 0:
-            raise Error('`Array._space` must be nonempty.', f'{cls._space=}')
+            raise Error('``Array._space`` must be nonempty.', f'{cls._space=}')
 
     def __init__(self, *items: Symbol, spaces: collections.abc.Sequence[Terminal] | None = None) -> None:
         """
@@ -124,13 +124,13 @@ class Array(Symbol, list):
     @classmethod
     def __class_getitem__(cls, parameters: tuple[typing.Any, typing.Any]) -> type[Array]:  # ty: ignore[invalid-method-override]
         """
-        Gets subclasses of `Array` representing arrays of `kind`s.
+        Gets subclasses of ``Array`` representing arrays of ``kind``s.
 
         Parameters:
             parameters: Type of symbols in array and type of spaces.
 
         Returns:
-            Subclasses of `Array` representing arrays of `kind`s.
+            Subclasses of ``Array`` representing arrays of ``kind``s.
         """
 
         assert isinstance(parameters, tuple)
@@ -157,7 +157,7 @@ class Array(Symbol, list):
             source: Source string to compile.
 
         Returns:
-            List of symbols corresponding to `source`.
+            List of symbols corresponding to ``source``.
         """
 
         assert isinstance(source, str)
@@ -190,7 +190,7 @@ class Array(Symbol, list):
         Decompiles arrays of symbols into their corresponding source strings.
 
         Returns:
-            Source string corresponding to `self`.
+            Source string corresponding to ``self``.
         """
 
         return ''.join(itertools.chain.from_iterable(itertools.zip_longest((item.to_mcnp() for item in self), self.spaces, fillvalue='')))

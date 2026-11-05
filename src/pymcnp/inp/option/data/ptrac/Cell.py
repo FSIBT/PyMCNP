@@ -12,9 +12,9 @@ class Cell(Ptrac):
     Represents cell ptrac data options.
 
     Attributes:
-        keyword: cell ptrac data option `CELL` symbol.
-        equals: cell ptrac data option `=` symbol.
-        c: cell ptrac data option `c` parameter.
+        keyword: cell ptrac data option ``r'CELL'`` symbol.
+        equals: cell ptrac data option ``r'='`` symbol.
+        c: cell ptrac data option ``c`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'CELL'] | str = abc.Terminal[r'CELL']('CELL')

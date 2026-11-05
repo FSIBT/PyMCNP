@@ -10,9 +10,9 @@ class Balxs(Block):
     Represents balxs block dawwg data options.
 
     Attributes:
-        keyword: balxs block suboption `BALXS` symbol.
-        equals: balxs block suboption `=` symbol.
-        value: balxs block suboption `value` parameter.
+        keyword: balxs block suboption ``r'BALXS'`` symbol.
+        equals: balxs block suboption ``r'='`` symbol.
+        value: balxs block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'BALXS'] | str = abc.Terminal[r'BALXS']('BALXS')

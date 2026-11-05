@@ -11,11 +11,11 @@ class Fcl(Cell):
     Represents fcl cell options.
 
     Attributes:
-        keyword: fcl cell option `FCL` symbol.
-        colon: fcl cell option `colon` parameter.
-        particle: fcl cell option `particle` parameter.
-        equals: fcl cell option `=` symbol.
-        x: fcl cell option `x` parameter.
+        keyword: fcl cell option ``r'FCL'`` symbol.
+        colon: fcl cell option ``colon`` parameter.
+        particle: fcl cell option ``particle`` parameter.
+        equals: fcl cell option ``r'='`` symbol.
+        x: fcl cell option ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FCL'] | str = abc.Terminal[r'FCL']('FCL')

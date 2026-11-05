@@ -12,8 +12,8 @@ class Drxs(Data):
     Represents drxs data cards.
 
     Attributes:
-        keyword: drxs data card `DRXS` symbol.
-        z: drxs data card `z` parameter.
+        keyword: drxs data card ``r'DRXS'`` symbol.
+        z: drxs data card ``z`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DRXS'] | str = abc.Terminal[r'DRXS']('DRXS')

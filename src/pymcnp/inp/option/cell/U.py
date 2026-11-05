@@ -10,9 +10,9 @@ class U(Cell):
     Represents u cell options.
 
     Attributes:
-        keyword: u cell option `U` symbol.
-        equals: u cell option `=` symbol.
-        n: u cell option `n` parameter.
+        keyword: u cell option ``r'U'`` symbol.
+        equals: u cell option ``r'='`` symbol.
+        n: u cell option ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'U'] | str = abc.Terminal[r'U']('U')

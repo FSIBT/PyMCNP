@@ -27,7 +27,7 @@ class Visualization(abc.Visualization):
 
     def __add__(a, b: abc.Visualization) -> Visualization:
         """
-        Merges PyVista visualizations, `a` and `b`.
+        Merges PyVista visualizations, ``a`` and ``b``.
 
         Parameters:
             a: PyVista visualization #1.
@@ -47,7 +47,7 @@ class Visualization(abc.Visualization):
 
     def __and__(a, b: abc.Visualization) -> Visualization:
         """
-        Intersects PyVista visualizations, `a` and `b`.
+        Intersects PyVista visualizations, ``a`` and ``b``.
 
         Parameters:
             a: PyVista visualization #1.
@@ -67,7 +67,7 @@ class Visualization(abc.Visualization):
 
     def __or__(a, b: abc.Visualization) -> Visualization:
         """
-        Unites PyVista visualizations, `a` and `b`.
+        Unites PyVista visualizations, ``a`` and ``b``.
 
         Parameters:
             a: PyVista visualization #1.

@@ -10,9 +10,9 @@ class Ntichi(Block):
     Represents ntichi block dawwg data options.
 
     Attributes:
-        keyword: ntichi block suboption `NTICHI` symbol.
-        equals: ntichi block suboption `=` symbol.
-        value: ntichi block suboption `value` parameter.
+        keyword: ntichi block suboption ``r'NTICHI'`` symbol.
+        equals: ntichi block suboption ``r'='`` symbol.
+        value: ntichi block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'NTICHI'] | str = abc.Terminal[r'NTICHI']('NTICHI')

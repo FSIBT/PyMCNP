@@ -12,9 +12,9 @@ class Iso(Kpert):
     Represents iso kpert data options.
 
     Attributes:
-        keyword: iso kpert data option `ISO` symbol.
-        equals: iso kpert data option `=` symbol.
-        z: iso kpert data option `z` parameter.
+        keyword: iso kpert data option ``r'ISO'`` symbol.
+        equals: iso kpert data option ``r'='`` symbol.
+        z: iso kpert data option ``z`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ISO'] | str = abc.Terminal[r'ISO']('ISO')

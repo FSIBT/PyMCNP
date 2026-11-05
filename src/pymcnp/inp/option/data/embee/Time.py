@@ -11,9 +11,9 @@ class Time(Embee):
     Represents time embee data options.
 
     Attributes:
-        keyword: time embee data option `TIME` symbol.
-        equals: time embee data option `=` symbol.
-        value: time embee data option `value` parameter.
+        keyword: time embee data option ``r'TIME'`` symbol.
+        equals: time embee data option ``r'='`` symbol.
+        value: time embee data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TIME'] | str = abc.Terminal[r'TIME']('TIME')

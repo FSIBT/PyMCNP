@@ -12,8 +12,8 @@ class Sdef(Data):
     Represents sdef data cards.
 
     Attributes:
-        keyword: sdef data card `SDEF` symbol.
-        options: sdef data card `options` parameter.
+        keyword: sdef data card ``r'SDEF'`` symbol.
+        options: sdef data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'SDEF'] | str = abc.Terminal[r'SDEF']('SDEF')

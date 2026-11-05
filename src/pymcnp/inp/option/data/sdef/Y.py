@@ -11,9 +11,9 @@ class Y(Sdef):
     Represents y sdef data options.
 
     Attributes:
-        keyword: y sdef data option `Y` symbol.
-        equals: y sdef data option `equals` parameter.
-        y: y sdef data option `y` parameter.
+        keyword: y sdef data option ``r'Y'`` symbol.
+        equals: y sdef data option ``equals`` parameter.
+        y: y sdef data option ``y`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'Y'] | str = abc.Terminal[r'Y']('Y')

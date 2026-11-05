@@ -12,9 +12,9 @@ class Tmesh(Fmesh):
     Represents tmesh fmesh data options.
 
     Attributes:
-        keyword: tmesh fmesh data option `TMESH` symbol.
-        equals: tmesh fmesh data option `=` symbol.
-        t: tmesh fmesh data option `t` parameter.
+        keyword: tmesh fmesh data option ``r'TMESH'`` symbol.
+        equals: tmesh fmesh data option ``r'='`` symbol.
+        t: tmesh fmesh data option ``t`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TMESH'] | str = abc.Terminal[r'TMESH']('TMESH')

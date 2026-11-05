@@ -11,20 +11,20 @@ class Fir(Data):
     Represents fir data cards.
 
     Attributes:
-        keyword: fir data card `FIR` symbol.
-        suffix: fir data card `n` parameter.
-        colon: fir data card `:` symbol.
-        particle: fir data card `particle` parameter.
-        x1: fir data card `x1` parameter.
-        y1: fir data card `y1` parameter.
-        z1: fir data card `z1` parameter.
-        r0: fir data card `r0` parameter.
-        x2: fir data card `x2` parameter.
-        y2: fir data card `y2` parameter.
-        z2: fir data card `z2` parameter.
-        f1: fir data card `f1` parameter.
-        f2: fir data card `f2` parameter.
-        f3: fir data card `f3` parameter.
+        keyword: fir data card ``r'FIR'`` symbol.
+        suffix: fir data card ``n`` parameter.
+        colon: fir data card ``r':'`` symbol.
+        particle: fir data card ``particle`` parameter.
+        x1: fir data card ``x1`` parameter.
+        y1: fir data card ``y1`` parameter.
+        z1: fir data card ``z1`` parameter.
+        r0: fir data card ``r0`` parameter.
+        x2: fir data card ``x2`` parameter.
+        y2: fir data card ``y2`` parameter.
+        z2: fir data card ``z2`` parameter.
+        f1: fir data card ``f1`` parameter.
+        f2: fir data card ``f2`` parameter.
+        f3: fir data card ``f3`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FIR'] | str = abc.Terminal[r'FIR']('FIR')

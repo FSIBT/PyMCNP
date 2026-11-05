@@ -17,11 +17,11 @@ class Pos_0(Pos):
     Represents pos sdef data options, form #0.
 
     Attributes:
-        keyword: pos sdef data option `POS` symbol.
-        equals: pos sdef data option `equals` parameter.
-        x: pos sdef data option `x` parameter.
-        y: pos sdef data option `y` parameter.
-        z: pos sdef data option `z` parameter.
+        keyword: pos sdef data option ``r'POS'`` symbol.
+        equals: pos sdef data option ``equals`` parameter.
+        x: pos sdef data option ``x`` parameter.
+        y: pos sdef data option ``y`` parameter.
+        z: pos sdef data option ``z`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'POS'] | str = abc.Terminal[r'POS']('POS')
@@ -36,9 +36,9 @@ class Pos_1(Pos):
     Represents pos sdef data options, form #1.
 
     Attributes:
-        keyword: pos sdef data option `POS` symbol.
-        equals: pos sdef data option `equals` parameter.
-        value: pos sdef data option `value` parameter.
+        keyword: pos sdef data option ``r'POS'`` symbol.
+        equals: pos sdef data option ``equals`` parameter.
+        value: pos sdef data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'POS'] | str = abc.Terminal[r'POS']('POS')

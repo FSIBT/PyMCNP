@@ -9,9 +9,9 @@ class Coinc(Ptrac):
     Represents coinc ptrac data options.
 
     Attributes:
-        keyword: coinc ptrac data option `COINC` symbol.
-        equals: coinc ptrac data option `=` symbol.
-        value: coinc ptrac data option `value` parameter.
+        keyword: coinc ptrac data option ``r'COINC'`` symbol.
+        equals: coinc ptrac data option ``r'='`` symbol.
+        value: coinc ptrac data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'COINC'] | str = abc.Terminal[r'COINC']('COINC')

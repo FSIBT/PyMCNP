@@ -12,9 +12,9 @@ class Iints(Mesh):
     Represents iints mesh data options.
 
     Attributes:
-        keyword: iints mesh data option `IINTS` symbol.
-        equals: iints mesh data option `=` symbol.
-        n: iints mesh data option `n` parameter.
+        keyword: iints mesh data option ``r'IINTS'`` symbol.
+        equals: iints mesh data option ``r'='`` symbol.
+        n: iints mesh data option ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'IINTS'] | str = abc.Terminal[r'IINTS']('IINTS')

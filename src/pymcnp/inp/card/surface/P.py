@@ -20,14 +20,14 @@ class P_0(P):
     Represents p surface cards, form #0.
 
     Attributes:
-        prefix: p surface card `prefix` parameter.
-        j: p surface card `j` parameter.
-        n: p surface card `n` parameter.
-        keyword: p surface card `P` symbol.
-        a: p surface card `A` parameter.
-        b: p surface card `B` parameter.
-        c: p surface card `C` parameter.
-        d: p surface card `D` parameter.
+        prefix: p surface card ``prefix`` parameter.
+        j: p surface card ``j`` parameter.
+        n: p surface card ``n`` parameter.
+        keyword: p surface card ``r'P'`` symbol.
+        a: p surface card ``A`` parameter.
+        b: p surface card ``B`` parameter.
+        c: p surface card ``C`` parameter.
+        d: p surface card ``D`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
@@ -77,18 +77,18 @@ class P_1(P):
     Represents p surface cards, form #1.
 
     Attributes:
-        j: p surface card `j` parameter.
-        n: p surface card `n` parameter.
-        keyword: p surface card `P` symbol.
-        x1: p surface card `x1` parameter.
-        y1: p surface card `y1` parameter.
-        z1: p surface card `z1` parameter.
-        x2: p surface card `x2` parameter.
-        y2: p surface card `y2` parameter.
-        z2: p surface card `z2` parameter.
-        x3: p surface card `x3` parameter.
-        y3: p surface card `y3` parameter.
-        z3: p surface card `z3` parameter.
+        j: p surface card ``j`` parameter.
+        n: p surface card ``n`` parameter.
+        keyword: p surface card ``r'P'`` symbol.
+        x1: p surface card ``x1`` parameter.
+        y1: p surface card ``y1`` parameter.
+        z1: p surface card ``z1`` parameter.
+        x2: p surface card ``x2`` parameter.
+        y2: p surface card ``y2`` parameter.
+        z2: p surface card ``z2`` parameter.
+        x3: p surface card ``x3`` parameter.
+        y3: p surface card ``y3`` parameter.
+        z3: p surface card ``z3`` parameter.
     """
 
     j: literal.Integer | int | str

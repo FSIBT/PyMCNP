@@ -11,9 +11,9 @@ class Gpar(Field):
     Represents gpar field data options.
 
     Attributes:
-        keyword: gpar field data option `GPAR` symbol.
-        equals: gpar field data option `=` symbol.
-        p: gpar field data option `p` parameter.
+        keyword: gpar field data option ``r'GPAR'`` symbol.
+        equals: gpar field data option ``r'='`` symbol.
+        p: gpar field data option ``p`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'GPAR'] | str = abc.Terminal[r'GPAR']('GPAR')

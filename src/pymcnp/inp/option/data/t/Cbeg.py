@@ -11,9 +11,9 @@ class Cbeg(T):
     Represents cbeg t data options.
 
     Attributes:
-        keyword: cbeg t data option `CBEG` symbol.
-        equals: cbeg t data option `=` symbol.
-        value: cbeg t data option `value` parameter.
+        keyword: cbeg t data option ``r'CBEG'`` symbol.
+        equals: cbeg t data option ``r'='`` symbol.
+        value: cbeg t data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'CBEG'] | str = abc.Terminal[r'CBEG']('CBEG')

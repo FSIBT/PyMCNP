@@ -10,9 +10,9 @@ class Fc(Data):
     Represents fc data cards.
 
     Attributes:
-        keyword: fc data card `FC` symbol.
-        suffix: fc data card `n` parameter.
-        info: fc data card `info` parameter.
+        keyword: fc data card ``r'FC'`` symbol.
+        suffix: fc data card ``n`` parameter.
+        info: fc data card ``info`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FC'] | str = abc.Terminal[r'FC']('FC')

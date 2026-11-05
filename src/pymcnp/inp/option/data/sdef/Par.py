@@ -10,9 +10,9 @@ class Par(Sdef):
     Represents par sdef data options.
 
     Attributes:
-        keyword: par sdef data option `PAR` symbol.
-        equals: par sdef data option `equals` parameter.
-        m: par sdef data option `m` parameter.
+        keyword: par sdef data option ``r'PAR'`` symbol.
+        equals: par sdef data option ``equals`` parameter.
+        m: par sdef data option ``m`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'PAR'] | str = abc.Terminal[r'PAR']('PAR')

@@ -11,9 +11,9 @@ class Cofi(T):
     Represents cofi t data options.
 
     Attributes:
-        keyword: cofi t data option `COFI` symbol.
-        equals: cofi t data option `=` symbol.
-        value: cofi t data option `value` parameter.
+        keyword: cofi t data option ``r'COFI'`` symbol.
+        equals: cofi t data option ``r'='`` symbol.
+        value: cofi t data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'COFI'] | str = abc.Terminal[r'COFI']('COFI')

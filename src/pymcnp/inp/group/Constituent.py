@@ -9,8 +9,8 @@ class Constituent(Group):
     Represents constituent groups.
 
     Attributes:
-        z: constituent group `z` parameter.
-        f: constituent group `f` parameter.
+        z: constituent group ``z`` parameter.
+        f: constituent group ``f`` parameter.
     """
 
     z: literal.Zaid | str

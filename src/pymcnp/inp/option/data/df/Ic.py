@@ -10,9 +10,9 @@ class Ic(Df):
     Represents ic df data options.
 
     Attributes:
-        keyword: ic df data option `IC` symbol.
-        equals: ic df data option `=` symbol.
-        value: ic df data option `value` parameter.
+        keyword: ic df data option ``r'IC'`` symbol.
+        equals: ic df data option ``r'='`` symbol.
+        value: ic df data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'IC'] | str = abc.Terminal[r'IC']('IC')

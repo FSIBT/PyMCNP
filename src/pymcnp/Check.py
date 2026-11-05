@@ -18,7 +18,7 @@ class Problem:
 
     Attributes:
         line: Line number, counting from 1.
-        kind: `error` for input that MCNP rejects or `warning` for input PyMCNP cannot parse.
+        kind: ``error`` for input that MCNP rejects or ``warning`` for input PyMCNP cannot parse.
         message: Description of the problem.
     """
 
@@ -52,7 +52,7 @@ class Check(abc.Utility):
 
     def check(self):
         """
-        Checks the input file at `path`.
+        Checks the input file at ``path``.
         """
 
         assert isinstance(self.path, pathlib.Path)
@@ -72,7 +72,7 @@ class Check(abc.Utility):
         so the file should be rechecked after fixing it.
 
         Returns:
-            List of `Problem`, ordered by line.
+            List of ``Problem``, ordered by line.
         """
 
         assert isinstance(self.path, pathlib.Path)
@@ -134,7 +134,7 @@ class Check(abc.Utility):
 
     def fix(self):
         """
-        Fixes the input file at `path`.
+        Fixes the input file at ``path``.
         """
 
         assert isinstance(self.path, pathlib.Path)

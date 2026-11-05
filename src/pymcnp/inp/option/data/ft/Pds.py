@@ -10,8 +10,8 @@ class Pds(Ft):
     Represents pds ft data options.
 
     Attributes:
-        id: pds group `PDS` symbol.
-        c: pds group `c` parameter.
+        id: pds group ``r'PDS'`` symbol.
+        c: pds group ``c`` parameter.
     """
 
     id: typing.Annotated[abc.Terminal, r'PDS'] | str = abc.Terminal[r'PDS']('PDS')

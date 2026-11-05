@@ -17,12 +17,12 @@ class Wwn_0(Wwn):
     Represents wwn cell options, form #0.
 
     Attributes:
-        keyword: wwn cell option `WWN` symbol.
-        suffix: wwn cell option `i` parameter.
-        colon: wwn cell option `colon` parameter.
-        particle: wwn cell option `particle` parameter.
-        equals: wwn cell option `=` symbol.
-        w: wwn cell option `w` parameter.
+        keyword: wwn cell option ``r'WWN'`` symbol.
+        suffix: wwn cell option ``i`` parameter.
+        colon: wwn cell option ``colon`` parameter.
+        particle: wwn cell option ``particle`` parameter.
+        equals: wwn cell option ``r'='`` symbol.
+        w: wwn cell option ``w`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'WWN'] | str = abc.Terminal[r'WWN']('WWN')
@@ -38,11 +38,11 @@ class Wwn_1(Wwn):
     Represents wwn cell options, form #1.
 
     Attributes:
-        keyword: wwn cell option `WWN` symbol.
-        colon: wwn cell option `colon` parameter.
-        particle: wwn cell option `particle` parameter.
-        equals: wwn cell option `=` symbol.
-        w: wwn cell option `w` parameter.
+        keyword: wwn cell option ``r'WWN'`` symbol.
+        colon: wwn cell option ``colon`` parameter.
+        particle: wwn cell option ``particle`` parameter.
+        equals: wwn cell option ``r'='`` symbol.
+        w: wwn cell option ``w`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'WWN'] | str = abc.Terminal[r'WWN']('WWN')

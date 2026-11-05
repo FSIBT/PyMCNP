@@ -12,8 +12,8 @@ class Talnp(Data):
     Represents talnp data cards.
 
     Attributes:
-        keyword: talnp data card `TALNP` symbol.
-        t: talnp data card `t` parameter.
+        keyword: talnp data card ``r'TALNP'`` symbol.
+        t: talnp data card ``t`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TALNP'] | str = abc.Terminal[r'TALNP']('TALNP')

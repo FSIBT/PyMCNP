@@ -32,7 +32,7 @@ class Activity(Line):
         Generates pandas dataframes for activity lines.
 
         Returns:
-            Corresonding pandas dataframe for `self`.
+            Corresonding pandas dataframe for ``self``.
         """
 
         return pandas.DataFrame(

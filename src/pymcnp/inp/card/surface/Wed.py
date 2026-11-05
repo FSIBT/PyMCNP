@@ -14,21 +14,21 @@ class Wed(Surface):
     Represents wed surface cards.
 
     Attributes:
-        prefix: wed surface card `prefix` parameter.
-        j: wed surface card `j` parameter.
-        keyword: wed surface card `WED` symbol.
-        vx: wed surface card `vx` parameter.
-        vy: wed surface card `vy` parameter.
-        vz: wed surface card `vz` parameter.
-        v1x: wed surface card `v1x` parameter.
-        v1y: wed surface card `v1y` parameter.
-        v1z: wed surface card `v1z` parameter.
-        v2x: wed surface card `v2x` parameter.
-        v2y: wed surface card `v2y` parameter.
-        v2z: wed surface card `v2z` parameter.
-        v3x: wed surface card `v3x` parameter.
-        v3y: wed surface card `v3y` parameter.
-        v3z: wed surface card `v3z` parameter.
+        prefix: wed surface card ``prefix`` parameter.
+        j: wed surface card ``j`` parameter.
+        keyword: wed surface card ``r'WED'`` symbol.
+        vx: wed surface card ``vx`` parameter.
+        vy: wed surface card ``vy`` parameter.
+        vz: wed surface card ``vz`` parameter.
+        v1x: wed surface card ``v1x`` parameter.
+        v1y: wed surface card ``v1y`` parameter.
+        v1z: wed surface card ``v1z`` parameter.
+        v2x: wed surface card ``v2x`` parameter.
+        v2y: wed surface card ``v2y`` parameter.
+        v2z: wed surface card ``v2z`` parameter.
+        v3x: wed surface card ``v3x`` parameter.
+        v3y: wed surface card ``v3y`` parameter.
+        v3z: wed surface card ``v3z`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

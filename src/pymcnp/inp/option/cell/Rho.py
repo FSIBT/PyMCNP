@@ -11,9 +11,9 @@ class Rho(Cell):
     Represents rho cell options.
 
     Attributes:
-        keyword: rho cell option `RHO` symbol.
-        equals: rho cell option `=` symbol.
-        d: rho cell option `d` parameter.
+        keyword: rho cell option ``r'RHO'`` symbol.
+        equals: rho cell option ``r'='`` symbol.
+        d: rho cell option ``d`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'RHO'] | str = abc.Terminal[r'RHO']('RHO')

@@ -10,9 +10,9 @@ class Ccc(Sdef):
     Represents ccc sdef data options.
 
     Attributes:
-        keyword: ccc sdef data option `CCC` symbol.
-        equals: ccc sdef data option `equals` parameter.
-        x: ccc sdef data option `x` parameter.
+        keyword: ccc sdef data option ``r'CCC'`` symbol.
+        equals: ccc sdef data option ``equals`` parameter.
+        x: ccc sdef data option ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'CCC'] | str = abc.Terminal[r'CCC']('CCC')

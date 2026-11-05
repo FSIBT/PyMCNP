@@ -10,9 +10,9 @@ class Asrite(Block):
     Represents asrite block dawwg data options.
 
     Attributes:
-        keyword: asrite block suboption `ASRITE` symbol.
-        equals: asrite block suboption `=` symbol.
-        value: asrite block suboption `value` parameter.
+        keyword: asrite block suboption ``r'ASRITE'`` symbol.
+        equals: asrite block suboption ``r'='`` symbol.
+        value: asrite block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ASRITE'] | str = abc.Terminal[r'ASRITE']('ASRITE')

@@ -9,9 +9,9 @@ class Nlib(M):
     Represents nlib m data options.
 
     Attributes:
-        keyword: nlib m data option `NLIB` symbol.
-        equals: nlib m data option `=` symbol.
-        x: nlib m data option `x` parameter.
+        keyword: nlib m data option ``r'NLIB'`` symbol.
+        equals: nlib m data option ``r'='`` symbol.
+        x: nlib m data option ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'NLIB'] | str = abc.Terminal[r'NLIB']('NLIB')

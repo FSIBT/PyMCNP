@@ -12,34 +12,34 @@ class Arb(Surface):
     Represents arb surface cards.
 
     Attributes:
-        prefix: arb surface card `prefix` parameter.
-        j: arb surface card `j` parameter.
-        keyword: arb surface card `ARB` symbol.
-        ax: arb surface card `ax` parameter.
-        ay: arb surface card `ay` parameter.
-        az: arb surface card `az` parameter.
-        bx: arb surface card `bx` parameter.
-        by: arb surface card `by` parameter.
-        bz: arb surface card `bz` parameter.
-        cx: arb surface card `cx` parameter.
-        cy: arb surface card `cy` parameter.
-        cz: arb surface card `cz` parameter.
-        dx: arb surface card `dx` parameter.
-        dy: arb surface card `dy` parameter.
-        dz: arb surface card `dz` parameter.
-        ex: arb surface card `ex` parameter.
-        ey: arb surface card `ey` parameter.
-        ez: arb surface card `ez` parameter.
-        fx: arb surface card `fx` parameter.
-        fy: arb surface card `fy` parameter.
-        fz: arb surface card `fz` parameter.
-        gx: arb surface card `gx` parameter.
-        gy: arb surface card `gy` parameter.
-        gz: arb surface card `gz` parameter.
-        hx: arb surface card `hx` parameter.
-        hy: arb surface card `hy` parameter.
-        hz: arb surface card `hz` parameter.
-        ni: arb surface card `ni` parameter.
+        prefix: arb surface card ``prefix`` parameter.
+        j: arb surface card ``j`` parameter.
+        keyword: arb surface card ``r'ARB'`` symbol.
+        ax: arb surface card ``ax`` parameter.
+        ay: arb surface card ``ay`` parameter.
+        az: arb surface card ``az`` parameter.
+        bx: arb surface card ``bx`` parameter.
+        by: arb surface card ``by`` parameter.
+        bz: arb surface card ``bz`` parameter.
+        cx: arb surface card ``cx`` parameter.
+        cy: arb surface card ``cy`` parameter.
+        cz: arb surface card ``cz`` parameter.
+        dx: arb surface card ``dx`` parameter.
+        dy: arb surface card ``dy`` parameter.
+        dz: arb surface card ``dz`` parameter.
+        ex: arb surface card ``ex`` parameter.
+        ey: arb surface card ``ey`` parameter.
+        ez: arb surface card ``ez`` parameter.
+        fx: arb surface card ``fx`` parameter.
+        fy: arb surface card ``fy`` parameter.
+        fz: arb surface card ``fz`` parameter.
+        gx: arb surface card ``gx`` parameter.
+        gy: arb surface card ``gy`` parameter.
+        gz: arb surface card ``gz`` parameter.
+        hx: arb surface card ``hx`` parameter.
+        hy: arb surface card ``hy`` parameter.
+        hz: arb surface card ``hz`` parameter.
+        ni: arb surface card ``ni`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

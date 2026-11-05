@@ -11,24 +11,24 @@ class Tf(Data):
     Represents tf data cards.
 
     Attributes:
-        keyword: tf data card `TF` symbol.
-        suffix: tf data card `n` parameter.
-        if1: tf data card `if1` parameter.
-        id1: tf data card `id1` parameter.
-        iu1: tf data card `iu1` parameter.
-        is1: tf data card `is1` parameter.
-        im1: tf data card `im1` parameter.
-        ic1: tf data card `ic1` parameter.
-        ie1: tf data card `ie1` parameter.
-        it1: tf data card `it1` parameter.
-        if2: tf data card `if2` parameter.
-        id2: tf data card `id2` parameter.
-        iu2: tf data card `iu2` parameter.
-        is2: tf data card `is2` parameter.
-        im2: tf data card `im2` parameter.
-        ic2: tf data card `ic2` parameter.
-        ie2: tf data card `ie2` parameter.
-        it2: tf data card `it2` parameter.
+        keyword: tf data card ``r'TF'`` symbol.
+        suffix: tf data card ``n`` parameter.
+        if1: tf data card ``if1`` parameter.
+        id1: tf data card ``id1`` parameter.
+        iu1: tf data card ``iu1`` parameter.
+        is1: tf data card ``is1`` parameter.
+        im1: tf data card ``im1`` parameter.
+        ic1: tf data card ``ic1`` parameter.
+        ie1: tf data card ``ie1`` parameter.
+        it1: tf data card ``it1`` parameter.
+        if2: tf data card ``if2`` parameter.
+        id2: tf data card ``id2`` parameter.
+        iu2: tf data card ``iu2`` parameter.
+        is2: tf data card ``is2`` parameter.
+        im2: tf data card ``im2`` parameter.
+        ic2: tf data card ``ic2`` parameter.
+        ie2: tf data card ``ie2`` parameter.
+        it2: tf data card ``it2`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TF'] | str = abc.Terminal[r'TF']('TF')

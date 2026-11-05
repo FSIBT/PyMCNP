@@ -10,9 +10,9 @@ class Fissrp(Block):
     Represents fissrp block dawwg data options.
 
     Attributes:
-        keyword: fissrp block suboption `FISSRP` symbol.
-        equals: fissrp block suboption `=` symbol.
-        value: fissrp block suboption `value` parameter.
+        keyword: fissrp block suboption ``r'FISSRP'`` symbol.
+        equals: fissrp block suboption ``r'='`` symbol.
+        value: fissrp block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FISSRP'] | str = abc.Terminal[r'FISSRP']('FISSRP')

@@ -10,9 +10,9 @@ class Nomix(Block):
     Represents nomix block dawwg data options.
 
     Attributes:
-        keyword: nomix block suboption `NOMIX` symbol.
-        equals: nomix block suboption `=` symbol.
-        value: nomix block suboption `value` parameter.
+        keyword: nomix block suboption ``r'NOMIX'`` symbol.
+        equals: nomix block suboption ``r'='`` symbol.
+        value: nomix block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'NOMIX'] | str = abc.Terminal[r'NOMIX']('NOMIX')

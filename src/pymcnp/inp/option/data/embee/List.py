@@ -12,9 +12,9 @@ class List(Embee):
     Represents list embee data options.
 
     Attributes:
-        keyword: list embee data option `LIST` symbol.
-        equals: list embee data option `=` symbol.
-        value: list embee data option `value` parameter.
+        keyword: list embee data option ``r'LIST'`` symbol.
+        equals: list embee data option ``r'='`` symbol.
+        value: list embee data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'LIST'] | str = abc.Terminal[r'LIST']('LIST')

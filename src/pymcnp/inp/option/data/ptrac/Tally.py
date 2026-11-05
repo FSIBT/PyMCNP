@@ -12,9 +12,9 @@ class Tally(Ptrac):
     Represents tally ptrac data options.
 
     Attributes:
-        keyword: tally ptrac data option `TALLY` symbol.
-        equals: tally ptrac data option `=` symbol.
-        value: tally ptrac data option `value` parameter.
+        keyword: tally ptrac data option ``r'TALLY'`` symbol.
+        equals: tally ptrac data option ``r'='`` symbol.
+        value: tally ptrac data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TALLY'] | str = abc.Terminal[r'TALLY']('TALLY')

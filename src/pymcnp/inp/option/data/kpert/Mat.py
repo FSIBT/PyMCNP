@@ -12,9 +12,9 @@ class Mat(Kpert):
     Represents mat kpert data options.
 
     Attributes:
-        keyword: mat kpert data option `MAT` symbol.
-        equals: mat kpert data option `=` symbol.
-        m: mat kpert data option `m` parameter.
+        keyword: mat kpert data option ``r'MAT'`` symbol.
+        equals: mat kpert data option ``r'='`` symbol.
+        m: mat kpert data option ``m`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MAT'] | str = abc.Terminal[r'MAT']('MAT')

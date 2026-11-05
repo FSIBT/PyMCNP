@@ -9,9 +9,9 @@ class Sample(Act):
     Represents sample act data options.
 
     Attributes:
-        keyword: sample act data option `SAMPLE` symbol.
-        equals: sample act data option `=` symbol.
-        value: sample act data option `value` parameter.
+        keyword: sample act data option ``r'SAMPLE'`` symbol.
+        equals: sample act data option ``r'='`` symbol.
+        value: sample act data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'SAMPLE'] | str = abc.Terminal[r'SAMPLE']('SAMPLE')

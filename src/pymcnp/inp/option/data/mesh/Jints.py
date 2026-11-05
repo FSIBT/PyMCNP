@@ -12,9 +12,9 @@ class Jints(Mesh):
     Represents jints mesh data options.
 
     Attributes:
-        keyword: jints mesh data option `JINTS` symbol.
-        equals: jints mesh data option `=` symbol.
-        n: jints mesh data option `n` parameter.
+        keyword: jints mesh data option ``r'JINTS'`` symbol.
+        equals: jints mesh data option ``r'='`` symbol.
+        n: jints mesh data option ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'JINTS'] | str = abc.Terminal[r'JINTS']('JINTS')

@@ -10,9 +10,9 @@ class Wgt(Ssr):
     Represents wgt ssr data options.
 
     Attributes:
-        keyword: wgt ssr data option `WGT` symbol.
-        equals: wgt ssr data option `=` symbol.
-        value: wgt ssr data option `value` parameter.
+        keyword: wgt ssr data option ``r'WGT'`` symbol.
+        equals: wgt ssr data option ``r'='`` symbol.
+        value: wgt ssr data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'WGT'] | str = abc.Terminal[r'WGT']('WGT')

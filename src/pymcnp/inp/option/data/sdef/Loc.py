@@ -11,11 +11,11 @@ class Loc(Sdef):
     Represents loc sdef data options.
 
     Attributes:
-        keyword: loc sdef data option `LOC` symbol.
-        equals: loc sdef data option `equals` parameter.
-        lat: loc sdef data option `lat` parameter.
-        lng: loc sdef data option `lng` parameter.
-        alt: loc sdef data option `alt` parameter.
+        keyword: loc sdef data option ``r'LOC'`` symbol.
+        equals: loc sdef data option ``equals`` parameter.
+        lat: loc sdef data option ``lat`` parameter.
+        lng: loc sdef data option ``lng`` parameter.
+        alt: loc sdef data option ``alt`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'LOC'] | str = abc.Terminal[r'LOC']('LOC')

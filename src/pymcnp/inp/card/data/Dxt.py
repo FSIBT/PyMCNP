@@ -13,13 +13,13 @@ class Dxt(Data):
     Represents dxt data cards.
 
     Attributes:
-        keyword: dxt data card `DXT` symbol.
-        colon: dxt data card `colon` parameter.
-        particle: dxt data card `particle` parameter.
-        x_y_z_ri_ro: dxt data card `x_y_z_ri_ro` parameter.
-        dwc1: dxt data card `dwc1` parameter.
-        dwc2: dxt data card `dwc2` parameter.
-        dpwt: dxt data card `dpwt` parameter.
+        keyword: dxt data card ``r'DXT'`` symbol.
+        colon: dxt data card ``colon`` parameter.
+        particle: dxt data card ``particle`` parameter.
+        x_y_z_ri_ro: dxt data card ``x_y_z_ri_ro`` parameter.
+        dwc1: dxt data card ``dwc1`` parameter.
+        dwc2: dxt data card ``dwc2`` parameter.
+        dpwt: dxt data card ``dpwt`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DXT'] | str = abc.Terminal[r'DXT']('DXT')

@@ -14,12 +14,12 @@ class Sy(Surface):
     Represents sy surface cards.
 
     Attributes:
-        prefix: sy surface card `prefix` parameter.
-        j: sy surface card `j` parameter.
-        n: sy surface card `n` parameter.
-        keyword: sy surface card `SY` symbol.
-        y: sy surface card `y` parameter.
-        r: sy surface card `R` parameter.
+        prefix: sy surface card ``prefix`` parameter.
+        j: sy surface card ``j`` parameter.
+        n: sy surface card ``n`` parameter.
+        keyword: sy surface card ``r'SY'`` symbol.
+        y: sy surface card ``y`` parameter.
+        r: sy surface card ``R`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

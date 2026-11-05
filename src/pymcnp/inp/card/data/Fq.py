@@ -12,9 +12,9 @@ class Fq(Data):
     Represents fq data cards.
 
     Attributes:
-        keyword: fq data card `FQ` symbol.
-        suffix: fq data card `n` parameter.
-        a: fq data card `a` parameter.
+        keyword: fq data card ``r'FQ'`` symbol.
+        suffix: fq data card ``n`` parameter.
+        a: fq data card ``a`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FQ'] | str = abc.Terminal[r'FQ']('FQ')

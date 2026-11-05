@@ -11,11 +11,11 @@ class Leb(Data):
     Represents leb data cards.
 
     Attributes:
-        keyword: leb data card `LEB` symbol.
-        yzere: leb data card `yzere` parameter.
-        bzere: leb data card `bzere` parameter.
-        yzero: leb data card `yzero` parameter.
-        bzero: leb data card `bzero` parameter.
+        keyword: leb data card ``r'LEB'`` symbol.
+        yzere: leb data card ``yzere`` parameter.
+        bzere: leb data card ``bzere`` parameter.
+        yzero: leb data card ``yzero`` parameter.
+        bzero: leb data card ``bzero`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'LEB'] | str = abc.Terminal[r'LEB']('LEB')

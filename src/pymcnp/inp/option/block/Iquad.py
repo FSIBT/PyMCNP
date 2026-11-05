@@ -10,9 +10,9 @@ class Iquad(Block):
     Represents iquad block dawwg data options.
 
     Attributes:
-        keyword: iquad block suboption `IQUAD` symbol.
-        equals: iquad block suboption `=` symbol.
-        value: iquad block suboption `value` parameter.
+        keyword: iquad block suboption ``r'IQUAD'`` symbol.
+        equals: iquad block suboption ``r'='`` symbol.
+        value: iquad block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'IQUAD'] | str = abc.Terminal[r'IQUAD']('IQUAD')

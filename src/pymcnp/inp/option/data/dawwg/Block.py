@@ -12,10 +12,10 @@ class Block(Dawwg):
     Represents block dawwg data options.
 
     Attributes:
-        keyword: block dawwg data option `BLOCK` symbol.
-        equals: block dawwg data option `=` symbol.
-        k: block dawwg data option `k` parameter.
-        options: block dawwg data option `options` parameter.
+        keyword: block dawwg data option ``r'BLOCK'`` symbol.
+        equals: block dawwg data option ``r'='`` symbol.
+        k: block dawwg data option ``k`` parameter.
+        options: block dawwg data option ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'BLOCK'] | str = abc.Terminal[r'BLOCK']('BLOCK')

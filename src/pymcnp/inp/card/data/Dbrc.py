@@ -12,8 +12,8 @@ class Dbrc(Data):
     Represents dbrc data cards.
 
     Attributes:
-        keyword: dbrc data card `DBRC` symbol.
-        options: dbrc data card `options` parameter.
+        keyword: dbrc data card ``r'DBRC'`` symbol.
+        options: dbrc data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DBRC'] | str = abc.Terminal[r'DBRC']('DBRC')

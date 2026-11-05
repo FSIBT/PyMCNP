@@ -9,9 +9,9 @@ class Mcscat(Tropt):
     Represents mcscat tropt data options.
 
     Attributes:
-        keyword: mcscat tropt data option `MCSCAT` symbol.
-        equals: mcscat tropt data option `=` symbol.
-        value: mcscat tropt data option `value` parameter.
+        keyword: mcscat tropt data option ``r'MCSCAT'`` symbol.
+        equals: mcscat tropt data option ``r'='`` symbol.
+        value: mcscat tropt data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MCSCAT'] | str = abc.Terminal[r'MCSCAT']('MCSCAT')

@@ -12,9 +12,9 @@ class Jmesh(Fmesh):
     Represents jmesh fmesh data options.
 
     Attributes:
-        keyword: jmesh fmesh data option `JMESH` symbol.
-        equals: jmesh fmesh data option `=` symbol.
-        y: jmesh fmesh data option `y` parameter.
+        keyword: jmesh fmesh data option ``r'JMESH'`` symbol.
+        equals: jmesh fmesh data option ``r'='`` symbol.
+        y: jmesh fmesh data option ``y`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'JMESH'] | str = abc.Terminal[r'JMESH']('JMESH')

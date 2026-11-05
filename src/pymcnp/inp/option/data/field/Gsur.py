@@ -12,9 +12,9 @@ class Gsur(Field):
     Represents gsur field data options.
 
     Attributes:
-        keyword: gsur field data option `GSUR` symbol.
-        equals: gsur field data option `=` symbol.
-        s: gsur field data option `s` parameter.
+        keyword: gsur field data option ``r'GSUR'`` symbol.
+        equals: gsur field data option ``r'='`` symbol.
+        s: gsur field data option ``s`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'GSUR'] | str = abc.Terminal[r'GSUR']('GSUR')

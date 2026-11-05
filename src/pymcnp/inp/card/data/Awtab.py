@@ -13,8 +13,8 @@ class Awtab(Data):
     Represents awtab data cards.
 
     Attributes:
-        keyword: awtab data card `AWTAB` symbol.
-        z_a: awtab data card `z_a` parameter.
+        keyword: awtab data card ``r'AWTAB'`` symbol.
+        z_a: awtab data card ``z_a`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'AWTAB'] | str = abc.Terminal[r'AWTAB']('AWTAB')

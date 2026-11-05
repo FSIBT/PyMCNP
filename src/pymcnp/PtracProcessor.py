@@ -8,7 +8,7 @@ from .Ptrac import _events
 
 class PtracProcessor(abc.Utility):
     """
-    Processes `Ptrac`.
+    Processes ``Ptrac``.
     """
 
     def prehook(self):

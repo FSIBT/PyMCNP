@@ -32,8 +32,8 @@ class Ptrac(abc.File):
     Represents ptrac files.
 
     Attributes:
-        header: ptrac `header` parameter.
-        histories: ptrac `histories` parameter.
+        header: ptrac ``header`` parameter.
+        histories: ptrac ``histories`` parameter.
     """
 
     header: ptrac.block.Header

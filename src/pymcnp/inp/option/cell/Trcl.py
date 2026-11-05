@@ -17,10 +17,10 @@ class Trcl_0(Trcl):
     Represents trcl cell options, form #0.
 
     Attributes:
-        prefix: trcl cell option `*` symbol.
-        keyword: trcl cell option `TRCL` symbol.
-        equals: trcl cell option `=` symbol.
-        n: trcl cell option `n` parameter.
+        prefix: trcl cell option ``r'*'`` symbol.
+        keyword: trcl cell option ``r'TRCL'`` symbol.
+        equals: trcl cell option ``r'='`` symbol.
+        n: trcl cell option ``n`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
@@ -47,10 +47,10 @@ class Trcl_1(Trcl):
     Represents trcl cell options, form #1.
 
     Attributes:
-        prefix: trcl cell option `*` symbol.
-        keyword: trcl cell option `TRCL` symbol.
-        equals: trcl cell option `=` symbol.
-        o_xyz_m: trcl cell option `o_xyz_m` parameter.
+        prefix: trcl cell option ``r'*'`` symbol.
+        keyword: trcl cell option ``r'TRCL'`` symbol.
+        equals: trcl cell option ``r'='`` symbol.
+        o_xyz_m: trcl cell option ``o_xyz_m`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
@@ -64,12 +64,12 @@ class Trcl_2(Trcl):
     Represents trcl cell options, form #2.
 
     Attributes:
-        prefix: trcl cell option `*` symbol.
-        keyword: trcl cell option `TRCL` symbol.
-        equals: trcl cell option `=` symbol.
-        parenthesis_open: trcl cell option `(` symbol.
-        o_xyz_m: trcl cell option `o_xyz_m` parameter.
-        parenthesis_close: trcl cell option `)` symbol.
+        prefix: trcl cell option ``r'*'`` symbol.
+        keyword: trcl cell option ``r'TRCL'`` symbol.
+        equals: trcl cell option ``r'='`` symbol.
+        parenthesis_open: trcl cell option ``r'('`` symbol.
+        o_xyz_m: trcl cell option ``o_xyz_m`` parameter.
+        parenthesis_close: trcl cell option ``r')'`` symbol.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

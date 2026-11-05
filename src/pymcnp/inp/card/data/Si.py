@@ -12,10 +12,10 @@ class Si(Data):
     Represents si data cards.
 
     Attributes:
-        keyword: si data card `SI` symbol.
-        suffix: si data card `n` parameter.
-        option: si data card `option` parameter.
-        i: si data card `i` parameter.
+        keyword: si data card ``r'SI'`` symbol.
+        suffix: si data card ``n`` parameter.
+        option: si data card ``option`` parameter.
+        i: si data card ``i`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'SI'] | str = abc.Terminal[r'SI']('SI')

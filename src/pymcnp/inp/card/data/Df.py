@@ -20,10 +20,10 @@ class Df_0(Df):
     Represents df data cards, form #0.
 
     Attributes:
-        keyword: df data card `DF` symbol.
-        suffix: df data card `n` parameter.
-        b: df data card `b` parameter.
-        f: df data card `f` parameter.
+        keyword: df data card ``r'DF'`` symbol.
+        suffix: df data card ``n`` parameter.
+        b: df data card ``b`` parameter.
+        f: df data card ``f`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DF'] | str = abc.Terminal[r'DF']('DF')
@@ -52,9 +52,9 @@ class Df_1(Df):
     Represents df data cards, form #1.
 
     Attributes:
-        keyword: df data card `DF` symbol.
-        suffix: df data card `n` parameter.
-        options: df data card `options` parameter.
+        keyword: df data card ``r'DF'`` symbol.
+        suffix: df data card ``n`` parameter.
+        options: df data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DF'] | str = abc.Terminal[r'DF']('DF')

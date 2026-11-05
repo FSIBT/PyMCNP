@@ -12,11 +12,11 @@ class Pert(Data):
     Represents pert data cards.
 
     Attributes:
-        keyword: pert data card `PERT` symbol.
-        suffix: pert data card `n` parameter.
-        colon: pert data card `:` symbol.
-        particle: pert data card `particle` parameter.
-        options: pert data card `options` parameter.
+        keyword: pert data card ``r'PERT'`` symbol.
+        suffix: pert data card ``n`` parameter.
+        colon: pert data card ``r':'`` symbol.
+        particle: pert data card ``particle`` parameter.
+        options: pert data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'PERT'] | str = abc.Terminal[r'PERT']('PERT')

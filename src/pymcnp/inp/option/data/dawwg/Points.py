@@ -10,9 +10,9 @@ class Points(Dawwg):
     Represents points dawwg data options.
 
     Attributes:
-        keyword: points dawwg data option `POINTS` symbol.
-        equals: points dawwg data option `=` symbol.
-        n: points dawwg data option `n` parameter.
+        keyword: points dawwg data option ``r'POINTS'`` symbol.
+        equals: points dawwg data option ``r'='`` symbol.
+        n: points dawwg data option ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'POINTS'] | str = abc.Terminal[r'POINTS']('POINTS')

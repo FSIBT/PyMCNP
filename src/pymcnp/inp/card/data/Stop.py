@@ -11,8 +11,8 @@ class Stop(Data):
     Represents stop data cards.
 
     Attributes:
-        keyword: stop data card `STOP` symbol.
-        options: stop data card `options` parameter.
+        keyword: stop data card ``r'STOP'`` symbol.
+        options: stop data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'STOP'] | str = abc.Terminal[r'STOP']('STOP')

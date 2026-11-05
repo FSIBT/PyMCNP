@@ -19,10 +19,10 @@ class Sb_0(Sb):
     Represents sb data cards, form #0.
 
     Attributes:
-        keyword: sb data card `SB` symbol.
-        suffix: sb data card `n` parameter.
-        option: sb data card `option` parameter.
-        b: sb data card `b` parameter.
+        keyword: sb data card ``r'SB'`` symbol.
+        suffix: sb data card ``n`` parameter.
+        option: sb data card ``option`` parameter.
+        b: sb data card ``b`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'SB'] | str = abc.Terminal[r'SB']('SB')
@@ -56,11 +56,11 @@ class Sb_1(Sb):
     Represents sb data cards, form #1.
 
     Attributes:
-        keyword: sb data card `SB` symbol.
-        suffix: sb data card `n` parameter.
-        f: sb data card `f` parameter.
-        a: sb data card `a` parameter.
-        b: sb data card `b` parameter.
+        keyword: sb data card ``r'SB'`` symbol.
+        suffix: sb data card ``n`` parameter.
+        f: sb data card ``f`` parameter.
+        a: sb data card ``a`` parameter.
+        b: sb data card ``b`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'SB'] | str = abc.Terminal[r'SB']('SB')

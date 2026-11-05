@@ -10,9 +10,9 @@ class Cel(Sdef):
     Represents cel sdef data options.
 
     Attributes:
-        keyword: cel sdef data option `CEL` symbol.
-        equals: cel sdef data option `equals` parameter.
-        c: cel sdef data option `c` parameter.
+        keyword: cel sdef data option ``r'CEL'`` symbol.
+        equals: cel sdef data option ``equals`` parameter.
+        c: cel sdef data option ``c`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'CEL'] | str = abc.Terminal[r'CEL']('CEL')

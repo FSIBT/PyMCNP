@@ -10,9 +10,9 @@ class Sc(Data):
     Represents sc data cards.
 
     Attributes:
-        keyword: sc data card `SC` symbol.
-        suffix: sc data card `n` parameter.
-        comment: sc data card `comment` parameter.
+        keyword: sc data card ``r'SC'`` symbol.
+        suffix: sc data card ``n`` parameter.
+        comment: sc data card ``comment`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'SC'] | str = abc.Terminal[r'SC']('SC')

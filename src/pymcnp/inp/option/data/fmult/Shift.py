@@ -10,9 +10,9 @@ class Shift(Fmult):
     Represents shift fmult data options.
 
     Attributes:
-        keyword: shift fmult data option `SHIFT` symbol.
-        equals: shift fmult data option `=` symbol.
-        s: shift fmult data option `s` parameter.
+        keyword: shift fmult data option ``r'SHIFT'`` symbol.
+        equals: shift fmult data option ``r'='`` symbol.
+        s: shift fmult data option ``s`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'SHIFT'] | str = abc.Terminal[r'SHIFT']('SHIFT')

@@ -11,11 +11,11 @@ class Axs(Mesh):
     Represents axs mesh data options.
 
     Attributes:
-        keyword: axs mesh data option `AXS` symbol.
-        equals: axs mesh data option `=` symbol.
-        x: axs mesh data option `x` parameter.
-        y: axs mesh data option `y` parameter.
-        z: axs mesh data option `z` parameter.
+        keyword: axs mesh data option ``r'AXS'`` symbol.
+        equals: axs mesh data option ``r'='`` symbol.
+        x: axs mesh data option ``x`` parameter.
+        y: axs mesh data option ``y`` parameter.
+        z: axs mesh data option ``z`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'AXS'] | str = abc.Terminal[r'AXS']('AXS')

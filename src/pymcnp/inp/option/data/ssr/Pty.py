@@ -12,9 +12,9 @@ class Pty(Ssr):
     Represents pty ssr data options.
 
     Attributes:
-        keyword: pty ssr data option `PTY` symbol.
-        equals: pty ssr data option `=` symbol.
-        p: pty ssr data option `p` parameter.
+        keyword: pty ssr data option ``r'PTY'`` symbol.
+        equals: pty ssr data option ``r'='`` symbol.
+        p: pty ssr data option ``p`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'PTY'] | str = abc.Terminal[r'PTY']('PTY')

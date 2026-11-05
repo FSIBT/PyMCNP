@@ -11,11 +11,11 @@ class Fs(Data):
     Represents fs data cards.
 
     Attributes:
-        keyword: fs data card `FS` symbol.
-        suffix: fs data card `n` parameter.
-        s: fs data card `s` parameter.
-        t: fs data card `T` symbol.
-        c: fs data card `C` symbol.
+        keyword: fs data card ``r'FS'`` symbol.
+        suffix: fs data card ``n`` parameter.
+        s: fs data card ``s`` parameter.
+        t: fs data card ``r'T'`` symbol.
+        c: fs data card ``r'C'`` symbol.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FS'] | str = abc.Terminal[r'FS']('FS')

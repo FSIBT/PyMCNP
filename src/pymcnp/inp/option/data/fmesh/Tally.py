@@ -9,9 +9,9 @@ class Tally(Fmesh):
     Represents tally fmesh data options.
 
     Attributes:
-        keyword: tally fmesh data option `TALLY` symbol.
-        equals: tally fmesh data option `=` symbol.
-        value: tally fmesh data option `value` parameter.
+        keyword: tally fmesh data option ``r'TALLY'`` symbol.
+        equals: tally fmesh data option ``r'='`` symbol.
+        value: tally fmesh data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TALLY'] | str = abc.Terminal[r'TALLY']('TALLY')

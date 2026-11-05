@@ -10,12 +10,12 @@ class Files(Data):
     Represents files data cards.
 
     Attributes:
-        keyword: files data card `FILES` symbol.
-        unit_no: files data card `unit_no` parameter.
-        filename: files data card `filename` parameter.
-        access: files data card `access` parameter.
-        form: files data card `form` parameter.
-        record_length: files data card `record_length` parameter.
+        keyword: files data card ``r'FILES'`` symbol.
+        unit_no: files data card ``unit_no`` parameter.
+        filename: files data card ``filename`` parameter.
+        access: files data card ``access`` parameter.
+        form: files data card ``form`` parameter.
+        record_length: files data card ``record_length`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FILES'] | str = abc.Terminal[r'FILES']('FILES')

@@ -11,9 +11,9 @@ class Emax(Dbrc):
     Represents emax dbrc data options.
 
     Attributes:
-        keyword: emax dbrc data option `EMAX` symbol.
-        equals: emax dbrc data option `=` symbol.
-        eee: emax dbrc data option `eee` parameter.
+        keyword: emax dbrc data option ``r'EMAX'`` symbol.
+        equals: emax dbrc data option ``r'='`` symbol.
+        eee: emax dbrc data option ``eee`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'EMAX'] | str = abc.Terminal[r'EMAX']('EMAX')

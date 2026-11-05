@@ -11,11 +11,11 @@ class Elpt(Cell):
     Represents elpt cell options.
 
     Attributes:
-        keyword: elpt cell option `ELPT` symbol.
-        colon: elpt cell option `colon` parameter.
-        particle: elpt cell option `particle` parameter.
-        equals: elpt cell option `=` symbol.
-        x: elpt cell option `x` parameter.
+        keyword: elpt cell option ``r'ELPT'`` symbol.
+        colon: elpt cell option ``colon`` parameter.
+        particle: elpt cell option ``particle`` parameter.
+        equals: elpt cell option ``r'='`` symbol.
+        x: elpt cell option ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ELPT'] | str = abc.Terminal[r'ELPT']('ELPT')

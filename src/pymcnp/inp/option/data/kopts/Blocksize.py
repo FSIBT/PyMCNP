@@ -10,9 +10,9 @@ class Blocksize(Kopts):
     Represents blocksize kopts data options.
 
     Attributes:
-        keyword: blocksize kopts data option `BLOCKSIZE` symbol.
-        equals: blocksize kopts data option `=` symbol.
-        ncy: blocksize kopts data option `ncy` parameter.
+        keyword: blocksize kopts data option ``r'BLOCKSIZE'`` symbol.
+        equals: blocksize kopts data option ``r'='`` symbol.
+        ncy: blocksize kopts data option ``ncy`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'BLOCKSIZE'] | str = abc.Terminal[r'BLOCKSIZE']('BLOCKSIZE')

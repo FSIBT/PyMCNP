@@ -10,9 +10,9 @@ class Kclear(Fmesh):
     Represents kclear fmesh data options.
 
     Attributes:
-        keyword: kclear fmesh data option `KCLEAR` symbol.
-        equals: kclear fmesh data option `=` symbol.
-        n: kclear fmesh data option `n` parameter.
+        keyword: kclear fmesh data option ``r'KCLEAR'`` symbol.
+        equals: kclear fmesh data option ``r'='`` symbol.
+        n: kclear fmesh data option ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'KCLEAR'] | str = abc.Terminal[r'KCLEAR']('KCLEAR')

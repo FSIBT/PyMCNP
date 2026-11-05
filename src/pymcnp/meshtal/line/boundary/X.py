@@ -9,7 +9,7 @@ class X(Boundary):
     Represents x boundary lines.
 
     Attributes:
-        label: x boundary line `    X direction:` symbol.
+        label: x boundary line ``r'    X direction:'`` symbol.
         bins: x boundary line bins.
     """
 

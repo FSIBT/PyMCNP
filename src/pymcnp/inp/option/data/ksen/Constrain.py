@@ -9,9 +9,9 @@ class Constrain(Ksen):
     Represents constrain ksen data options.
 
     Attributes:
-        keyword: constrain ksen data option `CONSTRAIN` symbol.
-        equals: constrain ksen data option `=` symbol.
-        value: constrain ksen data option `value` parameter.
+        keyword: constrain ksen data option ``r'CONSTRAIN'`` symbol.
+        equals: constrain ksen data option ``r'='`` symbol.
+        value: constrain ksen data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'CONSTRAIN'] | str = abc.Terminal[r'CONSTRAIN']('CONSTRAIN')

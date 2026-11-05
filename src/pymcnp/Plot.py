@@ -26,7 +26,7 @@ class Plot(abc.Utility):
 
     def to_show(self, number: str):
         """
-        Plots tally `number` of output files in window.
+        Plots tally ``number`` of output files in window.
 
         Parameter:
             number: Tally number to plot.
@@ -67,7 +67,7 @@ class Plot(abc.Utility):
 
     def to_pdf(self, number: str, path: pathlib.Path | str):
         """
-        Plots tally `number` of output files in PDF file.
+        Plots tally ``number`` of output files in PDF file.
 
         Parameters:
             number: Tally number to plot.

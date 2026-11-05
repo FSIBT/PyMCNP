@@ -10,9 +10,9 @@ class Avatar(Block):
     Represents avatar block dawwg data options.
 
     Attributes:
-        keyword: avatar block suboption `AVATAR` symbol.
-        equals: avatar block suboption `=` symbol.
-        value: avatar block suboption `value` parameter.
+        keyword: avatar block suboption ``r'AVATAR'`` symbol.
+        equals: avatar block suboption ``r'='`` symbol.
+        value: avatar block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'AVATAR'] | str = abc.Terminal[r'AVATAR']('AVATAR')

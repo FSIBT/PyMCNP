@@ -12,9 +12,9 @@ class Dgeb(Act):
     Represents dgeb act data options.
 
     Attributes:
-        keyword: dgeb act data option `DGEB` symbol.
-        equals: dgeb act data option `=` symbol.
-        value: dgeb act data option `value` parameter.
+        keyword: dgeb act data option ``r'DGEB'`` symbol.
+        equals: dgeb act data option ``r'='`` symbol.
+        value: dgeb act data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DGEB'] | str = abc.Terminal[r'DGEB']('DGEB')

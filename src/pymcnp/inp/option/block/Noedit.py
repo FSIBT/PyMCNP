@@ -10,9 +10,9 @@ class Noedit(Block):
     Represents noedit block dawwg data options.
 
     Attributes:
-        keyword: noedit block suboption `NOEDIT` symbol.
-        equals: noedit block suboption `=` symbol.
-        value: noedit block suboption `value` parameter.
+        keyword: noedit block suboption ``r'NOEDIT'`` symbol.
+        equals: noedit block suboption ``r'='`` symbol.
+        value: noedit block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'NOEDIT'] | str = abc.Terminal[r'NOEDIT']('NOEDIT')

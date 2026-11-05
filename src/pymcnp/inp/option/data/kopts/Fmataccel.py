@@ -9,9 +9,9 @@ class Fmataccel(Kopts):
     Represents fmataccel kopts data options.
 
     Attributes:
-        keyword: fmataccel kopts data option `FMATACCEL` symbol.
-        equals: fmataccel kopts data option `=` symbol.
-        value: fmataccel kopts data option `value` parameter.
+        keyword: fmataccel kopts data option ``r'FMATACCEL'`` symbol.
+        equals: fmataccel kopts data option ``r'='`` symbol.
+        value: fmataccel kopts data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FMATACCEL'] | str = abc.Terminal[r'FMATACCEL']('FMATACCEL')

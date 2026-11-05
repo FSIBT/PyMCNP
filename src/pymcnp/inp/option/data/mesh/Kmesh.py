@@ -12,9 +12,9 @@ class Kmesh(Mesh):
     Represents kmesh mesh data options.
 
     Attributes:
-        keyword: kmesh mesh data option `KMESH` symbol.
-        equals: kmesh mesh data option `=` symbol.
-        z: kmesh mesh data option `z` parameter.
+        keyword: kmesh mesh data option ``r'KMESH'`` symbol.
+        equals: kmesh mesh data option ``r'='`` symbol.
+        z: kmesh mesh data option ``z`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'KMESH'] | str = abc.Terminal[r'KMESH']('KMESH')

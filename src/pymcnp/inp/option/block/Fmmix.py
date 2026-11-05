@@ -10,9 +10,9 @@ class Fmmix(Block):
     Represents fmmix block dawwg data options.
 
     Attributes:
-        keyword: fmmix block suboption `FMMIX` symbol.
-        equals: fmmix block suboption `=` symbol.
-        value: fmmix block suboption `value` parameter.
+        keyword: fmmix block suboption ``r'FMMIX'`` symbol.
+        equals: fmmix block suboption ``r'='`` symbol.
+        value: fmmix block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FMMIX'] | str = abc.Terminal[r'FMMIX']('FMMIX')

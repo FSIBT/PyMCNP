@@ -9,9 +9,9 @@ class Linear(Kpert):
     Represents linear kpert data options.
 
     Attributes:
-        keyword: linear kpert data option `LINEAR` symbol.
-        equals: linear kpert data option `=` symbol.
-        value: linear kpert data option `value` parameter.
+        keyword: linear kpert data option ``r'LINEAR'`` symbol.
+        equals: linear kpert data option ``r'='`` symbol.
+        value: linear kpert data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'LINEAR'] | str = abc.Terminal[r'LINEAR']('LINEAR')

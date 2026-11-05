@@ -11,20 +11,20 @@ class Fip(Data):
     Represents fip data cards.
 
     Attributes:
-        keyword: fip data card `FIP` symbol.
-        suffix: fip data card `n` parameter.
-        colon: fip data card `:` symbol.
-        particle: fip data card `particle` parameter.
-        x1: fip data card `x1` parameter.
-        y1: fip data card `y1` parameter.
-        z1: fip data card `z1` parameter.
-        r0: fip data card `r0` parameter.
-        x2: fip data card `x2` parameter.
-        y2: fip data card `y2` parameter.
-        z2: fip data card `z2` parameter.
-        f1: fip data card `f1` parameter.
-        f2: fip data card `f2` parameter.
-        f3: fip data card `f3` parameter.
+        keyword: fip data card ``r'FIP'`` symbol.
+        suffix: fip data card ``n`` parameter.
+        colon: fip data card ``r':'`` symbol.
+        particle: fip data card ``particle`` parameter.
+        x1: fip data card ``x1`` parameter.
+        y1: fip data card ``y1`` parameter.
+        z1: fip data card ``z1`` parameter.
+        r0: fip data card ``r0`` parameter.
+        x2: fip data card ``x2`` parameter.
+        y2: fip data card ``y2`` parameter.
+        z2: fip data card ``z2`` parameter.
+        f1: fip data card ``f1`` parameter.
+        f2: fip data card ``f2`` parameter.
+        f3: fip data card ``f3`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FIP'] | str = abc.Terminal[r'FIP']('FIP')

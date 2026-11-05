@@ -10,9 +10,9 @@ class Gas(M):
     Represents gas m data options.
 
     Attributes:
-        keyword: gas m data option `GAS` symbol.
-        equals: gas m data option `=` symbol.
-        value: gas m data option `value` parameter.
+        keyword: gas m data option ``r'GAS'`` symbol.
+        equals: gas m data option ``r'='`` symbol.
+        value: gas m data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'GAS'] | str = abc.Terminal[r'GAS']('GAS')

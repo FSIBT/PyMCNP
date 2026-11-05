@@ -13,10 +13,10 @@ class Unc(Data):
     Represents unc data cards.
 
     Attributes:
-        keyword: unc data card `UNC` symbol.
-        colon: unc data card `:` symbol.
-        particle: unc data card `particle` parameter.
-        u: unc data card `u` parameter.
+        keyword: unc data card ``r'UNC'`` symbol.
+        colon: unc data card ``r':'`` symbol.
+        particle: unc data card ``particle`` parameter.
+        u: unc data card ``u`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'UNC'] | str = abc.Terminal[r'UNC']('UNC')

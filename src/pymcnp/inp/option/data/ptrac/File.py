@@ -9,9 +9,9 @@ class File(Ptrac):
     Represents file ptrac data options.
 
     Attributes:
-        keyword: file ptrac data option `FILE` symbol.
-        equals: file ptrac data option `=` symbol.
-        value: file ptrac data option `value` parameter.
+        keyword: file ptrac data option ``r'FILE'`` symbol.
+        equals: file ptrac data option ``r'='`` symbol.
+        value: file ptrac data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FILE'] | str = abc.Terminal[r'FILE']('FILE')

@@ -14,11 +14,11 @@ class Cx(Surface):
     Represents cx surface cards.
 
     Attributes:
-        prefix: cx surface card `prefix` parameter.
-        j: cx surface card `j` parameter.
-        n: cx surface card `n` parameter.
-        keyword: cx surface card `CX` symbol.
-        r: cx surface card `R` parameter.
+        prefix: cx surface card ``prefix`` parameter.
+        j: cx surface card ``j`` parameter.
+        n: cx surface card ``n`` parameter.
+        keyword: cx surface card ``r'CX'`` symbol.
+        r: cx surface card ``R`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

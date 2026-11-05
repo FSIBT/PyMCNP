@@ -10,9 +10,9 @@ class Estep(M):
     Represents estep m data options.
 
     Attributes:
-        keyword: estep m data option `ESTEP` symbol.
-        equals: estep m data option `=` symbol.
-        n: estep m data option `n` parameter.
+        keyword: estep m data option ``r'ESTEP'`` symbol.
+        equals: estep m data option ``r'='`` symbol.
+        n: estep m data option ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ESTEP'] | str = abc.Terminal[r'ESTEP']('ESTEP')

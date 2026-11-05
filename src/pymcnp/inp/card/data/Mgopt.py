@@ -10,14 +10,14 @@ class Mgopt(Data):
     Represents mgopt data cards.
 
     Attributes:
-        keyword: mgopt data card `MGOPT` symbol.
-        mcal: mgopt data card `mcal` parameter.
-        igm: mgopt data card `igm` parameter.
-        iplt: mgopt data card `iplt` parameter.
-        isb: mgopt data card `isb` parameter.
-        icw: mgopt data card `icw` parameter.
-        fnw: mgopt data card `fnw` parameter.
-        rim: mgopt data card `rim` parameter.
+        keyword: mgopt data card ``r'MGOPT'`` symbol.
+        mcal: mgopt data card ``mcal`` parameter.
+        igm: mgopt data card ``igm`` parameter.
+        iplt: mgopt data card ``iplt`` parameter.
+        isb: mgopt data card ``isb`` parameter.
+        icw: mgopt data card ``icw`` parameter.
+        fnw: mgopt data card ``fnw`` parameter.
+        rim: mgopt data card ``rim`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MGOPT'] | str = abc.Terminal[r'MGOPT']('MGOPT')

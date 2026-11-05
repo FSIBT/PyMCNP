@@ -10,9 +10,9 @@ class Zned(Block):
     Represents zned block dawwg data options.
 
     Attributes:
-        keyword: zned block suboption `ZNED` symbol.
-        equals: zned block suboption `=` symbol.
-        value: zned block suboption `value` parameter.
+        keyword: zned block suboption ``r'ZNED'`` symbol.
+        equals: zned block suboption ``r'='`` symbol.
+        value: zned block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ZNED'] | str = abc.Terminal[r'ZNED']('ZNED')

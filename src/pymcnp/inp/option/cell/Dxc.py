@@ -11,12 +11,12 @@ class Dxc(Cell):
     Represents dxc cell options.
 
     Attributes:
-        keyword: dxc cell option `DXC` symbol.
-        suffix: dxc cell option `n` parameter.
-        colon: dxc cell option `colon` parameter.
-        particle: dxc cell option `particle` parameter.
-        equals: dxc cell option `=` symbol.
-        p: dxc cell option `p` parameter.
+        keyword: dxc cell option ``r'DXC'`` symbol.
+        suffix: dxc cell option ``n`` parameter.
+        colon: dxc cell option ``colon`` parameter.
+        particle: dxc cell option ``particle`` parameter.
+        equals: dxc cell option ``r'='`` symbol.
+        p: dxc cell option ``p`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DXC'] | str = abc.Terminal[r'DXC']('DXC')

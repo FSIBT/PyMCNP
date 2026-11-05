@@ -9,9 +9,9 @@ class Write(Ptrac):
     Represents write ptrac data options.
 
     Attributes:
-        keyword: write ptrac data option `WRITE` symbol.
-        equals: write ptrac data option `=` symbol.
-        value: write ptrac data option `value` parameter.
+        keyword: write ptrac data option ``r'WRITE'`` symbol.
+        equals: write ptrac data option ``r'='`` symbol.
+        value: write ptrac data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'WRITE'] | str = abc.Terminal[r'WRITE']('WRITE')

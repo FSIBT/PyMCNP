@@ -10,9 +10,9 @@ class Byvolp(Block):
     Represents byvolp block dawwg data options.
 
     Attributes:
-        keyword: byvolp block suboption `BYVOLP` symbol.
-        equals: byvolp block suboption `=` symbol.
-        value: byvolp block suboption `value` parameter.
+        keyword: byvolp block suboption ``r'BYVOLP'`` symbol.
+        equals: byvolp block suboption ``r'='`` symbol.
+        value: byvolp block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'BYVOLP'] | str = abc.Terminal[r'BYVOLP']('BYVOLP')

@@ -9,9 +9,9 @@ class Elib(M):
     Represents elib m data options.
 
     Attributes:
-        keyword: elib m data option `ELIB` symbol.
-        equals: elib m data option `=` symbol.
-        x: elib m data option `x` parameter.
+        keyword: elib m data option ``r'ELIB'`` symbol.
+        equals: elib m data option ``r'='`` symbol.
+        x: elib m data option ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ELIB'] | str = abc.Terminal[r'ELIB']('ELIB')

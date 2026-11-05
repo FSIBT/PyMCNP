@@ -12,8 +12,8 @@ class Tropt(Data):
     Represents tropt data cards.
 
     Attributes:
-        keyword: tropt data card `TROPT` symbol.
-        options: tropt data card `options` parameter.
+        keyword: tropt data card ``r'TROPT'`` symbol.
+        options: tropt data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TROPT'] | str = abc.Terminal[r'TROPT']('TROPT')

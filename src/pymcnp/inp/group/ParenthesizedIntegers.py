@@ -10,9 +10,9 @@ class ParenthesizedIntegers(Group):
     Represents parenthesized integer groups.
 
     Attributes:
-        parenthesis_open: parenthesized integer group `(` symbol.
+        parenthesis_open: parenthesized integer group ``r'('`` symbol.
         integers: parenthesized integer group integers.
-        parenthesis_close: parenthesized integer group `)` symbol.
+        parenthesis_close: parenthesized integer group ``r')'`` symbol.
     """
 
     parenthesis_open: typing.Annotated[abc.Terminal, r'\('] | str = abc.Terminal[r'\(']('(')

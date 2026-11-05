@@ -14,13 +14,13 @@ class Ky(Surface):
     Represents ky surface cards.
 
     Attributes:
-        prefix: ky surface card `prefix` parameter.
-        j: ky surface card `j` parameter.
-        n: ky surface card `n` parameter.
-        keyword: ky surface card `KY` symbol.
-        y: ky surface card `y` parameter.
-        t_squared: ky surface card `t_squared` parameter.
-        plus_minus_1: ky surface card `plus_minus_1` parameter.
+        prefix: ky surface card ``prefix`` parameter.
+        j: ky surface card ``j`` parameter.
+        n: ky surface card ``n`` parameter.
+        keyword: ky surface card ``r'KY'`` symbol.
+        y: ky surface card ``y`` parameter.
+        t_squared: ky surface card ``t_squared`` parameter.
+        plus_minus_1: ky surface card ``plus_minus_1`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

@@ -12,9 +12,9 @@ class Rho(Kpert):
     Represents rho kpert data options.
 
     Attributes:
-        keyword: rho kpert data option `RHO` symbol.
-        equals: rho kpert data option `=` symbol.
-        r: rho kpert data option `r` parameter.
+        keyword: rho kpert data option ``r'RHO'`` symbol.
+        equals: rho kpert data option ``r'='`` symbol.
+        r: rho kpert data option ``r`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'RHO'] | str = abc.Terminal[r'RHO']('RHO')

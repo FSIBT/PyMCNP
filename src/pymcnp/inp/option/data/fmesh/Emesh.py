@@ -12,9 +12,9 @@ class Emesh(Fmesh):
     Represents emesh fmesh data options.
 
     Attributes:
-        keyword: emesh fmesh data option `EMESH` symbol.
-        equals: emesh fmesh data option `=` symbol.
-        e: emesh fmesh data option `e` parameter.
+        keyword: emesh fmesh data option ``r'EMESH'`` symbol.
+        equals: emesh fmesh data option ``r'='`` symbol.
+        e: emesh fmesh data option ``e`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'EMESH'] | str = abc.Terminal[r'EMESH']('EMESH')

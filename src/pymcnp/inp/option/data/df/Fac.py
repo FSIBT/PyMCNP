@@ -11,9 +11,9 @@ class Fac(Df):
     Represents fac df data options.
 
     Attributes:
-        keyword: fac df data option `FAC` symbol.
-        equals: fac df data option `=` symbol.
-        value: fac df data option `value` parameter.
+        keyword: fac df data option ``r'FAC'`` symbol.
+        equals: fac df data option ``r'='`` symbol.
+        value: fac df data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FAC'] | str = abc.Terminal[r'FAC']('FAC')

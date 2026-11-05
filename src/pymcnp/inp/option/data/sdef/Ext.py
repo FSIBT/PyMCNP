@@ -11,9 +11,9 @@ class Ext(Sdef):
     Represents ext sdef data options.
 
     Attributes:
-        keyword: ext sdef data option `EXT` symbol.
-        equals: ext sdef data option `equals` parameter.
-        x: ext sdef data option `x` parameter.
+        keyword: ext sdef data option ``r'EXT'`` symbol.
+        equals: ext sdef data option ``equals`` parameter.
+        x: ext sdef data option ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'EXT'] | str = abc.Terminal[r'EXT']('EXT')

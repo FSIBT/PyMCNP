@@ -12,9 +12,9 @@ class Type(Ptrac):
     Represents type ptrac data options.
 
     Attributes:
-        keyword: type ptrac data option `TYPE` symbol.
-        equals: type ptrac data option `=` symbol.
-        value: type ptrac data option `value` parameter.
+        keyword: type ptrac data option ``r'TYPE'`` symbol.
+        equals: type ptrac data option ``r'='`` symbol.
+        value: type ptrac data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TYPE'] | str = abc.Terminal[r'TYPE']('TYPE')

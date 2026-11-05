@@ -12,9 +12,9 @@ class Ein(Ksen):
     Represents ein ksen data options.
 
     Attributes:
-        keyword: ein ksen data option `EIN` symbol.
-        equals: ein ksen data option `=` symbol.
-        e: ein ksen data option `e` parameter.
+        keyword: ein ksen data option ``r'EIN'`` symbol.
+        equals: ein ksen data option ``r'='`` symbol.
+        e: ein ksen data option ``e`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'EIN'] | str = abc.Terminal[r'EIN']('EIN')

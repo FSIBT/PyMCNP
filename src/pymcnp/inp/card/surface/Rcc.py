@@ -14,16 +14,16 @@ class Rcc(Surface):
     Represents rcc surface cards.
 
     Attributes:
-        prefix: rcc surface card `prefix` parameter.
-        j: rcc surface card `j` parameter.
-        keyword: rcc surface card `RCC` symbol.
-        vx: rcc surface card `vx` parameter.
-        vy: rcc surface card `vy` parameter.
-        vz: rcc surface card `vz` parameter.
-        h1: rcc surface card `h1` parameter.
-        h2: rcc surface card `h2` parameter.
-        h3: rcc surface card `h3` parameter.
-        r: rcc surface card `r` parameter.
+        prefix: rcc surface card ``prefix`` parameter.
+        j: rcc surface card ``j`` parameter.
+        keyword: rcc surface card ``r'RCC'`` symbol.
+        vx: rcc surface card ``vx`` parameter.
+        vy: rcc surface card ``vy`` parameter.
+        vz: rcc surface card ``vz`` parameter.
+        h1: rcc surface card ``h1`` parameter.
+        h2: rcc surface card ``h2`` parameter.
+        h3: rcc surface card ``h3`` parameter.
+        r: rcc surface card ``r`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

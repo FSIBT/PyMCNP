@@ -12,9 +12,9 @@ class Nps(Ptrac):
     Represents nps ptrac data options.
 
     Attributes:
-        keyword: nps ptrac data option `NPS` symbol.
-        equals: nps ptrac data option `=` symbol.
-        n: nps ptrac data option `n` parameter.
+        keyword: nps ptrac data option ``r'NPS'`` symbol.
+        equals: nps ptrac data option ``r'='`` symbol.
+        n: nps ptrac data option ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'NPS'] | str = abc.Terminal[r'NPS']('NPS')

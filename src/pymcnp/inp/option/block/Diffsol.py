@@ -9,9 +9,9 @@ class Diffsol(Block):
     Represents diffsol block dawwg data options.
 
     Attributes:
-        keyword: diffsol block suboption `DIFFSOL` symbol.
-        equals: diffsol block suboption `=` symbol.
-        value: diffsol block suboption `value` parameter.
+        keyword: diffsol block suboption ``r'DIFFSOL'`` symbol.
+        equals: diffsol block suboption ``r'='`` symbol.
+        value: diffsol block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DIFFSOL'] | str = abc.Terminal[r'DIFFSOL']('DIFFSOL')

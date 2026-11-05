@@ -10,9 +10,9 @@ class Nogeod(Block):
     Represents nogeod block dawwg data options.
 
     Attributes:
-        keyword: nogeod block suboption `NOGEOD` symbol.
-        equals: nogeod block suboption `=` symbol.
-        value: nogeod block suboption `value` parameter.
+        keyword: nogeod block suboption ``r'NOGEOD'`` symbol.
+        equals: nogeod block suboption ``r'='`` symbol.
+        value: nogeod block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'NOGEOD'] | str = abc.Terminal[r'NOGEOD']('NOGEOD')

@@ -10,9 +10,9 @@ class Col(Ssr):
     Represents col ssr data options.
 
     Attributes:
-        keyword: col ssr data option `COL` symbol.
-        equals: col ssr data option `=` symbol.
-        value: col ssr data option `value` parameter.
+        keyword: col ssr data option ``r'COL'`` symbol.
+        equals: col ssr data option ``r'='`` symbol.
+        value: col ssr data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'COL'] | str = abc.Terminal[r'COL']('COL')

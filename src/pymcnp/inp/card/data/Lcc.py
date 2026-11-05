@@ -11,17 +11,17 @@ class Lcc(Data):
     Represents lcc data cards.
 
     Attributes:
-        keyword: lcc data card `LCC` symbol.
-        stincl: lcc data card `stincl` parameter.
-        v0incl: lcc data card `v0incl` parameter.
-        xfoisaincl: lcc data card `xfoisaincl` parameter.
-        npaulincl: lcc data card `npaulincl` parameter.
-        nosurfincl: lcc data card `nosurfincl` parameter.
-        j_0: phys data card `J` parameter, #0.
-        j_1: phys data card `J` parameter, #1.
-        ecutincl: lcc data card `ecutincl` parameter.
-        ebankincl: lcc data card `ebankincl` parameter.
-        ebankabia: lcc data card `ebankabia` parameter.
+        keyword: lcc data card ``r'LCC'`` symbol.
+        stincl: lcc data card ``stincl`` parameter.
+        v0incl: lcc data card ``v0incl`` parameter.
+        xfoisaincl: lcc data card ``xfoisaincl`` parameter.
+        npaulincl: lcc data card ``npaulincl`` parameter.
+        nosurfincl: lcc data card ``nosurfincl`` parameter.
+        j_0: phys data card ``J`` parameter, #0.
+        j_1: phys data card ``J`` parameter, #1.
+        ecutincl: lcc data card ``ecutincl`` parameter.
+        ebankincl: lcc data card ``ebankincl`` parameter.
+        ebankabia: lcc data card ``ebankabia`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'LCC'] | str = abc.Terminal[r'LCC']('LCC')

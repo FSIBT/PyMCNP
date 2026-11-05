@@ -90,7 +90,7 @@ class Visualize(abc.Utility):
 
     def to_show_cell(self, *number: str) -> pyvista.Plotter:
         """
-        Visualizes input cell `number`.
+        Visualizes input cell ``number``.
 
         Parameters:
             numbers: Cell to visualize.

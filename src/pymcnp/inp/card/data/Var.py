@@ -12,8 +12,8 @@ class Var(Data):
     Represents var data cards.
 
     Attributes:
-        keyword: var data card `VAR` symbol.
-        options: var data card `options` parameter.
+        keyword: var data card ``r'VAR'`` symbol.
+        options: var data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'VAR'] | str = abc.Terminal[r'VAR']('VAR')

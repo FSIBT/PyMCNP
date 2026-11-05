@@ -12,9 +12,9 @@ class Cell(Pert):
     Represents cell pert data options.
 
     Attributes:
-        keyword: cell pert data option `CELL` symbol.
-        equals: cell pert data option `=` symbol.
-        n: cell pert data option `n` parameter.
+        keyword: cell pert data option ``r'CELL'`` symbol.
+        equals: cell pert data option ``r'='`` symbol.
+        n: cell pert data option ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'CELL'] | str = abc.Terminal[r'CELL']('CELL')

@@ -9,9 +9,9 @@ class Fmatsrc(Kopts):
     Represents fmatsrc kopts data options.
 
     Attributes:
-        keyword: fmatsrc kopts data option `FMATSRC` symbol.
-        equals: fmatsrc kopts data option `=` symbol.
-        value: fmatsrc kopts data option `value` parameter.
+        keyword: fmatsrc kopts data option ``r'FMATSRC'`` symbol.
+        equals: fmatsrc kopts data option ``r'='`` symbol.
+        value: fmatsrc kopts data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FMATSRC'] | str = abc.Terminal[r'FMATSRC']('FMATSRC')

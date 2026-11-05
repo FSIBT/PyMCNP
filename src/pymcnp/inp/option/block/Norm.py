@@ -11,9 +11,9 @@ class Norm(Block):
     Represents norm block dawwg data options.
 
     Attributes:
-        keyword: norm block suboption `NORM` symbol.
-        equals: norm block suboption `=` symbol.
-        value: norm block suboption `value` parameter.
+        keyword: norm block suboption ``r'NORM'`` symbol.
+        equals: norm block suboption ``r'='`` symbol.
+        value: norm block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'NORM'] | str = abc.Terminal[r'NORM']('NORM')

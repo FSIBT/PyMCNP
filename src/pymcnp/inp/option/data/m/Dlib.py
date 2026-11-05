@@ -9,9 +9,9 @@ class Dlib(M):
     Represents dlib m data options.
 
     Attributes:
-        keyword: dlib m data option `DLIB` symbol.
-        equals: dlib m data option `=` symbol.
-        x: dlib m data option `x` parameter.
+        keyword: dlib m data option ``r'DLIB'`` symbol.
+        equals: dlib m data option ``r'='`` symbol.
+        x: dlib m data option ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DLIB'] | str = abc.Terminal[r'DLIB']('DLIB')

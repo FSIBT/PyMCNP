@@ -9,8 +9,8 @@ class I_J(Group):
     Represents i_j groups.
 
     Attributes:
-        i: i_j group `i` parameter.
-        j: i_j group `j` parameter.
+        i: i_j group ``i`` parameter.
+        j: i_j group ``j`` parameter.
     """
 
     i: literal.Integer | int | str

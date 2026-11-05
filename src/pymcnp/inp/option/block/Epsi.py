@@ -11,9 +11,9 @@ class Epsi(Block):
     Represents epsi block dawwg data options.
 
     Attributes:
-        keyword: epsi block suboption `EPSI` symbol.
-        equals: epsi block suboption `=` symbol.
-        value: epsi block suboption `value` parameter.
+        keyword: epsi block suboption ``r'EPSI'`` symbol.
+        equals: epsi block suboption ``r'='`` symbol.
+        value: epsi block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'EPSI'] | str = abc.Terminal[r'EPSI']('EPSI')

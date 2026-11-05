@@ -10,9 +10,9 @@ class Isn(Block):
     Represents isn block dawwg data options.
 
     Attributes:
-        keyword: isn block suboption `ISN` symbol.
-        equals: isn block suboption `=` symbol.
-        value: isn block suboption `value` parameter.
+        keyword: isn block suboption ``r'ISN'`` symbol.
+        equals: isn block suboption ``r'='`` symbol.
+        value: isn block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ISN'] | str = abc.Terminal[r'ISN']('ISN')

@@ -11,8 +11,8 @@ class Mgc(Ft):
     Represents mgc ft data options.
 
     Attributes:
-        id: mgc group `MGC` symbol.
-        fg: mgc group `fg` parameter.
+        id: mgc group ``r'MGC'`` symbol.
+        fg: mgc group ``fg`` parameter.
     """
 
     id: typing.Annotated[abc.Terminal, r'MGC'] | str = abc.Terminal[r'MGC']('MGC')

@@ -14,13 +14,13 @@ class Kz(Surface):
     Represents kz surface cards.
 
     Attributes:
-        prefix: kz surface card `prefix` parameter.
-        j: kz surface card `j` parameter.
-        n: kz surface card `n` parameter.
-        keyword: kz surface card `KZ` symbol.
-        z: kz surface card `z` parameter.
-        t_squared: kz surface card `t_squared` parameter.
-        plus_minus_1: kz surface card `plus_minus_1` parameter.
+        prefix: kz surface card ``prefix`` parameter.
+        j: kz surface card ``j`` parameter.
+        n: kz surface card ``n`` parameter.
+        keyword: kz surface card ``r'KZ'`` symbol.
+        z: kz surface card ``z`` parameter.
+        t_squared: kz surface card ``t_squared`` parameter.
+        plus_minus_1: kz surface card ``plus_minus_1`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

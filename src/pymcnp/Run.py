@@ -20,9 +20,9 @@ class Result:
         index: Run number.
         directory: Directory the run executed in.
         inp: Input file.
-        outp: Output file, `None` if the command did not write one.
-        ptrac: PTRAC file, `None` if the command did not write one.
-        runtpe: Runtpe file, `None` if the command did not write one.
+        outp: Output file, ``None`` if the command did not write one.
+        ptrac: PTRAC file, ``None`` if the command did not write one.
+        runtpe: Runtpe file, ``None`` if the command did not write one.
         log: File with the command's standard output and error.
         returncode: Exit code of the command.
     """
@@ -50,17 +50,17 @@ class Run(abc.Utility):
     """
     Represents utitlites that run input files.
 
-    Every input runs in its own directory (`<batch>/<name>/<name>.inp`, `.outp`, `.ptrac`, `.runtpe`, `.log`),
-    since MCNP refuses to reuse output files and parallel runs would share one `runtpe`.
+    Every input runs in its own directory (``<batch>/<name>/<name>.inp``, ``.outp``, ``.ptrac``, ``.runtpe``, ``.log``),
+    since MCNP refuses to reuse output files and parallel runs would share one ``runtpe``.
 
     Attributes:
         files: Input files to run.
         command: Command to run.
         max_workers: Maximum number of simultaneous runs, defaults to the number of CPUs.
-        names: Names of the runs: a sequence with one name per file, or a template with `{index}`, e.g., `'case-{index}'`. Defaults to `run-{index:05}`.
-        check: Whether `run` raises if a run failed.
-        batch: Whether `run` puts the runs in a new `pymcnp-<timestamp>` directory inside the given path. If not, the run directories `<path>/<name>` are created directly in the given path, which must not contain them yet.
-        directory: Directory holding the run directories, set by `run`.
+        names: Names of the runs: a sequence with one name per file, or a template with ``{index}``, e.g., ``'case-{index}'``. Defaults to ``run-{index:05}``.
+        check: Whether ``run`` raises if a run failed.
+        batch: Whether ``run`` puts the runs in a new ``pymcnp-<timestamp>`` directory inside the given path. If not, the run directories ``<path>/<name>`` are created directly in the given path, which must not contain them yet.
+        directory: Directory holding the run directories, set by ``run``.
     """
 
     files: collections.abc.Sequence[Inp]
@@ -108,7 +108,7 @@ class Run(abc.Utility):
     def posthook_file(self, result: Result):
         """
         Runs after a file, in the thread that ran it, while other runs may still be going.
-        Skipped for failed runs if `check` is set.
+        Skipped for failed runs if ``check`` is set.
 
         Parameters:
             result: Result of the run.
@@ -124,7 +124,7 @@ class Run(abc.Utility):
 
     def posthook_batch(self, path: pathlib.Path):
         """
-        Runs after the batch, if no run failed or `check` is not set.
+        Runs after the batch, if no run failed or ``check`` is not set.
 
         Parameters:
             path: Path to batch directory.
@@ -171,16 +171,16 @@ class Run(abc.Utility):
 
     def run(self, path: pathlib.Path | str) -> list[Result]:
         """
-        Runs the input files, at most `max_workers` at a time.
+        Runs the input files, at most ``max_workers`` at a time.
 
         Parameters:
-            path: Directory for run, or, with `batch` unset, the directory that gets the run directories.
+            path: Directory for run, or, with ``batch`` unset, the directory that gets the run directories.
 
         Returns:
             Results of the runs, in the order of the input files.
 
         Raises:
-            Error: A run failed and `check` is set, raised after all runs finished.
+            Error: A run failed and ``check`` is set, raised after all runs finished.
         """
 
         path = pathlib.Path(path)

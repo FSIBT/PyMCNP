@@ -12,8 +12,8 @@ class Mode(Data):
     Represents mode data cards.
 
     Attributes:
-        keyword: mode data card `MODE` symbol.
-        p: mode data card `p` parameter.
+        keyword: mode data card ``r'MODE'`` symbol.
+        p: mode data card ``p`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MODE'] | str = abc.Terminal[r'MODE']('MODE')

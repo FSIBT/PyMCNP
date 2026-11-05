@@ -12,9 +12,9 @@ class Kints(Fmesh):
     Represents kints fmesh data options.
 
     Attributes:
-        keyword: kints fmesh data option `KINTS` symbol.
-        equals: kints fmesh data option `=` symbol.
-        n: kints fmesh data option `n` parameter.
+        keyword: kints fmesh data option ``r'KINTS'`` symbol.
+        equals: kints fmesh data option ``r'='`` symbol.
+        n: kints fmesh data option ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'KINTS'] | str = abc.Terminal[r'KINTS']('KINTS')

@@ -12,11 +12,11 @@ class Overlap(Embed):
     Represents overlap embed data options.
 
     Attributes:
-        keyword: overlap embed data option `OVERLAP` symbol.
-        equals: overlap embed data option `=` symbol.
-        key1: overlap embed data option `key1` parameter.
-        key2: overlap embed data option `key2` parameter.
-        value: overlap embed data option `value` parameter.
+        keyword: overlap embed data option ``r'OVERLAP'`` symbol.
+        equals: overlap embed data option ``r'='`` symbol.
+        key1: overlap embed data option ``key1`` parameter.
+        key2: overlap embed data option ``key2`` parameter.
+        value: overlap embed data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'OVERLAP'] | str = abc.Terminal[r'OVERLAP']('OVERLAP')

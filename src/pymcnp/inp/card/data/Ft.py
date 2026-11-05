@@ -13,9 +13,9 @@ class Ft(Data):
     Represents ft data cards.
 
     Attributes:
-        keyword: ft data card `FT` symbol.
-        suffix: ft data card `n` parameter.
-        id_pk: ft data card `id_pk` parameter.
+        keyword: ft data card ``r'FT'`` symbol.
+        suffix: ft data card ``n`` parameter.
+        id_pk: ft data card ``id_pk`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FT'] | str = abc.Terminal[r'FT']('FT')

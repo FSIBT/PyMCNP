@@ -9,7 +9,7 @@ class Y(Boundary):
     Represents y boundary lines.
 
     Attributes:
-        label: y boundary line `    Y direction:` symbol.
+        label: y boundary line ``r'    Y direction:'`` symbol.
         bins: y boundary line bins.
     """
 

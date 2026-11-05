@@ -20,7 +20,7 @@ class File(Nonterminal):
             path: Path to file to compile.
 
         Returns:
-            Nonterminal symbol corresponding to file at `path`.
+            Nonterminal symbol corresponding to file at ``path``.
 
         Raises:
             Error: File not found.
@@ -37,7 +37,7 @@ class File(Nonterminal):
 
     def to_file(self, path: pathlib.Path | str) -> None:
         """
-        Decompiles nonterminal symbols into their corresponding file at `path`.
+        Decompiles nonterminal symbols into their corresponding file at ``path``.
         """
 
         if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover

@@ -10,9 +10,9 @@ class Tsasn(Block):
     Represents tsasn block dawwg data options.
 
     Attributes:
-        keyword: tsasn block suboption `TSASN` symbol.
-        equals: tsasn block suboption `=` symbol.
-        value: tsasn block suboption `value` parameter.
+        keyword: tsasn block suboption ``r'TSASN'`` symbol.
+        equals: tsasn block suboption ``r'='`` symbol.
+        value: tsasn block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TSASN'] | str = abc.Terminal[r'TSASN']('TSASN')

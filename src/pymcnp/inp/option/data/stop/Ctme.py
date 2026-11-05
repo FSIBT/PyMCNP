@@ -11,9 +11,9 @@ class Ctme(Stop):
     Represents ctme stop data options.
 
     Attributes:
-        keyword: ctme stop data option `CTME` symbol.
-        equals: ctme stop data option `=` symbol.
-        tme: ctme stop data option `tme` parameter.
+        keyword: ctme stop data option ``r'CTME'`` symbol.
+        equals: ctme stop data option ``r'='`` symbol.
+        tme: ctme stop data option ``tme`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'CTME'] | str = abc.Terminal[r'CTME']('CTME')

@@ -14,17 +14,17 @@ class Trc(Surface):
     Represents trc surface cards.
 
     Attributes:
-        prefix: trc surface card `prefix` parameter.
-        j: trc surface card `j` parameter.
-        keyword: trc surface card `TRC` symbol.
-        vx: trc surface card `vx` parameter.
-        vy: trc surface card `vy` parameter.
-        vz: trc surface card `vz` parameter.
-        h1: trc surface card `h1` parameter.
-        h2: trc surface card `h2` parameter.
-        h3: trc surface card `h3` parameter.
-        r1: trc surface card `r1` parameter.
-        r2: trc surface card `r2` parameter.
+        prefix: trc surface card ``prefix`` parameter.
+        j: trc surface card ``j`` parameter.
+        keyword: trc surface card ``r'TRC'`` symbol.
+        vx: trc surface card ``vx`` parameter.
+        vy: trc surface card ``vy`` parameter.
+        vz: trc surface card ``vz`` parameter.
+        h1: trc surface card ``h1`` parameter.
+        h2: trc surface card ``h2`` parameter.
+        h3: trc surface card ``h3`` parameter.
+        r1: trc surface card ``r1`` parameter.
+        r2: trc surface card ``r2`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

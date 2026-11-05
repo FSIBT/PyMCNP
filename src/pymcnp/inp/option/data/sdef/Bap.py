@@ -11,11 +11,11 @@ class Bap(Sdef):
     Represents bap sdef data options.
 
     Attributes:
-        keyword: bap sdef data option `BAP` symbol.
-        equals: bap sdef data option `equals` parameter.
-        ba1: bap sdef data option `ba1` parameter.
-        ba2: bap sdef data option `ba2` parameter.
-        u: bap sdef data option `u` parameter.
+        keyword: bap sdef data option ``r'BAP'`` symbol.
+        equals: bap sdef data option ``equals`` parameter.
+        ba1: bap sdef data option ``ba1`` parameter.
+        ba2: bap sdef data option ``ba2`` parameter.
+        u: bap sdef data option ``u`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'BAP'] | str = abc.Terminal[r'BAP']('BAP')

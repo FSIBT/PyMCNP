@@ -9,9 +9,9 @@ class Fmatconvrg(Kopts):
     Represents fmatconvrg kopts data options.
 
     Attributes:
-        keyword: fmatconvrg kopts data option `FMATCONVRG` symbol.
-        equals: fmatconvrg kopts data option `=` symbol.
-        value: fmatconvrg kopts data option `value` parameter.
+        keyword: fmatconvrg kopts data option ``r'FMATCONVRG'`` symbol.
+        equals: fmatconvrg kopts data option ``r'='`` symbol.
+        value: fmatconvrg kopts data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FMATCONVRG'] | str = abc.Terminal[r'FMATCONVRG']('FMATCONVRG')

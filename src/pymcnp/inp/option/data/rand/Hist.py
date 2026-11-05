@@ -10,9 +10,9 @@ class Hist(Rand):
     Represents hist rand data options.
 
     Attributes:
-        keyword: hist rand data option `HIST` symbol.
-        equals: hist rand data option `=` symbol.
-        n: hist rand data option `n` parameter.
+        keyword: hist rand data option ``r'HIST'`` symbol.
+        equals: hist rand data option ``r'='`` symbol.
+        n: hist rand data option ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'HIST'] | str = abc.Terminal[r'HIST']('HIST')

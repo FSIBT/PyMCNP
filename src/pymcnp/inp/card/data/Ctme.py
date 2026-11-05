@@ -11,8 +11,8 @@ class Ctme(Data):
     Represents ctme data cards.
 
     Attributes:
-        keyword: ctme data card `CTME` symbol.
-        tme: ctme data card `tme` parameter.
+        keyword: ctme data card ``r'CTME'`` symbol.
+        tme: ctme data card ``tme`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'CTME'] | str = abc.Terminal[r'CTME']('CTME')

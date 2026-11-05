@@ -11,8 +11,8 @@ class Disable(Data):
     Represents disable data cards.
 
     Attributes:
-        keyword: disable data card `DISABLE` symbol.
-        options: disable data card `options` parameter.
+        keyword: disable data card ``r'DISABLE'`` symbol.
+        options: disable data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DISABLE'] | str = abc.Terminal[r'DISABLE']('DISABLE')

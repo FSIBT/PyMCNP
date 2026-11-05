@@ -10,9 +10,9 @@ class Pted(Block):
     Represents pted block dawwg data options.
 
     Attributes:
-        keyword: pted block suboption `PTED` symbol.
-        equals: pted block suboption `=` symbol.
-        value: pted block suboption `value` parameter.
+        keyword: pted block suboption ``r'PTED'`` symbol.
+        equals: pted block suboption ``r'='`` symbol.
+        value: pted block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'PTED'] | str = abc.Terminal[r'PTED']('PTED')

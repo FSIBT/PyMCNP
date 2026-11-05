@@ -14,11 +14,11 @@ class Cy(Surface):
     Represents cy surface cards.
 
     Attributes:
-        prefix: cy surface card `prefix` parameter.
-        j: cy surface card `j` parameter.
-        n: cy surface card `n` parameter.
-        keyword: cy surface card `CY` symbol.
-        r: cy surface card `R` parameter.
+        prefix: cy surface card ``prefix`` parameter.
+        j: cy surface card ``j`` parameter.
+        n: cy surface card ``n`` parameter.
+        keyword: cy surface card ``r'CY'`` symbol.
+        r: cy surface card ``R`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

@@ -11,10 +11,10 @@ class Geb(Ft):
     Represents geb ft data options.
 
     Attributes:
-        id: geb group `GEB` symbol.
-        a: geb group `a` parameter.
-        b: geb group `b` parameter.
-        c: geb group `c` parameter.
+        id: geb group ``r'GEB'`` symbol.
+        a: geb group ``a`` parameter.
+        b: geb group ``b`` parameter.
+        c: geb group ``c`` parameter.
     """
 
     id: typing.Annotated[abc.Terminal, r'GEB'] | str = abc.Terminal[r'GEB']('GEB')

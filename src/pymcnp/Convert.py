@@ -19,10 +19,10 @@ class Convert(abc.Utility):
 
     def to_csv(self, number: str, path: pathlib.Path | str):
         """
-        Converts tally `number` in output file `outp` to a CSV file.
+        Converts tally ``number`` in output file ``outp`` to a CSV file.
 
         Parameters:
-            number: Tally in output file `outp` to convert.
+            number: Tally in output file ``outp`` to convert.
             path: .
         """
 
@@ -33,10 +33,10 @@ class Convert(abc.Utility):
 
     def to_parquet(self, number: str, path: pathlib.Path | str):
         """
-        Converts tally `number` in output file `outp` to a PARQUET file.
+        Converts tally ``number`` in output file ``outp`` to a PARQUET file.
 
         Parameters:
-            number: Tally in output file `outp` to convert.
+            number: Tally in output file ``outp`` to convert.
             path: .
         """
 

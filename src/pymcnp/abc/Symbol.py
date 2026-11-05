@@ -19,7 +19,7 @@ class Symbol(abc.ABC):
             source: Source string to compile.
 
         Returns:
-            Symbol corresponding to `source`.
+            Symbol corresponding to ``source``.
         """
 
         raise NotImplementedError
@@ -30,7 +30,7 @@ class Symbol(abc.ABC):
         Decompiles symbols into their corresponding source strings.
 
         Returns:
-            Source string corresponding to `self`.
+            Source string corresponding to ``self``.
         """
 
         raise NotImplementedError
@@ -45,7 +45,7 @@ class Symbol(abc.ABC):
 
 def _parse(kinds: tuple[type[Symbol], ...], source: str) -> tuple[Symbol, str]:
     """
-    Matches `source` to symbol in `kinds`.
+    Matches ``source`` to symbol in ``kinds``.
 
     This function disambiguated using the longest match rule.
 
@@ -68,7 +68,7 @@ def _parse(kinds: tuple[type[Symbol], ...], source: str) -> tuple[Symbol, str]:
         try:
             parse = kind.from_mcnp(source)
 
-            # Updating `longest`.
+            # Updating ``longest``.
             if longest[0] is None or len(parse[0].to_mcnp()) > len(longest[0].to_mcnp()):
                 longest = parse
         except Error as err:

@@ -12,9 +12,9 @@ class Surface(Ptrac):
     Represents surface ptrac data options.
 
     Attributes:
-        keyword: surface ptrac data option `SURFACE` symbol.
-        equals: surface ptrac data option `=` symbol.
-        s: surface ptrac data option `s` parameter.
+        keyword: surface ptrac data option ``r'SURFACE'`` symbol.
+        equals: surface ptrac data option ``r'='`` symbol.
+        s: surface ptrac data option ``s`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'SURFACE'] | str = abc.Terminal[r'SURFACE']('SURFACE')

@@ -9,17 +9,17 @@ class UnnormedTallyDensity(Block):
     Represents unnormed tally density blocks.
 
     Attributes:
-        name: unnormed tally density block `1unnormed tally density` symbol.
-        tally_preamble: unnormed tally density block ` for tally ` symbol.
+        name: unnormed tally density block ``r'1unnormed tally density'`` symbol.
+        tally_preamble: unnormed tally density block ``r' for tally '`` symbol.
         tally: unnormed tally density block tally parameter.
-        nonzero_tally_mean_preamble: unnormed tally density block ` nonzero tally mean(m)` symbol.
+        nonzero_tally_mean_preamble: unnormed tally density block ``r' nonzero tally mean(m)'`` symbol.
         nonzero_tally_mean: unnormed tally density block nonzero tally mean parameter.
-        nps_preamble: unnormed tally density block `   nps = ` symbol.
+        nps_preamble: unnormed tally density block ``r'   nps = '`` symbol.
         nps: unnormed tally density block nps parameter.
-        print_preamble: unnormed tally density block ` print table ` symbol.
-        print: unnormed tally density block `161` symbol.
-        table_heading: unnormed tally density block `\\n\\n abscissa              ordinate   log plot of tally probability density function in tally fluctuation chart bin\\(d=decade,slope= 0.0\\)` symbol.
-        table_body_preamble: unnormed tally density block `\\n` symbol.
+        print_preamble: unnormed tally density block ``r' print table '`` symbol.
+        print: unnormed tally density block ``r'161'`` symbol.
+        table_heading: unnormed tally density block ``r'\\n\\n abscissa              ordinate   log plot of tally probability density function in tally fluctuation chart bin\\(d=decade,slope= 0.0\\)'`` symbol.
+        table_body_preamble: unnormed tally density block ``r'\\n'`` symbol.
         table_body: unnormed tally density block table body parameter.
     """
 

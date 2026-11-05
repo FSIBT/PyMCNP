@@ -9,9 +9,9 @@ class Trcor(Block):
     Represents trcor block dawwg data options.
 
     Attributes:
-        keyword: trcor block suboption `TRCOR` symbol.
-        equals: trcor block suboption `=` symbol.
-        value: trcor block suboption `value` parameter.
+        keyword: trcor block suboption ``r'TRCOR'`` symbol.
+        equals: trcor block suboption ``r'='`` symbol.
+        value: trcor block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TRCOR'] | str = abc.Terminal[r'TRCOR']('TRCOR')

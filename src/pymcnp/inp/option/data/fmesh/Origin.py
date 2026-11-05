@@ -11,11 +11,11 @@ class Origin(Fmesh):
     Represents origin fmesh data options.
 
     Attributes:
-        keyword: origin fmesh data option `ORIGIN` symbol.
-        equals: origin fmesh data option `=` symbol.
-        x: origin fmesh data option `x` parameter.
-        y: origin fmesh data option `y` parameter.
-        z: origin fmesh data option `z` parameter.
+        keyword: origin fmesh data option ``r'ORIGIN'`` symbol.
+        equals: origin fmesh data option ``r'='`` symbol.
+        x: origin fmesh data option ``x`` parameter.
+        y: origin fmesh data option ``y`` parameter.
+        z: origin fmesh data option ``z`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ORIGIN'] | str = abc.Terminal[r'ORIGIN']('ORIGIN')

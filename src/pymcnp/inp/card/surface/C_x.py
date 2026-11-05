@@ -14,13 +14,13 @@ class C_x(Surface):
     Represents c/x surface cards.
 
     Attributes:
-        prefix: c/x surface card `prefix` parameter.
-        j: c/x surface card `j` parameter.
-        n: c/x surface card `n` parameter.
-        keyword: c/x surface card `C/X` symbol.
-        y: c/x surface card `y` parameter.
-        z: c/x surface card `z` parameter.
-        r: c/x surface card `R` parameter.
+        prefix: c/x surface card ``prefix`` parameter.
+        j: c/x surface card ``j`` parameter.
+        n: c/x surface card ``n`` parameter.
+        keyword: c/x surface card ``r'C/X'`` symbol.
+        y: c/x surface card ``y`` parameter.
+        z: c/x surface card ``z`` parameter.
+        r: c/x surface card ``R`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

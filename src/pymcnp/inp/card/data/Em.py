@@ -12,9 +12,9 @@ class Em(Data):
     Represents em data cards.
 
     Attributes:
-        keyword: em data card `EM` symbol.
-        suffix: em data card `n` parameter.
-        m: em data card `m` parameter.
+        keyword: em data card ``r'EM'`` symbol.
+        suffix: em data card ``n`` parameter.
+        m: em data card ``m`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'EM'] | str = abc.Terminal[r'EM']('EM')

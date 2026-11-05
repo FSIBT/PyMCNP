@@ -14,16 +14,16 @@ class Ell(Surface):
     Represents ell surface cards.
 
     Attributes:
-        prefix: ell surface card `prefix` parameter.
-        j: ell surface card `j` parameter.
-        keyword: ell surface card `ELL` symbol.
-        v1x: ell surface card `v1x` parameter.
-        v1y: ell surface card `v1y` parameter.
-        v1z: ell surface card `v1z` parameter.
-        v2x: ell surface card `v2x` parameter.
-        v2y: ell surface card `v2y` parameter.
-        v2z: ell surface card `v2z` parameter.
-        r: ell surface card `r` parameter.
+        prefix: ell surface card ``prefix`` parameter.
+        j: ell surface card ``j`` parameter.
+        keyword: ell surface card ``r'ELL'`` symbol.
+        v1x: ell surface card ``v1x`` parameter.
+        v1y: ell surface card ``v1y`` parameter.
+        v1z: ell surface card ``v1z`` parameter.
+        v2x: ell surface card ``v2x`` parameter.
+        v2y: ell surface card ``v2y`` parameter.
+        v2z: ell surface card ``v2z`` parameter.
+        r: ell surface card ``r`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

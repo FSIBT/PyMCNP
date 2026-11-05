@@ -10,10 +10,11 @@ class Event(abc.Nonterminal):
 
     Attributes:
         j: event block j line.
-        newline: event block `\\n` symbol.
+        newline: event block `r'\\n'` symbol.
         p: event block p line.
     """
 
     j: line.J
     newline: typing.Annotated[abc.Terminal, r'\n']
     p: line.P
+

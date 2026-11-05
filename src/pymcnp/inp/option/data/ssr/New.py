@@ -12,9 +12,9 @@ class New(Ssr):
     Represents new ssr data options.
 
     Attributes:
-        keyword: new ssr data option `NEW` symbol.
-        equals: new ssr data option `=` symbol.
-        s: new ssr data option `s` parameter.
+        keyword: new ssr data option ``r'NEW'`` symbol.
+        equals: new ssr data option ``r'='`` symbol.
+        s: new ssr data option ``s`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'NEW'] | str = abc.Terminal[r'NEW']('NEW')

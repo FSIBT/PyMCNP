@@ -10,9 +10,9 @@ class Asfrnt(Block):
     Represents asfrnt block dawwg data options.
 
     Attributes:
-        keyword: asfrnt block suboption `ASFRNT` symbol.
-        equals: asfrnt block suboption `=` symbol.
-        value: asfrnt block suboption `value` parameter.
+        keyword: asfrnt block suboption ``r'ASFRNT'`` symbol.
+        equals: asfrnt block suboption ``r'='`` symbol.
+        value: asfrnt block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ASFRNT'] | str = abc.Terminal[r'ASFRNT']('ASFRNT')

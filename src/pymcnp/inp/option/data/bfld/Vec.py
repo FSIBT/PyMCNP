@@ -11,11 +11,11 @@ class Vec(Bfld):
     Represents vec bfld data options.
 
     Attributes:
-        keyword: vec bfld data option `VEC` symbol.
-        equals: vec bfld data option `=` symbol.
-        uf: vec bfld data option `uf` parameter.
-        vf: vec bfld data option `vf` parameter.
-        wf: vec bfld data option `wf` parameter.
+        keyword: vec bfld data option ``r'VEC'`` symbol.
+        equals: vec bfld data option ``r'='`` symbol.
+        uf: vec bfld data option ``uf`` parameter.
+        vf: vec bfld data option ``vf`` parameter.
+        wf: vec bfld data option ``wf`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'VEC'] | str = abc.Terminal[r'VEC']('VEC')

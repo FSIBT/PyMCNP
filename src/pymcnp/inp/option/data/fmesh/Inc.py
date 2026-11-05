@@ -17,10 +17,10 @@ class Inc_0(Inc):
     Represents inc fmesh data options, form #0.
 
     Attributes:
-        keyword: inc fmesh data option `INC` symbol.
-        equals: inc fmesh data option `=` symbol.
-        low: inc fmesh data option `low` parameter.
-        high: inc fmesh data option `high` parameter.
+        keyword: inc fmesh data option ``r'INC'`` symbol.
+        equals: inc fmesh data option ``r'='`` symbol.
+        low: inc fmesh data option ``low`` parameter.
+        high: inc fmesh data option ``high`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'INC'] | str = abc.Terminal[r'INC']('INC')
@@ -34,7 +34,7 @@ class Inc_1(Inc):
     Represents inc fmesh data options, form #1.
 
     Attributes:
-        keyword: inc fmesh data option `INC` symbol.
+        keyword: inc fmesh data option ``r'INC'`` symbol.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'INC'] | str = abc.Terminal[r'INC']('INC')

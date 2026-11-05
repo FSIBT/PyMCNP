@@ -9,9 +9,9 @@ class Geom(Mesh):
     Represents geom mesh data options.
 
     Attributes:
-        keyword: geom mesh data option `GEOM` symbol.
-        equals: geom mesh data option `=` symbol.
-        value: geom mesh data option `value` parameter.
+        keyword: geom mesh data option ``r'GEOM'`` symbol.
+        equals: geom mesh data option ``r'='`` symbol.
+        value: geom mesh data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'GEOM'] | str = abc.Terminal[r'GEOM']('GEOM')

@@ -12,8 +12,8 @@ class Zb(Data):
     Represents zb data cards.
 
     Attributes:
-        keyword: zb data card `ZB` symbol.
-        x: zb data card `x` parameter.
+        keyword: zb data card ``r'ZB'`` symbol.
+        x: zb data card ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ZB'] | str = abc.Terminal[r'ZB']('ZB')

@@ -10,9 +10,9 @@ class Max(Ptrac):
     Represents max ptrac data options.
 
     Attributes:
-        keyword: max ptrac data option `MAX` symbol.
-        equals: max ptrac data option `=` symbol.
-        value: max ptrac data option `value` parameter.
+        keyword: max ptrac data option ``r'MAX'`` symbol.
+        equals: max ptrac data option ``r'='`` symbol.
+        value: max ptrac data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MAX'] | str = abc.Terminal[r'MAX']('MAX')

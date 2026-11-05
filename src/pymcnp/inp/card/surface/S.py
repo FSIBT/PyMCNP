@@ -14,14 +14,14 @@ class S(Surface):
     Represents s surface cards.
 
     Attributes:
-        prefix: s surface card `prefix` parameter.
-        j: s surface card `j` parameter.
-        n: s surface card `n` parameter.
-        keyword: s surface card `S` symbol.
-        x: s surface card `x` parameter.
-        y: s surface card `y` parameter.
-        z: s surface card `z` parameter.
-        r: s surface card `R` parameter.
+        prefix: s surface card ``prefix`` parameter.
+        j: s surface card ``j`` parameter.
+        n: s surface card ``n`` parameter.
+        keyword: s surface card ``r'S'`` symbol.
+        x: s surface card ``x`` parameter.
+        y: s surface card ``y`` parameter.
+        z: s surface card ``z`` parameter.
+        r: s surface card ``R`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

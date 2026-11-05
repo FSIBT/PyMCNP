@@ -12,11 +12,11 @@ class Embee(Data):
     Represents embee data cards.
 
     Attributes:
-        keyword: embee data card `EMBEE` symbol.
-        suffix: embee data card `n` parameter.
-        colon: embee data card `:` symbol.
-        particle: embee data card `particle` parameter.
-        options: embee data card `options` parameter.
+        keyword: embee data card ``r'EMBEE'`` symbol.
+        suffix: embee data card ``n`` parameter.
+        colon: embee data card ``r':'`` symbol.
+        particle: embee data card ``particle`` parameter.
+        options: embee data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'EMBEE'] | str = abc.Terminal[r'EMBEE']('EMBEE')

@@ -9,9 +9,9 @@ class File(Read):
     Represents file read data options.
 
     Attributes:
-        keyword: file read data option `FILE` symbol.
-        equals: file read data option `=` symbol.
-        filename: file read data option `filename` parameter.
+        keyword: file read data option ``r'FILE'`` symbol.
+        equals: file read data option ``r'='`` symbol.
+        filename: file read data option ``filename`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FILE'] | str = abc.Terminal[r'FILE']('FILE')

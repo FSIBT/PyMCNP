@@ -10,9 +10,9 @@ class Gen(Rand):
     Represents gen rand data options.
 
     Attributes:
-        keyword: gen rand data option `GEN` symbol.
-        equals: gen rand data option `=` symbol.
-        n: gen rand data option `n` parameter.
+        keyword: gen rand data option ``r'GEN'`` symbol.
+        equals: gen rand data option ``r'='`` symbol.
+        n: gen rand data option ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'GEN'] | str = abc.Terminal[r'GEN']('GEN')

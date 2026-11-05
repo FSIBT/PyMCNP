@@ -11,10 +11,10 @@ class Watt(Fmult):
     Represents watt fmult data options.
 
     Attributes:
-        keyword: watt fmult data option `WATT` symbol.
-        equals: watt fmult data option `=` symbol.
-        a: watt fmult data option `a` parameter.
-        b: watt fmult data option `b` parameter.
+        keyword: watt fmult data option ``r'WATT'`` symbol.
+        equals: watt fmult data option ``r'='`` symbol.
+        a: watt fmult data option ``a`` parameter.
+        b: watt fmult data option ``b`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'WATT'] | str = abc.Terminal[r'WATT']('WATT')

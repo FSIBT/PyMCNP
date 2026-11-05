@@ -9,9 +9,9 @@ class Rr(Var):
     Represents rr var data options.
 
     Attributes:
-        keyword: rr var data option `RR` symbol.
-        equals: rr var data option `=` symbol.
-        value: rr var data option `value` parameter.
+        keyword: rr var data option ``r'RR'`` symbol.
+        equals: rr var data option ``r'='`` symbol.
+        value: rr var data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'RR'] | str = abc.Terminal[r'RR']('RR')

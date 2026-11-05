@@ -11,11 +11,11 @@ class Vec(Fmesh):
     Represents vec fmesh data options.
 
     Attributes:
-        keyword: vec fmesh data option `VEC` symbol.
-        equals: vec fmesh data option `=` symbol.
-        x: vec fmesh data option `x` parameter.
-        y: vec fmesh data option `y` parameter.
-        z: vec fmesh data option `z` parameter.
+        keyword: vec fmesh data option ``r'VEC'`` symbol.
+        equals: vec fmesh data option ``r'='`` symbol.
+        x: vec fmesh data option ``x`` parameter.
+        y: vec fmesh data option ``y`` parameter.
+        z: vec fmesh data option ``z`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'VEC'] | str = abc.Terminal[r'VEC']('VEC')

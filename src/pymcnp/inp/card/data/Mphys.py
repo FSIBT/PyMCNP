@@ -10,8 +10,8 @@ class Mphys(Data):
     Represents mphys data cards.
 
     Attributes:
-        keyword: mphys data card `MPHYS` symbol.
-        toggle: mphys data card `toggle` parameter.
+        keyword: mphys data card ``r'MPHYS'`` symbol.
+        toggle: mphys data card ``toggle`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MPHYS'] | str = abc.Terminal[r'MPHYS']('MPHYS')

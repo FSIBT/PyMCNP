@@ -10,8 +10,8 @@ class Pio(Data):
     Represents pio data cards.
 
     Attributes:
-        keyword: pio data card `PIO` symbol.
-        value: pio data card `value` parameter.
+        keyword: pio data card ``r'PIO'`` symbol.
+        value: pio data card ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'PIO'] | str = abc.Terminal[r'PIO']('PIO')

@@ -12,9 +12,9 @@ class Old(Ssr):
     Represents old ssr data options.
 
     Attributes:
-        keyword: old ssr data option `OLD` symbol.
-        equals: old ssr data option `=` symbol.
-        s: old ssr data option `s` parameter.
+        keyword: old ssr data option ``r'OLD'`` symbol.
+        equals: old ssr data option ``r'='`` symbol.
+        s: old ssr data option ``s`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'OLD'] | str = abc.Terminal[r'OLD']('OLD')

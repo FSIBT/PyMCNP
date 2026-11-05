@@ -10,9 +10,9 @@ class Lat(Cell):
     Represents lat cell options.
 
     Attributes:
-        keyword: lat cell option `LAT` symbol.
-        equals: lat cell option `=` symbol.
-        n: lat cell option `n` parameter.
+        keyword: lat cell option ``r'LAT'`` symbol.
+        equals: lat cell option ``r'='`` symbol.
+        n: lat cell option ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'LAT'] | str = abc.Terminal[r'LAT']('LAT')

@@ -11,9 +11,9 @@ class Poa(Ssr):
     Represents poa ssr data options.
 
     Attributes:
-        keyword: poa ssr data option `POA` symbol.
-        equals: poa ssr data option `=` symbol.
-        c: poa ssr data option `c` parameter.
+        keyword: poa ssr data option ``r'POA'`` symbol.
+        equals: poa ssr data option ``r'='`` symbol.
+        c: poa ssr data option ``c`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'POA'] | str = abc.Terminal[r'POA']('POA')

@@ -17,11 +17,11 @@ class Vec_0(Vec):
     Represents vec sdef data options, form #0.
 
     Attributes:
-        keyword: vec sdef data option `VEC` symbol.
-        equals: vec sdef data option `equals` parameter.
-        x: vec sdef data option `x` parameter.
-        y: vec sdef data option `y` parameter.
-        z: vec sdef data option `z` parameter.
+        keyword: vec sdef data option ``r'VEC'`` symbol.
+        equals: vec sdef data option ``equals`` parameter.
+        x: vec sdef data option ``x`` parameter.
+        y: vec sdef data option ``y`` parameter.
+        z: vec sdef data option ``z`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'VEC'] | str = abc.Terminal[r'VEC']('VEC')
@@ -36,9 +36,9 @@ class Vec_1(Vec):
     Represents vec sdef data options, form #1.
 
     Attributes:
-        keyword: vec sdef data option `VEC` symbol.
-        equals: vec sdef data option `equals` parameter.
-        value: vec sdef data option `value` parameter.
+        keyword: vec sdef data option ``r'VEC'`` symbol.
+        equals: vec sdef data option ``equals`` parameter.
+        value: vec sdef data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'VEC'] | str = abc.Terminal[r'VEC']('VEC')

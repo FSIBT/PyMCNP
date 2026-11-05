@@ -10,10 +10,10 @@ class Nps(Stop):
     Represents nps stop data options.
 
     Attributes:
-        keyword: nps stop data option `NPS` symbol.
-        equals: nps stop data option `=` symbol.
-        npp: nps stop data option `npp` parameter.
-        npsmg: nps stop data option `npsmg` parameter.
+        keyword: nps stop data option ``r'NPS'`` symbol.
+        equals: nps stop data option ``r'='`` symbol.
+        npp: nps stop data option ``npp`` parameter.
+        npsmg: nps stop data option ``npsmg`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'NPS'] | str = abc.Terminal[r'NPS']('NPS')

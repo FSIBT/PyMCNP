@@ -12,8 +12,8 @@ class Idum(Data):
     Represents idum data cards.
 
     Attributes:
-        keyword: idum data card `IDUM` symbol.
-        i: idum data card `i` parameter.
+        keyword: idum data card ``r'IDUM'`` symbol.
+        i: idum data card ``i`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'IDUM'] | str = abc.Terminal[r'IDUM']('IDUM')

@@ -20,10 +20,10 @@ class Ds_0(Ds):
     Represents ds data cards, form #0.
 
     Attributes:
-        keyword: ds data card `DS` symbol.
-        suffix: ds data card `n` parameter.
-        option: ds data card `option` parameter.
-        j: ds data card `j` parameter.
+        keyword: ds data card ``r'DS'`` symbol.
+        suffix: ds data card ``n`` parameter.
+        option: ds data card ``option`` parameter.
+        j: ds data card ``j`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DS'] | str = abc.Terminal[r'DS']('DS')
@@ -55,10 +55,10 @@ class Ds_1(Ds):
     Represents ds data cards, form #1.
 
     Attributes:
-        keyword: ds data card `DS` symbol.
-        suffix: ds data card `n` parameter.
-        t: ds data card `T` symbol.
-        i_j: ds data card `i_j` parameter.
+        keyword: ds data card ``r'DS'`` symbol.
+        suffix: ds data card ``n`` parameter.
+        t: ds data card ``r'T'`` symbol.
+        i_j: ds data card ``i_j`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DS'] | str = abc.Terminal[r'DS']('DS')
@@ -85,10 +85,10 @@ class Ds_2(Ds):
     Represents ds data cards, form #2.
 
     Attributes:
-        keyword: ds data card `DS` symbol.
-        suffix: ds data card `n` parameter.
-        q: ds data card `Q` symbol.
-        v_s: ds data card `v_s` parameter.
+        keyword: ds data card ``r'DS'`` symbol.
+        suffix: ds data card ``n`` parameter.
+        q: ds data card ``r'Q'`` symbol.
+        v_s: ds data card ``v_s`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DS'] | str = abc.Terminal[r'DS']('DS')

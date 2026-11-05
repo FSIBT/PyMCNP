@@ -9,9 +9,9 @@ class Event(Ptrac):
     Represents event ptrac data options.
 
     Attributes:
-        keyword: event ptrac data option `EVENT` symbol.
-        equals: event ptrac data option `=` symbol.
-        value: event ptrac data option `value` parameter.
+        keyword: event ptrac data option ``r'EVENT'`` symbol.
+        equals: event ptrac data option ``r'='`` symbol.
+        value: event ptrac data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'EVENT'] | str = abc.Terminal[r'EVENT']('EVENT')

@@ -10,9 +10,9 @@ class Method(Fmult):
     Represents method fmult data options.
 
     Attributes:
-        keyword: method fmult data option `METHOD` symbol.
-        equals: method fmult data option `=` symbol.
-        m: method fmult data option `m` parameter.
+        keyword: method fmult data option ``r'METHOD'`` symbol.
+        equals: method fmult data option ``r'='`` symbol.
+        m: method fmult data option ``m`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'METHOD'] | str = abc.Terminal[r'METHOD']('METHOD')

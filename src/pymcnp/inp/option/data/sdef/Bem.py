@@ -11,11 +11,11 @@ class Bem(Sdef):
     Represents bem sdef data options.
 
     Attributes:
-        keyword: bap sdef data option `BEM` symbol.
-        equals: bap sdef data option `equals` parameter.
-        exn: bap sdef data option `exn` parameter.
-        eyn: bap sdef data option `eyn` parameter.
-        u: bap sdef data option `u` parameter.
+        keyword: bap sdef data option ``r'BEM'`` symbol.
+        equals: bap sdef data option ``equals`` parameter.
+        exn: bap sdef data option ``exn`` parameter.
+        eyn: bap sdef data option ``eyn`` parameter.
+        u: bap sdef data option ``u`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'BEM'] | str = abc.Terminal[r'BEM']('BEM')

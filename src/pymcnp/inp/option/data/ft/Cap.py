@@ -9,7 +9,7 @@ class Cap(Ft):
     Represents cap ft data options.
 
     Attributes:
-        id: cap group `CAP` symbol.
+        id: cap group ``r'CAP'`` symbol.
     """
 
     id: typing.Annotated[abc.Terminal, r'CAP'] | str = abc.Terminal[r'CAP']('CAP')

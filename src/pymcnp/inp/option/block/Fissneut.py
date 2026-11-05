@@ -10,9 +10,9 @@ class Fissneut(Block):
     Represents fissneut block dawwg data options.
 
     Attributes:
-        keyword: fissneut block suboption `FISSNEUT` symbol.
-        equals: fissneut block suboption `=` symbol.
-        value: fissneut block suboption `value` parameter.
+        keyword: fissneut block suboption ``r'FISSNEUT'`` symbol.
+        equals: fissneut block suboption ``r'='`` symbol.
+        value: fissneut block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FISSNEUT'] | str = abc.Terminal[r'FISSNEUT']('FISSNEUT')

@@ -11,9 +11,9 @@ class Matvol(Burn):
     Represents matvol burn data options.
 
     Attributes:
-        keyword: matvol burn data option `MATVOL` symbol.
-        equals: matvol burn data option `=` symbol.
-        v: matvol burn data option `v` parameter.
+        keyword: matvol burn data option ``r'MATVOL'`` symbol.
+        equals: matvol burn data option ``r'='`` symbol.
+        v: matvol burn data option ``v`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MATVOL'] | str = abc.Terminal[r'MATVOL']('MATVOL')

@@ -9,9 +9,9 @@ class Meshgeo(Embed):
     Represents meshgeo embed data options.
 
     Attributes:
-        keyword: meshgeo embed data option `MESHGEO` symbol.
-        equals: meshgeo embed data option `=` symbol.
-        format: meshgeo embed data option `format` parameter.
+        keyword: meshgeo embed data option ``r'MESHGEO'`` symbol.
+        equals: meshgeo embed data option ``r'='`` symbol.
+        format: meshgeo embed data option ``format`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MESHGEO'] | str = abc.Terminal[r'MESHGEO']('MESHGEO')

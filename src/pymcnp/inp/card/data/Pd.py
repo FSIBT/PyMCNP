@@ -12,9 +12,9 @@ class Pd(Data):
     Represents pd data cards.
 
     Attributes:
-        keyword: pd data card `PD` symbol.
-        suffix: pd data card `n` parameter.
-        p: pd data card `p` parameter.
+        keyword: pd data card ``r'PD'`` symbol.
+        suffix: pd data card ``n`` parameter.
+        p: pd data card ``p`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'PD'] | str = abc.Terminal[r'PD']('PD')

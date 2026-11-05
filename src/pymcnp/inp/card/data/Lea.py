@@ -10,15 +10,15 @@ class Lea(Data):
     Represents lea data cards.
 
     Attributes:
-        keyword: lea data card `LEA` symbol.
-        ipht: lea data card `ipht` parameter.
-        icc: lea data card `icc` parameter.
-        nobalc: lea data card `nobalc` parameter.
-        nobale: lea data card `nobale` parameter.
-        ifbrk: lea data card `ifbrk` parameter.
-        ilvden: lea data card `ilvden` parameter.
-        ievap: lea data card `ievap` parameter.
-        nofis: lea data card `nofis` parameter.
+        keyword: lea data card ``r'LEA'`` symbol.
+        ipht: lea data card ``ipht`` parameter.
+        icc: lea data card ``icc`` parameter.
+        nobalc: lea data card ``nobalc`` parameter.
+        nobale: lea data card ``nobale`` parameter.
+        ifbrk: lea data card ``ifbrk`` parameter.
+        ilvden: lea data card ``ilvden`` parameter.
+        ievap: lea data card ``ievap`` parameter.
+        nofis: lea data card ``nofis`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'LEA'] | str = abc.Terminal[r'LEA']('LEA')

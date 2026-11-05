@@ -12,8 +12,8 @@ class Cosy(Data):
     Represents cosy data cards.
 
     Attributes:
-        keyword: cosy data card `COSY` symbol.
-        m: cosy data card `m` parameter.
+        keyword: cosy data card ``r'COSY'`` symbol.
+        m: cosy data card ``m`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'COSY'] | str = abc.Terminal[r'COSY']('COSY')

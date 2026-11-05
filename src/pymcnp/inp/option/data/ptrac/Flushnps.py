@@ -10,9 +10,9 @@ class Flushnps(Ptrac):
     Represents flushnps ptrac data options.
 
     Attributes:
-        keyword: flushnps ptrac data option `FLUSHNPS` symbol.
-        equals: flushnps ptrac data option `=` symbol.
-        value: flushnps ptrac data option `value` parameter.
+        keyword: flushnps ptrac data option ``r'FLUSHNPS'`` symbol.
+        equals: flushnps ptrac data option ``r'='`` symbol.
+        value: flushnps ptrac data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FLUSHNPS'] | str = abc.Terminal[r'FLUSHNPS']('FLUSHNPS')

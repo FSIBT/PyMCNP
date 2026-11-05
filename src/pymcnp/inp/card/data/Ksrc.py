@@ -13,8 +13,8 @@ class Ksrc(Data):
     Represents ksrc data cards.
 
     Attributes:
-        keyword: ksrc data card `KSRC` symbol.
-        xyz: ksrc data card `xyz` parameter.
+        keyword: ksrc data card ``r'KSRC'`` symbol.
+        xyz: ksrc data card ``xyz`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'KSRC'] | str = abc.Terminal[r'KSRC']('KSRC')

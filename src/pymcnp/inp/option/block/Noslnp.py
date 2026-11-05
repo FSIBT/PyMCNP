@@ -10,9 +10,9 @@ class Noslnp(Block):
     Represents noslnp block dawwg data options.
 
     Attributes:
-        keyword: noslnp block suboption `NOSLNP` symbol.
-        equals: noslnp block suboption `=` symbol.
-        value: noslnp block suboption `value` parameter.
+        keyword: noslnp block suboption ``r'NOSLNP'`` symbol.
+        equals: noslnp block suboption ``r'='`` symbol.
+        value: noslnp block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'NOSLNP'] | str = abc.Terminal[r'NOSLNP']('NOSLNP')

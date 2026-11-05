@@ -10,9 +10,9 @@ class Ext(Ssr):
     Represents ext ssr data options.
 
     Attributes:
-        keyword: ext ssr data option `EXT` symbol.
-        equals: ext ssr data option `=` symbol.
-        n: ext ssr data option `n` parameter.
+        keyword: ext ssr data option ``r'EXT'`` symbol.
+        equals: ext ssr data option ``r'='`` symbol.
+        n: ext ssr data option ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'EXT'] | str = abc.Terminal[r'EXT']('EXT')

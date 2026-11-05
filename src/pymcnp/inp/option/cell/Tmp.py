@@ -17,10 +17,10 @@ class Tmp_0(Tmp):
     Represents tmp cell options, form #0.
 
     Attributes:
-        keyword: tmp cell option `TMP` symbol.
-        suffix: tmp cell option `n` parameter.
-        equals: tmp cell option `=` symbol.
-        t: tmp cell option `t` parameter.
+        keyword: tmp cell option ``r'TMP'`` symbol.
+        suffix: tmp cell option ``n`` parameter.
+        equals: tmp cell option ``r'='`` symbol.
+        t: tmp cell option ``t`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TMP'] | str = abc.Terminal[r'TMP']('TMP')
@@ -34,9 +34,9 @@ class Tmp_1(Tmp):
     Represents tmp cell options, form #1.
 
     Attributes:
-        keyword: tmp cell option `TMP` symbol.
-        equals: tmp cell option `=` symbol.
-        t: tmp cell option `t` parameter.
+        keyword: tmp cell option ``r'TMP'`` symbol.
+        equals: tmp cell option ``r'='`` symbol.
+        t: tmp cell option ``t`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TMP'] | str = abc.Terminal[r'TMP']('TMP')

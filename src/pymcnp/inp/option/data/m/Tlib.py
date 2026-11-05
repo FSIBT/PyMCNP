@@ -9,9 +9,9 @@ class Tlib(M):
     Represents tlib m data options.
 
     Attributes:
-        keyword: tlib m data option `TLIB` symbol.
-        equals: tlib m data option `=` symbol.
-        x: tlib m data option `x` parameter.
+        keyword: tlib m data option ``r'TLIB'`` symbol.
+        equals: tlib m data option ``r'='`` symbol.
+        x: tlib m data option ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TLIB'] | str = abc.Terminal[r'TLIB']('TLIB')

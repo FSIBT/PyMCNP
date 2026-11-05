@@ -72,12 +72,12 @@ def _parse_value(kinds: tuple[type[Symbol], ...], value: typing.Any) -> Symbol:
     if any(isinstance(value, kind) for kind in kinds):
         return value
 
-    # Compiling `str`s into symbols
+    # Compiling ``str``s into symbols
     if isinstance(value, str):
         match, _ = _parse(kinds, value)
         return match
 
-    # Compiling `int`s, `float`d, `decimal.Decimal`s into symbols.
+    # Compiling ``int``s, ``float``d, ``decimal.Decimal``s into symbols.
     if isinstance(value, (int, float, decimal.Decimal)):
         match, _ = _parse(kinds, str(value))
         return match
@@ -98,7 +98,7 @@ def _parse_value(kinds: tuple[type[Symbol], ...], value: typing.Any) -> Symbol:
                 if error is None:
                     error = err
 
-        raise error or Error(f'Expected {"` `".join(kind.__name__ for kind in kinds)}`', f'{value=}')
+        raise error or Error(f'Expected {"`` ``".join(kind.__name__ for kind in kinds)}``', f'{value=}')
 
     assert False
 
@@ -148,7 +148,7 @@ class Nonterminal(Symbol):
     _fields: typing.ClassVar[dict[str, tuple[type[Symbol], ...]]] = {}
 
     def __post_init__(self) -> None:
-        # Checks `__init__` if multi-form nonterminal.
+        # Checks ``__init__`` if multi-form nonterminal.
         if len(type(self)._forms) != 0:
             raise NotImplementedError
 
@@ -184,11 +184,11 @@ class Nonterminal(Symbol):
         cls._forms = ()
         cls._fields = fields_ordered
 
-        # Creating `dataclasses.Dataclass`.
+        # Creating ``dataclasses.Dataclass``.
         cls.__annotations__ = fields_missing | fields_default | {'spaces': dict[str, Symbol]}
         datacls = dataclasses.dataclass(kw_only=True)(cls)
 
-        # Adding `property`, i.e., getters and setters.
+        # Adding ``property``, i.e., getters and setters.
         for name, hint in cls._fields.items():
             if hasattr(datacls, name):
                 setattr(datacls, f'_{name}', getattr(datacls, name))
@@ -203,13 +203,13 @@ class Nonterminal(Symbol):
 
     def __class_getitem__(cls, index: int) -> type[typing.Self]:
         """
-        Gets forms of nonterminal symbols at `index`.
+        Gets forms of nonterminal symbols at ``index``.
 
         Parameters:
             index: Index of form to get.
 
         Returns:
-            Forms of nonterminal symbols at `index`.
+            Forms of nonterminal symbols at ``index``.
         """
 
         assert isinstance(index, int)
@@ -242,7 +242,7 @@ class Nonterminal(Symbol):
             source: Source string to compile.
 
         Returns:
-            Nonterminal symbol corresponding to `source`.
+            Nonterminal symbol corresponding to ``source``.
 
         Raises:
             Error: Expected symbol.
@@ -263,7 +263,7 @@ class Nonterminal(Symbol):
                     parameters[name] = parse[0]
                     source = parse[1]
                 except Error as err:
-                    err.append(Error(f'Expected `{cls.__name__}.{name}`.', f'{source=}'))
+                    err.append(Error(f'Expected ``{cls.__name__}.{name}``.', f'{source=}'))
                     # print(err)
                     raise err
 
@@ -279,7 +279,7 @@ class Nonterminal(Symbol):
                         source = parse[1]
                     except Error as err:
                         if name not in _space_nullable(cls._fields):  # Checking consituent is not space null.
-                            err.append(Error(f'Expected `{"` `".join(Space.__name__ for Space in cls._space)}.{name}`.', f'{source=}'))
+                            err.append(Error(f'Expected ``{"`` ``".join(Space.__name__ for Space in cls._space)}.{name}``.', f'{source=}'))
                             raise err
                         else:
                             if name in _space_end(cls._fields):  # Checking consituent is not last when null.
@@ -300,7 +300,7 @@ class Nonterminal(Symbol):
                     source = str(spaces.pop(last)) + source
                 return cls(**(parameters | {'spaces': spaces})), source
             except TypeError:
-                raise Error(f'Expected `{cls.__name__}.{name}`.', f'{source=}')
+                raise Error(f'Expected ``{cls.__name__}.{name}``.', f'{source=}')
 
         # Compiling multi-form nonterminal.
         else:
@@ -308,7 +308,7 @@ class Nonterminal(Symbol):
                 parse = _parse(cls._forms, source)
                 return typing.cast(tuple[typing.Self, str], parse)
             except Error as err:
-                err.append(Error(f'Expected `{cls.__name__}`.', f'{source=}'))
+                err.append(Error(f'Expected ``{cls.__name__}``.', f'{source=}'))
                 raise err
 
     def to_mcnp(self) -> str:
@@ -316,7 +316,7 @@ class Nonterminal(Symbol):
         Decompiles nonterminal symbols into their corresponding source strings.
 
         Returns:
-            Source string corresponding to `self`.
+            Source string corresponding to ``self``.
         """
 
         Space = type(self)._space[0]

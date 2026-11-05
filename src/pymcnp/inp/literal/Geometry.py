@@ -117,14 +117,14 @@ class _Primary_0(_Primary):
 
     def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista, is_cell: bool = False) -> abc.Visualization:
         """
-        Generates `Visualization` from `_Unary`.
+        Generates ``Visualization`` from ``_Unary``.
 
         Paramaters:
             surfaces: Dictionary of surfaces and visualizations.
             shapes: Collection of shapes.
 
         Returns:
-            `Visualization` for `_Unary`
+            ``Visualization`` for ``_Unary``
         """
 
         return self.ast.to_show(surfaces, cells, shapes, is_cell)
@@ -148,7 +148,7 @@ class Geometry(_Subexpression):
     Represents geometry literals.
 
     Attributes:
-        ast: geometry literal `ast` parameter.
+        ast: geometry literal ``ast`` parameter.
     """
 
     ast: _Union | str

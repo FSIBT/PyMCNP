@@ -12,9 +12,9 @@ class Iso(Ksen):
     Represents iso ksen data options.
 
     Attributes:
-        keyword: iso ksen data option `ISO` symbol.
-        equals: iso ksen data option `=` symbol.
-        z: iso ksen data option `z` parameter.
+        keyword: iso ksen data option ``r'ISO'`` symbol.
+        equals: iso ksen data option ``r'='`` symbol.
+        z: iso ksen data option ``z`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ISO'] | str = abc.Terminal[r'ISO']('ISO')

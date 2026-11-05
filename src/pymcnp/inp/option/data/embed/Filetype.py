@@ -9,9 +9,9 @@ class Filetype(Embed):
     Represents filetype embed data options.
 
     Attributes:
-        keyword: filetype embed data option `FILETYPE` symbol.
-        equals: filetype embed data option `=` symbol.
-        type: filetype embed data option `type` parameter.
+        keyword: filetype embed data option ``r'FILETYPE'`` symbol.
+        equals: filetype embed data option ``r'='`` symbol.
+        type: filetype embed data option ``type`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FILETYPE'] | str = abc.Terminal[r'FILETYPE']('FILETYPE')

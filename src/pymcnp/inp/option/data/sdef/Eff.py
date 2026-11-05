@@ -11,9 +11,9 @@ class Eff(Sdef):
     Represents eff sdef data options.
 
     Attributes:
-        keyword: eff sdef data option `EFF` symbol.
-        equals: eff sdef data option `equals` parameter.
-        x: eff sdef data option `x` parameter.
+        keyword: eff sdef data option ``r'EFF'`` symbol.
+        equals: eff sdef data option ``equals`` parameter.
+        x: eff sdef data option ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'EFF'] | str = abc.Terminal[r'EFF']('EFF')

@@ -9,9 +9,9 @@ class Dn(Act):
     Represents dn act data options.
 
     Attributes:
-        keyword: dn act data option `DN` symbol.
-        equals: dn act data option `=` symbol.
-        value: dn act data option `value` parameter.
+        keyword: dn act data option ``r'DN'`` symbol.
+        equals: dn act data option ``r'='`` symbol.
+        value: dn act data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DN'] | str = abc.Terminal[r'DN']('DN')

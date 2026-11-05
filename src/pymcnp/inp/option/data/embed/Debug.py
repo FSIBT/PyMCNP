@@ -9,9 +9,9 @@ class Debug(Embed):
     Represents debug embed data options.
 
     Attributes:
-        keyword: debug embed data option `DEBUG` symbol.
-        equals: debug embed data option `=` symbol.
-        value: debug embed data option `value` parameter.
+        keyword: debug embed data option ``r'DEBUG'`` symbol.
+        equals: debug embed data option ``r'='`` symbol.
+        value: debug embed data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DEBUG'] | str = abc.Terminal[r'DEBUG']('DEBUG')

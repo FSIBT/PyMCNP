@@ -12,10 +12,10 @@ class De(Data):
     Represents de data cards.
 
     Attributes:
-        keyword: de data card `DE` symbol.
-        suffix: de data card `n` parameter.
-        a: de data card `a` parameter.
-        e: de data card `e` parameter.
+        keyword: de data card ``r'DE'`` symbol.
+        suffix: de data card ``n`` parameter.
+        a: de data card ``a`` parameter.
+        e: de data card ``e`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DE'] | str = abc.Terminal[r'DE']('DE')

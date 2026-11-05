@@ -11,19 +11,19 @@ class Wwp(Data):
     Represents wwp data cards.
 
     Attributes:
-        keyword: wwp data card `WWP` symbol.
-        colon: wwp data card `colon` parameter.
-        particle: wwp data card `particle` parameter.
-        wupn: wwp data card `wupn` parameter.
-        wsurvn: wwp data card `wsurvn` parameter.
-        mxspln: wwp data card `mxspln` parameter.
-        mwhere: wwp data card `mwhere` parameter.
-        switchn: wwp data card `switchn` parameter.
-        mtime: wwp data card `mtime` parameter.
-        wnorm: wwp data card `wnorm` parameter.
-        etsplt: wwp data card `etsplt` parameter.
-        wu: wwp data card `wu` parameter.
-        nmfp: wwp data card `nmfp` parameter.
+        keyword: wwp data card ``r'WWP'`` symbol.
+        colon: wwp data card ``colon`` parameter.
+        particle: wwp data card ``particle`` parameter.
+        wupn: wwp data card ``wupn`` parameter.
+        wsurvn: wwp data card ``wsurvn`` parameter.
+        mxspln: wwp data card ``mxspln`` parameter.
+        mwhere: wwp data card ``mwhere`` parameter.
+        switchn: wwp data card ``switchn`` parameter.
+        mtime: wwp data card ``mtime`` parameter.
+        wnorm: wwp data card ``wnorm`` parameter.
+        etsplt: wwp data card ``etsplt`` parameter.
+        wu: wwp data card ``wu`` parameter.
+        nmfp: wwp data card ``nmfp`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'WWP'] | str = abc.Terminal[r'WWP']('WWP')

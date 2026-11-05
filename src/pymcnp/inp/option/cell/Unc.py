@@ -10,11 +10,11 @@ class Unc(Cell):
     Represents unc cell options.
 
     Attributes:
-        keyword: unc cell option `UNC` symbol.
-        colon: unc cell option `colon` parameter.
-        particle: unc cell option `particle` parameter.
-        equals: unc cell option `=` symbol.
-        u: unc cell option `u` parameter.
+        keyword: unc cell option ``r'UNC'`` symbol.
+        colon: unc cell option ``colon`` parameter.
+        particle: unc cell option ``particle`` parameter.
+        equals: unc cell option ``r'='`` symbol.
+        u: unc cell option ``u`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'UNC'] | str = abc.Terminal[r'UNC']('UNC')

@@ -9,7 +9,7 @@ class Energy(Boundary):
     Represents energy boundary lines.
 
     Attributes:
-        label: energy boundary line `    Energy bin boundaries:` symbol.
+        label: energy boundary line ``r'    Energy bin boundaries:'`` symbol.
         bins: energy boundary line bins.
     """
 

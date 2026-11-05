@@ -9,9 +9,9 @@ class Lib(Block):
     Represents lib block dawwg data options.
 
     Attributes:
-        keyword: lib block suboption `LIB` symbol.
-        equals: lib block suboption `=` symbol.
-        value: lib block suboption `value` parameter.
+        keyword: lib block suboption ``r'LIB'`` symbol.
+        equals: lib block suboption ``r'='`` symbol.
+        value: lib block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'LIB'] | str = abc.Terminal[r'LIB']('LIB')

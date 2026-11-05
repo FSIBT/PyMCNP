@@ -9,9 +9,9 @@ class Mtype(Embee):
     Represents mtype embee data options.
 
     Attributes:
-        keyword: mtype embee data option `MTYPE` symbol.
-        equals: mtype embee data option `=` symbol.
-        type: mtype embee data option `type` parameter.
+        keyword: mtype embee data option ``r'MTYPE'`` symbol.
+        equals: mtype embee data option ``r'='`` symbol.
+        type: mtype embee data option ``type`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MTYPE'] | str = abc.Terminal[r'MTYPE']('MTYPE')

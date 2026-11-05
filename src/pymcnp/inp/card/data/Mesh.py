@@ -12,8 +12,8 @@ class Mesh(Data):
     Represents mesh data cards.
 
     Attributes:
-        keyword: mesh data card `MESH` symbol.
-        options: mesh data card `options` parameter.
+        keyword: mesh data card ``r'MESH'`` symbol.
+        options: mesh data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MESH'] | str = abc.Terminal[r'MESH']('MESH')

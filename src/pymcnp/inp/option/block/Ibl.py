@@ -10,9 +10,9 @@ class Ibl(Block):
     Represents ibl block dawwg data options.
 
     Attributes:
-        keyword: ibl block suboption `IBL` symbol.
-        equals: ibl block suboption `=` symbol.
-        value: ibl block suboption `value` parameter.
+        keyword: ibl block suboption ``r'IBL'`` symbol.
+        equals: ibl block suboption ``r'='`` symbol.
+        value: ibl block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'IBL'] | str = abc.Terminal[r'IBL']('IBL')

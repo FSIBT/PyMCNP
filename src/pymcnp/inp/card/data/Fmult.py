@@ -12,9 +12,9 @@ class Fmult(Data):
     Represents fmult data cards.
 
     Attributes:
-        keyword: fmult data card `FMULT` symbol.
-        target_identifier: fmult data card `target_identifier` parameter.
-        options: fmult data card `options` parameter.
+        keyword: fmult data card ``r'FMULT'`` symbol.
+        target_identifier: fmult data card ``target_identifier`` parameter.
+        options: fmult data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FMULT'] | str = abc.Terminal[r'FMULT']('FMULT')

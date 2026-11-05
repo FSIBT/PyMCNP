@@ -13,10 +13,10 @@ class Bfld(Data):
     Represents bfld data cards.
 
     Attributes:
-        keyword: bfld data card `BFLD` symbol.
-        suffix: bfld data card `n` parameter.
-        type: bfld data card `type` parameter.
-        options: bfld data card `options` parameter.
+        keyword: bfld data card ``r'BFLD'`` symbol.
+        suffix: bfld data card ``n`` parameter.
+        type: bfld data card ``type`` parameter.
+        options: bfld data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'BFLD'] | str = abc.Terminal[r'BFLD']('BFLD')

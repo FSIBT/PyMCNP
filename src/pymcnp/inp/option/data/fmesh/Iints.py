@@ -12,9 +12,9 @@ class Iints(Fmesh):
     Represents iints fmesh data options.
 
     Attributes:
-        keyword: iints fmesh data option `IINTS` symbol.
-        equals: iints fmesh data option `=` symbol.
-        n: iints fmesh data option `n` parameter.
+        keyword: iints fmesh data option ``r'IINTS'`` symbol.
+        equals: iints fmesh data option ``r'='`` symbol.
+        n: iints fmesh data option ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'IINTS'] | str = abc.Terminal[r'IINTS']('IINTS')

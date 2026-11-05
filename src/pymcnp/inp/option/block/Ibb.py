@@ -10,9 +10,9 @@ class Ibb(Block):
     Represents ibb block dawwg data options.
 
     Attributes:
-        keyword: ibb block suboption `IBB` symbol.
-        equals: ibb block suboption `=` symbol.
-        value: ibb block suboption `value` parameter.
+        keyword: ibb block suboption ``r'IBB'`` symbol.
+        equals: ibb block suboption ``r'='`` symbol.
+        value: ibb block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'IBB'] | str = abc.Terminal[r'IBB']('IBB')

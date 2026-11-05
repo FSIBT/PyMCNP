@@ -11,16 +11,16 @@ class Hsrc(Data):
     Represents hsrc data cards.
 
     Attributes:
-        keyword: hsrc data card `HSRC` symbol.
-        nx: hsrc data card `nx` parameter.
-        xmin: hsrc data card `xmin` parameter.
-        xmax: hsrc data card `xmax` parameter.
-        ny: hsrc data card `ny` parameter.
-        ymin: hsrc data card `ymin` parameter.
-        ymax: hsrc data card `ymax` parameter.
-        nz: hsrc data card `nz` parameter.
-        zmin: hsrc data card `zmin` parameter.
-        zmax: hsrc data card `zmax` parameter.
+        keyword: hsrc data card ``r'HSRC'`` symbol.
+        nx: hsrc data card ``nx`` parameter.
+        xmin: hsrc data card ``xmin`` parameter.
+        xmax: hsrc data card ``xmax`` parameter.
+        ny: hsrc data card ``ny`` parameter.
+        ymin: hsrc data card ``ymin`` parameter.
+        ymax: hsrc data card ``ymax`` parameter.
+        nz: hsrc data card ``nz`` parameter.
+        zmin: hsrc data card ``zmin`` parameter.
+        zmax: hsrc data card ``zmax`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'HSRC'] | str = abc.Terminal[r'HSRC']('HSRC')

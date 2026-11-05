@@ -13,8 +13,8 @@ class U(Data):
     Represents u data cards.
 
     Attributes:
-        keyword: u data card `U` symbol.
-        n: u data card `n` parameter.
+        keyword: u data card ``r'U'`` symbol.
+        n: u data card ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'U'] | str = abc.Terminal[r'U']('U')

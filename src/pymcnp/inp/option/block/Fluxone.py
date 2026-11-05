@@ -10,9 +10,9 @@ class Fluxone(Block):
     Represents fluxone block dawwg data options.
 
     Attributes:
-        keyword: fluxone block suboption `FLUXONE` symbol.
-        equals: fluxone block suboption `=` symbol.
-        value: fluxone block suboption `value` parameter.
+        keyword: fluxone block suboption ``r'FLUXONE'`` symbol.
+        equals: fluxone block suboption ``r'='`` symbol.
+        value: fluxone block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FLUXONE'] | str = abc.Terminal[r'FLUXONE']('FLUXONE')

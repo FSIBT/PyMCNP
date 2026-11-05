@@ -10,9 +10,9 @@ class Iu(Df):
     Represents iu df data options.
 
     Attributes:
-        keyword: iu df data option `IU` symbol.
-        equals: iu df data option `=` symbol.
-        value: iu df data option `value` parameter.
+        keyword: iu df data option ``r'IU'`` symbol.
+        equals: iu df data option ``r'='`` symbol.
+        value: iu df data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'IU'] | str = abc.Terminal[r'IU']('IU')

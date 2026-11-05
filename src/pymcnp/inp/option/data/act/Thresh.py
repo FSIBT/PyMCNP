@@ -11,9 +11,9 @@ class Thresh(Act):
     Represents thresh act data options.
 
     Attributes:
-        keyword: thresh act data option `THRESH` symbol.
-        equals: thresh act data option `=` symbol.
-        f: thresh act data option `f` parameter.
+        keyword: thresh act data option ``r'THRESH'`` symbol.
+        equals: thresh act data option ``r'='`` symbol.
+        f: thresh act data option ``f`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'THRESH'] | str = abc.Terminal[r'THRESH']('THRESH')

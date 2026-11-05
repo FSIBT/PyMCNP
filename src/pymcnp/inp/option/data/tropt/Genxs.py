@@ -15,9 +15,9 @@ class Genxs_0(Genxs):
     Represents genxs tropt data options, form #0.
 
     Attributes:
-        keyword: genxs tropt data option `GENXS` symbol.
-        equals: genxs tropt data option `=` symbol.
-        filename: genxs tropt data option `filename` parameter.
+        keyword: genxs tropt data option ``r'GENXS'`` symbol.
+        equals: genxs tropt data option ``r'='`` symbol.
+        filename: genxs tropt data option ``filename`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'GENXS'] | str = abc.Terminal[r'GENXS']('GENXS')
@@ -30,7 +30,7 @@ class Genxs_1(Genxs):
     Represents genxs tropt data options, form #1.
 
     Attributes:
-        keyword: genxs tropt data option `GENXS` symbol.
+        keyword: genxs tropt data option ``r'GENXS'`` symbol.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'GENXS'] | str = abc.Terminal[r'GENXS']('GENXS')

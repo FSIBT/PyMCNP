@@ -9,9 +9,9 @@ class Errors(Embee):
     Represents errors embee data options.
 
     Attributes:
-        keyword: errors embee data option `ERRORS` symbol.
-        equals: errors embee data option `=` symbol.
-        value: errors embee data option `value` parameter.
+        keyword: errors embee data option ``r'ERRORS'`` symbol.
+        equals: errors embee data option ``r'='`` symbol.
+        value: errors embee data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ERRORS'] | str = abc.Terminal[r'ERRORS']('ERRORS')

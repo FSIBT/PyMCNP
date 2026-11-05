@@ -32,11 +32,11 @@ class Cell_0(Cell):
     Represents cell cards, form #0.
 
     Attributes:
-        j: cell card `j` parameter.
-        m: cell card `m` parameter.
-        d: cell card `d` parameter.
-        geom: cell card `geom` parameter.
-        options: cell card `options` parameter.
+        j: cell card ``j`` parameter.
+        m: cell card ``m`` parameter.
+        d: cell card ``d`` parameter.
+        geom: cell card ``geom`` parameter.
+        options: cell card ``options`` parameter.
     """
 
     j: literal.Integer | int | str
@@ -88,10 +88,10 @@ class Cell_1(Cell):
     Represents cell cards, form #1.
 
     Attributes:
-        j: cell card `j` parameter.
-        m: cell card `m` parameter.
-        geom: cell card `geom` parameter.
-        options: cell card `options` parameter.
+        j: cell card ``j`` parameter.
+        m: cell card ``m`` parameter.
+        geom: cell card ``geom`` parameter.
+        options: cell card ``options`` parameter.
     """
 
     j: literal.Integer | int | str
@@ -143,11 +143,11 @@ class Cell_2(Cell):
     Represents cell cards, form #2.
 
     Attributes:
-        j: cell card `j` parameter.
-        like: cell card `LIKE` symbol.
-        n: cell card `n` parameter.
-        but: cell card `BUT` symbol.
-        options: cell card `options` parameter.
+        j: cell card ``j`` parameter.
+        like: cell card ``r'LIKE'`` symbol.
+        n: cell card ``n`` parameter.
+        but: cell card ``r'BUT'`` symbol.
+        options: cell card ``options`` parameter.
     """
 
     j: literal.Integer | int | str

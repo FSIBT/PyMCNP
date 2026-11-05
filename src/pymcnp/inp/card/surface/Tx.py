@@ -14,16 +14,16 @@ class Tx(Surface):
     Represents tx surface cards.
 
     Attributes:
-        prefix: tx surface card `prefix` parameter.
-        j: tx surface card `j` parameter.
-        n: tx surface card `n` parameter.
-        keyword: tx surface card `TX` symbol.
-        x: tx surface card `x` parameter.
-        y: tx surface card `y` parameter.
-        z: tx surface card `z` parameter.
-        a: tx surface card `A` parameter.
-        b: tx surface card `B` parameter.
-        c: tx surface card `C` parameter.
+        prefix: tx surface card ``prefix`` parameter.
+        j: tx surface card ``j`` parameter.
+        n: tx surface card ``n`` parameter.
+        keyword: tx surface card ``r'TX'`` symbol.
+        x: tx surface card ``x`` parameter.
+        y: tx surface card ``y`` parameter.
+        z: tx surface card ``z`` parameter.
+        a: tx surface card ``A`` parameter.
+        b: tx surface card ``B`` parameter.
+        c: tx surface card ``C`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

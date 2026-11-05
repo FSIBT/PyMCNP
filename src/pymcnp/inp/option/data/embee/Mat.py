@@ -10,9 +10,9 @@ class Mat(Embee):
     Represents mat embee data options.
 
     Attributes:
-        keyword: mat embee data option `MAT` symbol.
-        equals: mat embee data option `=` symbol.
-        value: mat embee data option `value` parameter.
+        keyword: mat embee data option ``r'MAT'`` symbol.
+        equals: mat embee data option ``r'='`` symbol.
+        value: mat embee data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MAT'] | str = abc.Terminal[r'MAT']('MAT')

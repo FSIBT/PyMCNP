@@ -12,9 +12,9 @@ class Pfrac(Burn):
     Represents pfrac burn data options.
 
     Attributes:
-        keyword: pfrac burn data option `PFRAC` symbol.
-        equals: pfrac burn data option `=` symbol.
-        f: pfrac burn data option `f` parameter.
+        keyword: pfrac burn data option ``r'PFRAC'`` symbol.
+        equals: pfrac burn data option ``r'='`` symbol.
+        f: pfrac burn data option ``f`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'PFRAC'] | str = abc.Terminal[r'PFRAC']('PFRAC')

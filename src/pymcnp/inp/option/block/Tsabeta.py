@@ -11,9 +11,9 @@ class Tsabeta(Block):
     Represents tsabeta block dawwg data options.
 
     Attributes:
-        keyword: tsabeta block suboption `TSABETA` symbol.
-        equals: tsabeta block suboption `=` symbol.
-        value: tsabeta block suboption `value` parameter.
+        keyword: tsabeta block suboption ``r'TSABETA'`` symbol.
+        equals: tsabeta block suboption ``r'='`` symbol.
+        value: tsabeta block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TSABETA'] | str = abc.Terminal[r'TSABETA']('TSABETA')

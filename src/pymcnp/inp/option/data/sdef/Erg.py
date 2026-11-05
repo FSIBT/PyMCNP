@@ -11,9 +11,9 @@ class Erg(Sdef):
     Represents erg sdef data options.
 
     Attributes:
-        keyword: erg sdef data option `ERG` symbol.
-        equals: erg sdef data option `equals` parameter.
-        e: erg sdef data option `e` parameter.
+        keyword: erg sdef data option ``r'ERG'`` symbol.
+        equals: erg sdef data option ``equals`` parameter.
+        e: erg sdef data option ``e`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ERG'] | str = abc.Terminal[r'ERG']('ERG')

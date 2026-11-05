@@ -10,7 +10,7 @@ class LatticeRange(abc.Nonterminal):
 
     Attributes:
         left: latticerange literal left range.
-        colon: latticerange literal `:` symbol.
+        colon: latticerange literal ``r':'`` symbol.
         right: latticerange literal right range.
     """
 

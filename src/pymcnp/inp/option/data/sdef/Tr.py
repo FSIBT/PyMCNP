@@ -10,9 +10,9 @@ class Tr(Sdef):
     Represents tr sdef data options.
 
     Attributes:
-        keyword: tr sdef data option `TR` symbol.
-        equals: tr sdef data option `equals` parameter.
-        n: tr sdef data option `n` parameter.
+        keyword: tr sdef data option ``r'TR'`` symbol.
+        equals: tr sdef data option ``equals`` parameter.
+        n: tr sdef data option ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TR'] | str = abc.Terminal[r'TR']('TR')

@@ -10,9 +10,9 @@ class Nomacr(Block):
     Represents nomacr block dawwg data options.
 
     Attributes:
-        keyword: nomacr block suboption `NOMACR` symbol.
-        equals: nomacr block suboption `=` symbol.
-        value: nomacr block suboption `value` parameter.
+        keyword: nomacr block suboption ``r'NOMACR'`` symbol.
+        equals: nomacr block suboption ``r'='`` symbol.
+        value: nomacr block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'NOMACR'] | str = abc.Terminal[r'NOMACR']('NOMACR')

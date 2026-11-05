@@ -12,9 +12,9 @@ class Embem(Data):
     Represents embem data cards.
 
     Attributes:
-        keyword: embem data card `EMBEM` symbol.
-        suffix: embem data card `n` parameter.
-        m: embem data card `m` parameter.
+        keyword: embem data card ``r'EMBEM'`` symbol.
+        suffix: embem data card ``n`` parameter.
+        m: embem data card ``m`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'EMBEM'] | str = abc.Terminal[r'EMBEM']('EMBEM')

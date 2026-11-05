@@ -11,9 +11,9 @@ class Maxstep(Bfld):
     Represents maxstep bfld data options.
 
     Attributes:
-        keyword: maxstep bfld data option `MAXSTEP` symbol.
-        equals: maxstep bfld data option `=` symbol.
-        ss: maxstep bfld data option `ss` parameter.
+        keyword: maxstep bfld data option ``r'MAXSTEP'`` symbol.
+        equals: maxstep bfld data option ``r'='`` symbol.
+        ss: maxstep bfld data option ``ss`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MAXSTEP'] | str = abc.Terminal[r'MAXSTEP']('MAXSTEP')

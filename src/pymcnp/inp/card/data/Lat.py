@@ -13,8 +13,8 @@ class Lat(Data):
     Represents lat data cards.
 
     Attributes:
-        keyword: lat data card `LAT` symbol.
-        n: lat data card `n` parameter.
+        keyword: lat data card ``r'LAT'`` symbol.
+        n: lat data card ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'LAT'] | str = abc.Terminal[r'LAT']('LAT')

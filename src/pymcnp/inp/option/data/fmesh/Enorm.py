@@ -9,9 +9,9 @@ class Enorm(Fmesh):
     Represents enorm fmesh data options.
 
     Attributes:
-        keyword: enorm fmesh data option `ENORM` symbol.
-        equals: enorm fmesh data option `=` symbol.
-        value: enorm fmesh data option `value` parameter.
+        keyword: enorm fmesh data option ``r'ENORM'`` symbol.
+        equals: enorm fmesh data option ``r'='`` symbol.
+        value: enorm fmesh data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ENORM'] | str = abc.Terminal[r'ENORM']('ENORM')

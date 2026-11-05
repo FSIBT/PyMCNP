@@ -10,9 +10,9 @@ class Sur(Sdef):
     Represents sur sdef data options.
 
     Attributes:
-        keyword: sur sdef data option `SUR` symbol.
-        equals: sur sdef data option `equals` parameter.
-        s: sur sdef data option `s` parameter.
+        keyword: sur sdef data option ``r'SUR'`` symbol.
+        equals: sur sdef data option ``equals`` parameter.
+        s: sur sdef data option ``s`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'SUR'] | str = abc.Terminal[r'SUR']('SUR')

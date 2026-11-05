@@ -12,9 +12,9 @@ class Kints(Mesh):
     Represents kints mesh data options.
 
     Attributes:
-        keyword: kints mesh data option `KINTS` symbol.
-        equals: kints mesh data option `=` symbol.
-        n: kints mesh data option `n` parameter.
+        keyword: kints mesh data option ``r'KINTS'`` symbol.
+        equals: kints mesh data option ``r'='`` symbol.
+        n: kints mesh data option ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'KINTS'] | str = abc.Terminal[r'KINTS']('KINTS')

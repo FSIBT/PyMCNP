@@ -12,8 +12,8 @@ class Field(Data):
     Represents field data cards.
 
     Attributes:
-        keyword: field data card `FIELD` symbol.
-        options: field data card `options` parameter.
+        keyword: field data card ``r'FIELD'`` symbol.
+        options: field data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FIELD'] | str = abc.Terminal[r'FIELD']('FIELD')

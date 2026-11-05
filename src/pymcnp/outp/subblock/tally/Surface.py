@@ -22,14 +22,14 @@ class Surface(Tally):
     Represents surface subtally blocks.
 
     Attributes:
-        surface_number_preamble: surface subtally block `      surface.
+        surface_number_preamble: surface subtally block ``      surface.
         surface_number: surface subtally block surface number.
-        table_heading: surface subtally block `\n        time   ` symbol.
-        table_body_preamble: surface subtally block `\n\n` symbol.
+        table_heading: surface subtally block ``r'\\n        time   '`` symbol.
+        table_body_preamble: surface subtally block ``r'\\n\\n'`` symbol.
         table_body: surface subtally block table body.
-        table_total_preamble: surface subtally block `\n      total      ` symbol.
+        table_total_preamble: surface subtally block ``r'\\n      total      '`` symbol.
         table_total: surface subtally block table total.
-        table_footing: surface subtally block `\n ?\n` symbol.
+        table_footing: surface subtally block ``r'\\n ?\\n'`` symbol.
     """
 
     surface_number_preamble: typing.Annotated[abc.Terminal, r'      surface:'] = abc.Terminal[r'      surface:']('      surface:')
@@ -46,7 +46,7 @@ class Surface(Tally):
         Generates pandas dataframes for surface angle subtally blocks.
 
         Returns:
-            Corresponding pandas dataframe for `self`.
+            Corresponding pandas dataframe for ``self``.
         """
 
         assert isinstance(self.table_body, (abc.Array, abc.Terminal[r'']))

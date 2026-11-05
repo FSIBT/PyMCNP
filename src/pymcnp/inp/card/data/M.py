@@ -16,10 +16,10 @@ class M(Data):
     Represents m data cards.
 
     Attributes:
-        keyword: m data card `M` symbol.
-        suffix: m data card `n` parameter.
-        z_f: m data card `z_f` parameter.
-        options: m data card `options` parameter.
+        keyword: m data card ``r'M'`` symbol.
+        suffix: m data card ``n`` parameter.
+        z_f: m data card ``z_f`` parameter.
+        options: m data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'M'] | str = abc.Terminal[r'M']('M')
@@ -51,7 +51,7 @@ class M(Data):
             formulas: Dictionary of formulas and atomic/weight fractions.
             is_weight: Weight (atomic) fraction true (false) flag.
             cutoff: Nuclide fraction cutoff.
-            library: Library suffix appended to every ZAID, e.g., `80c`, or `None` for the default library.
+            library: Library suffix appended to every ZAID, e.g., ``80c``, or ``None`` for the default library.
 
         Returns:
             Corresponding M data cards.

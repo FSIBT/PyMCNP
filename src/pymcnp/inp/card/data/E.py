@@ -12,11 +12,11 @@ class E(Data):
     Represents e data cards.
 
     Attributes:
-        keyword: e data card `E` symbol.
-        suffix: e data card `n` parameter.
-        e: e data card `e` parameter.
-        nt: e data card `NT` symbol.
-        c: e data card `C` symbol.
+        keyword: e data card ``r'E'`` symbol.
+        suffix: e data card ``n`` parameter.
+        e: e data card ``e`` parameter.
+        nt: e data card ``r'NT'`` symbol.
+        c: e data card ``r'C'`` symbol.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'E'] | str = abc.Terminal[r'E']('E')

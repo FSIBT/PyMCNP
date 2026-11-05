@@ -9,9 +9,9 @@ class Hlib(M):
     Represents hlib m data options.
 
     Attributes:
-        keyword: hlib m data option `HLIB` symbol.
-        equals: hlib m data option `=` symbol.
-        x: hlib m data option `x` parameter.
+        keyword: hlib m data option ``r'HLIB'`` symbol.
+        equals: hlib m data option ``r'='`` symbol.
+        x: hlib m data option ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'HLIB'] | str = abc.Terminal[r'HLIB']('HLIB')

@@ -13,11 +13,11 @@ class Pz(Surface):
     Represents pz surface cards.
 
     Attributes:
-        prefix: pz surface card `prefix` parameter.
-        j: pz surface card `j` parameter.
-        n: pz surface card `n` parameter.
-        keyword: pz surface card `PZ` symbol.
-        d: pz surface card `D` parameter.
+        prefix: pz surface card ``prefix`` parameter.
+        j: pz surface card ``j`` parameter.
+        n: pz surface card ``n`` parameter.
+        keyword: pz surface card ``r'PZ'`` symbol.
+        d: pz surface card ``D`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

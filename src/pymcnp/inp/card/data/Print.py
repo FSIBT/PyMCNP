@@ -12,8 +12,8 @@ class Print(Data):
     Represents print data cards.
 
     Attributes:
-        keyword: print data card `PRINT` symbol.
-        x: print data card `x` parameter.
+        keyword: print data card ``r'PRINT'`` symbol.
+        x: print data card ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'PRINT'] | str = abc.Terminal[r'PRINT']('PRINT')

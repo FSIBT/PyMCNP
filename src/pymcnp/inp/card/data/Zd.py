@@ -12,8 +12,8 @@ class Zd(Data):
     Represents zd data cards.
 
     Attributes:
-        keyword: zd data card `ZD` symbol.
-        x: zd data card `x` parameter.
+        keyword: zd data card ``r'ZD'`` symbol.
+        x: zd data card ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ZD'] | str = abc.Terminal[r'ZD']('ZD')

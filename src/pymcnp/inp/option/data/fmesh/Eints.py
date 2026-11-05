@@ -12,9 +12,9 @@ class Eints(Fmesh):
     Represents eints fmesh data options.
 
     Attributes:
-        keyword: eints fmesh data option `EINTS` symbol.
-        equals: eints fmesh data option `=` symbol.
-        n: eints fmesh data option `n` parameter.
+        keyword: eints fmesh data option ``r'EINTS'`` symbol.
+        equals: eints fmesh data option ``r'='`` symbol.
+        n: eints fmesh data option ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'EINTS'] | str = abc.Terminal[r'EINTS']('EINTS')

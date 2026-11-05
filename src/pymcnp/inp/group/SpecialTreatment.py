@@ -17,10 +17,10 @@ class SpecialTreatment_0(SpecialTreatment):
     Represents specialtreatment groups, form #0.
 
     Attributes:
-        id: specialtreatment group `FRV` symbol.
-        v1: specialtreatment group `v1` parameter.
-        v2: specialtreatment group `v2` parameter.
-        v3: specialtreatment group `v3` parameter.
+        id: specialtreatment group ``r'FRV'`` symbol.
+        v1: specialtreatment group ``v1`` parameter.
+        v2: specialtreatment group ``v2`` parameter.
+        v3: specialtreatment group ``v3`` parameter.
     """
 
     id: typing.Annotated[abc.Terminal, r'FRV'] | str = abc.Terminal[r'FRV']('FRV')
@@ -34,10 +34,10 @@ class SpecialTreatment_1(SpecialTreatment):
     Represents specialtreatment groups, form #1.
 
     Attributes:
-        id: specialtreatment group `GEB` symbol.
-        a: specialtreatment group `a` parameter.
-        b: specialtreatment group `b` parameter.
-        c: specialtreatment group `c` parameter.
+        id: specialtreatment group ``r'GEB'`` symbol.
+        a: specialtreatment group ``a`` parameter.
+        b: specialtreatment group ``b`` parameter.
+        c: specialtreatment group ``c`` parameter.
     """
 
     id: typing.Annotated[abc.Terminal, r'GEB'] | str = abc.Terminal[r'GEB']('GEB')
@@ -51,9 +51,9 @@ class SpecialTreatment_2(SpecialTreatment):
     Represents specialtreatment groups, form #2.
 
     Attributes:
-        id: specialtreatment group `TMC` symbol.
-        a: specialtreatment group `a` parameter.
-        b: specialtreatment group `b` parameter.
+        id: specialtreatment group ``r'TMC'`` symbol.
+        a: specialtreatment group ``a`` parameter.
+        b: specialtreatment group ``b`` parameter.
     """
 
     id: typing.Annotated[abc.Terminal, r'TMC'] | str = abc.Terminal[r'TMC']('TMC')
@@ -66,7 +66,7 @@ class SpecialTreatment_3(SpecialTreatment):
     Represents specialtreatment groups, form #3.
 
     Attributes:
-        id: specialtreatment group `INC` symbol.
+        id: specialtreatment group ``r'INC'`` symbol.
     """
 
     id: typing.Annotated[abc.Terminal, r'INC'] | str = abc.Terminal[r'INC']('INC')
@@ -77,7 +77,7 @@ class SpecialTreatment_4(SpecialTreatment):
     Represents specialtreatment groups, form #4.
 
     Attributes:
-        id: specialtreatment group `ICD` symbol.
+        id: specialtreatment group ``r'ICD'`` symbol.
     """
 
     id: typing.Annotated[abc.Terminal, r'ICD'] | str = abc.Terminal[r'ICD']('ICD')
@@ -88,8 +88,8 @@ class SpecialTreatment_5(SpecialTreatment):
     Represents specialtreatment groups, form #5.
 
     Attributes:
-        id: specialtreatment group `SCX` symbol.
-        k: specialtreatment group `k` parameter.
+        id: specialtreatment group ``r'SCX'`` symbol.
+        k: specialtreatment group ``k`` parameter.
     """
 
     id: typing.Annotated[abc.Terminal, r'SCX'] | str = abc.Terminal[r'SCX']('SCX')
@@ -101,7 +101,7 @@ class SpecialTreatment_6(SpecialTreatment):
     Represents specialtreatment groups, form #6.
 
     Attributes:
-        id: specialtreatment group `SCD` symbol.
+        id: specialtreatment group ``r'SCD'`` symbol.
     """
 
     id: typing.Annotated[abc.Terminal, r'SCD'] | str = abc.Terminal[r'SCD']('SCD')
@@ -112,8 +112,8 @@ class SpecialTreatment_7(SpecialTreatment):
     Represents specialtreatment groups, form #7.
 
     Attributes:
-        id: specialtreatment group `ELC` symbol.
-        c: specialtreatment group `c` parameter.
+        id: specialtreatment group ``r'ELC'`` symbol.
+        c: specialtreatment group ``c`` parameter.
     """
 
     id: typing.Annotated[abc.Terminal, r'ELC'] | str = abc.Terminal[r'ELC']('ELC')
@@ -125,7 +125,7 @@ class SpecialTreatment_8(SpecialTreatment):
     Represents specialtreatment groups, form #8.
 
     Attributes:
-        id: specialtreatment group `CAP` symbol.
+        id: specialtreatment group ``r'CAP'`` symbol.
     """
 
     id: typing.Annotated[abc.Terminal, r'CAP'] | str = abc.Terminal[r'CAP']('CAP')
@@ -136,8 +136,8 @@ class SpecialTreatment_9(SpecialTreatment):
     Represents specialtreatment groups, form #9.
 
     Attributes:
-        id: specialtreatment group `TAG` symbol.
-        a: specialtreatment group `a` parameter.
+        id: specialtreatment group ``r'TAG'`` symbol.
+        a: specialtreatment group ``a`` parameter.
     """
 
     id: typing.Annotated[abc.Terminal, r'TAG'] | str = abc.Terminal[r'TAG']('TAG')
@@ -149,7 +149,7 @@ class SpecialTreatment_10(SpecialTreatment):
     Represents specialtreatment groups, form #10.
 
     Attributes:
-        id: specialtreatment group `LET` symbol.
+        id: specialtreatment group ``r'LET'`` symbol.
     """
 
     id: typing.Annotated[abc.Terminal, r'LET'] | str = abc.Terminal[r'LET']('LET')
@@ -160,8 +160,8 @@ class SpecialTreatment_11(SpecialTreatment):
     Represents specialtreatment groups, form #11.
 
     Attributes:
-        id: specialtreatment group `ROC` symbol.
-        nhb: specialtreatment group `nhb` parameter.
+        id: specialtreatment group ``r'ROC'`` symbol.
+        nhb: specialtreatment group ``nhb`` parameter.
     """
 
     id: typing.Annotated[abc.Terminal, r'ROC'] | str = abc.Terminal[r'ROC']('ROC')
@@ -173,8 +173,8 @@ class SpecialTreatment_12(SpecialTreatment):
     Represents specialtreatment groups, form #12.
 
     Attributes:
-        id: specialtreatment group `PDS` symbol.
-        c: specialtreatment group `c` parameter.
+        id: specialtreatment group ``r'PDS'`` symbol.
+        c: specialtreatment group ``c`` parameter.
     """
 
     id: typing.Annotated[abc.Terminal, r'PDS'] | str = abc.Terminal[r'PDS']('PDS')
@@ -186,8 +186,8 @@ class SpecialTreatment_13(SpecialTreatment):
     Represents specialtreatment groups, form #13.
 
     Attributes:
-        id: specialtreatment group `FFT` symbol.
-        lkji: specialtreatment group `lkji` parameter.
+        id: specialtreatment group ``r'FFT'`` symbol.
+        lkji: specialtreatment group ``lkji`` parameter.
     """
 
     id: typing.Annotated[abc.Terminal, r'FFT'] | str = abc.Terminal[r'FFT']('FFT')
@@ -199,9 +199,9 @@ class SpecialTreatment_14(SpecialTreatment):
     Represents specialtreatment groups, form #14.
 
     Attributes:
-        id: specialtreatment group `COM` symbol.
-        t: specialtreatment group `t` parameter.
-        a: specialtreatment group `a` parameter.
+        id: specialtreatment group ``r'COM'`` symbol.
+        t: specialtreatment group ``t`` parameter.
+        a: specialtreatment group ``a`` parameter.
     """
 
     id: typing.Annotated[abc.Terminal, r'COM'] | str = abc.Terminal[r'COM']('COM')
@@ -214,8 +214,8 @@ class SpecialTreatment_15(SpecialTreatment):
     Represents specialtreatment groups, form #15.
 
     Attributes:
-        id: specialtreatment group `MGC` symbol.
-        fg: specialtreatment group `fg` parameter.
+        id: specialtreatment group ``r'MGC'`` symbol.
+        fg: specialtreatment group ``fg`` parameter.
     """
 
     id: typing.Annotated[abc.Terminal, r'MGC'] | str = abc.Terminal[r'MGC']('MGC')
@@ -227,8 +227,8 @@ class SpecialTreatment_16(SpecialTreatment):
     Represents specialtreatment groups, form #16.
 
     Attributes:
-        id: specialtreatment group `FNS` symbol.
-        nt: specialtreatment group `nt` parameter.
+        id: specialtreatment group ``r'FNS'`` symbol.
+        nt: specialtreatment group ``nt`` parameter.
     """
 
     id: typing.Annotated[abc.Terminal, r'FNS'] | str = abc.Terminal[r'FNS']('FNS')
@@ -240,8 +240,8 @@ class SpecialTreatment_17(SpecialTreatment):
     Represents specialtreatment groups, form #17.
 
     Attributes:
-        id: specialtreatment group `LCS` symbol.
-        lo: specialtreatment group `lo` parameter.
+        id: specialtreatment group ``r'LCS'`` symbol.
+        lo: specialtreatment group ``lo`` parameter.
     """
 
     id: typing.Annotated[abc.Terminal, r'LCS'] | str = abc.Terminal[r'LCS']('LCS')

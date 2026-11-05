@@ -12,12 +12,12 @@ class C(Data):
     Represents c data cards.
 
     Attributes:
-        prefix: c data card `*` symbol.
-        keyword: c data card `C` symbol.
-        suffix: c data card `n` parameter.
-        ck: c data card `ck` parameter.
-        t: c data card `T` symbol.
-        c: c data card `C` symbol.
+        prefix: c data card ``r'*'`` symbol.
+        keyword: c data card ``r'C'`` symbol.
+        suffix: c data card ``n`` parameter.
+        ck: c data card ``ck`` parameter.
+        t: c data card ``r'T'`` symbol.
+        c: c data card ``r'C'`` symbol.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

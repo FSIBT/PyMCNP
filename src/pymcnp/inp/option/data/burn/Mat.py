@@ -12,9 +12,9 @@ class Mat(Burn):
     Represents mat burn data options.
 
     Attributes:
-        keyword: mat burn data option `MAT` symbol.
-        equals: mat burn data option `=` symbol.
-        m: mat burn data option `m` parameter.
+        keyword: mat burn data option ``r'MAT'`` symbol.
+        equals: mat burn data option ``r'='`` symbol.
+        m: mat burn data option ``m`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MAT'] | str = abc.Terminal[r'MAT']('MAT')

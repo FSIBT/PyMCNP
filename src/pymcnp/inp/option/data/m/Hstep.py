@@ -10,9 +10,9 @@ class Hstep(M):
     Represents hstep m data options.
 
     Attributes:
-        keyword: hstep m data option `HSTEP` symbol.
-        equals: hstep m data option `=` symbol.
-        n: hstep m data option `n` parameter.
+        keyword: hstep m data option ``r'HSTEP'`` symbol.
+        equals: hstep m data option ``r'='`` symbol.
+        n: hstep m data option ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'HSTEP'] | str = abc.Terminal[r'HSTEP']('HSTEP')

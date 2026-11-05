@@ -17,12 +17,12 @@ class X_0(X):
     Represents x surface cards, form #0.
 
     Attributes:
-        prefix: x surface card `prefix` parameter.
-        j: x surface card `j` parameter.
-        n: x surface card `n` parameter.
-        keyword: x surface card `X` symbol.
-        x0: x surface card `x0` parameter.
-        r0: x surface card `r0` parameter.
+        prefix: x surface card ``prefix`` parameter.
+        j: x surface card ``j`` parameter.
+        n: x surface card ``n`` parameter.
+        keyword: x surface card ``r'X'`` symbol.
+        x0: x surface card ``x0`` parameter.
+        r0: x surface card ``r0`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
@@ -55,13 +55,13 @@ class X_1(X):
     Represents x surface cards, form #1.
 
     Attributes:
-        j: x surface card `j` parameter.
-        n: x surface card `n` parameter.
-        keyword: x surface card `X` symbol.
-        x0: x surface card `x0` parameter.
-        r0: x surface card `r0` parameter.
-        x1: x surface card `x1` parameter.
-        r1: x surface card `r1` parameter.
+        j: x surface card ``j`` parameter.
+        n: x surface card ``n`` parameter.
+        keyword: x surface card ``r'X'`` symbol.
+        x0: x surface card ``x0`` parameter.
+        r0: x surface card ``r0`` parameter.
+        x1: x surface card ``x1`` parameter.
+        r1: x surface card ``r1`` parameter.
     """
 
     j: literal.Integer | int | str
@@ -95,15 +95,15 @@ class X_2(X):
     Represents x surface cards, form #2.
 
     Attributes:
-        j: x surface card `j` parameter.
-        n: x surface card `n` parameter.
-        keyword: x surface card `X` symbol.
-        x0: x surface card `x0` parameter.
-        r0: x surface card `r0` parameter.
-        x1: x surface card `x1` parameter.
-        r1: x surface card `r1` parameter.
-        x2: x surface card `x2` parameter.
-        r2: x surface card `r2` parameter.
+        j: x surface card ``j`` parameter.
+        n: x surface card ``n`` parameter.
+        keyword: x surface card ``r'X'`` symbol.
+        x0: x surface card ``x0`` parameter.
+        r0: x surface card ``r0`` parameter.
+        x1: x surface card ``x1`` parameter.
+        r1: x surface card ``r1`` parameter.
+        x2: x surface card ``x2`` parameter.
+        r2: x surface card ``r2`` parameter.
     """
 
     j: literal.Integer | int | str

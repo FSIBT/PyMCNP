@@ -11,9 +11,9 @@ class Cond(M):
     Represents cond m data options.
 
     Attributes:
-        keyword: cond m data option `COND` symbol.
-        equals: cond m data option `=` symbol.
-        value: cond m data option `value` parameter.
+        keyword: cond m data option ``r'COND'`` symbol.
+        equals: cond m data option ``r'='`` symbol.
+        value: cond m data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'COND'] | str = abc.Terminal[r'COND']('COND')

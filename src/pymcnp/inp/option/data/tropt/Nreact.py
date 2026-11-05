@@ -9,9 +9,9 @@ class Nreact(Tropt):
     Represents nreact tropt data options.
 
     Attributes:
-        keyword: nreact tropt data option `NREACT` symbol.
-        equals: nreact tropt data option `=` symbol.
-        value: nreact tropt data option `value` parameter.
+        keyword: nreact tropt data option ``r'NREACT'`` symbol.
+        equals: nreact tropt data option ``r'='`` symbol.
+        value: nreact tropt data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'NREACT'] | str = abc.Terminal[r'NREACT']('NREACT')

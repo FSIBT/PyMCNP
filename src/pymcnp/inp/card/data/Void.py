@@ -12,8 +12,8 @@ class Void(Data):
     Represents void data cards.
 
     Attributes:
-        keyword: void data card `VOID` symbol.
-        c: void data card `c` parameter.
+        keyword: void data card ``r'VOID'`` symbol.
+        c: void data card ``c`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'VOID'] | str = abc.Terminal[r'VOID']('VOID')

@@ -9,8 +9,8 @@ class Bias(Group):
     Represents bias groups.
 
     Attributes:
-        w: bias group `w` parameter.
-        e: bias group `e` parameter.
+        w: bias group ``w`` parameter.
+        e: bias group ``e`` parameter.
     """
 
     w: literal.Real | int | float | decimal.Decimal | str

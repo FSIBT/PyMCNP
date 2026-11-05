@@ -12,11 +12,11 @@ class Fu(Data):
     Represents fu data cards.
 
     Attributes:
-        keyword: fu data card `FU` symbol.
-        suffix: fu data card `n` parameter.
-        x: fu data card `x` parameter.
-        nt: fu data card `NT` symbol.
-        c: fu data card `C` symbol.
+        keyword: fu data card ``r'FU'`` symbol.
+        suffix: fu data card ``n`` parameter.
+        x: fu data card ``x`` parameter.
+        nt: fu data card ``r'NT'`` symbol.
+        c: fu data card ``r'C'`` symbol.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FU'] | str = abc.Terminal[r'FU']('FU')

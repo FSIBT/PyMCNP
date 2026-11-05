@@ -14,16 +14,16 @@ class Ty(Surface):
     Represents ty surface cards.
 
     Attributes:
-        prefix: ty surface card `prefix` parameter.
-        j: ty surface card `j` parameter.
-        n: ty surface card `n` parameter.
-        keyword: ty surface card `TY` symbol.
-        x: ty surface card `x` parameter.
-        y: ty surface card `y` parameter.
-        z: ty surface card `z` parameter.
-        a: ty surface card `A` parameter.
-        b: ty surface card `B` parameter.
-        c: ty surface card `C` parameter.
+        prefix: ty surface card ``prefix`` parameter.
+        j: ty surface card ``j`` parameter.
+        n: ty surface card ``n`` parameter.
+        keyword: ty surface card ``r'TY'`` symbol.
+        x: ty surface card ``x`` parameter.
+        y: ty surface card ``y`` parameter.
+        z: ty surface card ``z`` parameter.
+        a: ty surface card ``A`` parameter.
+        b: ty surface card ``B`` parameter.
+        c: ty surface card ``C`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

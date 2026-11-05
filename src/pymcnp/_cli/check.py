@@ -23,7 +23,7 @@ from ..Check import Check
 
 def main() -> None:
     """
-    Executes the `pymcnp check` command.
+    Executes the ``pymcnp check`` command.
     """
 
     # Processing CLI arguments.

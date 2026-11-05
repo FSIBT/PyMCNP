@@ -14,12 +14,12 @@ class Sx(Surface):
     Represents sx surface cards.
 
     Attributes:
-        prefix: sx surface card `prefix` parameter.
-        j: sx surface card `j` parameter.
-        n: sx surface card `n` parameter.
-        keyword: sx surface card `SX` symbol.
-        x: sx surface card `x` parameter.
-        r: sx surface card `R` parameter.
+        prefix: sx surface card ``prefix`` parameter.
+        j: sx surface card ``j`` parameter.
+        n: sx surface card ``n`` parameter.
+        keyword: sx surface card ``r'SX'`` symbol.
+        x: sx surface card ``x`` parameter.
+        r: sx surface card ``R`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

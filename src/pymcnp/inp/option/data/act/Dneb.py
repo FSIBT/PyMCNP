@@ -12,9 +12,9 @@ class Dneb(Act):
     Represents dneb act data options.
 
     Attributes:
-        keyword: dneb act data option `DNEB` symbol.
-        equals: dneb act data option `=` symbol.
-        value: dneb act data option `value` parameter.
+        keyword: dneb act data option ``r'DNEB'`` symbol.
+        equals: dneb act data option ``r'='`` symbol.
+        value: dneb act data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DNEB'] | str = abc.Terminal[r'DNEB']('DNEB')

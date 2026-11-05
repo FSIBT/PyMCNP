@@ -12,9 +12,9 @@ class Rxn(Pert):
     Represents rxn pert data options.
 
     Attributes:
-        keyword: rxn pert data option `RXN` symbol.
-        equals: rxn pert data option `=` symbol.
-        r: rxn pert data option `r` parameter.
+        keyword: rxn pert data option ``r'RXN'`` symbol.
+        equals: rxn pert data option ``r'='`` symbol.
+        r: rxn pert data option ``r`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'RXN'] | str = abc.Terminal[r'RXN']('RXN')

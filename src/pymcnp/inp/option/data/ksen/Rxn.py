@@ -12,9 +12,9 @@ class Rxn(Ksen):
     Represents rxn ksen data options.
 
     Attributes:
-        keyword: rxn ksen data option `RXN` symbol.
-        equals: rxn ksen data option `=` symbol.
-        rx: rxn ksen data option `rx` parameter.
+        keyword: rxn ksen data option ``r'RXN'`` symbol.
+        equals: rxn ksen data option ``r'='`` symbol.
+        rx: rxn ksen data option ``rx`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'RXN'] | str = abc.Terminal[r'RXN']('RXN')

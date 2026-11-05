@@ -11,11 +11,11 @@ class Wwg(Data):
     Represents wwg data cards.
 
     Attributes:
-        keyword: wwg data card `WWG` symbol.
-        it: wwg data card `it` parameter.
-        ic: wwg data card `ic` parameter.
-        wg: wwg data card `wg` parameter.
-        ie: wwg data card `ie` parameter.
+        keyword: wwg data card ``r'WWG'`` symbol.
+        it: wwg data card ``it`` parameter.
+        ic: wwg data card ``ic`` parameter.
+        wg: wwg data card ``wg`` parameter.
+        ie: wwg data card ``ie`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'WWG'] | str = abc.Terminal[r'WWG']('WWG')

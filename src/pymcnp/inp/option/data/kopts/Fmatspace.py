@@ -10,9 +10,9 @@ class Fmatspace(Kopts):
     Represents fmatspace kopts data options.
 
     Attributes:
-        keyword: fmatspace kopts data option `FMATSPACE` symbol.
-        equals: fmatspace kopts data option `=` symbol.
-        fmat_space: fmatspace kopts data option `fmat_space` parameter.
+        keyword: fmatspace kopts data option ``r'FMATSPACE'`` symbol.
+        equals: fmatspace kopts data option ``r'='`` symbol.
+        fmat_space: fmatspace kopts data option ``fmat_space`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FMATSPACE'] | str = abc.Terminal[r'FMATSPACE']('FMATSPACE')

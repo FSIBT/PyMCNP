@@ -10,9 +10,9 @@ class Asleft(Block):
     Represents asleft block dawwg data options.
 
     Attributes:
-        keyword: asleft block suboption `ASLEFT` symbol.
-        equals: asleft block suboption `=` symbol.
-        value: asleft block suboption `value` parameter.
+        keyword: asleft block suboption ``r'ASLEFT'`` symbol.
+        equals: asleft block suboption ``r'='`` symbol.
+        value: asleft block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ASLEFT'] | str = abc.Terminal[r'ASLEFT']('ASLEFT')

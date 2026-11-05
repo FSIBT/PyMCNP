@@ -22,14 +22,14 @@ class Cell(Tally):
     Represents cell subtally blocks.
 
     Attributes:
-        cell_number_preamble: cell subtally block ` cell  ` symbol.
+        cell_number_preamble: cell subtally block ``r' cell  '`` symbol.
         cell_number: cell subtally block cell number.
-        table_heading: cell subtally block `\n      energy   ` symbol.
-        table_body_preamble: cell subtally block `\n\n` symbol.
+        table_heading: cell subtally block ``r'\\n      energy   '`` symbol.
+        table_body_preamble: cell subtally block ``r'\\n\\n'`` symbol.
         table_body: cell subtally block table body.
-        table_total_preamble: cell subtally block `\n      total      ` symbol.
+        table_total_preamble: cell subtally block ``r'\\n      total      '`` symbol.
         table_total: cell subtally block table total.
-        table_footing: cell subtally block `\n ?\n` symbol.
+        table_footing: cell subtally block ``r'\\n ?\\n'`` symbol.
     """
 
     cell_number_preamble: typing.Annotated[abc.Terminal, r' cell  '] = abc.Terminal[r' cell  '](' cell  ')
@@ -45,7 +45,7 @@ class Cell(Tally):
         Generates pandas dataframes for surface angle subtally blocks.
 
         Returns:
-            Corresponding pandas dataframe for `self`.
+            Corresponding pandas dataframe for ``self``.
         """
 
         assert isinstance(self.table_body, (abc.Array, abc.Terminal[r'']))

@@ -11,9 +11,9 @@ class Mxdeflc(Bfld):
     Represents mxdeflc bfld data options.
 
     Attributes:
-        keyword: mxdeflc bfld data option `MXDEFLC` symbol.
-        equals: mxdeflc bfld data option `=` symbol.
-        a: mxdeflc bfld data option `a` parameter.
+        keyword: mxdeflc bfld data option ``r'MXDEFLC'`` symbol.
+        equals: mxdeflc bfld data option ``r'='`` symbol.
+        a: mxdeflc bfld data option ``a`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MXDEFLC'] | str = abc.Terminal[r'MXDEFLC']('MXDEFLC')

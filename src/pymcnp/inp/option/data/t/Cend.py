@@ -11,9 +11,9 @@ class Cend(T):
     Represents cend t data options.
 
     Attributes:
-        keyword: cend t data option `CEND` symbol.
-        equals: cend t data option `=` symbol.
-        value: cend t data option `value` parameter.
+        keyword: cend t data option ``r'CEND'`` symbol.
+        equals: cend t data option ``r'='`` symbol.
+        value: cend t data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'CEND'] | str = abc.Terminal[r'CEND']('CEND')

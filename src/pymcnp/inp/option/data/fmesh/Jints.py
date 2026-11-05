@@ -12,9 +12,9 @@ class Jints(Fmesh):
     Represents jints fmesh data options.
 
     Attributes:
-        keyword: jints fmesh data option `JINTS` symbol.
-        equals: jints fmesh data option `=` symbol.
-        n: jints fmesh data option `n` parameter.
+        keyword: jints fmesh data option ``r'JINTS'`` symbol.
+        equals: jints fmesh data option ``r'='`` symbol.
+        n: jints fmesh data option ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'JINTS'] | str = abc.Terminal[r'JINTS']('JINTS')

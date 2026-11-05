@@ -12,8 +12,8 @@ class Area(Data):
     Represents area data cards.
 
     Attributes:
-        keyword: area data card `AREA` symbol.
-        x: area data card `x` parameter.
+        keyword: area data card ``r'AREA'`` symbol.
+        x: area data card ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'AREA'] | str = abc.Terminal[r'AREA']('AREA')

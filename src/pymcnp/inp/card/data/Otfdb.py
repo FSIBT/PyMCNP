@@ -12,8 +12,8 @@ class Otfdb(Data):
     Represents otfdb data cards.
 
     Attributes:
-        keyword: otfdb data card `OTFDB` symbol.
-        z: otfdb data card `z` parameter.
+        keyword: otfdb data card ``r'OTFDB'`` symbol.
+        z: otfdb data card ``z`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'OTFDB'] | str = abc.Terminal[r'OTFDB']('OTFDB')

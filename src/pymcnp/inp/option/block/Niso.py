@@ -10,9 +10,9 @@ class Niso(Block):
     Represents niso block dawwg data options.
 
     Attributes:
-        keyword: niso block suboption `NISO` symbol.
-        equals: niso block suboption `=` symbol.
-        value: niso block suboption `value` parameter.
+        keyword: niso block suboption ``r'NISO'`` symbol.
+        equals: niso block suboption ``r'='`` symbol.
+        value: niso block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'NISO'] | str = abc.Terminal[r'NISO']('NISO')

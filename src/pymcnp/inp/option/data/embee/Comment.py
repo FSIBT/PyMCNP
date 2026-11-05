@@ -9,9 +9,9 @@ class Comment(Embee):
     Represents comment embee data options.
 
     Attributes:
-        keyword: comment embee data option `COMMENT` symbol.
-        equals: comment embee data option `=` symbol.
-        value: comment embee data option `value` parameter.
+        keyword: comment embee data option ``r'COMMENT'`` symbol.
+        equals: comment embee data option ``r'='`` symbol.
+        value: comment embee data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'COMMENT'] | str = abc.Terminal[r'COMMENT']('COMMENT')

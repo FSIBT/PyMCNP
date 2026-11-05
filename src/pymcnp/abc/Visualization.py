@@ -34,7 +34,7 @@ class Visualization(abc.ABC, typing.Generic[T]):
     @abc.abstractmethod
     def __add__(a, b: Visualization) -> Visualization:
         """
-        Merges visualizations, `a` and `b`.
+        Merges visualizations, ``a`` and ``b``.
 
         Parameters:
             a: visualization #1.
@@ -49,7 +49,7 @@ class Visualization(abc.ABC, typing.Generic[T]):
     @abc.abstractmethod
     def __and__(a, b: Visualization) -> Visualization:
         """
-        Intersects visualizations, `a` and `b`.
+        Intersects visualizations, ``a`` and ``b``.
 
         Parameters:
             a: visualization #1.
@@ -64,7 +64,7 @@ class Visualization(abc.ABC, typing.Generic[T]):
     @abc.abstractmethod
     def __or__(a, b: Visualization) -> Visualization:
         """
-        Unites visualizations, `a` and `b`.
+        Unites visualizations, ``a`` and ``b``.
 
         Parameters:
             a: visualization #1.

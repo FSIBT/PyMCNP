@@ -20,21 +20,21 @@ class Box_0(Box):
     Represents box surface cards, form #0.
 
     Attributes:
-        prefix: box surface card `prefix` parameter.
-        j: box surface card `j` parameter.
-        keyword: box surface card `BOX` symbol.
-        vx: box surface card `vx` parameter.
-        vy: box surface card `vy` parameter.
-        vz: box surface card `vz` parameter.
-        a1x: box surface card `a1x` parameter.
-        a1y: box surface card `a1y` parameter.
-        a1z: box surface card `a1z` parameter.
-        a2x: box surface card `a2x` parameter.
-        a2y: box surface card `a2y` parameter.
-        a2z: box surface card `a2z` parameter.
-        a3x: box surface card `a3x` parameter.
-        a3y: box surface card `a3y` parameter.
-        a3z: box surface card `a3z` parameter.
+        prefix: box surface card ``prefix`` parameter.
+        j: box surface card ``j`` parameter.
+        keyword: box surface card ``r'BOX'`` symbol.
+        vx: box surface card ``vx`` parameter.
+        vy: box surface card ``vy`` parameter.
+        vz: box surface card ``vz`` parameter.
+        a1x: box surface card ``a1x`` parameter.
+        a1y: box surface card ``a1y`` parameter.
+        a1z: box surface card ``a1z`` parameter.
+        a2x: box surface card ``a2x`` parameter.
+        a2y: box surface card ``a2y`` parameter.
+        a2z: box surface card ``a2z`` parameter.
+        a3x: box surface card ``a3x`` parameter.
+        a3y: box surface card ``a3y`` parameter.
+        a3z: box surface card ``a3z`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
@@ -104,17 +104,17 @@ class Box_1(Box):
     Represents box surface cards, form #1.
 
     Attributes:
-        j: box surface card `j` parameter.
-        keyword: box surface card `BOX` symbol.
-        vx: box surface card `vx` parameter.
-        vy: box surface card `vy` parameter.
-        vz: box surface card `vz` parameter.
-        a1x: box surface card `a1x` parameter.
-        a1y: box surface card `a1y` parameter.
-        a1z: box surface card `a1z` parameter.
-        a2x: box surface card `a2x` parameter.
-        a2y: box surface card `a2y` parameter.
-        a2z: box surface card `a2z` parameter.
+        j: box surface card ``j`` parameter.
+        keyword: box surface card ``r'BOX'`` symbol.
+        vx: box surface card ``vx`` parameter.
+        vy: box surface card ``vy`` parameter.
+        vz: box surface card ``vz`` parameter.
+        a1x: box surface card ``a1x`` parameter.
+        a1y: box surface card ``a1y`` parameter.
+        a1z: box surface card ``a1z`` parameter.
+        a2x: box surface card ``a2x`` parameter.
+        a2y: box surface card ``a2y`` parameter.
+        a2z: box surface card ``a2z`` parameter.
     """
 
     j: literal.Integer | int | str

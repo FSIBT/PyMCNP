@@ -10,9 +10,9 @@ class Astop(Block):
     Represents astop block dawwg data options.
 
     Attributes:
-        keyword: astop block suboption `ASTOP` symbol.
-        equals: astop block suboption `=` symbol.
-        value: astop block suboption `value` parameter.
+        keyword: astop block suboption ``r'ASTOP'`` symbol.
+        equals: astop block suboption ``r'='`` symbol.
+        value: astop block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ASTOP'] | str = abc.Terminal[r'ASTOP']('ASTOP')

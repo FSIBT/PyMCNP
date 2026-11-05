@@ -12,9 +12,9 @@ class Erg(Ksen):
     Represents erg ksen data options.
 
     Attributes:
-        keyword: erg ksen data option `ERG` symbol.
-        equals: erg ksen data option `=` symbol.
-        e: erg ksen data option `e` parameter.
+        keyword: erg ksen data option ``r'ERG'`` symbol.
+        equals: erg ksen data option ``r'='`` symbol.
+        e: erg ksen data option ``e`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ERG'] | str = abc.Terminal[r'ERG']('ERG')

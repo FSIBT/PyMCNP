@@ -13,10 +13,10 @@ class Esplt(Data):
     Represents esplt data cards.
 
     Attributes:
-        keyword: esplt data card `ESPLT` symbol.
-        colon: esplt data card `colon` parameter.
-        particle: esplt data card `particle` parameter.
-        r_e: esplt data card `r_e` parameter.
+        keyword: esplt data card ``r'ESPLT'`` symbol.
+        colon: esplt data card ``colon`` parameter.
+        particle: esplt data card ``particle`` parameter.
+        r_e: esplt data card ``r_e`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ESPLT'] | str = abc.Terminal[r'ESPLT']('ESPLT')

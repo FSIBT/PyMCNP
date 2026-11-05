@@ -10,9 +10,9 @@ class Mat(Cell):
     Represents mat cell options.
 
     Attributes:
-        keyword: mat cell option `MAT` symbol.
-        equals: mat cell option `=` symbol.
-        m: mat cell option `m` parameter.
+        keyword: mat cell option ``r'MAT'`` symbol.
+        equals: mat cell option ``r'='`` symbol.
+        m: mat cell option ``m`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MAT'] | str = abc.Terminal[r'MAT']('MAT')

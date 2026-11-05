@@ -12,8 +12,8 @@ class Ptrac(Data):
     Represents ptrac data cards.
 
     Attributes:
-        keyword: ptrac data card `PTRAC` symbol.
-        options: ptrac data card `options` parameter.
+        keyword: ptrac data card ``r'PTRAC'`` symbol.
+        options: ptrac data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'PTRAC'] | str = abc.Terminal[r'PTRAC']('PTRAC')

@@ -9,11 +9,11 @@ class Dxtran(Group):
     Represents dxtran groups.
 
     Attributes:
-        x: dxtran group `x` parameter.
-        y: dxtran group `y` parameter.
-        z: dxtran group `z` parameter.
-        ri: dxtran group `ri` parameter.
-        ro: dxtran group `ro` parameter.
+        x: dxtran group ``x`` parameter.
+        y: dxtran group ``y`` parameter.
+        z: dxtran group ``z`` parameter.
+        ri: dxtran group ``ri`` parameter.
+        ro: dxtran group ``ro`` parameter.
     """
 
     x: literal.Real | int | float | decimal.Decimal | str

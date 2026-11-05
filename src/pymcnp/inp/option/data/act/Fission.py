@@ -9,9 +9,9 @@ class Fission(Act):
     Represents fission act data options.
 
     Attributes:
-        keyword: fission act data option `FISSION` symbol.
-        equals: fission act data option `=` symbol.
-        value: fission act data option `value` parameter.
+        keyword: fission act data option ``r'FISSION'`` symbol.
+        equals: fission act data option ``r'='`` symbol.
+        value: fission act data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FISSION'] | str = abc.Terminal[r'FISSION']('FISSION')

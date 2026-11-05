@@ -9,9 +9,9 @@ class Location(Group):
     Represents location groups.
 
     Attributes:
-        x: location group `x` parameter.
-        y: location group `y` parameter.
-        z: location group `z` parameter.
+        x: location group ``x`` parameter.
+        y: location group ``y`` parameter.
+        z: location group ``z`` parameter.
     """
 
     x: literal.Real | int | float | decimal.Decimal | str

@@ -19,10 +19,10 @@ class Sp_0(Sp):
     Represents sp data cards, form #0.
 
     Attributes:
-        keyword: sp data card `SP` symbol.
-        suffix: sp data card `n` parameter.
-        option: sp data card `option` parameter.
-        p: sp data card `p` parameter.
+        keyword: sp data card ``r'SP'`` symbol.
+        suffix: sp data card ``n`` parameter.
+        option: sp data card ``option`` parameter.
+        p: sp data card ``p`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'SP'] | str = abc.Terminal[r'SP']('SP')
@@ -55,11 +55,11 @@ class Sp_1(Sp):
     Represents sp data cards, form #1.
 
     Attributes:
-        keyword: sp data card `SP` symbol.
-        suffix: sp data card `n` parameter.
-        f: sp data card `f` parameter.
-        a: sp data card `a` parameter.
-        b: sp data card `b` parameter.
+        keyword: sp data card ``r'SP'`` symbol.
+        suffix: sp data card ``n`` parameter.
+        f: sp data card ``f`` parameter.
+        a: sp data card ``a`` parameter.
+        b: sp data card ``b`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'SP'] | str = abc.Terminal[r'SP']('SP')

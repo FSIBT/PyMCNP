@@ -11,9 +11,9 @@ class Gcut(Field):
     Represents gcut field data options.
 
     Attributes:
-        keyword: gcut field data option `GCUT` symbol.
-        equals: gcut field data option `=` symbol.
-        e: gcut field data option `e` parameter.
+        keyword: gcut field data option ``r'GCUT'`` symbol.
+        equals: gcut field data option ``r'='`` symbol.
+        e: gcut field data option ``e`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'GCUT'] | str = abc.Terminal[r'GCUT']('GCUT')

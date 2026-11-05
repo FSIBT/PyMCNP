@@ -10,9 +10,9 @@ class Ibback(Block):
     Represents ibback block dawwg data options.
 
     Attributes:
-        keyword: ibback block suboption `IBBACK` symbol.
-        equals: ibback block suboption `=` symbol.
-        value: ibback block suboption `value` parameter.
+        keyword: ibback block suboption ``r'IBBACK'`` symbol.
+        equals: ibback block suboption ``r'='`` symbol.
+        value: ibback block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'IBBACK'] | str = abc.Terminal[r'IBBACK']('IBBACK')

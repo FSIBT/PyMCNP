@@ -12,9 +12,9 @@ class Embeb(Data):
     Represents embeb data cards.
 
     Attributes:
-        keyword: embeb data card `EMBEB` symbol.
-        suffix: embeb data card `n` parameter.
-        e: embeb data card `e` parameter.
+        keyword: embeb data card ``r'EMBEB'`` symbol.
+        suffix: embeb data card ``n`` parameter.
+        e: embeb data card ``e`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'EMBEB'] | str = abc.Terminal[r'EMBEB']('EMBEB')

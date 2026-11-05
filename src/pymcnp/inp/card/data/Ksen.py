@@ -12,10 +12,10 @@ class Ksen(Data):
     Represents ksen data cards.
 
     Attributes:
-        keyword: ksen data card `KSEN` symbol.
-        suffix: ksen data card `n` parameter.
-        sen: ksen data card `XS` symbol.
-        options: ksen data card `options` parameter.
+        keyword: ksen data card ``r'KSEN'`` symbol.
+        suffix: ksen data card ``n`` parameter.
+        sen: ksen data card ``r'XS'`` symbol.
+        options: ksen data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'KSEN'] | str = abc.Terminal[r'KSEN']('KSEN')

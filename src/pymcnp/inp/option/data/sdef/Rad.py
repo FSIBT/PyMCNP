@@ -11,9 +11,9 @@ class Rad(Sdef):
     Represents rad sdef data options.
 
     Attributes:
-        keyword: rad sdef data option `RAD` symbol.
-        equals: rad sdef data option `equals` parameter.
-        x: rad sdef data option `x` parameter.
+        keyword: rad sdef data option ``r'RAD'`` symbol.
+        equals: rad sdef data option ``equals`` parameter.
+        x: rad sdef data option ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'RAD'] | str = abc.Terminal[r'RAD']('RAD')

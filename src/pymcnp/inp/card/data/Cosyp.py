@@ -12,11 +12,11 @@ class Cosyp(Data):
     Represents cosyp data cards.
 
     Attributes:
-        keyword: cosyp data card `COSYP` symbol.
-        pre: cosyp data card `prefix` parameter.
-        axsh: cosyp data card `axsh` parameter.
-        axsv: cosyp data card `axsv` parameter.
-        emap: cosyp data card `emap` parameter.
+        keyword: cosyp data card ``r'COSYP'`` symbol.
+        pre: cosyp data card ``prefix`` parameter.
+        axsh: cosyp data card ``axsh`` parameter.
+        axsv: cosyp data card ``axsv`` parameter.
+        emap: cosyp data card ``emap`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'COSYP'] | str = abc.Terminal[r'COSYP']('COSYP')

@@ -11,9 +11,9 @@ class Hlcut(Act):
     Represents hlcut act data options.
 
     Attributes:
-        keyword: hlcut act data option `HLCUT` symbol.
-        equals: hlcut act data option `=` symbol.
-        t: hlcut act data option `t` parameter.
+        keyword: hlcut act data option ``r'HLCUT'`` symbol.
+        equals: hlcut act data option ``r'='`` symbol.
+        t: hlcut act data option ``t`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'HLCUT'] | str = abc.Terminal[r'HLCUT']('HLCUT')

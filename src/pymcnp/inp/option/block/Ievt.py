@@ -10,9 +10,9 @@ class Ievt(Block):
     Represents ievt block dawwg data options.
 
     Attributes:
-        keyword: ievt block suboption `IEVT` symbol.
-        equals: ievt block suboption `=` symbol.
-        value: ievt block suboption `value` parameter.
+        keyword: ievt block suboption ``r'IEVT'`` symbol.
+        equals: ievt block suboption ``r'='`` symbol.
+        value: ievt block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'IEVT'] | str = abc.Terminal[r'IEVT']('IEVT')

@@ -14,16 +14,16 @@ class Tz(Surface):
     Represents tz surface cards.
 
     Attributes:
-        prefix: tz surface card `prefix` parameter.
-        j: tz surface card `j` parameter.
-        n: tz surface card `n` parameter.
-        keyword: tz surface card `TZ` symbol.
-        x: tz surface card `x` parameter.
-        y: tz surface card `y` parameter.
-        z: tz surface card `z` parameter.
-        a: tz surface card `A` parameter.
-        b: tz surface card `B` parameter.
-        c: tz surface card `C` parameter.
+        prefix: tz surface card ``prefix`` parameter.
+        j: tz surface card ``j`` parameter.
+        n: tz surface card ``n`` parameter.
+        keyword: tz surface card ``r'TZ'`` symbol.
+        x: tz surface card ``x`` parameter.
+        y: tz surface card ``y`` parameter.
+        z: tz surface card ``z`` parameter.
+        a: tz surface card ``A`` parameter.
+        b: tz surface card ``B`` parameter.
+        c: tz surface card ``C`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

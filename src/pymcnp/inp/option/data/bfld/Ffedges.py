@@ -12,9 +12,9 @@ class Ffedges(Bfld):
     Represents ffedges bfld data options.
 
     Attributes:
-        keyword: ffedges bfld data option `FFEDGES` symbol.
-        equals: ffedges bfld data option `=` symbol.
-        s: ffedges bfld data option `s` parameter.
+        keyword: ffedges bfld data option ``r'FFEDGES'`` symbol.
+        equals: ffedges bfld data option ``r'='`` symbol.
+        s: ffedges bfld data option ``s`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FFEDGES'] | str = abc.Terminal[r'FFEDGES']('FFEDGES')

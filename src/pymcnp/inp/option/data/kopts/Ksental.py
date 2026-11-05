@@ -15,9 +15,9 @@ class Ksental_0(Ksental):
     Represents ksental kopts data options, form #0.
 
     Attributes:
-        keyword: ksental kopts data option `KSENTAL` symbol.
-        equals: ksental kopts data option `=` symbol.
-        fileopt: ksental kopts data option `fileopt` parameter.
+        keyword: ksental kopts data option ``r'KSENTAL'`` symbol.
+        equals: ksental kopts data option ``r'='`` symbol.
+        fileopt: ksental kopts data option ``fileopt`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'KSENTAL'] | str = abc.Terminal[r'KSENTAL']('KSENTAL')
@@ -30,7 +30,7 @@ class Ksental_1(Ksental):
     Represents ksental kopts data options, form #1.
 
     Attributes:
-        keyword: ksental kopts data option `KSENTAL` symbol.
+        keyword: ksental kopts data option ``r'KSENTAL'`` symbol.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'KSENTAL'] | str = abc.Terminal[r'KSENTAL']('KSENTAL')

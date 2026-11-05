@@ -20,21 +20,21 @@ class Rec_0(Rec):
     Represents rec surface cards, form #0.
 
     Attributes:
-        prefix: rec surface card `prefix` parameter.
-        j: rec surface card `j` parameter.
-        keyword: rec surface card `REC` symbol.
-        vx: rec surface card `vx` parameter.
-        vy: rec surface card `vy` parameter.
-        vz: rec surface card `vz` parameter.
-        h1: rec surface card `h1` parameter.
-        h2: rec surface card `h2` parameter.
-        h3: rec surface card `h3` parameter.
-        v1x: rec surface card `v1x` parameter.
-        v1y: rec surface card `v1y` parameter.
-        v1z: rec surface card `v1z` parameter.
-        v2x: rec surface card `v2x` parameter.
-        v2y: rec surface card `v2y` parameter.
-        v2z: rec surface card `v2z` parameter.
+        prefix: rec surface card ``prefix`` parameter.
+        j: rec surface card ``j`` parameter.
+        keyword: rec surface card ``r'REC'`` symbol.
+        vx: rec surface card ``vx`` parameter.
+        vy: rec surface card ``vy`` parameter.
+        vz: rec surface card ``vz`` parameter.
+        h1: rec surface card ``h1`` parameter.
+        h2: rec surface card ``h2`` parameter.
+        h3: rec surface card ``h3`` parameter.
+        v1x: rec surface card ``v1x`` parameter.
+        v1y: rec surface card ``v1y`` parameter.
+        v1z: rec surface card ``v1z`` parameter.
+        v2x: rec surface card ``v2x`` parameter.
+        v2y: rec surface card ``v2y`` parameter.
+        v2z: rec surface card ``v2z`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
@@ -103,18 +103,18 @@ class Rec_1(Rec):
     Represents rec surface cards, form #1.
 
     Attributes:
-        j: rec surface card `j` parameter.
-        keyword: rec surface card `REC` symbol.
-        vx: rec surface card `vx` parameter.
-        vy: rec surface card `vy` parameter.
-        vz: rec surface card `vz` parameter.
-        h1: rec surface card `h1` parameter.
-        h2: rec surface card `h2` parameter.
-        h3: rec surface card `h3` parameter.
-        v1x: rec surface card `v1x` parameter.
-        v1y: rec surface card `v1y` parameter.
-        v1z: rec surface card `v1z` parameter.
-        v2x: rec surface card `v2x` parameter.
+        j: rec surface card ``j`` parameter.
+        keyword: rec surface card ``r'REC'`` symbol.
+        vx: rec surface card ``vx`` parameter.
+        vy: rec surface card ``vy`` parameter.
+        vz: rec surface card ``vz`` parameter.
+        h1: rec surface card ``h1`` parameter.
+        h2: rec surface card ``h2`` parameter.
+        h3: rec surface card ``h3`` parameter.
+        v1x: rec surface card ``v1x`` parameter.
+        v1y: rec surface card ``v1y`` parameter.
+        v1z: rec surface card ``v1z`` parameter.
+        v2x: rec surface card ``v2x`` parameter.
     """
 
     j: literal.Integer | int | str

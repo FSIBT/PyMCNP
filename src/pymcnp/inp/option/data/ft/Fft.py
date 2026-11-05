@@ -9,8 +9,8 @@ class Fft(Ft):
     Represents fft ft data options.
 
     Attributes:
-        id: fft group `FFT` symbol.
-        lkji: fft group `lkji` parameter.
+        id: fft group ``r'FFT'`` symbol.
+        lkji: fft group ``lkji`` parameter.
     """
 
     id: typing.Annotated[abc.Terminal, r'FFT'] | str = abc.Terminal[r'FFT']('FFT')

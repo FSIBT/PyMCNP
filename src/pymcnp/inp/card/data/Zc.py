@@ -12,8 +12,8 @@ class Zc(Data):
     Represents zc data cards.
 
     Attributes:
-        keyword: zc data card `ZC` symbol.
-        x: zc data card `x` parameter.
+        keyword: zc data card ``r'ZC'`` symbol.
+        x: zc data card ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ZC'] | str = abc.Terminal[r'ZC']('ZC')

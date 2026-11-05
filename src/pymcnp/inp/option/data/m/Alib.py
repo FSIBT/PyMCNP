@@ -9,9 +9,9 @@ class Alib(M):
     Represents alib m data options.
 
     Attributes:
-        keyword: alib m data option `ALIB` symbol.
-        equals: alib m data option `=` symbol.
-        x: alib m data option `x` parameter.
+        keyword: alib m data option ``r'ALIB'`` symbol.
+        equals: alib m data option ``r'='`` symbol.
+        x: alib m data option ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ALIB'] | str = abc.Terminal[r'ALIB']('ALIB')

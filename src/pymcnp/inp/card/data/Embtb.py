@@ -12,9 +12,9 @@ class Embtb(Data):
     Represents embtb data cards.
 
     Attributes:
-        keyword: embtb data card `EMBTB` symbol.
-        suffix: embtb data card `n` parameter.
-        t: embtb data card `t` parameter.
+        keyword: embtb data card ``r'EMBTB'`` symbol.
+        suffix: embtb data card ``n`` parameter.
+        t: embtb data card ``t`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'EMBTB'] | str = abc.Terminal[r'EMBTB']('EMBTB')

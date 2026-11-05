@@ -13,11 +13,11 @@ class Py(Surface):
     Represents py surface cards.
 
     Attributes:
-        prefix: py surface card `prefix` parameter.
-        j: py surface card `j` parameter.
-        n: py surface card `n` parameter.
-        keyword: py surface card `PY` symbol.
-        d: py surface card `D` parameter.
+        prefix: py surface card ``prefix`` parameter.
+        j: py surface card ``j`` parameter.
+        n: py surface card ``n`` parameter.
+        keyword: py surface card ``r'PY'`` symbol.
+        d: py surface card ``D`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

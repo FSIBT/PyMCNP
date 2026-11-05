@@ -12,10 +12,10 @@ class Fcl(Data):
     Represents fcl data cards.
 
     Attributes:
-        keyword: fcl data card `FCL` symbol.
-        colon: fcl data card `colon` parameter.
-        particle: fcl data card `particle` parameter.
-        x: fcl data card `x` parameter.
+        keyword: fcl data card ``r'FCL'`` symbol.
+        colon: fcl data card ``colon`` parameter.
+        particle: fcl data card ``particle`` parameter.
+        x: fcl data card ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FCL'] | str = abc.Terminal[r'FCL']('FCL')

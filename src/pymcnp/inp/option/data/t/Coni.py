@@ -11,9 +11,9 @@ class Coni(T):
     Represents coni t data options.
 
     Attributes:
-        keyword: coni t data option `CONI` symbol.
-        equals: coni t data option `=` symbol.
-        value: coni t data option `value` parameter.
+        keyword: coni t data option ``r'CONI'`` symbol.
+        equals: coni t data option ``r'='`` symbol.
+        value: coni t data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'CONI'] | str = abc.Terminal[r'CONI']('CONI')

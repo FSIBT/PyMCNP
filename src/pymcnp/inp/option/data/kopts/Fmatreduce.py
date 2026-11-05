@@ -9,9 +9,9 @@ class Fmatreduce(Kopts):
     Represents fmatreduce kopts data options.
 
     Attributes:
-        keyword: fmatreduce kopts data option `FMATREDUCE` symbol.
-        equals: fmatreduce kopts data option `=` symbol.
-        value: fmatreduce kopts data option `value` parameter.
+        keyword: fmatreduce kopts data option ``r'FMATREDUCE'`` symbol.
+        equals: fmatreduce kopts data option ``r'='`` symbol.
+        value: fmatreduce kopts data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FMATREDUCE'] | str = abc.Terminal[r'FMATREDUCE']('FMATREDUCE')

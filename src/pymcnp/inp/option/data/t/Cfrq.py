@@ -11,9 +11,9 @@ class Cfrq(T):
     Represents cfrq t data options.
 
     Attributes:
-        keyword: cfrq t data option `CFRQ` symbol.
-        equals: cfrq t data option `=` symbol.
-        value: cfrq t data option `value` parameter.
+        keyword: cfrq t data option ``r'CFRQ'`` symbol.
+        equals: cfrq t data option ``r'='`` symbol.
+        value: cfrq t data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'CFRQ'] | str = abc.Terminal[r'CFRQ']('CFRQ')

@@ -50,17 +50,17 @@ class TallySurface(Tally):
     Attributes:
         name: tally block name.
         number: tally block number.
-        nps_preamble: tally block `        nps = ` symbol.
+        nps_preamble: tally block ``r'        nps = '`` symbol.
         nps: tally block nps.
-        tally_type_preamble: tally block `\\n           tally type ` symbol.
+        tally_type_preamble: tally block ``r'\\n           tally type '`` symbol.
         tally_type: tally block tally type.
-        particles_preamble: tally block `\\n           particle(s)` symbol.
+        particles_preamble: tally block ``r'\\n           particle(s)'`` symbol.
         particles: tally block particles.
-        surface_preamble: tally block `           areas   \n                surface.
+        surface_preamble: tally block ``           areas   \\n                surface.
         surface_number: tally block surface number.
-        surface_area_preamble: tally block `\\n                         ` symbol.
+        surface_area_preamble: tally block ``r'\\n                         '`` symbol.
         surface_area: tally block surface area.
-        subtallies_preamble: tally block `\\n \\n` symbol.
+        subtallies_preamble: tally block ``r'\\n \\n'`` symbol.
         subtallies: tally block subtallies.
     """
 
@@ -88,13 +88,13 @@ class TallyAngle(Tally):
     Attributes:
         name: tally block name.
         number: tally block number.
-        nps_preamble: tally block `        nps = ` symbol.
+        nps_preamble: tally block ``r'        nps = '`` symbol.
         nps: tally block nps.
-        tally_type_preamble: tally block `\\n           tally type ` symbol.
+        tally_type_preamble: tally block ``r'\\n           tally type '`` symbol.
         tally_type: tally block tally type.
-        particles_preamble: tally block `\\n           particle(s)` symbol.
+        particles_preamble: tally block ``r'\\n           particle(s)'`` symbol.
         particles: tally block particles.
-        subtallies_preamble: tally block `\\n \\n` symbol.
+        subtallies_preamble: tally block ``r'\\n \\n'`` symbol.
         subtallies: tally block subtallies.
         statistics: tally statistics subblock.
     """
@@ -124,17 +124,17 @@ class TallyCell_0(TallyCell):
     Attributes:
         name: tally block name.
         number: tally block number.
-        nps_preamble: tally block `        nps = ` symbol.
+        nps_preamble: tally block ``r'        nps = '`` symbol.
         nps: tally block nps.
-        tally_type_preamble: tally block `\\n           tally type ` symbol.
+        tally_type_preamble: tally block ``r'\\n           tally type '`` symbol.
         tally_type: tally block tally type.
-        particles_preamble: tally block `\\n           particle(s)` symbol.
+        particles_preamble: tally block ``r'\\n           particle(s)'`` symbol.
         particles: tally block particles.
-        cell_preamble: tally block `           volumes \\n                   cell.
+        cell_preamble: tally block ``           volumes \\n                   cell.
         cell_number: tally block cell number.
-        cell_volume_preamble: tally block `\\n                         ` symbol.
+        cell_volume_preamble: tally block ``r'\\n                         '`` symbol.
         cell_volume: tally block cell volume.
-        subtallies_preamble: tally block `\\n \\n` symbol.
+        subtallies_preamble: tally block ``r'\\n \\n'`` symbol.
         subtallies: tally block subtallies.
         statistics: tally statistics subblock.
     """
@@ -162,13 +162,13 @@ class TallyCell_1(TallyCell):
     Attributes:
         name: tally block name.
         number: tally block number.
-        nps_preamble: tally block `        nps = ` symbol.
+        nps_preamble: tally block ``r'        nps = '`` symbol.
         nps: tally block nps.
-        tally_type_preamble: tally block `\\n           tally type ` symbol.
+        tally_type_preamble: tally block ``r'\\n           tally type '`` symbol.
         tally_type: tally block tally type.
-        particles_preamble: tally block `\\n           particle(s)` symbol.
+        particles_preamble: tally block ``r'\\n           particle(s)'`` symbol.
         particles: tally block particles.
-        subtallies_preamble: tally block `\\n \\n` symbol.
+        subtallies_preamble: tally block ``r'\\n \\n'`` symbol.
         subtallies: tally block subtallies.
         statistics: tally statistics subblock.
     """

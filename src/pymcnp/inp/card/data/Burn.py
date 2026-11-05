@@ -12,8 +12,8 @@ class Burn(Data):
     Represents burn data cards.
 
     Attributes:
-        keyword: burn data card `BURN` symbol.
-        options: burn data card `options` parameter.
+        keyword: burn data card ``r'BURN'`` symbol.
+        options: burn data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'BURN'] | str = abc.Terminal[r'BURN']('BURN')

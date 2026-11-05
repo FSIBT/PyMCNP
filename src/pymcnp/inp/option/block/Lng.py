@@ -10,9 +10,9 @@ class Lng(Block):
     Represents lng block dawwg data options.
 
     Attributes:
-        keyword: lng block suboption `LNG` symbol.
-        equals: lng block suboption `=` symbol.
-        value: lng block suboption `value` parameter.
+        keyword: lng block suboption ``r'LNG'`` symbol.
+        equals: lng block suboption ``r'='`` symbol.
+        value: lng block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'LNG'] | str = abc.Terminal[r'LNG']('LNG')

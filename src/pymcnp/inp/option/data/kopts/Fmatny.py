@@ -11,9 +11,9 @@ class Fmatny(Kopts):
     Represents fmatny kopts data options.
 
     Attributes:
-        keyword: fmatny kopts data option `FMATNY` symbol.
-        equals: fmatny kopts data option `=` symbol.
-        fmat_ny: fmatny kopts data option `fmat_ny` parameter.
+        keyword: fmatny kopts data option ``r'FMATNY'`` symbol.
+        equals: fmatny kopts data option ``r'='`` symbol.
+        fmat_ny: fmatny kopts data option ``fmat_ny`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FMATNY'] | str = abc.Terminal[r'FMATNY']('FMATNY')

@@ -11,11 +11,11 @@ class Bcw(Ssr):
     Represents bcw ssr data options.
 
     Attributes:
-        keyword: bcw ssr data option `BCW` symbol.
-        equals: bcw ssr data option `=` symbol.
-        r: bcw ssr data option `r` parameter.
-        zb: bcw ssr data option `zb` parameter.
-        ze: bcw ssr data option `ze` parameter.
+        keyword: bcw ssr data option ``r'BCW'`` symbol.
+        equals: bcw ssr data option ``r'='`` symbol.
+        r: bcw ssr data option ``r`` parameter.
+        zb: bcw ssr data option ``zb`` parameter.
+        ze: bcw ssr data option ``ze`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'BCW'] | str = abc.Terminal[r'BCW']('BCW')

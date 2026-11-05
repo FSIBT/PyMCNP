@@ -11,11 +11,11 @@ class Vec(Mesh):
     Represents vec mesh data options.
 
     Attributes:
-        keyword: vec mesh data option `VEC` symbol.
-        equals: vec mesh data option `=` symbol.
-        x: vec mesh data option `x` parameter.
-        y: vec mesh data option `y` parameter.
-        z: vec mesh data option `z` parameter.
+        keyword: vec mesh data option ``r'VEC'`` symbol.
+        equals: vec mesh data option ``r'='`` symbol.
+        x: vec mesh data option ``x`` parameter.
+        y: vec mesh data option ``y`` parameter.
+        z: vec mesh data option ``z`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'VEC'] | str = abc.Terminal[r'VEC']('VEC')

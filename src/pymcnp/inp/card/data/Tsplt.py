@@ -13,10 +13,10 @@ class Tsplt(Data):
     Represents tsplt data cards.
 
     Attributes:
-        keyword: tsplt data card `TSPLT` symbol.
-        colon: tsplt data card `colon` parameter.
-        particle: tsplt data card `particle` parameter.
-        r_t: tsplt data card `r_t` parameter.
+        keyword: tsplt data card ``r'TSPLT'`` symbol.
+        colon: tsplt data card ``colon`` parameter.
+        particle: tsplt data card ``particle`` parameter.
+        r_t: tsplt data card ``r_t`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TSPLT'] | str = abc.Terminal[r'TSPLT']('TSPLT')

@@ -12,9 +12,9 @@ class Kpert(Data):
     Represents kpert data cards.
 
     Attributes:
-        keyword: kpert data card `KPERT` symbol.
-        suffix: kpert data card `n` parameter.
-        options: kpert data card `options` parameter.
+        keyword: kpert data card ``r'KPERT'`` symbol.
+        suffix: kpert data card ``n`` parameter.
+        options: kpert data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'KPERT'] | str = abc.Terminal[r'KPERT']('KPERT')

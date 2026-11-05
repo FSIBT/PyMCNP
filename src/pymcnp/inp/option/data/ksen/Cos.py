@@ -12,9 +12,9 @@ class Cos(Ksen):
     Represents cos ksen data options.
 
     Attributes:
-        keyword: cos ksen data option `COS` symbol.
-        equals: cos ksen data option `=` symbol.
-        angles: cos ksen data option `angles` parameter.
+        keyword: cos ksen data option ``r'COS'`` symbol.
+        equals: cos ksen data option ``r'='`` symbol.
+        angles: cos ksen data option ``angles`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'COS'] | str = abc.Terminal[r'COS']('COS')

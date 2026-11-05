@@ -12,8 +12,8 @@ class Nonu(Data):
     Represents nonu data cards.
 
     Attributes:
-        keyword: nonu data card `NONU` symbol.
-        a: nonu data card `a` parameter.
+        keyword: nonu data card ``r'NONU'`` symbol.
+        a: nonu data card ``a`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'NONU'] | str = abc.Terminal[r'NONU']('NONU')

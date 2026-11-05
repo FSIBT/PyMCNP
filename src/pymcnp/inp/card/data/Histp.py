@@ -12,8 +12,8 @@ class Histp(Data):
     Represents histp data cards.
 
     Attributes:
-        keyword: histp data card `HISTP` symbol.
-        icl: histp data card `icl` parameter.
+        keyword: histp data card ``r'HISTP'`` symbol.
+        icl: histp data card ``icl`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'HISTP'] | str = abc.Terminal[r'HISTP']('HISTP')

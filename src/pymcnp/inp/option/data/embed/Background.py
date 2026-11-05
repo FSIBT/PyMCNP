@@ -10,9 +10,9 @@ class Background(Embed):
     Represents background embed data options.
 
     Attributes:
-        keyword: background embed data option `BACKGROUND` symbol.
-        equals: background embed data option `=` symbol.
-        c: background embed data option `c` parameter.
+        keyword: background embed data option ``r'BACKGROUND'`` symbol.
+        equals: background embed data option ``r'='`` symbol.
+        c: background embed data option ``c`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'BACKGROUND'] | str = abc.Terminal[r'BACKGROUND']('BACKGROUND')

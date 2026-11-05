@@ -9,9 +9,9 @@ class Calcvols(Embed):
     Represents calcvols embed data options.
 
     Attributes:
-        keyword: calcvols embed data option `CALC_VOLS` symbol.
-        equals: calcvols embed data option `=` symbol.
-        value: calcvols embed data option `value` parameter.
+        keyword: calcvols embed data option ``r'CALC_VOLS'`` symbol.
+        equals: calcvols embed data option ``r'='`` symbol.
+        value: calcvols embed data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'CALC_VOLS'] | str = abc.Terminal[r'CALC_VOLS']('CALC_VOLS')

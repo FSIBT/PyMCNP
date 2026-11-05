@@ -12,9 +12,9 @@ class Cel(Ssr):
     Represents cel ssr data options.
 
     Attributes:
-        keyword: cel ssr data option `CEL` symbol.
-        equals: cel ssr data option `=` symbol.
-        c: cel ssr data option `c` parameter.
+        keyword: cel ssr data option ``r'CEL'`` symbol.
+        equals: cel ssr data option ``r'='`` symbol.
+        c: cel ssr data option ``c`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'CEL'] | str = abc.Terminal[r'CEL']('CEL')

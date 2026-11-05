@@ -13,8 +13,8 @@ class Fill(Data):
     Represents fill data cards.
 
     Attributes:
-        keyword: fill data card `FILL` symbol.
-        n: fill data card `n` parameter.
+        keyword: fill data card ``r'FILL'`` symbol.
+        n: fill data card ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FILL'] | str = abc.Terminal[r'FILL']('FILL')

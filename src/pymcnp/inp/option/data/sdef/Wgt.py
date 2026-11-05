@@ -11,9 +11,9 @@ class Wgt(Sdef):
     Represents wgt sdef data options.
 
     Attributes:
-        keyword: wgt sdef data option `WGT` symbol.
-        equals: wgt sdef data option `equals` parameter.
-        x: wgt sdef data option `x` parameter.
+        keyword: wgt sdef data option ``r'WGT'`` symbol.
+        equals: wgt sdef data option ``equals`` parameter.
+        x: wgt sdef data option ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'WGT'] | str = abc.Terminal[r'WGT']('WGT')

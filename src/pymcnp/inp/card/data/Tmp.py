@@ -19,9 +19,9 @@ class Tmp_0(Tmp):
     Represents tmp data cards, form #0.
 
     Attributes:
-        keyword: tmp data card `TMP` symbol.
-        suffix: tmp data card `n` parameter.
-        t: tmp data card `t` parameter.
+        keyword: tmp data card ``r'TMP'`` symbol.
+        suffix: tmp data card ``n`` parameter.
+        t: tmp data card ``t`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TMP'] | str = abc.Terminal[r'TMP']('TMP')
@@ -49,8 +49,8 @@ class Tmp_1(Tmp):
     Represents tmp data cards, form #1.
 
     Attributes:
-        keyword: tmp data card `TMP` symbol.
-        t: tmp data card `t` parameter.
+        keyword: tmp data card ``r'TMP'`` symbol.
+        t: tmp data card ``t`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TMP'] | str = abc.Terminal[r'TMP']('TMP')

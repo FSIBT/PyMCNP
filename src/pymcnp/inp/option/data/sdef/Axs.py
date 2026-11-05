@@ -17,11 +17,11 @@ class Axs_0(Axs):
     Represents axs sdef data options, form #0.
 
     Attributes:
-        keyword: axs sdef data option `AXS` symbol.
-        equals: axs sdef data option `equals` parameter.
-        x: axs sdef data option `x` parameter.
-        y: axs sdef data option `y` parameter.
-        z: axs sdef data option `z` parameter.
+        keyword: axs sdef data option ``r'AXS'`` symbol.
+        equals: axs sdef data option ``equals`` parameter.
+        x: axs sdef data option ``x`` parameter.
+        y: axs sdef data option ``y`` parameter.
+        z: axs sdef data option ``z`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'AXS'] | str = abc.Terminal[r'AXS']('AXS')
@@ -36,9 +36,9 @@ class Axs_1(Axs):
     Represents axs sdef data options, form #1.
 
     Attributes:
-        keyword: axs sdef data option `AXS` symbol.
-        equals: axs sdef data option `equals` parameter.
-        value: axs sdef data option `value` parameter.
+        keyword: axs sdef data option ``r'AXS'`` symbol.
+        equals: axs sdef data option ``equals`` parameter.
+        value: axs sdef data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'AXS'] | str = abc.Terminal[r'AXS']('AXS')

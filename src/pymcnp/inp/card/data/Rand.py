@@ -12,8 +12,8 @@ class Rand(Data):
     Represents rand data cards.
 
     Attributes:
-        keyword: rand data card `RAND` symbol.
-        options: rand data card `options` parameter.
+        keyword: rand data card ``r'RAND'`` symbol.
+        options: rand data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'RAND'] | str = abc.Terminal[r'RAND']('RAND')

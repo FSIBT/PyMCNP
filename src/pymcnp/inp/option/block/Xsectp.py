@@ -10,9 +10,9 @@ class Xsectp(Block):
     Represents xsectp block dawwg data options.
 
     Attributes:
-        keyword: xsectp block suboption `XSECTP` symbol.
-        equals: xsectp block suboption `=` symbol.
-        value: xsectp block suboption `value` parameter.
+        keyword: xsectp block suboption ``r'XSECTP'`` symbol.
+        equals: xsectp block suboption ``r'='`` symbol.
+        value: xsectp block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'XSECTP'] | str = abc.Terminal[r'XSECTP']('XSECTP')

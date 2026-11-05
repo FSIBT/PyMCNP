@@ -10,9 +10,9 @@ class Tsaits(Block):
     Represents tsaits block dawwg data options.
 
     Attributes:
-        keyword: tsaits block suboption `TSAITS` symbol.
-        equals: tsaits block suboption `=` symbol.
-        value: tsaits block suboption `value` parameter.
+        keyword: tsaits block suboption ``r'TSAITS'`` symbol.
+        equals: tsaits block suboption ``r'='`` symbol.
+        value: tsaits block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TSAITS'] | str = abc.Terminal[r'TSAITS']('TSAITS')

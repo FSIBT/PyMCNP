@@ -12,7 +12,7 @@ class History(Block):
 
     Attributes:
         i: history block i line.
-        newline: event block `\\n` symbol.
+        newline: event block `r'\\n'` symbol.
         events: history block events.
     """
 

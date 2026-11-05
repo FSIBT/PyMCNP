@@ -11,11 +11,11 @@ class Axs(Bfld):
     Represents axs bfld data options.
 
     Attributes:
-        keyword: axs bfld data option `AXS` symbol.
-        equals: axs bfld data option `=` symbol.
-        uq: axs bfld data option `uq` parameter.
-        vq: axs bfld data option `vq` parameter.
-        wq: axs bfld data option `wq` parameter.
+        keyword: axs bfld data option ``r'AXS'`` symbol.
+        equals: axs bfld data option ``r'='`` symbol.
+        uq: axs bfld data option ``uq`` parameter.
+        vq: axs bfld data option ``vq`` parameter.
+        wq: axs bfld data option ``wq`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'AXS'] | str = abc.Terminal[r'AXS']('AXS')

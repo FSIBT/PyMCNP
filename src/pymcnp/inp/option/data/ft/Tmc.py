@@ -11,9 +11,9 @@ class Tmc(Ft):
     Represents tmc ft data options.
 
     Attributes:
-        id: tmc group `TMC` symbol.
-        a: tmc group `a` parameter.
-        b: tmc group `b` parameter.
+        id: tmc group ``r'TMC'`` symbol.
+        a: tmc group ``a`` parameter.
+        b: tmc group ``b`` parameter.
     """
 
     id: typing.Annotated[abc.Terminal, r'TMC'] | str = abc.Terminal[r'TMC']('TMC')

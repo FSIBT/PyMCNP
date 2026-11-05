@@ -11,10 +11,10 @@ class F(Stop):
     Represents f stop data options.
 
     Attributes:
-        keyword: f stop data option `F` symbol.
-        suffix: f stop data option `k` parameter.
-        equals: f stop data option `=` symbol.
-        e: f stop data option `e` parameter.
+        keyword: f stop data option ``r'F'`` symbol.
+        suffix: f stop data option ``k`` parameter.
+        equals: f stop data option ``r'='`` symbol.
+        e: f stop data option ``e`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'F'] | str = abc.Terminal[r'F']('F')

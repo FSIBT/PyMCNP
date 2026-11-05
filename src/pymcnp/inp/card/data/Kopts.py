@@ -12,8 +12,8 @@ class Kopts(Data):
     Represents kopts data cards.
 
     Attributes:
-        keyword: kopts data card `KOPTS` symbol.
-        options: kopts data card `options` parameter.
+        keyword: kopts data card ``r'KOPTS'`` symbol.
+        options: kopts data card ``options`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'KOPTS'] | str = abc.Terminal[r'KOPTS']('KOPTS')

@@ -11,9 +11,9 @@ class Field(Bfld):
     Represents field bfld data options.
 
     Attributes:
-        keyword: field bfld data option `FIELD` symbol.
-        equals: field bfld data option `=` symbol.
-        f: field bfld data option `f` parameter.
+        keyword: field bfld data option ``r'FIELD'`` symbol.
+        equals: field bfld data option ``r'='`` symbol.
+        f: field bfld data option ``f`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FIELD'] | str = abc.Terminal[r'FIELD']('FIELD')

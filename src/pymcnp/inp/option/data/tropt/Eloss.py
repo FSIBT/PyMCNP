@@ -9,9 +9,9 @@ class Eloss(Tropt):
     Represents eloss tropt data options.
 
     Attributes:
-        keyword: eloss tropt data option `ELOSS` symbol.
-        equals: eloss tropt data option `=` symbol.
-        value: eloss tropt data option `value` parameter.
+        keyword: eloss tropt data option ``r'ELOSS'`` symbol.
+        equals: eloss tropt data option ``r'='`` symbol.
+        value: eloss tropt data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'ELOSS'] | str = abc.Terminal[r'ELOSS']('ELOSS')

@@ -16,10 +16,10 @@ class Qvm_0(Qvm):
     Represents qvm literals, form #0.
 
     Attributes:
-        sign: qvm literal `sign` parameter.
-        q: qvm literal `q` parameter.
-        v: qvm literal `V` symbol.
-        m: qvm literal `m` parameter.
+        sign: qvm literal ``sign`` parameter.
+        q: qvm literal ``q`` parameter.
+        v: qvm literal ``r'V'`` symbol.
+        m: qvm literal ``m`` parameter.
     """
 
     sign: typing.Annotated[abc.Terminal, r'[+-]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
@@ -33,8 +33,8 @@ class Qvm_1(Qvm):
     Represents qvm literals, form #1.
 
     Attributes:
-        q: qvm literal `q` parameter.
-        v: qvm literal `v` parameter.
+        q: qvm literal ``q`` parameter.
+        v: qvm literal ``v`` parameter.
     """
 
     q: Real | int | float | decimal.Decimal | str
@@ -46,7 +46,7 @@ class Qvm_2(Qvm):
     Represents qvm literals, form #2.
 
     Attributes:
-        q: qvm literal `0` symbol.
+        q: qvm literal ``r'0'`` symbol.
     """
 
     q: typing.Annotated[abc.Terminal, r'0'] | str = abc.Terminal[r'0']('0')

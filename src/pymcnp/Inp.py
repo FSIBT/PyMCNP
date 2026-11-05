@@ -22,13 +22,13 @@ _INDENT = 5
 
 def _wrap(line: str) -> str:
     """
-    Wraps long card lines at `_WIDTH` columns with `&` continuation.
+    Wraps long card lines at ``_WIDTH`` columns with ``&`` continuation.
 
     Parameters:
         line: Line to wrap.
 
     Returns:
-        `line` unchanged if it fits, is a comment or text card (`c`, `fc`, `sc`), or cannot be split, otherwise its wrapped lines.
+        ``line`` unchanged if it fits, is a comment or text card (``c``, ``fc``, ``sc``), or cannot be split, otherwise its wrapped lines.
     """
 
     if len(line) <= _WIDTH or _REGEX_UNWRAPPED_CARD.match(line):
@@ -77,7 +77,7 @@ class Inp(abc.File):
     Represents input files.
 
     Attributes:
-        title: inp `title` card.
+        title: inp ``title`` card.
         cells: inp cell block.
         blank_0: inp black-line delimiter #0.
         surfaces: inp surface block.
@@ -105,7 +105,7 @@ class Inp(abc.File):
             source: Source string to compile.
 
         Returns:
-            Nonterminal symbol corresponding to `source`.
+            Nonterminal symbol corresponding to ``source``.
 
         Raises:
             Error: Expected symbol.
@@ -147,7 +147,7 @@ class Inp(abc.File):
         Decompiles inps into source strings, wrapping long card lines at 80 columns.
 
         Returns:
-            Source string corresponding to `self`.
+            Source string corresponding to ``self``.
         """
 
         assert isinstance(self.other, abc.Terminal)

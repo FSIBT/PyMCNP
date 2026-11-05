@@ -12,10 +12,10 @@ class Imp(Data):
     Represents imp data cards.
 
     Attributes:
-        keyword: imp data card `IMP` symbol.
-        colon: imp data card `colon` parameter.
-        particle: imp data card `particle` parameter.
-        x: imp data card `x` parameter.
+        keyword: imp data card ``r'IMP'`` symbol.
+        colon: imp data card ``colon`` parameter.
+        particle: imp data card ``particle`` parameter.
+        x: imp data card ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'IMP'] | str = abc.Terminal[r'IMP']('IMP')

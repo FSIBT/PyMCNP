@@ -9,9 +9,9 @@ class Type(Fmesh):
     Represents type fmesh data options.
 
     Attributes:
-        keyword: type fmesh data option `TYPE` symbol.
-        equals: type fmesh data option `=` symbol.
-        type: type fmesh data option `type` parameter.
+        keyword: type fmesh data option ``r'TYPE'`` symbol.
+        equals: type fmesh data option ``r'='`` symbol.
+        type: type fmesh data option ``type`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'TYPE'] | str = abc.Terminal[r'TYPE']('TYPE')

@@ -10,9 +10,9 @@ class Fmatskip(Kopts):
     Represents fmatskip kopts data options.
 
     Attributes:
-        keyword: fmatskip kopts data option `FMATSKIP` symbol.
-        equals: fmatskip kopts data option `=` symbol.
-        fmat_skip: fmatskip kopts data option `fmat_skip` parameter.
+        keyword: fmatskip kopts data option ``r'FMATSKIP'`` symbol.
+        equals: fmatskip kopts data option ``r'='`` symbol.
+        fmat_skip: fmatskip kopts data option ``fmat_skip`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FMATSKIP'] | str = abc.Terminal[r'FMATSKIP']('FMATSKIP')

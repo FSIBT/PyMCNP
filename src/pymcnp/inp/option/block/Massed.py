@@ -10,9 +10,9 @@ class Massed(Block):
     Represents massed block dawwg data options.
 
     Attributes:
-        keyword: massed block suboption `MASSED` symbol.
-        equals: massed block suboption `=` symbol.
-        value: massed block suboption `value` parameter.
+        keyword: massed block suboption ``r'MASSED'`` symbol.
+        equals: massed block suboption ``r'='`` symbol.
+        value: massed block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MASSED'] | str = abc.Terminal[r'MASSED']('MASSED')

@@ -10,9 +10,9 @@ class Noedtt(Block):
     Represents noedtt block dawwg data options.
 
     Attributes:
-        keyword: noedtt block suboption `NOEDTT` symbol.
-        equals: noedtt block suboption `=` symbol.
-        value: noedtt block suboption `value` parameter.
+        keyword: noedtt block suboption ``r'NOEDTT'`` symbol.
+        equals: noedtt block suboption ``r'='`` symbol.
+        value: noedtt block suboption ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'NOEDTT'] | str = abc.Terminal[r'NOEDTT']('NOEDTT')

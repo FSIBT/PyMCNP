@@ -12,9 +12,9 @@ class Embdf(Data):
     Represents embdf data cards.
 
     Attributes:
-        keyword: embdf data card `EMBDF` symbol.
-        suffix: embdf data card `n` parameter.
-        m: embdf data card `m` parameter.
+        keyword: embdf data card ``r'EMBDF'`` symbol.
+        suffix: embdf data card ``n`` parameter.
+        m: embdf data card ``m`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'EMBDF'] | str = abc.Terminal[r'EMBDF']('EMBDF')

@@ -11,10 +11,10 @@ class Tr(Data):
     Represents tr data cards.
 
     Attributes:
-        prefix: tr data card `*` symbol.
-        keyword: tr data card `TR` symbol.
-        suffix: tr data card `n` parameter.
-        o_xyz_m: tr data card `o_xyz_m` parameter.
+        prefix: tr data card ``r'*'`` symbol.
+        keyword: tr data card ``r'TR'`` symbol.
+        suffix: tr data card ``n`` parameter.
+        o_xyz_m: tr data card ``o_xyz_m`` parameter.
     """
 
     prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')

@@ -11,14 +11,14 @@ class Cut(Data):
     Represents cut data cards.
 
     Attributes:
-        keyword: cut data card `CUT` symbol.
-        colon: cut data card `:` symbol.
-        particle: cut data card `particle` parameter.
-        t: cut data card `t` parameter.
-        e: cut data card `e` parameter.
-        wc1: cut data card `wc1` parameter.
-        wc2: cut data card `wc2` parameter.
-        swtm: cut data card `swtm` parameter.
+        keyword: cut data card ``r'CUT'`` symbol.
+        colon: cut data card ``r':'`` symbol.
+        particle: cut data card ``particle`` parameter.
+        t: cut data card ``t`` parameter.
+        e: cut data card ``e`` parameter.
+        wc1: cut data card ``wc1`` parameter.
+        wc2: cut data card ``wc2`` parameter.
+        swtm: cut data card ``swtm`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'CUT'] | str = abc.Terminal[r'CUT']('CUT')

@@ -11,9 +11,9 @@ class X(Sdef):
     Represents x sdef data options.
 
     Attributes:
-        keyword: x sdef data option `X` symbol.
-        equals: x sdef data option `equals` parameter.
-        x: x sdef data option `x` parameter.
+        keyword: x sdef data option ``r'X'`` symbol.
+        equals: x sdef data option ``equals`` parameter.
+        x: x sdef data option ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'X'] | str = abc.Terminal[r'X']('X')

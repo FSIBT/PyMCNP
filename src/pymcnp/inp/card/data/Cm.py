@@ -12,9 +12,9 @@ class Cm(Data):
     Represents cm data cards.
 
     Attributes:
-        keyword: cm data card `CM` symbol.
-        suffix: cm data card `n` parameter.
-        m: cm data card `m` parameter.
+        keyword: cm data card ``r'CM'`` symbol.
+        suffix: cm data card ``n`` parameter.
+        m: cm data card ``m`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'CM'] | str = abc.Terminal[r'CM']('CM')

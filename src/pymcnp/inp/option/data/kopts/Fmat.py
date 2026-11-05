@@ -9,9 +9,9 @@ class Fmat(Kopts):
     Represents fmat kopts data options.
 
     Attributes:
-        keyword: fmat kopts data option `FMAT` symbol.
-        equals: fmat kopts data option `=` symbol.
-        value: fmat kopts data option `value` parameter.
+        keyword: fmat kopts data option ``r'FMAT'`` symbol.
+        equals: fmat kopts data option ``r'='`` symbol.
+        value: fmat kopts data option ``value`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'FMAT'] | str = abc.Terminal[r'FMAT']('FMAT')

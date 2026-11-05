@@ -10,9 +10,9 @@ class Com(Ft):
     Represents com ft data options.
 
     Attributes:
-        id: com group `COM` symbol.
-        t: com group `t` parameter.
-        a: com group `a` parameter.
+        id: com group ``r'COM'`` symbol.
+        t: com group ``t`` parameter.
+        a: com group ``a`` parameter.
     """
 
     id: typing.Annotated[abc.Terminal, r'COM'] | str = abc.Terminal[r'COM']('COM')

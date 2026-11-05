@@ -10,9 +10,9 @@ class Dnbias(Act):
     Represents dnbias act data options.
 
     Attributes:
-        keyword: dnbias act data option `DNBIAS` symbol.
-        equals: dnbias act data option `=` symbol.
-        n: dnbias act data option `n` parameter.
+        keyword: dnbias act data option ``r'DNBIAS'`` symbol.
+        equals: dnbias act data option ``r'='`` symbol.
+        n: dnbias act data option ``n`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'DNBIAS'] | str = abc.Terminal[r'DNBIAS']('DNBIAS')

@@ -12,9 +12,9 @@ class Vol(Data):
     Represents vol data cards.
 
     Attributes:
-        keyword: vol data card `VOL` symbol.
-        no: vol data card `NO` symbol.
-        x: vol data card `x` parameter.
+        keyword: vol data card ``r'VOL'`` symbol.
+        no: vol data card ``r'NO'`` symbol.
+        x: vol data card ``x`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'VOL'] | str = abc.Terminal[r'VOL']('VOL')

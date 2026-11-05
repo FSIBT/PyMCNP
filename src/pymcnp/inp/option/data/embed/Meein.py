@@ -9,9 +9,9 @@ class Meein(Embed):
     Represents meein embed data options.
 
     Attributes:
-        keyword: meein embed data option `MEEIN` symbol.
-        equals: meein embed data option `=` symbol.
-        filename: meein embed data option `filename` parameter.
+        keyword: meein embed data option ``r'MEEIN'`` symbol.
+        equals: meein embed data option ``r'='`` symbol.
+        filename: meein embed data option ``filename`` parameter.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'MEEIN'] | str = abc.Terminal[r'MEEIN']('MEEIN')
