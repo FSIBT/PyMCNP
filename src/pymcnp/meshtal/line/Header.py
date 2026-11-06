@@ -23,5 +23,5 @@ class Header(Line):
     version: typing.Annotated[abc.Terminal, r'.{6}']
     ld_preamble: typing.Annotated[abc.Terminal, r'ld=']
     ld: typing.Annotated[abc.Terminal, r'.{10}']
-    probid_preamble: typing.Annotated[abc.Terminal, r'probid  =']
+    probid_preamble: typing.Annotated[abc.Terminal, r'probid =']
     probid: typing.Annotated[abc.Terminal, r'.{20}']
