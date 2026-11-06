@@ -5,6 +5,7 @@ import types
 import typing
 import itertools
 import collections
+import collections.abc
 
 from .Error import Error
 from .Symbol import Symbol
@@ -75,9 +76,10 @@ class Array(Symbol, list):
         spaces: Whitespaces between constituents.
     """
 
-    spaces: list[Terminal]
     _space: typing.ClassVar[tuple[type[Terminal], ...]] = (Space,)
     _kind: typing.ClassVar[tuple[type[Symbol], ...]] = (Symbol,)
+
+    spaces: list[Terminal]
 
     def __init_subclass__(cls) -> None:
         """
@@ -92,34 +94,6 @@ class Array(Symbol, list):
 
         if len(cls._space) == 0:
             raise Error('``Array._space`` must be nonempty.', f'{cls._space=}')
-
-    def __init__(self, *items: Symbol, spaces: collections.abc.Sequence[Terminal] | None = None) -> None:
-        """
-        Constructs `Array`.
-
-        Parameters:
-            items: Items in array.
-            spaces: Whitespaces between constituents.
-
-        Raises:
-            Error: Invalid spaces.
-        """
-
-        assert isinstance(items, tuple)
-        assert all(isinstance(item, Symbol) for item in items)
-        assert isinstance(spaces, (collections.abc.Sequence, type(None)))
-        assert not isinstance(spaces, collections.abc.Sequence) or all(isinstance(space, Symbol) for space in spaces)
-
-        super().__init__(items)
-
-        # Validates `spaces`.
-        if spaces is not None:
-            if not ((len(spaces) == 0 and len(items) == 0) or len(spaces) == len(items) - 1):
-                raise Error('Invalid spaces.', f'{items=}\n{spaces=}')
-        else:
-            space = type(self)._space[0](type(self)._space[0]._default or '' if len(type(self)._space) > 0 else '')
-            spaces = [space] * (len(items) - 1)
-        self.spaces = list(spaces)
 
     @classmethod
     def __class_getitem__(cls, parameters: tuple[typing.Any, typing.Any]) -> type[Array]:  # ty: ignore[invalid-method-override]
@@ -147,6 +121,35 @@ class Array(Symbol, list):
             )
 
         return CACHE[parameters]
+
+    def __init__(self, *items: Symbol, spaces: collections.abc.Sequence[Terminal] | None = None) -> None:
+        """
+        Constructs `Array`.
+
+        Parameters:
+            items: Items in array.
+            spaces: Whitespaces between constituents.
+
+        Raises:
+            Error: Invalid spaces.
+        """
+
+        assert isinstance(items, tuple)
+        assert all(isinstance(item, Symbol) for item in items)
+        assert isinstance(spaces, (collections.abc.Sequence, type(None)))
+        assert not isinstance(spaces, collections.abc.Sequence) or all(isinstance(space, Symbol) for space in spaces)
+
+        super().__init__(items)
+
+        # Validates `spaces`.
+        if spaces is not None:
+            if not ((len(spaces) == 0 and len(items) == 0) or len(spaces) == len(items) - 1):
+                raise Error('Invalid spaces.', f'\n{items=}\n{spaces=}')
+        else:
+            space = type(self)._space[0](type(self)._space[0]._default or '' if len(type(self)._space) > 0 else '')
+            spaces = [space] * (len(items) - 1)
+
+        self.spaces = list(spaces)
 
     @classmethod
     def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
@@ -197,7 +200,7 @@ class Array(Symbol, list):
 
     def append(self, item: typing.Any) -> None:
         """
-        Appends to array.
+        Appends to arrays.
 
         Parameters:
             item: Item to append.
@@ -206,3 +209,23 @@ class Array(Symbol, list):
         super().append(item)
         space = type(self)._space[0](type(self)._space[0]._default or '' if len(type(self)._space) > 0 else '')
         self.spaces.append(space)
+
+    def filter(self, *kinds: typing.Type, **fields: typing.Any) -> Array:
+        """
+        Filters arrays.
+
+        Parameters:
+            kinds: Types to filter items with.
+            fields: Fields to filter items with.
+
+        Returns:
+            Subarray of items with the given fields.
+        """
+
+        array: Array = CACHE[typing.Union[self._kind], typing.Union[self._space]]()
+
+        for item in self:
+            if (not kinds or isinstance(item, kinds)) and all(not hasattr(item, name) or getattr(item, name) == field for name, field in fields.items()):
+                array.append(item)
+
+        return array

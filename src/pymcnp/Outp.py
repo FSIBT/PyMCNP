@@ -60,68 +60,12 @@ class Outp(abc.File):
 
         return self.footer.warnings
 
-    @property
-    def activities(self) -> tuple[outp.block.Activity, ...]:
-        """
-        Output file activites.
-        """
-
-        return tuple(block for block in self.blocks if isinstance(block, outp.block.Activity)) if isinstance(self.blocks, abc.Array) else ()
-
-    @property
-    def activities_neutron(self) -> tuple[outp.block.NeutronActivity, ...]:
-        """
-        Output file neutron activites.
-        """
-
-        return tuple(block for block in self.blocks if isinstance(block, outp.block.NeutronActivity)) if isinstance(self.blocks, abc.Array) else ()
-
-    @property
-    def activities_photon(self) -> tuple[outp.block.PhotonActivity, ...]:
-        """
-        Output file photon activites.
-        """
-
-        return tuple(block for block in self.blocks if isinstance(block, outp.block.PhotonActivity)) if isinstance(self.blocks, abc.Array) else ()
-
-    @property
-    def tallies(self) -> tuple[outp.block.Tally, ...]:
-        """
-        Output file tallies.
-        """
-
-        return tuple(block for block in self.blocks if isinstance(block, outp.block.Tally)) if isinstance(self.blocks, abc.Array) else ()
-
-    @property
-    def tallies_surface(self) -> tuple[outp.block.Tally, ...]:
-        """
-        Output file surface tallies.
-        """
-
-        return tuple(block for block in self.blocks if isinstance(block, outp.block.TallySurface)) if isinstance(self.blocks, abc.Array) else ()
-
-    @property
-    def tallies_angle(self) -> tuple[outp.block.Tally, ...]:
-        """
-        Output file angle tallies.
-        """
-
-        return tuple(block for block in self.blocks if isinstance(block, outp.block.TallyAngle)) if isinstance(self.blocks, abc.Array) else ()
-
-    @property
-    def tallies_cell(self) -> tuple[outp.block.Tally, ...]:
-        """
-        Output file cell tallies.
-        """
-
-        return tuple(block for block in self.blocks if isinstance(block, outp.block.TallyCell)) if isinstance(self.blocks, abc.Array) else ()
-
     def to_dataframe(self) -> dict[str, pandas.DataFrame]:
         """
         Generates pandas dataframes from output files.
 
         Returns:
-            Tuple of corresponding pandas dataframes.
+            Dictionary of corresponding pandas dataframes.
         """
 
         tallies = {}
