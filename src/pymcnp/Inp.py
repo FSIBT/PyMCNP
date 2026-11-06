@@ -1,7 +1,5 @@
 import re
-import copy
 import typing
-import itertools
 import collections
 
 import numpy
@@ -96,6 +94,23 @@ class Inp(abc.File):
     blank_2: typing.Annotated[abc.Terminal, r' *(?:\$.*)?(?:\n|\Z)'] | str = abc.Terminal[r' *(?:\$.*)?(?:\n|\Z)']('\n')
     other: typing.Annotated[abc.Terminal, r'\n[\s\S]*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
 
+    def __post_init__(self) -> None:
+        """
+        Validates input files.
+        """
+
+        assert isinstance(self.data, abc.Array)
+        assert all(isinstance(card, (inp.card.Data | inp.card.Comment)) for card in self.data)
+
+        cell_count = sum(1 for cell in self.cells if not isinstance(cell, inp.card.Comment))
+
+        for card in self.data:
+            if isinstance(card, inp.card.data.Vol) and not (card.no != '' or len(card.x) == cell_count):
+                raise abc.Error('Invalid value.', f'{card=}')
+
+            if isinstance(card, inp.card.data.Area) and len(card.x) != cell_count:
+                raise abc.Error('Invalid value.', f'{card=}')
+
     @classmethod
     def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
         """
@@ -158,132 +173,6 @@ class Inp(abc.File):
 
         return title + '\n' + '\n'.join(_wrap(line) for line in rest.split('\n')) + self.other
 
-    def __post_init__(self) -> None:
-        """
-        Validates inps.
-        """
-
-        assert isinstance(self.data, abc.Array)
-        assert all(isinstance(card, (inp.card.Data | inp.card.Comment)) for card in self.data)
-
-        cell_count = sum(1 for cell in self.cells if not isinstance(cell, inp.card.Comment))
-
-        for card in self.data:
-            if isinstance(card, inp.card.data.Vol) and not (card.no != '' or len(card.x) == cell_count):
-                raise abc.Error('Invalid value.', f'{card=}')
-
-            if isinstance(card, inp.card.data.Area) and len(card.x) != cell_count:
-                raise abc.Error('Invalid value.', f'{card=}')
-
-    def scan_with(self, values: collections.abc.Iterable[typing.Any], apply: collections.abc.Callable[[typing.Self, typing.Any], None]) -> collections.abc.Iterator[typing.Self]:
-        """
-        Yields one deep copy of the input per value, changed by `apply`.
-
-        Parameters:
-            values: Values to scan.
-            apply: Function that changes a copy for one value, e.g., `lambda inp, r: setattr(inp.surfaces[0], 'r', r)`.
-
-        Yields:
-            Independent copies, in the order of `values`. Use `list(...)` to pass them to `Run`.
-        """
-
-        for value in values:
-            inp = copy.deepcopy(self)
-            apply(inp, value)
-            yield inp
-
-    def scan(self, **fields: collections.abc.Iterable[typing.Any]) -> collections.abc.Iterator[typing.Self]:
-        """
-        Yields deep copies of the input for every combination of the values of `nps` and `seed`.
-
-        Parameters:
-            fields: Settable fields (`nps`, `seed`) with their values. With several fields, the last one varies fastest.
-
-        Yields:
-            Independent copies with the fields set. Use `list(...)` to pass them to `Run`.
-
-        Raises:
-            Error: Unknown field or no field.
-        """
-
-        unknown = [name for name in fields if name not in ('nps', 'seed')]
-        if unknown or not fields:
-            raise abc.Error('Invalid value.', f'cannot scan {unknown or "nothing"}; use `scan_with` for other fields')
-
-        values = [list(value) for value in fields.values()]
-        for combination in itertools.product(*values):
-            inp = copy.deepcopy(self)
-            for name, value in zip(fields, combination):
-                setattr(inp, name, value)
-            yield inp
-
-    def _find(self, cards: collections.abc.Iterable[typing.Any], number: int | str, attribute: str, *types: type) -> typing.Any:
-        wanted = int(str(number).strip())
-        for card in cards:
-            if (not types or isinstance(card, types)) and hasattr(card, attribute) and int(str(getattr(card, attribute)).strip()) == wanted:
-                return card
-        kind = types[0].__name__ if types else 'Card'
-        raise abc.Error('Card not found.', f'{kind} {number=}')
-
-    def cell(self, number: int | str) -> inp.card.Cell:
-        """
-        Returns the cell card with this number.
-
-        Raises:
-            Error: Cell not found.
-        """
-
-        return self._find(self.cells, number, 'j', inp.card.Cell)
-
-    def surface(self, number: int | str) -> inp.card.Surface:
-        """
-        Returns the surface card with this number.
-
-        Raises:
-            Error: Surface not found.
-        """
-
-        return self._find(self.surfaces, number, 'j', inp.card.Surface)
-
-    def material(self, number: int | str) -> inp.card.data.M:
-        """
-        Returns the `M` card of this material.
-
-        Raises:
-            Error: Material not found.
-        """
-
-        return self._find(self.data, number, 'suffix', inp.card.data.M)
-
-    def tally(self, number: int | str) -> inp.card.data.F | inp.card.data.Fmesh:
-        """
-        Returns the `F` or `FMESH` card of this tally.
-
-        Raises:
-            Error: Tally not found.
-        """
-
-        return self._find(self.data, number, 'suffix', inp.card.data.F, inp.card.data.Fmesh)
-
-    def cells_with_material(self, number: int | str) -> list[inp.card.Cell]:
-        """
-        Returns the cells filled with this material, in file order.
-        This includes `LIKE n BUT` cells, which have the material of cell `n` unless a `MAT=` option replaces it.
-        """
-
-        wanted = int(str(number).strip())
-
-        def material(cell: typing.Any, seen: tuple[int, ...] = ()) -> int | None:
-            if hasattr(cell, 'like'):
-                for option in cell.options:
-                    if isinstance(option, inp.option.cell.Mat):
-                        return int(str(option.m).strip())
-                origin = int(str(cell.n).strip())
-                return None if origin in seen else material(self.cell(origin), (*seen, int(str(cell.j).strip())))
-            return int(str(cell.m).strip()) if hasattr(cell, 'm') else None
-
-        return [cell for cell in self.cells if isinstance(cell, inp.card.Cell) and material(cell) == wanted]
-
     @property
     def nps(self) -> inp.literal.Integer | None:
         """
@@ -301,6 +190,7 @@ class Inp(abc.File):
                 continue
 
             return card.npp
+
         return None
 
     @nps.setter
@@ -352,7 +242,9 @@ class Inp(abc.File):
                     continue
 
                 return option.value
+
             return None
+
         return None
 
     @seed.setter

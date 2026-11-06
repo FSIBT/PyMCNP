@@ -1,5 +1,7 @@
+import copy
 import typing
 import decimal
+import itertools
 import collections
 import dataclasses
 
@@ -123,6 +125,7 @@ def _field(name: str, kinds: tuple[type[Symbol], ...]) -> property:
 
     def setter(self, value: typing.Any) -> None:
         value = _parse_value(kinds, value)
+
         setattr(self, name_private, value)
 
         # Validating if complete.
@@ -331,3 +334,22 @@ class Nonterminal(Symbol):
         return ''.join(
             f'{value.to_mcnp()}{self.spaces.get(name, Space(Space._default or "") if name not in null and name != last else "")}' for name in type(self)._fields if (value := getattr(self, name)) != ''
         )
+
+    def scan(self, **parameters: tuple[typing.Any, ...]) -> typing.Generator[typing.Self, None, None]:
+        """
+        Scans over nonterminals.
+
+        Parameters:
+            parameters: Parameters to scan.
+
+        Yields:
+            Nonterminals with the given parameters.
+        """
+
+        for combination in itertools.product(*parameters.values()):
+            nonterminal = copy.deepcopy(self)
+
+            for name, value in zip(parameters, combination):
+                setattr(nonterminal, name, value)
+
+            yield nonterminal
