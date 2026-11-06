@@ -1,11 +1,76 @@
 from __future__ import annotations
 
 import typing
+import dataclasses
 
 from ... import abc
 from ..Block import Block
-from .. import line
 from .Event import Event
+from .Event import EventSource
+from .Event import EventBank
+from .Event import EventSurface
+from .Event import EventCollision
+from .Event import EventTermination
+
+
+@dataclasses.dataclass
+class Track:
+    """
+    Represents tracks for particles.
+
+    Attributes:
+        history: Track history block.
+        source: Track source event.
+        banks: Track bank events.
+        surfaces: Track surface events.
+        collisions: Track collision events.
+        termination: Track terminatio event.
+        parent: Parent track.
+    """
+
+    history: History
+    events: tuple[Event, ...]
+    parent: Track | None
+
+    @property
+    def source(self) -> EventSource:
+        """
+        source: Track source event.
+        """
+
+        return next(event for event in self.events if isinstance(event, EventSource))
+
+    @property
+    def banks(self) -> tuple[EventBank, ...]:
+        """
+        Track bank events.
+        """
+
+        return tuple(event for event in self.events if isinstance(event, EventBank))
+
+    @property
+    def surfaces(self) -> tuple[EventSurface, ...]:
+        """
+        Track surface events.
+        """
+
+        return tuple(event for event in self.events if isinstance(event, EventSurface))
+
+    @property
+    def collisions(self) -> tuple[EventCollision, ...]:
+        """
+        Track collision events.
+        """
+
+        return tuple(event for event in self.events if isinstance(event, EventCollision))
+
+    @property
+    def termination(self) -> EventTermination:
+        """
+        Track termination event.
+        """
+
+        return next(event for event in self.events if isinstance(event, EventTermination))
 
 
 class History(Block):
@@ -13,12 +78,19 @@ class History(Block):
     Represents history blocks.
 
     Attributes:
-        i: history block i line.
+        nps: history block i line `nps` parameter.
+        event_type: history block i line `event_type` parameter.
+        number: history block i line `number` parameter.
+        tfc: history block i line `tfc` parameter.
         newline: event block `r'\\n'` symbol.
         events: history block events.
     """
 
-    i: line.I
+    blank: typing.Annotated[abc.Terminal, r' ']
+    nps: typing.Annotated[abc.Terminal, r'.{10}']
+    event_type: typing.Annotated[abc.Terminal, r'.{10}']
+    number: typing.Annotated[abc.Terminal, r'.{10}'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    tfc: typing.Annotated[abc.Terminal, r'.{13}'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
     newline: typing.Annotated[abc.Terminal, r'\n']
     events: typing.Annotated[abc.Array, Event, typing.Annotated[abc.Terminal, r'\n']]
 
@@ -82,3 +154,29 @@ class History(Block):
             newline=newline,
             events=events,
         ), source
+
+    @property
+    def tracks(self) -> typing.Generator[Track, None, None]:
+        """
+        History block tracks.
+        """
+
+        stack: list[Track] = []
+        source: int = 0
+        banks: int = 0
+
+        for i, event in enumerate(self.events):
+            if isinstance(event, EventBank):
+                banks += 1
+            elif isinstance(event, EventTermination):
+                track = Track(
+                    history=self,
+                    events=tuple(self.events[source : i + 1]),
+                    parent=stack.pop() if stack else None,
+                )
+
+                yield track
+
+                while banks > 0:
+                    stack.append(track)
+                    banks -= 1

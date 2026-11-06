@@ -1,6 +1,7 @@
 import re
 import typing
 import decimal
+import dataclasses
 
 from ... import abc
 from ..Line import Line
@@ -20,6 +21,8 @@ class _Nv(abc.Nonterminal):
     """
 
     _space = (Space,)
+
+    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict)
 
     n: typing.Annotated[abc.Terminal, r'.{12}']
     v: typing.Annotated[abc.Array, typing.Annotated[abc.Terminal, r'.{12}'], Space] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
@@ -59,7 +62,11 @@ class _Nv(abc.Nonterminal):
             vi, source = abc.Terminal[r'.{12}'].from_mcnp(source)
             v.append(vi)
 
-        return cls(n=n, v=abc.Array[abc.Terminal[r'.{12}'], Space](*v, spaces=spaces), **{'spaces': {'n': space}}), source
+        return cls(
+            n=n,
+            v=abc.Array[abc.Terminal[r'.{12}'], Space](*v, spaces=spaces),
+            spaces={'n': space},
+        ), source
 
 
 class V(Line):

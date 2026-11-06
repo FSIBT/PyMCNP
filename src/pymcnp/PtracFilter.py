@@ -1,9 +1,6 @@
-import pathlib
-
 from . import abc
 from . import ptrac
 from .Ptrac import Ptrac
-from .Ptrac import _events
 
 
 class PtracFilter(abc.Utility):
@@ -11,7 +8,7 @@ class PtracFilter(abc.Utility):
     Filters PTRAC files.
     """
 
-    def check_source(self, event: ptrac.Event) -> bool:
+    def check_source(self, event: ptrac.block.Event) -> bool:
         """
         Checks source events.
 
@@ -24,7 +21,7 @@ class PtracFilter(abc.Utility):
 
         return True
 
-    def check_bank(self, event: ptrac.Event) -> bool:
+    def check_bank(self, event: ptrac.block.Event) -> bool:
         """
         Checks bank events.
 
@@ -37,7 +34,7 @@ class PtracFilter(abc.Utility):
 
         return True
 
-    def check_surface(self, event: ptrac.Event) -> bool:
+    def check_surface(self, event: ptrac.block.Event) -> bool:
         """
         Checks surface events.
 
@@ -50,7 +47,7 @@ class PtracFilter(abc.Utility):
 
         return True
 
-    def check_collision(self, event: ptrac.Event) -> bool:
+    def check_collision(self, event: ptrac.block.Event) -> bool:
         """
         Checks collision events.
 
@@ -63,7 +60,7 @@ class PtracFilter(abc.Utility):
 
         return True
 
-    def check_terminal(self, event: ptrac.Event) -> bool:
+    def check_terminal(self, event: ptrac.block.Event) -> bool:
         """
         Checks terminal events.
 
@@ -76,7 +73,7 @@ class PtracFilter(abc.Utility):
 
         return True
 
-    def run(self, file: Ptrac | pathlib.Path | str):
+    def run(self, file: Ptrac):
         """
         Filters ptrac files.
 
@@ -89,18 +86,22 @@ class PtracFilter(abc.Utility):
             Accepted events.
         """
 
-        for event in _events(file):
-            match event.type:
-                case ptrac.EventType.SOURCE:
-                    check = self.check_source
-                case ptrac.EventType.SURFACE:
-                    check = self.check_surface
-                case ptrac.EventType.COLLISION:
-                    check = self.check_collision
-                case ptrac.EventType.TERMINAL:
-                    check = self.check_terminal
-                case _:
-                    check = self.check_bank
+        for history in file.histories:
+            kind = history.i.event_type
 
-            if check(event):
-                yield event
+            for event in history.events:
+                match kind.strip():
+                    case '1000':
+                        result = self.check_source(event)
+                    case '3000':
+                        result = self.check_surface(event)
+                    case '4000':
+                        result = self.check_collision(event)
+                    case '5000':
+                        result = self.check_terminal(event)
+                    case _:
+                        result = self.check_bank(event)
+
+                kind = event.j.type
+                if result:
+                    yield event

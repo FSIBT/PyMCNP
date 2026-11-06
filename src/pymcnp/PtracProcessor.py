@@ -1,9 +1,6 @@
-import pathlib
-
 from . import abc
 from . import ptrac
 from .Ptrac import Ptrac
-from .Ptrac import _events
 
 
 class PtracProcessor(abc.Utility):
@@ -21,69 +18,92 @@ class PtracProcessor(abc.Utility):
         Runs after processing.
         """
 
-    def process_source(self, event: ptrac.Event):
+    def process_source(self, event: ptrac.block.Event):
         """
         Processes source events.
 
         Parameters:
             event: Source event to process.
+
+        Returns:
+            Result to yield.
         """
 
-    def process_bank(self, event: ptrac.Event):
+    def process_bank(self, event: ptrac.block.Event):
         """
         Processes bank events.
 
         Parameters:
             event: Bank event to process.
+
+        Returns:
+            Result to yield.
         """
 
-    def process_surface(self, event: ptrac.Event):
+    def process_surface(self, event: ptrac.block.Event):
         """
         Processes surface events.
 
         Parameters:
             event: Surface event to process.
+
+        Returns:
+            Result to yield.
         """
 
-    def process_collision(self, event: ptrac.Event):
+    def process_collision(self, event: ptrac.block.Event):
         """
         Processes collision events.
 
         Parameters:
             event: Collision event to process.
+
+        Returns:
+            Result to yield.
         """
 
-    def process_terminal(self, event: ptrac.Event):
+    def process_terminal(self, event: ptrac.block.Event):
         """
         Processes terminal events.
 
         Parameters:
             event: Terminal event to process.
+
+        Returns:
+            Result to yield.
         """
 
-    def run(self, file: Ptrac | pathlib.Path | str):
+    def run(self, file: Ptrac):
         """
         Processes ptrac files.
 
-        Paths are streamed one event at a time in a single pass, so files of any size fit in memory.
-
         Parameters:
-            file: Ptrac file or path to ptrac file to process.
+            file: Ptrac file to process.
+
+        Yields:
+            Results from processors.
         """
 
         self.prehook()
 
-        for event in _events(file):
-            match event.type:
-                case ptrac.EventType.SOURCE:
-                    self.process_source(event)
-                case ptrac.EventType.SURFACE:
-                    self.process_surface(event)
-                case ptrac.EventType.COLLISION:
-                    self.process_collision(event)
-                case ptrac.EventType.TERMINAL:
-                    self.process_terminal(event)
-                case _:
-                    self.process_bank(event)
+        for history in file.histories:
+            kind = history.i.event_type
+
+            for event in history.events:
+                match kind.strip():
+                    case '1000':
+                        result = self.process_source(event)
+                    case '3000':
+                        result = self.process_surface(event)
+                    case '4000':
+                        result = self.process_collision(event)
+                    case '5000':
+                        result = self.process_terminal(event)
+                    case _:
+                        result = self.process_bank(event)
+
+                kind = event.type
+                if result is not None:
+                    yield result
 
         self.posthook()
