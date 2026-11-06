@@ -4,6 +4,7 @@ from .Array import Array
 from .Terminal import Terminal
 from .Nonterminal import Nonterminal
 from .File import File
+from .File import DataFile
 from .Utility import Utility
 from .Visualization import Visualization
 from .Visualization import Box
@@ -29,6 +30,7 @@ __all__ = (
     'Terminal',
     'Nonterminal',
     'File',
+    'DataFile',
     'Utility',
     'Visualization',
     'Box',

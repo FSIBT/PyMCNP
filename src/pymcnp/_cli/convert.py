@@ -1,13 +1,12 @@
 """
 Usage:
-    pymcnp convert (--csv | --parquet) <outp> <number>
+    pymcnp convert outp (--csv | --parquet) <file>
+    pymcnp convert ptrac (--csv | --parquet) <file>
+    pymcnp convert meshtal (--csv | --parquet) <file>
 
 Options:
     -c --csv        Write CSV.
     -p --parquet    Write PARQUET.
-
-Takes an F1, F4, or F8 output file that can have multiple tallies in it and outputs a specific one as
-a pandas dataframe as parquet or csv file.
 """
 
 import pathlib
@@ -18,7 +17,8 @@ from docopt import docopt
 from . import _io
 from .. import abc
 from ..Outp import Outp
-from ..Convert import Convert
+from ..Ptrac import Ptrac
+from ..Meshtal import Meshtal
 
 
 def main() -> None:
@@ -27,22 +27,28 @@ def main() -> None:
     """
 
     # Processing CLI arguments.
-    args = docopt(__doc__)
-    number = args['<number>']
-    file = pathlib.Path(args['<outp>'])
+    args = docopt(__doc__, options_first=True)
+
+    if args['outp']:
+        DataFile = Outp
+    elif args['ptrac']:
+        DataFile = Ptrac
+    else:
+        DataFile = Meshtal
+
+    file = pathlib.Path(args['<file>'])
 
     # Reading output file.
     try:
-        outp = Outp.from_file(file)[0]
-        convert = Convert(outp)
+        datafile = DataFile.from_file(file)[0]
     except abc.Error as err:
         _io.error(str(err))
         sys.exit(1)
 
     # Converting!
     if args['--csv']:
-        convert.to_csv(number, _io.get_outfile(file, 'csv', number))
-    elif args['--parquet']:
-        convert.to_parquet(number, _io.get_outfile(file, 'parquet', number))
+        datafile.to_csv_file(_io.get_outfile(file, 'csv'))
+    else:
+        datafile.to_parquet_file(_io.get_outfile(file, 'parquet'))
 
     _io.done()

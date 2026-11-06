@@ -25,7 +25,7 @@ class Tally(Line):
         Generates pandas dataframes for tally lines.
 
         Returns:
-            Corresonding pandas dataframe for ``self``.
+            Pandas dataframe corresponding to ``self``.
         """
 
         return pandas.DataFrame(

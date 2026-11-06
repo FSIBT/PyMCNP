@@ -21,14 +21,13 @@ class Activity(Block):
         """
 
         assert hasattr(self, 'table_body')
-        assert isinstance(self.table_body, (abc.Array, abc.Terminal[r'']))
-        assert not isinstance(self.table_body, abc.Array) or all(isinstance(row, line.Activity) for row in self.table_body)
+        assert isinstance(self.table_body, abc.Array)
+        assert all(isinstance(row, line.Activity) for row in self.table_body)
 
-        if isinstance(self.table_body, abc.Array) and self.table_body:
-            df = pandas.concat((row.to_dataframe() for row in self.table_body), ignore_index=True)
-            return df
-
-        return pandas.DataFrame()
+        if self.table_body:
+            return pandas.concat((row.to_dataframe() for row in self.table_body), ignore_index=True)
+        else:
+            return pandas.DataFrame()
 
 
 class NeutronActivity(Activity):

@@ -17,7 +17,7 @@ class Tally(Block):
         Generates pandas dataframes for tally blocks.
 
         Returns:
-            Pandas dataframe for tally block.
+            Pandas dataframe corresponding to ``self``.
         """
 
         assert hasattr(self, 'number')
@@ -29,18 +29,20 @@ class Tally(Block):
         assert hasattr(self, 'nps')
         assert isinstance(self.nps, str)
         assert hasattr(self, 'subtallies')
-        assert isinstance(self.subtallies, (abc.Array, abc.Terminal[r'']))
-        assert not isinstance(self.subtallies, abc.Array) or all(isinstance(subtally, subblock.Tally) for subtally in self.subtallies)
+        assert isinstance(self.subtallies, abc.Array)
+        assert all(isinstance(subtally, subblock.Tally) for subtally in self.subtallies)
 
-        if isinstance(self.subtallies, abc.Array) and self.subtallies:
+        if self.subtallies:
             df = pandas.concat((subtally.to_dataframe() for subtally in self.subtallies), ignore_index=True)
+
             df['number'] = self.number.strip()
             df['type'] = self.tally_type.strip()
             df['particles'] = self.particles.strip()
             df['nps'] = self.nps.strip()
-            return df
 
-        return pandas.DataFrame()
+            return df
+        else:
+            return pandas.DataFrame()
 
 
 class TallySurface(Tally):
@@ -77,7 +79,7 @@ class TallySurface(Tally):
     surface_area_preamble: typing.Annotated[abc.Terminal, r'\n                         ']
     surface_area: typing.Annotated[abc.Terminal, r'.+?(?=\n|\Z)']
     subtallies_preamble: typing.Annotated[abc.Terminal, r'\n \n']
-    subtallies: typing.Annotated[abc.Array, subblock.tally.Surface, typing.Annotated[abc.Terminal, r'']] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    subtallies: typing.Annotated[abc.Array, subblock.tally.Surface, typing.Annotated[abc.Terminal, r'']]
     statistics: subblock.Statistics
 
 
@@ -108,7 +110,7 @@ class TallyAngle(Tally):
     particles_preamble: typing.Annotated[abc.Terminal, r'\n           particle\(s\): ']
     particles: typing.Annotated[abc.Terminal, r'.+?(?=\n|\Z)']
     subtallies_preamble: typing.Annotated[abc.Terminal, r'\n \n']
-    subtallies: typing.Annotated[abc.Array, subblock.tally.SurfaceAngle, typing.Annotated[abc.Terminal, r'']] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    subtallies: typing.Annotated[abc.Array, subblock.tally.SurfaceAngle, typing.Annotated[abc.Terminal, r'']]
 
 
 class TallyCell(Tally):
@@ -152,7 +154,7 @@ class TallyCell_0(TallyCell):
     cell_volume_preamble: typing.Annotated[abc.Terminal, r'\n                         ']
     cell_volume: typing.Annotated[abc.Terminal, r'.+?(?=\n|\Z)']
     subtallies_preamble: typing.Annotated[abc.Terminal, r'\n \n']
-    subtallies: typing.Annotated[abc.Array, subblock.tally.Cell, typing.Annotated[abc.Terminal, r'']] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    subtallies: typing.Annotated[abc.Array, subblock.tally.Cell, typing.Annotated[abc.Terminal, r'']]
 
 
 class TallyCell_1(TallyCell):
@@ -182,4 +184,4 @@ class TallyCell_1(TallyCell):
     particles_preamble: typing.Annotated[abc.Terminal, r'\n           particle\(s\): ']
     particles: typing.Annotated[abc.Terminal, r'.+?(?=\n|\Z)']
     subtallies_preamble: typing.Annotated[abc.Terminal, r'\n \n']
-    subtallies: typing.Annotated[abc.Array, subblock.tally.Cell, typing.Annotated[abc.Terminal, r'']] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    subtallies: typing.Annotated[abc.Array, subblock.tally.Cell, typing.Annotated[abc.Terminal, r'']]

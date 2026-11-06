@@ -10,7 +10,6 @@ from .Meshtal import Meshtal
 from .Outp import Outp
 from .Ptrac import Ptrac
 from .Check import Check
-from .Convert import Convert
 from .Plot import Plot
 from .PtracFilter import PtracFilter
 from .PtracProcessor import PtracProcessor
@@ -31,7 +30,6 @@ __all__ = (
     'Outp',
     'Ptrac',
     'Check',
-    'Convert',
     'Outp',
     'Plot',
     'Ptrac',

@@ -1,5 +1,7 @@
 import typing
 
+import pandas
+
 from ... import abc
 from ..Line import Line
 
@@ -30,3 +32,13 @@ class Row(Line):
 
         if not 5 <= len(self.values) <= 7:
             raise abc.Error('Invalid value.', f'{self.values=}')
+
+    def to_dataframe(self) -> pandas.DataFrame:
+        """
+        Generates pandas dataframes from data rows.
+
+        Returns:
+            Pandas dataframe corresponding to ``self``.
+        """
+
+        return pandas.DataFrame([value if value == 'Total' else float(value)] for value in self.values)

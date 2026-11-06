@@ -2,6 +2,8 @@ import typing
 import inspect
 import pathlib
 
+import pandas
+
 from . import abc
 from . import ptrac
 
@@ -97,63 +99,38 @@ class Ptrac(abc.File):
 
         return cls.from_mcnp_iter(source)
 
+    def to_dataframe(self) -> pandas.DataFrame:
+        """
+        Generates pandas dataframes from ptrac files.
 
-#    @staticmethod
-#    def to_parquet(
-#        path: pathlib.Path | str,
-#        out: pathlib.Path | str,
-#        *,
-#        particle: ptrac.Particle | None = None,
-#        types: collections.abc.Collection[ptrac.EventType] | None = None,
-#        cell_entered: int | None = None,
-#        surface: int | None = None,
-#        chunk: int = 100_000,
-#    ) -> int:
-#        """
-#        Writes events of a ptrac file to a parquet file in one pass, `chunk` rows at a time, so files of any size fit in memory.
-#
-#        Columns are those of `Event.to_dict` plus `track` (track number within the history) and `parent_zaid` (see `ptrac.Track`).
-#        If `cell_entered` or `surface` is given, only surface crossings that match are written.
-#
-#        Parameters:
-#            path: Path to ptrac file to read.
-#            out: Path to parquet file to write.
-#            particle: Only write events of tracks of this particle.
-#            types: Only write events of these types.
-#            cell_entered: Only write surface crossings entering this cell.
-#            surface: Only write surface crossings of this surface number (any facet).
-#            chunk: Number of rows held in memory before they are written.
-#
-#        Returns:
-#            Number of rows written.
-#
-#        Raises:
-#            Error: Invalid value.
-#        """
-#
-#        if chunk < 1:
-#            raise abc.Error('Invalid value.', f'{chunk=}')
-#
-#        surfaces_only = cell_entered is not None or surface is not None
-#        writer = ptrac.ParquetWriter(out)
-#        rows: list[dict] = []
-#        total = 0
-#        try:
-#            for track in Ptrac.tracks(path, particle, cell_entered):
-#                events = track.entries(cell=cell_entered, surface=surface) if surfaces_only else track.events
-#                for event in events:
-#                    if types is not None and event.type not in types:
-#                        continue
-#                    rows.append({**event.to_dict(), 'track': track.index, 'parent_zaid': track.parent_zaid})
-#                    if len(rows) >= chunk:
-#                        writer.write(rows)
-#                        total += len(rows)
-#                        rows = []
-#            if rows:
-#                writer.write(rows)
-#                total += len(rows)
-#            writer.close()
-#        except BaseException:
-#            writer.abort()
-#            raise
-#        return total
+        Returns:
+            Pandas dataframe corresponding to ``self``.
+        """
+
+        if not self.histories:
+            return pandas.DataFrame()
+        else:
+            return pandas.concat((track.to_dataframe() for history in self.histories for track in history.tracks), ignore_index=True)
+
+    def to_dataframe_iter(self) -> typing.Generator[pandas.DataFrame, None, pandas.DataFrame]:
+        """
+        Generates pandas dataframes from ptrac files iteratively.
+
+        Yields:
+            Pandas dataframes concatenated into the returned dataframe.
+
+        Returns:
+            Pandas dataframe corresponding to ``self``.
+        """
+
+        if not self.histories:
+            return pandas.DataFrame()
+
+        frames = []
+        for history in self.histories:
+            for track in history.tracks:
+                frame = track.to_dataframe()
+                yield frame
+                frames.append(frame)
+
+        return pandas.concat(frames, ignore_index=True)

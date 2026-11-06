@@ -8,7 +8,7 @@ from . import abc
 from . import meshtal
 
 
-class Meshtal(abc.File):
+class Meshtal(abc.DataFile):
     """
     Represents meshtal files.
 
@@ -163,12 +163,42 @@ class Meshtal(abc.File):
 
     def to_dataframe(self) -> pandas.DataFrame:
         """
-        Generates pandas dataframes for meshtal files.
+        Generates pandas dataframes from meshtal files.
+
+        Yields:
+            Pandas dataframes concatenated into the returned dataframe.
 
         Returns:
-            Corresonding pandas dataframe for `self`.
+            Pandas dataframe corresponding to ``self``.
         """
 
         names = re.findall(r'Energy|Time|X|Y|Z|Result|Rel Error', self.labels)
 
-        return pandas.DataFrame(((float(value) if value != 'Total' else value for value in row.values) for row in self.rows), columns=names)
+        if not self.rows:
+            return pandas.DataFrame()
+        else:
+            frame = pandas.concat((row.to_dataframe() for row in self.rows), ignore_index=True)
+            frame.columns = names
+            return frame
+
+    def to_dataframe_iter(self) -> typing.Generator[pandas.DataFrame, None, pandas.DataFrame]:
+        """
+        Generates pandas dataframes from meshtal files iteratively.
+
+        Returns:
+            Pandas dataframe corresponding to ``self``.
+        """
+
+        names = re.findall(r'Energy|Time|X|Y|Z|Result|Rel Error', self.labels)
+
+        if not self.rows:
+            return pandas.DataFrame()
+
+        frames = []
+        for row in self.rows:
+            frame = row.to_dataframe()
+            frame.columns = names
+            yield frame
+            frames.append(frame)
+
+        return pandas.concat(frames, ignore_index=True)

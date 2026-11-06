@@ -3,6 +3,8 @@ from __future__ import annotations
 import typing
 import dataclasses
 
+import pandas
+
 from ... import abc
 from ..Block import Block
 from .Event import Event
@@ -16,15 +18,11 @@ from .Event import EventTermination
 @dataclasses.dataclass
 class Track:
     """
-    Represents tracks for particles.
+    Represents tracks of particles.
 
     Attributes:
         history: Track history block.
-        source: Track source event.
-        banks: Track bank events.
-        surfaces: Track surface events.
-        collisions: Track collision events.
-        termination: Track terminatio event.
+        events: Track events.
         parent: Parent track.
     """
 
@@ -71,6 +69,39 @@ class Track:
         """
 
         return next(event for event in self.events if isinstance(event, EventTermination))
+
+    def to_dataframe(self) -> pandas.DataFrame:
+        """
+        Generates pandas dataframes from history blocks.
+
+        Returns:
+            Pandas dataframe corresponding to ``self``.
+        """
+
+        if banks := self.banks:
+            banks_frame = pandas.concat((event.to_dataframe() for event in banks), ignore_index=True)
+        else:
+            banks_frame = pandas.DataFrame()
+
+        if surfaces := self.surfaces:
+            surfaces_frame = pandas.concat((event.to_dataframe() for event in surfaces), ignore_index=True)
+        else:
+            surfaces_frame = pandas.DataFrame()
+
+        if collisions := self.collisions:
+            collisions_frame = pandas.concat((event.to_dataframe() for event in collisions), ignore_index=True)
+        else:
+            collisions_frame = pandas.DataFrame()
+
+        return pandas.DataFrame(
+            {
+                'source': self.source.to_dataframe(),
+                'banks': banks_frame,
+                'surfaces': surfaces_frame,
+                'collisions': collisions_frame,
+                'termination': self.termination.to_dataframe(),
+            }
+        )
 
 
 class History(Block):
@@ -154,6 +185,19 @@ class History(Block):
             newline=newline,
             events=events,
         ), source
+
+    def to_dataframe(self) -> pandas.DataFrame:
+        """
+        Generates pandas dataframes from history blocks.
+
+        Returns:
+            Pandas dataframe corresponding to ``self``.
+        """
+
+        if not self.events:
+            return pandas.DataFrame()
+        else:
+            return pandas.concat((event.to_dataframe() for event in self.events), ignore_index=True)
 
     @property
     def tracks(self) -> typing.Generator[Track, None, None]:

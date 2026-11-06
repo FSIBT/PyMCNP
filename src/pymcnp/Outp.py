@@ -17,7 +17,7 @@ class Outp(abc.File):
     """
 
     header: outp.Header
-    blocks: typing.Annotated[abc.Array, outp.Block, abc.Terminal[r'']] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    blocks: typing.Annotated[abc.Array, outp.Block, abc.Terminal[r'']]
     footer: outp.Footer
 
     @property
@@ -60,20 +60,41 @@ class Outp(abc.File):
 
         return self.footer.warnings
 
-    def to_dataframe(self) -> dict[str, pandas.DataFrame]:
+    def to_dataframe(self) -> pandas.DataFrame:
         """
         Generates pandas dataframes from output files.
 
         Returns:
-            Dictionary of corresponding pandas dataframes.
+            Pandas dataframe corresponding to ``self``.
         """
 
-        tallies = {}
+        tallies = self.blocks.filter(outp.block.Tally)
 
-        for block in self.blocks:
-            if isinstance(block, outp.block.Tally):
-                assert hasattr(block, 'number')
-                assert isinstance(block.number, str)
-                tallies[block.number.strip()] = block.to_dataframe()
+        if not tallies:
+            return pandas.DataFrame()
+        else:
+            return pandas.concat((tally.to_dataframe() for tally in tallies), ignore_index=True)
 
-        return tallies
+    def to_dataframe_iter(self) -> typing.Generator[pandas.DataFrame, None, pandas.DataFrame]:
+        """
+        Generates pandas dataframes from output files iteratively.
+
+        Yields:
+            Pandas dataframes concatenated into the returned dataframe.
+
+        Returns:
+            Pandas dataframe corresponding to ``self``.
+        """
+
+        tallies = self.blocks.filter(outp.block.Tally)
+
+        if not tallies:
+            return pandas.DataFrame()
+
+        frames = []
+        for tally in tallies:
+            frame = tally.to_dataframe()
+            yield frame
+            frames.append(frame)
+
+        return pandas.concat(frames, ignore_index=True)

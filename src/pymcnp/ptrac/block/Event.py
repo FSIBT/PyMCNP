@@ -1,5 +1,7 @@
 import typing
 
+import pandas
+
 from ... import abc
 from ..Block import Block
 
@@ -8,6 +10,42 @@ class Event(Block):
     """
     Represents event blocks.
     """
+
+    def to_dataframe(self) -> pandas.DataFrame:
+        """
+        Generates pandas dataframes for event blocks.
+
+        Returns:
+            Pandas dataframe corresponding to ``self``.
+        """
+
+        return pandas.DataFrame(
+            {
+                'type': [type(self)],
+                'PBL%I%NODE': [self.pbl_i_node if hasattr(self, 'pbl_i_node') else None],
+                'NSR': [self.nsr if hasattr(self, 'nsr') else None],
+                'NXS(2,IEX)': [self.nxs_2_iex if hasattr(self, 'nxs_2_iex') else None],
+                'NTYN': [self.ntyn if hasattr(self, 'ntyn') else None],
+                'PBL%I%MTP': [self.pbl_i_mtp if hasattr(self, 'pbl_i_mtp') else None],
+                'NSF(PBL%I%JSU)': [self.nsf_pbl_i_jsu if hasattr(self, 'nsf_pbl_i_jsu') else None],
+                'angle': [self.angle if hasattr(self, 'angle') else None],
+                'NTER': [self.nter if hasattr(self, 'nter') else None],
+                'branch_number': [self.branch_number if hasattr(self, 'branch_number') else None],
+                'PBL%I%IPT': [self.pbl_i_ipt if hasattr(self, 'pbl_i_ipt') else None],
+                'NCL(PBL%I%ICL)': [self.ncl_pbl_i_icl if hasattr(self, 'ncl_pbl_i_icl') else None],
+                'MAT(PBL%I%ICL)': [self.mat_pbl_i_icl if hasattr(self, 'mat_pbl_i_icl') else None],
+                'PBL%I%NCP': [self.pbl_i_ncp if hasattr(self, 'pbl_i_ncp') else None],
+                'PBL%R%X': [self.pbl_r_x if hasattr(self, 'pbl_r_x') else None],
+                'PBL%R%Y': [self.pbl_r_y if hasattr(self, 'pbl_r_y') else None],
+                'PBL%R%Z': [self.pbl_r_z if hasattr(self, 'pbl_r_z') else None],
+                'PBL%R%U': [self.pbl_r_u if hasattr(self, 'pbl_r_u') else None],
+                'PBL%R%V': [self.pbl_r_v if hasattr(self, 'pbl_r_v') else None],
+                'PBL%R%W': [self.pbl_r_w if hasattr(self, 'pbl_r_w') else None],
+                'PBL%R%ERG': [self.pbl_r_erg if hasattr(self, 'pbl_r_erg') else None],
+                'PBL%R%WGT': [self.pbl_r_wgt if hasattr(self, 'pbl_r_wgt') else None],
+                'PBL%R%TME': [self.pbl_r_tme if hasattr(self, 'pbl_r_tme') else None],
+            }
+        )
 
 
 class EventSource(Event):
@@ -22,7 +60,7 @@ class EventSource_1(EventSource):
 
     Attributes:
         blank_0: event block j line `r' '` symbol.
-        type: event block j line variable id #1 parameter.
+        type: event block j line variable id #7 parameter.
         pbl_i_node: event block j line `PBL%I%NODE` parameter.
         nsr: event block j line `NSR` parameter.
         ncl_pbl_i_icl: event block j line `NCL(PBL%I%ICL)` parameter.
@@ -53,7 +91,7 @@ class EventSource_2(EventSource):
 
     Attributes:
         blank_0: event block `r' '` symbol.
-        type: event block j line variable id #1 parameter.
+        type: event block j line variable id #7 parameter.
         pbl_i_node: event block j line `PBL%I%NODE` parameter.
         nsr: event block j line `NSR` parameter.
         pbl_i_ipt: event block j line `PBL%I%IPT` parameter.
@@ -86,7 +124,7 @@ class EventSource_3(EventSource):
 
     Attributes:
         blank_0: event block `r' '` symbol.
-        type: event block j line variable id #1 parameter.
+        type: event block j line variable id #7 parameter.
         pbl_i_node: event block j line `PBL%I%NODE` parameter.
         nsr: event block j line `NSR` parameter.
         ncl_pbl_i_icl: event block j line `NCL(PBL%I%ICL)` parameter.
@@ -131,7 +169,7 @@ class EventSource_4(EventSource):
 
     Attributes:
         blank_0: event block `r' '` symbol.
-        type: event block j line variable id #1 parameter.
+        type: event block j line variable id #7 parameter.
         pbl_i_node: event block j line `PBL%I%NODE` parameter.
         nsr: event block j line `NSR` parameter.
         ncl_pbl_i_icl: event block j line `NCL(PBL%I%ICL)` parameter.
@@ -182,7 +220,7 @@ class EventBank_1(EventBank):
 
     Attributes:
         blank_0: event block `r' '` symbol.
-        type: event block j line variable id #1 parameter.
+        type: event block j line variable id #7 parameter.
         pbl_i_node: event block j line `PBL%I%NODE` parameter.
         nxs_2_iex: event block j line `NXS(2,IEX)` parameter.
         ntyn: event block j line `NTYN` parameter.
@@ -215,7 +253,7 @@ class EventBank_2(EventBank):
 
     Attributes:
         blank_0: event block `r' '` symbol.
-        type: event block j line variable id #1 parameter.
+        type: event block j line variable id #7 parameter.
         pbl_i_node: event block j line `PBL%I%NODE` parameter.
         nxs_2_iex: event block j line `NXS(2,IEX)` parameter.
         ntyn: event block j line `NTYN` parameter.
@@ -250,7 +288,7 @@ class EventBank_3(EventBank):
 
     Attributes:
         blank_0: event block `r' '` symbol.
-        type: event block j line variable id #1 parameter.
+        type: event block j line variable id #7 parameter.
         pbl_i_node: event block j line `PBL%I%NODE` parameter.
         nxs_2_iex: event block j line `NXS(2,IEX)` parameter.
         ntyn: event block j line `NTYN` parameter.
@@ -297,7 +335,7 @@ class EventBank_4(EventBank):
 
     Attributes:
         blank_0: event block `r' '` symbol.
-        type: event block j line variable id #1 parameter.
+        type: event block j line variable id #7 parameter.
         pbl_i_node: event block j line `PBL%I%NODE` parameter.
         nxs_2_iex: event block j line `NXS(2,IEX)` parameter.
         ntyn: event block j line `NTYN` parameter.
@@ -352,7 +390,7 @@ class EventSurface_1(EventSurface):
 
     Attributes:
         blank_0: event block `r' '` symbol.
-        type: event block j line variable id #1 parameter.
+        type: event block j line variable id #7 parameter.
         pbl_i_node: event block j line `PBL%I%NODE` parameter.
         nsf_pbl_i_jsu: event block j line `NSF(PBL%I%JSU)` parameter.
         angle: event block j line variable id #13 parameter.
@@ -385,7 +423,7 @@ class EventSurface_2(EventSurface):
 
     Attributes:
         blank_0: event block `r' '` symbol.
-        type: event block j line variable id #1 parameter.
+        type: event block j line variable id #7 parameter.
         pbl_i_node: event block j line `PBL%I%NODE` parameter.
         nsf_pbl_i_jsu: event block j line `NSF(PBL%I%JSU)` parameter.
         angle: event block j line variable id #13 parameter.
@@ -420,7 +458,7 @@ class EventSurface_3(EventSurface):
 
     Attributes:
         blank_0: event block `r' '` symbol.
-        type: event block j line variable id #1 parameter.
+        type: event block j line variable id #7 parameter.
         pbl_i_node: event block j line `PBL%I%NODE` parameter.
         nsf_pbl_i_jsu: event block j line `NSF(PBL%I%JSU)` parameter.
         angle: event block j line variable id #13 parameter.
@@ -467,7 +505,7 @@ class EventSurface_4(EventSurface):
 
     Attributes:
         blank_0: event block `r' '` symbol.
-        type: event block j line variable id #1 parameter.
+        type: event block j line variable id #7 parameter.
         pbl_i_node: event block j line `PBL%I%NODE` parameter.
         nsf_pbl_i_jsu: event block j line `NSF(PBL%I%JSU)` parameter.
         angle: event block j line variable id #13 parameter.
@@ -522,7 +560,7 @@ class EventCollision_1(EventCollision):
 
     Attributes:
         blank_0: event block `r' '` symbol.
-        type: event block j line variable id #1 parameter.
+        type: event block j line variable id #7 parameter.
         pbl_i_node: event block j line `PBL%I%NODE` parameter.
         nxs_2_iex: event block j line `NXS(2,IEX)` parameter.
         pbl_i_mtp: event block j line `PBL%I%MTP` parameter.
@@ -555,7 +593,7 @@ class EventCollision_2(EventCollision):
 
     Attributes:
         blank_0: event block `r' '` symbol.
-        type: event block j line variable id #1 parameter.
+        type: event block j line variable id #7 parameter.
         pbl_i_node: event block j line `PBL%I%NODE` parameter.
         nxs_2_iex: event block j line `NXS(2,IEX)` parameter.
         pbl_i_mtp: event block j line `PBL%I%MTP` parameter.
@@ -590,7 +628,7 @@ class EventCollision_3(EventCollision):
 
     Attributes:
         blank_0: event block `r' '` symbol.
-        type: event block j line variable id #1 parameter.
+        type: event block j line variable id #7 parameter.
         pbl_i_node: event block j line `PBL%I%NODE` parameter.
         nxs_2_iex: event block j line `NXS(2,IEX)` parameter.
         pbl_i_mtp: event block j line `PBL%I%MTP` parameter.
@@ -637,7 +675,7 @@ class EventCollision_4(EventCollision):
 
     Attributes:
         blank_0: event block `r' '` symbol.
-        type: event block j line variable id #1 parameter.
+        type: event block j line variable id #7 parameter.
         pbl_i_node: event block j line `PBL%I%NODE` parameter.
         nxs_2_iex: event block j line `NXS(2,IEX)` parameter.
         pbl_i_mtp: event block j line `PBL%I%MTP` parameter.
@@ -692,7 +730,7 @@ class EventTermination_1(EventTermination):
 
     Attributes:
         blank_0: event block `r' '` symbol.
-        type: event block j line variable id #1 parameter.
+        type: event block j line variable id #7 parameter.
         pbl_i_node: event block j line `PBL%I%NODE` parameter.
         nter: event block j line `NTER` parameter.
         branch_number: event block j line variable id #15 parameter.
@@ -725,7 +763,7 @@ class EventTermination_2(EventTermination):
 
     Attributes:
         blank_0: event block `r' '` symbol.
-        type: event block j line variable id #1 parameter.
+        type: event block j line variable id #7 parameter.
         pbl_i_node: event block j line `PBL%I%NODE` parameter.
         nter: event block j line `NTER` parameter.
         branch_number: event block j line variable id #15 parameter.
@@ -760,7 +798,7 @@ class EventTermination_3(EventTermination):
 
     Attributes:
         blank_0: event block `r' '` symbol.
-        type: event block j line variable id #1 parameter.
+        type: event block j line variable id #7 parameter.
         pbl_i_node: event block j line `PBL%I%NODE` parameter.
         nter: event block j line `NTER` parameter.
         branch_number: event block j line variable id #15 parameter.
@@ -807,7 +845,7 @@ class EventTermination_4(EventTermination):
 
     Attributes:
         blank_0: event block `r' '` symbol.
-        type: event block j line variable id #1 parameter.
+        type: event block j line variable id #7 parameter.
         pbl_i_node: event block j line `PBL%I%NODE` parameter.
         nter: event block j line `NTER` parameter.
         branch_number: event block j line variable id #15 parameter.
