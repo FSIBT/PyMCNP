@@ -1,15 +1,16 @@
 """
-Example converting OUTP files using `Convert`.
+Example converting OUTP files to csv and parquet files.
 
-This example converts tally #1 in `example_00.outp` to csv file using `to_csv`
-and a parquet file using `to_parquet`.
+This example converts the tallies in `example_00.outp` to a csv file using
+`to_file_csv` and a parquet file using `to_file_parquet`, and tally #1 alone
+using `tally` and pandas.
 """
 
 import pathlib
 
 import pymcnp
 
-TALLY = '1'
+TALLY = 1
 HERE = pathlib.Path(__file__).parent
 OUTPUT = HERE / 'output'
 OUTPUT.mkdir(exist_ok=True)
@@ -18,13 +19,11 @@ OUTPUT.mkdir(exist_ok=True)
 path = HERE / 'example_00.outp'
 outp, _ = pymcnp.Outp.from_file(path)
 
-# Initializing `Convert`.
-converter = pymcnp.Convert(outp)
+# Converting all tallies, with a `number` column.
+print(f'Converting the tallies from `{path}` to `{OUTPUT}/example_00.csv` and `{OUTPUT}/example_00.parquet`')
+outp.to_file_csv(OUTPUT / 'example_00.csv')
+outp.to_file_parquet(OUTPUT / 'example_00.parquet')
 
-# Converting to csv.
+# Converting one tally.
 print(f'Converting tally #{TALLY} from `{path}` to `{OUTPUT}/example_00-{TALLY}.csv`')
-converter.to_csv(TALLY, OUTPUT / f'example_00-{TALLY}.csv')
-
-# Converting to parquet.
-print(f'Converting tally #{TALLY} from `{path}` to `{OUTPUT}/example_00-{TALLY}.parquet`')
-converter.to_parquet(TALLY, OUTPUT / f'example_00-{TALLY}.parquet')
+outp.tally(TALLY).to_csv(OUTPUT / f'example_00-{TALLY}.csv', index=False)

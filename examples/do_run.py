@@ -51,7 +51,8 @@ inp2.seed = 123534727
 
 # Running.
 print(f'Running `{COMMAND}` in `{OUTPUT}`:')
-runner = MyRun([inp0, inp1, inp2], command=COMMAND, max_workers=2)
+# `check=False`, since ECHO writes no OUTP, so the runs count as failed; use `command='mcnp6'` for real runs.
+runner = MyRun([inp0, inp1, inp2], command=COMMAND, max_workers=2, check=False)
 results = runner.run(OUTPUT)
 for result in results:
     print(f'Run {result.index}: exit code {result.returncode}, input `{result.inp.name}`, output `{result.outp}`')
