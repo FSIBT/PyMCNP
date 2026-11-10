@@ -1,5 +1,6 @@
 import copy
 import typing
+import collections.abc
 import decimal
 import itertools
 import collections
@@ -335,21 +336,45 @@ class Nonterminal(Symbol):
             f'{value.to_mcnp()}{self.spaces.get(name, Space(Space._default or "") if name not in null and name != last else "")}' for name in type(self)._fields if (value := getattr(self, name)) != ''
         )
 
-    def scan(self, **parameters: tuple[typing.Any, ...]) -> typing.Generator[typing.Self, None, None]:
+    def scan(self, **parameters: collections.abc.Iterable[typing.Any]) -> typing.Generator[typing.Self, None, None]:
         """
-        Scans over nonterminals.
+        Scans over nonterminals: yields deep copies for every combination of the values of the given fields or settable properties.
 
         Parameters:
-            parameters: Parameters to scan.
+            parameters: Fields or settable properties, e.g., ``nps`` of ``Inp``, with their values. With several, the last one varies fastest.
 
         Yields:
-            Nonterminals with the given parameters.
+            Independent copies with the given values set.
+
+        Raises:
+            Error: No or unknown parameter.
         """
 
-        for combination in itertools.product(*parameters.values()):
+        unknown = [name for name in parameters if not isinstance(getattr(type(self), name, None), property) or getattr(type(self), name).fset is None]
+        if unknown or not parameters:
+            raise Error('Invalid value.', f'cannot scan {unknown or "nothing"}; use ``scan_with`` for other changes')
+
+        for combination in itertools.product(*(list(values) for values in parameters.values())):
             nonterminal = copy.deepcopy(self)
 
             for name, value in zip(parameters, combination):
                 setattr(nonterminal, name, value)
 
+            yield nonterminal
+
+    def scan_with(self, values: collections.abc.Iterable[typing.Any], apply: collections.abc.Callable[[typing.Self, typing.Any], None]) -> typing.Generator[typing.Self, None, None]:
+        """
+        Scans over nonterminals: yields one deep copy per value, changed by ``apply``.
+
+        Parameters:
+            values: Values to scan.
+            apply: Function that changes a copy for one value, e.g., ``lambda inp, r: setattr(inp.surfaces[0], 'r', r)``.
+
+        Yields:
+            Independent copies, in the order of ``values``.
+        """
+
+        for value in values:
+            nonterminal = copy.deepcopy(self)
+            apply(nonterminal, value)
             yield nonterminal
