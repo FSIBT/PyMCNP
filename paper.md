@@ -189,3 +189,16 @@ detector development.
 Large language models were used for review, editing, and fixes for
 versions 0.10.0 to 1.0.0. Earlier versions did not use large language
 models.
+
+# Acknowledgements
+
+This work was supported by the U.S. Department of Energy under Contract No.
+DE-AC02-05CH11231. D. P. was supported in part by an appointment to the
+National Nuclear Security Administration IMPACT Internship Program
+(NNSA-IMPACT), sponsored by the U.S. Department of Energy, National Nuclear
+Security Administration, and administered by the Oak Ridge Institute for
+Science and Education (ORISE). ORISE is managed by ORAU under DOE contract
+number DE-SC0014664. All opinions expressed in this paper are the authors' and
+do not necessarily reflect the policies and views of DOE, NNSA, ORAU, or ORISE.
+
+# References
