@@ -21,7 +21,7 @@ working example that reproduces the problem. Trim your input down to the few car
 that trigger it where you can. Please include:
 
 - the PyMCNP version and Python version (`pip show pymcnp`, `python --version`),
-- the MCNP version that produced or consumes the file (we mostly test MCNP 6.1, and have started testing 6.3),
+- the MCNP version that produced or consumes the file (PyMCNP supports MCNP 6.1 to 6.3),
 - the full traceback or the unexpected output.
 
 Please remove anything export-controlled or otherwise sensitive before attaching a file.

@@ -4,7 +4,7 @@ PyMCNP is accessible for installation through [PyPI](https://pypi.org/project/py
 
 ```{eval-rst}
 .. note::
-   PyMCNP supports Python 3.11 to 3.15.
+   PyMCNP supports MCNP 6.1 to 6.3 and Python 3.11 to 3.15.
 ```
 
 ## Using uv (recommended)

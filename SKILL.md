@@ -97,7 +97,7 @@ PyMCNP does not cover all MCNP options. If a valid MCNP file fails (`abc.Error`,
 
 - a minimal input: trim to the few cards that trigger it,
 - the full traceback or `remainder` / unexpected output,
-- PyMCNP version (`pip show pymcnp`), Python version, MCNP version (6.1 mostly tested, 6.3 starting),
+- PyMCNP version (`pip show pymcnp`), Python version, MCNP version (PyMCNP supports 6.1 to 6.3),
 - nothing export-controlled or sensitive.
 
 Failing inputs are explicitly welcome, so say what you were trying to do.
