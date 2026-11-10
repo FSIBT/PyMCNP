@@ -7,6 +7,9 @@ from .Symbol import Symbol
 
 CACHE: dict[str, type[Symbol]] = {}
 
+# End of ``Terminal._pattern``, matching the rest of the source.
+_REST = r'([\s\S]*)'
+
 
 class Terminal(Symbol, str):
     """
@@ -14,12 +17,20 @@ class Terminal(Symbol, str):
     """
 
     _pattern: typing.ClassVar[re.Pattern] = re.compile(r'(\S+)([\s\S]*)', re.IGNORECASE)
+    _head: typing.ClassVar[re.Pattern] = re.compile(r'(\S+)', re.IGNORECASE)
     _default: typing.ClassVar[str | None] = None
 
     def __init_subclass__(cls) -> None:
         """
         Validates subclasses.
         """
+
+        # Deriving the pattern matching only the terminal from ``_pattern``, i.e., ``(<terminal>)([\s\S]*)``.
+        if '_pattern' in cls.__dict__:
+            pattern = cls._pattern.pattern
+            if not pattern.endswith(_REST):
+                raise Error('``Terminal._pattern`` must end with ``([\\s\\S]*)``.', f'{pattern=}')
+            cls._head = re.compile(pattern[: -len(_REST)], cls._pattern.flags)
 
         if cls._default is not None:
             cls.from_mcnp(cls._default)
@@ -88,11 +99,12 @@ class Terminal(Symbol, str):
 
         assert isinstance(source, str)
 
-        match = cls._pattern.match(source)
+        # Matching only the terminal, since matching the rest too costs time proportional to the length of ``source``.
+        match = cls._head.match(source)
         if match is None:
-            raise Error(f"Expected Terminal[r'{cls._pattern.pattern}']", f'{source=}')
+            raise Error(f"Expected Terminal[r'{cls._pattern.pattern}']", f'{source[:200]=}')
 
-        return cls(match[1]), match[2]
+        return cls(match[0]), source[match.end() :]
 
     def to_mcnp(self) -> str:
         """
