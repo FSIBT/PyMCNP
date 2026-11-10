@@ -113,7 +113,7 @@ class Meshtal(abc.DataFile):
             except abc.Error:
                 break
 
-        rows = abc.Array[meshtal.line.Row, abc.Terminal[r' *\n']](*items, spaces=spaces)
+        rows = cls._fields['rows'][0](*items, spaces=spaces)
         end, source = abc.Terminal.from_mcnp(r'(?: *\n)?')
 
         return cls(

@@ -1,9 +1,11 @@
+import re
 import typing
-
-import pandas
 
 from ... import abc
 from ..Block import Block
+
+# End of the patterns of `abc.Terminal`: `(<pattern>)([\s\S]*)`.
+_TERMINAL_REST = r')([\s\S]*)'
 
 
 class Event(Block):
@@ -11,41 +13,68 @@ class Event(Block):
     Represents event blocks.
     """
 
-    def to_dataframe(self) -> pandas.DataFrame:
+    @classmethod
+    def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
         """
-        Generates pandas dataframes for event blocks.
+        Compiles source strings into their corresponding event blocks.
+
+        Event blocks are fixed-width lines, so each form is matched with one regular expression built from its fields, which is much faster than the generic parser.
+        Multi-form event blocks, e.g., ``EventBank``, take the longest matching form.
+
+        Parameters:
+            source: Source string to compile.
 
         Returns:
-            Pandas dataframe corresponding to ``self``.
+            Event block corresponding to ``source``.
+
+        Raises:
+            Error: Expected event block.
         """
 
-        return pandas.DataFrame(
-            {
-                'type': [type(self)],
-                'PBL%I%NODE': [self.pbl_i_node if hasattr(self, 'pbl_i_node') else None],
-                'NSR': [self.nsr if hasattr(self, 'nsr') else None],
-                'NXS(2,IEX)': [self.nxs_2_iex if hasattr(self, 'nxs_2_iex') else None],
-                'NTYN': [self.ntyn if hasattr(self, 'ntyn') else None],
-                'PBL%I%MTP': [self.pbl_i_mtp if hasattr(self, 'pbl_i_mtp') else None],
-                'NSF(PBL%I%JSU)': [self.nsf_pbl_i_jsu if hasattr(self, 'nsf_pbl_i_jsu') else None],
-                'angle': [self.angle if hasattr(self, 'angle') else None],
-                'NTER': [self.nter if hasattr(self, 'nter') else None],
-                'branch_number': [self.branch_number if hasattr(self, 'branch_number') else None],
-                'PBL%I%IPT': [self.pbl_i_ipt if hasattr(self, 'pbl_i_ipt') else None],
-                'NCL(PBL%I%ICL)': [self.ncl_pbl_i_icl if hasattr(self, 'ncl_pbl_i_icl') else None],
-                'MAT(PBL%I%ICL)': [self.mat_pbl_i_icl if hasattr(self, 'mat_pbl_i_icl') else None],
-                'PBL%I%NCP': [self.pbl_i_ncp if hasattr(self, 'pbl_i_ncp') else None],
-                'PBL%R%X': [self.pbl_r_x if hasattr(self, 'pbl_r_x') else None],
-                'PBL%R%Y': [self.pbl_r_y if hasattr(self, 'pbl_r_y') else None],
-                'PBL%R%Z': [self.pbl_r_z if hasattr(self, 'pbl_r_z') else None],
-                'PBL%R%U': [self.pbl_r_u if hasattr(self, 'pbl_r_u') else None],
-                'PBL%R%V': [self.pbl_r_v if hasattr(self, 'pbl_r_v') else None],
-                'PBL%R%W': [self.pbl_r_w if hasattr(self, 'pbl_r_w') else None],
-                'PBL%R%ERG': [self.pbl_r_erg if hasattr(self, 'pbl_r_erg') else None],
-                'PBL%R%WGT': [self.pbl_r_wgt if hasattr(self, 'pbl_r_wgt') else None],
-                'PBL%R%TME': [self.pbl_r_tme if hasattr(self, 'pbl_r_tme') else None],
-            }
-        )
+        best: tuple[type[Event], re.Match] | None = None
+        for form in cls._leaves():
+            match = form._regex().match(source)
+            if match is not None and (best is None or match.end() > best[1].end()):
+                best = form, match
+
+        if best is None:
+            raise abc.Error(f'Expected ``{cls.__name__}``.', f'{source[:200]=}')
+
+        form, match = best
+        event = object.__new__(form)
+        for (name, kinds), text in zip(form._fields.items(), match.groups()):
+            object.__setattr__(event, f'_{name}', str.__new__(kinds[0], text))
+        event.spaces = {}
+
+        return event, source[match.end() :]
+
+    @classmethod
+    def _leaves(cls) -> tuple[type['Event'], ...]:
+        """
+        Gets the single-form event blocks of ``cls``.
+        """
+
+        if not cls._forms:
+            return (cls,)
+
+        return tuple(leaf for form in cls._forms for leaf in form._leaves())
+
+    @classmethod
+    def _regex(cls) -> re.Pattern:
+        """
+        Gets the regular expression matching single-form event blocks, one group per field.
+        """
+
+        if '_REGEX' not in cls.__dict__:
+            patterns = []
+            for kinds in cls._fields.values():
+                assert len(kinds) == 1 and issubclass(kinds[0], abc.Terminal)
+                pattern = kinds[0]._pattern.pattern
+                assert pattern.startswith('(') and pattern.endswith(_TERMINAL_REST)
+                patterns.append(pattern[: -len(_TERMINAL_REST)] + ')')
+            cls._REGEX = re.compile(''.join(patterns), re.IGNORECASE)
+
+        return cls._REGEX
 
 
 class EventSource(Event):

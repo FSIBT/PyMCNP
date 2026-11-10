@@ -3,8 +3,6 @@ from __future__ import annotations
 import typing
 import dataclasses
 
-import pandas
-
 from ... import abc
 from ..Block import Block
 from .Event import Event
@@ -13,6 +11,31 @@ from .Event import EventBank
 from .Event import EventSurface
 from .Event import EventCollision
 from .Event import EventTermination
+
+
+_KINDS: dict[int, type[Event]] = {
+    1000: EventSource,
+    2000: EventBank,
+    3000: EventSurface,
+    4000: EventCollision,
+    5000: EventTermination,
+}
+
+
+def _kind(code: str) -> type[Event] | None:
+    """
+    Gets the event block class for PTRAC event codes, e.g., ``1000`` or ``-2013``, ``None`` for the end of a history (``9000``).
+
+    Raises:
+        Error: Invalid event type.
+    """
+
+    try:
+        number = abs(int(code))
+    except ValueError:
+        raise abc.Error('Invalid event type.', f'{code=}')
+
+    return _KINDS.get(2000 if 2000 <= number < 3000 else number)
 
 
 @dataclasses.dataclass
@@ -70,39 +93,6 @@ class Track:
 
         return next(event for event in self.events if isinstance(event, EventTermination))
 
-    def to_dataframe(self) -> pandas.DataFrame:
-        """
-        Generates pandas dataframes from history blocks.
-
-        Returns:
-            Pandas dataframe corresponding to ``self``.
-        """
-
-        if banks := self.banks:
-            banks_frame = pandas.concat((event.to_dataframe() for event in banks), ignore_index=True)
-        else:
-            banks_frame = pandas.DataFrame()
-
-        if surfaces := self.surfaces:
-            surfaces_frame = pandas.concat((event.to_dataframe() for event in surfaces), ignore_index=True)
-        else:
-            surfaces_frame = pandas.DataFrame()
-
-        if collisions := self.collisions:
-            collisions_frame = pandas.concat((event.to_dataframe() for event in collisions), ignore_index=True)
-        else:
-            collisions_frame = pandas.DataFrame()
-
-        return pandas.DataFrame(
-            {
-                'source': self.source.to_dataframe(),
-                'banks': banks_frame,
-                'surfaces': surfaces_frame,
-                'collisions': collisions_frame,
-                'termination': self.termination.to_dataframe(),
-            }
-        )
-
 
 class History(Block):
     """
@@ -126,12 +116,33 @@ class History(Block):
     events: typing.Annotated[abc.Array, Event, typing.Annotated[abc.Terminal, r'\n']]
 
     @classmethod
+    def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
+        """
+        Compiles source strings into their corresponding history blocks.
+
+        Parameters:
+            source: Source string to compile.
+
+        Returns:
+            History block corresponding to ``source``.
+        """
+
+        generator = cls.from_mcnp_iter(source)
+        while True:
+            try:
+                next(generator)
+            except StopIteration as stop:
+                return stop.value
+
+    @classmethod
     def from_mcnp_iter(cls, source: str) -> typing.Generator[tuple[Event, str], None, tuple[typing.Self, str]]:
         """
         Compiles source strings into their corresponding history blocks iteratively.
 
         Parameters:
             source: Source string to compile.
+
+        Each event block's ``type`` announces the type of the next event (the ``i`` line's ``event_type`` the first), which picks the event block class to parse.
 
         Yields:
             History block events corresponding to `source`.
@@ -158,14 +169,20 @@ class History(Block):
 
         spaces: list[abc.Terminal] = []
         items: list[abc.Symbol] = []
-        while True:
+        kind = _kind(event_type)
+        while kind is not None:
             try:
-                item, source = Event.from_mcnp(source)
+                item, source = kind.from_mcnp(source)
                 yield item, source
                 items.append(item)
+                kind = _kind(item.type)
             except abc.Error:
                 if spaces:
                     source = spaces.pop(-1).to_mcnp() + source
+                break
+
+            # The event announcing the end of the history (9000) is the last one.
+            if kind is None:
                 break
 
             try:
@@ -174,7 +191,7 @@ class History(Block):
             except abc.Error:
                 break
 
-        events = abc.Array[Event, abc.Terminal[r'\n']](*items, spaces=spaces)
+        events = cls._fields['events'][0](*items, spaces=spaces)
 
         return cls(
             blank=blank,
@@ -185,19 +202,6 @@ class History(Block):
             newline=newline,
             events=events,
         ), source
-
-    def to_dataframe(self) -> pandas.DataFrame:
-        """
-        Generates pandas dataframes from history blocks.
-
-        Returns:
-            Pandas dataframe corresponding to ``self``.
-        """
-
-        if not self.events:
-            return pandas.DataFrame()
-        else:
-            return pandas.concat((event.to_dataframe() for event in self.events), ignore_index=True)
 
     @property
     def tracks(self) -> typing.Generator[Track, None, None]:
@@ -220,6 +224,7 @@ class History(Block):
                 )
 
                 yield track
+                source = i + 1
 
                 while banks > 0:
                     stack.append(track)
