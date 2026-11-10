@@ -35,7 +35,8 @@ class Plot(abc.Utility):
             Error: Tally not found.
         """
 
-        tallies = self.file.to_dataframe()
+        tallies = {str(frame['number'].iloc[0]).strip(): frame for frame in self.file.to_dataframe_iter() if not frame.empty}
+        number = str(number).strip()
         if number not in tallies:
             raise abc.Error('Tally not found.', f'{number=}')
 
