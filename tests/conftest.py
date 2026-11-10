@@ -5,6 +5,15 @@ import pytest
 import pymcnp
 
 
+@pytest.fixture(autouse=True)
+def _run_in_tmp_path(tmp_path: pathlib.Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """
+    Runs every test inside its own temporary directory, so files and directories that tests write, e.g., ``pymcnp-<timestamp>`` run directories, never land in the repository.
+    """
+
+    monkeypatch.chdir(tmp_path)
+
+
 @pytest.fixture(scope='session')
 def integer_a() -> pymcnp.inp.literal.Integer:
     return pymcnp.inp.literal.Integer('1')
