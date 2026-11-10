@@ -111,6 +111,7 @@ class TallyAngle(Tally):
     particles: typing.Annotated[abc.Terminal, r'.+?(?=\n|\Z)']
     subtallies_preamble: typing.Annotated[abc.Terminal, r'\n \n']
     subtallies: typing.Annotated[abc.Array, subblock.tally.SurfaceAngle, typing.Annotated[abc.Terminal, r'']]
+    statistics: subblock.Statistics
 
 
 class TallyCell(Tally):
@@ -155,6 +156,7 @@ class TallyCell_0(TallyCell):
     cell_volume: typing.Annotated[abc.Terminal, r'.+?(?=\n|\Z)']
     subtallies_preamble: typing.Annotated[abc.Terminal, r'\n \n']
     subtallies: typing.Annotated[abc.Array, subblock.tally.Cell, typing.Annotated[abc.Terminal, r'']]
+    statistics: subblock.Statistics
 
 
 class TallyCell_1(TallyCell):
@@ -185,3 +187,4 @@ class TallyCell_1(TallyCell):
     particles: typing.Annotated[abc.Terminal, r'.+?(?=\n|\Z)']
     subtallies_preamble: typing.Annotated[abc.Terminal, r'\n \n']
     subtallies: typing.Annotated[abc.Array, subblock.tally.Cell, typing.Annotated[abc.Terminal, r'']]
+    statistics: subblock.Statistics
