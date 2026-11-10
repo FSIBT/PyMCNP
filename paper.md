@@ -40,7 +40,8 @@ using PyVista [@pyvista]. Although PyMCNP does not fully support all MCNP
 syntax, it lets researchers programmatically create, load, read, write, modify,
 and validate MCNP cards, options, blocks, and files by packaging more than 1000
 classes that support the most commonly used cards of MCNP versions 6.1 to 6.3.
-By providing a comprehensive interface, PyMCNP streamlines workflows,
+PyMCNP also ships a skill file that describes its interface to AI coding
+agents, making MCNP controllable through agentic programming. By providing a comprehensive interface, PyMCNP streamlines workflows,
 prevents costly errors, and lowers the barrier to using MCNP effectively and
 efficiently.
 
@@ -182,9 +183,6 @@ By providing Pythonic, object-oriented tooling for MCNP, PyMCNP lowers the
 barrier to entry for fields increasingly reliant on Monte Carlo methods,
 including medical physics, nuclear engineering, radiation protection, and
 detector development.
-
-We also provide a skill to make MCNP controllable through agentic
-programming.
 
 # AI Usage Disclosure
 
