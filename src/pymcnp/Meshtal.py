@@ -1,6 +1,7 @@
 import re
 import typing
 import pathlib
+import collections.abc
 
 import pandas
 
@@ -67,7 +68,26 @@ class Meshtal(abc.DataFile):
                     raise abc.Error('Invalid value.', f'\n{row=}\n{self.labels=}')
 
     @classmethod
-    def from_mcnp_iter(cls, source: str) -> typing.Generator[tuple[meshtal.line.Row, str], None, tuple[typing.Self, str]]:
+    def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
+        """
+        Compiles source strings into their corresponding meshtal files.
+
+        Parameters:
+            source: Source string to compile.
+
+        Returns:
+            Meshtal file corresponding to ``source``.
+        """
+
+        generator = cls.from_mcnp_iter(source)
+        while True:
+            try:
+                next(generator)
+            except StopIteration as stop:
+                return stop.value
+
+    @classmethod
+    def from_mcnp_iter(cls, source: str) -> typing.Generator[meshtal.line.Row, None, tuple[typing.Self, str]]:
         """
         Compiles source strings into their corresponding meshtal files iteratively.
 
@@ -75,7 +95,7 @@ class Meshtal(abc.DataFile):
             source: Source string to compile.
 
         Yields:
-            Meshtal data row corresponding to `source`.
+            Meshtal data rows, in order.
 
         Returns:
             Meshtal file corresponding to `source`.
@@ -95,26 +115,36 @@ class Meshtal(abc.DataFile):
         blank, source = abc.Terminal[r'\n\n'].from_mcnp(source)
         labels, source = abc.Terminal[r' *(?:Energy +)?(?:Time +)?X +Y +Z +Result +Rel Error\n'].from_mcnp(source)
 
+        # Rows are parsed one line at a time, on short strings, since the generic parser copies the rest of the source for every symbol.
         spaces: list[abc.Terminal] = []
         items: list[abc.Symbol] = []
+        separator = None
+        position = 0
+        end_of_rows = 0
         while True:
+            newline = source.find('\n', position)
+            stop = len(source) if newline < 0 else newline
             try:
-                item, source = meshtal.line.Row.from_mcnp(source)
-                yield item, source
-                items.append(item)
-            except abc.Error:
-                if spaces:
-                    source = spaces.pop(-1).to_mcnp() + source
-                break
-
-            try:
-                space, source = abc.Terminal[r' *\n'].from_mcnp(source)
-                spaces.append(space)
+                item, rest = meshtal.line.Row.from_mcnp(source[position:stop])
             except abc.Error:
                 break
+            if rest.strip(' '):
+                break
 
+            if separator is not None:
+                spaces.append(separator)
+            items.append(item)
+            yield item
+            end_of_rows = stop - len(rest)
+
+            if newline < 0:
+                break
+            separator = abc.Terminal[r' *\n'](rest + '\n')
+            position = newline + 1
+
+        source = source[end_of_rows:]
         rows = cls._fields['rows'][0](*items, spaces=spaces)
-        end, source = abc.Terminal.from_mcnp(r'(?: *\n)?')
+        end, source = abc.Terminal[r'(?: *\n)?'].from_mcnp(source)
 
         return cls(
             header=header,
@@ -135,7 +165,7 @@ class Meshtal(abc.DataFile):
         ), source
 
     @classmethod
-    def from_file_iter(cls, path: pathlib.Path | str) -> typing.Generator[tuple[meshtal.line.Row, str], None, tuple[typing.Self, str]]:
+    def from_file_iter(cls, path: pathlib.Path | str) -> typing.Generator[meshtal.line.Row, None, tuple[typing.Self, str]]:
         """
         Compiles files into their corresponding meshtal files iteratively.
 
@@ -161,44 +191,95 @@ class Meshtal(abc.DataFile):
 
         return cls.from_mcnp_iter(source)
 
-    def to_dataframe(self) -> pandas.DataFrame:
+    @staticmethod
+    def iter_tallies(path: pathlib.Path | str) -> collections.abc.Iterator['Meshtal']:
         """
-        Generates pandas dataframes from meshtal files.
+        Parses meshtal files with any number of mesh tallies, one tally at a time.
+
+        Every tally is a ``Meshtal`` with the file's header, title and histories.
+        ``from_file`` only reads the first tally of a file.
+
+        Parameters:
+            path: Path to meshtal file to read.
 
         Yields:
-            Pandas dataframes concatenated into the returned dataframe.
+            One ``Meshtal`` per mesh tally, in file order.
 
-        Returns:
-            Pandas dataframe corresponding to ``self``.
+        Raises:
+            Error: File not found.
+            Error: Expected mesh tally.
         """
 
-        names = re.findall(r'Energy|Time|X|Y|Z|Result|Rel Error', self.labels)
+        path = pathlib.Path(path)
+        if not path.is_file():
+            raise abc.Error('File not found.', f'{path=}')
 
-        if not self.rows:
-            return pandas.DataFrame()
-        else:
-            frame = pandas.concat((row.to_dataframe() for row in self.rows), ignore_index=True)
-            frame.columns = names
-            return frame
+        def parse(head: list[str], body: list[str]) -> Meshtal:
+            while body and body[-1].strip() == '':
+                body.pop()
+            text = ''.join(head + body)
+            if not text.endswith('\n'):
+                text += '\n'
+            tally, remainder = Meshtal.from_mcnp(text)
+            if remainder != '':
+                raise abc.Error('Expected mesh tally.', f'{remainder[:80]!r}')
+            return tally
 
-    def to_dataframe_iter(self) -> typing.Generator[pandas.DataFrame, None, pandas.DataFrame]:
+        head: list[str] = []
+        body: list[str] = []
+        found = False
+        with path.open() as file:
+            for line in file:
+                if line.startswith(' Mesh Tally Number'):
+                    if found:
+                        yield parse(head, body)
+                        body = []
+                    found = True
+                if found:
+                    body.append(line)
+                else:
+                    head.append(line)
+
+        if not found:
+            raise abc.Error('Expected mesh tally.', f'{path=}')
+        yield parse(head, body)
+
+    @property
+    def tally_number(self) -> int:
         """
-        Generates pandas dataframes from meshtal files iteratively.
-
-        Returns:
-            Pandas dataframe corresponding to ``self``.
+        Mesh tally number, e.g., ``4``.
         """
 
-        names = re.findall(r'Energy|Time|X|Y|Z|Result|Rel Error', self.labels)
+        return int(re.search(r'\d+', self.number)[0])  # ty: ignore[not-subscriptable]
 
-        if not self.rows:
-            return pandas.DataFrame()
+    @property
+    def particle_name(self) -> str:
+        """
+        Particle of the mesh tally, e.g., ``'neutron'``.
+        """
 
-        frames = []
-        for row in self.rows:
-            frame = row.to_dataframe()
-            frame.columns = names
-            yield frame
-            frames.append(frame)
+        return self.particle.split()[0]
 
-        return pandas.concat(frames, ignore_index=True)
+    @property
+    def names(self) -> list[str]:
+        """
+        Names of the data columns, e.g., ``['Time', 'X', 'Y', 'Z', 'Result', 'Rel Error']``.
+        """
+
+        return re.findall(r'Energy|Time|X|Y|Z|Result|Rel Error', self.labels)
+
+    def to_dataframe_iter(self) -> typing.Iterator[pandas.DataFrame]:
+        """
+        Generates pandas dataframes from meshtal files; a meshtal file holds one mesh tally, so this yields one dataframe.
+
+        Yields:
+            Dataframe with one row per mesh bin. Energy and time columns hold floats, or ``'Total'`` where the row sums over all bins.
+        """
+
+        names = self.names
+        frame = pandas.DataFrame([[str(value) for value in row.values] for row in self.rows], columns=names)
+        for name in names:
+            if name not in ('Energy', 'Time') or (frame[name].str.lower() != 'total').all():
+                frame[name] = frame[name].astype(float)
+
+        yield frame
