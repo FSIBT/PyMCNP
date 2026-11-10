@@ -7,6 +7,9 @@ Usage:
 Options:
     -c --csv        Write CSV.
     -p --parquet    Write PARQUET.
+
+Writes the data of OUTP (all tallies), PTRAC (one row per event), or
+MESHTAL files next to them, e.g., `file.outp` to `file.csv`.
 """
 
 import pathlib
@@ -27,7 +30,7 @@ def main() -> None:
     """
 
     # Processing CLI arguments.
-    args = docopt(__doc__, options_first=True)
+    args = docopt(__doc__)
 
     if args['outp']:
         DataFile = Outp
@@ -47,8 +50,8 @@ def main() -> None:
 
     # Converting!
     if args['--csv']:
-        datafile.to_csv_file(_io.get_outfile(file, 'csv'))
+        datafile.to_file_csv(_io.get_outfile(file, 'csv'))
     else:
-        datafile.to_parquet_file(_io.get_outfile(file, 'parquet'))
+        datafile.to_file_parquet(_io.get_outfile(file, 'parquet'))
 
     _io.done()

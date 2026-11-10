@@ -4,7 +4,7 @@ import pathlib
 from pymcnp._cli import main
 
 
-def test_main_valid(monkeypatch) -> None:
+def test_main_valid(monkeypatch, fake_mcnp: str) -> None:
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'help'])
     main.main()
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'help', 'hello'])
@@ -24,11 +24,11 @@ def test_main_valid(monkeypatch) -> None:
 
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'check', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'valid_00.inp')])
     main.main()
-    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'convert', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'outp' / 'valid_39.outp'), '1', '--csv'])
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'convert', 'outp', '--csv', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'outp' / 'valid_39.outp')])
     main.main()
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'plot', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'outp' / 'valid_39.outp'), '21'])
     main.main()
-    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'run', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'valid_00.inp'), '--command=echo'])
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'run', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'valid_00.inp'), f'--command={fake_mcnp}'])
     main.main()
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'valid_00.inp')])
     main.main()

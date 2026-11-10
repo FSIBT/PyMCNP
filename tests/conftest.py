@@ -1,3 +1,4 @@
+import sys
 import pathlib
 
 import pytest
@@ -12,6 +13,25 @@ def _run_in_tmp_path(tmp_path: pathlib.Path, monkeypatch: pytest.MonkeyPatch) ->
     """
 
     monkeypatch.chdir(tmp_path)
+
+
+_FAKE_MCNP = """#!{python}
+import sys, pathlib
+arguments = dict(argument.split('=', 1) for argument in sys.argv[1:])
+pathlib.Path(arguments['outp']).write_text('ok\\n')
+"""
+
+
+@pytest.fixture
+def fake_mcnp(tmp_path: pathlib.Path) -> str:
+    """
+    Path to a stand-in for ``mcnp6`` that writes an output file and exits with 0.
+    """
+
+    path = tmp_path / 'fake-mcnp'
+    path.write_text(_FAKE_MCNP.format(python=sys.executable))
+    path.chmod(0o755)
+    return str(path)
 
 
 @pytest.fixture(scope='session')
@@ -112,11 +132,6 @@ def event(ptrac: pymcnp.Ptrac) -> pymcnp.ptrac.block.Event:
 @pytest.fixture(scope='session')
 def check(path_inp: pathlib.Path) -> pymcnp.Check:
     return pymcnp.Check(path_inp)
-
-
-@pytest.fixture(scope='session')
-def convert(outp: pymcnp.Outp) -> pymcnp.Convert:
-    return pymcnp.Convert(outp)
 
 
 @pytest.fixture(scope='session')
