@@ -13,12 +13,12 @@ class Outp(abc.File):
     Attributes:
         header: outp header.
         blocks: outp blocks.
-        footer: outp footer.
+        footer: outp footer, empty if MCNP stopped early, e.g., with ``bad trouble``.
     """
 
     header: outp.Header
     blocks: typing.Annotated[abc.Array, outp.Block, abc.Terminal[r'']]
-    footer: outp.Footer
+    footer: outp.Footer | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     @property
     def version(self) -> str:
@@ -29,36 +29,36 @@ class Outp(abc.File):
         return self.header.version
 
     @property
-    def nps(self) -> str:
+    def nps(self) -> str | None:
         """
-        outp nps.
-        """
-
-        return self.footer.nps
-
-    @property
-    def run_time(self) -> str:
-        """
-        outp run_time.
+        outp nps, ``None`` without footer.
         """
 
-        return self.footer.run_time
+        return self.footer.nps if isinstance(self.footer, outp.Footer) else None
 
     @property
-    def terminated(self) -> str:
+    def run_time(self) -> str | None:
         """
-        outp terminated.
+        outp run_time, ``None`` without footer.
         """
 
-        return self.footer.terminated
+        return self.footer.run_time if isinstance(self.footer, outp.Footer) else None
 
     @property
-    def warnings(self) -> str:
+    def terminated(self) -> str | None:
         """
-        outp warnings.
+        outp terminated, ``None`` without footer.
         """
 
-        return self.footer.warnings
+        return self.footer.terminated if isinstance(self.footer, outp.Footer) else None
+
+    @property
+    def warnings(self) -> str | None:
+        """
+        outp warnings, ``None`` without footer.
+        """
+
+        return self.footer.warnings if isinstance(self.footer, outp.Footer) else None
 
     def to_dataframe(self) -> pandas.DataFrame:
         """
