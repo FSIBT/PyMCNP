@@ -12,7 +12,7 @@ Commands:
     run        Run MCNP.
     check      Check if we can parse an input file.
     visualize  Create a 3D visualization of an input file.
-    convert    Convert the output of an MCNP run into a pandas dataframe.
+    convert    Convert OUTP, PTRAC, or MESHTAL files to CSV or parquet.
     plot       Plot the output of an MCNP simulation.
     help       Show help for a specific command.
 
