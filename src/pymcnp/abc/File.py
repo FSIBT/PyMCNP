@@ -4,8 +4,6 @@ import typing
 import pathlib
 
 import pandas
-import pyarrow
-import pyarrow.parquet
 
 from .Nonterminal import Nonterminal
 from .Error import Error
@@ -52,81 +50,60 @@ class File(Nonterminal):
 
 class DataFile(File):
     """
-    Represents nonterminal start symbols with `DataFile.to_dataframe`.
+    Represents nonterminal start symbols that convert to pandas dataframes, e.g., OUTP, MESHTAL, and PTRAC files.
+
+    Subclasses implement ``to_dataframe_iter``; ``to_dataframe``, ``to_file_csv``, and ``to_file_parquet`` build on it.
     """
 
     @abc.abstractmethod
+    def to_dataframe_iter(self) -> typing.Iterator[pandas.DataFrame]:
+        """
+        Generates pandas dataframes from nonterminal start symbols one part at a time, e.g., one tally or one history.
+
+        Yields:
+            Pandas dataframes, which concatenated give ``to_dataframe``.
+        """
+
+        raise NotImplementedError
+
     def to_dataframe(self) -> pandas.DataFrame:
         """
         Generates pandas dataframes from nonterminal start symbols.
 
         Returns:
-            Pandas dataframe corresponding to ``self``.
+            Pandas dataframe corresponding to ``self``, empty if there is no data.
         """
 
-        raise NotImplementedError
+        frames = list(self.to_dataframe_iter())
 
-    @abc.abstractmethod
-    def to_dataframe_iter(self) -> typing.Generator[pandas.DataFrame, None, pandas.DataFrame]:
-        """
-        Generates pandas dataframes from nonterminal start symbols iteratively.
+        if not frames:
+            return pandas.DataFrame()
 
-        Yields:
-            Pandas dataframes concatenated into the returned dataframe.
-
-        Returns:
-            Pandas dataframe corresponding to ``self``.
-        """
-
-        raise NotImplementedError
+        return pandas.concat(frames, ignore_index=True)
 
     def to_file_csv(self, path: pathlib.Path | str) -> None:
         """
-        Generates csv files from meshtal files.
+        Writes ``to_dataframe`` to a csv file.
 
         Parameters:
-            path: Path of csv file to generate.
+            path: Path of csv file to write.
         """
 
-        path = pathlib.Path(path)
-
-        if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-            for i, chunck in enumerate(self.to_dataframe_iter()):
-                if path.exists():
-                    path.unlink()
-
-                chunck.to_csv(
-                    path,
-                    mode='a',
-                    index=False,
-                    header=(i == 0),
-                )
+        self.to_dataframe().to_csv(pathlib.Path(path), index=False)
 
     def to_file_parquet(self, path: pathlib.Path | str) -> None:
         """
-        Generates parquet files from meshtal files.
+        Writes ``to_dataframe`` to a parquet file.
+
+        Columns that mix strings and numbers, e.g., energy bins with a ``Total`` bin, are written as strings.
 
         Parameters:
-            path: Path of parquet file to generate.
+            path: Path of parquet file to write.
         """
 
-        path = pathlib.Path(path)
+        frame = self.to_dataframe()
 
-        if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-            if path.exists():
-                path.unlink()
+        for column in frame.select_dtypes(include='object').columns:
+            frame[column] = frame[column].map(lambda value: value if value is None or isinstance(value, str) or pandas.isna(value) else str(value))
 
-            dataframe_iter = self.to_dataframe_iter()
-
-            try:
-                chunk = next(dataframe_iter)
-                table = pyarrow.Table.from_pandas(chunk, preserve_index=False)
-
-                with pyarrow.parquet.ParquetWriter(path, table.schema) as writer:
-                    writer.write_table(table)
-
-                    for chunk in dataframe_iter:
-                        table = pyarrow.Table.from_pandas(chunk, preserve_index=False)
-                        writer.write_table(table)
-            except StopIteration:
-                pass
+        frame.to_parquet(pathlib.Path(path), index=False)

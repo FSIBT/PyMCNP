@@ -29,11 +29,11 @@ classifiers = [
 ]
 dependencies = [
     "docopt-ng",
-    "fastparquet",
     "matplotlib",
     "molmass",
     "numpy",
     "pandas",
+    "pyarrow",
     "pyvista>=0.47",
     "rich",
     "scipy",
