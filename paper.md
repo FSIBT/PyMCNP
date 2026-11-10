@@ -39,7 +39,7 @@ running simulations in parallel, and visualizing cell and surface geometries
 using PyVista [@pyvista]. Although PyMCNP does not fully support all MCNP
 syntax, it lets researchers programmatically create, load, read, write, modify,
 and validate MCNP cards, options, blocks, and files by packaging more than 1000
-classes with near-full support for the input syntax of MCNP versions 6.2 and
+classes with near-full support for the input syntax of MCNP versions 6.1, 6.2, and
 6.3. By providing a comprehensive interface, PyMCNP streamlines workflows,
 prevents costly errors, and lowers the barrier to using MCNP effectively and
 efficiently.
@@ -183,9 +183,11 @@ barrier to entry for fields increasingly reliant on Monte Carlo methods,
 including medical physics, nuclear engineering, radiation protection, and
 detector development.
 
+We also provide a skill to make MCNP controllable through agentic
+programming.
+
 # AI Usage Disclosure
 
-Large language models were used for review, editing, and fixes for versions
-0.10.0 and 1.0.0. Versions 0.9.0, 0.7.0, 0.2.0, and 0.1.0 did not use large
-language models. PyMCNP was largely developed, drafted, and designed without
-large language models.
+Large language models were used for review, editing, and fixes for
+versions 0.10.0 to 1.0.0. Earlier versions did not use large language
+models.
