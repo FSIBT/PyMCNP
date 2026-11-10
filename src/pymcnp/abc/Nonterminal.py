@@ -267,7 +267,7 @@ class Nonterminal(Symbol):
                     parameters[name] = parse[0]
                     source = parse[1]
                 except Error as err:
-                    err.append(Error(f'Expected ``{cls.__name__}.{name}``.', f'{source=}'))
+                    err.append(Error(f'Expected ``{cls.__name__}.{name}``.', f'source={source[:80]!r}'))
                     # print(err)
                     raise err
 
@@ -283,7 +283,7 @@ class Nonterminal(Symbol):
                         source = parse[1]
                     except Error as err:
                         if name not in _space_nullable(cls._fields):  # Checking consituent is not space null.
-                            err.append(Error(f'Expected ``{"`` ``".join(Space.__name__ for Space in cls._space)}.{name}``.', f'{source=}'))
+                            err.append(Error(f'Expected ``{"`` ``".join(Space.__name__ for Space in cls._space)}.{name}``.', f'source={source[:80]!r}'))
                             raise err
                         else:
                             if name in _space_end(cls._fields):  # Checking consituent is not last when null.
@@ -304,7 +304,7 @@ class Nonterminal(Symbol):
                     source = str(spaces.pop(last)) + source
                 return cls(**(parameters | {'spaces': spaces})), source
             except TypeError:
-                raise Error(f'Expected ``{cls.__name__}.{name}``.', f'{source=}')
+                raise Error(f'Expected ``{cls.__name__}.{name}``.', f'source={source[:80]!r}')
 
         # Compiling multi-form nonterminal.
         else:
@@ -312,7 +312,7 @@ class Nonterminal(Symbol):
                 parse = _parse(cls._forms, source)
                 return typing.cast(tuple[typing.Self, str], parse)
             except Error as err:
-                err.append(Error(f'Expected ``{cls.__name__}``.', f'{source=}'))
+                err.append(Error(f'Expected ``{cls.__name__}``.', f'source={source[:80]!r}'))
                 raise err
 
     def to_mcnp(self) -> str:

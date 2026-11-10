@@ -58,10 +58,12 @@ def _parse(kinds: tuple[type[Symbol], ...], source: str) -> tuple[Symbol, str]:
     """
 
     assert isinstance(kinds, tuple)
-    assert all(isinstance(kind, type) and issubclass(kind, Symbol) for kind in kinds)
     assert isinstance(source, str)
 
-    # Searching for longest match.
+    if len(kinds) == 1:
+        return kinds[0].from_mcnp(source)
+
+    # Searching for longest match, i.e., the shortest remainder.
     error: Error | None = None
     longest: tuple[Symbol | None, str] = (None, source)
     for kind in kinds:
@@ -69,7 +71,7 @@ def _parse(kinds: tuple[type[Symbol], ...], source: str) -> tuple[Symbol, str]:
             parse = kind.from_mcnp(source)
 
             # Updating ``longest``.
-            if longest[0] is None or len(parse[0].to_mcnp()) > len(longest[0].to_mcnp()):
+            if longest[0] is None or len(parse[1]) < len(longest[1]):
                 longest = parse
         except Error as err:
             if error is None:

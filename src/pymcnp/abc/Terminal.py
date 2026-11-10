@@ -104,7 +104,8 @@ class Terminal(Symbol, str):
         if match is None:
             raise Error(f"Expected Terminal[r'{cls._pattern.pattern}']", f'{source[:200]=}')
 
-        return cls(match[0]), source[match.end() :]
+        # Skipping the validation of ``__new__``, since ``match`` already matched the pattern.
+        return str.__new__(cls, match[0]), source[match.end() :]
 
     def to_mcnp(self) -> str:
         """
