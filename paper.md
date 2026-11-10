@@ -39,8 +39,8 @@ running simulations in parallel, and visualizing cell and surface geometries
 using PyVista [@pyvista]. Although PyMCNP does not fully support all MCNP
 syntax, it lets researchers programmatically create, load, read, write, modify,
 and validate MCNP cards, options, blocks, and files by packaging more than 1000
-classes with near-full support for the input syntax of MCNP versions 6.1, 6.2, and
-6.3. By providing a comprehensive interface, PyMCNP streamlines workflows,
+classes that support the most commonly used cards of MCNP versions 6.1 to 6.3.
+By providing a comprehensive interface, PyMCNP streamlines workflows,
 prevents costly errors, and lowers the barrier to using MCNP effectively and
 efficiently.
 
