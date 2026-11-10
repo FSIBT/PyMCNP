@@ -13,3 +13,7 @@ autodoc_member_order = 'groupwise'
 napoleon_use_ivar = True
 napoleon_attr_annotations = False
 autodoc_typehints_format = 'fully-qualified'
+
+# PyMCNP reuses class names across subpackages (e.g., `Box` in `abc`, `abc.Visualization` and `inp.card.surface`), so
+# short names in type hints are ambiguous; on Python 3.13 and older, autodoc leaves them unqualified and Sphinx warns.
+suppress_warnings = ['ref.python']
