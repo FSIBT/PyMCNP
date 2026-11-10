@@ -24,7 +24,9 @@ def test_main_valid(monkeypatch, fake_mcnp: str) -> None:
 
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'check', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'valid_00.inp')])
     main.main()
-    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'convert', 'outp', '--csv', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'outp' / 'valid_39.outp')])
+    # Copying, since ``convert`` writes next to its input.
+    pathlib.Path('valid_39.outp').write_text((pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'outp' / 'valid_39.outp').read_text())
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'convert', 'outp', '--csv', 'valid_39.outp'])
     main.main()
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'plot', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'outp' / 'valid_39.outp'), '21'])
     main.main()
