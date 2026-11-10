@@ -1,6 +1,7 @@
 import sys
 import pathlib
 
+import pymcnp
 from pymcnp._cli import main
 
 
@@ -34,3 +35,12 @@ def test_main_valid(monkeypatch, fake_mcnp: str) -> None:
     main.main()
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'valid_00.inp')])
     main.main()
+
+
+def test_main_version(monkeypatch, capsys) -> None:
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', '--version'])
+    try:
+        main.main()
+    except SystemExit:
+        pass
+    assert capsys.readouterr().out.strip() == f'pymcnp {pymcnp.__version__}'

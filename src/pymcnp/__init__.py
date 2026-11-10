@@ -1,3 +1,5 @@
+import importlib.metadata
+
 from . import _cli
 from . import _show
 from . import abc
@@ -17,7 +19,13 @@ from .Run import Run
 from .Run import Result
 from .Visualize import Visualize
 
+try:
+    __version__ = importlib.metadata.version('pymcnp')
+except importlib.metadata.PackageNotFoundError:  # pragma: no cover
+    __version__ = 'unknown'
+
 __all__ = (
+    '__version__',
     '_cli',
     '_show',
     'abc',

@@ -6,6 +6,7 @@ Usage:
     pymcnp convert [<args>...]
     pymcnp plot [<args>...]
     pymcnp help [<command>]
+    pymcnp --version
 
 Commands:
     run        Run MCNP.
@@ -15,10 +16,15 @@ Commands:
     plot       Plot the output of an MCNP simulation.
     help       Show help for a specific command.
 
+Options:
+    --version  Show the PyMCNP version.
+
 PyMCNP helps create, run, analyze MCNP simulation input and output.
 """
 
 from docopt import docopt
+
+import pymcnp
 
 from . import run
 from . import check
@@ -32,7 +38,7 @@ def main() -> None:
     Runs the PyMCNP command line interface.
     """
 
-    args = docopt(__doc__, options_first=True)
+    args = docopt(__doc__, options_first=True, version=f'pymcnp {pymcnp.__version__}')
 
     if args['run']:
         run.main()
