@@ -37,8 +37,8 @@ Code:
 
 Output:
 
-    Converting tally #1 from `PyMCNP/files/outp/example_00.outp` to `examples/output/example_00-1.csv`
-    Converting tally #1 from `PyMCNP/files/outp/example_00.outp` to `examples/output/example_00-1.parquet`
+    Converting the tallies from `examples/example_00.outp` to `examples/output/example_00.csv` and `examples/output/example_00.parquet`
+    Converting tally #1 from `examples/example_00.outp` to `examples/output/example_00-1.csv`
 
 ## Plotting OUTP Files
 

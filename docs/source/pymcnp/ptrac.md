@@ -1,6 +1,6 @@
 # `pymcnp.ptrac` Subpackage
 
-`pymcnp.meshtal` contains PyMCNP's ascii ptrac parser.
+`pymcnp.ptrac` contains PyMCNP's ascii PTRAC parser.
 
 ## Table of Contents
 
@@ -37,3 +37,63 @@ These AST class have methods for translating between PyMCNP and PTRAC:
 ```
 
 [line subpackage](ptrac/line)
+
+[block subpackage](ptrac/block)
+
+## Streaming Classes
+
+`Ptrac.stream`, `Ptrac.tracks`, and `Ptrac.to_parquet` give PTRAC events with their own type and values by meaning.
+
+### `Event` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.ptrac.Event
+   :members:
+```
+
+### `Track` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.ptrac.Track
+   :members:
+```
+
+### `EventType` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.ptrac.EventType
+   :members:
+```
+
+### `Particle` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.ptrac.Particle
+   :members:
+```
+
+### `Surface` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.ptrac.Surface
+   :members:
+```
+
+### `ParquetWriter` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.ptrac.ParquetWriter
+   :members:
+```
+
+### `tracks` Function
+
+```{eval-rst}
+.. autofunction:: pymcnp.ptrac.tracks
+```
+
+### `to_dataframe` Function
+
+```{eval-rst}
+.. autofunction:: pymcnp.ptrac.to_dataframe
+```

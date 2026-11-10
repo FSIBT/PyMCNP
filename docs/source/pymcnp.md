@@ -44,9 +44,10 @@ PyMCNP represents MCNP files using the `Inp`, `Meshtal`, and `Ptrac` AST classes
    :inherited-members:
 ```
 
-`Meshtal.from_file` reads the first mesh tally of a file; use `Meshtal.iter_tallies(path)` for files that hold several.
+`Outp.summary`, `Outp.tallies()`, `Outp.tally(number)`, and `Outp.activity(particle)` give the headline results,
+the tallies with typed columns, and the activity tables.
 
-[meshtal subpackage](pymcnp/outp)
+[outp subpackage](pymcnp/outp)
 
 ### `Ptrac` Class
 
@@ -107,16 +108,6 @@ overridable methods for filtering data, and `PtracProcessor` have overridable me
 
 ```{eval-rst}
 .. autoclass:: pymcnp.Check
-   :members:
-   :inherited-members:
-```
-
-### `Convert` Class
-
-`Convert` converts OUTP files to csv or parquet files, using `pandas`.
-
-```{eval-rst}
-.. autoclass:: pymcnp.Convert
    :members:
    :inherited-members:
 ```

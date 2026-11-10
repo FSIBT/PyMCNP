@@ -2,6 +2,14 @@
 
 ## AST Classes
 
+### `Activity` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.outp.block.Activity
+   :members:
+   :inherited-members:
+```
+
 ### `AnalysisTallyFluctuation` Class
 
 ```{eval-rst}
@@ -50,66 +58,42 @@
    :inherited-members:
 ```
 
-### `Tally_0` Class
+### `TallyAngle` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.outp.block.Tally_0
+.. autoclass:: pymcnp.outp.block.TallyAngle
    :members:
    :inherited-members:
 ```
 
-### `Tally_1` Class
+### `TallyCell` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.outp.block.Tally_1
+.. autoclass:: pymcnp.outp.block.TallyCell
    :members:
    :inherited-members:
 ```
 
-### `Tally_2` Class
+### `TallyCell_0` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.outp.block.Tally_2
+.. autoclass:: pymcnp.outp.block.TallyCell_0
    :members:
    :inherited-members:
 ```
 
-### `Tally_3` Class
+### `TallyCell_1` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.outp.block.Tally_3
+.. autoclass:: pymcnp.outp.block.TallyCell_1
    :members:
    :inherited-members:
 ```
 
-### `Tally_4` Class
+### `TallySurface` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.outp.block.Tally_4
-   :members:
-   :inherited-members:
-```
-
-### `Tally_5` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.outp.block.Tally_5
-   :members:
-   :inherited-members:
-```
-
-### `Tally_6` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.outp.block.Tally_6
-   :members:
-   :inherited-members:
-```
-
-### `Tally_7` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.outp.block.Tally_7
+.. autoclass:: pymcnp.outp.block.TallySurface
    :members:
    :inherited-members:
 ```

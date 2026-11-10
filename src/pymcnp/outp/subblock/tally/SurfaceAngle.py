@@ -24,7 +24,7 @@ class SurfaceAngle(Tally):
     Attributes:
         surface_number_preamble: surface angle subtally block surface number preamble.
         surface_number: surface angle subtally block surface number.
-        angle_from_preamble: surface angle subtally block ``\\n angle bin.
+        angle_from_preamble: surface angle subtally block angle bin preamble.
         angle_from: surface angle subtally block angle from.
         angle_to_preamble: surface angle subtally block ``r' to  '`` symbol.
         angle_to: surface angle subtally block angle to.
