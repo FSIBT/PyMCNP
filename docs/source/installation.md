@@ -4,8 +4,7 @@ PyMCNP is accessible for installation through [PyPI](https://pypi.org/project/py
 
 ```{eval-rst}
 .. note::
-   PyMCNP supports Python 3.11 to 3.14. As of 2026-10-14, Python 3.15 does not work yet because
-   a dependency, ``vtk`` (through ``pyvista``), does not publish wheels for it.
+   PyMCNP supports Python 3.11 to 3.15.
 ```
 
 ## Using uv (recommended)

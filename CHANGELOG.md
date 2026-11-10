@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Breaking:** OUTP blocks are now `Header`, `Footer`, `Activity` (`NeutronActivity`, `PhotonActivity`), and `Tally` (`TallySurface`, `TallyAngle`, `TallyCell`); the `Tally_0` to `Tally_7` blocks are gone.
 - **Breaking:** `PtracProcessor.run` returns the results of the `process_*` methods; a `Run` result without an output file is not `ok`.
 - Depends on `pyarrow` instead of `fastparquet`, and on `docopt-ng` instead of `docopt`.
+- Python 3.15 is supported, now that `vtk` has wheels for it.
 - Parsing time is linear in file size; it was quadratic, which made large OUTP, MESHTAL and PTRAC files very slow.
 
 ### Fixed

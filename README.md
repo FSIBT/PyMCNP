@@ -14,9 +14,7 @@ PyMCNP is available on [PyPI](https://pypi.org/project/pymcnp/) and can be "pip 
 
     pip install pymcnp
 
-PyMCNP supports Python 3.11 to 3.14.
-
-As of 2026-10-14, PyMCNP does not support Python 3.15, since its dependency `vtk` (through `pyvista`) does not support Python 3.15 yet.
+PyMCNP supports Python 3.11 to 3.15.
 
 ## Example
 
