@@ -17,11 +17,11 @@ authors:
     orcid: 0000-0003-3186-8358
     affiliation: "1"
 affiliations:
- - name: Accelerator Technology & Applied Physics Division. Lawrence Berkeley National Laboratory, CA 94720, United States
+ - name: Accelerator Technology & Applied Physics Division, Lawrence Berkeley National Laboratory, CA 94720, United States
    index: 1
  - name: University of Arizona, United States
    index: 2
-date: 14 October 2026
+date: 10 November 2026
 bibliography: paper.bib
 ---
 
@@ -169,15 +169,15 @@ biological tissue with patient-specific densities by using `from_formula` to
 generate material cards directly from chemical formulas. So, PyMCNP simplifies
 sensitivity studies by automating manual isotope tabulation.
 
-Early validation of input files can catch costly errors before they run costly,
-lengthy, or incorrect simulations. PyMCNP’s geometry visualization lets
-researchers verify complex shielding configurations, detector arrangements, or
-phantom geometries before committing costly computational resources to
-potentially flawed simulations. Similarly, PyMCNP’s syntax and semantic
-validation catches simple, easy-to-miss mistakes before researchers spend
-resources on erroneous simulations. For large-scale studies on shared computing
-clusters where failed simulations waste limited allocation time, PyMCNP saves
-significant resources by failing incorrect files early.
+Early validation of input files catches errors before they lead to lengthy or
+incorrect simulations. PyMCNP’s geometry visualization lets researchers verify
+complex shielding configurations, detector arrangements, or phantom geometries
+before committing computational resources to potentially flawed simulations.
+Similarly, PyMCNP’s syntax and semantic validation catches simple, easy-to-miss
+mistakes before researchers spend resources on erroneous simulations. For
+large-scale studies on shared computing clusters, where failed simulations
+waste limited allocation time, PyMCNP saves significant resources by rejecting
+incorrect files early.
 
 By providing Pythonic, object-oriented tooling for MCNP, PyMCNP lowers the
 barrier to entry for fields increasingly reliant on Monte Carlo methods,
