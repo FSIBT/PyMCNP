@@ -201,6 +201,7 @@ class EventSource_4(EventSource):
         type: event block j line variable id #7 parameter.
         pbl_i_node: event block j line `PBL%I%NODE` parameter.
         nsr: event block j line `NSR` parameter.
+        pbl_i_ipt: event block j line `PBL%I%IPT` parameter.
         ncl_pbl_i_icl: event block j line `NCL(PBL%I%ICL)` parameter.
         mat_pbl_i_icl: event block j line `MAT(PBL%I%ICL)` parameter.
         pbl_i_ncp: event block j line `PBL%I%NCP` parameter.
@@ -221,6 +222,7 @@ class EventSource_4(EventSource):
     type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:0[1-9]|1\d|2[0-6]|3[0-4])']
     pbl_i_node: typing.Annotated[abc.Terminal, r'.{10}']
     nsr: typing.Annotated[abc.Terminal, r'.{10}']
+    pbl_i_ipt: typing.Annotated[abc.Terminal, r'.{10}']
     ncl_pbl_i_icl: typing.Annotated[abc.Terminal, r'.{10}']
     mat_pbl_i_icl: typing.Annotated[abc.Terminal, r'.{10}']
     pbl_i_ncp: typing.Annotated[abc.Terminal, r'.{10}']
