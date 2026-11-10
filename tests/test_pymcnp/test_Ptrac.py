@@ -46,10 +46,10 @@ def test_invalid_files_are_rejected(path: pathlib.Path) -> None:
 def _kinds(ptrac: pymcnp.Ptrac) -> list[tuple[int, str, str]]:
     result = []
     for history in ptrac.histories:
-        kind = str(history.i.event_type).strip()
+        kind = str(history.event_type).strip()
         for event in history.events:
-            result.append((int(history.i.nps), kind, event.to_mcnp()))
-            kind = str(event.j.type).strip()
+            result.append((int(history.nps), kind, event.to_mcnp()))
+            kind = str(event.type).strip()
     return result
 
 
