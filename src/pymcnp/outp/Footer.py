@@ -35,6 +35,7 @@ class Footer(abc.Nonterminal):
         date_output: footer date output.
         probid_preamble: footer ``r'                     probid =  '`` symbol.
         probid: footer probid.
+        newline: footer final newline, if any.
     """
 
     preamble: typing.Annotated[abc.Terminal, r'\n \*{119}\n\n']
@@ -64,3 +65,4 @@ class Footer(abc.Nonterminal):
     date_output: typing.Annotated[abc.Terminal, r'.{38}']
     probid_preamble: typing.Annotated[abc.Terminal, r'                     probid =  ']
     probid: typing.Annotated[abc.Terminal, r'.{18}']
+    newline: typing.Annotated[abc.Terminal, r'\n?']
