@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 import types
+import copy
 import typing
 import itertools
 import collections
@@ -206,9 +207,27 @@ class Array(Symbol, list):
             item: Item to append.
         """
 
+        # Spaces go between items, so the first item gets none.
+        if len(self) > 0:
+            self.spaces.append(type(self)._space[0](type(self)._space[0]._default or ''))
+
         super().append(item)
-        space = type(self)._space[0](type(self)._space[0]._default or '' if len(type(self)._space) > 0 else '')
-        self.spaces.append(space)
+
+    def __deepcopy__(self, memo: dict[int, typing.Any]) -> typing.Self:
+        """
+        Deep copies arrays with their spaces.
+
+        Parameters:
+            memo: Memory for copy objects.
+        """
+
+        if id(self) in memo:
+            return memo[id(self)]
+
+        clone = type(self)(*(copy.deepcopy(item, memo) for item in self), spaces=[copy.deepcopy(space, memo) for space in self.spaces])
+        memo[id(self)] = clone
+
+        return clone
 
     def filter(self, *kinds: typing.Type, **fields: typing.Any) -> Array:
         """
