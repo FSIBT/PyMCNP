@@ -1,5 +1,5 @@
 ---
-title: 'PyMCNP'
+title: 'PyMCNP: Python tools for creating, validating, running, and analyzing MCNP simulations'
 tags:
   - Python
   - MCNP
@@ -28,20 +28,21 @@ bibliography: paper.bib
 # Summary
 
 PyMCNP provides object-oriented, Pythonic tooling for the Monte Carlo
-N-Particle (MCNP) code [@Kulesza:2022, @Werner:2017]. MCNP uses custom input
+N-Particle (MCNP) code [@Kulesza:2022; @Werner:2017]. MCNP uses custom input
 and output file formats, leading researchers to rely on labor-intensive manual
 editing or fragile text-manipulation scripts. PyMCNP, an open-source Python
 package and command-line interface (CLI), helps overcome these challenges by
-providing parsers for MCNP’s input (INP), particle track output(PTRAC), output
+providing parsers for MCNP’s input (INP), particle track output (PTRAC), output
 (OUTP), and mesh tally (MESHTAL) files and utilities for common MCNP workflows,
 including checking input files, converting tally formats, plotting tallies,
 running simulations in parallel, and visualizing cell and surface geometries
 using PyVista [@pyvista]. Although PyMCNP does not fully support all MCNP
 syntax, it lets researchers programmatically create, load, read, write, modify,
 and validate MCNP cards, options, blocks, and files by packaging more than 1000
-classes with near-full support for MCNP versions 6.2 and 6.3. By providing a
-comprehensive interface, PyMCNP streamlines workflows, prevents costly errors,
-and lowers the barrier to using MCNP effectively and efficiently.
+classes with near-full support for the input syntax of MCNP versions 6.2 and
+6.3. By providing a comprehensive interface, PyMCNP streamlines workflows,
+prevents costly errors, and lowers the barrier to using MCNP effectively and
+efficiently.
 
 # Statement of Need
 
@@ -163,7 +164,7 @@ material-study input files require cumbersome definitions. With PyMCNP,
 however, researchers can automate file generation for their parameter scan. For
 instance, investigators can model soil with varying water content or concrete
 with different aggregate compositions. Alternatively, they can simulate
-biological tissue with patient-specific densities by using from_formula to
+biological tissue with patient-specific densities by using `from_formula` to
 generate material cards directly from chemical formulas. So, PyMCNP simplifies
 sensitivity studies by automating manual isotope tabulation.
 
