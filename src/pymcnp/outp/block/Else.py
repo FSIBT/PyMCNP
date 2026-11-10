@@ -14,5 +14,5 @@ class Else(Block):
 
     text: typing.Annotated[
         abc.Terminal,
-        r'(?!\n \*{119}\n\n dump no\.(?:(?!\n1\w|\n \*{119})[\s\S])*\n mcnp     version [^\n]*\n?\Z)[\s\S]+?(?=\n1\w+|\Z|\n \*{119})',
+        r'(?!\n \*{119}\n\n dump no\.(?:(?!\n1\w|\n \*{119})[\s\S])*\n mcnp     version [^\n]*\n?\Z)[\s\S][^\n]*(?:\n(?!1\w| \*{119})[^\n]*)*',
     ]
