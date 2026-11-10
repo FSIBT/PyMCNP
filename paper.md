@@ -28,22 +28,25 @@ bibliography: paper.bib
 # Summary
 
 PyMCNP provides object-oriented, Pythonic tooling for the Monte Carlo
-N-Particle (MCNP) code [@Kulesza:2022; @Werner:2017]. MCNP uses custom input
-and output file formats, leading researchers to rely on labor-intensive manual
-editing or fragile text-manipulation scripts. PyMCNP, an open-source Python
-package and command-line interface (CLI), helps overcome these challenges by
-providing parsers for MCNP’s input (INP), particle track output (PTRAC), output
-(OUTP), and mesh tally (MESHTAL) files and utilities for common MCNP workflows,
-including checking input files, converting tally formats, plotting tallies,
-running simulations in parallel, and visualizing cell and surface geometries
-using PyVista [@pyvista]. Although PyMCNP does not fully support all MCNP
-syntax, it lets researchers programmatically create, load, read, write, modify,
-and validate MCNP cards, options, blocks, and files by packaging more than 1000
-classes that support the most commonly used cards of MCNP versions 6.1 to 6.3.
-PyMCNP also ships a skill file that describes its interface to AI coding
-agents, making MCNP controllable through agentic programming. By providing a comprehensive interface, PyMCNP streamlines workflows,
-prevents costly errors, and lowers the barrier to using MCNP effectively and
-efficiently.
+N-Particle (MCNP) code [@Kulesza:2022; @Werner:2017]. MCNP uses custom
+input and output file formats, leading researchers to rely on
+labor-intensive manual editing or fragile text-manipulation
+scripts. PyMCNP, an open-source Python package and command-line
+interface (CLI), helps overcome these challenges by providing parsers
+for MCNP’s input (INP), particle track output (PTRAC), output (OUTP),
+and mesh tally (MESHTAL) files and utilities for common MCNP
+workflows, including checking input files, converting tally formats,
+plotting tallies, running simulations in parallel, and visualizing
+cell and surface geometries using PyVista [@pyvista]. Although PyMCNP
+does not fully support all MCNP syntax, it lets researchers
+programmatically create, load, read, write, modify, and validate MCNP
+cards, options, blocks, and files by packaging more than 1000 classes
+that support the most commonly used cards of MCNP versions 6.1 to 6.3.
+PyMCNP also ships a skill file that describes its interface to AI
+coding agents, making MCNP controllable through agentic
+programming. By providing a comprehensive interface, PyMCNP
+streamlines workflows, prevents costly errors, and lowers the barrier
+to using MCNP effectively and efficiently.
 
 # Statement of Need
 
@@ -186,19 +189,25 @@ detector development.
 
 # AI Usage Disclosure
 
-Large language models were used for review, editing, and fixes for
-versions 0.10.0 to 1.0.0. Earlier versions did not use large language
-models.
+Large language models were used in developing versions 0.10.0 to 1.0.0
+through Claude Code (Anthropic, Claude Opus models). They were used to
+review code and documentation; to write and fix code, and to edit this
+paper. The authors directed this work, reviewed, tested, and revised
+all generated code and text, and take full responsibility for the
+content. Versions 0.9.0 and earlier were developed without large
+language models.
 
 # Acknowledgements
 
-This work was supported by the U.S. Department of Energy under Contract No.
-DE-AC02-05CH11231. D. P. was supported in part by an appointment to the
-National Nuclear Security Administration IMPACT Internship Program
-(NNSA-IMPACT), sponsored by the U.S. Department of Energy, National Nuclear
-Security Administration, and administered by the Oak Ridge Institute for
-Science and Education (ORISE). ORISE is managed by ORAU under DOE contract
-number DE-SC0014664. All opinions expressed in this paper are the authors' and
-do not necessarily reflect the policies and views of DOE, NNSA, ORAU, or ORISE.
+This work was supported by the U.S. Department of Energy under
+Contract No.  DE-AC02-05CH11231. D. P. was supported by an appointment
+to the National Nuclear Security Administration IMPACT Internship
+Program (NNSA-IMPACT), administered by the Oak Ridge Institute for
+Science and Education (ORISE) for the National Nuclear Security
+Administration (NNSA) and U.S. Department of Energy (DOE) and hosted
+by Workforce Development & Education at Berkeley Lab. ORISE is managed
+by Oak Ridge Associated Universities (ORAU). All opinions expressed in
+this paper are the authors' and do not necessarily reflect the
+policies and views of DOE, NNSA, ORAU, or ORISE.
 
 # References
