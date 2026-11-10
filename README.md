@@ -16,7 +16,32 @@ PyMCNP is available on [PyPI](https://pypi.org/project/pymcnp/) and can be "pip 
 
 PyMCNP supports Python 3.11 to 3.14.
 
-As of 2026-10-14, PyMCNP doe snot support Python 3.15 since PyMCNP dependency `vtk` via `pyvista` does not support Python 3.15.
+As of 2026-10-14, PyMCNP does not support Python 3.15, since its dependency `vtk` (through `pyvista`) does not support Python 3.15 yet.
+
+## Example
+
+Read an input file, scan the radius of a sphere, and write one input file per radius; then read the output of a run:
+
+```python
+import pymcnp
+
+inp, _ = pymcnp.Inp.from_file('example_00.inp')
+for i, copy in enumerate(inp.scan_with([500, 600, 700], lambda inp, r: setattr(inp.surface(99), 'r', r))):
+    copy.to_file(f'sphere-{i}.inp')
+
+outp, _ = pymcnp.Outp.from_file('example_00.outp')
+print(outp.summary.ok, outp.summary.checks_passed)  # Did MCNP finish, and did the tallies pass the statistical checks?
+print(outp.tally(1))  # Tally 1 as a pandas dataframe
+```
+
+The command line interface checks, runs, converts, plots, and visualizes MCNP files, e.g.:
+
+    pymcnp check example_00.inp
+    pymcnp run --command=mcnp6 sphere-*.inp
+    pymcnp convert outp --csv example_00.outp
+    pymcnp visualize example_00.inp
+
+The files are in the [examples](examples) directory, which has many more examples.
 
 ## Automation with AI Coding Agents
 
@@ -33,4 +58,4 @@ For more information, see the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
 ## Copyright and License
 
-For copyright and license information, see the [COPYRIGHT.md](COPYRIGHT.md) and [LICENSE.md](LICENSE.md) files.
+For copyright and license information, see the [COPYRIGHT](COPYRIGHT) and [LICENSE](LICENSE) files.
