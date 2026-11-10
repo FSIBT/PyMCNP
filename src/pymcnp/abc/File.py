@@ -103,7 +103,7 @@ class DataFile(File):
 
         frame = self.to_dataframe()
 
-        for column in frame.select_dtypes(include='object').columns:
+        for column in [column for column in frame.columns if pandas.api.types.is_object_dtype(frame[column])]:
             frame[column] = frame[column].map(lambda value: value if value is None or isinstance(value, str) or pandas.isna(value) else str(value))
 
         frame.to_parquet(pathlib.Path(path), index=False)
