@@ -191,7 +191,7 @@ detector development.
 
 Large language models were used in developing versions 0.10.0 to 1.0.0
 through Claude Code (Anthropic, Claude Opus models). They were used to
-review code and documentation; to write and fix code, and to edit this
+review code and documentation, to write and fix code, and to edit this
 paper. The authors directed this work, reviewed, tested, and revised
 all generated code and text, and take full responsibility for the
 content. Versions 0.9.0 and earlier were developed without large
@@ -200,7 +200,7 @@ language models.
 # Acknowledgements
 
 This work was supported by the U.S. Department of Energy under
-Contract No.  DE-AC02-05CH11231. D. P. was supported by an appointment
+Contract No. DE-AC02-05CH11231. D. P. was supported by an appointment
 to the National Nuclear Security Administration IMPACT Internship
 Program (NNSA-IMPACT), administered by the Oak Ridge Institute for
 Science and Education (ORISE) for the National Nuclear Security
