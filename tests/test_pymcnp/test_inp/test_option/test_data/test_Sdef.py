@@ -2,9 +2,9 @@ import pymcnp
 from ..... import classes
 
 
-class Test_Sdef(classes.Test_Nonterminal):
+class Test_Sdef(classes.Test_FromMcnp):
     element = pymcnp.inp.option.data.Sdef
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         'CEL=5',
         'CEL=D1',
         'CEL=FERG=D2',
@@ -119,7 +119,7 @@ class Test_Sdef(classes.Test_Nonterminal):
         'BAP=1.0 1.0 0',
         'BAP=0.5 0.5 0',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'loc -100 100 2000',
         'loc -90 -260 2000',
         'dat 24 4 2024',

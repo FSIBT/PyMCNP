@@ -2,13 +2,13 @@ import pymcnp
 from ..... import classes
 
 
-class Test_Stop(classes.Test_Nonterminal):
+class Test_Stop(classes.Test_FromMcnp):
     element = pymcnp.inp.option.data.Stop
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         'nps 1 1',
         'ctme 3.1',
         'f1 1',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]

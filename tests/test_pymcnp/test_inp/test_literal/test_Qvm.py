@@ -2,9 +2,9 @@ import pymcnp
 from .... import classes
 
 
-class Test_Qvm(classes.Test_Nonterminal):
+class Test_Qvm(classes.Test_FromMcnp):
     element = pymcnp.inp.literal.Qvm
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         '+3.1v1',
         '-3.1v1',
         '3.1v1',
@@ -13,6 +13,6 @@ class Test_Qvm(classes.Test_Nonterminal):
         '3.1Z',
         '0',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]

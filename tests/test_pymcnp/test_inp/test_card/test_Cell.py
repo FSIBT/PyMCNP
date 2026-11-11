@@ -2,9 +2,9 @@ import pymcnp
 from .... import classes
 
 
-class Test_Cell(classes.Test_Nonterminal):
+class Test_Cell(classes.Test_FromMcnp):
     element = pymcnp.inp.card.Cell
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         '1 1 3.1 1 (2:(+3 -4) #5) imp:@=1',
         '2 like 1 but imp:@=2',
         # 3.2
@@ -100,7 +100,7 @@ class Test_Cell(classes.Test_Nonterminal):
         '3 0 8 -9 -10 11 -12 13 #2 #1',
         '4 0 -11 12 -14 13 imp:n=1 lat=1 u=1 fill=3',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         '3 0 -1 2 -4 $ definition of cell 3',
         '1 0 1 -2 3 $ cell 1',
         '1 0 -17 $ rcc can',

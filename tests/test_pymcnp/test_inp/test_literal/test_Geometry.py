@@ -2,12 +2,12 @@ import pymcnp
 from .... import classes
 
 
-class Test_Geometry(classes.Test_Nonterminal):
+class Test_Geometry(classes.Test_FromMcnp):
     element = pymcnp.inp.literal.Geometry
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         '7.6(6:((+1 #2):(+3:-4) #5))',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]
 

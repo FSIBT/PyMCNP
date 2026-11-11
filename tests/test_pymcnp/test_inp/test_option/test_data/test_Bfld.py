@@ -2,9 +2,9 @@ import pymcnp
 from ..... import classes
 
 
-class Test_Bfld(classes.Test_Nonterminal):
+class Test_Bfld(classes.Test_FromMcnp):
     element = pymcnp.inp.option.data.Bfld
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         'field 3.1',
         'vec 3.1 3.1 3.1',
         'mxdeflc 3.1',
@@ -13,6 +13,6 @@ class Test_Bfld(classes.Test_Nonterminal):
         'ffedges 1 1 1',
         'refpnt 3.1 3.1 3.1',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]

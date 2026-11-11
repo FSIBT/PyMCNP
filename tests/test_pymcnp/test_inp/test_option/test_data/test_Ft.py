@@ -2,9 +2,9 @@ import pymcnp
 from ..... import classes
 
 
-class Test_Ft(classes.Test_Nonterminal):
+class Test_Ft(classes.Test_FromMcnp):
     element = pymcnp.inp.option.data.Ft
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         'FRV 3.1 3.1 3.1',
         'GEB 3.1 3.1 3.1',
         'TMC 3.1 3.1',
@@ -27,6 +27,6 @@ class Test_Ft(classes.Test_Nonterminal):
         'LCS 3.1',
         'LCS',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]

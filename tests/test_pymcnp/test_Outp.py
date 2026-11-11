@@ -7,10 +7,10 @@ import pymcnp
 from .. import classes
 
 
-class Test_Outp(classes.Test_Nonterminal):
+class Test_Outp(classes.Test_FromFile):
     element = pymcnp.Outp
-    EXAMPLES_VALID = [(pathlib.Path(__file__).parent.parent.parent / 'files' / 'outp' / 'valid_39.outp').read_text()]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_VALID = [(pathlib.Path(__file__).parent.parent.parent / 'files' / 'outp' / 'valid_39.outp').read_text()]
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]
 

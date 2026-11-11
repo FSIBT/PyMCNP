@@ -2,9 +2,9 @@ import pymcnp
 from ..... import classes
 
 
-class Test_Burn(classes.Test_Nonterminal):
+class Test_Burn(classes.Test_FromMcnp):
     element = pymcnp.inp.option.data.Burn
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         'afmin 3.1 3.1',
         'bopt 3.1 3.1 1',
         'mat 1 1 1 1',
@@ -14,7 +14,7 @@ class Test_Burn(classes.Test_Nonterminal):
         'power 3.1',
         'time 3.1 3.1 3.1 3.1',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'bopt 3.1 3.1 2',
         'hello',
     ]

@@ -7,12 +7,13 @@ import pymcnp
 from .. import classes
 
 
-class Test_Inp(classes.Test_Nonterminal):
+class Test_Inp(classes.Test_FromMcnp):
     element = pymcnp.Inp
-    EXAMPLES_VALID = [
+
+    EXAMPLES_FROM_MCNP_VALID = [
         (pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_11.inp').read_text(),
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'Vol Test\n1 0 2\n\n2 SO 1\n\nVOL 3.1 3.1\n',
         'Area Test\n1 0 2\n\n2 SO 1\n\nAREA 3.1 3.1\n',
         'hello',

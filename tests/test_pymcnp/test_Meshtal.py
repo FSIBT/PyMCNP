@@ -6,10 +6,10 @@ import pymcnp
 from .. import classes
 
 
-class Test_Meshtal(classes.Test_Nonterminal):
+class Test_Meshtal(classes.Test_FromFile):
     element = pymcnp.Meshtal
-    EXAMPLES_VALID = [(pathlib.Path(__file__).parent.parent.parent / 'files' / 'meshtal' / 'valid_40.meshtal').read_text()]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_VALID = [(pathlib.Path(__file__).parent.parent.parent / 'files' / 'meshtal' / 'valid_40.meshtal').read_text()]
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]
 

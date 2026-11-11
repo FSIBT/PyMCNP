@@ -2,9 +2,9 @@ import pymcnp
 from ..... import classes
 
 
-class Test_Kopts(classes.Test_Nonterminal):
+class Test_Kopts(classes.Test_FromMcnp):
     element = pymcnp.inp.option.data.Kopts
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         'blocksize 2',
         'kinetics yes',
         'precursor yes',
@@ -22,7 +22,7 @@ class Test_Kopts(classes.Test_Nonterminal):
         'fmatny 3.1',
         'fmatnz 3.1',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'blocksize 1',
         'hello',
     ]

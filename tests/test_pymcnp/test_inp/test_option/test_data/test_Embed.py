@@ -2,9 +2,9 @@ import pymcnp
 from ..... import classes
 
 
-class Test_Embed(classes.Test_Nonterminal):
+class Test_Embed(classes.Test_FromMcnp):
     element = pymcnp.inp.option.data.Embed
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         'background 1',
         'matcell 1 2 1 2 1 2',
         'meshgeo lnk3dnt',
@@ -23,6 +23,6 @@ class Test_Embed(classes.Test_Nonterminal):
         'overlap exit average',
         'overlap exit average 1 2 1 2',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]

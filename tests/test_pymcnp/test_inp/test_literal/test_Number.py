@@ -2,9 +2,9 @@ import pymcnp
 from .... import classes
 
 
-class Test_Real(classes.Test_Nonterminal):
+class Test_Real(classes.Test_FromMcnp):
     element = pymcnp.inp.literal.Real
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         '1',
         '1E10',
         '3.1',
@@ -14,7 +14,7 @@ class Test_Real(classes.Test_Nonterminal):
         '3.E10',
         '.1E10',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]
 
@@ -126,13 +126,13 @@ class Test_Real(classes.Test_Nonterminal):
         real_a.__rtruediv__(real_b)
 
 
-class Test_Integer(classes.Test_Nonterminal):
+class Test_Integer(classes.Test_FromMcnp):
     element = pymcnp.inp.literal.Integer
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         '1',
         '1E10',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]
 

@@ -2,11 +2,11 @@ import pymcnp
 from .... import classes
 
 
-class Test_PhotonSample(classes.Test_Nonterminal):
+class Test_PhotonSample(classes.Test_FromMcnp):
     element = pymcnp.inp.group.PhotonSample
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         '1 3.1',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]

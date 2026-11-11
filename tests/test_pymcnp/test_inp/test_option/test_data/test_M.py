@@ -2,9 +2,9 @@ import pymcnp
 from ..... import classes
 
 
-class Test_M(classes.Test_Nonterminal):
+class Test_M(classes.Test_FromMcnp):
     element = pymcnp.inp.option.data.M
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         'gas 0',
         'estep 1',
         'hstep 1',
@@ -22,6 +22,6 @@ class Test_M(classes.Test_Nonterminal):
         'refc 3.1 3.1 3.1 3.1',
         'refs 3.1 3.1 3.1 3.1 3.1 3.1',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]

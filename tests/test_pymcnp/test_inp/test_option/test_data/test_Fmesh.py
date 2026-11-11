@@ -2,9 +2,9 @@ import pymcnp
 from ..... import classes
 
 
-class Test_Fmesh(classes.Test_Nonterminal):
+class Test_Fmesh(classes.Test_FromMcnp):
     element = pymcnp.inp.option.data.Fmesh
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         'geom xyz',
         'origin 3.1 3.1 3.1',
         'axs 3.1 3.1 3.1',
@@ -33,6 +33,6 @@ class Test_Fmesh(classes.Test_Nonterminal):
         'tally hist',
         'tally batch',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]

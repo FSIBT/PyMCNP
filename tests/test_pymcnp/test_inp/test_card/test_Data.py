@@ -2,9 +2,9 @@ import pymcnp
 from .... import classes
 
 
-class Test_Data(classes.Test_Nonterminal):
+class Test_Data(classes.Test_FromMcnp):
     element = pymcnp.inp.card.Data
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         'vol no 3.1 3.1 3.1',
         'area 3.1 3.1 3.1',
         'tr1 1 1 1 2 2 2 3 3 3 4 4 4 5',
@@ -193,7 +193,7 @@ class Test_Data(classes.Test_Nonterminal):
         'files 1 1 s f 1',
         'disable nuclide_activity_table',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'tr-1 1 1 1 2 2 2 3 3 3 4 4 4 5',
         'tr-1 1 1 1 2 2 2 3 3 3 5',
         'tr-1 1 1 1 2 2 2 3 3 5',

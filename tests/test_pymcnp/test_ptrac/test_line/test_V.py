@@ -2,12 +2,12 @@ import pymcnp
 from .... import classes
 
 
-class Test_V(classes.Test_Nonterminal):
+class Test_V(classes.Test_FromMcnp):
     element = pymcnp.ptrac.line.V
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         '   1.4000E+01  1.0000E+00  1.0000E+02  0.0000E+00  0.0000E+00  1.0000E+00  1.0000E+00  0.0000E+00  1.0000E+00  1.0000E+04\n   0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  1.0000E+00  1.0000E+00  0.0000E+00  0.0000E+00',
         '   1.4000E+01  2.0000E+00  1.0000E+02  1.0000E+02  0.0000E+00  0.0000E+00  1.0000E+00  1.0000E+00  0.0000E+00  1.0000E+00  1.0000E+04\n   0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  1.0000E+00  1.0000E+00  0.0000E+00',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]

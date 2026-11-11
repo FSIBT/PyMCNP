@@ -2,11 +2,11 @@ import pymcnp
 from ..... import classes
 
 
-class Test_Y(classes.Test_Nonterminal):
+class Test_Y(classes.Test_FromMcnp):
     element = pymcnp.meshtal.line.boundary.Y
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         '    Y direction:   -100.00    -80.00    -60.00    -40.00    -20.00      0.00     20.00     40.00     60.00     80.00    100.00',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]

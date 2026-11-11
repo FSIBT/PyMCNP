@@ -2,9 +2,9 @@ import pymcnp
 from ..... import classes
 
 
-class Test_Ksen(classes.Test_Nonterminal):
+class Test_Ksen(classes.Test_FromMcnp):
     element = pymcnp.inp.option.data.Ksen
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         'iso 001001 001001 001001',
         'rxn 1 1 1',
         'mt 1 1 1',
@@ -16,6 +16,6 @@ class Test_Ksen(classes.Test_Nonterminal):
         'cell 1 1 1 1',
         'mat 1 1 1 1',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]

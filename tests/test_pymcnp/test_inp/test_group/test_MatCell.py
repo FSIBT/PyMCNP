@@ -2,11 +2,11 @@ import pymcnp
 from .... import classes
 
 
-class Test_MatCell(classes.Test_Nonterminal):
+class Test_MatCell(classes.Test_FromMcnp):
     element = pymcnp.inp.group.MatCell
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         '1 1',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]

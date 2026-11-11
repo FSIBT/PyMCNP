@@ -2,9 +2,9 @@ import pymcnp
 from .... import classes
 
 
-class Test_Particle(classes.Test_Nonterminal):
+class Test_Particle(classes.Test_FromMcnp):
     element = pymcnp.inp.literal.Particle
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         '@,#',
         '_',
         '#',
@@ -12,7 +12,7 @@ class Test_Particle(classes.Test_Nonterminal):
         'P,n',
         'P,e,!',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         ':',
     ]
 

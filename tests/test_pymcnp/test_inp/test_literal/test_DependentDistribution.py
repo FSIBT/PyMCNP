@@ -2,9 +2,9 @@ import pymcnp
 from .... import classes
 
 
-class Test_DependentDistribution(classes.Test_Nonterminal):
+class Test_DependentDistribution(classes.Test_FromMcnp):
     element = pymcnp.inp.literal.DependentDistribution
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         'FCEL=D1',
         'FSUR=D1',
         'FERG=D1',
@@ -30,6 +30,6 @@ class Test_DependentDistribution(classes.Test_Nonterminal):
         'FBEM=D1',
         'FBAP=D1',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]

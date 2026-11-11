@@ -2,9 +2,9 @@ import pymcnp
 from ..... import classes
 
 
-class Test_Ssr(classes.Test_Nonterminal):
+class Test_Ssr(classes.Test_FromMcnp):
     element = pymcnp.inp.option.data.Ssr
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         'axs 3.1 3.1 3.1',
         'bcw 3.1 3.0 3.1',
         'cel 1 1 1 1',
@@ -19,7 +19,7 @@ class Test_Ssr(classes.Test_Nonterminal):
         'tr d1',
         'wgt 1',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'cel 0 -1 1',
         'col 2 1 1',
         'old 0 1 1',

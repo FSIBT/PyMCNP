@@ -2,9 +2,9 @@ import pymcnp
 from ..... import classes
 
 
-class Test_Ptrac(classes.Test_Nonterminal):
+class Test_Ptrac(classes.Test_FromMcnp):
     element = pymcnp.inp.option.data.Ptrac
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         'buffer 1',
         'file asc',
         'flushnps 1',
@@ -22,7 +22,7 @@ class Test_Ptrac(classes.Test_Nonterminal):
         'tally 1 1 1',
         'value 3.1',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]
 

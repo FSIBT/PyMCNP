@@ -2,9 +2,9 @@ import pymcnp
 from ..... import classes
 
 
-class Test_Act(classes.Test_Nonterminal):
+class Test_Act(classes.Test_FromMcnp):
     element = pymcnp.inp.option.data.Act
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         'fission none',
         'nonfiss none',
         'dn model',
@@ -18,7 +18,7 @@ class Test_Act(classes.Test_Nonterminal):
         'hlcut 3.1',
         'sample correlate',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'dnbias 11',
         'hello',
     ]

@@ -2,11 +2,11 @@ import pymcnp
 from .... import classes
 
 
-class Test_Constituent(classes.Test_Nonterminal):
+class Test_Constituent(classes.Test_FromMcnp):
     element = pymcnp.inp.group.Constituent
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         '001001 3.1',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]

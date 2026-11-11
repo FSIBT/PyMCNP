@@ -2,9 +2,9 @@ import pymcnp
 from .... import classes
 
 
-class Test_Cell(classes.Test_Nonterminal):
+class Test_Cell(classes.Test_FromMcnp):
     element = pymcnp.inp.option.Cell
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         'imp:@=1',
         'vol=1',
         'pwt=3.1',
@@ -46,7 +46,7 @@ class Test_Cell(classes.Test_Nonterminal):
         'mat 1',
         'rho -9',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'unc:@=3',
         '*trcl=-1',
         'mat=-1',

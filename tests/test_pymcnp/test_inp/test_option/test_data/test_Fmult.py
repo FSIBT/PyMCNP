@@ -2,9 +2,9 @@ import pymcnp
 from ..... import classes
 
 
-class Test_Fmult(classes.Test_Nonterminal):
+class Test_Fmult(classes.Test_FromMcnp):
     element = pymcnp.inp.option.data.Fmult
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         'sfnu 3.1 3.1 3.1',
         'width 3.1',
         'sfyield 3.1',
@@ -13,7 +13,7 @@ class Test_Fmult(classes.Test_Nonterminal):
         'data 1',
         'shift 1',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'data -1',
         'method -1',
         'shift -1',

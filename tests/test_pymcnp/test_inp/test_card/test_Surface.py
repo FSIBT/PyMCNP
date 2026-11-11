@@ -2,9 +2,9 @@ import pymcnp
 from .... import classes
 
 
-class Test_Surface(classes.Test_Nonterminal):
+class Test_Surface(classes.Test_FromMcnp):
     element = pymcnp.inp.card.Surface
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         '1 p 1 1 1 1',
         '1 p 1 0 0 0 1 0 0 0 1',
         '1 px 1',
@@ -57,7 +57,7 @@ class Test_Surface(classes.Test_Nonterminal):
         '1080 ell 12.0 0 0    0 1 0    -0.5',
         '1081 ell 13.5 -0.5 0    13.5 0.5 0    0.75',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         '-1 p 1 1 1 1',
         '-1 p 1 0 0 0 1 0 0 0 1',
         '-1 px 1',
@@ -151,7 +151,7 @@ class Test_Surface(classes.Test_Nonterminal):
     ]
 
     def test_to_show(self) -> None:
-        for example in self.EXAMPLES_VALID:
+        for example in self.EXAMPLES_FROM_MCNP_VALID:
             surface, _ = pymcnp.inp.card.Surface.from_mcnp(example)
             try:
                 surface.to_show()

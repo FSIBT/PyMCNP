@@ -2,9 +2,9 @@ import pymcnp
 from .... import classes
 
 
-class Test_Block(classes.Test_Nonterminal):
+class Test_Block(classes.Test_FromMcnp):
     element = pymcnp.inp.option.Block
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         'ngroup 1',
         'isn 1',
         'niso 1',
@@ -71,6 +71,6 @@ class Test_Block(classes.Test_Nonterminal):
         'ajed 1',
         'fluxone 1',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]

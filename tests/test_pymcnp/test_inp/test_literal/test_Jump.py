@@ -2,10 +2,10 @@ import pymcnp
 from .... import classes
 
 
-class Test_Jump(classes.Test_Nonterminal):
+class Test_Jump(classes.Test_FromMcnp):
     element = pymcnp.inp.literal.Jump
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         'J',
         'j',
     ]
-    EXAMPLES_INVALID = ['hello', '2j']
+    EXAMPLES_FROM_MCNP_INVALID = ['hello', '2j']

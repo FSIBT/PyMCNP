@@ -2,11 +2,11 @@ import pymcnp
 from .... import classes
 
 
-class Test_Dxtran(classes.Test_Nonterminal):
+class Test_Dxtran(classes.Test_FromMcnp):
     element = pymcnp.inp.group.Dxtran
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         '3.1 3.1 3.1 3.1 3.1',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]

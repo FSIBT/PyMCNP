@@ -2,11 +2,11 @@ import pymcnp
 from .... import classes
 
 
-class Test_Targets(classes.Test_Nonterminal):
+class Test_Targets(classes.Test_FromMcnp):
     element = pymcnp.inp.group.Targets
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         '001001 001001',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
     ]

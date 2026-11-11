@@ -2,12 +2,12 @@ import pymcnp
 from .... import classes
 
 
-class Test_Bin(classes.Test_Nonterminal):
+class Test_Bin(classes.Test_FromMcnp):
     element = pymcnp.meshtal.block.Bin
-    EXAMPLES_VALID = [
+    EXAMPLES_FROM_MCNP_VALID = [
         ' Tally bin boundaries:\n    X direction:   -100.00    -50.00      0.00     50.00    100.00\n    Y direction:   -100.00    -50.00      0.00     50.00    100.00\n    Z direction:   -150.00   -125.00   -100.00    -75.00    -50.00\n    Time bin boundaries:  -1.00E+36 2.00E+00 3.00E+00\n    Energy bin boundaries: 0.00E+00 3.00E+00 1.40E+01',
     ]
-    EXAMPLES_INVALID = [
+    EXAMPLES_FROM_MCNP_INVALID = [
         'hello',
         ' Tally bin boundaries:\n    hello:   -100.00    -50.00',
         ' Tally bin boundaries:\n',
