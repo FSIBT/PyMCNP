@@ -4,7 +4,6 @@ from .Footer import Footer
 from .Header import Header
 from .Line import Line
 from .Subblock import Subblock
-from .Summary import Summary, TallyCheck
 
 __all__ = (
     'Block',
@@ -12,8 +11,6 @@ __all__ = (
     'Header',
     'Line',
     'Subblock',
-    'Summary',
-    'TallyCheck',
     'block',
     'line',
     'subblock',

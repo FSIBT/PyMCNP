@@ -1,80 +1,137 @@
-import re
 import typing
+
+import pandas
 
 from ... import abc
 from ..Block import Block
 
-# End of the patterns of `abc.Terminal`: `(<pattern>)([\s\S]*)`.
-_TERMINAL_REST = r')([\s\S]*)'
 
-
-class Event(Block):
+class Event(Block, abc.symbol.WithDataIter):
     """
     Represents event blocks.
     """
 
-    @classmethod
-    def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
-        """
-        Compiles source strings into their corresponding event blocks.
+    if typing.TYPE_CHECKING:
+        type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:0[1-9]|1\d|2[0-6]|3[0-4])']
 
-        Event blocks are fixed-width lines, so each form is matched with one regular expression built from its fields, which is much faster than the generic parser.
-        Multi-form event blocks, e.g., ``EventBank``, take the longest matching form.
+    def to_dataframe_iter(self, returning: bool = False) -> typing.Generator[pandas.DataFrame, None, pandas.DataFrame | None]:
+        """
+        Generates pandas dataframes for rows.
 
         Parameters:
-            source: Source string to compile.
+            returning: Flag to/to not return.
+
+        Yields:
+            Pandas dataframes for rows.
 
         Returns:
-            Event block corresponding to ``source``.
-
-        Raises:
-            Error: Expected event block.
+            Pandas dataframe for all rows.
         """
 
-        best: tuple[type[Event], re.Match] | None = None
-        for form in cls._leaves():
-            match = form._regex().match(source)
-            if match is not None and (best is None or match.end() > best[1].end()):
-                best = form, match
+        yield (
+            frame := pandas.DataFrame(
+                {
+                    'type': [type(self).__name__],
+                    'PBL%I%NODE': [self.pbl_i_node.strip() if hasattr(self, 'pbl_i_node') and isinstance(self.pbl_i_node, str) else None],
+                    'NSR': [self.nsr.strip() if hasattr(self, 'nsr') and isinstance(self.nsr, str) else None],
+                    'NXS(2,IEX)': [self.nxs_2_iex.strip() if hasattr(self, 'nxs_2_iex') and isinstance(self.nxs_2_iex, str) else None],
+                    'NTYN': [self.ntyn.strip() if hasattr(self, 'ntyn') and isinstance(self.ntyn, str) else None],
+                    'PBL%I%MTP': [self.pbl_i_mtp.strip() if hasattr(self, 'pbl_i_mtp') and isinstance(self.pbl_i_mtp, str) else None],
+                    'NSF(PBL%I%JSU)': [self.nsf_pbl_i_jsu.strip() if hasattr(self, 'nsf_pbl_i_jsu') and isinstance(self.nsf_pbl_i_jsu, str) else None],
+                    'angle': [self.angle.strip() if hasattr(self, 'angle') and isinstance(self.angle, str) else None],
+                    'NTER': [self.nter.strip() if hasattr(self, 'nter') and isinstance(self.nter, str) else None],
+                    'branch_number': [self.branch_number.strip() if hasattr(self, 'branch_number') and isinstance(self.branch_number, str) else None],
+                    'PBL%I%IPT': [self.pbl_i_ipt.strip() if hasattr(self, 'pbl_i_ipt') and isinstance(self.pbl_i_ipt, str) else None],
+                    'NCL(PBL%I%ICL)': [self.ncl_pbl_i_icl.strip() if hasattr(self, 'ncl_pbl_i_icl') and isinstance(self.ncl_pbl_i_icl, str) else None],
+                    'MAT(PBL%I%ICL)': [self.mat_pbl_i_icl.strip() if hasattr(self, 'mat_pbl_i_icl') and isinstance(self.mat_pbl_i_icl, str) else None],
+                    'PBL%I%NCP': [self.pbl_i_ncp.strip() if hasattr(self, 'pbl_i_ncp') and isinstance(self.pbl_i_ncp, str) else None],
+                    'PBL%R%X': [self.pbl_r_x.strip() if hasattr(self, 'pbl_r_x') and isinstance(self.pbl_r_x, str) else None],
+                    'PBL%R%Y': [self.pbl_r_y.strip() if hasattr(self, 'pbl_r_y') and isinstance(self.pbl_r_y, str) else None],
+                    'PBL%R%Z': [self.pbl_r_z.strip() if hasattr(self, 'pbl_r_z') and isinstance(self.pbl_r_z, str) else None],
+                    'PBL%R%U': [self.pbl_r_u.strip() if hasattr(self, 'pbl_r_u') and isinstance(self.pbl_r_u, str) else None],
+                    'PBL%R%V': [self.pbl_r_v.strip() if hasattr(self, 'pbl_r_v') and isinstance(self.pbl_r_v, str) else None],
+                    'PBL%R%W': [self.pbl_r_w.strip() if hasattr(self, 'pbl_r_w') and isinstance(self.pbl_r_w, str) else None],
+                    'PBL%R%ERG': [self.pbl_r_erg.strip() if hasattr(self, 'pbl_r_erg') and isinstance(self.pbl_r_erg, str) else None],
+                    'PBL%R%WGT': [self.pbl_r_wgt.strip() if hasattr(self, 'pbl_r_wgt') and isinstance(self.pbl_r_wgt, str) else None],
+                    'PBL%R%TME': [self.pbl_r_tme.strip() if hasattr(self, 'pbl_r_tme') and isinstance(self.pbl_r_tme, str) else None],
+                }
+            )
+        )
 
-        if best is None:
-            raise abc.Error(f'Expected ``{cls.__name__}``.', f'{source[:200]=}')
+        if returning:
+            return frame
 
-        form, match = best
-        event = object.__new__(form)
-        for (name, kinds), text in zip(form._fields.items(), match.groups()):
-            object.__setattr__(event, f'_{name}', str.__new__(kinds[0], text))
-        event.spaces = {}
-
-        return event, source[match.end() :]
-
-    @classmethod
-    def _leaves(cls) -> tuple[type['Event'], ...]:
+    @property
+    def particle(self) -> abc.Terminal:
         """
-        Gets the single-form event blocks of ``cls``.
+        Event block particle.
         """
 
-        if not cls._forms:
-            return (cls,)
+        return self.ncl_pbl_i_icl
 
-        return tuple(leaf for form in cls._forms for leaf in form._leaves())
-
-    @classmethod
-    def _regex(cls) -> re.Pattern:
+    @property
+    def material(self) -> abc.Terminal:
         """
-        Gets the regular expression matching single-form event blocks, one group per field.
+        Event block material.
         """
 
-        if '_REGEX' not in cls.__dict__:
-            patterns = []
-            for kinds in cls._fields.values():
-                assert len(kinds) == 1 and issubclass(kinds[0], abc.Terminal)
-                pattern = kinds[0]._pattern.pattern
-                assert pattern.startswith('(') and pattern.endswith(_TERMINAL_REST)
-                patterns.append(pattern[: -len(_TERMINAL_REST)] + ')')
-            cls._REGEX = re.compile(''.join(patterns), re.IGNORECASE)
+        return self.mat_pbl_i_icl
 
-        return cls._REGEX
+    @property
+    def position(self) -> tuple[abc.Terminal, abc.Terminal, abc.Terminal]:
+        """
+        Event block position.
+        """
+
+        return (self.pbl_r_x, self.pbl_r_y, self.pbl_r_z)
+
+    @property
+    def zaid(self) -> abc.Terminal | None:
+        """
+        Event block target nuclide zaid.
+        """
+
+        return None
+
+    @property
+    def surface(self) -> abc.Terminal | None:
+        """
+        Event block surface.
+        """
+
+        return None
+
+    @property
+    def direction(self) -> tuple[abc.Terminal, abc.Terminal, abc.Terminal] | None:
+        """
+        Event block direction.
+        """
+
+        return None
+
+    @property
+    def energy(self) -> abc.Terminal | None:
+        """
+        Event block energy.
+        """
+
+        return None
+
+    @property
+    def weight(self) -> abc.Terminal | None:
+        """
+        Source event block weigth.
+        """
+
+        return None
+
+    @property
+    def time(self) -> abc.Terminal | None:
+        """
+        Source event block time.
+        """
+
+        return None
 
 
 class EventSource(Event):
@@ -191,6 +248,42 @@ class EventSource_3(EventSource):
     pbl_r_wgt: typing.Annotated[abc.Terminal, r'.{13}']
     pbl_r_tme: typing.Annotated[abc.Terminal, r'.{13}']
 
+    @property
+    def direction(self) -> tuple[abc.Terminal, abc.Terminal, abc.Terminal] | None:
+        """
+        Source event block direction.
+        """
+
+        return (
+            self.pbl_r_u,
+            self.pbl_r_v,
+            self.pbl_r_w,
+        )
+
+    @property
+    def energy(self) -> abc.Terminal:
+        """
+        Source event block energy.
+        """
+
+        return self.pbl_r_erg
+
+    @property
+    def weight(self) -> abc.Terminal:
+        """
+        Source event block weigth.
+        """
+
+        return self.pbl_r_wgt
+
+    @property
+    def time(self) -> abc.Terminal:
+        """
+        Source event block time.
+        """
+
+        return self.pbl_r_tme
+
 
 class EventSource_4(EventSource):
     """
@@ -238,11 +331,69 @@ class EventSource_4(EventSource):
     pbl_r_wgt: typing.Annotated[abc.Terminal, r'.{13}']
     pbl_r_tme: typing.Annotated[abc.Terminal, r'.{13}']
 
+    @property
+    def direction(self) -> tuple[abc.Terminal, abc.Terminal, abc.Terminal] | None:
+        """
+        Source event block direction.
+        """
+
+        return (
+            self.pbl_r_u,
+            self.pbl_r_v,
+            self.pbl_r_w,
+        )
+
+    @property
+    def energy(self) -> abc.Terminal:
+        """
+        Source event block energy.
+        """
+
+        return self.pbl_r_erg
+
+    @property
+    def weight(self) -> abc.Terminal:
+        """
+        Source event block weigth.
+        """
+
+        return self.pbl_r_wgt
+
+    @property
+    def time(self) -> abc.Terminal:
+        """
+        Source event block time.
+        """
+
+        return self.pbl_r_tme
+
 
 class EventBank(Event):
     """
     Represents bank event blocks.
     """
+
+    if typing.TYPE_CHECKING:
+        blank_0: typing.Annotated[abc.Terminal, r' ']
+        type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:0[1-9]|1\d|2[0-6]|3[0-4])']
+        pbl_i_node: typing.Annotated[abc.Terminal, r'.{10}']
+        nxs_2_iex: typing.Annotated[abc.Terminal, r'.{10}']
+        ntyn: typing.Annotated[abc.Terminal, r'.{10}']
+        ncl_pbl_i_icl: typing.Annotated[abc.Terminal, r'.{10}']
+        mat_pbl_i_icl: typing.Annotated[abc.Terminal, r'.{10}']
+        newline: typing.Annotated[abc.Terminal, r'\n']
+        blank_1: typing.Annotated[abc.Terminal, r' ']
+        pbl_r_x: typing.Annotated[abc.Terminal, r'.{13}']
+        pbl_r_y: typing.Annotated[abc.Terminal, r'.{13}']
+        pbl_r_z: typing.Annotated[abc.Terminal, r'.{13}']
+
+    @property
+    def zaid(self) -> abc.Terminal:
+        """
+        Source event block target nuclide zaid.
+        """
+
+        return self.nxs_2_iex
 
 
 class EventBank_1(EventBank):
@@ -359,6 +510,42 @@ class EventBank_3(EventBank):
     pbl_r_wgt: typing.Annotated[abc.Terminal, r'.{13}']
     pbl_r_tme: typing.Annotated[abc.Terminal, r'.{13}']
 
+    @property
+    def direction(self) -> tuple[abc.Terminal, abc.Terminal, abc.Terminal] | None:
+        """
+        Source event block direction.
+        """
+
+        return (
+            self.pbl_r_u,
+            self.pbl_r_v,
+            self.pbl_r_w,
+        )
+
+    @property
+    def energy(self) -> abc.Terminal:
+        """
+        Source event block energy.
+        """
+
+        return self.pbl_r_erg
+
+    @property
+    def weight(self) -> abc.Terminal:
+        """
+        Source event block weigth.
+        """
+
+        return self.pbl_r_wgt
+
+    @property
+    def time(self) -> abc.Terminal:
+        """
+        Source event block time.
+        """
+
+        return self.pbl_r_tme
+
 
 class EventBank_4(EventBank):
     """
@@ -408,11 +595,69 @@ class EventBank_4(EventBank):
     pbl_r_wgt: typing.Annotated[abc.Terminal, r'.{13}']
     pbl_r_tme: typing.Annotated[abc.Terminal, r'.{13}']
 
+    @property
+    def direction(self) -> tuple[abc.Terminal, abc.Terminal, abc.Terminal] | None:
+        """
+        Source event block direction.
+        """
+
+        return (
+            self.pbl_r_u,
+            self.pbl_r_v,
+            self.pbl_r_w,
+        )
+
+    @property
+    def energy(self) -> abc.Terminal:
+        """
+        Source event block energy.
+        """
+
+        return self.pbl_r_erg
+
+    @property
+    def weight(self) -> abc.Terminal:
+        """
+        Source event block weigth.
+        """
+
+        return self.pbl_r_wgt
+
+    @property
+    def time(self) -> abc.Terminal:
+        """
+        Source event block time.
+        """
+
+        return self.pbl_r_tme
+
 
 class EventSurface(Event):
     """
     Represents surface event blocks.
     """
+
+    if typing.TYPE_CHECKING:
+        blank_0: typing.Annotated[abc.Terminal, r' ']
+        type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:0[1-9]|1\d|2[0-6]|3[0-4])']
+        pbl_i_node: typing.Annotated[abc.Terminal, r'.{10}']
+        nsf_pbl_i_jsu: typing.Annotated[abc.Terminal, r'.{10}']
+        angle: typing.Annotated[abc.Terminal, r'.{10}']
+        ncl_pbl_i_icl: typing.Annotated[abc.Terminal, r'.{10}']
+        mat_pbl_i_icl: typing.Annotated[abc.Terminal, r'.{10}']
+        newline: typing.Annotated[abc.Terminal, r'\n']
+        blank_1: typing.Annotated[abc.Terminal, r' ']
+        pbl_r_x: typing.Annotated[abc.Terminal, r'.{13}']
+        pbl_r_y: typing.Annotated[abc.Terminal, r'.{13}']
+        pbl_r_z: typing.Annotated[abc.Terminal, r'.{13}']
+
+    @property
+    def surface(self) -> abc.Terminal:
+        """
+        Source event block surface.
+        """
+
+        return self.nsf_pbl_i_jsu
 
 
 class EventSurface_1(EventSurface):
@@ -529,6 +774,42 @@ class EventSurface_3(EventSurface):
     pbl_r_wgt: typing.Annotated[abc.Terminal, r'.{13}']
     pbl_r_tme: typing.Annotated[abc.Terminal, r'.{13}']
 
+    @property
+    def direction(self) -> tuple[abc.Terminal, abc.Terminal, abc.Terminal] | None:
+        """
+        Source event block direction.
+        """
+
+        return (
+            self.pbl_r_u,
+            self.pbl_r_v,
+            self.pbl_r_w,
+        )
+
+    @property
+    def energy(self) -> abc.Terminal:
+        """
+        Source event block energy.
+        """
+
+        return self.pbl_r_erg
+
+    @property
+    def weight(self) -> abc.Terminal:
+        """
+        Source event block weigth.
+        """
+
+        return self.pbl_r_wgt
+
+    @property
+    def time(self) -> abc.Terminal:
+        """
+        Source event block time.
+        """
+
+        return self.pbl_r_tme
+
 
 class EventSurface_4(EventSurface):
     """
@@ -578,11 +859,69 @@ class EventSurface_4(EventSurface):
     pbl_r_wgt: typing.Annotated[abc.Terminal, r'.{13}']
     pbl_r_tme: typing.Annotated[abc.Terminal, r'.{13}']
 
+    @property
+    def direction(self) -> tuple[abc.Terminal, abc.Terminal, abc.Terminal] | None:
+        """
+        Source event block direction.
+        """
+
+        return (
+            self.pbl_r_u,
+            self.pbl_r_v,
+            self.pbl_r_w,
+        )
+
+    @property
+    def energy(self) -> abc.Terminal:
+        """
+        Source event block energy.
+        """
+
+        return self.pbl_r_erg
+
+    @property
+    def weight(self) -> abc.Terminal:
+        """
+        Source event block weigth.
+        """
+
+        return self.pbl_r_wgt
+
+    @property
+    def time(self) -> abc.Terminal:
+        """
+        Source event block time.
+        """
+
+        return self.pbl_r_tme
+
 
 class EventCollision(Event):
     """
     Represents collision event blocks.
     """
+
+    if typing.TYPE_CHECKING:
+        blank_0: typing.Annotated[abc.Terminal, r' ']
+        type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:0[1-9]|1\d|2[0-6]|3[0-4])']
+        pbl_i_node: typing.Annotated[abc.Terminal, r'.{10}']
+        nxs_2_iex: typing.Annotated[abc.Terminal, r'.{10}']
+        pbl_i_mtp: typing.Annotated[abc.Terminal, r'.{10}']
+        ncl_pbl_i_icl: typing.Annotated[abc.Terminal, r'.{10}']
+        mat_pbl_i_icl: typing.Annotated[abc.Terminal, r'.{10}']
+        newline: typing.Annotated[abc.Terminal, r'\n']
+        blank_1: typing.Annotated[abc.Terminal, r' ']
+        pbl_r_x: typing.Annotated[abc.Terminal, r'.{13}']
+        pbl_r_y: typing.Annotated[abc.Terminal, r'.{13}']
+        pbl_r_z: typing.Annotated[abc.Terminal, r'.{13}']
+
+    @property
+    def zaid(self) -> abc.Terminal:
+        """
+        Source event block target nuclide zaid.
+        """
+
+        return self.nxs_2_iex
 
 
 class EventCollision_1(EventCollision):
@@ -699,6 +1038,42 @@ class EventCollision_3(EventCollision):
     pbl_r_wgt: typing.Annotated[abc.Terminal, r'.{13}']
     pbl_r_tme: typing.Annotated[abc.Terminal, r'.{13}']
 
+    @property
+    def direction(self) -> tuple[abc.Terminal, abc.Terminal, abc.Terminal] | None:
+        """
+        Source event block direction.
+        """
+
+        return (
+            self.pbl_r_u,
+            self.pbl_r_v,
+            self.pbl_r_w,
+        )
+
+    @property
+    def energy(self) -> abc.Terminal:
+        """
+        Source event block energy.
+        """
+
+        return self.pbl_r_erg
+
+    @property
+    def weight(self) -> abc.Terminal:
+        """
+        Source event block weigth.
+        """
+
+        return self.pbl_r_wgt
+
+    @property
+    def time(self) -> abc.Terminal:
+        """
+        Source event block time.
+        """
+
+        return self.pbl_r_tme
+
 
 class EventCollision_4(EventCollision):
     """
@@ -747,6 +1122,42 @@ class EventCollision_4(EventCollision):
     pbl_r_erg: typing.Annotated[abc.Terminal, r'.{13}']
     pbl_r_wgt: typing.Annotated[abc.Terminal, r'.{13}']
     pbl_r_tme: typing.Annotated[abc.Terminal, r'.{13}']
+
+    @property
+    def direction(self) -> tuple[abc.Terminal, abc.Terminal, abc.Terminal] | None:
+        """
+        Source event block direction.
+        """
+
+        return (
+            self.pbl_r_u,
+            self.pbl_r_v,
+            self.pbl_r_w,
+        )
+
+    @property
+    def energy(self) -> abc.Terminal:
+        """
+        Source event block energy.
+        """
+
+        return self.pbl_r_erg
+
+    @property
+    def weight(self) -> abc.Terminal:
+        """
+        Source event block weigth.
+        """
+
+        return self.pbl_r_wgt
+
+    @property
+    def time(self) -> abc.Terminal:
+        """
+        Source event block time.
+        """
+
+        return self.pbl_r_tme
 
 
 class EventTermination(Event):
@@ -869,6 +1280,42 @@ class EventTermination_3(EventTermination):
     pbl_r_wgt: typing.Annotated[abc.Terminal, r'.{13}']
     pbl_r_tme: typing.Annotated[abc.Terminal, r'.{13}']
 
+    @property
+    def direction(self) -> tuple[abc.Terminal, abc.Terminal, abc.Terminal] | None:
+        """
+        Source event block direction.
+        """
+
+        return (
+            self.pbl_r_u,
+            self.pbl_r_v,
+            self.pbl_r_w,
+        )
+
+    @property
+    def energy(self) -> abc.Terminal:
+        """
+        Source event block energy.
+        """
+
+        return self.pbl_r_erg
+
+    @property
+    def weight(self) -> abc.Terminal:
+        """
+        Source event block weigth.
+        """
+
+        return self.pbl_r_wgt
+
+    @property
+    def time(self) -> abc.Terminal:
+        """
+        Source event block time.
+        """
+
+        return self.pbl_r_tme
+
 
 class EventTermination_4(EventTermination):
     """
@@ -917,3 +1364,39 @@ class EventTermination_4(EventTermination):
     pbl_r_erg: typing.Annotated[abc.Terminal, r'.{13}']
     pbl_r_wgt: typing.Annotated[abc.Terminal, r'.{13}']
     pbl_r_tme: typing.Annotated[abc.Terminal, r'.{13}']
+
+    @property
+    def direction(self) -> tuple[abc.Terminal, abc.Terminal, abc.Terminal] | None:
+        """
+        Source event block direction.
+        """
+
+        return (
+            self.pbl_r_u,
+            self.pbl_r_v,
+            self.pbl_r_w,
+        )
+
+    @property
+    def energy(self) -> abc.Terminal:
+        """
+        Source event block energy.
+        """
+
+        return self.pbl_r_erg
+
+    @property
+    def weight(self) -> abc.Terminal:
+        """
+        Source event block weigth.
+        """
+
+        return self.pbl_r_wgt
+
+    @property
+    def time(self) -> abc.Terminal:
+        """
+        Source event block time.
+        """
+
+        return self.pbl_r_tme

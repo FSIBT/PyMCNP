@@ -1,4 +1,3 @@
-import re
 import typing
 
 import pandas
@@ -8,16 +7,7 @@ from ... import line
 from ..Tally import Tally
 
 
-class Space(abc.Terminal):
-    """
-    Represents spaces for lines.
-    """
-
-    _pattern = re.compile(r'(\n)([\s\S]*)', re.IGNORECASE)
-    _default = '\n'
-
-
-class SurfaceAngle(Tally):
+class SurfaceAngle(Tally, abc.symbol.WithDataIter):
     """
     Represents surface angle subtally blocks.
 
@@ -37,36 +27,46 @@ class SurfaceAngle(Tally):
         table_footing: surface angle subtally block ``r'\\n ?\\n'`` symbol.
     """
 
-    surface_number_preamble: typing.Annotated[abc.Terminal, r' surface '] = abc.Terminal[r' surface '](' surface ')
+    surface_number_preamble: typing.Annotated[abc.Terminal, r' surface ']
     surface_number: typing.Annotated[abc.Terminal, r'.+(?=\n|\Z)']
-    angle_from_preamble: typing.Annotated[abc.Terminal, r'\n angle  bin:  '] = abc.Terminal[r'\n angle  bin:  ']('\n angle  bin:  ')
+    angle_from_preamble: typing.Annotated[abc.Terminal, r'\n angle  bin:  ']
     angle_from: typing.Annotated[abc.Terminal, r'.{12}']
-    angle_to_preamble: typing.Annotated[abc.Terminal, r' to  '] = abc.Terminal[r' to  '](' to  ')
+    angle_to_preamble: typing.Annotated[abc.Terminal, r' to  ']
     angle_to: typing.Annotated[abc.Terminal, r'.{11}']
     angle_to_postamble: typing.Annotated[abc.Terminal, r' degrees {85}']
-    table_heading: typing.Annotated[abc.Terminal, r'\n {6}energy {3}'] = abc.Terminal[r'\n {6}energy {3}']('\n      energy   ')
-    table_body_preamble: typing.Annotated[abc.Terminal, r'\n'] = abc.Terminal[r'\n']('\n')
-    table_body: typing.Annotated[abc.Array, line.Tally, Space] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
-    table_total_preamble: typing.Annotated[abc.Terminal, r'\n {6}total {6}'] = abc.Terminal[r'\n {6}total {6}']('\n      total      ')
+    table_heading: typing.Annotated[abc.Terminal, r'\n {6}energy {3}']
+    table_body_preamble: typing.Annotated[abc.Terminal, r'\n']
+    table_body: typing.Annotated[abc.Array, line.Tally, typing.Annotated[abc.Terminal, r'\n']]
+    table_total_preamble: typing.Annotated[abc.Terminal, r'\n {6}total {6}']
     table_total: typing.Annotated[abc.Terminal, r'.+(?=\n|\Z)']
-    table_footing: typing.Annotated[abc.Terminal, r'\n ?\n'] = abc.Terminal[r'\n ?\n']('\n \n')
+    table_footing: typing.Annotated[abc.Terminal, r'\n ?\n']
 
-    def to_dataframe(self) -> pandas.DataFrame:
+    def to_dataframe_iter(self, returning: bool = False) -> typing.Generator[pandas.DataFrame, None, pandas.DataFrame | None]:
         """
         Generates pandas dataframes for surface angle subtally blocks.
 
+        Parameters:
+            returning: Flag to/to not return.
+
+        Yields:
+            Pandas dataframes for surface angle subtally blocks.
+
         Returns:
-            Corresponding pandas dataframe for ``self``.
+            Pandas dataframe for all surface angle subtally blocks.
         """
 
         assert isinstance(self.table_body, (abc.Array, abc.Terminal[r'']))
         assert not isinstance(self.table_body, abc.Array) or all(isinstance(row, line.Tally) for row in self.table_body)
 
         if isinstance(self.table_body, abc.Array) and self.table_body:
-            df = pandas.concat((row.to_dataframe() for row in self.table_body), ignore_index=True)
-            df['surface_number'] = self.surface_number.strip()
-            df['angle_from'] = self.angle_from.strip()
-            df['angle_to'] = self.angle_to.strip()
-            return df
+            frame = pandas.concat((row.to_dataframe() for row in self.table_body), ignore_index=True)
+            frame['surface_number'] = self.surface_number.strip()
+            frame['angle_from'] = self.angle_from.strip()
+            frame['angle_to'] = self.angle_to.strip()
+        else:
+            frame = pandas.DataFrame()
 
-        return pandas.DataFrame()
+        yield frame
+
+        if returning:
+            return frame

@@ -1,11 +1,13 @@
 import re
 import typing
 
+import pandas
+
 from ... import abc
 from ..Line import Line
 
 
-class Row(Line):
+class Row(Line, abc.symbol.WithDataIter):
     """
     Represents data rows.
 
@@ -66,6 +68,25 @@ class Row(Line):
         row.__post_init__()
 
         return row, source[match.end() :]
+
+    def to_dataframe_iter(self, returning: bool = False) -> typing.Generator[pandas.DataFrame, None, pandas.DataFrame | None]:
+        """
+        Generates pandas dataframes for values.
+
+        Parameters:
+            returning: Flag to/to not return.
+
+        Yields:
+            Pandas dataframes for values.
+
+        Returns:
+            Pandas dataframe for all values.
+        """
+
+        yield (frame := pandas.DataFrame([[value if value == 'Total' else float(value) for value in self.values]]))
+
+        if returning:
+            return frame
 
 
 _VALUE = r'(?:Total|[-+]?(?:\d+\.?\d*|\.\d+)(?:E[-+]?\d+)?|[-+]?(?:NaN|Inf(?:inity)?))'

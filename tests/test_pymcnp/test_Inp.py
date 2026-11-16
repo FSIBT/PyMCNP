@@ -115,6 +115,10 @@ class Test_Inp(classes.Test_FromFile):
     ]
 
     def test_nps(self) -> None:
+        """
+        Tests `nps` on `EXAMPLES_NPS`.
+        """
+
         for example in self.EXAMPLES_NPS:
             inp, _ = pymcnp.Inp.from_mcnp(example)
 
@@ -135,6 +139,10 @@ class Test_Inp(classes.Test_FromFile):
     ]
 
     def test_seed(self) -> None:
+        """
+        Tests `seed` on `EXAMPLES_SEED`.
+        """
+
         for example in self.EXAMPLES_SEED:
             inp, _ = pymcnp.Inp.from_mcnp(example)
 

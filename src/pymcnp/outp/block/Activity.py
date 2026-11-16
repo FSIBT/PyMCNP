@@ -6,63 +6,37 @@ from ... import abc
 from .. import line
 from ..Block import Block
 
-COLUMNS = (
-    'cell',
-    'tracks',
-    'population',
-    'collisions',
-    'collisions_weighted',
-    'number_weighted_energy',
-    'flux_weighted_energy',
-    'average_track_weight',
-    'average_track_mfp',
-)
 
-
-class Activity(Block):
+class Activity(Block, abc.symbol.WithDataIter):
     """
     Represents activity blocks.
     """
 
-    def to_dataframe(self) -> pandas.DataFrame:
+    def to_dataframe_iter(self, returning: bool = False) -> typing.Generator[pandas.DataFrame, None, pandas.DataFrame | None]:
         """
-        Generates pandas dataframes for activity tables (print table 126), one row per cell, plus a final ``total`` row.
+        Generates pandas dataframes for table rows.
+
+        Parameters:
+            returning: Flag to/to not return.
+
+        Yields:
+            Pandas dataframes for table rows.
 
         Returns:
-            Dataframe with the columns ``COLUMNS``; the ``total`` row has no cell and only tracks, population, collisions and weighted collisions.
-
-        Raises:
-            Error: Invalid table row.
+            Pandas dataframe for all table rows.
         """
 
-        assert hasattr(self, 'table_body')
-        assert isinstance(self.table_body, abc.Array)
-        assert all(isinstance(row, line.Activity) for row in self.table_body)
+        if returning:
+            frames = []
 
-        rows = []
         for row in self.table_body:
-            fields = row.to_mcnp().split()
-            if len(fields) != 10:
-                raise abc.Error('Invalid table row.', f'{row=}')
-            rows.append([int(fields[1]), int(fields[2]), int(fields[3]), int(fields[4]), *map(float, fields[5:])])
+            yield (frame := row.to_dataframe())
 
-        frame = pandas.DataFrame(rows, columns=list(COLUMNS))
-        total = pandas.DataFrame(
-            [
-                {
-                    'cell': None,
-                    'tracks': int(str(getattr(self, 'table_total_tracks'))),
-                    'population': int(str(getattr(self, 'table_total_population'))),
-                    'collisions': int(str(getattr(self, 'table_total_collisions'))),
-                    'collisions_weighted': float(str(getattr(self, 'table_total_weighted_collisions'))),
-                }
-            ],
-            columns=list(COLUMNS),
-        )
-        frame = pandas.concat([frame, total], ignore_index=True) if rows else total
-        frame['cell'] = frame['cell'].astype('Int64')
+            if returning:
+                frames.append(frame)
 
-        return frame
+        if returning:
+            return pandas.concat(frames, ignore_index=True)
 
 
 class NeutronActivity(Activity):

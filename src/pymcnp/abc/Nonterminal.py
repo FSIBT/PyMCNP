@@ -274,7 +274,7 @@ class Nonterminal(Symbol):
                 if (
                     source != ''  # Checking match is not complete.
                     and not isinstance(parameters[name], Terminal[r''])  # Checking parameter is not empty.
-                    and cls._space is not None  # Checking if this consituent has spaces.
+                    and cls._space != (Terminal[r''],)  # Checking if this consituent has spaces.
                     and name not in _space_null(cls._fields)
                 ):
                     try:

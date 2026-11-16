@@ -8,7 +8,7 @@ from ..Line import Line
 
 
 class Space(abc.Terminal):
-    _pattern = re.compile(r'(\n |)([\s\S]*)', re.IGNORECASE)
+    _pattern = re.compile(r'(\n |)', re.IGNORECASE)
 
 
 class _Nv(abc.Nonterminal):

@@ -6,7 +6,7 @@ from ... import abc
 from ..Line import Line
 
 
-class Tally(Line):
+class Tally(Line, abc.symbol.WithDataIter):
     """
     Represents tally lines.
 
@@ -20,18 +20,29 @@ class Tally(Line):
     count: typing.Annotated[abc.Terminal, r'   \S+']
     error: typing.Annotated[abc.Terminal, r' \S+']
 
-    def to_dataframe(self) -> pandas.DataFrame:
+    def to_dataframe_iter(self, returning: bool = False) -> typing.Generator[pandas.DataFrame, None, pandas.DataFrame | None]:
         """
         Generates pandas dataframes for tally lines.
 
+        Parameters:
+            returning: Flag to/to not return.
+
+        Yields:
+            Pandas dataframes for tally lines.
+
         Returns:
-            Pandas dataframe corresponding to ``self``.
+            Pandas dataframe for all tally lines.
         """
 
-        return pandas.DataFrame(
-            {
-                'bins': [float(self.bin)],
-                'counts': [float(self.count)],
-                'errors': [float(self.error)],
-            }
+        yield (
+            frame := pandas.DataFrame(
+                {
+                    'bins': [float(self.bin)],
+                    'counts': [float(self.count)],
+                    'errors': [float(self.error)],
+                }
+            )
         )
+
+        if returning:
+            return frame

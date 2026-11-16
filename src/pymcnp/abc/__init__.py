@@ -1,10 +1,11 @@
-from .Error import Error
-from .Symbol import Symbol
+from . import file
+from . import symbol
 from .Array import Array
-from .Terminal import Terminal
-from .Nonterminal import Nonterminal
+from .Error import Error
 from .File import File
-from .File import DataFile
+from .Nonterminal import Nonterminal
+from .Symbol import Symbol
+from .Terminal import Terminal
 from .Utility import Utility
 from .Visualization import Visualization
 from .Visualization import Box
@@ -24,13 +25,14 @@ from .Visualization import Wedge
 from .Visualization import Endpoint
 
 __all__ = (
-    'Error',
-    'Symbol',
+    'file',
+    'symbol',
     'Array',
-    'Terminal',
-    'Nonterminal',
+    'Error',
     'File',
-    'DataFile',
+    'Nonterminal',
+    'Symbol',
+    'Terminal',
     'Utility',
     'Visualization',
     'Box',

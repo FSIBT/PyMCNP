@@ -7,17 +7,36 @@ from .. import subblock
 from ..Block import Block
 
 
-class Tally(Block):
+class Tally(Block, abc.symbol.WithDataIter):
     """
     Represents tally blocks.
     """
 
-    def to_dataframe(self) -> pandas.DataFrame:
+    if typing.TYPE_CHECKING:
+        name: typing.Annotated[abc.Terminal, r'\n1tally ']
+        number: typing.Annotated[abc.Terminal, r'.{8}']
+        nps_preamble: typing.Annotated[abc.Terminal, r'        nps = ']
+        nps: typing.Annotated[abc.Terminal, r'.{11}']
+        tally_type_preamble: typing.Annotated[abc.Terminal, r'\n           tally type ']
+        tally_type: typing.Annotated[abc.Terminal, r'.+?(?=\n|\Z)']
+        particles_preamble: typing.Annotated[abc.Terminal, r'\n           particle\(s\): ']
+        particles: typing.Annotated[abc.Terminal, r'.+?(?=\n|\Z)']
+        subtallies_preamble: typing.Annotated[abc.Terminal, r'\n \n']
+        subtallies: typing.Annotated[abc.Array, subblock.Tally, typing.Annotated[abc.Terminal, r'']]
+        statistics: subblock.Statistics
+
+    def to_dataframe_iter(self, returning: bool = False) -> typing.Generator[pandas.DataFrame, None, pandas.DataFrame | None]:
         """
         Generates pandas dataframes for tally blocks.
 
+        Parameters:
+            returning: Flag to/to not return.
+
+        Yields:
+            Pandas dataframes for tally blocks.
+
         Returns:
-            Pandas dataframe corresponding to ``self``.
+            Pandas dataframe for all tally blocks.
         """
 
         assert hasattr(self, 'number')
@@ -34,15 +53,17 @@ class Tally(Block):
 
         if self.subtallies:
             df = pandas.concat((subtally.to_dataframe() for subtally in self.subtallies), ignore_index=True)
-
             df['number'] = self.number.strip()
             df['type'] = self.tally_type.strip()
             df['particles'] = self.particles.strip()
             df['nps'] = self.nps.strip()
-
-            return df
         else:
-            return pandas.DataFrame()
+            df = pandas.DataFrame()
+
+        yield df
+
+        if returning:
+            return df
 
 
 class TallySurface(Tally):
