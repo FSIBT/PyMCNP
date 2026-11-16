@@ -14,43 +14,6 @@ _REGEX_JUMP = re.compile(r'(?<=\s)(\d+)(J)(?=\s)', re.IGNORECASE)
 _REGEX_LOG = re.compile(r'(\S+) (\d+)I?LOG (\S+)', re.IGNORECASE)
 _REGEX_UNWRAPPED_CARD = re.compile(r'(?:c|[fs]c\d+)(?:\s|\Z)', re.IGNORECASE)
 
-_WIDTH = 80
-_INDENT = 5
-
-
-def _wrap(line: str) -> str:
-    """
-    Wraps long card lines at ``_WIDTH`` columns with ``&`` continuation.
-
-    Parameters:
-        line: Line to wrap.
-
-    Returns:
-        ``line`` unchanged if it fits, is a comment or text card (``c``, ``fc``, ``sc``), or cannot be split, otherwise its wrapped lines.
-    """
-
-    if len(line) <= _WIDTH or _REGEX_UNWRAPPED_CARD.match(line):
-        return line
-
-    code, dollar, comment = line.partition('$')
-    code = code.rstrip().removesuffix('&').rstrip()
-    indent = ' ' * _INDENT if line.startswith(' ' * _INDENT) else ''
-    words = code.split()
-    if len(words) < 2:
-        return line
-
-    lines: list[str] = []
-    current = indent + words[0] if indent else words[0]
-    for word in words[1:]:
-        if len(current) + 1 + len(word) + 2 > _WIDTH:
-            lines.append(f'{current} &')
-            current = ' ' * _INDENT + word
-        else:
-            current += f' {word}'
-
-    lines.append(current + (f' {dollar}{comment}' if dollar else ''))
-    return '\n'.join(lines)
-
 
 class SpaceBlock(abc.Terminal):
     """
@@ -102,10 +65,29 @@ class Inp(abc.File):
         assert isinstance(self.data, abc.Array)
         assert all(isinstance(card, (inp.card.Data | inp.card.Comment)) for card in self.data)
 
-        cell_count = sum(1 for cell in self.cells if not isinstance(cell, inp.card.Comment))
+        cell_numbers = set()
+        for card in (cells := self.cells.filter(inp.card.Cell)):
+            if isinstance(card, inp.card.Cell_2):
+                if card.n not in cell_numbers:
+                    raise abc.Error('Invalid value.', f'{card.n=}')
 
-        for card in self.data:
-            if isinstance(card, inp.card.data.Vol) and not (card.no != '' or len(card.x) == cell_count):
+                card.material(cells)
+
+            if card.j in cell_numbers:
+                raise abc.Error('Invalid value.', f'{card.j=}')
+
+            cell_numbers.add(card.j)
+
+        surface_numbers = set()
+        for card in self.surfaces.filter(inp.card.Surface):
+            if card.j in surface_numbers:
+                raise abc.Error('Invalid value.', f'{card.j=}')
+
+            surface_numbers.add(card.j)
+
+        cell_count = len(cell_numbers)
+        for card in self.data.filter(inp.card.Data):
+            if isinstance(card, inp.card.data.Vol) and card.no == '' and len(card.x) != cell_count:
                 raise abc.Error('Invalid value.', f'{card=}')
 
             if isinstance(card, inp.card.data.Area) and len(card.x) != cell_count:
@@ -157,96 +139,10 @@ class Inp(abc.File):
 
         return super().from_mcnp(source)
 
-    def to_mcnp(self) -> str:
-        """
-        Decompiles inps into source strings, wrapping long card lines at 80 columns.
-
-        Returns:
-            Source string corresponding to ``self``.
-        """
-
-        assert isinstance(self.other, abc.Terminal)
-
-        source = super().to_mcnp()
-        body = source[: len(source) - len(self.other)] if self.other else source
-        title, _, rest = body.partition('\n')
-
-        return title + '\n' + '\n'.join(_wrap(line) for line in rest.split('\n')) + self.other
-
-    def _find(self, cards: collections.abc.Iterable[typing.Any], number: int | str, attribute: str, *types: type) -> typing.Any:
-        wanted = int(str(number).strip())
-        for card in cards:
-            if (not types or isinstance(card, types)) and hasattr(card, attribute) and int(str(getattr(card, attribute)).strip()) == wanted:
-                return card
-        kind = types[0].__name__ if types else 'Card'
-        raise abc.Error('Card not found.', f'{kind} {number=}')
-
-    def cell(self, number: int | str) -> inp.card.Cell:
-        """
-        Returns the cell card with this number.
-
-        Raises:
-            Error: Cell not found.
-        """
-
-        return self._find(self.cells, number, 'j', inp.card.Cell)
-
-    def surface(self, number: int | str) -> inp.card.Surface:
-        """
-        Returns the surface card with this number.
-
-        Raises:
-            Error: Surface not found.
-        """
-
-        return self._find(self.surfaces, number, 'j', inp.card.Surface)
-
-    def material(self, number: int | str) -> inp.card.data.M:
-        """
-        Returns the ``M`` card of this material.
-
-        Raises:
-            Error: Material not found.
-        """
-
-        return self._find(self.data, number, 'suffix', inp.card.data.M)
-
-    def tally(self, number: int | str) -> inp.card.data.F | inp.card.data.Fmesh:
-        """
-        Returns the ``F`` or ``FMESH`` card of this tally.
-
-        Raises:
-            Error: Tally not found.
-        """
-
-        return self._find(self.data, number, 'suffix', inp.card.data.F, inp.card.data.Fmesh)
-
-    def cells_with_material(self, number: int | str) -> list[inp.card.Cell]:
-        """
-        Returns the cells filled with this material, in file order.
-        This includes ``LIKE n BUT`` cells, which have the material of cell ``n`` unless a ``MAT=`` option replaces it.
-        """
-
-        wanted = int(str(number).strip())
-
-        def material(cell: typing.Any, seen: tuple[int, ...] = ()) -> int | None:
-            if hasattr(cell, 'like'):
-                for option in cell.options:
-                    if isinstance(option, inp.option.cell.Mat):
-                        return int(str(option.m).strip())
-                origin = int(str(cell.n).strip())
-                return None if origin in seen else material(self.cell(origin), (*seen, int(str(cell.j).strip())))
-            return int(str(cell.m).strip()) if hasattr(cell, 'm') else None
-
-        return [cell for cell in self.cells if isinstance(cell, inp.card.Cell) and material(cell) == wanted]
-
     @property
     def nps(self) -> inp.literal.Integer | None:
         """
         Input file nps.
-
-        Raises:
-            Error.
         """
 
         assert isinstance(self.data, abc.Array)
@@ -267,9 +163,6 @@ class Inp(abc.File):
 
         Parameters:
             nps: Nps to set.
-
-        Raises:
-            Error.
         """
 
         assert isinstance(self.data, abc.Array)
@@ -289,9 +182,6 @@ class Inp(abc.File):
     def seed(self) -> inp.literal.Integer | None:
         """
         Input file seed.
-
-        Raises:
-            Error.
         """
 
         assert isinstance(self.data, abc.Array)
@@ -321,9 +211,6 @@ class Inp(abc.File):
 
         Parameters:
             seed: Seed to set.
-
-        Raises:
-            Error.
         """
 
         assert isinstance(self.data, abc.Array)
@@ -352,3 +239,94 @@ class Inp(abc.File):
         card = inp.card.data.Rand(options=[option])
         self.data.append(card)
         return
+
+    def cell_cards(
+        self,
+        number: inp.literal.Integer | int | str | None = None,
+        material: inp.literal.Integer | int | str | None = None,
+        density: inp.literal.Real | float | int | str | None = None,
+        kind: type[inp.card.Cell] = inp.card.Cell,
+    ) -> tuple[inp.card.Cell, ...]:
+        """
+        Gets input file cell cards.
+
+        Parameters:
+            number: Cell card number to get.
+            material: Cell card material to get.
+            density: Cell card density to get.
+            kind: Cell card type to get.
+
+        Returns:
+            Cell cards with number ``number``, material ``material``, density ``density``, if specified, and kind ``kind``.
+        """
+
+        every = self.cells.filter(kind)
+
+        number_matches = every
+        material_matches = every
+        density_matches = every
+
+        if number is not None:
+            number = inp.literal.Integer(str(number))
+            number_matches = self.cells.filter(kind, j=number)
+
+        if material is not None:
+            material = inp.literal.Integer(str(material))
+            material_matches = tuple((cell for cell in every if cell.material(every) == material))
+
+        if density is not None:
+            density = inp.literal.Real(str(density))
+            density_matches = tuple((cell for cell in every if cell.density(every) == density))
+
+        return tuple((cell for cell in every if cell in number_matches and cell in material_matches and cell in density_matches))
+
+    def surface_cards(self, number: inp.literal.Integer | int | str | None = None, kind: type[inp.card.Surface] = inp.card.Surface) -> tuple[inp.card.Surface, ...]:
+        """
+        Gets input file surface cards.
+
+        Parameters:
+            number: Surface card number to get.
+            kind: Surface card type to get.
+
+        Returns:
+            Surface cards with ``number`` number, if specified, and kind ``kind``.
+        """
+
+        every = self.cells.filter(kind)
+
+        number_matches = every
+
+        if number is not None:
+            number = inp.literal.Integer(str(number))
+            number_matches = self.surfaces.filter(kind, j=number)
+
+        return tuple(number_matches)
+
+    def data_cards(self, kind: type[inp.card.Data] = inp.card.Data) -> tuple[inp.card.Data, ...]:
+        """
+        Gets input file data cards.
+
+        Parameters:
+            kind: Data card type to get.
+
+        Returns:
+            Data cards with kind ``kind``.
+        """
+
+        every = self.cells.filter(kind)
+
+        return tuple(every)
+
+    def comment_cards(self) -> tuple[tuple[inp.card.Comment, ...], tuple[inp.card.Comment, ...], tuple[inp.card.Comment, ...]]:
+        """
+        Gets input file comment cards.
+
+        Returns:
+            Comment cards from the cell, surface, and data card blocks, respectively.
+        """
+
+        return (
+            tuple(self.cells.filter(inp.card.Comment)),
+            tuple(self.surfaces.filter(inp.card.Comment)),
+            tuple(self.data.filter(inp.card.Comment)),
+        )

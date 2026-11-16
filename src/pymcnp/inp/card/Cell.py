@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+import abc as abc_
 import typing
 import decimal
 import collections
@@ -25,6 +28,34 @@ class Cell(Card):
         assert hasattr(self, 'j')
 
         return literal.Geometry.from_mcnp(f'#{self.j}')[0]
+
+    @abc_.abstractmethod
+    def material(self, cells: tuple[Cell, ...]) -> literal.Integer:
+        """
+        Gets material number of cell cards.
+
+        Parameters:
+            cells: Sibling cells in cell block.
+
+        Returns:
+            Resolved cell card material number.
+        """
+
+        raise NotImplementedError
+
+    @abc_.abstractmethod
+    def density(self, cells: tuple[Cell, ...]) -> literal.Real | None:
+        """
+        Gets density number of cell cards.
+
+        Parameters:
+            cells: Sibling cells in cell block.
+
+        Returns:
+            Resolved cell card density number.
+        """
+
+        raise NotImplementedError
 
 
 class Cell_0(Cell):
@@ -82,6 +113,32 @@ class Cell_0(Cell):
 
         return self.geom.to_show(surfaces, cells)
 
+    def material(self, cells: tuple[Cell, ...]) -> literal.Integer:
+        """
+        Gets material number of cell cards.
+
+        Parameters:
+            cells: Sibling cells in cell block.
+
+        Returns:
+            Resolved cell card material number.
+        """
+
+        return self.m
+
+    def density(self, cells: tuple[Cell, ...]) -> literal.Real | None:
+        """
+        Gets density number of cell cards.
+
+        Parameters:
+            cells: Sibling cells in cell block.
+
+        Returns:
+            Resolved cell card density number.
+        """
+
+        return self.d
+
 
 class Cell_1(Cell):
     """
@@ -137,6 +194,32 @@ class Cell_1(Cell):
 
         return self.geom.to_show(surfaces, cells)
 
+    def material(self, cells: tuple[Cell, ...]) -> literal.Integer:
+        """
+        Gets material number of cell cards.
+
+        Parameters:
+            cells: Sibling cells in cell block.
+
+        Returns:
+            Resolved cell card material number.
+        """
+
+        return self.m
+
+    def density(self, cells: tuple[Cell, ...]) -> literal.Real | None:
+        """
+        Gets density number of cell cards.
+
+        Parameters:
+            cells: Sibling cells in cell block.
+
+        Returns:
+            Resolved cell card density number.
+        """
+
+        return None
+
 
 class Cell_2(Cell):
     """
@@ -173,6 +256,9 @@ class Cell_2(Cell):
         if not (1 <= self.n <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.n=}')
 
+        if not (self.j != self.n):
+            raise abc.Error('Invalid value.', f'({self.n=}) == ({self.j=})')
+
     def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista) -> abc.Visualization:
         """
         Visualizes cell cards.
@@ -187,3 +273,50 @@ class Cell_2(Cell):
         """
 
         return cells[str(self.n)]
+
+    def material(self, cells: tuple[Cell, ...]) -> literal.Integer:
+        """
+        Gets material number of cell cards.
+
+        Parameters:
+            cells: Sibling cells in cell block.
+
+        Returns:
+            Resolved cell card material number.
+
+        Raises:
+            Error: Invalid value.
+        """
+
+        if isinstance(self.options, abc.Array):
+            mat = self.options.filter(option.cell.Mat)
+            if len(mat) > 0:
+                return mat[0].m
+
+        for cell in reversed(cells):
+            if cell.j == self.n:
+                return cell.material(cells)
+
+        raise abc.Error('Invalid value.', f'{self=}')
+
+    def density(self, cells: tuple[Cell, ...]) -> literal.Real | None:
+        """
+        Gets density number of cell cards.
+
+        Parameters:
+            cells: Sibling cells in cell block.
+
+        Returns:
+            Resolved cell card density number.
+        """
+
+        if isinstance(self.options, abc.Array):
+            rho = self.options.filter(option.cell.Rho)
+            if len(rho) > 0:
+                return rho[0].d
+
+        for cell in reversed(cells):
+            if cell.j == self.n:
+                return cell.density(cells)
+
+        return None

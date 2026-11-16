@@ -192,6 +192,10 @@ class Test_Data(classes.Test_FromMcnp):
         'zd hello',
         'files 1 1 s f 1',
         'disable nuclide_activity_table',
+        # Testing macrobody facets survive parsing.
+        'PTRAC FILE=ASC EVENT=SUR SURFACE=3.1 3.2 3.3 TYPE=P',
+        # Test write_after type is not cut.
+        'PTRAC FILE=ASC EVENT=SUR SURFACE=3.1 3.2 TYPE=P WRITE=ALL',
     ]
     EXAMPLES_FROM_MCNP_INVALID = [
         'tr-1 1 1 1 2 2 2 3 3 3 4 4 4 5',

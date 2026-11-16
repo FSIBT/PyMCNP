@@ -36,13 +36,20 @@ def _parse_hint(hint: typing.Any) -> tuple[type[Symbol], ...]:
         if args[0] is Array:
             assert len(args) == 3
             kind, space = args[1:]
-            return (args[0][kind, space],)
+            kind = _parse_hint(kind)
+            if len(kind) != 0:
+                kind = typing.Union[kind]
+            if space is not None:
+                space = _parse_hint(space)
+                if len(space) != 0:
+                    space = typing.Union[space]
+            return (Array[kind, space],)
 
         # ``Annotated[Terminal, <Pattern>] -> Terminal[<Pattern>]``
         if args[0] is Terminal:
             assert len(args) == 2
             pattern = args[1]
-            return (args[0][pattern],)
+            return (Terminal[pattern],)
 
         assert False
 
@@ -111,9 +118,11 @@ class Array(Symbol, list):
         assert isinstance(parameters, tuple)
         assert len(parameters) == 2
 
+        if parameters[1] is None:
+            parameters = (parameters[0], Space)
+
         if parameters not in CACHE:
             kind, space = parameters
-            space = space or Space
 
             CACHE[parameters] = type(
                 f'Array[{kind}]',
@@ -151,6 +160,23 @@ class Array(Symbol, list):
             spaces = [space] * (len(items) - 1)
 
         self.spaces = list(spaces)
+
+    def __deepcopy__(self, memo: dict[int, typing.Any]) -> typing.Self:
+        """
+        Deep copies arrays of symbols.
+
+        Parameters:
+            memo: Memory for copy objects.
+        """
+
+        if id(self) in memo:
+            return memo[id(self)]
+
+        clone = type(self)(*(copy.deepcopy(item, memo) for item in self), spaces=[copy.deepcopy(space, memo) for space in self.spaces])
+
+        memo[id(self)] = clone
+
+        return clone
 
     @classmethod
     def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
@@ -207,27 +233,10 @@ class Array(Symbol, list):
             item: Item to append.
         """
 
-        # Spaces go between items, so the first item gets none.
         if len(self) > 0:
             self.spaces.append(type(self)._space[0](type(self)._space[0]._default or ''))
 
         super().append(item)
-
-    def __deepcopy__(self, memo: dict[int, typing.Any]) -> typing.Self:
-        """
-        Deep copies arrays with their spaces.
-
-        Parameters:
-            memo: Memory for copy objects.
-        """
-
-        if id(self) in memo:
-            return memo[id(self)]
-
-        clone = type(self)(*(copy.deepcopy(item, memo) for item in self), spaces=[copy.deepcopy(space, memo) for space in self.spaces])
-        memo[id(self)] = clone
-
-        return clone
 
     def filter(self, *kinds: typing.Type, **fields: typing.Any) -> Array:
         """

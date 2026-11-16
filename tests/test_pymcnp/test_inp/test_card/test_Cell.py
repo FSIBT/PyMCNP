@@ -1,3 +1,5 @@
+import pytest
+
 import pymcnp
 from .... import classes
 
@@ -101,6 +103,7 @@ class Test_Cell(classes.Test_FromMcnp):
         '4 0 -11 12 -14 13 imp:n=1 lat=1 u=1 fill=3',
     ]
     EXAMPLES_FROM_MCNP_INVALID = [
+        '2 like 2 but rho=-5.2',
         '3 0 -1 2 -4 $ definition of cell 3',
         '1 0 1 -2 3 $ cell 1',
         '1 0 -17 $ rcc can',
@@ -129,3 +132,46 @@ class Test_Cell(classes.Test_FromMcnp):
 
     def test___invert__(self, cell_a: pymcnp.inp.card.Cell) -> None:
         assert ~cell_a
+
+    def test_material(self) -> None:
+        cell, _ = self.element.from_mcnp('1 1 3.1 1 (2:(+3 -4) #5) imp:@=1')
+        cells = ()
+        assert cell.material(cells) == '1'
+
+        cell, _ = self.element.from_mcnp('2 like 1 but imp:@=2')
+        cells = ()
+        with pytest.raises(pymcnp.abc.Error):
+            cell.material(cells)
+
+        cell, _ = self.element.from_mcnp('2 like 1 but imp:@=2')
+        cells = (self.element.from_mcnp('1 3 3.1 (2:3)')[0],)
+        assert cell.material(cells) == '3'
+
+        cell, _ = self.element.from_mcnp('2 like 1 but mat=2')
+        cells = ()
+        assert cell.material(cells) == '2'
+
+        cell, _ = self.element.from_mcnp('1 0 -7')
+        cells = ()
+        assert cell.material(cells) == '0'
+
+    def test_density(self) -> None:
+        cell, _ = self.element.from_mcnp('1 1 3.1 1 (2:(+3 -4) #5) imp:@=1')
+        cells = ()
+        assert cell.density(cells) == '3.1'
+
+        cell, _ = self.element.from_mcnp('2 like 1 but imp:@=2')
+        cells = ()
+        assert cell.density(cells) is None
+
+        cell, _ = self.element.from_mcnp('2 like 1 but imp:@=2')
+        cells = (self.element.from_mcnp('1 3 3.1 (2:3)')[0],)
+        assert cell.density(cells) == '3.1'
+
+        cell, _ = self.element.from_mcnp('2 like 1 but rho=2')
+        cells = ()
+        assert cell.density(cells) == '2'
+
+        cell, _ = self.element.from_mcnp('1 0 -7')
+        cells = ()
+        assert cell.density(cells) is None

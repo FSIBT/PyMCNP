@@ -1,323 +1,163 @@
-import copy
 import pathlib
-
-import pytest
 
 import pymcnp
 from .. import classes
 
 
-class Test_Inp(classes.Test_FromMcnp):
+PATH: pathlib.Path = pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp'
+
+
+class Test_Inp(classes.Test_FromFile):
     element = pymcnp.Inp
 
+    EXAMPLES_FROM_FILE_VALID = [
+        PATH / 'valid_11.inp',
+    ]
+    EXAMPLES_FROM_FILE_INVALID = [
+        PATH / 'invalid_00.inp',
+    ]
+
     EXAMPLES_FROM_MCNP_VALID = [
-        (pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_11.inp').read_text(),
+        'Hello\n1 0 -1\n2 like 1 but mat=20 rho=2.0\n\n1 SO 1\n\nnps 10\n',
+        # Testing trailing whitespace.
+        'Hello\n1 0 -1\n\n1 SO 1\n\nnps 10     \n',
+        # Testing empty comment.
+        'Hello\n1 0 -1\n\n1 SO 1\n\nmode n $\nnps 10 $\n',
+        # Testing comments.
+        'Hello\n1 0 -1\n\n1 SO 1\n\nfm4 1 2 -5 $ multiplier\nnps 1e9 $ histories\n',
+        # Testing no final newline after other block.
+        'Hello\n1 0 -1\n\n1 SO 1\n\nnps 10\nc end of file',
+        # Testing no final newline after data card block.
+        'Hello\n1 0 -1\n\n1 SO 1\n\nnps 10\nnps 10',
+        # Testing continuation.
+        'Hello\n1 0 -1\n\n1 SO 1\n\nm1 92235.80c 5 &\n92238.80c 95\nnps 10\n',
     ]
     EXAMPLES_FROM_MCNP_INVALID = [
+        'Hello\n1 0 -1\n\n1 SO 1\n1 SO 2\n\nnps 10\n',
         'Vol Test\n1 0 2\n\n2 SO 1\n\nVOL 3.1 3.1\n',
+        'Vol Test\n1 0 2\n1 0 3\n\n2 SO 1\n\nVOL 3.1 3.1\n',
+        'Vol Test\n1 0 2\n2 like 3 but imp:n=2\n\n2 SO 1\n\nVOL 3.1 3.1\n',
         'Area Test\n1 0 2\n\n2 SO 1\n\nAREA 3.1 3.1\n',
         'hello',
     ]
 
-    def test_nps_valid(self) -> None:
-        inp, _ = pymcnp.Inp.from_mcnp('Hello\n1 0 2\n\n2 SO 1\n\nSDEF\n')
-        assert inp.nps is None
-        inp.nps = 10
-        assert inp.to_mcnp() == 'Hello\n1 0 2\n\n2 SO 1\n\nSDEF\nNPS 10\n'
-        inp, _ = pymcnp.Inp.from_mcnp('Hello\n1 0 2\n\n2 SO 1\n\nSDEF\nNPS 200\n')
-        assert inp.nps
-        inp.nps = 10
-        assert inp.to_mcnp() == 'Hello\n1 0 2\n\n2 SO 1\n\nSDEF\nNPS 10\n'
+    def test_from_mcnp_valid(self) -> None:
+        super().test_from_mcnp_valid()
 
-    def test_seed_invalid(self) -> None:
-        inp, _ = pymcnp.Inp.from_mcnp('Hello\n1 0 2\n\n2 SO 1\n\nSDEF\n')
-        assert inp.seed is None
-        inp.seed = 10
-        assert inp.to_mcnp() == 'Hello\n1 0 2\n\n2 SO 1\n\nSDEF\nRAND SEED 10\n'
-        inp, _ = pymcnp.Inp.from_mcnp('Hello\n1 0 2\n\n2 SO 1\n\nSDEF\nRAND\n')
-        assert inp.seed is None
-        inp.seed = 10
-        assert inp.to_mcnp() == 'Hello\n1 0 2\n\n2 SO 1\n\nSDEF\nRAND SEED 10\n'
-        inp, _ = pymcnp.Inp.from_mcnp('Hello\n1 0 2\n\n2 SO 1\n\nSDEF\nRAND GEN 1\n')
-        assert inp.seed is None
-        inp.seed = 10
-        assert inp.to_mcnp() == 'Hello\n1 0 2\n\n2 SO 1\n\nSDEF\nRAND GEN 1 SEED 10\n'
-        inp, _ = pymcnp.Inp.from_mcnp('Hello\n1 0 2\n\n2 SO 1\n\nSDEF\nRAND GEN 1 SEED 200\n')
-        assert inp.seed
-        inp.seed = 10
-        assert inp.to_mcnp() == 'Hello\n1 0 2\n\n2 SO 1\n\nSDEF\nRAND GEN 1 SEED 10\n'
+        # Testing horizontal format.
 
-    def test_vertical_format_valid(self) -> None:
-        a, _ = pymcnp.Inp.from_file(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_42.inp')
-        b, _ = self.element.from_mcnp(a.to_mcnp())
-        assert a.to_mcnp() == b.to_mcnp()
+        # Testing jump horizontal format preprocessing.
+        inp, source = pymcnp.Inp.from_mcnp('Hello\n1 0 -1\n\n1 SO 1\n\nimp:n 1 2j 1\nnps 10\n')
+        assert inp.data[0].to_mcnp() == 'imp:n 1 j j 1'
 
+        # Testing repeat horizontal format preprocessing.
+        inp, source = pymcnp.Inp.from_mcnp('Hello\n1 0 -1\n\n1 SO 1\n\nsi1 1 2r 5\nnps 10\n')
+        assert inp.data[0].to_mcnp() == 'si1 1 1 1 5'
 
-class Test_Inp_Block_Ends:
-    HEAD = 'Hello\n1 0 -1\n\n1 SO 1\n\n'
+        # Testing insert horizontal format preprocessing.
+        inp, source = pymcnp.Inp.from_mcnp('Hello\n1 0 -1\n\n1 SO 1\n\nsi1 0 2i 3\nnps 10\n')
+        assert inp.data[0].to_mcnp() == 'si1 0.0 1.0 2.0 3.0'
 
-    def test_trailing_spaces_after_last_card(self) -> None:
-        inp, remainder = pymcnp.Inp.from_mcnp(self.HEAD + 'nps 10' + ' ' * 40 + '\n')
-        assert remainder == ''
-        assert inp.nps == 10
+        # Testing logarithmic insert horizontal format preprocessing.
+        inp, source = pymcnp.Inp.from_mcnp('Hello\n1 0 -1\n\n1 SO 1\n\nsi1 1 2ilog 100\nnps 10\n')
+        assert inp.data[0].to_mcnp() == 'si1 1.0 4.641588833612778 21.544346900318832 100.0'
 
-    def test_empty_comment_after_card(self) -> None:
-        inp, remainder = pymcnp.Inp.from_mcnp(self.HEAD + 'mode n $\nnps 10 $\n')
-        assert remainder == ''
-        assert inp.nps == 10
+        # Testing non-inverible files.
 
+        # Testing vertical format.
+        inp, source = pymcnp.Inp.from_file(PATH / 'valid_42.inp')
+        assert source == ''
 
-class Test_Inp_Trailing_Comments:
-    HEAD = 'Hello\n1 0 -1\n\n1 SO 1\n\n'
+        # Testing issue #7.
+        inp, source = pymcnp.Inp.from_file(PATH / 'valid_34.inp')
+        assert source == ''
 
-    def test_comment_after_fm_card(self) -> None:
-        source = self.HEAD + 'fm4 1 2 -5 $ multiplier\nnps 1e9 $ histories\n'
-        inp, remainder = pymcnp.Inp.from_mcnp(source)
-        assert remainder == ''
-        assert inp.to_mcnp() == source
+    def test_cell_cards(self) -> None:
+        """
+        Tests `cell_cards` on `EXAMPLES_FROM_MCNP_VALID`.
+        """
 
-    def test_continued_fm_card_with_comment(self) -> None:
-        source = self.HEAD + 'fm4 1 2\n     -5 $ multiplier\nnps 1e9\n'
-        inp, remainder = pymcnp.Inp.from_mcnp(source)
-        assert remainder == ''
-        assert inp.to_mcnp() == source
+        for example in self.EXAMPLES_FROM_MCNP_VALID:
+            inp, _ = pymcnp.Inp.from_mcnp(example)
+            _ = inp.cell_cards()
+            _ = inp.cell_cards(number=10, material=20, density=2.0)
 
-    def test_no_newline_after_last_line(self) -> None:
-        inp, remainder = pymcnp.Inp.from_mcnp(self.HEAD + 'nps 10\nc end of file')
-        assert remainder == ''
-        assert inp.nps == 10
+    def test_surface_cards(self) -> None:
+        """
+        Tests `surface_cards` on `EXAMPLES_FROM_MCNP_VALID`.
+        """
 
-    def test_no_newline_after_last_card(self) -> None:
-        inp, remainder = pymcnp.Inp.from_mcnp(self.HEAD + 'nps 10')
-        assert remainder == ''
-        assert inp.nps == 10
+        for example in self.EXAMPLES_FROM_MCNP_VALID:
+            inp, _ = pymcnp.Inp.from_mcnp(example)
+            _ = inp.surface_cards()
+            _ = inp.surface_cards(number=10)
 
+    def test_data_cards(self) -> None:
+        """
+        Tests `data_cards` on `EXAMPLES_FROM_MCNP_VALID`.
+        """
 
-class Test_Inp_Wrapping:
-    HEAD = 'Hello\n1 0 -1\n\n1 SO 1\n\n'
-    LONG = 'si1 ' + ' '.join(str(10 * n) for n in range(1, 40))
+        for example in self.EXAMPLES_FROM_MCNP_VALID:
+            inp, _ = pymcnp.Inp.from_mcnp(example)
+            _ = inp.data_cards()
 
-    def test_long_card_is_wrapped_at_80_columns(self) -> None:
-        inp, remainder = pymcnp.Inp.from_mcnp(self.HEAD + self.LONG + '\nnps 10\n')
-        lines = inp.to_mcnp().splitlines()
-        assert remainder == ''
-        assert max(len(line) for line in lines) <= 80
-        first = next(i for i, line in enumerate(lines) if line.endswith(' &'))
-        assert lines[first + 1].startswith(' ' * 5)
+    def test_comment_cards(self) -> None:
+        """
+        Tests `comment_cards` on `EXAMPLES_FROM_MCNP_VALID`.
+        """
 
-    def test_wrapped_card_keeps_its_values(self) -> None:
-        inp, _ = pymcnp.Inp.from_mcnp(self.HEAD + self.LONG + '\nnps 10\n')
-        again, remainder = pymcnp.Inp.from_mcnp(inp.to_mcnp())
-        assert remainder == ''
-        assert again.to_mcnp() == inp.to_mcnp()
-        wrapped = inp.to_mcnp().split('\n\n')[2].split('\nnps')[0]
-        assert wrapped.replace('&', '').split() == self.LONG.split()
+        for example in self.EXAMPLES_FROM_MCNP_VALID:
+            inp, _ = pymcnp.Inp.from_mcnp(example)
+            _, _, _ = inp.comment_cards()
 
-    def test_trailing_comment_stays_on_last_line(self) -> None:
-        inp, _ = pymcnp.Inp.from_mcnp(self.HEAD + self.LONG + ' $ bins\nnps 10\n')
-        lines = inp.to_mcnp().splitlines()
-        assert max(len(line) for line in lines if '$' not in line) <= 80
-        assert any(line.endswith('$ bins') for line in lines)
+    EXAMPLES_NPS = [
+        'Hello\n1 0 2\n\n2 SO 1\n\nSDEF\n',
+    ]
 
-    def test_text_and_comment_cards_are_not_wrapped(self) -> None:
-        text = 'fc1 ' + ' '.join(['word'] * 30)
-        comment = 'c ' + ' '.join(['word'] * 30)
-        inp, remainder = pymcnp.Inp.from_mcnp(self.HEAD + text + '\n' + comment + '\nnps 10\n')
-        assert remainder == ''
-        assert text in inp.to_mcnp().splitlines()
-        assert comment in inp.to_mcnp().splitlines()
+    def test_nps(self) -> None:
+        for example in self.EXAMPLES_NPS:
+            inp, _ = pymcnp.Inp.from_mcnp(example)
 
-    def test_short_input_is_unchanged(self) -> None:
-        source = self.HEAD + 'si1 0 10 20\nnps 10\n'
-        inp, _ = pymcnp.Inp.from_mcnp(source)
-        assert inp.to_mcnp() == source
+            subexample = example
+            subinp, _ = pymcnp.Inp.from_mcnp(subexample)
+            assert subinp.nps is None
+            subinp.nps = 10
+            assert subinp.data.filter(pymcnp.inp.card.data.Nps, npp=10)
 
+            subexample = f'{inp.title.to_mcnp()}{inp.cells.to_mcnp()}{inp.blank_0.to_mcnp()}{inp.surfaces.to_mcnp()}{inp.blank_1.to_mcnp()}nps 200\n{inp.data.to_mcnp()}{inp.blank_2.to_mcnp()}{inp.other.to_mcnp()}'
+            subinp, _ = pymcnp.Inp.from_mcnp(subexample)
+            assert subinp.nps == pymcnp.inp.literal.Integer('200')
+            subinp.nps = 10
+            assert subinp.data.filter(pymcnp.inp.card.data.Nps, npp=10)
 
-class Test_Inp_Continuation:
-    HEAD = 'Hello\n1 0 -1\n\n1 SO 1\n\n'
+    EXAMPLES_SEED = [
+        'Hello\n1 0 2\n\n2 SO 1\n\nSDEF\n',
+    ]
 
-    def test_unindented_line_after_ampersand(self) -> None:
-        source = self.HEAD + 'm1 92235.80c 5 &\n92238.80c 95\nnps 10\n'
-        inp, remainder = pymcnp.Inp.from_mcnp(source)
-        assert remainder == ''
-        assert inp.to_mcnp() == source
-        assert inp.nps == 10
+    def test_seed(self) -> None:
+        for example in self.EXAMPLES_SEED:
+            inp, _ = pymcnp.Inp.from_mcnp(example)
 
+            subexample = example
+            subinp, _ = pymcnp.Inp.from_mcnp(subexample)
+            assert subinp.seed is None
+            subinp.seed = 10
+            assert tuple(rand.options.filter(pymcnp.inp.option.data.rand.Seed, value=10) for rand in subinp.data.filter(pymcnp.inp.card.data.Rand))
 
-class Test_Inp_Issue_7:
-    SOURCE = """MCNP Test Model for MOAA
-C cells
-1 1 20
-         -1000  $ dollar comment
-        imp:n,p=1 U=350 trcl=5
-99 0
-      1010
-     imp:n,p=0
+            subexample = f'{inp.title.to_mcnp()}{inp.cells.to_mcnp()}{inp.blank_0.to_mcnp()}{inp.surfaces.to_mcnp()}{inp.blank_1.to_mcnp()}rand\n{inp.data.to_mcnp()}{inp.blank_2.to_mcnp()}{inp.other.to_mcnp()}'
+            subinp, _ = pymcnp.Inp.from_mcnp(subexample)
+            assert subinp.seed is None
+            subinp.seed = 10
+            assert tuple(rand.options.filter(pymcnp.inp.option.data.rand.Seed, value=10) for rand in subinp.data.filter(pymcnp.inp.card.data.Rand))
 
-C surfaces
-1000 SO 1
-1010 SO 3
+            subexample = f'{inp.title.to_mcnp()}{inp.cells.to_mcnp()}{inp.blank_0.to_mcnp()}{inp.surfaces.to_mcnp()}{inp.blank_1.to_mcnp()}rand gen 1\n{inp.data.to_mcnp()}{inp.blank_2.to_mcnp()}{inp.other.to_mcnp()}'
+            subinp, _ = pymcnp.Inp.from_mcnp(subexample)
+            assert subinp.seed is None
+            subinp.seed = 10
+            assert tuple(rand.options.filter(pymcnp.inp.option.data.rand.Seed, value=10) for rand in subinp.data.filter(pymcnp.inp.card.data.Rand))
 
-C data
-C UO2 5 atpt enriched
-m1        92235.80c           5 &
-92238.80c          95
-C Iron
-m2        26054.80c        5.85
-          plib= 80p
-          26056           91.75
-          26057        2.12 $ trailing comment
-          26058.80c        0.28
-C water
-m3        1001.80c           2
-           8016.80c           1
-           plib=84p
-MT3 lwtr.23t h-zr.20t h/zr.28t
-mode n p
-"""
-
-    def test_library_keyword_between_substances_parses(self) -> None:
-        inp, remainder = pymcnp.Inp.from_mcnp(self.SOURCE)
-        assert remainder == ''
-        assert 'plib= 80p' in inp.to_mcnp()
-        assert 'plib=84p' in inp.to_mcnp()
-
-    def test_written_issue_input_is_stable(self) -> None:
-        inp, _ = pymcnp.Inp.from_mcnp(self.SOURCE)
-        again, remainder = pymcnp.Inp.from_mcnp(inp.to_mcnp())
-        assert remainder == ''
-        assert again.to_mcnp() == inp.to_mcnp()
-
-
-class Test_Inp_Horizontal_Format:
-    HEAD = 'Hello\n1 0 -1\n\n1 SO 1\n\n'
-
-    def _values(self, card: str) -> list[float]:
-        inp, remainder = pymcnp.Inp.from_mcnp(self.HEAD + card + '\nnps 10\n')
-        assert remainder == ''
-        return [float(value) for value in inp.data[0].to_mcnp().split()[1:]]
-
-    def test_repeat(self) -> None:
-        assert self._values('si1 1 2r 5') == [1, 1, 1, 5]
-
-    def test_insert_adds_values_between_the_endpoints(self) -> None:
-        assert self._values('si1 0 2i 3 10') == [0, 1, 2, 3, 10]
-
-    def test_insert_log_adds_values_between_the_endpoints(self) -> None:
-        values = self._values('si1 1 2ilog 100 1000')
-        assert values == pytest.approx([1, 100 ** (1 / 3), 100 ** (2 / 3), 100, 1000])
-
-    def test_jump(self) -> None:
-        inp, remainder = pymcnp.Inp.from_mcnp(self.HEAD + 'imp:n 1 2j 1\nnps 10\n')
-        assert remainder == ''
-        assert inp.data[0].to_mcnp().lower().split() == ['imp:n', '1', 'j', 'j', '1']
-
-
-class Test_Inp_Copy:
-    def test_deepcopy_keeps_blocks_separated_by_one_blank_line(self) -> None:
-        surface = pymcnp.inp.card.surface.So(j=1, r=1)
-        cell = pymcnp.inp.card.Cell_1(j=1, m=0, geom=-surface, options=['imp:n=1'])
-        inp = pymcnp.Inp(title='t\n', cells=[cell], surfaces=[surface], data=[])
-
-        assert copy.deepcopy(inp).to_mcnp() == inp.to_mcnp()
-
-    def test_deepcopy_of_parsed_file_roundtrips(self) -> None:
-        source = (pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_11.inp').read_text()
-        inp, remainder = pymcnp.Inp.from_mcnp(source)
-
-        assert remainder == ''
-        assert copy.deepcopy(inp).to_mcnp() == inp.to_mcnp()
-
-    def test_deepcopy_after_adding_the_first_data_card(self) -> None:
-        surface = pymcnp.inp.card.surface.So(j=1, r=1)
-        cell = pymcnp.inp.card.Cell_1(j=1, m=0, geom=-surface, options=['imp:n=1'])
-        inp = pymcnp.Inp(title='t\n', cells=[cell], surfaces=[surface], data=[])
-        inp.nps = 5
-        inp.seed = 3
-
-        assert copy.deepcopy(inp).to_mcnp() == inp.to_mcnp()
-
-
-class Test_Inp_Scan:
-    @staticmethod
-    def _inp() -> pymcnp.Inp:
-        surface = pymcnp.inp.card.surface.So(j=1, r=1)
-        cell = pymcnp.inp.card.Cell_1(j=1, m=0, geom=-surface, options=['imp:n=1'])
-        return pymcnp.Inp(title='t\n', cells=[cell], surfaces=[surface], data=[])
-
-    def test_scan_nps(self) -> None:
-        base = self._inp()
-        copies = list(base.scan(nps=[10, 100, 1000]))
-
-        assert [int(copy_.nps or 0) for copy_ in copies] == [10, 100, 1000]
-        assert base.nps is None  # the original is untouched
-        assert len({id(copy_) for copy_ in copies}) == 3
-
-    def test_scan_product_last_varies_fastest(self) -> None:
-        copies = list(self._inp().scan(nps=[1, 2], seed=[7, 9]))
-
-        assert [(int(copy_.nps or 0), int(copy_.seed or 0)) for copy_ in copies] == [(1, 7), (1, 9), (2, 7), (2, 9)]
-
-    def test_scan_copies_roundtrip(self) -> None:
-        for copy_ in self._inp().scan(nps=[5, 6]):
-            assert pymcnp.Inp.from_mcnp(copy_.to_mcnp())[0].to_mcnp() == copy_.to_mcnp()
-
-    def test_scan_invalid(self) -> None:
-        with pytest.raises(pymcnp.abc.Error):
-            list(self._inp().scan())
-        with pytest.raises(pymcnp.abc.Error):
-            list(self._inp().scan(radius=[1]))
-
-    def test_scan_with(self) -> None:
-        base = self._inp()
-        copies = list(base.scan_with([2, 3], lambda inp, r: setattr(inp.surfaces[0], 'r', r)))
-
-        assert [float(copy_.surfaces[0].r) for copy_ in copies] == [2, 3]
-        assert float(base.surfaces[0].r) == 1
-
-
-class Test_Inp_Lookup:
-    _SOURCE = (
-        'title\n'
-        '1 1 -1.0 -1 imp:n=1\n'
-        '2 like 1 but mat=2 rho=-2.0\n'
-        '3 like 1 but trcl=(0 0 5)\n'
-        '4 0 1 imp:n=0\n'
-        '\n'
-        '1 so 1\n'
-        '\n'
-        'm1 1001 1\n'
-        'm2 8016 1\n'
-        'f4:n 1\n'
-        'fmesh14:p geom=xyz origin=0 0 0 imesh=1 iints=1 jmesh=1 jints=1 kmesh=1 kints=1\n'
-        'nps 10\n'
-    )
-
-    def _inp(self) -> pymcnp.Inp:
-        inp, _ = pymcnp.Inp.from_mcnp(self._SOURCE)
-        return inp
-
-    def test_lookup_by_number(self) -> None:
-        inp = self._inp()
-        assert str(inp.cell(4).j) == '4'
-        assert str(inp.cell('1').m) == '1'
-        assert inp.surface(1).keyword.upper() == 'SO'
-        assert str(inp.material(2).suffix) == '2'
-        assert str(inp.tally(4).suffix) == '4'
-        assert str(inp.tally(14).suffix) == '14'
-
-    def test_lookup_returns_the_card_itself(self) -> None:
-        inp = self._inp()
-        inp.surface(1).r = 5
-        assert 'so 5' in inp.to_mcnp().lower()
-
-    @pytest.mark.parametrize('lookup', ['cell', 'surface', 'material', 'tally'])
-    def test_missing(self, lookup: str) -> None:
-        with pytest.raises(pymcnp.abc.Error):
-            getattr(self._inp(), lookup)(99)
-
-    def test_cells_with_material(self) -> None:
-        inp = self._inp()
-        assert [str(c.j) for c in inp.cells_with_material(1)] == ['1', '3']
-        assert [str(c.j) for c in inp.cells_with_material(2)] == ['2']
-        assert [str(c.j) for c in inp.cells_with_material(0)] == ['4']
+            subexample = f'{inp.title.to_mcnp()}{inp.cells.to_mcnp()}{inp.blank_0.to_mcnp()}{inp.surfaces.to_mcnp()}{inp.blank_1.to_mcnp()}rand gen 1 seed 200\n{inp.data.to_mcnp()}{inp.blank_2.to_mcnp()}{inp.other.to_mcnp()}'
+            subinp, _ = pymcnp.Inp.from_mcnp(subexample)
+            assert subinp.seed == pymcnp.inp.literal.Integer('200')
+            subinp.seed = 10
+            assert tuple(rand.options.filter(pymcnp.inp.option.data.rand.Seed, value=10) for rand in subinp.data.filter(pymcnp.inp.card.data.Rand))
