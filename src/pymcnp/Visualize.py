@@ -49,7 +49,7 @@ class Visualize(abc.Utility):
         plot = pyvista.Plotter()
         pyvista.Plotter.add_axes(plot)
 
-        surfaces = {str(surface.j): surface.to_show() for surface in self.file.surfaces if not isinstance(surface, inp.card.Comment)}
+        surfaces = {str(surface.j): surface.to_show() for surface in self.file.surfaces.filter(inp.card.Surface)}
         cells = {}
 
         for cell in self.file.cells:
@@ -59,10 +59,11 @@ class Visualize(abc.Utility):
             shape = cell.to_show(surfaces, cells)
             cells[str(cell.j)] = shape
 
-            grid = self._grid
-            grid['cell'] = shape.cell(grid.points).astype(numpy.float32)
-            plot.add_volume(grid, scalars='cell', opacity=[0, 0, 0.01, 0.01])
-            plot.add_mesh(shape.surface, opacity=0.9)
+            if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
+                grid = self._grid
+                grid['cell'] = shape.cell(grid.points).astype(numpy.float32)
+                plot.add_volume(grid, scalars='cell', opacity=[0, 0, 0.01, 0.01])
+                plot.add_mesh(shape.surface, opacity=0.9)
 
         return plot
 
@@ -84,7 +85,8 @@ class Visualize(abc.Utility):
                 continue
             shape = surface.to_show()
 
-            plot.add_mesh(shape.surface)
+            if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
+                plot.add_mesh(shape.surface)
 
         return plot
 
@@ -104,7 +106,7 @@ class Visualize(abc.Utility):
         plot = pyvista.Plotter()
         pyvista.Plotter.add_axes(plot)
 
-        surfaces = {str(surface.j): surface.to_show() for surface in self.file.surfaces if not isinstance(surface, inp.card.Comment)}
+        surfaces = {str(surface.j): surface.to_show() for surface in self.file.surfaces.filter(inp.card.Surface)}
         cells = {}
 
         for cell in self.file.cells:
@@ -117,10 +119,11 @@ class Visualize(abc.Utility):
             if str(cell.j) not in number:
                 continue
 
-            grid = self._grid
-            grid['cell'] = shape.cell(grid.points).astype(numpy.float32)
-            plot.add_volume(grid, scalars='cell', opacity=[0, 0, 0.01, 0.01])
-            plot.add_mesh(shape.surface, opacity=0.9)
+            if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
+                grid = self._grid
+                grid['cell'] = shape.cell(grid.points).astype(numpy.float32)
+                plot.add_volume(grid, scalars='cell', opacity=[0, 0, 0.01, 0.01])
+                plot.add_mesh(shape.surface, opacity=0.9)
 
         return plot
 
@@ -147,7 +150,8 @@ class Visualize(abc.Utility):
             if str(surface.j) not in number:
                 continue
 
-            plot.add_mesh(surface.to_show().surface)
+            if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
+                plot.add_mesh(surface.to_show().surface)
 
         return plot
 

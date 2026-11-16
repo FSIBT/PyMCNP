@@ -33,25 +33,25 @@ def main() -> None:
     args = docopt(__doc__)
 
     if args['outp']:
-        DataFile = Outp
+        Nonterminal = Outp
     elif args['ptrac']:
-        DataFile = Ptrac
+        Nonterminal = Ptrac
     else:
-        DataFile = Meshtal
+        Nonterminal = Meshtal
 
     file = pathlib.Path(args['<file>'])
 
     # Reading output file.
     try:
-        datafile = DataFile.from_file(file)[0]
+        nonterminal, _ = Nonterminal.from_file(file)
     except abc.Error as err:
         _io.error(str(err))
         sys.exit(1)
 
     # Converting!
     if args['--csv']:
-        datafile.to_file_csv(_io.get_outfile(file, 'csv'))
+        nonterminal.to_file_csv(_io.get_outfile(file, 'csv'))
     else:
-        datafile.to_file_parquet(_io.get_outfile(file, 'parquet'))
+        nonterminal.to_file_parquet(_io.get_outfile(file, 'parquet'))
 
     _io.done()
