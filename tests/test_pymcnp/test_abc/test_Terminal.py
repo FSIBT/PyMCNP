@@ -14,5 +14,5 @@ class Test_Terminal:
         with pytest.raises(pymcnp.abc.Error):
 
             class Terminal0(pymcnp.abc.Terminal):
-                _pattern = re.compile(r'(Hi)([\s\S]*)')
+                _pattern = re.compile(r'(Hi)')
                 _default = 'Hello'

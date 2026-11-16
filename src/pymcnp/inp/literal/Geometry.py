@@ -14,7 +14,7 @@ class _Subexpression(abc.Nonterminal):
 
 
 class _Number(abc.Terminal):
-    _pattern = re.compile(r'([+-]?\d+(?:\.\d+)?)([\s\S]*)', re.IGNORECASE)
+    _pattern = re.compile(r'([+-]?\d+(?:\.\d+)?)', re.IGNORECASE)
 
 
 class _Primary(_Subexpression):

@@ -12,7 +12,7 @@ class Real(Literal):
     Represents real literals.
     """
 
-    _pattern = re.compile(r'([-+]?(?:(?:(?:\d*\.\d+|\d+\.?|\d+)(?:[eE][-+]?\d+)?))|(?:[eE][-+]?\d+))([\s\S]*)', re.IGNORECASE)
+    _pattern = re.compile(r'([-+]?(?:(?:(?:\d*\.\d+|\d+\.?|\d+)(?:[eE][-+]?\d+)?))|(?:[eE][-+]?\d+))', re.IGNORECASE)
 
     def __hash__(self) -> int:
         return decimal.Decimal(self if self[0] not in {'e', 'E'} else f'1{self}').__hash__()
@@ -142,7 +142,7 @@ class Integer(Real):
     Represents integer literals.
     """
 
-    _pattern = re.compile(r'([-+]?(?:(?:\d+(?:[eE][-+]?\d+)?)|(?:[eE][-+]?\d+)))([\s\S]*)', re.IGNORECASE)
+    _pattern = re.compile(r'([-+]?(?:(?:\d+(?:[eE][-+]?\d+)?)|(?:[eE][-+]?\d+)))', re.IGNORECASE)
 
     def __hash__(self) -> int:
         return decimal.Decimal(self if self[0] not in {'e', 'E'} else f'1{self}').__hash__()

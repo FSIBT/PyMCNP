@@ -7,30 +7,19 @@ from .Symbol import Symbol
 
 CACHE: dict[str, type[Symbol]] = {}
 
-# End of ``Terminal._pattern``, matching the rest of the source.
-_REST = r'([\s\S]*)'
-
 
 class Terminal(Symbol, str):
     """
     Represents terminal symbols.
     """
 
-    _pattern: typing.ClassVar[re.Pattern] = re.compile(r'(\S+)([\s\S]*)', re.IGNORECASE)
-    _head: typing.ClassVar[re.Pattern] = re.compile(r'(\S+)', re.IGNORECASE)
+    _pattern: typing.ClassVar[re.Pattern] = re.compile(r'(\S+)', re.IGNORECASE)
     _default: typing.ClassVar[str | None] = None
 
     def __init_subclass__(cls) -> None:
         """
         Validates subclasses.
         """
-
-        # Deriving the pattern matching only the terminal from ``_pattern``, i.e., ``(<terminal>)([\s\S]*)``.
-        if '_pattern' in cls.__dict__:
-            pattern = cls._pattern.pattern
-            if not pattern.endswith(_REST):
-                raise Error('``Terminal._pattern`` must end with ``([\\s\\S]*)``.', f'{pattern=}')
-            cls._head = re.compile(pattern[: -len(_REST)], cls._pattern.flags)
 
         if cls._default is not None:
             cls.from_mcnp(cls._default)
@@ -54,7 +43,7 @@ class Terminal(Symbol, str):
         self = super().__new__(cls, value)
 
         match = cls._pattern.match(value)
-        if match is None or match[2] != '':
+        if match is None or value[match.end() :] != '':
             raise Error(f"Expected Terminal[r'{cls._pattern.pattern}']", f'{value=}')
 
         return self
@@ -77,7 +66,7 @@ class Terminal(Symbol, str):
             CACHE[pattern] = type(
                 f"Terminal[r'{pattern}']",
                 (cls,),
-                {'_pattern': re.compile(rf'({pattern})([\s\S]*)', re.IGNORECASE)},
+                {'_pattern': re.compile(rf'({pattern})', re.IGNORECASE)},
             )
 
         return typing.cast(type[typing.Self], CACHE[pattern])
@@ -99,12 +88,10 @@ class Terminal(Symbol, str):
 
         assert isinstance(source, str)
 
-        # Matching only the terminal, since matching the rest too costs time proportional to the length of ``source``.
-        match = cls._head.match(source)
+        match = cls._pattern.match(source)
         if match is None:
             raise Error(f"Expected Terminal[r'{cls._pattern.pattern}']", f'{source[:200]=}')
 
-        # Skipping the validation of ``__new__``, since ``match`` already matched the pattern.
         return str.__new__(cls, match[0]), source[match.end() :]
 
     def to_mcnp(self) -> str:

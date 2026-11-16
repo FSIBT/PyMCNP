@@ -20,7 +20,7 @@ class SpaceBlock(abc.Terminal):
     Represents spaces for blocks.
     """
 
-    _pattern = re.compile(r'(\n)([\s\S]*)', re.IGNORECASE)
+    _pattern = re.compile(r'(\n)', re.IGNORECASE)
     _default = '\n'
 
 
@@ -29,7 +29,7 @@ class SpaceCard(abc.Terminal):
     Represents spaces for cards.
     """
 
-    _pattern = re.compile(r'( *\n| *\$.*\n(?! {1,5})| *\n)([\s\S]*)', re.IGNORECASE)
+    _pattern = re.compile(r'( *\n| *\$.*\n(?! {1,5})| *\n)', re.IGNORECASE)
     _default = '\n'
 
 

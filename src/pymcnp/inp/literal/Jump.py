@@ -8,4 +8,4 @@ class Jump(Literal):
     Represents jump literals.
     """
 
-    _pattern = re.compile(r'(J)([\s\S]*)', re.IGNORECASE)
+    _pattern = re.compile(r'(J)', re.IGNORECASE)
