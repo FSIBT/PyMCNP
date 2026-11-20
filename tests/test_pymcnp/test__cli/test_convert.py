@@ -19,7 +19,7 @@ def test_main_valid(monkeypatch) -> None:
 
 
 def test_main_invalid(monkeypatch) -> None:
-    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'convert', 'outp', '--csv', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'invalid_00.inp')])
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'convert', 'outp', '--csv', str(FILES / 'inp' / 'invalid_00.inp')])
     with pytest.raises(SystemExit):
         convert.main()
 

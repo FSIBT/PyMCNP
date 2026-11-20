@@ -6,6 +6,11 @@ import pytest
 import pymcnp
 
 
+@pytest.fixture(scope='session')
+def pyvista_visualizations() -> tuple[pymcnp._show.pyvista.Visualization, ...]:
+    return (pymcnp._show.pyvista.Sphere(0.5), pymcnp._show.pyvista.Sphere(1))
+
+
 @pytest.fixture(autouse=True)
 def _run_in_tmp_path(tmp_path: pathlib.Path, monkeypatch: pytest.MonkeyPatch) -> None:
     """
@@ -111,16 +116,6 @@ def geometry_a() -> pymcnp.inp.literal.Geometry:
 @pytest.fixture(scope='session')
 def geometry_b() -> pymcnp.inp.literal.Geometry:
     return pymcnp.inp.literal.Geometry.from_mcnp('1 3 #4')[0]
-
-
-@pytest.fixture(scope='session')
-def a_shape() -> pymcnp.abc.Visualization:
-    return pymcnp._show.pyvista.Sphere(0.5)
-
-
-@pytest.fixture(scope='session')
-def b_shape() -> pymcnp.abc.Visualization:
-    return pymcnp._show.pyvista.Sphere(1)
 
 
 @pytest.fixture(scope='session')

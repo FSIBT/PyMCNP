@@ -89,7 +89,7 @@ class Visualization(abc.Visualization):
 
         vis = Visualization()
         vis.surface = self.surface
-        vis.cell = lambda p: ~self.cell(p)
+        vis.cell = lambda p: not self.cell(p)
 
         return vis
 
@@ -106,13 +106,26 @@ class Visualization(abc.Visualization):
             Rotated PyVista visualization.
         """
 
-        if axis[0] or axis[1] or axis[2]:
-            axis = axis / numpy.linalg.norm(axis)
-
         vis = Visualization()
-        vis.surface = self.surface.rotate_vector(vector=(axis[0], axis[1], axis[2]), angle=angle, point=center)
-        vis.cell = lambda p: self.cell(p) if angle and not (axis == 0).all() else self
+        norm = numpy.linalg.norm(axis)
 
+        if norm == 0 or angle == 0:
+            vis.surface = self.surface.copy() if self.surface is not None else None
+            vis.cell = self.cell
+            return vis
+
+        unit_axis = axis / norm
+        theta = numpy.radians(-angle)
+        cos_t = numpy.cos(theta)
+        sin_t = numpy.sin(theta)
+
+        vis.surface = self.surface.rotate_vector(
+            vector=unit_axis,
+            angle=angle,
+            point=center,
+            inplace=False,
+        )
+        vis.cell = lambda p: self.cell((p - center) * cos_t + numpy.cross(unit_axis, p - center) * sin_t + unit_axis * numpy.dot(unit_axis, p - center) * (1.0 - cos_t) + center)
         return vis
 
     def translate(self, vector: numpy.ndarray) -> Visualization:
@@ -150,7 +163,7 @@ class Box(abc.Box, Visualization):
         """
 
         self.surface = pyvista.Box((0, self.a, 0, self.b, 0, self.c))
-        self.cell = lambda p: ~numpy.all((p >= 0) & (p <= [self.a, self.b, self.c]), axis=1)
+        self.cell = lambda p: bool(not numpy.all((p >= 0) & (p <= [self.a, self.b, self.c])))
 
 
 @dataclasses.dataclass
@@ -348,7 +361,7 @@ class Parallelipiped(abc.Parallelipiped, Visualization):
         """
 
         self.surface = pyvista.Box(bounds=(self.xmin, self.xmax, self.ymin, self.ymax, self.zmin, self.zmax))
-        self.cell = lambda p: ~numpy.all((p >= [self.xmin, self.ymin, self.zmin]) & (p <= [self.xmax, self.ymax, self.zmax]), axis=1)
+        self.cell = lambda p: bool(not numpy.all((p >= [self.xmin, self.ymin, self.zmin]) & (p <= [self.xmax, self.ymax, self.zmax])))
 
 
 @dataclasses.dataclass

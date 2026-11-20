@@ -24,14 +24,6 @@ class Visualization(abc.ABC, typing.Generic[T]):
     cell: typing.Callable[[numpy.ndarray], bool] = dataclasses.field(init=False)
 
     @abc.abstractmethod
-    def __post_init__(self) -> None:
-        """
-        Initializes visualizations.
-        """
-
-        raise NotImplementedError
-
-    @abc.abstractmethod
     def __add__(a, b: Visualization) -> Visualization:
         """
         Merges visualizations, ``a`` and ``b``.
@@ -263,8 +255,26 @@ class Wedge(Visualization):
     h: float
 
 
+VISUALIZATION = typing.TypeVar('VISUALIZATION', bound=type[Visualization])
+BOX = typing.TypeVar('BOX', bound=type[Box])
+CONETRUNCATED = typing.TypeVar('CONETRUNCATED', bound=type[ConeTruncated])
+CONEUNBOUNDED = typing.TypeVar('CONEUNBOUNDED', bound=type[ConeUnbounded])
+CYLINDERCIRCULAR = typing.TypeVar('CYLINDERCIRCULAR', bound=type[CylinderCircular])
+CYLINDERELLIPTICAL = typing.TypeVar('CYLINDERELLIPTICAL', bound=type[CylinderElliptical])
+CYLINDERHEXAGONAL = typing.TypeVar('CYLINDERHEXAGONAL', bound=type[CylinderHexagonal])
+CYLINDERUNBOUNDED = typing.TypeVar('CYLINDERUNBOUNDED', bound=type[CylinderUnbounded])
+ELLIPSOID = typing.TypeVar('ELLIPSOID', bound=type[Ellipsoid])
+EMPTY = typing.TypeVar('EMPTY', bound=type[Empty])
+PARALLELIPIPED = typing.TypeVar('PARALLELIPIPED', bound=type[Parallelipiped])
+PLANE = typing.TypeVar('PLANE', bound=type[Plane])
+SPHERE = typing.TypeVar('SPHERE', bound=type[Sphere])
+TORUS = typing.TypeVar('TORUS', bound=type[Torus])
+WEDGE = typing.TypeVar('WEDGE', bound=type[Wedge])
+
+
+
 @dataclasses.dataclass
-class Endpoint(abc.ABC):
+class Endpoint(abc.ABC, typing.Generic[VISUALIZATION, BOX, CONETRUNCATED, CONEUNBOUNDED, CYLINDERCIRCULAR, CYLINDERELLIPTICAL, CYLINDERHEXAGONAL, CYLINDERUNBOUNDED, ELLIPSOID, EMPTY, PARALLELIPIPED, PLANE, SPHERE, TORUS, WEDGE]):
     """
     Represents visualization endpoints.
 
@@ -289,18 +299,18 @@ class Endpoint(abc.ABC):
 
     BOUND: typing.Final[float]
     RESOLUTION: typing.Final[int]
-    Visualization: typing.Final[type[Visualization]]
-    Box: typing.Final[type[Box]]
-    ConeTruncated: typing.Final[type[ConeTruncated]]
-    ConeUnbounded: typing.Final[type[ConeUnbounded]]
-    CylinderCircular: typing.Final[type[CylinderCircular]]
-    CylinderElliptical: typing.Final[type[CylinderElliptical]]
-    CylinderHexagonal: typing.Final[type[CylinderHexagonal]]
-    CylinderUnbounded: typing.Final[type[CylinderUnbounded]]
-    Ellipsoid: typing.Final[type[Ellipsoid]]
-    Empty: typing.Final[type[Empty]]
-    Parallelipiped: typing.Final[type[Parallelipiped]]
-    Plane: typing.Final[type[Plane]]
-    Sphere: typing.Final[type[Sphere]]
-    Torus: typing.Final[type[Torus]]
-    Wedge: typing.Final[type[Wedge]]
+    Visualization: typing.Final[VISUALIZATION]
+    Box: typing.Final[BOX]
+    ConeTruncated: typing.Final[CONETRUNCATED]
+    ConeUnbounded: typing.Final[CONEUNBOUNDED]
+    CylinderCircular: typing.Final[CYLINDERCIRCULAR]
+    CylinderElliptical: typing.Final[CYLINDERELLIPTICAL]
+    CylinderHexagonal: typing.Final[CYLINDERHEXAGONAL]
+    CylinderUnbounded: typing.Final[CYLINDERUNBOUNDED]
+    Ellipsoid: typing.Final[ELLIPSOID]
+    Empty: typing.Final[EMPTY]
+    Parallelipiped: typing.Final[PARALLELIPIPED]
+    Plane: typing.Final[PLANE]
+    Sphere: typing.Final[SPHERE]
+    Torus: typing.Final[TORUS]
+    Wedge: typing.Final[WEDGE]

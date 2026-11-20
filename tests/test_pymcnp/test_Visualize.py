@@ -6,15 +6,11 @@ import pymcnp
 class Test_Visualize:
     def test_to_show_surfaces_valid(self, inp: pymcnp.Inp) -> None:
         visualizer = pymcnp.Visualize()
-        visualizer.to_show_surfaces(
-            inp,
-        )
+        visualizer.to_show_surfaces(inp)
 
     def test_to_show_cells_valid(self, inp: pymcnp.Inp) -> None:
         visualizer = pymcnp.Visualize()
-        visualizer.to_show_cells(
-            inp,
-        )
+        visualizer.to_show_cells(inp)
 
     def test_to_show_surface_valid(self, inp: pymcnp.Inp) -> None:
         visualizer = pymcnp.Visualize()
