@@ -14,6 +14,9 @@ from .Symbol import _parse
 from .Terminal import Terminal
 
 
+EMPTY_STRING_TYPE: type[Terminal] = Terminal[r'']
+
+
 def _space_null(fields: dict[str, tuple[type[Symbol], ...]]) -> set[str]:
     s = {'colon', 'prefix'}
     if 'colon' in fields:
@@ -41,12 +44,12 @@ def _space_nullable(fields: dict[str, tuple[type[Symbol], ...]]) -> set[str]:
         index = names.index('parenthesis_close')
         for name in reversed(names[:index]):
             s.add(name)
-            if Terminal[r''] not in fields[name]:
+            if EMPTY_STRING_TYPE not in fields[name]:
                 break
     if fields:
         for name, kinds in reversed(fields.items()):
             s.add(name)
-            if Terminal[r''] not in kinds:
+            if EMPTY_STRING_TYPE not in kinds:
                 break
     return s
 
@@ -56,7 +59,7 @@ def _space_end(fields: dict[str, tuple[type[Symbol], ...]]) -> set[str]:
     if fields:
         for name, kinds in reversed(fields.items()):
             s.add(name)
-            if Terminal[r''] not in kinds:
+            if EMPTY_STRING_TYPE not in kinds:
                 break
     if 'equals' in fields:
         if 'equals' in s:
@@ -123,7 +126,7 @@ def _field(name: str, kinds: tuple[type[Symbol], ...]) -> property:
         setattr(self, name_private, value)
 
         # Validating if complete.
-        if dataclasses.MISSING not in [getattr(self, field) for field in type(self)._fields]:
+        if all(getattr(self, field) is not dataclasses.MISSING for field in type(self)._fields):
             self.__post_init__()
 
     return property(getter, setter)
@@ -139,10 +142,18 @@ class Nonterminal(Symbol):
     """
 
     spaces: dict[str, Terminal] = dataclasses.field(default_factory=dict)
-
-    _space: typing.ClassVar[tuple[type[Terminal], ...]] = (Terminal[r''],)
+    _space: typing.ClassVar[tuple[type[Terminal], ...]] = (EMPTY_STRING_TYPE,)
     _forms: typing.ClassVar[tuple[type[typing.Self], ...]] = ()
     _fields: typing.ClassVar[dict[str, tuple[type[Symbol], ...]]] = {}
+
+    if typing.TYPE_CHECKING:
+
+        def __init__(
+            self,
+            *,
+            spaces: dict[str, Terminal] = ...,
+            **kwargs: typing.Any,
+        ) -> None: ...
 
     def __post_init__(self) -> None:
         # Checks ``__init__`` if multi-form nonterminal.
@@ -156,9 +167,7 @@ class Nonterminal(Symbol):
 
         # Processing annotations.
         annotations = typing.get_type_hints(cls, include_extras=True)
-        fields_ordered = {}
-        fields_missing = {}
-        fields_default = {}
+        fields = {}
         for name, hint in annotations.items():
             # Skipping private and class variables.
             origin = typing.get_origin(hint)
@@ -167,22 +176,15 @@ class Nonterminal(Symbol):
 
             # Storing evaluated type hints in order.
             if name != 'spaces':
-                hint = _parse_hint(hint)
-                fields_ordered[name] = hint
-
-            # Collecting evaluated type hints with defaults.
-            if name in cls.__dict__:
-                fields_default[name] = hint
-            else:
-                fields_missing[name] = hint
+                fields[name] = _parse_hint(hint)
 
         cls.spaces = dataclasses.field(default_factory=dict)
-        cls._space = cls._space if cls._space is not dataclasses.MISSING else (Terminal[r''],)
+        cls._space = cls._space if cls._space is not dataclasses.MISSING else (EMPTY_STRING_TYPE,)
         cls._forms = ()
-        cls._fields = fields_ordered
+        cls._fields = fields
 
         # Creating ``dataclasses.Dataclass``.
-        cls.__annotations__ = fields_missing | fields_default | {'spaces': dict[str, Symbol]}
+        cls.__annotations__ = fields | {'spaces': dict[str, Symbol]}
         datacls = dataclasses.dataclass(kw_only=True)(cls)
 
         # Adding ``property``, i.e., getters and setters.
@@ -219,7 +221,7 @@ class Nonterminal(Symbol):
             memo: Memory for copy objects.
         """
 
-        if id(self) in memo:
+        if id(self) in memo:  # pragma: no cover
             return memo[id(self)]
 
         clone = type(self).from_mcnp(self.to_mcnp())[0]
@@ -262,8 +264,8 @@ class Nonterminal(Symbol):
 
                 if (
                     source != ''  # Checking match is not complete.
-                    and not isinstance(parameters[name], Terminal[r''])  # Checking parameter is not empty.
-                    and cls._space != (Terminal[r''],)  # Checking if this consituent has spaces.
+                    and not isinstance(parameters[name], EMPTY_STRING_TYPE)  # Checking parameter is not empty.
+                    and cls._space != (EMPTY_STRING_TYPE,)  # Checking if this consituent has spaces.
                     and name not in _space_null(cls._fields)
                 ):
                     try:
@@ -291,7 +293,7 @@ class Nonterminal(Symbol):
             try:
                 if last is not None and last in spaces:
                     source = str(spaces.pop(last)) + source
-                return cls(**(parameters | {'spaces': spaces})), source
+                return cls(spaces=spaces, **parameters), source
             except TypeError:
                 raise Error(f'Expected ``{cls.__name__}.{name}``.', f'source={source[:80]!r}')
 

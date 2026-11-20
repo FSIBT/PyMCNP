@@ -1,10 +1,12 @@
-import pymcnp
+import typing
 
 import pytest
 
+import pymcnp
+
 
 class Nonterminal0(pymcnp.abc.Nonterminal):
-    constituent0: pymcnp.abc.Array[pymcnp.inp.card.Cell, None] | pymcnp.abc.Array[pymcnp.inp.card.Surface, None]
+    constituent0: typing.Annotated[pymcnp.abc.Array, pymcnp.inp.card.Cell, None] | typing.Annotated[pymcnp.abc.Array, pymcnp.inp.card.Surface, None]
 
 
 class Test_Nonterminal:
@@ -13,7 +15,7 @@ class Test_Nonterminal:
         assert cell.to_mcnp() == '1 0 +2.3'
         cell = pymcnp.inp.card.Cell_1(j='1', m=0, geom='+2.3', spaces={'j': pymcnp.inp.CardSpace('  '), 'm': pymcnp.inp.CardSpace('  ')})  # type:ignore
         assert cell.to_mcnp() == '1  0  +2.3'
-        nonterminal = Nonterminal0(constituent0=['1 SO 1', '2 SO 2'])
+        nonterminal = Nonterminal0(constituent0=pymcnp.abc.Array[pymcnp.inp.card.Surface, None](pymcnp.inp.card.Surface.from_mcnp('1 SO 1')[0], pymcnp.inp.card.Surface.from_mcnp('2 SO 2')[0]))
         assert nonterminal.to_mcnp() == '1 SO 1 2 SO 2'
 
     def test___new___invalid(self) -> None:
@@ -33,4 +35,14 @@ class Test_Nonterminal:
         assert vol.to_mcnp() == 'VOL 3.1 3.1'
 
     def test___class_getitem___valid(self) -> None:
-        pymcnp.inp.card.Cell[1]
+        assert pymcnp.inp.card.Cell[0] == pymcnp.inp.card.Cell_0
+        assert pymcnp.inp.card.Cell[1] == pymcnp.inp.card.Cell_1
+
+    def test_scan_valid(self) -> None:
+        vol, _ = pymcnp.inp.card.data.Vol.from_mcnp('VOL 3.1 3.1')
+        assert tuple(map(str, vol.scan(no=['', 'no']))) == ('VOL 3.1 3.1', 'VOL no 3.1 3.1')
+
+    def test_scan_invalid(self) -> None:
+        vol, _ = pymcnp.inp.card.data.Vol.from_mcnp('VOL 3.1 3.1')
+        with pytest.raises(pymcnp.abc.Error):
+            next(vol.scan(hello=['', 'no']))
