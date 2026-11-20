@@ -20,9 +20,9 @@ class Ksental_0(Ksental):
         fileopt: ksental kopts data option ``fileopt`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'KSENTAL'] | str = abc.Terminal[r'KSENTAL']('KSENTAL')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    fileopt: typing.Annotated[abc.Terminal, r'MCTAL'] | str
+    keyword: typing.Annotated[abc.Terminal, r'KSENTAL'] = abc.Terminal[r'KSENTAL']('KSENTAL')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    fileopt: typing.Annotated[abc.Terminal, r'MCTAL']
 
 
 class Ksental_1(Ksental):
@@ -33,4 +33,4 @@ class Ksental_1(Ksental):
         keyword: ksental kopts data option ``r'KSENTAL'`` symbol.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'KSENTAL'] | str = abc.Terminal[r'KSENTAL']('KSENTAL')
+    keyword: typing.Annotated[abc.Terminal, r'KSENTAL'] = abc.Terminal[r'KSENTAL']('KSENTAL')

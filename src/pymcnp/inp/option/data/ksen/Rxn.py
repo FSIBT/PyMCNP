@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from ..... import abc
 from .... import literal
@@ -17,6 +16,6 @@ class Rxn(Ksen):
         rx: rxn ksen data option ``rx`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'RXN'] | str = abc.Terminal[r'RXN']('RXN')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    rx: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'RXN'] = abc.Terminal[r'RXN']('RXN')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    rx: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

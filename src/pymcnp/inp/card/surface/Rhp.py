@@ -1,6 +1,5 @@
 import math
 import typing
-import decimal
 
 import numpy
 
@@ -14,6 +13,20 @@ class Rhp(Surface):
     """
     Represents rhp surface cards.
     """
+
+    if typing.TYPE_CHECKING:
+        prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+        j: literal.Integer
+        keyword: typing.Annotated[abc.Terminal, r'(?:RHP|HEX)']
+        vx: literal.Real
+        vy: literal.Real
+        vz: literal.Real
+        h1: literal.Real
+        h2: literal.Real
+        h3: literal.Real
+        r1: literal.Real
+        r2: literal.Real
+        r3: literal.Real
 
 
 class Rhp_0(Rhp):
@@ -41,24 +54,24 @@ class Rhp_0(Rhp):
         t3: rhp surface card ``t3`` parameter.
     """
 
-    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str
-    keyword: typing.Annotated[abc.Terminal, r'(?:RHP|HEX)'] | str = abc.Terminal[r'(?:RHP|HEX)']('RHP')
-    vx: literal.Real | int | float | decimal.Decimal | str
-    vy: literal.Real | int | float | decimal.Decimal | str
-    vz: literal.Real | int | float | decimal.Decimal | str
-    h1: literal.Real | int | float | decimal.Decimal | str
-    h2: literal.Real | int | float | decimal.Decimal | str
-    h3: literal.Real | int | float | decimal.Decimal | str
-    r1: literal.Real | int | float | decimal.Decimal | str
-    r2: literal.Real | int | float | decimal.Decimal | str
-    r3: literal.Real | int | float | decimal.Decimal | str
-    s1: literal.Real | int | float | decimal.Decimal | str
-    s2: literal.Real | int | float | decimal.Decimal | str
-    s3: literal.Real | int | float | decimal.Decimal | str
-    t1: literal.Real | int | float | decimal.Decimal | str
-    t2: literal.Real | int | float | decimal.Decimal | str
-    t3: literal.Real | int | float | decimal.Decimal | str
+    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    j: literal.Integer
+    keyword: typing.Annotated[abc.Terminal, r'(?:RHP|HEX)'] = abc.Terminal[r'(?:RHP|HEX)']('RHP')
+    vx: literal.Real
+    vy: literal.Real
+    vz: literal.Real
+    h1: literal.Real
+    h2: literal.Real
+    h3: literal.Real
+    r1: literal.Real
+    r2: literal.Real
+    r3: literal.Real
+    s1: literal.Real
+    s2: literal.Real
+    s3: literal.Real
+    t1: literal.Real
+    t2: literal.Real
+    t3: literal.Real
 
     def __post_init__(self) -> None:
         """
@@ -67,8 +80,6 @@ class Rhp_0(Rhp):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.j, literal.Integer)
 
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')
@@ -108,6 +119,7 @@ class Rhp_1(Rhp):
     Represents rhp surface cards, form #1.
 
     Attributes:
+        prefix: rhp surface card ``prefix`` parameter.
         j: rhp surface card ``j`` parameter.
         keyword: rhp surface card ``r'RHP'`` symbol.
         vx: rhp surface card ``vx`` parameter.
@@ -121,17 +133,18 @@ class Rhp_1(Rhp):
         r3: rhp surface card ``r3`` parameter.
     """
 
-    j: literal.Integer | int | str
-    keyword: typing.Annotated[abc.Terminal, r'(?:RHP|HEX)'] | str = abc.Terminal[r'(?:RHP|HEX)']('RHP')
-    vx: literal.Real | int | float | decimal.Decimal | str
-    vy: literal.Real | int | float | decimal.Decimal | str
-    vz: literal.Real | int | float | decimal.Decimal | str
-    h1: literal.Real | int | float | decimal.Decimal | str
-    h2: literal.Real | int | float | decimal.Decimal | str
-    h3: literal.Real | int | float | decimal.Decimal | str
-    r1: literal.Real | int | float | decimal.Decimal | str
-    r2: literal.Real | int | float | decimal.Decimal | str
-    r3: literal.Real | int | float | decimal.Decimal | str
+    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    j: literal.Integer
+    keyword: typing.Annotated[abc.Terminal, r'(?:RHP|HEX)'] = abc.Terminal[r'(?:RHP|HEX)']('RHP')
+    vx: literal.Real
+    vy: literal.Real
+    vz: literal.Real
+    h1: literal.Real
+    h2: literal.Real
+    h3: literal.Real
+    r1: literal.Real
+    r2: literal.Real
+    r3: literal.Real
 
     def __post_init__(self) -> None:
         """
@@ -140,8 +153,6 @@ class Rhp_1(Rhp):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.j, literal.Integer)
 
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')

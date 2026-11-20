@@ -1,5 +1,3 @@
-import decimal
-
 from .. import literal
 from ..Group import Group
 
@@ -15,7 +13,7 @@ class Stochastic(Group):
         dz: stochastic group ``dz`` parameter.
     """
 
-    n: literal.Integer | int | str
-    dx: literal.Real | int | float | decimal.Decimal | str
-    dy: literal.Real | int | float | decimal.Decimal | str
-    dz: literal.Real | int | float | decimal.Decimal | str
+    n: literal.Integer
+    dx: literal.Real
+    dy: literal.Real
+    dz: literal.Real

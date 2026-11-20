@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from ..... import abc
 from ..Ptrac import Ptrac
@@ -17,6 +16,6 @@ class Nps(Ptrac):
         n: nps ptrac data option ``n`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NPS'] | str = abc.Terminal[r'NPS']('NPS')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    n: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'NPS'] = abc.Terminal[r'NPS']('NPS')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    n: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

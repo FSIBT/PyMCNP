@@ -15,6 +15,6 @@ class Cel(Sdef):
         c: cel sdef data option ``c`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'CEL'] | str = abc.Terminal[r'CEL']('CEL')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    c: literal.Integer | literal.CellIndex | literal.Distribution | literal.DependentDistribution | literal.EmbeddedDistribution | int | str
+    keyword: typing.Annotated[abc.Terminal, r'CEL'] = abc.Terminal[r'CEL']('CEL')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    c: literal.Integer | literal.CellIndex | literal.Distribution | literal.DependentDistribution | literal.EmbeddedDistribution

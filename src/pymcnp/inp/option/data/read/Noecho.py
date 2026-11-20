@@ -12,4 +12,4 @@ class Noecho(Read):
         keyword: noecho read data option ``r'NOECHO'`` symbol.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NOECHO'] | str = abc.Terminal[r'NOECHO']('NOECHO')
+    keyword: typing.Annotated[abc.Terminal, r'NOECHO'] = abc.Terminal[r'NOECHO']('NOECHO')

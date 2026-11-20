@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from ..... import abc
 from ..Ssr import Ssr
@@ -17,9 +16,9 @@ class Cel(Ssr):
         c: cel ssr data option ``c`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'CEL'] | str = abc.Terminal[r'CEL']('CEL')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    c: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'CEL'] = abc.Terminal[r'CEL']('CEL')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    c: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """

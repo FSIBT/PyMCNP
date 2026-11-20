@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from .... import abc
 from ... import literal
@@ -18,8 +17,8 @@ class Wwg(Data):
         ie: wwg data card ``ie`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'WWG'] | str = abc.Terminal[r'WWG']('WWG')
-    it: literal.Integer | int | str
-    ic: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    wg: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    ie: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | str = literal.Jump('J')
+    keyword: typing.Annotated[abc.Terminal, r'WWG'] = abc.Terminal[r'WWG']('WWG')
+    it: literal.Integer
+    ic: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    wg: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    ie: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')

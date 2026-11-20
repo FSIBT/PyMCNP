@@ -15,6 +15,6 @@ class Ajed(Block):
         value: ajed block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'AJED'] | str = abc.Terminal[r'AJED']('AJED')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'AJED'] = abc.Terminal[r'AJED']('AJED')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

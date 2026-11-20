@@ -15,6 +15,6 @@ class Fmatspace(Kopts):
         fmat_space: fmatspace kopts data option ``fmat_space`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FMATSPACE'] | str = abc.Terminal[r'FMATSPACE']('FMATSPACE')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    fmat_space: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'FMATSPACE'] = abc.Terminal[r'FMATSPACE']('FMATSPACE')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    fmat_space: literal.Integer

@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from .... import abc
 from ..Cell import Cell
@@ -23,10 +22,10 @@ class Tmp_0(Tmp):
         t: tmp cell option ``t`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'TMP'] | str = abc.Terminal[r'TMP']('TMP')
-    suffix: literal.Integer | int | str
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    t: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'TMP'] = abc.Terminal[r'TMP']('TMP')
+    suffix: literal.Integer
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    t: literal.Real
 
 
 class Tmp_1(Tmp):
@@ -39,6 +38,6 @@ class Tmp_1(Tmp):
         t: tmp cell option ``t`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'TMP'] | str = abc.Terminal[r'TMP']('TMP')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    t: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'TMP'] = abc.Terminal[r'TMP']('TMP')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    t: literal.Real

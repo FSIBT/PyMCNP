@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from .... import literal
@@ -15,5 +14,5 @@ class Mgc(Ft):
         fg: mgc group ``fg`` parameter.
     """
 
-    id: typing.Annotated[abc.Terminal, r'MGC'] | str = abc.Terminal[r'MGC']('MGC')
-    fg: literal.Real | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = abc.Terminal[r'']('')
+    id: typing.Annotated[abc.Terminal, r'MGC'] = abc.Terminal[r'MGC']('MGC')
+    fg: literal.Real | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

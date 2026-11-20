@@ -15,6 +15,6 @@ class Noedit(Block):
         value: noedit block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NOEDIT'] | str = abc.Terminal[r'NOEDIT']('NOEDIT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'NOEDIT'] = abc.Terminal[r'NOEDIT']('NOEDIT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

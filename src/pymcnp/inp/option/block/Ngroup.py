@@ -15,6 +15,6 @@ class Ngroup(Block):
         value: ngroup block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NGROUP'] | str = abc.Terminal[r'NGROUP']('NGROUP')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'NGROUP'] = abc.Terminal[r'NGROUP']('NGROUP')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

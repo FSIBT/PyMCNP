@@ -15,6 +15,6 @@ class Meph(Ptrac):
         value: meph ptrac data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'MEPH'] | str = abc.Terminal[r'MEPH']('MEPH')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'MEPH'] = abc.Terminal[r'MEPH']('MEPH')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

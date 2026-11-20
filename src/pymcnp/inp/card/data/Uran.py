@@ -1,7 +1,5 @@
 import typing
 
-import collections
-
 
 from .... import abc
 from ..Data import Data
@@ -17,5 +15,5 @@ class Uran(Data):
         nj_dx_dy_dz: uran data card ``nj_dx_dy_dz`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'URAN'] | str = abc.Terminal[r'URAN']('URAN')
-    nj_dx_dy_dz: typing.Annotated[abc.Array, group.Stochastic, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[group.Stochastic | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'URAN'] = abc.Terminal[r'URAN']('URAN')
+    nj_dx_dy_dz: typing.Annotated[abc.Array, group.Stochastic, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

@@ -14,6 +14,6 @@ class Nlib(M):
         x: nlib m data option ``x`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NLIB'] | str = abc.Terminal[r'NLIB']('NLIB')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    x: typing.Annotated[abc.Terminal, r'\S+'] | str
+    keyword: typing.Annotated[abc.Terminal, r'NLIB'] = abc.Terminal[r'NLIB']('NLIB')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    x: typing.Annotated[abc.Terminal, r'\S+']

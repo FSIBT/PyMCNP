@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from ..... import abc
 from ..Ptrac import Ptrac
@@ -17,6 +16,6 @@ class Tally(Ptrac):
         value: tally ptrac data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'TALLY'] | str = abc.Terminal[r'TALLY']('TALLY')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'TALLY'] = abc.Terminal[r'TALLY']('TALLY')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

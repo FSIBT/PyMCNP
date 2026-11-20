@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from .... import abc
 from ... import literal
@@ -27,20 +26,20 @@ class Gq(Surface):
         k: gq surface card ``K`` parameter.
     """
 
-    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str
-    n: literal.Integer | typing.Annotated[abc.Terminal, r''] | int | str = abc.Terminal[r'']('')
-    keyword: typing.Annotated[abc.Terminal, r'GQ'] | str = abc.Terminal[r'GQ']('GQ')
-    a: literal.Real | int | float | decimal.Decimal | str
-    b: literal.Real | int | float | decimal.Decimal | str
-    c: literal.Real | int | float | decimal.Decimal | str
-    d: literal.Real | int | float | decimal.Decimal | str
-    e: literal.Real | int | float | decimal.Decimal | str
-    f: literal.Real | int | float | decimal.Decimal | str
-    g: literal.Real | int | float | decimal.Decimal | str
-    h: literal.Real | int | float | decimal.Decimal | str
-    J: literal.Real | int | float | decimal.Decimal | str
-    k: literal.Real | int | float | decimal.Decimal | str
+    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    j: literal.Integer
+    n: literal.Integer | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'GQ'] = abc.Terminal[r'GQ']('GQ')
+    a: literal.Real
+    b: literal.Real
+    c: literal.Real
+    d: literal.Real
+    e: literal.Real
+    f: literal.Real
+    g: literal.Real
+    h: literal.Real
+    J: literal.Real
+    k: literal.Real
 
     def __post_init__(self) -> None:
         """
@@ -49,9 +48,6 @@ class Gq(Surface):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.j, literal.Integer)
-        assert isinstance(self.n, (literal.Integer, abc.Terminal[r'']))
 
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')

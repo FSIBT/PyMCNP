@@ -15,9 +15,9 @@ class Dnbias(Act):
         n: dnbias act data option ``n`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'DNBIAS'] | str = abc.Terminal[r'DNBIAS']('DNBIAS')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    n: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'DNBIAS'] = abc.Terminal[r'DNBIAS']('DNBIAS')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    n: literal.Integer
 
     def __post_init__(self) -> None:
         """
@@ -26,8 +26,6 @@ class Dnbias(Act):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.n, literal.Integer)
 
         if not (1 <= self.n <= 10):
             raise abc.Error('Invalid value.', f'{self.n=}')

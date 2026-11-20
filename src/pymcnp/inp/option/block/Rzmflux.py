@@ -15,6 +15,6 @@ class Rzmflux(Block):
         value: rzmflux block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'RZMFLUX'] | str = abc.Terminal[r'RZMFLUX']('RZMFLUX')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'RZMFLUX'] = abc.Terminal[r'RZMFLUX']('RZMFLUX')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

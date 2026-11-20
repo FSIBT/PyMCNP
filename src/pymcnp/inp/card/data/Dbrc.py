@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from .... import abc
 from ..Data import Data
@@ -16,8 +15,8 @@ class Dbrc(Data):
         options: dbrc data card ``options`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'DBRC'] | str = abc.Terminal[r'DBRC']('DBRC')
-    options: typing.Annotated[abc.Array, option.data.Dbrc, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Dbrc | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'DBRC'] = abc.Terminal[r'DBRC']('DBRC')
+    options: typing.Annotated[abc.Array, option.data.Dbrc, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """

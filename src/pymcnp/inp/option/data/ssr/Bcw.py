@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Ssr import Ssr
@@ -18,11 +17,11 @@ class Bcw(Ssr):
         ze: bcw ssr data option ``ze`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'BCW'] | str = abc.Terminal[r'BCW']('BCW')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    r: literal.Real | int | float | decimal.Decimal | str
-    zb: literal.Real | int | float | decimal.Decimal | str
-    ze: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'BCW'] = abc.Terminal[r'BCW']('BCW')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    r: literal.Real
+    zb: literal.Real
+    ze: literal.Real
 
     def __post_init__(self) -> None:
         """
@@ -31,9 +30,6 @@ class Bcw(Ssr):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.zb, literal.Real)
-        assert isinstance(self.ze, literal.Real)
 
         if not (0 < self.zb < self.ze):
             raise abc.Error('Invalid value.', f'{self.ze=}')

@@ -15,6 +15,6 @@ class Tr(Fmesh):
         n: tr fmesh data option ``n`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'TR'] | str = abc.Terminal[r'TR']('TR')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    n: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'TR'] = abc.Terminal[r'TR']('TR')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    n: literal.Integer

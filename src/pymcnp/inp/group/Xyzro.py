@@ -1,5 +1,3 @@
-import decimal
-
 from .. import literal
 from ..Group import Group
 
@@ -15,7 +13,7 @@ class Xyzro(Group):
         ro: xyzro group ``ro`` parameter.
     """
 
-    x: literal.Real | int | float | decimal.Decimal | str
-    y: literal.Real | int | float | decimal.Decimal | str
-    z: literal.Real | int | float | decimal.Decimal | str
-    ro: literal.Real | int | float | decimal.Decimal | str
+    x: literal.Real
+    y: literal.Real
+    z: literal.Real
+    ro: literal.Real

@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from .... import abc
 from ... import literal
@@ -16,5 +15,5 @@ class Histp(Data):
         icl: histp data card ``icl`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'HISTP'] | str = abc.Terminal[r'HISTP']('HISTP')
-    icl: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'HISTP'] = abc.Terminal[r'HISTP']('HISTP')
+    icl: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

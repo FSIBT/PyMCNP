@@ -1,5 +1,3 @@
-import decimal
-
 from .. import literal
 from ..Group import Group
 
@@ -13,5 +11,5 @@ class PhotonSample(Group):
         pmt: photon sample group ``pmt`` parameter.
     """
 
-    mt: literal.Integer | int | str
-    pmt: literal.Real | int | float | decimal.Decimal | str
+    mt: literal.Integer
+    pmt: literal.Real

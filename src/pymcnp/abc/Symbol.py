@@ -57,9 +57,6 @@ def _parse(kinds: tuple[type[Symbol], ...], source: str) -> tuple[Symbol, str]:
         Matched symbol.
     """
 
-    assert isinstance(kinds, tuple)
-    assert isinstance(source, str)
-
     if len(kinds) == 1:
         return kinds[0].from_mcnp(source)
 

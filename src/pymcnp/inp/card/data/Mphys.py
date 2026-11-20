@@ -14,5 +14,5 @@ class Mphys(Data):
         toggle: mphys data card ``toggle`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'MPHYS'] | str = abc.Terminal[r'MPHYS']('MPHYS')
-    toggle: typing.Annotated[abc.Terminal, r'ON|OFF'] | str
+    keyword: typing.Annotated[abc.Terminal, r'MPHYS'] = abc.Terminal[r'MPHYS']('MPHYS')
+    toggle: typing.Annotated[abc.Terminal, r'ON|OFF']

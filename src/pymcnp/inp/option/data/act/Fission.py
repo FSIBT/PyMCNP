@@ -14,6 +14,6 @@ class Fission(Act):
         value: fission act data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FISSION'] | str = abc.Terminal[r'FISSION']('FISSION')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'NONE|ALL|(?:[npefa](?:,[npefa]){0,4})'] | str
+    keyword: typing.Annotated[abc.Terminal, r'FISSION'] = abc.Terminal[r'FISSION']('FISSION')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'NONE|ALL|(?:[npefa](?:,[npefa]){0,4})']

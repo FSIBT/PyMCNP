@@ -15,9 +15,9 @@ class Ic(Df):
         value: ic df data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'IC'] | str = abc.Terminal[r'IC']('IC')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | typing.Annotated[abc.Terminal, r'(?:HE3|BF3|LIG|LII|ZNS|NAI|BGO|CSI|BC4|HPG)-1'] | int | str
+    keyword: typing.Annotated[abc.Terminal, r'IC'] = abc.Terminal[r'IC']('IC')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer | typing.Annotated[abc.Terminal, r'(?:HE3|BF3|LIG|LII|ZNS|NAI|BGO|CSI|BC4|HPG)-1']
 
     def __post_init__(self) -> None:
         """

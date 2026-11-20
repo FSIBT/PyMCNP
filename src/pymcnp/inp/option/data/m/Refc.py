@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..M import M
@@ -19,9 +18,9 @@ class Refc(M):
         d: refi m data option ``d`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'REFC'] | str = abc.Terminal[r'REFC']('REFC')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    a: literal.Real | int | float | decimal.Decimal | str
-    b: literal.Real | int | float | decimal.Decimal | str
-    c: literal.Real | int | float | decimal.Decimal | str
-    d: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'REFC'] = abc.Terminal[r'REFC']('REFC')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    a: literal.Real
+    b: literal.Real
+    c: literal.Real
+    d: literal.Real

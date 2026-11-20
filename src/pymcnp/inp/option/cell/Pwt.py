@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from .... import abc
 from ..Cell import Cell
@@ -16,6 +15,6 @@ class Pwt(Cell):
         w: pwt cell option ``w`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'PWT'] | str = abc.Terminal[r'PWT']('PWT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    w: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'PWT'] = abc.Terminal[r'PWT']('PWT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    w: literal.Real

@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from .... import abc
 from ... import literal
@@ -18,9 +17,9 @@ class Dm(Data):
         target: dm data card ``target`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'DM'] | str = abc.Terminal[r'DM']('DM')
-    suffix: literal.Integer | int | str
-    target: typing.Annotated[abc.Array, group.Targets, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[group.Targets | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'DM'] = abc.Terminal[r'DM']('DM')
+    suffix: literal.Integer
+    target: typing.Annotated[abc.Array, group.Targets, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -29,8 +28,6 @@ class Dm(Data):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (1 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')

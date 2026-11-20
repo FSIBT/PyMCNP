@@ -39,18 +39,6 @@ class Tally(Block, abc.symbol.WithDataIter):
             Pandas dataframe for all tally blocks.
         """
 
-        assert hasattr(self, 'number')
-        assert isinstance(self.number, str)
-        assert hasattr(self, 'tally_type')
-        assert isinstance(self.tally_type, str)
-        assert hasattr(self, 'particles')
-        assert isinstance(self.particles, str)
-        assert hasattr(self, 'nps')
-        assert isinstance(self.nps, str)
-        assert hasattr(self, 'subtallies')
-        assert isinstance(self.subtallies, abc.Array)
-        assert all(isinstance(subtally, subblock.Tally) for subtally in self.subtallies)
-
         if self.subtallies:
             df = pandas.concat((subtally.to_dataframe() for subtally in self.subtallies), ignore_index=True)
             df['number'] = self.number.strip()

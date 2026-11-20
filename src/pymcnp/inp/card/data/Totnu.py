@@ -14,5 +14,5 @@ class Totnu(Data):
         value: totnu data card ``r'NO'`` symbol.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'TOTNU'] | str = abc.Terminal[r'TOTNU']('TOTNU')
-    value: typing.Annotated[abc.Terminal, r'NO'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'TOTNU'] = abc.Terminal[r'TOTNU']('TOTNU')
+    value: typing.Annotated[abc.Terminal, r'NO'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

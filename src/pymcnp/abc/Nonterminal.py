@@ -68,9 +68,6 @@ def _space_end(fields: dict[str, tuple[type[Symbol], ...]]) -> set[str]:
 
 
 def _parse_value(kinds: tuple[type[Symbol], ...], value: typing.Any) -> Symbol:
-    assert isinstance(kinds, tuple)
-    assert all(isinstance(kind, type) and issubclass(kind, Symbol) for kind in kinds)
-
     # Skipping valid Symbols.
     if any(isinstance(value, kind) for kind in kinds):
         return value
@@ -114,10 +111,6 @@ def _field(name: str, kinds: tuple[type[Symbol], ...]) -> property:
         name: Name of field to construct.
         kinds: Type of field to construct.
     """
-
-    assert isinstance(name, str)
-    assert isinstance(kinds, tuple)
-    assert all(isinstance(kind, type) and issubclass(kind, Symbol) for kind in kinds)
 
     name_private: str = f'_{name}'
 
@@ -216,8 +209,6 @@ class Nonterminal(Symbol):
             Forms of nonterminal symbols at ``index``.
         """
 
-        assert isinstance(index, int)
-
         return cls._forms[index]
 
     def __deepcopy__(self, memo: dict[int, typing.Any]) -> typing.Self:
@@ -252,8 +243,6 @@ class Nonterminal(Symbol):
             Error: Expected symbol.
             Error: Expected space.
         """
-
-        assert isinstance(source, str)
 
         # Compiling mono-form nonterminal.
         if len(cls._forms) == 0:

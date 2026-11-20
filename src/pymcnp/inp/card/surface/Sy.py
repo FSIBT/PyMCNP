@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 import numpy
 
@@ -22,12 +21,12 @@ class Sy(Surface):
         r: sy surface card ``R`` parameter.
     """
 
-    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str
-    n: literal.Integer | typing.Annotated[abc.Terminal, r''] | int | str = abc.Terminal[r'']('')
-    keyword: typing.Annotated[abc.Terminal, r'SY'] | str = abc.Terminal[r'SY']('SY')
-    y: literal.Real | int | float | decimal.Decimal | str
-    r: literal.Real | int | float | decimal.Decimal | str
+    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    j: literal.Integer
+    n: literal.Integer | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'SY'] = abc.Terminal[r'SY']('SY')
+    y: literal.Real
+    r: literal.Real
 
     def __post_init__(self) -> None:
         """
@@ -36,9 +35,6 @@ class Sy(Surface):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.j, literal.Integer)
-        assert isinstance(self.n, (literal.Integer, abc.Terminal[r'']))
 
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')

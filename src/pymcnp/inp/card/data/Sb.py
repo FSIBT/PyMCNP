@@ -1,6 +1,4 @@
 import typing
-import decimal
-import collections
 
 
 from .... import abc
@@ -12,6 +10,10 @@ class Sb(Data):
     """
     Represents sb data cards.
     """
+
+    if typing.TYPE_CHECKING:
+        keyword: typing.Annotated[abc.Terminal, r'SB']
+        option: typing.Annotated[abc.Terminal, r'D|C|V|W'] | typing.Annotated[abc.Terminal, r'']
 
 
 class Sb_0(Sb):
@@ -25,12 +27,10 @@ class Sb_0(Sb):
         b: sb data card ``b`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'SB'] | str = abc.Terminal[r'SB']('SB')
-    suffix: literal.Integer | int | str
-    option: typing.Annotated[abc.Terminal, r'D|C|V|W'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    b: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Real | int | float | decimal.Decimal | str] | str = abc.Terminal[r''](
-        ''
-    )
+    keyword: typing.Annotated[abc.Terminal, r'SB'] = abc.Terminal[r'SB']('SB')
+    suffix: literal.Integer
+    option: typing.Annotated[abc.Terminal, r'D|C|V|W'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    b: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -39,10 +39,6 @@ class Sb_0(Sb):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
-        assert isinstance(self.b, (abc.Array, abc.Terminal[r'']))
-        assert not isinstance(self.b, abc.Array) or all(isinstance(bi, literal.Real) for bi in self.b)
 
         if not (1 <= self.suffix <= 999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')
@@ -63,11 +59,11 @@ class Sb_1(Sb):
         b: sb data card ``b`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'SB'] | str = abc.Terminal[r'SB']('SB')
-    suffix: literal.Integer | int | str
-    f: literal.Integer | int | str
-    a: literal.Real | int | float | decimal.Decimal | str
-    b: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'SB'] = abc.Terminal[r'SB']('SB')
+    suffix: literal.Integer
+    f: literal.Integer
+    a: literal.Real
+    b: literal.Real
 
     def __post_init__(self) -> None:
         """
@@ -76,8 +72,6 @@ class Sb_1(Sb):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (1 <= self.suffix <= 999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')

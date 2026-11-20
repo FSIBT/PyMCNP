@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from ..... import abc
 from ..Ssr import Ssr
@@ -17,9 +16,9 @@ class Old(Ssr):
         s: old ssr data option ``s`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'OLD'] | str = abc.Terminal[r'OLD']('OLD')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    s: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'OLD'] = abc.Terminal[r'OLD']('OLD')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    s: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """

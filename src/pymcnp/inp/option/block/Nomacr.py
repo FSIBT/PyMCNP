@@ -15,6 +15,6 @@ class Nomacr(Block):
         value: nomacr block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NOMACR'] | str = abc.Terminal[r'NOMACR']('NOMACR')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'NOMACR'] = abc.Terminal[r'NOMACR']('NOMACR')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

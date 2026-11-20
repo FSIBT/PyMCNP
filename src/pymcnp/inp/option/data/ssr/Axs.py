@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Ssr import Ssr
@@ -18,8 +17,8 @@ class Axs(Ssr):
         w: axs ssr data option ``w`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'AXS'] | str = abc.Terminal[r'AXS']('AXS')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    u: literal.Real | int | float | decimal.Decimal | str
-    v: literal.Real | int | float | decimal.Decimal | str
-    w: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'AXS'] = abc.Terminal[r'AXS']('AXS')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    u: literal.Real
+    v: literal.Real
+    w: literal.Real

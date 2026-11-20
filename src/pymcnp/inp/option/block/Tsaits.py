@@ -15,6 +15,6 @@ class Tsaits(Block):
         value: tsaits block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'TSAITS'] | str = abc.Terminal[r'TSAITS']('TSAITS')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'TSAITS'] = abc.Terminal[r'TSAITS']('TSAITS')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

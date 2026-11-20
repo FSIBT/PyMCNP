@@ -15,6 +15,6 @@ class Nogeod(Block):
         value: nogeod block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NOGEOD'] | str = abc.Terminal[r'NOGEOD']('NOGEOD')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'NOGEOD'] = abc.Terminal[r'NOGEOD']('NOGEOD')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

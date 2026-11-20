@@ -14,6 +14,6 @@ class Nonfiss(Act):
         value: nofiss act data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NONFISS'] | str = abc.Terminal[r'NONFISS']('NONFISS')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'NONE|ALL|(?:[npefa](?:,[npefa]){0,4})'] | str
+    keyword: typing.Annotated[abc.Terminal, r'NONFISS'] = abc.Terminal[r'NONFISS']('NONFISS')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'NONE|ALL|(?:[npefa](?:,[npefa]){0,4})']

@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from ..... import abc
 from ..Act import Act
@@ -17,6 +16,6 @@ class Dgeb(Act):
         value: dgeb act data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'DGEB'] | str = abc.Terminal[r'DGEB']('DGEB')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Array, group.Bias, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[group.Bias | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'DGEB'] = abc.Terminal[r'DGEB']('DGEB')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Array, group.Bias, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

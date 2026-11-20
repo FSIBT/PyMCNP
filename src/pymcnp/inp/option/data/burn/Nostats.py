@@ -12,4 +12,4 @@ class Nostats(Burn):
         keyword: nostats burn data option ``r'NOSTATS'`` symbol.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NOSTATS'] | str = abc.Terminal[r'NOSTATS']('NOSTATS')
+    keyword: typing.Annotated[abc.Terminal, r'NOSTATS'] = abc.Terminal[r'NOSTATS']('NOSTATS')

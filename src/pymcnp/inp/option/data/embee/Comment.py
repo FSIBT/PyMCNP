@@ -14,6 +14,6 @@ class Comment(Embee):
         value: comment embee data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'COMMENT'] | str = abc.Terminal[r'COMMENT']('COMMENT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'[a-z0-9]{0,128}'] | str
+    keyword: typing.Annotated[abc.Terminal, r'COMMENT'] = abc.Terminal[r'COMMENT']('COMMENT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'[a-z0-9]{0,128}']

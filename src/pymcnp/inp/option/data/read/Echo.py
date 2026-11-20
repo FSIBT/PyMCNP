@@ -12,4 +12,4 @@ class Echo(Read):
         keyword: echo read data option ``r'ECHO'`` symbol.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'ECHO'] | str = abc.Terminal[r'ECHO']('ECHO')
+    keyword: typing.Annotated[abc.Terminal, r'ECHO'] = abc.Terminal[r'ECHO']('ECHO')

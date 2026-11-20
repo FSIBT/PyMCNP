@@ -14,6 +14,6 @@ class Meeout(Embed):
         filename: meeout embed data option ``filename`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'MEEOUT'] | str = abc.Terminal[r'MEEOUT']('MEEOUT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    filename: typing.Annotated[abc.Terminal, r'\S+'] | str
+    keyword: typing.Annotated[abc.Terminal, r'MEEOUT'] = abc.Terminal[r'MEEOUT']('MEEOUT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    filename: typing.Annotated[abc.Terminal, r'\S+']

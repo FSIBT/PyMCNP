@@ -14,6 +14,6 @@ class Dg(Act):
         value: dg act data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'DG'] | str = abc.Terminal[r'DG']('DG')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:LINES|MG|NONE)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'DG'] = abc.Terminal[r'DG']('DG')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'(?:LINES|MG|NONE)']

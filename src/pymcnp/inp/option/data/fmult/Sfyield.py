@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Fmult import Fmult
@@ -16,6 +15,6 @@ class Sfyield(Fmult):
         y: sfyield fmult data option ``y`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'SFYIELD'] | str = abc.Terminal[r'SFYIELD']('SFYIELD')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    y: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'SFYIELD'] = abc.Terminal[r'SFYIELD']('SFYIELD')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    y: literal.Real

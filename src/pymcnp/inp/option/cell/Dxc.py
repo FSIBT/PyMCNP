@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from .... import abc
 from ..Cell import Cell
@@ -19,9 +18,9 @@ class Dxc(Cell):
         p: dxc cell option ``p`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'DXC'] | str = abc.Terminal[r'DXC']('DXC')
-    suffix: literal.Integer | int | str
-    colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    p: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'DXC'] = abc.Terminal[r'DXC']('DXC')
+    suffix: literal.Integer
+    colon: typing.Annotated[abc.Terminal, r':'] = abc.Terminal[r':'](':')
+    particle: literal.Particle
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    p: literal.Real

@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from .... import literal
@@ -16,6 +15,6 @@ class Grad(Field):
         r: grad field data option ``r`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'GRAD'] | str = abc.Terminal[r'GRAD']('GRAD')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    r: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'GRAD'] = abc.Terminal[r'GRAD']('GRAD')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    r: literal.Real

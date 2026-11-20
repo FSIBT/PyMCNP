@@ -14,6 +14,6 @@ class Fmatsrc(Kopts):
         value: fmatsrc kopts data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FMATSRC'] | str = abc.Terminal[r'FMATSRC']('FMATSRC')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:YES|NO|AUTO)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'FMATSRC'] = abc.Terminal[r'FMATSRC']('FMATSRC')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'(?:YES|NO|AUTO)']

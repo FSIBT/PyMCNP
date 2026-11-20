@@ -1,6 +1,4 @@
 import typing
-import decimal
-import collections
 
 from .... import abc
 from ... import literal
@@ -19,16 +17,11 @@ class Dxc(Data):
         p: dxc data card ``p`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'DXC'] | str = abc.Terminal[r'DXC']('DXC')
-    suffix: literal.Integer | int | str
-    colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str
-    p: (
-        typing.Annotated[abc.Array, literal.Real | literal.Jump, None]
-        | typing.Annotated[abc.Terminal, r'']
-        | collections.abc.Sequence[literal.Real | literal.Jump | int | float | decimal.Decimal | str]
-        | str
-    )
+    keyword: typing.Annotated[abc.Terminal, r'DXC'] = abc.Terminal[r'DXC']('DXC')
+    suffix: literal.Integer
+    colon: typing.Annotated[abc.Terminal, r':'] = abc.Terminal[r':'](':')
+    particle: literal.Particle
+    p: typing.Annotated[abc.Array, literal.Real | literal.Jump, None] | typing.Annotated[abc.Terminal, r'']
 
     def __post_init__(self) -> None:
         """
@@ -37,8 +30,6 @@ class Dxc(Data):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (1 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')

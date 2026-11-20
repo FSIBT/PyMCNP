@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Fmult import Fmult
@@ -17,7 +16,7 @@ class Watt(Fmult):
         b: watt fmult data option ``b`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'WATT'] | str = abc.Terminal[r'WATT']('WATT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    a: literal.Real | int | float | decimal.Decimal | str
-    b: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'WATT'] = abc.Terminal[r'WATT']('WATT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    a: literal.Real
+    b: literal.Real

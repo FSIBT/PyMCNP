@@ -1,6 +1,4 @@
 import typing
-import decimal
-import collections
 
 from .... import abc
 from ... import literal
@@ -42,39 +40,34 @@ class Arb(Surface):
         ni: arb surface card ``ni`` parameter.
     """
 
-    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str
-    keyword: typing.Annotated[abc.Terminal, r'ARB'] | str = abc.Terminal[r'ARB']('ARB')
-    ax: literal.Real | int | float | decimal.Decimal | str
-    ay: literal.Real | int | float | decimal.Decimal | str
-    az: literal.Real | int | float | decimal.Decimal | str
-    bx: literal.Real | int | float | decimal.Decimal | str
-    by: literal.Real | int | float | decimal.Decimal | str
-    bz: literal.Real | int | float | decimal.Decimal | str
-    cx: literal.Real | int | float | decimal.Decimal | str
-    cy: literal.Real | int | float | decimal.Decimal | str
-    cz: literal.Real | int | float | decimal.Decimal | str
-    dx: literal.Real | int | float | decimal.Decimal | str
-    dy: literal.Real | int | float | decimal.Decimal | str
-    dz: literal.Real | int | float | decimal.Decimal | str
-    ex: literal.Real | int | float | decimal.Decimal | str
-    ey: literal.Real | int | float | decimal.Decimal | str
-    ez: literal.Real | int | float | decimal.Decimal | str
-    fx: literal.Real | int | float | decimal.Decimal | str
-    fy: literal.Real | int | float | decimal.Decimal | str
-    fz: literal.Real | int | float | decimal.Decimal | str
-    gx: literal.Real | int | float | decimal.Decimal | str
-    gy: literal.Real | int | float | decimal.Decimal | str
-    gz: literal.Real | int | float | decimal.Decimal | str
-    hx: literal.Real | int | float | decimal.Decimal | str
-    hy: literal.Real | int | float | decimal.Decimal | str
-    hz: literal.Real | int | float | decimal.Decimal | str
-    ni: (
-        typing.Annotated[abc.Array, typing.Annotated[abc.Terminal, r'\d\d\d\d'], None]
-        | typing.Annotated[abc.Terminal, r'']
-        | collections.abc.Sequence[typing.Annotated[abc.Terminal, r'\d\d\d\d'] | str]
-        | str
-    ) = abc.Terminal[r'']('')
+    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    j: literal.Integer
+    keyword: typing.Annotated[abc.Terminal, r'ARB'] = abc.Terminal[r'ARB']('ARB')
+    ax: literal.Real
+    ay: literal.Real
+    az: literal.Real
+    bx: literal.Real
+    by: literal.Real
+    bz: literal.Real
+    cx: literal.Real
+    cy: literal.Real
+    cz: literal.Real
+    dx: literal.Real
+    dy: literal.Real
+    dz: literal.Real
+    ex: literal.Real
+    ey: literal.Real
+    ez: literal.Real
+    fx: literal.Real
+    fy: literal.Real
+    fz: literal.Real
+    gx: literal.Real
+    gy: literal.Real
+    gz: literal.Real
+    hx: literal.Real
+    hy: literal.Real
+    hz: literal.Real
+    ni: typing.Annotated[abc.Array, typing.Annotated[abc.Terminal, r'\d\d\d\d'], None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -83,8 +76,6 @@ class Arb(Surface):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.j, literal.Integer)
 
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')

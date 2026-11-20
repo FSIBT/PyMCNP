@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Bfld import Bfld
@@ -18,8 +17,8 @@ class Vec(Bfld):
         wf: vec bfld data option ``wf`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'VEC'] | str = abc.Terminal[r'VEC']('VEC')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    uf: literal.Real | int | float | decimal.Decimal | str
-    vf: literal.Real | int | float | decimal.Decimal | str
-    wf: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'VEC'] = abc.Terminal[r'VEC']('VEC')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    uf: literal.Real
+    vf: literal.Real
+    wf: literal.Real

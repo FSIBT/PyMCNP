@@ -15,6 +15,6 @@ class Fmatskip(Kopts):
         fmat_skip: fmatskip kopts data option ``fmat_skip`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FMATSKIP'] | str = abc.Terminal[r'FMATSKIP']('FMATSKIP')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    fmat_skip: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'FMATSKIP'] = abc.Terminal[r'FMATSKIP']('FMATSKIP')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    fmat_skip: literal.Integer

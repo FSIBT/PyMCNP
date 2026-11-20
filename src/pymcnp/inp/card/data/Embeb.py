@@ -1,6 +1,4 @@
 import typing
-import decimal
-import collections
 
 from .... import abc
 from ... import literal
@@ -17,14 +15,9 @@ class Embeb(Data):
         e: embeb data card ``e`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'EMBEB'] | str = abc.Terminal[r'EMBEB']('EMBEB')
-    suffix: literal.Integer | int | str
-    e: (
-        typing.Annotated[abc.Array, literal.Real | literal.Jump, None]
-        | typing.Annotated[abc.Terminal, r'']
-        | collections.abc.Sequence[literal.Real | literal.Jump | int | float | decimal.Decimal | str]
-        | str
-    )
+    keyword: typing.Annotated[abc.Terminal, r'EMBEB'] = abc.Terminal[r'EMBEB']('EMBEB')
+    suffix: literal.Integer
+    e: typing.Annotated[abc.Array, literal.Real | literal.Jump, None] | typing.Annotated[abc.Terminal, r'']
 
     def __post_init__(self) -> None:
         """
@@ -33,8 +26,6 @@ class Embeb(Data):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (0 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')

@@ -1,6 +1,4 @@
 import typing
-import decimal
-import collections
 
 from .... import abc
 from ... import literal
@@ -18,9 +16,7 @@ class Wwe(Data):
         e: wwe data card ``e`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'WWE'] | str = abc.Terminal[r'WWE']('WWE')
-    colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str
-    e: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Real | int | float | decimal.Decimal | str] | str = abc.Terminal[r''](
-        ''
-    )
+    keyword: typing.Annotated[abc.Terminal, r'WWE'] = abc.Terminal[r'WWE']('WWE')
+    colon: typing.Annotated[abc.Terminal, r':'] = abc.Terminal[r':'](':')
+    particle: literal.Particle
+    e: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

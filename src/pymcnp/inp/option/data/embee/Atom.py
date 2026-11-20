@@ -14,6 +14,6 @@ class Atom(Embee):
         value: atom embee data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'ATOM'] | str = abc.Terminal[r'ATOM']('ATOM')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:YES|NO)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'ATOM'] = abc.Terminal[r'ATOM']('ATOM')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'(?:YES|NO)']

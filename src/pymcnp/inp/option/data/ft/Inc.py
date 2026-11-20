@@ -12,4 +12,4 @@ class Inc(Ft):
         id: inc group ``r'INC'`` symbol.
     """
 
-    id: typing.Annotated[abc.Terminal, r'INC'] | str = abc.Terminal[r'INC']('INC')
+    id: typing.Annotated[abc.Terminal, r'INC'] = abc.Terminal[r'INC']('INC')

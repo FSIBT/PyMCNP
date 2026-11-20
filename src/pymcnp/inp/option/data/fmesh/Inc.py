@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Fmesh import Fmesh
@@ -23,10 +22,10 @@ class Inc_0(Inc):
         high: inc fmesh data option ``high`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'INC'] | str = abc.Terminal[r'INC']('INC')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    low: literal.Integer | literal.Jump | int | str = literal.Jump('J')
-    high: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r'INFINITE'] | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
+    keyword: typing.Annotated[abc.Terminal, r'INC'] = abc.Terminal[r'INC']('INC')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    low: literal.Integer | literal.Jump = literal.Jump('J')
+    high: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r'INFINITE'] | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
 
 
 class Inc_1(Inc):
@@ -37,4 +36,4 @@ class Inc_1(Inc):
         keyword: inc fmesh data option ``r'INC'`` symbol.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'INC'] | str = abc.Terminal[r'INC']('INC')
+    keyword: typing.Annotated[abc.Terminal, r'INC'] = abc.Terminal[r'INC']('INC')

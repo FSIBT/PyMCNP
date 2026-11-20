@@ -21,9 +21,9 @@ class Nonu_0(Nonu):
         a: nonu cell option ``a`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NONU'] | str = abc.Terminal[r'NONU']('NONU')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    a: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'NONU'] = abc.Terminal[r'NONU']('NONU')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    a: literal.Integer
 
 
 class Nonu_1(Nonu):
@@ -34,4 +34,4 @@ class Nonu_1(Nonu):
         keyword: nonu cell option ``r'NONU'`` symbol.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NONU'] | str = abc.Terminal[r'NONU']('NONU')
+    keyword: typing.Annotated[abc.Terminal, r'NONU'] = abc.Terminal[r'NONU']('NONU')

@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from .... import abc
 from ... import literal
@@ -16,5 +15,5 @@ class Mode(Data):
         p: mode data card ``p`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'MODE'] | str = abc.Terminal[r'MODE']('MODE')
-    p: typing.Annotated[abc.Array, literal.Particle, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Particle | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'MODE'] = abc.Terminal[r'MODE']('MODE')
+    p: typing.Annotated[abc.Array, literal.Particle, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

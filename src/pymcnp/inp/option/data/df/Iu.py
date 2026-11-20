@@ -15,9 +15,9 @@ class Iu(Df):
         value: iu df data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'IU'] | str = abc.Terminal[r'IU']('IU')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'IU'] = abc.Terminal[r'IU']('IU')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer
 
     def __post_init__(self) -> None:
         """

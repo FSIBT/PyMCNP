@@ -13,5 +13,5 @@ class Fft(Ft):
         lkji: fft group ``lkji`` parameter.
     """
 
-    id: typing.Annotated[abc.Terminal, r'FFT'] | str = abc.Terminal[r'FFT']('FFT')
-    lkji: typing.Annotated[abc.Terminal, r'[01]{4}'] | str
+    id: typing.Annotated[abc.Terminal, r'FFT'] = abc.Terminal[r'FFT']('FFT')
+    lkji: typing.Annotated[abc.Terminal, r'[01]{4}']

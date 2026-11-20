@@ -11,5 +11,5 @@ class MatCell(Group):
         c: matcell group ``c`` parameter.
     """
 
-    m: literal.Integer | int | str
-    c: literal.Integer | int | str
+    m: literal.Integer
+    c: literal.Integer

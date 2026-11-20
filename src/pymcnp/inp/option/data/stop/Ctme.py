@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Stop import Stop
@@ -16,6 +15,6 @@ class Ctme(Stop):
         tme: ctme stop data option ``tme`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'CTME'] | str = abc.Terminal[r'CTME']('CTME')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    tme: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'CTME'] = abc.Terminal[r'CTME']('CTME')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    tme: literal.Real

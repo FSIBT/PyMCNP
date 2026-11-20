@@ -14,6 +14,6 @@ class Hlib(M):
         x: hlib m data option ``x`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'HLIB'] | str = abc.Terminal[r'HLIB']('HLIB')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    x: typing.Annotated[abc.Terminal, r'\S+'] | str
+    keyword: typing.Annotated[abc.Terminal, r'HLIB'] = abc.Terminal[r'HLIB']('HLIB')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    x: typing.Annotated[abc.Terminal, r'\S+']

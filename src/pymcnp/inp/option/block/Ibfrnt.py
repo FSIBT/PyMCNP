@@ -15,6 +15,6 @@ class Ibfrnt(Block):
         value: ibfrnt block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'IBFRNT'] | str = abc.Terminal[r'IBFRNT']('IBFRNT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'IBFRNT'] = abc.Terminal[r'IBFRNT']('IBFRNT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

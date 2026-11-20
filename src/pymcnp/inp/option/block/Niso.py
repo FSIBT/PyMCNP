@@ -15,6 +15,6 @@ class Niso(Block):
         value: niso block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NISO'] | str = abc.Terminal[r'NISO']('NISO')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'NISO'] = abc.Terminal[r'NISO']('NISO')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

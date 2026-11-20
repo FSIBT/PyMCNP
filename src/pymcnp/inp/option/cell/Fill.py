@@ -1,6 +1,5 @@
 import typing
 
-import collections
 from .... import abc
 from ..Cell import Cell
 from ... import literal
@@ -23,10 +22,10 @@ class Fill_0(Fill):
         n: fill cell option ``n`` parameter.
     """
 
-    prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    keyword: typing.Annotated[abc.Terminal, r'FILL'] | str = abc.Terminal[r'FILL']('FILL')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    n: literal.Integer | int | str
+    prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'FILL'] = abc.Terminal[r'FILL']('FILL')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    n: literal.Integer
 
     def __post_init__(self) -> None:
         """
@@ -35,8 +34,6 @@ class Fill_0(Fill):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.n, literal.Integer)
 
         if not (0 <= self.n <= 99_999_999):
             raise abc.Error
@@ -55,13 +52,13 @@ class Fill_1(Fill):
         parenthesis_close: fill cell option ``r')'`` symbol.
     """
 
-    prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    keyword: typing.Annotated[abc.Terminal, r'FILL'] | str = abc.Terminal[r'FILL']('FILL')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    n: literal.Integer | int | str
-    parenthesis_open: typing.Annotated[abc.Terminal, r'\('] | str = abc.Terminal[r'\(']('(')
-    q: group.Rotation | literal.Integer | int | str
-    parenthesis_close: typing.Annotated[abc.Terminal, r'\)'] | str = abc.Terminal[r'\)'](')')
+    prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'FILL'] = abc.Terminal[r'FILL']('FILL')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    n: literal.Integer
+    parenthesis_open: typing.Annotated[abc.Terminal, r'\('] = abc.Terminal[r'\(']('(')
+    q: group.Rotation | literal.Integer
+    parenthesis_close: typing.Annotated[abc.Terminal, r'\)'] = abc.Terminal[r'\)'](')')
 
     def __post_init__(self) -> None:
         """
@@ -70,8 +67,6 @@ class Fill_1(Fill):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.n, literal.Integer)
 
         if not (0 <= self.n <= 99_999_999):
             raise abc.Error
@@ -96,12 +91,12 @@ class Fill_2(Fill):
         nijk: fill cell option ``nijk`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FILL'] | str = abc.Terminal[r'FILL']('FILL')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    i: literal.LatticeRange | str
-    j: literal.LatticeRange | str
-    k: literal.LatticeRange | str
-    nijk: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'FILL'] = abc.Terminal[r'FILL']('FILL')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    i: literal.LatticeRange
+    j: literal.LatticeRange
+    k: literal.LatticeRange
+    nijk: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
 
 class Fill_3(Fill):
@@ -126,12 +121,12 @@ class Fill_3(Fill):
         parenthesis_close: fill cell option ``r')'`` symbol.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FILL'] | str = abc.Terminal[r'FILL']('FILL')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    i: literal.LatticeRange | str
-    j: literal.LatticeRange | str
-    k: literal.LatticeRange | str
-    nijk: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')
-    parenthesis_open: typing.Annotated[abc.Terminal, r'\('] | str = abc.Terminal[r'\(']('(')
-    q: group.Rotation | literal.Integer | int | str
-    parenthesis_close: typing.Annotated[abc.Terminal, r'\)'] | str = abc.Terminal[r'\)'](')')
+    keyword: typing.Annotated[abc.Terminal, r'FILL'] = abc.Terminal[r'FILL']('FILL')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    i: literal.LatticeRange
+    j: literal.LatticeRange
+    k: literal.LatticeRange
+    nijk: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    parenthesis_open: typing.Annotated[abc.Terminal, r'\('] = abc.Terminal[r'\(']('(')
+    q: group.Rotation | literal.Integer
+    parenthesis_close: typing.Annotated[abc.Terminal, r'\)'] = abc.Terminal[r'\)'](')')

@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Sdef import Sdef
@@ -18,8 +17,8 @@ class Bap(Sdef):
         u: bap sdef data option ``u`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'BAP'] | str = abc.Terminal[r'BAP']('BAP')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    ba1: literal.Real | int | float | decimal.Decimal | str
-    ba2: literal.Real | int | float | decimal.Decimal | str
-    u: literal.Real | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'BAP'] = abc.Terminal[r'BAP']('BAP')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    ba1: literal.Real
+    ba2: literal.Real
+    u: literal.Real | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

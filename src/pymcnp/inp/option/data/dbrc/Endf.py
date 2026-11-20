@@ -15,9 +15,9 @@ class Endf(Dbrc):
         nn: endf dbrc data option ``nn`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'ENDF'] | str = abc.Terminal[r'ENDF']('ENDF')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    nn: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'ENDF'] = abc.Terminal[r'ENDF']('ENDF')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    nn: literal.Integer
 
     def __post_init__(self) -> None:
         """

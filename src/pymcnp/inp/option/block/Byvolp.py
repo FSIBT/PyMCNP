@@ -15,6 +15,6 @@ class Byvolp(Block):
         value: byvolp block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'BYVOLP'] | str = abc.Terminal[r'BYVOLP']('BYVOLP')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'BYVOLP'] = abc.Terminal[r'BYVOLP']('BYVOLP')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

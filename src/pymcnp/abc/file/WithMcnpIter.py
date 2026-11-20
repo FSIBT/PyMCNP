@@ -6,13 +6,19 @@ from ..Error import Error
 from ..Symbol import Symbol
 
 
-class WithMcnpIter(symbol.WithMcnpIter):
+T = typing.TypeVar('T', bound=Symbol)
+U = typing.TypeVar('U', bound=Symbol)
+
+
+class WithMcnpIter(symbol.WithMcnpIter[T, U], typing.Generic[T, U]):
     """
     Represents nonterminal start symbols with iterative compilers.
     """
 
     @classmethod
-    def from_file_iter(cls, path: pathlib.Path | str, returning: bool = False) -> typing.Generator[Symbol, None, tuple[typing.Self, str] | None]:
+    def from_file_iter(
+        cls, path: pathlib.Path | str, returning: bool = False
+    ) -> typing.Generator[typing.Generator[tuple[U, str], None, tuple[T, str] | None] | tuple[T, str], None, tuple[typing.Self, str] | None]:
         """
         Compiles source strings into their corresponding nonterminal start symbols iteratively.
 

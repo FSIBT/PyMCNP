@@ -15,6 +15,6 @@ class Embed(Embee):
         value: embed embee data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'EMBED'] | str = abc.Terminal[r'EMBED']('EMBED')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'EMBED'] = abc.Terminal[r'EMBED']('EMBED')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

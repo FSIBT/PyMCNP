@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 import numpy
 
@@ -26,16 +25,56 @@ class Ell(Surface):
         r: ell surface card ``r`` parameter.
     """
 
-    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str
-    keyword: typing.Annotated[abc.Terminal, r'ELL'] | str = abc.Terminal[r'ELL']('ELL')
-    v1x: literal.Real | int | float | decimal.Decimal | str
-    v1y: literal.Real | int | float | decimal.Decimal | str
-    v1z: literal.Real | int | float | decimal.Decimal | str
-    v2x: literal.Real | int | float | decimal.Decimal | str
-    v2y: literal.Real | int | float | decimal.Decimal | str
-    v2z: literal.Real | int | float | decimal.Decimal | str
-    r: literal.Real | int | float | decimal.Decimal | str
+    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    j: literal.Integer
+    keyword: (
+        typing.Annotated[abc.Terminal, r'P']
+        | typing.Annotated[abc.Terminal, r'PX']
+        | typing.Annotated[abc.Terminal, r'PY']
+        | typing.Annotated[abc.Terminal, r'PZ']
+        | typing.Annotated[abc.Terminal, r'SO']
+        | typing.Annotated[abc.Terminal, r'S']
+        | typing.Annotated[abc.Terminal, r'SX']
+        | typing.Annotated[abc.Terminal, r'SY']
+        | typing.Annotated[abc.Terminal, r'SZ']
+        | typing.Annotated[abc.Terminal, r'C_X']
+        | typing.Annotated[abc.Terminal, r'C_Y']
+        | typing.Annotated[abc.Terminal, r'C_Z']
+        | typing.Annotated[abc.Terminal, r'CX']
+        | typing.Annotated[abc.Terminal, r'CY']
+        | typing.Annotated[abc.Terminal, r'CZ']
+        | typing.Annotated[abc.Terminal, r'K_X']
+        | typing.Annotated[abc.Terminal, r'K_Y']
+        | typing.Annotated[abc.Terminal, r'K_Z']
+        | typing.Annotated[abc.Terminal, r'KX']
+        | typing.Annotated[abc.Terminal, r'KY']
+        | typing.Annotated[abc.Terminal, r'KZ']
+        | typing.Annotated[abc.Terminal, r'SQ']
+        | typing.Annotated[abc.Terminal, r'GQ']
+        | typing.Annotated[abc.Terminal, r'TX']
+        | typing.Annotated[abc.Terminal, r'TY']
+        | typing.Annotated[abc.Terminal, r'TZ']
+        | typing.Annotated[abc.Terminal, r'X']
+        | typing.Annotated[abc.Terminal, r'Y']
+        | typing.Annotated[abc.Terminal, r'Z']
+        | typing.Annotated[abc.Terminal, r'BOX']
+        | typing.Annotated[abc.Terminal, r'RPP']
+        | typing.Annotated[abc.Terminal, r'SPH']
+        | typing.Annotated[abc.Terminal, r'RCC']
+        | typing.Annotated[abc.Terminal, r'RHP']
+        | typing.Annotated[abc.Terminal, r'REC']
+        | typing.Annotated[abc.Terminal, r'TRC']
+        | typing.Annotated[abc.Terminal, r'ELL']
+        | typing.Annotated[abc.Terminal, r'WED']
+        | typing.Annotated[abc.Terminal, r'ARB']
+    )
+    v1x: literal.Real
+    v1y: literal.Real
+    v1z: literal.Real
+    v2x: literal.Real
+    v2y: literal.Real
+    v2z: literal.Real
+    r: literal.Real
 
     def __post_init__(self) -> None:
         """
@@ -44,8 +83,6 @@ class Ell(Surface):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.j, literal.Integer)
 
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')
@@ -60,8 +97,6 @@ class Ell(Surface):
         Returns:
             Visualizations of ell surface cards.
         """
-
-        assert isinstance(self.r, literal.Real)
 
         v1 = numpy.array((float(self.v1x), float(self.v1y), float(self.v1z)))
         v2 = numpy.array((float(self.v2x), float(self.v2y), float(self.v2z)))

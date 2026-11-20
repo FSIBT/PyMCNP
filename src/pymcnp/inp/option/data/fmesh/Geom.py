@@ -14,6 +14,6 @@ class Geom(Fmesh):
         value: geom fmesh data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'GEOM'] | str = abc.Terminal[r'GEOM']('GEOM')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:XYZ|REC|RZT|CYL)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'GEOM'] = abc.Terminal[r'GEOM']('GEOM')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'(?:XYZ|REC|RZT|CYL)']

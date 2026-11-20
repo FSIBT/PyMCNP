@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Sdef import Sdef
@@ -16,6 +15,6 @@ class Rad(Sdef):
         x: rad sdef data option ``x`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'RAD'] | str = abc.Terminal[r'RAD']('RAD')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    x: literal.Real | literal.Distribution | literal.DependentDistribution | literal.EmbeddedDistribution | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'RAD'] = abc.Terminal[r'RAD']('RAD')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    x: literal.Real | literal.Distribution | literal.DependentDistribution | literal.EmbeddedDistribution

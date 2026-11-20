@@ -15,9 +15,9 @@ class Blocksize(Kopts):
         ncy: blocksize kopts data option ``ncy`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'BLOCKSIZE'] | str = abc.Terminal[r'BLOCKSIZE']('BLOCKSIZE')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    ncy: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'BLOCKSIZE'] = abc.Terminal[r'BLOCKSIZE']('BLOCKSIZE')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    ncy: literal.Integer
 
     def __post_init__(self) -> None:
         """
@@ -26,8 +26,6 @@ class Blocksize(Kopts):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.ncy, literal.Integer)
 
         if not self.ncy >= 2:
             raise abc.Error('Invalid value.', f'{self.ncy=}')

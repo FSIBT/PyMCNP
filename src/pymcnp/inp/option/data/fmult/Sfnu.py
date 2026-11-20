@@ -1,6 +1,4 @@
 import typing
-import decimal
-import collections
 
 from ..... import abc
 from ..Fmult import Fmult
@@ -17,8 +15,6 @@ class Sfnu(Fmult):
         x: sfnu fmult data option ``x`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'SFNU'] | str = abc.Terminal[r'SFNU']('SFNU')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    x: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Real | int | float | decimal.Decimal | str] | str = abc.Terminal[r''](
-        ''
-    )
+    keyword: typing.Annotated[abc.Terminal, r'SFNU'] = abc.Terminal[r'SFNU']('SFNU')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    x: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

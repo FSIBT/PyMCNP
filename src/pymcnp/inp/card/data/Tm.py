@@ -1,6 +1,4 @@
 import typing
-import decimal
-import collections
 
 from .... import abc
 from ... import literal
@@ -17,11 +15,9 @@ class Tm(Data):
         m: tm data card ``m`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'TM'] | str = abc.Terminal[r'TM']('TM')
-    suffix: literal.Integer | int | str
-    m: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Real | int | float | decimal.Decimal | str] | str = abc.Terminal[r''](
-        ''
-    )
+    keyword: typing.Annotated[abc.Terminal, r'TM'] = abc.Terminal[r'TM']('TM')
+    suffix: literal.Integer
+    m: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -30,8 +26,6 @@ class Tm(Data):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (1 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')

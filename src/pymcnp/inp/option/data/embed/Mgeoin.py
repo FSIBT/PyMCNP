@@ -14,6 +14,6 @@ class Mgeoin(Embed):
         filename: mgeoin embed data option ``filename`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'MGEOIN'] | str = abc.Terminal[r'MGEOIN']('MGEOIN')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    filename: typing.Annotated[abc.Terminal, r'\S+'] | str
+    keyword: typing.Annotated[abc.Terminal, r'MGEOIN'] = abc.Terminal[r'MGEOIN']('MGEOIN')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    filename: typing.Annotated[abc.Terminal, r'\S+']

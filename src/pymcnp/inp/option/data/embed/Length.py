@@ -15,6 +15,6 @@ class Length(Embed):
         f: length embed data option ``f`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'LENGTH'] | str = abc.Terminal[r'LENGTH']('LENGTH')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    f: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'LENGTH'] = abc.Terminal[r'LENGTH']('LENGTH')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    f: literal.Integer

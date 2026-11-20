@@ -14,6 +14,6 @@ class Dn(Act):
         value: dn act data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'DN'] | str = abc.Terminal[r'DN']('DN')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:MODEL|LIBRARY|BOTH|PROMPT)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'DN'] = abc.Terminal[r'DN']('DN')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'(?:MODEL|LIBRARY|BOTH|PROMPT)']

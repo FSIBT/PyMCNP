@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 import numpy
 
@@ -23,13 +22,13 @@ class Sph(Surface):
         r: sph surface card ``r`` parameter.
     """
 
-    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str
-    keyword: typing.Annotated[abc.Terminal, r'SPH'] | str = abc.Terminal[r'SPH']('SPH')
-    vx: literal.Real | int | float | decimal.Decimal | str
-    vy: literal.Real | int | float | decimal.Decimal | str
-    vz: literal.Real | int | float | decimal.Decimal | str
-    r: literal.Real | int | float | decimal.Decimal | str
+    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    j: literal.Integer
+    keyword: typing.Annotated[abc.Terminal, r'SPH'] = abc.Terminal[r'SPH']('SPH')
+    vx: literal.Real
+    vy: literal.Real
+    vz: literal.Real
+    r: literal.Real
 
     def __post_init__(self) -> None:
         """
@@ -38,8 +37,6 @@ class Sph(Surface):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.j, literal.Integer)
 
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')

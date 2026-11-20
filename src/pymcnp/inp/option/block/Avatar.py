@@ -15,6 +15,6 @@ class Avatar(Block):
         value: avatar block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'AVATAR'] | str = abc.Terminal[r'AVATAR']('AVATAR')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'AVATAR'] = abc.Terminal[r'AVATAR']('AVATAR')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

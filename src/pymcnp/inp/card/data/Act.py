@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from .... import abc
 from ..Data import Data
@@ -16,5 +15,5 @@ class Act(Data):
         options: act data card ``options`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'ACT'] | str = abc.Terminal[r'ACT']('ACT')
-    options: typing.Annotated[abc.Array, option.data.Act, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Act | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'ACT'] = abc.Terminal[r'ACT']('ACT')
+    options: typing.Annotated[abc.Array, option.data.Act, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

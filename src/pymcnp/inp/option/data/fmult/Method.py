@@ -15,9 +15,9 @@ class Method(Fmult):
         m: method fmult data option ``m`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'METHOD'] | str = abc.Terminal[r'METHOD']('METHOD')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    m: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'METHOD'] = abc.Terminal[r'METHOD']('METHOD')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    m: literal.Integer
 
     def __post_init__(self) -> None:
         """

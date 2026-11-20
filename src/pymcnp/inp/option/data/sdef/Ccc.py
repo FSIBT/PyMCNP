@@ -15,6 +15,6 @@ class Ccc(Sdef):
         x: ccc sdef data option ``x`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'CCC'] | str = abc.Terminal[r'CCC']('CCC')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    x: literal.Integer | literal.Distribution | literal.DependentDistribution | int | str
+    keyword: typing.Annotated[abc.Terminal, r'CCC'] = abc.Terminal[r'CCC']('CCC')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    x: literal.Integer | literal.Distribution | literal.DependentDistribution

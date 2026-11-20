@@ -15,6 +15,6 @@ class Cosy(Cell):
         m: cosy cell option ``m`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'COSY'] | str = abc.Terminal[r'COSY']('COSY')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    m: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'COSY'] = abc.Terminal[r'COSY']('COSY')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    m: literal.Integer

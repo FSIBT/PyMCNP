@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 import numpy
 
@@ -26,16 +25,16 @@ class Rcc(Surface):
         r: rcc surface card ``r`` parameter.
     """
 
-    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str
-    keyword: typing.Annotated[abc.Terminal, r'RCC'] | str = abc.Terminal[r'RCC']('RCC')
-    vx: literal.Real | int | float | decimal.Decimal | str
-    vy: literal.Real | int | float | decimal.Decimal | str
-    vz: literal.Real | int | float | decimal.Decimal | str
-    h1: literal.Real | int | float | decimal.Decimal | str
-    h2: literal.Real | int | float | decimal.Decimal | str
-    h3: literal.Real | int | float | decimal.Decimal | str
-    r: literal.Real | int | float | decimal.Decimal | str
+    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    j: literal.Integer
+    keyword: typing.Annotated[abc.Terminal, r'RCC'] = abc.Terminal[r'RCC']('RCC')
+    vx: literal.Real
+    vy: literal.Real
+    vz: literal.Real
+    h1: literal.Real
+    h2: literal.Real
+    h3: literal.Real
+    r: literal.Real
 
     def __post_init__(self) -> None:
         """
@@ -44,8 +43,6 @@ class Rcc(Surface):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.j, literal.Integer)
 
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')

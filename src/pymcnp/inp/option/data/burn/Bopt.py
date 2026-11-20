@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from .... import literal
@@ -18,11 +17,11 @@ class Bopt(Burn):
         b3: bopt burn data option ``b3`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'BOPT'] | str = abc.Terminal[r'BOPT']('BOPT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    b1: literal.Real | int | float | decimal.Decimal | str
-    b2: literal.Real | int | float | decimal.Decimal | str
-    b3: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'BOPT'] = abc.Terminal[r'BOPT']('BOPT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    b1: literal.Real
+    b2: literal.Real
+    b3: literal.Integer
 
     def __post_init__(self) -> None:
         """

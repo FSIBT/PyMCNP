@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 
 from .... import abc
@@ -24,15 +23,15 @@ class Rpp(Surface):
         zmax: rpp surface card ``zmax`` parameter.
     """
 
-    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str
-    keyword: typing.Annotated[abc.Terminal, r'RPP'] | str = abc.Terminal[r'RPP']('RPP')
-    xmin: literal.Real | int | float | decimal.Decimal | str
-    xmax: literal.Real | int | float | decimal.Decimal | str
-    ymin: literal.Real | int | float | decimal.Decimal | str
-    ymax: literal.Real | int | float | decimal.Decimal | str
-    zmin: literal.Real | int | float | decimal.Decimal | str
-    zmax: literal.Real | int | float | decimal.Decimal | str
+    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    j: literal.Integer
+    keyword: typing.Annotated[abc.Terminal, r'RPP'] = abc.Terminal[r'RPP']('RPP')
+    xmin: literal.Real
+    xmax: literal.Real
+    ymin: literal.Real
+    ymax: literal.Real
+    zmin: literal.Real
+    zmax: literal.Real
 
     def __post_init__(self) -> None:
         """
@@ -41,8 +40,6 @@ class Rpp(Surface):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.j, literal.Integer)
 
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')

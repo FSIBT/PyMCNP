@@ -15,9 +15,9 @@ class Lat(Cell):
         n: lat cell option ``n`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'LAT'] | str = abc.Terminal[r'LAT']('LAT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    n: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'LAT'] = abc.Terminal[r'LAT']('LAT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    n: literal.Integer
 
     def __post_init__(self) -> None:
         """

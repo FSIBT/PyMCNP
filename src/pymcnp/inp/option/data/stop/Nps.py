@@ -16,7 +16,7 @@ class Nps(Stop):
         npsmg: nps stop data option ``npsmg`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NPS'] | str = abc.Terminal[r'NPS']('NPS')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    npp: literal.Integer | int | str
-    npsmg: literal.Integer | typing.Annotated[abc.Terminal, r''] | int | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'NPS'] = abc.Terminal[r'NPS']('NPS')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    npp: literal.Integer
+    npsmg: literal.Integer | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

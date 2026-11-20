@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from .... import abc
 from ... import literal
@@ -24,17 +23,17 @@ class Lcc(Data):
         ebankabia: lcc data card ``ebankabia`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'LCC'] | str = abc.Terminal[r'LCC']('LCC')
-    stincl: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    v0incl: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    xfoisaincl: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    npaulincl: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    nosurfincl: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    j_0: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
-    j_1: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
-    ecutincl: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    ebankincl: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    ebankabia: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
+    keyword: typing.Annotated[abc.Terminal, r'LCC'] = abc.Terminal[r'LCC']('LCC')
+    stincl: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    v0incl: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    xfoisaincl: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    npaulincl: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    nosurfincl: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    j_0: literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    j_1: literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    ecutincl: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    ebankincl: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    ebankabia: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
 
     def __post_init__(self) -> None:
         """

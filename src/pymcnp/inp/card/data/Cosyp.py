@@ -1,6 +1,4 @@
 import typing
-import decimal
-import collections
 
 from .... import abc
 from ... import literal
@@ -19,13 +17,11 @@ class Cosyp(Data):
         emap: cosyp data card ``emap`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'COSYP'] | str = abc.Terminal[r'COSYP']('COSYP')
-    pre: literal.Integer | int | str
-    axsh: literal.Integer | int | str
-    axsv: literal.Integer | int | str
-    emap: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Real | int | float | decimal.Decimal | str] | str = abc.Terminal[
-        r''
-    ]('')
+    keyword: typing.Annotated[abc.Terminal, r'COSYP'] = abc.Terminal[r'COSYP']('COSYP')
+    pre: literal.Integer
+    axsh: literal.Integer
+    axsv: literal.Integer
+    emap: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """

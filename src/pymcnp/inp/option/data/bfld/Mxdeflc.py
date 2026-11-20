@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Bfld import Bfld
@@ -16,6 +15,6 @@ class Mxdeflc(Bfld):
         a: mxdeflc bfld data option ``a`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'MXDEFLC'] | str = abc.Terminal[r'MXDEFLC']('MXDEFLC')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    a: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'MXDEFLC'] = abc.Terminal[r'MXDEFLC']('MXDEFLC')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    a: literal.Real

@@ -27,13 +27,6 @@ class _Primary_1(_Primary):
     ast: _Number
 
     def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista, is_cell: bool = False) -> abc.Visualization:
-        # assert isinstance(surfaces, dict)
-        # assert all(isinstance(key, str) for key in surfaces.keys())
-        # assert all(isinstance(value, abc.Visualization) for value in surfaces.values())
-        # assert isinstance(cells, dict)
-        # assert all(isinstance(key, str) for key in cells.keys())
-        # assert all(isinstance(value, abc.Visualization) for value in cells.values())
-
         if self.ast.startswith('-'):
             return ~surfaces[Integer(self.ast[1:])]
         elif self.ast.startswith('+'):
@@ -151,7 +144,7 @@ class Geometry(_Subexpression):
         ast: geometry literal ``ast`` parameter.
     """
 
-    ast: _Union | str
+    ast: _Union
 
     def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista, is_cell: bool = False) -> abc.Visualization:
         """
@@ -165,8 +158,6 @@ class Geometry(_Subexpression):
         Returns:
             Visualization of geometry formulas.
         """
-
-        assert isinstance(self.ast, _Union)
 
         return self.ast.to_show(surfaces, cells, shapes, False)
 

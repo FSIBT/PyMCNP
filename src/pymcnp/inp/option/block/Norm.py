@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from .... import abc
 from ..Block import Block
@@ -16,6 +15,6 @@ class Norm(Block):
         value: norm block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NORM'] | str = abc.Terminal[r'NORM']('NORM')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'NORM'] = abc.Terminal[r'NORM']('NORM')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Real

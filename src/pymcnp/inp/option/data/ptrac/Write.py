@@ -14,6 +14,6 @@ class Write(Ptrac):
         value: write ptrac data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'WRITE'] | str = abc.Terminal[r'WRITE']('WRITE')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:POS|ALL)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'WRITE'] = abc.Terminal[r'WRITE']('WRITE')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'(?:POS|ALL)']

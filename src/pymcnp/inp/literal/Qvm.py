@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ... import abc
 from .Number import Real
@@ -22,10 +21,10 @@ class Qvm_0(Qvm):
         m: qvm literal ``m`` parameter.
     """
 
-    sign: typing.Annotated[abc.Terminal, r'[+-]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    q: Real | int | float | decimal.Decimal | str
-    v: typing.Annotated[abc.Terminal, r'V'] | str = abc.Terminal[r'V']('V')
-    m: Real | int | str
+    sign: typing.Annotated[abc.Terminal, r'[+-]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    q: Real
+    v: typing.Annotated[abc.Terminal, r'V'] = abc.Terminal[r'V']('V')
+    m: Real
 
 
 class Qvm_1(Qvm):
@@ -37,8 +36,8 @@ class Qvm_1(Qvm):
         v: qvm literal ``v`` parameter.
     """
 
-    q: Real | int | float | decimal.Decimal | str
-    v: typing.Annotated[abc.Terminal, r'X|Y|Z'] | str
+    q: Real
+    v: typing.Annotated[abc.Terminal, r'X|Y|Z']
 
 
 class Qvm_2(Qvm):
@@ -49,4 +48,4 @@ class Qvm_2(Qvm):
         q: qvm literal ``r'0'`` symbol.
     """
 
-    q: typing.Annotated[abc.Terminal, r'0'] | str = abc.Terminal[r'0']('0')
+    q: typing.Annotated[abc.Terminal, r'0'] = abc.Terminal[r'0']('0')

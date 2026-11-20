@@ -14,6 +14,6 @@ class Mtype(Embee):
         type: mtype embee data option ``type`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'MTYPE'] | str = abc.Terminal[r'MTYPE']('MTYPE')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    type: typing.Annotated[abc.Terminal, r'(?:FLUX|ISOTOPIC|POPULATION|REACTION|SOURCE|TRACKS)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'MTYPE'] = abc.Terminal[r'MTYPE']('MTYPE')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    type: typing.Annotated[abc.Terminal, r'(?:FLUX|ISOTOPIC|POPULATION|REACTION|SOURCE|TRACKS)']

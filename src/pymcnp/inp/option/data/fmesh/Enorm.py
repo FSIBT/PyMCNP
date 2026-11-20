@@ -14,6 +14,6 @@ class Enorm(Fmesh):
         value: enorm fmesh data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'ENORM'] | str = abc.Terminal[r'ENORM']('ENORM')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:YES|NO)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'ENORM'] = abc.Terminal[r'ENORM']('ENORM')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'(?:YES|NO)']

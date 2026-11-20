@@ -12,4 +12,4 @@ class Cap(Ft):
         id: cap group ``r'CAP'`` symbol.
     """
 
-    id: typing.Annotated[abc.Terminal, r'CAP'] | str = abc.Terminal[r'CAP']('CAP')
+    id: typing.Annotated[abc.Terminal, r'CAP'] = abc.Terminal[r'CAP']('CAP')

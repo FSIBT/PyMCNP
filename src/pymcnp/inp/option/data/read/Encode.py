@@ -14,6 +14,6 @@ class Encode(Read):
         password: encode read data option ``password`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'ENCODE'] | str = abc.Terminal[r'ENCODE']('ENCODE')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    password: typing.Annotated[abc.Terminal, r'\S+'] | str
+    keyword: typing.Annotated[abc.Terminal, r'ENCODE'] = abc.Terminal[r'ENCODE']('ENCODE')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    password: typing.Annotated[abc.Terminal, r'\S+']

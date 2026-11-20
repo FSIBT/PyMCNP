@@ -14,6 +14,6 @@ class Event(Ptrac):
         value: event ptrac data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'EVENT'] | str = abc.Terminal[r'EVENT']('EVENT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:SRC|BNK|SUR|COL|TER|CAP)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'EVENT'] = abc.Terminal[r'EVENT']('EVENT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'(?:SRC|BNK|SUR|COL|TER|CAP)']

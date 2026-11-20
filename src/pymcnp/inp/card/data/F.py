@@ -1,7 +1,5 @@
 import typing
 
-import collections
-
 
 from .... import abc
 from ..Data import Data
@@ -13,6 +11,13 @@ class F(Data):
     """
     Represents f data cards.
     """
+
+    if typing.TYPE_CHECKING:
+        prefix: typing.Annotated[abc.Terminal, r'\+'] | typing.Annotated[abc.Terminal, r'']
+        keyword: typing.Annotated[abc.Terminal, r'F']
+        suffix: literal.Integer
+        colon: typing.Annotated[abc.Terminal, r':']
+        particle: literal.Particle
 
 
 class F_0(F):
@@ -28,13 +33,13 @@ class F_0(F):
         s: f data card ``s`` parameter.
     """
 
-    prefix: typing.Annotated[abc.Terminal, r'\+'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    keyword: typing.Annotated[abc.Terminal, r'F'] | str = abc.Terminal[r'F']('F')
-    suffix: literal.Integer | int | str
-    colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str
-    s: typing.Annotated[abc.Array, group.ParenthesizedIntegers | literal.Real, None] | collections.abc.Sequence[int | str] | str = abc.Terminal[r'']('')
-    t: typing.Annotated[abc.Terminal, r'T'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
+    prefix: typing.Annotated[abc.Terminal, r'\+'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'F'] = abc.Terminal[r'F']('F')
+    suffix: literal.Integer
+    colon: typing.Annotated[abc.Terminal, r':'] = abc.Terminal[r':'](':')
+    particle: literal.Particle
+    s: typing.Annotated[abc.Array, group.ParenthesizedIntegers | literal.Real, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    t: typing.Annotated[abc.Terminal, r'T'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -43,8 +48,6 @@ class F_0(F):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (1 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')
@@ -63,12 +66,12 @@ class F_1(F):
         nd: f data card ``r'ND'`` symbol.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'F'] | str = abc.Terminal[r'F']('F')
-    suffix: literal.Integer | int | str
-    colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str
-    x_y_z_ro: typing.Annotated[abc.Array, group.Xyzro, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[group.Xyzro | str] | str = abc.Terminal[r'']('')
-    nd: typing.Annotated[abc.Terminal, r'ND'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'F'] = abc.Terminal[r'F']('F')
+    suffix: literal.Integer
+    colon: typing.Annotated[abc.Terminal, r':'] = abc.Terminal[r':'](':')
+    particle: literal.Particle
+    x_y_z_ro: typing.Annotated[abc.Array, group.Xyzro, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    nd: typing.Annotated[abc.Terminal, r'ND'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -77,8 +80,6 @@ class F_1(F):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (1 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')
@@ -98,13 +99,13 @@ class F_2(F):
         nd: f data card ``r'ND'`` symbol.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'F'] | str = abc.Terminal[r'F']('F')
-    suffix: literal.Integer | int | str
-    suffix_a: typing.Annotated[abc.Terminal, r'X|Y|Z'] | str
-    colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str
-    ao_r_ro: typing.Annotated[abc.Array, group.Aorro, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[group.Aorro | str] | str = abc.Terminal[r'']('')
-    nd: typing.Annotated[abc.Terminal, r'ND'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'F'] = abc.Terminal[r'F']('F')
+    suffix: literal.Integer
+    suffix_a: typing.Annotated[abc.Terminal, r'X|Y|Z']
+    colon: typing.Annotated[abc.Terminal, r':'] = abc.Terminal[r':'](':')
+    particle: literal.Particle
+    ao_r_ro: typing.Annotated[abc.Array, group.Aorro, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    nd: typing.Annotated[abc.Terminal, r'ND'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -113,8 +114,6 @@ class F_2(F):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (1 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')

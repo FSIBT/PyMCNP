@@ -1,6 +1,4 @@
 import typing
-import decimal
-import collections
 
 from .... import abc
 from ... import literal
@@ -16,10 +14,5 @@ class Area(Data):
         x: area data card ``x`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'AREA'] | str = abc.Terminal[r'AREA']('AREA')
-    x: (
-        typing.Annotated[abc.Array, literal.Real | literal.Jump, None]
-        | typing.Annotated[abc.Terminal, r'']
-        | collections.abc.Sequence[literal.Real | literal.Jump | int | float | decimal.Decimal | str]
-        | str
-    )
+    keyword: typing.Annotated[abc.Terminal, r'AREA'] = abc.Terminal[r'AREA']('AREA')
+    x: typing.Annotated[abc.Array, literal.Real | literal.Jump, None] | typing.Annotated[abc.Terminal, r'']

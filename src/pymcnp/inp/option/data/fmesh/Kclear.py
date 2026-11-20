@@ -15,6 +15,6 @@ class Kclear(Fmesh):
         n: kclear fmesh data option ``n`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'KCLEAR'] | str = abc.Terminal[r'KCLEAR']('KCLEAR')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    n: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'KCLEAR'] = abc.Terminal[r'KCLEAR']('KCLEAR')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    n: literal.Integer

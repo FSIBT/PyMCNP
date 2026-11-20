@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from ..... import abc
 from ..Ssr import Ssr
@@ -17,6 +16,6 @@ class Pty(Ssr):
         p: pty ssr data option ``p`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'PTY'] | str = abc.Terminal[r'PTY']('PTY')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    p: typing.Annotated[abc.Array, literal.Particle, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Particle | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'PTY'] = abc.Terminal[r'PTY']('PTY')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    p: typing.Annotated[abc.Array, literal.Particle, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

@@ -11,5 +11,5 @@ class Targets(Group):
         new: targets group ``new`` parameter.
     """
 
-    original: literal.Zaid | str
-    new: literal.Zaid | str
+    original: literal.Zaid
+    new: literal.Zaid

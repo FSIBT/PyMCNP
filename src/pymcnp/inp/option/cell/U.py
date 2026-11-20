@@ -15,6 +15,6 @@ class U(Cell):
         n: u cell option ``n`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'U'] | str = abc.Terminal[r'U']('U')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    n: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'U'] = abc.Terminal[r'U']('U')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    n: literal.Integer

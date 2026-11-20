@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Fmult import Fmult
@@ -16,6 +15,6 @@ class Width(Fmult):
         w: width fmult data option ``w`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'WIDTH'] | str = abc.Terminal[r'WIDTH']('WIDTH')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    w: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'WIDTH'] = abc.Terminal[r'WIDTH']('WIDTH')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    w: literal.Real

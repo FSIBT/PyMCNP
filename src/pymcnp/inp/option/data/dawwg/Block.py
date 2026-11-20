@@ -1,6 +1,5 @@
 import typing
 
-import collections
 from ..... import abc
 from ...Block import Block as Block_
 from ..Dawwg import Dawwg
@@ -18,7 +17,7 @@ class Block(Dawwg):
         options: block dawwg data option ``options`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'BLOCK'] | str = abc.Terminal[r'BLOCK']('BLOCK')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    k: literal.Integer | int | str
-    options: typing.Annotated[abc.Array, Block_, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[Block_ | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'BLOCK'] = abc.Terminal[r'BLOCK']('BLOCK')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    k: literal.Integer
+    options: typing.Annotated[abc.Array, Block_, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

@@ -15,6 +15,6 @@ class Massed(Block):
         value: massed block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'MASSED'] | str = abc.Terminal[r'MASSED']('MASSED')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'MASSED'] = abc.Terminal[r'MASSED']('MASSED')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

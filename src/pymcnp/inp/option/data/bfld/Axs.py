@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Bfld import Bfld
@@ -18,8 +17,8 @@ class Axs(Bfld):
         wq: axs bfld data option ``wq`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'AXS'] | str = abc.Terminal[r'AXS']('AXS')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    uq: literal.Real | int | float | decimal.Decimal | str
-    vq: literal.Real | int | float | decimal.Decimal | str
-    wq: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'AXS'] = abc.Terminal[r'AXS']('AXS')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    uq: literal.Real
+    vq: literal.Real
+    wq: literal.Real

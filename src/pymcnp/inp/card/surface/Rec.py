@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 import numpy
 
@@ -13,6 +12,21 @@ class Rec(Surface):
     """
     Represents rec surface cards.
     """
+
+    if typing.TYPE_CHECKING:
+        prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+        j: literal.Integer
+        keyword: typing.Annotated[abc.Terminal, r'REC']
+        vx: literal.Real
+        vy: literal.Real
+        vz: literal.Real
+        h1: literal.Real
+        h2: literal.Real
+        h3: literal.Real
+        v1x: literal.Real
+        v1y: literal.Real
+        v1z: literal.Real
+        v2x: literal.Real
 
 
 class Rec_0(Rec):
@@ -37,21 +51,21 @@ class Rec_0(Rec):
         v2z: rec surface card ``v2z`` parameter.
     """
 
-    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str
-    keyword: typing.Annotated[abc.Terminal, r'REC'] | str = abc.Terminal[r'REC']('REC')
-    vx: literal.Real | int | float | decimal.Decimal | str
-    vy: literal.Real | int | float | decimal.Decimal | str
-    vz: literal.Real | int | float | decimal.Decimal | str
-    h1: literal.Real | int | float | decimal.Decimal | str
-    h2: literal.Real | int | float | decimal.Decimal | str
-    h3: literal.Real | int | float | decimal.Decimal | str
-    v1x: literal.Real | int | float | decimal.Decimal | str
-    v1y: literal.Real | int | float | decimal.Decimal | str
-    v1z: literal.Real | int | float | decimal.Decimal | str
-    v2x: literal.Real | int | float | decimal.Decimal | str
-    v2y: literal.Real | int | float | decimal.Decimal | str
-    v2z: literal.Real | int | float | decimal.Decimal | str
+    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    j: literal.Integer
+    keyword: typing.Annotated[abc.Terminal, r'REC'] = abc.Terminal[r'REC']('REC')
+    vx: literal.Real
+    vy: literal.Real
+    vz: literal.Real
+    h1: literal.Real
+    h2: literal.Real
+    h3: literal.Real
+    v1x: literal.Real
+    v1y: literal.Real
+    v1z: literal.Real
+    v2x: literal.Real
+    v2y: literal.Real
+    v2z: literal.Real
 
     def __post_init__(self) -> None:
         """
@@ -60,8 +74,6 @@ class Rec_0(Rec):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.j, literal.Integer)
 
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')
@@ -103,6 +115,7 @@ class Rec_1(Rec):
     Represents rec surface cards, form #1.
 
     Attributes:
+        prefix: rec surface card ``prefix`` parameter.
         j: rec surface card ``j`` parameter.
         keyword: rec surface card ``r'REC'`` symbol.
         vx: rec surface card ``vx`` parameter.
@@ -117,18 +130,19 @@ class Rec_1(Rec):
         v2x: rec surface card ``v2x`` parameter.
     """
 
-    j: literal.Integer | int | str
-    keyword: typing.Annotated[abc.Terminal, r'REC'] | str = abc.Terminal[r'REC']('REC')
-    vx: literal.Real | int | float | decimal.Decimal | str
-    vy: literal.Real | int | float | decimal.Decimal | str
-    vz: literal.Real | int | float | decimal.Decimal | str
-    h1: literal.Real | int | float | decimal.Decimal | str
-    h2: literal.Real | int | float | decimal.Decimal | str
-    h3: literal.Real | int | float | decimal.Decimal | str
-    v1x: literal.Real | int | float | decimal.Decimal | str
-    v1y: literal.Real | int | float | decimal.Decimal | str
-    v1z: literal.Real | int | float | decimal.Decimal | str
-    v2x: literal.Real | int | float | decimal.Decimal | str
+    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    j: literal.Integer
+    keyword: typing.Annotated[abc.Terminal, r'REC'] = abc.Terminal[r'REC']('REC')
+    vx: literal.Real
+    vy: literal.Real
+    vz: literal.Real
+    h1: literal.Real
+    h2: literal.Real
+    h3: literal.Real
+    v1x: literal.Real
+    v1y: literal.Real
+    v1z: literal.Real
+    v2x: literal.Real
 
     def __post_init__(self) -> None:
         """
@@ -137,8 +151,6 @@ class Rec_1(Rec):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.j, literal.Integer)
 
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')

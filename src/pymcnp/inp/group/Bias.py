@@ -1,5 +1,3 @@
-import decimal
-
 from .. import literal
 from ..Group import Group
 
@@ -13,5 +11,5 @@ class Bias(Group):
         e: bias group ``e`` parameter.
     """
 
-    w: literal.Real | int | float | decimal.Decimal | str
-    e: literal.Real | int | float | decimal.Decimal | str
+    w: literal.Real
+    e: literal.Real

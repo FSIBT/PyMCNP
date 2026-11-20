@@ -17,11 +17,11 @@ class Dat(Sdef):
         y: dat sdef data option ``y`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'DAT'] | str = abc.Terminal[r'DAT']('DAT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    m: literal.Integer | int | str
-    d: literal.Integer | int | str
-    y: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'DAT'] = abc.Terminal[r'DAT']('DAT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    m: literal.Integer
+    d: literal.Integer
+    y: literal.Integer
 
     def __post_init__(self) -> None:
         """
@@ -30,9 +30,6 @@ class Dat(Sdef):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.m, literal.Integer)
-        assert isinstance(self.d, literal.Integer)
 
         if not (1 <= self.m <= 12):
             raise abc.Error('Invalid value.', f'{self.m=}')

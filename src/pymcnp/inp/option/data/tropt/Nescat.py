@@ -14,6 +14,6 @@ class Nescat(Tropt):
         value: nescat tropt data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NESCAT'] | str = abc.Terminal[r'NESCAT']('NESCAT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:OFF|ON)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'NESCAT'] = abc.Terminal[r'NESCAT']('NESCAT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'(?:OFF|ON)']

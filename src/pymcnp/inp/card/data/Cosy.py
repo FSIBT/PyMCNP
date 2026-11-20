@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from .... import abc
 from ... import literal
@@ -16,5 +15,5 @@ class Cosy(Data):
         m: cosy data card ``m`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'COSY'] | str = abc.Terminal[r'COSY']('COSY')
-    m: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'COSY'] = abc.Terminal[r'COSY']('COSY')
+    m: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

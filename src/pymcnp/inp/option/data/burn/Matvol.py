@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from .... import literal
@@ -16,6 +15,6 @@ class Matvol(Burn):
         v: matvol burn data option ``v`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'MATVOL'] | str = abc.Terminal[r'MATVOL']('MATVOL')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    v: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'MATVOL'] = abc.Terminal[r'MATVOL']('MATVOL')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    v: literal.Real

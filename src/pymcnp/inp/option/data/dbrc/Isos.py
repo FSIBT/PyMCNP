@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from ..... import abc
 from ..Dbrc import Dbrc
@@ -17,6 +16,6 @@ class Isos(Dbrc):
         iso_list: isos dbrc data option ``iso_list`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'ISOS'] | str = abc.Terminal[r'ISOS']('ISOS')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    iso_list: typing.Annotated[abc.Array, literal.Zaid, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Zaid | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'ISOS'] = abc.Terminal[r'ISOS']('ISOS')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    iso_list: typing.Annotated[abc.Array, literal.Zaid, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

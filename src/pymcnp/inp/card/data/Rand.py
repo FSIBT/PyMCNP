@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from .... import abc
 from ..Data import Data
@@ -16,5 +15,5 @@ class Rand(Data):
         options: rand data card ``options`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'RAND'] | str = abc.Terminal[r'RAND']('RAND')
-    options: typing.Annotated[abc.Array, option.data.Rand, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Rand | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'RAND'] = abc.Terminal[r'RAND']('RAND')
+    options: typing.Annotated[abc.Array, option.data.Rand, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

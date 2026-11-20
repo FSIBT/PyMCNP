@@ -14,6 +14,6 @@ class Constrain(Ksen):
         value: constrain ksen data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'CONSTRAIN'] | str = abc.Terminal[r'CONSTRAIN']('CONSTRAIN')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:NO|YES)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'CONSTRAIN'] = abc.Terminal[r'CONSTRAIN']('CONSTRAIN')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'(?:NO|YES)']

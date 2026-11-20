@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from .... import abc
 from ... import literal
@@ -16,5 +15,5 @@ class Idum(Data):
         i: idum data card ``i`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'IDUM'] | str = abc.Terminal[r'IDUM']('IDUM')
-    i: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'IDUM'] = abc.Terminal[r'IDUM']('IDUM')
+    i: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

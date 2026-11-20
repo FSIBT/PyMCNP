@@ -38,8 +38,6 @@ class Terminal(Symbol, str):
             Error: Expected terminal.
         """
 
-        assert isinstance(value, str)
-
         self = super().__new__(cls, value)
 
         match = cls._pattern.match(value)
@@ -59,8 +57,6 @@ class Terminal(Symbol, str):
         Returns:
             Subclass of ``Terminal`` representing terminal symbols matching ``pattern``.
         """
-
-        assert isinstance(pattern, str)
 
         if pattern not in CACHE:
             CACHE[pattern] = type(
@@ -85,8 +81,6 @@ class Terminal(Symbol, str):
         Raises:
             Error: Expected terminal.
         """
-
-        assert isinstance(source, str)
 
         match = cls._pattern.match(source)
         if match is None:

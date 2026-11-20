@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Df import Df
@@ -16,9 +15,9 @@ class Fac(Df):
         value: fac df data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FAC'] | str = abc.Terminal[r'FAC']('FAC')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'FAC'] = abc.Terminal[r'FAC']('FAC')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Real
 
     def __post_init__(self) -> None:
         """
@@ -27,8 +26,6 @@ class Fac(Df):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.value, literal.Real)
 
         if not (self.value > 0 or self.value in {-1, -2, -3}):
             raise abc.Error('Invalid value.', f'{self.value=}')

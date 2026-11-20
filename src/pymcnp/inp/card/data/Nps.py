@@ -16,7 +16,7 @@ class Nps(Data):
         n_per_batch: nps data card ``n_per_batch`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NPS'] | str = abc.Terminal[r'NPS']('NPS')
-    npp: literal.Integer | int | str
-    npsmg: literal.Integer | typing.Annotated[abc.Terminal, r''] | int | str = abc.Terminal[r'']('')
-    n_per_batch: literal.Integer | typing.Annotated[abc.Terminal, r''] | int | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'NPS'] = abc.Terminal[r'NPS']('NPS')
+    npp: literal.Integer
+    npsmg: literal.Integer | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    n_per_batch: literal.Integer | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

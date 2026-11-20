@@ -14,6 +14,6 @@ class Debug(Embed):
         value: debug embed data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'DEBUG'] | str = abc.Terminal[r'DEBUG']('DEBUG')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:ECHOMESH)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'DEBUG'] = abc.Terminal[r'DEBUG']('DEBUG')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'(?:ECHOMESH)']

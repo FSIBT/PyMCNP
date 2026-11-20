@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Stop import Stop
@@ -17,7 +16,7 @@ class F(Stop):
         e: f stop data option ``e`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'F'] | str = abc.Terminal[r'F']('F')
-    suffix: literal.Integer | int | str
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    e: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'F'] = abc.Terminal[r'F']('F')
+    suffix: literal.Integer
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    e: literal.Real

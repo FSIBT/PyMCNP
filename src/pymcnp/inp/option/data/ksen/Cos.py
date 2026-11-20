@@ -1,6 +1,4 @@
 import typing
-import decimal
-import collections
 
 from ..... import abc
 from .... import literal
@@ -17,8 +15,6 @@ class Cos(Ksen):
         angles: cos ksen data option ``angles`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'COS'] | str = abc.Terminal[r'COS']('COS')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    angles: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Real | int | float | decimal.Decimal | str] | str = abc.Terminal[
-        r''
-    ]('')
+    keyword: typing.Annotated[abc.Terminal, r'COS'] = abc.Terminal[r'COS']('COS')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    angles: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

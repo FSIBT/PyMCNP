@@ -16,10 +16,10 @@ class Fm(Data):
         bins: fm data card ``bins`` parameter.
     """
 
-    prefix: typing.Annotated[abc.Terminal, r'[*+]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    keyword: typing.Annotated[abc.Terminal, r'FM'] | str = abc.Terminal[r'FM']('FM')
-    suffix: literal.Integer | int | str
-    bins: typing.Annotated[abc.Terminal, r'[^\s$](?:[^$\n]*[^\s$])?(?:\n {1,5}[^\s$](?:[^$\n]*[^\s$])?)*'] | str
+    prefix: typing.Annotated[abc.Terminal, r'[*+]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'FM'] = abc.Terminal[r'FM']('FM')
+    suffix: literal.Integer
+    bins: typing.Annotated[abc.Terminal, r'[^\s$](?:[^$\n]*[^\s$])?(?:\n {1,5}[^\s$](?:[^$\n]*[^\s$])?)*']
 
     def __post_init__(self) -> None:
         """
@@ -28,8 +28,6 @@ class Fm(Data):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (1 <= self.suffix <= 99_999_999) or self.suffix % 10 == 8:
             raise abc.Error('Invalid value.', f'{self.suffix=}')

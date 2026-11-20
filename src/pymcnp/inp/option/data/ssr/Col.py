@@ -15,9 +15,9 @@ class Col(Ssr):
         value: col ssr data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'COL'] | str = abc.Terminal[r'COL']('COL')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'COL'] = abc.Terminal[r'COL']('COL')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer
 
     def __post_init__(self) -> None:
         """

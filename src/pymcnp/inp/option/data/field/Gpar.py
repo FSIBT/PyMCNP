@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from .... import literal
@@ -16,6 +15,6 @@ class Gpar(Field):
         p: gpar field data option ``p`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'GPAR'] | str = abc.Terminal[r'GPAR']('GPAR')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    p: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'GPAR'] = abc.Terminal[r'GPAR']('GPAR')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    p: literal.Real

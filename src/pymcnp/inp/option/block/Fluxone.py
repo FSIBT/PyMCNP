@@ -15,6 +15,6 @@ class Fluxone(Block):
         value: fluxone block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FLUXONE'] | str = abc.Terminal[r'FLUXONE']('FLUXONE')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'FLUXONE'] = abc.Terminal[r'FLUXONE']('FLUXONE')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

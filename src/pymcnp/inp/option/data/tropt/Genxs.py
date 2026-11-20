@@ -20,9 +20,9 @@ class Genxs_0(Genxs):
         filename: genxs tropt data option ``filename`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'GENXS'] | str = abc.Terminal[r'GENXS']('GENXS')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    filename: typing.Annotated[abc.Terminal, r'\S+'] | str
+    keyword: typing.Annotated[abc.Terminal, r'GENXS'] = abc.Terminal[r'GENXS']('GENXS')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    filename: typing.Annotated[abc.Terminal, r'\S+']
 
 
 class Genxs_1(Genxs):
@@ -33,4 +33,4 @@ class Genxs_1(Genxs):
         keyword: genxs tropt data option ``r'GENXS'`` symbol.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'GENXS'] | str = abc.Terminal[r'GENXS']('GENXS')
+    keyword: typing.Annotated[abc.Terminal, r'GENXS'] = abc.Terminal[r'GENXS']('GENXS')

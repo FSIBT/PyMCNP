@@ -14,6 +14,6 @@ class Alib(M):
         x: alib m data option ``x`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'ALIB'] | str = abc.Terminal[r'ALIB']('ALIB')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    x: typing.Annotated[abc.Terminal, r'\S+'] | str
+    keyword: typing.Annotated[abc.Terminal, r'ALIB'] = abc.Terminal[r'ALIB']('ALIB')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    x: typing.Annotated[abc.Terminal, r'\S+']

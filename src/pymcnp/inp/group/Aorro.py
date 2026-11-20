@@ -1,5 +1,3 @@
-import decimal
-
 from .. import literal
 from ..Group import Group
 
@@ -14,6 +12,6 @@ class Aorro(Group):
         ro: aorro group ``ro`` parameter.
     """
 
-    ao: literal.Real | int | float | decimal.Decimal | str
-    r: literal.Real | int | float | decimal.Decimal | str
-    ro: literal.Real | int | float | decimal.Decimal | str
+    ao: literal.Real
+    r: literal.Real
+    ro: literal.Real

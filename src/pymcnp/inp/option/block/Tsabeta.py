@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from .... import abc
 from ..Block import Block
@@ -16,6 +15,6 @@ class Tsabeta(Block):
         value: tsabeta block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'TSABETA'] | str = abc.Terminal[r'TSABETA']('TSABETA')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'TSABETA'] = abc.Terminal[r'TSABETA']('TSABETA')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Real

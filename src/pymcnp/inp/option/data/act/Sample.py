@@ -14,6 +14,6 @@ class Sample(Act):
         value: sample act data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'SAMPLE'] | str = abc.Terminal[r'SAMPLE']('SAMPLE')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:CORRELATE|NONFISS_COR)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'SAMPLE'] = abc.Terminal[r'SAMPLE']('SAMPLE')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'(?:CORRELATE|NONFISS_COR)']

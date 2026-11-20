@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from .... import abc
 from ..Data import Data
@@ -16,5 +15,5 @@ class Mesh(Data):
         options: mesh data card ``options`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'MESH'] | str = abc.Terminal[r'MESH']('MESH')
-    options: typing.Annotated[abc.Array, option.data.Mesh, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Mesh | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'MESH'] = abc.Terminal[r'MESH']('MESH')
+    options: typing.Annotated[abc.Array, option.data.Mesh, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from .... import abc
 from ... import literal
@@ -16,8 +15,8 @@ class Nonu(Data):
         a: nonu data card ``a`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NONU'] | str = abc.Terminal[r'NONU']('NONU')
-    a: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'NONU'] = abc.Terminal[r'NONU']('NONU')
+    a: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """

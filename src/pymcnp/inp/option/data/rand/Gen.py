@@ -15,6 +15,6 @@ class Gen(Rand):
         n: gen rand data option ``n`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'GEN'] | str = abc.Terminal[r'GEN']('GEN')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    n: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'GEN'] = abc.Terminal[r'GEN']('GEN')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    n: literal.Integer

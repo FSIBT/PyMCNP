@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from .... import abc
 from ... import literal
@@ -16,5 +15,5 @@ class Talnp(Data):
         t: talnp data card ``t`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'TALNP'] | str = abc.Terminal[r'TALNP']('TALNP')
-    t: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'TALNP'] = abc.Terminal[r'TALNP']('TALNP')
+    t: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

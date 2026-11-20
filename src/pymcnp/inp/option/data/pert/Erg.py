@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Pert import Pert
@@ -17,7 +16,7 @@ class Erg(Pert):
         eub: erg pert data option ``eub`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'ERG'] | str = abc.Terminal[r'ERG']('ERG')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    elb: literal.Real | int | float | decimal.Decimal | str
-    eub: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'ERG'] = abc.Terminal[r'ERG']('ERG')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    elb: literal.Real
+    eub: literal.Real

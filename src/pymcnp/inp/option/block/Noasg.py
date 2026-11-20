@@ -15,6 +15,6 @@ class Noasg(Block):
         value: noasg block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NOASG'] | str = abc.Terminal[r'NOASG']('NOASG')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'NOASG'] = abc.Terminal[r'NOASG']('NOASG')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

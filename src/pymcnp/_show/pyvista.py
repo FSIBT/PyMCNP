@@ -37,8 +37,6 @@ class Visualization(abc.Visualization):
             Merged PyVista visualization.
         """
 
-        assert isinstance(b, Visualization)
-
         vis = Visualization()
         vis.surface = a.surface.merge(b.surface)
         vis.cell = lambda p: a.cell(p) | b.cell(p)
@@ -57,8 +55,6 @@ class Visualization(abc.Visualization):
             Intersection of PyVista visualizations.
         """
 
-        assert isinstance(b, Visualization)
-
         vis = Visualization()
         vis.surface = a.surface.merge(b.surface)
         vis.cell = lambda p: a.cell(p) & b.cell(p)
@@ -76,8 +72,6 @@ class Visualization(abc.Visualization):
         Returns:
             Union of PyVista visualizations.
         """
-
-        assert isinstance(b, Visualization)
 
         vis = Visualization()
         vis.surface = a.surface.merge(b.surface)

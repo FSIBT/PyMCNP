@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Sdef import Sdef
@@ -24,11 +23,11 @@ class Vec_0(Vec):
         z: vec sdef data option ``z`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'VEC'] | str = abc.Terminal[r'VEC']('VEC')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    x: literal.Real | int | float | decimal.Decimal | str
-    y: literal.Real | int | float | decimal.Decimal | str
-    z: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'VEC'] = abc.Terminal[r'VEC']('VEC')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    x: literal.Real
+    y: literal.Real
+    z: literal.Real
 
 
 class Vec_1(Vec):
@@ -41,6 +40,6 @@ class Vec_1(Vec):
         value: vec sdef data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'VEC'] | str = abc.Terminal[r'VEC']('VEC')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Distribution | literal.DependentDistribution | str
+    keyword: typing.Annotated[abc.Terminal, r'VEC'] = abc.Terminal[r'VEC']('VEC')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Distribution | literal.DependentDistribution

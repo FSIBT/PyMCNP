@@ -20,14 +20,14 @@ class Mgopt(Data):
         rim: mgopt data card ``rim`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'MGOPT'] | str = abc.Terminal[r'MGOPT']('MGOPT')
-    mcal: typing.Annotated[abc.Terminal, r'F|A'] | str
-    igm: literal.Integer | int | str
-    iplt: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | str = literal.Jump('J')
-    isb: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | str = literal.Jump('J')
-    icw: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | str = literal.Jump('J')
-    fnw: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | str = literal.Jump('J')
-    rim: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | str = literal.Jump('J')
+    keyword: typing.Annotated[abc.Terminal, r'MGOPT'] = abc.Terminal[r'MGOPT']('MGOPT')
+    mcal: typing.Annotated[abc.Terminal, r'F|A']
+    igm: literal.Integer
+    iplt: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    isb: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    icw: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    fnw: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    rim: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
 
     def __post_init__(self) -> None:
         """

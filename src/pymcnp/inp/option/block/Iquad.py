@@ -15,6 +15,6 @@ class Iquad(Block):
         value: iquad block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'IQUAD'] | str = abc.Terminal[r'IQUAD']('IQUAD')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'IQUAD'] = abc.Terminal[r'IQUAD']('IQUAD')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

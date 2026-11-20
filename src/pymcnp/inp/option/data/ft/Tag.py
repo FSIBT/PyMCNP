@@ -14,5 +14,5 @@ class Tag(Ft):
         a: tag group ``a`` parameter.
     """
 
-    id: typing.Annotated[abc.Terminal, r'TAG'] | str = abc.Terminal[r'TAG']('TAG')
-    a: literal.Integer | int | str
+    id: typing.Annotated[abc.Terminal, r'TAG'] = abc.Terminal[r'TAG']('TAG')
+    a: literal.Integer

@@ -14,6 +14,6 @@ class LatticeRange(abc.Nonterminal):
         right: latticerange literal right range.
     """
 
-    left: Integer | int | str
-    colon: typing.Annotated[abc.Terminal, r'(?:):'] | str
-    right: Integer | int | str
+    left: Integer
+    colon: typing.Annotated[abc.Terminal, r'(?:):']
+    right: Integer

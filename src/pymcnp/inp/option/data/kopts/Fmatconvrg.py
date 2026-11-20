@@ -14,6 +14,6 @@ class Fmatconvrg(Kopts):
         value: fmatconvrg kopts data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FMATCONVRG'] | str = abc.Terminal[r'FMATCONVRG']('FMATCONVRG')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:YES|NO)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'FMATCONVRG'] = abc.Terminal[r'FMATCONVRG']('FMATCONVRG')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'(?:YES|NO)']

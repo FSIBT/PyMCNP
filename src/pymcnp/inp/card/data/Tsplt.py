@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from .... import abc
 from ... import literal
@@ -19,7 +18,7 @@ class Tsplt(Data):
         r_t: tsplt data card ``r_t`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'TSPLT'] | str = abc.Terminal[r'TSPLT']('TSPLT')
-    colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str
-    r_t: typing.Annotated[abc.Array, group.TspltEntry, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[group.TspltEntry | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'TSPLT'] = abc.Terminal[r'TSPLT']('TSPLT')
+    colon: typing.Annotated[abc.Terminal, r':'] = abc.Terminal[r':'](':')
+    particle: literal.Particle
+    r_t: typing.Annotated[abc.Array, group.TspltEntry, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

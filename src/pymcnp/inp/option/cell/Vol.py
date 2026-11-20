@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from .... import abc
 from ..Cell import Cell
@@ -16,6 +15,6 @@ class Vol(Cell):
         x: vol cell option ``x`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'VOL'] | str = abc.Terminal[r'VOL']('VOL')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    x: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'VOL'] = abc.Terminal[r'VOL']('VOL')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    x: literal.Real

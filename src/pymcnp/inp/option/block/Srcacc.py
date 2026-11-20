@@ -14,6 +14,6 @@ class Srcacc(Block):
         value: srcacc block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'SRCACC'] | str = abc.Terminal[r'SRCACC']('SRCACC')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'\S+'] | str
+    keyword: typing.Annotated[abc.Terminal, r'SRCACC'] = abc.Terminal[r'SRCACC']('SRCACC')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'\S+']

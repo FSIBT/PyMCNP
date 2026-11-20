@@ -14,5 +14,5 @@ class Scx(Ft):
         k: scx group ``k`` parameter.
     """
 
-    id: typing.Annotated[abc.Terminal, r'SCX'] | str = abc.Terminal[r'SCX']('SCX')
-    k: literal.Integer | int | str
+    id: typing.Annotated[abc.Terminal, r'SCX'] = abc.Terminal[r'SCX']('SCX')
+    k: literal.Integer

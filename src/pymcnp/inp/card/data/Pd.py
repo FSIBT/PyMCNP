@@ -1,6 +1,4 @@
 import typing
-import decimal
-import collections
 
 from .... import abc
 from ... import literal
@@ -17,14 +15,9 @@ class Pd(Data):
         p: pd data card ``p`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'PD'] | str = abc.Terminal[r'PD']('PD')
-    suffix: literal.Integer | int | str
-    p: (
-        typing.Annotated[abc.Array, literal.Real | literal.Jump, None]
-        | typing.Annotated[abc.Terminal, r'']
-        | collections.abc.Sequence[literal.Real | literal.Jump | int | float | decimal.Decimal | str]
-        | str
-    )
+    keyword: typing.Annotated[abc.Terminal, r'PD'] = abc.Terminal[r'PD']('PD')
+    suffix: literal.Integer
+    p: typing.Annotated[abc.Array, literal.Real | literal.Jump, None] | typing.Annotated[abc.Terminal, r'']
 
     def __post_init__(self) -> None:
         """
@@ -33,8 +26,6 @@ class Pd(Data):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (1 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')

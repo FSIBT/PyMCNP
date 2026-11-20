@@ -1,5 +1,4 @@
 import typing
-import collections
 
 import molmass
 
@@ -22,12 +21,10 @@ class M(Data):
         options: m data card ``options`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'M'] | str = abc.Terminal[r'M']('M')
-    suffix: literal.Integer | int | str
-    z_f: typing.Annotated[abc.Array, option.data.M | group.Constituent, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.M | group.Constituent | str] | str = (
-        abc.Terminal[r'']('')
-    )
-    options: typing.Annotated[abc.Array, option.data.M, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.M | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'M'] = abc.Terminal[r'M']('M')
+    suffix: literal.Integer
+    z_f: typing.Annotated[abc.Array, option.data.M | group.Constituent, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    options: typing.Annotated[abc.Array, option.data.M, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -36,8 +33,6 @@ class M(Data):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (0 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')
@@ -57,6 +52,8 @@ class M(Data):
             Corresponding M data cards.
         """
 
+        suffix = literal.Integer(str(suffix))
+
         substances: list[group.Constituent] = []
         for formula, mixture_fraction in formulas.items():
             formula = molmass.Formula(formula)
@@ -70,13 +67,13 @@ class M(Data):
                     (f'{_elements.ELEMENTS[element]["z"]:03}{a:03}{f".{library}" if library else ""}', isotropic_fraction) for a, isotropic_fraction in _elements.ELEMENTS[element]['fraction'].items()
                 ]
                 entries = [
-                    group.Constituent(z=zaid, f=(-1 if is_weight else 1) * mixture_fraction * compound_fraction * isotropic_fraction)
+                    group.Constituent(z=literal.Zaid(zaid), f=(-1 if is_weight else 1) * mixture_fraction * compound_fraction * isotropic_fraction)
                     for zaid, isotropic_fraction in zaids
                     if mixture_fraction * compound_fraction * isotropic_fraction > cutoff
                 ]
 
                 substances += entries
 
-        material = M(suffix=suffix, z_f=abc.Array(*substances, spaces=[M._space[0](M._space[0]._default)] * (len(substances) - 1)))
+        material = M(suffix=suffix, z_f=abc.Array(*substances))
 
         return material

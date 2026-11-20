@@ -15,6 +15,6 @@ class Asleft(Block):
         value: asleft block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'ASLEFT'] | str = abc.Terminal[r'ASLEFT']('ASLEFT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'ASLEFT'] = abc.Terminal[r'ASLEFT']('ASLEFT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

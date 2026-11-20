@@ -14,5 +14,5 @@ class Pds(Ft):
         c: pds group ``c`` parameter.
     """
 
-    id: typing.Annotated[abc.Terminal, r'PDS'] | str = abc.Terminal[r'PDS']('PDS')
-    c: literal.Integer | int | str
+    id: typing.Annotated[abc.Terminal, r'PDS'] = abc.Terminal[r'PDS']('PDS')
+    c: literal.Integer

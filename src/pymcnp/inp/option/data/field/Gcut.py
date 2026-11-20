@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from .... import literal
@@ -16,6 +15,6 @@ class Gcut(Field):
         e: gcut field data option ``e`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'GCUT'] | str = abc.Terminal[r'GCUT']('GCUT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    e: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'GCUT'] = abc.Terminal[r'GCUT']('GCUT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    e: literal.Real

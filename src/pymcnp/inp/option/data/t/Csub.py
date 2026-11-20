@@ -15,6 +15,6 @@ class Csub(T):
         value: csub t data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'CSUB'] | str = abc.Terminal[r'CSUB']('CSUB')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'CSUB'] = abc.Terminal[r'CSUB']('CSUB')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

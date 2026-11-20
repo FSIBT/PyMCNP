@@ -14,6 +14,6 @@ class Mcnpumfile(Embed):
         filename: mcnpumfile embed data option ``filename`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'MCNPUMFILE'] | str = abc.Terminal[r'MCNPUMFILE']('MCNPUMFILE')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    filename: typing.Annotated[abc.Terminal, r'\S+'] | str
+    keyword: typing.Annotated[abc.Terminal, r'MCNPUMFILE'] = abc.Terminal[r'MCNPUMFILE']('MCNPUMFILE')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    filename: typing.Annotated[abc.Terminal, r'\S+']

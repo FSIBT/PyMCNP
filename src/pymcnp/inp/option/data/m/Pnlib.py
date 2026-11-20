@@ -14,6 +14,6 @@ class Pnlib(M):
         x: pnlib m data option ``x`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'PNLIB'] | str = abc.Terminal[r'PNLIB']('PNLIB')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    x: typing.Annotated[abc.Terminal, r'\S+'] | str
+    keyword: typing.Annotated[abc.Terminal, r'PNLIB'] = abc.Terminal[r'PNLIB']('PNLIB')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    x: typing.Annotated[abc.Terminal, r'\S+']

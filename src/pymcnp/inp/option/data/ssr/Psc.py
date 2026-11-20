@@ -15,6 +15,6 @@ class Psc(Ssr):
         c: psc ssr data option ``c`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'PSC'] | str = abc.Terminal[r'PSC']('PSC')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    c: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'PSC'] = abc.Terminal[r'PSC']('PSC')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    c: literal.Integer

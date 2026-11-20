@@ -1,5 +1,3 @@
-import decimal
-
 from .. import literal
 from ..Group import Group
 
@@ -13,5 +11,5 @@ class I_J(Group):
         j: i_j group ``j`` parameter.
     """
 
-    i: literal.Integer | int | str
-    j: literal.Real | int | float | decimal.Decimal | str
+    i: literal.Integer
+    j: literal.Real

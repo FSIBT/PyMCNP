@@ -17,11 +17,11 @@ class Unc(Cell):
         u: unc cell option ``u`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'UNC'] | str = abc.Terminal[r'UNC']('UNC')
-    colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    u: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'UNC'] = abc.Terminal[r'UNC']('UNC')
+    colon: typing.Annotated[abc.Terminal, r':'] = abc.Terminal[r':'](':')
+    particle: literal.Particle
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    u: literal.Integer
 
     def __post_init__(self) -> None:
         """

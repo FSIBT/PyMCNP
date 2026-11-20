@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from .... import literal
@@ -17,7 +16,7 @@ class Frv(Ft):
         v3: frv group ``v3`` parameter.
     """
 
-    id: typing.Annotated[abc.Terminal, r'FRV'] | str = abc.Terminal[r'FRV']('FRV')
-    v1: literal.Real | int | float | decimal.Decimal | str
-    v2: literal.Real | int | float | decimal.Decimal | str
-    v3: literal.Real | int | float | decimal.Decimal | str
+    id: typing.Annotated[abc.Terminal, r'FRV'] = abc.Terminal[r'FRV']('FRV')
+    v1: literal.Real
+    v2: literal.Real
+    v3: literal.Real

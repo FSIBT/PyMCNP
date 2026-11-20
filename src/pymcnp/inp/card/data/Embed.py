@@ -1,6 +1,5 @@
 import typing
 
-import collections
 from .... import abc
 from ... import literal
 from ..Data import Data
@@ -17,9 +16,9 @@ class Embed(Data):
         options: embed data card ``options`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'EMBED'] | str = abc.Terminal[r'EMBED']('EMBED')
-    suffix: literal.Integer | int | str
-    options: typing.Annotated[abc.Array, option.data.Embed, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Embed | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'EMBED'] = abc.Terminal[r'EMBED']('EMBED')
+    suffix: literal.Integer
+    options: typing.Annotated[abc.Array, option.data.Embed, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -28,8 +27,6 @@ class Embed(Data):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (0 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')

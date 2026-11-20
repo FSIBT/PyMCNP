@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Act import Act
@@ -16,6 +15,6 @@ class Pecut(Act):
         e: pecut act data option ``e`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'PECUT'] | str = abc.Terminal[r'PECUT']('PECUT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    e: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'PECUT'] = abc.Terminal[r'PECUT']('PECUT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    e: literal.Real

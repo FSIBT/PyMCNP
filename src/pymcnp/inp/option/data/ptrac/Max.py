@@ -15,6 +15,6 @@ class Max(Ptrac):
         value: max ptrac data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'MAX'] | str = abc.Terminal[r'MAX']('MAX')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'MAX'] = abc.Terminal[r'MAX']('MAX')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

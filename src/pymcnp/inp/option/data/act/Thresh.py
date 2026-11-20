@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Act import Act
@@ -16,6 +15,6 @@ class Thresh(Act):
         f: thresh act data option ``f`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'THRESH'] | str = abc.Terminal[r'THRESH']('THRESH')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    f: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'THRESH'] = abc.Terminal[r'THRESH']('THRESH')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    f: literal.Real

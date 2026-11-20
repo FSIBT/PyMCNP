@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 import numpy
 
@@ -31,21 +30,21 @@ class Wed(Surface):
         v3z: wed surface card ``v3z`` parameter.
     """
 
-    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str
-    keyword: typing.Annotated[abc.Terminal, r'WED'] | str = abc.Terminal[r'WED']('WED')
-    vx: literal.Real | int | float | decimal.Decimal | str
-    vy: literal.Real | int | float | decimal.Decimal | str
-    vz: literal.Real | int | float | decimal.Decimal | str
-    v1x: literal.Real | int | float | decimal.Decimal | str
-    v1y: literal.Real | int | float | decimal.Decimal | str
-    v1z: literal.Real | int | float | decimal.Decimal | str
-    v2x: literal.Real | int | float | decimal.Decimal | str
-    v2y: literal.Real | int | float | decimal.Decimal | str
-    v2z: literal.Real | int | float | decimal.Decimal | str
-    v3x: literal.Real | int | float | decimal.Decimal | str
-    v3y: literal.Real | int | float | decimal.Decimal | str
-    v3z: literal.Real | int | float | decimal.Decimal | str
+    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    j: literal.Integer
+    keyword: typing.Annotated[abc.Terminal, r'WED'] = abc.Terminal[r'WED']('WED')
+    vx: literal.Real
+    vy: literal.Real
+    vz: literal.Real
+    v1x: literal.Real
+    v1y: literal.Real
+    v1z: literal.Real
+    v2x: literal.Real
+    v2y: literal.Real
+    v2z: literal.Real
+    v3x: literal.Real
+    v3y: literal.Real
+    v3z: literal.Real
 
     def __post_init__(self) -> None:
         """
@@ -54,8 +53,6 @@ class Wed(Surface):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.j, literal.Integer)
 
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')

@@ -14,5 +14,5 @@ class Fns(Ft):
         nt: fns group ``nt`` parameter.
     """
 
-    id: typing.Annotated[abc.Terminal, r'FNS'] | str = abc.Terminal[r'FNS']('FNS')
-    nt: literal.Integer | typing.Annotated[abc.Terminal, r''] | int | str = abc.Terminal[r'']('')
+    id: typing.Annotated[abc.Terminal, r'FNS'] = abc.Terminal[r'FNS']('FNS')
+    nt: literal.Integer | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

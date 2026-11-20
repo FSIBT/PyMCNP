@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 import numpy
 
@@ -27,17 +26,17 @@ class Trc(Surface):
         r2: trc surface card ``r2`` parameter.
     """
 
-    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str
-    keyword: typing.Annotated[abc.Terminal, r'TRC'] | str = abc.Terminal[r'TRC']('TRC')
-    vx: literal.Real | int | float | decimal.Decimal | str
-    vy: literal.Real | int | float | decimal.Decimal | str
-    vz: literal.Real | int | float | decimal.Decimal | str
-    h1: literal.Real | int | float | decimal.Decimal | str
-    h2: literal.Real | int | float | decimal.Decimal | str
-    h3: literal.Real | int | float | decimal.Decimal | str
-    r1: literal.Real | int | float | decimal.Decimal | str
-    r2: literal.Real | int | float | decimal.Decimal | str
+    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    j: literal.Integer
+    keyword: typing.Annotated[abc.Terminal, r'TRC'] = abc.Terminal[r'TRC']('TRC')
+    vx: literal.Real
+    vy: literal.Real
+    vz: literal.Real
+    h1: literal.Real
+    h2: literal.Real
+    h3: literal.Real
+    r1: literal.Real
+    r2: literal.Real
 
     def __post_init__(self) -> None:
         """
@@ -46,8 +45,6 @@ class Trc(Surface):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.j, literal.Integer)
 
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')

@@ -1,7 +1,5 @@
 import typing
 
-import collections
-
 
 from .... import abc
 from ..Data import Data
@@ -17,5 +15,5 @@ class Ksrc(Data):
         xyz: ksrc data card ``xyz`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'KSRC'] | str = abc.Terminal[r'KSRC']('KSRC')
-    xyz: typing.Annotated[abc.Array, group.Location, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[group.Location | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'KSRC'] = abc.Terminal[r'KSRC']('KSRC')
+    xyz: typing.Annotated[abc.Array, group.Location, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

@@ -1,6 +1,5 @@
 import typing
 
-import collections
 from .... import abc
 from ... import literal
 from ..Data import Data
@@ -16,9 +15,9 @@ class Cf(Data):
         c: cf data card ``c`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'CF'] | str = abc.Terminal[r'CF']('CF')
-    suffix: literal.Integer | int | str
-    c: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'CF'] = abc.Terminal[r'CF']('CF')
+    suffix: literal.Integer
+    c: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -27,10 +26,6 @@ class Cf(Data):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
-        assert isinstance(self.c, (abc.Array, abc.Terminal[r'']))
-        assert not isinstance(self.c, abc.Array) or all(isinstance(ck, literal.Integer) for ck in self.c)
 
         if not (1 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')

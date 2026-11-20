@@ -1,6 +1,4 @@
 import typing
-import decimal
-import collections
 
 from .... import abc
 from ... import literal
@@ -18,9 +16,7 @@ class Wwgt(Data):
         t: wwgt data card ``t`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'WWGT'] | str = abc.Terminal[r'WWGT']('WWGT')
-    colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str
-    t: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Real | int | float | decimal.Decimal | str] | str = abc.Terminal[r''](
-        ''
-    )
+    keyword: typing.Annotated[abc.Terminal, r'WWGT'] = abc.Terminal[r'WWGT']('WWGT')
+    colon: typing.Annotated[abc.Terminal, r':'] = abc.Terminal[r':'](':')
+    particle: literal.Particle
+    t: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

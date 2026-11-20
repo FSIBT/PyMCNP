@@ -1,12 +1,16 @@
 import os
+import typing
 import pathlib
 import collections
 
 import pymcnp
 
 
-class Test_FromMcnp:
-    element: pymcnp.abc.Nonterminal
+T = typing.TypeVar('T', bound=pymcnp.abc.Symbol)
+
+
+class Test_FromMcnp(typing.Generic[T]):
+    element: type[T]
 
     EXAMPLES_FROM_MCNP_VALID: collections.abc.Sequence[str] = []
     EXAMPLES_FROM_MCNP_INVALID: collections.abc.Sequence[str] = []
@@ -39,11 +43,14 @@ class Test_FromMcnp:
                 assert True
 
 
-class Test_FromFile(Test_FromMcnp):
-    element: pymcnp.abc.Nonterminal
+U = typing.TypeVar('U', bound=pymcnp.abc.File)
 
-    EXAMPLES_FROM_FILE_VALID: collections.abc.Sequence[str] = []
-    EXAMPLES_FROM_FILE_INVALID: collections.abc.Sequence[str] = []
+
+class Test_FromFile(Test_FromMcnp, typing.Generic[U]):
+    element: type[U]
+
+    EXAMPLES_FROM_FILE_VALID: collections.abc.Sequence[pathlib.Path] = []
+    EXAMPLES_FROM_FILE_INVALID: collections.abc.Sequence[pathlib.Path] = []
 
     def test_from_file_valid(self) -> None:
         """
@@ -83,8 +90,14 @@ class Test_FromFile(Test_FromMcnp):
             a.to_file(pathlib.Path(os.devnull))
 
 
-class Test_ToDataframe:
-    element: pymcnp.abc.Nonterminal
+class SymbolWithDataIter(pymcnp.abc.symbol.WithDataIter, pymcnp.abc.Symbol): ...
+
+
+V = typing.TypeVar('V', bound=SymbolWithDataIter)
+
+
+class Test_ToDataframe(typing.Generic[V]):
+    element: type[V]
 
     EXAMPLES_TO_DATAFRAME: list[pathlib.Path | str] = []
 
@@ -96,10 +109,12 @@ class Test_ToDataframe:
         for example in self.EXAMPLES_TO_DATAFRAME:
             print(example)
 
-            if issubclass(self.element, pymcnp.abc.File):
+            if issubclass(self.element, pymcnp.abc.File) and isinstance(example, pathlib.Path):
                 element, _ = self.element.from_file(example)
-            else:
+            elif issubclass(self.element, pymcnp.abc.Symbol) and isinstance(example, str):
                 element, _ = self.element.from_mcnp(example)
+            else:
+                assert False
 
             _ = element.to_dataframe()
 

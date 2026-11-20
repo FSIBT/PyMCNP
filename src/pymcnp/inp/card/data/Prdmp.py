@@ -18,9 +18,9 @@ class Prdmp(Data):
         dmmp: prdmp data card ``dmmp`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'PRDMP'] | str = abc.Terminal[r'PRDMP']('PRDMP')
-    ndp: literal.Integer | int | str
-    ndm: literal.Integer | int | str
-    mct: literal.Integer | int | str
-    ndmp: literal.Integer | int | str
-    dmmp: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'PRDMP'] = abc.Terminal[r'PRDMP']('PRDMP')
+    ndp: literal.Integer
+    ndm: literal.Integer
+    mct: literal.Integer
+    ndmp: literal.Integer
+    dmmp: literal.Integer

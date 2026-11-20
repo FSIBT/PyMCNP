@@ -15,6 +15,6 @@ class Sur(Sdef):
         s: sur sdef data option ``s`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'SUR'] | str = abc.Terminal[r'SUR']('SUR')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    s: literal.Integer | literal.Distribution | literal.DependentDistribution | int | str
+    keyword: typing.Annotated[abc.Terminal, r'SUR'] = abc.Terminal[r'SUR']('SUR')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    s: literal.Integer | literal.Distribution | literal.DependentDistribution

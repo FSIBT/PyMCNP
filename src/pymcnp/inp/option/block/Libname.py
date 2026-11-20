@@ -14,6 +14,6 @@ class Libname(Block):
         value: libname block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'LIBNAME'] | str = abc.Terminal[r'LIBNAME']('LIBNAME')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'\S+'] | str
+    keyword: typing.Annotated[abc.Terminal, r'LIBNAME'] = abc.Terminal[r'LIBNAME']('LIBNAME')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'\S+']

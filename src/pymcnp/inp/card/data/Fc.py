@@ -15,9 +15,9 @@ class Fc(Data):
         info: fc data card ``info`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FC'] | str = abc.Terminal[r'FC']('FC')
-    suffix: literal.Integer | int | str
-    info: typing.Annotated[abc.Terminal, r'[\s\S]*?(?=\n[^ ]{1,5}|\Z)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'FC'] = abc.Terminal[r'FC']('FC')
+    suffix: literal.Integer
+    info: typing.Annotated[abc.Terminal, r'[\s\S]*?(?=\n[^ ]{1,5}|\Z)']
 
     def __post_init__(self) -> None:
         """
@@ -26,8 +26,6 @@ class Fc(Data):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (1 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')

@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from .... import abc
 from ..Data import Data
@@ -19,10 +18,10 @@ class Bfld(Data):
         options: bfld data card ``options`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'BFLD'] | str = abc.Terminal[r'BFLD']('BFLD')
-    suffix: literal.Integer | int | str
-    type: typing.Annotated[abc.Terminal, r'CONST|QUAD|QUADFF'] | str
-    options: typing.Annotated[abc.Array, option.data.Bfld, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Bfld | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'BFLD'] = abc.Terminal[r'BFLD']('BFLD')
+    suffix: literal.Integer
+    type: typing.Annotated[abc.Terminal, r'CONST|QUAD|QUADFF']
+    options: typing.Annotated[abc.Array, option.data.Bfld, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -31,8 +30,6 @@ class Bfld(Data):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (1 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')

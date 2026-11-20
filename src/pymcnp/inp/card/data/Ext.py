@@ -1,7 +1,6 @@
 import typing
 import dataclasses
 
-import collections
 
 from .... import abc
 from ... import literal
@@ -19,9 +18,7 @@ class Ext(Data):
         a: ext data card ``a`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'EXT'] | str = abc.Terminal[r'EXT']('EXT')
-    colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str
-    a: typing.Annotated[abc.Array, literal.Qvm | literal.Jump, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Qvm | literal.Jump | str] | str = dataclasses.field(
-        kw_only=True
-    )
+    keyword: typing.Annotated[abc.Terminal, r'EXT'] = abc.Terminal[r'EXT']('EXT')
+    colon: typing.Annotated[abc.Terminal, r':'] = abc.Terminal[r':'](':')
+    particle: literal.Particle
+    a: typing.Annotated[abc.Array, literal.Qvm | literal.Jump, None] | typing.Annotated[abc.Terminal, r''] = dataclasses.field(kw_only=True)

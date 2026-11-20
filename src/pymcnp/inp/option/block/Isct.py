@@ -15,6 +15,6 @@ class Isct(Block):
         value: isct block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'ISCT'] | str = abc.Terminal[r'ISCT']('ISCT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'ISCT'] = abc.Terminal[r'ISCT']('ISCT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

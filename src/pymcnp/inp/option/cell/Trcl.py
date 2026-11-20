@@ -23,10 +23,10 @@ class Trcl_0(Trcl):
         n: trcl cell option ``n`` parameter.
     """
 
-    prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    keyword: typing.Annotated[abc.Terminal, r'TRCL'] | str = abc.Terminal[r'TRCL']('TRCL')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    n: literal.Integer | int | str
+    prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'TRCL'] = abc.Terminal[r'TRCL']('TRCL')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    n: literal.Integer
 
     def __post_init__(self) -> None:
         """
@@ -35,8 +35,6 @@ class Trcl_0(Trcl):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.n, literal.Integer)
 
         if not (0 <= self.n <= 999):
             raise abc.Error('Invalid value.', f'{self.n=}')
@@ -53,10 +51,10 @@ class Trcl_1(Trcl):
         o_xyz_m: trcl cell option ``o_xyz_m`` parameter.
     """
 
-    prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    keyword: typing.Annotated[abc.Terminal, r'TRCL'] | str = abc.Terminal[r'TRCL']('TRCL')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    o_xyz_m: group.Rotation | str
+    prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'TRCL'] = abc.Terminal[r'TRCL']('TRCL')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    o_xyz_m: group.Rotation
 
 
 class Trcl_2(Trcl):
@@ -72,9 +70,9 @@ class Trcl_2(Trcl):
         parenthesis_close: trcl cell option ``r')'`` symbol.
     """
 
-    prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    keyword: typing.Annotated[abc.Terminal, r'TRCL'] | str = abc.Terminal[r'TRCL']('TRCL')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    parenthesis_open: typing.Annotated[abc.Terminal, r'\('] | str = abc.Terminal[r'\(']('(')
-    o_xyz_m: group.Rotation | str
-    parenthesis_close: typing.Annotated[abc.Terminal, r'\)'] | str = abc.Terminal[r'\)'](')')
+    prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'TRCL'] = abc.Terminal[r'TRCL']('TRCL')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    parenthesis_open: typing.Annotated[abc.Terminal, r'\('] = abc.Terminal[r'\(']('(')
+    o_xyz_m: group.Rotation
+    parenthesis_close: typing.Annotated[abc.Terminal, r'\)'] = abc.Terminal[r'\)'](')')

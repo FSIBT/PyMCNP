@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from .... import abc
 from ..Surface import Surface
@@ -10,6 +9,14 @@ class Y(Surface):
     """
     Represents y surface cards.
     """
+
+    if typing.TYPE_CHECKING:
+        prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r'']
+        j: literal.Integer
+        n: literal.Integer | typing.Annotated[abc.Terminal, r'']
+        keyword: typing.Annotated[abc.Terminal, r'Y']
+        y0: literal.Real
+        r0: literal.Real
 
 
 class Y_0(Y):
@@ -25,12 +32,12 @@ class Y_0(Y):
         r0: y surface card ``r0`` parameter.
     """
 
-    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str
-    n: literal.Integer | typing.Annotated[abc.Terminal, r''] | int | str = abc.Terminal[r'']('')
-    keyword: typing.Annotated[abc.Terminal, r'Y'] | str = abc.Terminal[r'Y']('Y')
-    y0: literal.Real | int | float | decimal.Decimal | str
-    r0: literal.Real | int | float | decimal.Decimal | str
+    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    j: literal.Integer
+    n: literal.Integer | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'Y'] = abc.Terminal[r'Y']('Y')
+    y0: literal.Real
+    r0: literal.Real
 
     def __post_init__(self) -> None:
         """
@@ -39,9 +46,6 @@ class Y_0(Y):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.j, literal.Integer)
-        assert isinstance(self.n, (literal.Integer, abc.Terminal[r'']))
 
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')
@@ -55,6 +59,7 @@ class Y_1(Y):
     Represents y surface cards, form #1.
 
     Attributes:
+        prefix: y surface card ``prefix`` parameter.
         j: y surface card ``j`` parameter.
         n: y surface card ``n`` parameter.
         keyword: y surface card ``r'Y'`` symbol.
@@ -64,21 +69,19 @@ class Y_1(Y):
         r1: y surface card ``r1`` parameter.
     """
 
-    j: literal.Integer | int | str
-    n: literal.Integer | typing.Annotated[abc.Terminal, r''] | int | str = abc.Terminal[r'']('')
-    keyword: typing.Annotated[abc.Terminal, r'Y'] | str = abc.Terminal[r'Y']('Y')
-    y0: literal.Real | int | float | decimal.Decimal | str
-    r0: literal.Real | int | float | decimal.Decimal | str
-    y1: literal.Real | int | float | decimal.Decimal | str
-    r1: literal.Real | int | float | decimal.Decimal | str
+    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    j: literal.Integer
+    n: literal.Integer | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'Y'] = abc.Terminal[r'Y']('Y')
+    y0: literal.Real
+    r0: literal.Real
+    y1: literal.Real
+    r1: literal.Real
 
     def __post_init__(self) -> None:
         """
         Validates y surface cards, form #1.
         """
-
-        assert isinstance(self.j, literal.Integer)
-        assert isinstance(self.n, (literal.Integer, abc.Terminal[r'']))
 
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')
@@ -92,6 +95,7 @@ class Y_2(Y):
     Represents y surface cards, form #0.
 
     Attributes:
+        prefix: y surface card ``prefix`` parameter.
         j: y surface card ``j`` parameter.
         n: y surface card ``n`` parameter.
         keyword: y surface card ``r'Y'`` symbol.
@@ -103,15 +107,16 @@ class Y_2(Y):
         r2: y surface card ``r2`` parameter.
     """
 
-    j: literal.Integer | int | str
-    n: literal.Integer | typing.Annotated[abc.Terminal, r''] | int | str = abc.Terminal[r'']('')
-    keyword: typing.Annotated[abc.Terminal, r'Y'] | str = abc.Terminal[r'Y']('Y')
-    y0: literal.Real | int | float | decimal.Decimal | str
-    r0: literal.Real | int | float | decimal.Decimal | str
-    y1: literal.Real | int | float | decimal.Decimal | str
-    r1: literal.Real | int | float | decimal.Decimal | str
-    y2: literal.Real | int | float | decimal.Decimal | str
-    r2: literal.Real | int | float | decimal.Decimal | str
+    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    j: literal.Integer
+    n: literal.Integer | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'Y'] = abc.Terminal[r'Y']('Y')
+    y0: literal.Real
+    r0: literal.Real
+    y1: literal.Real
+    r1: literal.Real
+    y2: literal.Real
+    r2: literal.Real
 
     def __post_init__(self) -> None:
         """
@@ -120,9 +125,6 @@ class Y_2(Y):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.j, literal.Integer)
-        assert isinstance(self.n, (literal.Integer, abc.Terminal[r'']))
 
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')

@@ -15,6 +15,6 @@ class Ext(Ssr):
         n: ext ssr data option ``n`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'EXT'] | str = abc.Terminal[r'EXT']('EXT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    n: literal.Distribution | str
+    keyword: typing.Annotated[abc.Terminal, r'EXT'] = abc.Terminal[r'EXT']('EXT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    n: literal.Distribution

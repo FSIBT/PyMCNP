@@ -18,9 +18,9 @@ class Files(Data):
         record_length: files data card ``record_length`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FILES'] | str = abc.Terminal[r'FILES']('FILES')
-    unit_no: literal.Integer | int | str
-    filename: typing.Annotated[abc.Terminal, r'\S+'] | str
-    access: typing.Annotated[abc.Terminal, r'SEQUENTIAL|DIRECT|S|D'] | str
-    form: typing.Annotated[abc.Terminal, r'FORMATTED|UNFORMATTED|F|U'] | str
-    record_length: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'FILES'] = abc.Terminal[r'FILES']('FILES')
+    unit_no: literal.Integer
+    filename: typing.Annotated[abc.Terminal, r'\S+']
+    access: typing.Annotated[abc.Terminal, r'SEQUENTIAL|DIRECT|S|D']
+    form: typing.Annotated[abc.Terminal, r'FORMATTED|UNFORMATTED|F|U']
+    record_length: literal.Integer

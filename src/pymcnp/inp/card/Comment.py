@@ -10,5 +10,5 @@ class Comment(Card):
     Represents comment cards.
     """
 
-    c: typing.Annotated[abc.Terminal, r' {0,4}C'] | str
-    text: typing.Annotated[abc.Terminal, r'[^\n]+'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
+    c: typing.Annotated[abc.Terminal, r' {0,4}C']
+    text: typing.Annotated[abc.Terminal, r'[^\n]+'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

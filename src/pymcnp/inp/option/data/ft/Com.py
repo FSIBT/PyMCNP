@@ -15,6 +15,6 @@ class Com(Ft):
         a: com group ``a`` parameter.
     """
 
-    id: typing.Annotated[abc.Terminal, r'COM'] | str = abc.Terminal[r'COM']('COM')
-    t: literal.Integer | int | str
-    a: literal.Integer | int | str
+    id: typing.Annotated[abc.Terminal, r'COM'] = abc.Terminal[r'COM']('COM')
+    t: literal.Integer
+    a: literal.Integer

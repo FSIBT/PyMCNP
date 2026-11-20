@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from .... import abc
 from ..Cell import Cell
@@ -16,6 +15,6 @@ class Rho(Cell):
         d: rho cell option ``d`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'RHO'] | str = abc.Terminal[r'RHO']('RHO')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    d: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'RHO'] = abc.Terminal[r'RHO']('RHO')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    d: literal.Real

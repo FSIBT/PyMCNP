@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from .... import abc
 from ... import literal
@@ -18,10 +17,10 @@ class Si(Data):
         i: si data card ``i`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'SI'] | str = abc.Terminal[r'SI']('SI')
-    suffix: literal.Integer | int | str
-    option: typing.Annotated[abc.Terminal, r'H|L|A|S'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    i: typing.Annotated[abc.Array, literal.Distribution, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Distribution | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'SI'] = abc.Terminal[r'SI']('SI')
+    suffix: literal.Integer
+    option: typing.Annotated[abc.Terminal, r'H|L|A|S'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    i: typing.Annotated[abc.Array, literal.Distribution, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -30,8 +29,6 @@ class Si(Data):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (1 <= self.suffix <= 999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')

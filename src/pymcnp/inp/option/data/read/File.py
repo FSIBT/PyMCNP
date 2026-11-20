@@ -14,6 +14,6 @@ class File(Read):
         filename: file read data option ``filename`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FILE'] | str = abc.Terminal[r'FILE']('FILE')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    filename: typing.Annotated[abc.Terminal, r'\S+'] | str
+    keyword: typing.Annotated[abc.Terminal, r'FILE'] = abc.Terminal[r'FILE']('FILE')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    filename: typing.Annotated[abc.Terminal, r'\S+']

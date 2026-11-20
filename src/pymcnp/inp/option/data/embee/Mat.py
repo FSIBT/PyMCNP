@@ -15,9 +15,9 @@ class Mat(Embee):
         value: mat embee data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'MAT'] | str = abc.Terminal[r'MAT']('MAT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'MAT'] = abc.Terminal[r'MAT']('MAT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer
 
     def __post_init__(self) -> None:
         """
@@ -26,8 +26,6 @@ class Mat(Embee):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.value, literal.Integer)
 
         if not (0 <= self.value <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.value=}')

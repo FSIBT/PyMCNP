@@ -14,6 +14,6 @@ class Rr(Var):
         value: rr var data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'RR'] | str = abc.Terminal[r'RR']('RR')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:ON|OFF)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'RR'] = abc.Terminal[r'RR']('RR')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'(?:ON|OFF)']

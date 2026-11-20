@@ -14,6 +14,6 @@ class Linear(Kpert):
         value: linear kpert data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'LINEAR'] | str = abc.Terminal[r'LINEAR']('LINEAR')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:NO|YES)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'LINEAR'] = abc.Terminal[r'LINEAR']('LINEAR')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'(?:NO|YES)']

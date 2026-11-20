@@ -12,6 +12,37 @@ class Activity(Block, abc.symbol.WithDataIter):
     Represents activity blocks.
     """
 
+    if typing.TYPE_CHECKING:
+        name: typing.Annotated[abc.Terminal, r'\n1photon   activity in each cell'] | typing.Annotated[abc.Terminal, r'\n1neutron  activity in each cell']
+        print_preamble: typing.Annotated[
+            abc.Terminal,
+            r'                                                                         print table ',
+        ]
+        print: typing.Annotated[abc.Terminal, r'126']
+        table_heading_1: typing.Annotated[
+            abc.Terminal,
+            r'\n\n                       tracks     population   collisions   collisions     number        flux        average      average',
+        ]
+        table_heading_2: typing.Annotated[
+            abc.Terminal,
+            r'\n              cell    entering                               \* weight     weighted     weighted   track weight   track mfp',
+        ]
+        table_heading_3: typing.Annotated[
+            abc.Terminal,
+            r'\n                                                          \(per history\)    energy       energy     \(relative\)      \(cm\)',
+        ]
+        table_body_preamble: typing.Annotated[abc.Terminal, r'\n\n']
+        table_body: typing.Annotated[abc.Array, line.Activity, typing.Annotated[abc.Terminal, r'\n']]
+        table_total_preamble: typing.Annotated[abc.Terminal, r'\n\n           total']
+        table_total_tracks_preamble: typing.Annotated[abc.Terminal, r'    ']
+        table_total_tracks: typing.Annotated[abc.Terminal, r'.{10}']
+        table_total_population_preamble: typing.Annotated[abc.Terminal, r'    ']
+        table_total_population: typing.Annotated[abc.Terminal, r'.{10}']
+        table_total_collisions_preamble: typing.Annotated[abc.Terminal, r'  ']
+        table_total_collisions: typing.Annotated[abc.Terminal, r'.{10}']
+        table_total_weighted_collisions_preamble: typing.Annotated[abc.Terminal, r'    ']
+        table_total_weighted_collisions: typing.Annotated[abc.Terminal, r'.{10}']
+
     def to_dataframe_iter(self, returning: bool = False) -> typing.Generator[pandas.DataFrame, None, pandas.DataFrame | None]:
         """
         Generates pandas dataframes for table rows.

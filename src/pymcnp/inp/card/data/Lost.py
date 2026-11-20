@@ -15,6 +15,6 @@ class Lost(Data):
         lost2: lost data card ``lost2`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'LOST'] | str = abc.Terminal[r'LOST']('LOST')
-    lost1: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | str = literal.Jump('J')
-    lost2: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | str = literal.Jump('J')
+    keyword: typing.Annotated[abc.Terminal, r'LOST'] = abc.Terminal[r'LOST']('LOST')
+    lost1: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    lost2: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')

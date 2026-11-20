@@ -15,6 +15,6 @@ class Legendre(Ksen):
         value: legendre ksen data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'LEGENDRE'] | str = abc.Terminal[r'LEGENDRE']('LEGENDRE')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'LEGENDRE'] = abc.Terminal[r'LEGENDRE']('LEGENDRE')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

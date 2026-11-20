@@ -15,6 +15,6 @@ class Noslnp(Block):
         value: noslnp block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NOSLNP'] | str = abc.Terminal[r'NOSLNP']('NOSLNP')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'NOSLNP'] = abc.Terminal[r'NOSLNP']('NOSLNP')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

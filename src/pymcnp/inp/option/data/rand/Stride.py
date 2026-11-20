@@ -15,6 +15,6 @@ class Stride(Rand):
         value: stride rand data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'STRIDE'] | str = abc.Terminal[r'STRIDE']('STRIDE')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'STRIDE'] = abc.Terminal[r'STRIDE']('STRIDE')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

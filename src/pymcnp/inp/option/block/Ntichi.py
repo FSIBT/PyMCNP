@@ -15,6 +15,6 @@ class Ntichi(Block):
         value: ntichi block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NTICHI'] | str = abc.Terminal[r'NTICHI']('NTICHI')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'NTICHI'] = abc.Terminal[r'NTICHI']('NTICHI')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

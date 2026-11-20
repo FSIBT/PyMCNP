@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from .... import abc
 from ..Cell import Cell
@@ -16,6 +15,6 @@ class Bflcl(Cell):
         x: bflcl cell option ``x`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'BFLCL'] | str = abc.Terminal[r'BFLCL']('BFLCL')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    x: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'BFLCL'] = abc.Terminal[r'BFLCL']('BFLCL')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    x: literal.Real

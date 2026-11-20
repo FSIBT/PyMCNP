@@ -14,6 +14,6 @@ class Xsec(Dawwg):
         name: xsec dawwg data option ``name`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'XSEC'] | str = abc.Terminal[r'XSEC']('XSEC')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    name: typing.Annotated[abc.Terminal, r'\S+'] | str
+    keyword: typing.Annotated[abc.Terminal, r'XSEC'] = abc.Terminal[r'XSEC']('XSEC')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    name: typing.Annotated[abc.Terminal, r'\S+']

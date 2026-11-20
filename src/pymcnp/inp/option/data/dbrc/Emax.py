@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Dbrc import Dbrc
@@ -16,6 +15,6 @@ class Emax(Dbrc):
         eee: emax dbrc data option ``eee`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'EMAX'] | str = abc.Terminal[r'EMAX']('EMAX')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    eee: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'EMAX'] = abc.Terminal[r'EMAX']('EMAX')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    eee: literal.Real

@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from ..... import abc
 from ..Ptrac import Ptrac
@@ -17,6 +16,6 @@ class Surface(Ptrac):
         s: surface ptrac data option ``s`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'SURFACE'] | str = abc.Terminal[r'SURFACE']('SURFACE')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    s: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Real | float | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'SURFACE'] = abc.Terminal[r'SURFACE']('SURFACE')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    s: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

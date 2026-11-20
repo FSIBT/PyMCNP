@@ -15,6 +15,6 @@ class Wgt(Ssr):
         value: wgt ssr data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'WGT'] | str = abc.Terminal[r'WGT']('WGT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'WGT'] = abc.Terminal[r'WGT']('WGT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

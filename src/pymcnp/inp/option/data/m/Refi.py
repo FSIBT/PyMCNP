@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..M import M
@@ -16,6 +15,6 @@ class Refi(M):
         a: refi m data option ``a`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'REFI'] | str = abc.Terminal[r'REFI']('REFI')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    a: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'REFI'] = abc.Terminal[r'REFI']('REFI')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    a: literal.Real

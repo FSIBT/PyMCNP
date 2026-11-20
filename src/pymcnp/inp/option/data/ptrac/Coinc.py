@@ -14,6 +14,6 @@ class Coinc(Ptrac):
         value: coinc ptrac data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'COINC'] | str = abc.Terminal[r'COINC']('COINC')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:COL|LIN)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'COINC'] = abc.Terminal[r'COINC']('COINC')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'(?:COL|LIN)']

@@ -1,6 +1,5 @@
 import typing
 
-import collections
 from .... import abc
 from ... import literal
 from ..Data import Data
@@ -20,12 +19,12 @@ class Fmesh(Data):
         options: fmesh data card ``options`` parameter.
     """
 
-    prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    keyword: typing.Annotated[abc.Terminal, r'FMESH'] | str = abc.Terminal[r'FMESH']('FMESH')
-    suffix: literal.Integer | int | str
-    colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str
-    options: typing.Annotated[abc.Array, option.data.Fmesh, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Fmesh | str] | str = abc.Terminal[r'']('')
+    prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'FMESH'] = abc.Terminal[r'FMESH']('FMESH')
+    suffix: literal.Integer
+    colon: typing.Annotated[abc.Terminal, r':'] = abc.Terminal[r':'](':')
+    particle: literal.Particle
+    options: typing.Annotated[abc.Array, option.data.Fmesh, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -34,8 +33,6 @@ class Fmesh(Data):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (1 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')

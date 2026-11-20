@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ... import abc
 from ..Group import Group
@@ -32,19 +31,19 @@ class Rotation_0(Rotation):
         m: rotation group ``m`` parameter.
     """
 
-    o1: literal.Real | int | float | decimal.Decimal | str
-    o2: literal.Real | int | float | decimal.Decimal | str
-    o3: literal.Real | int | float | decimal.Decimal | str
-    xx: literal.Real | int | float | decimal.Decimal | str
-    yx: literal.Real | int | float | decimal.Decimal | str
-    zx: literal.Real | int | float | decimal.Decimal | str
-    xy: literal.Real | int | float | decimal.Decimal | str
-    yy: literal.Real | int | float | decimal.Decimal | str
-    zy: literal.Real | int | float | decimal.Decimal | str
-    xz: literal.Real | int | float | decimal.Decimal | str
-    yz: literal.Real | int | float | decimal.Decimal | str
-    zz: literal.Real | int | float | decimal.Decimal | str
-    m: literal.Real | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = abc.Terminal[r'']('')
+    o1: literal.Real
+    o2: literal.Real
+    o3: literal.Real
+    xx: literal.Real
+    yx: literal.Real
+    zx: literal.Real
+    xy: literal.Real
+    yy: literal.Real
+    zy: literal.Real
+    xz: literal.Real
+    yz: literal.Real
+    zz: literal.Real
+    m: literal.Real | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
 
 class Rotation_1(Rotation):
@@ -64,16 +63,16 @@ class Rotation_1(Rotation):
         m: rotation group ``m`` parameter.
     """
 
-    o1: literal.Real | int | float | decimal.Decimal | str
-    o2: literal.Real | int | float | decimal.Decimal | str
-    o3: literal.Real | int | float | decimal.Decimal | str
-    xx: literal.Real | int | float | decimal.Decimal | str
-    yx: literal.Real | int | float | decimal.Decimal | str
-    zx: literal.Real | int | float | decimal.Decimal | str
-    xy: literal.Real | int | float | decimal.Decimal | str
-    yy: literal.Real | int | float | decimal.Decimal | str
-    zy: literal.Real | int | float | decimal.Decimal | str
-    m: literal.Real | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = abc.Terminal[r'']('')
+    o1: literal.Real
+    o2: literal.Real
+    o3: literal.Real
+    xx: literal.Real
+    yx: literal.Real
+    zx: literal.Real
+    xy: literal.Real
+    yy: literal.Real
+    zy: literal.Real
+    m: literal.Real | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
 
 class Rotation_2(Rotation):
@@ -92,15 +91,15 @@ class Rotation_2(Rotation):
         m: rotation group ``m`` parameter.
     """
 
-    o1: literal.Real | int | float | decimal.Decimal | str
-    o2: literal.Real | int | float | decimal.Decimal | str
-    o3: literal.Real | int | float | decimal.Decimal | str
-    xx: literal.Real | int | float | decimal.Decimal | str
-    yx: literal.Real | int | float | decimal.Decimal | str
-    zx: literal.Real | int | float | decimal.Decimal | str
-    xy: literal.Real | int | float | decimal.Decimal | str
-    yy: literal.Real | int | float | decimal.Decimal | str
-    m: literal.Real | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = abc.Terminal[r'']('')
+    o1: literal.Real
+    o2: literal.Real
+    o3: literal.Real
+    xx: literal.Real
+    yx: literal.Real
+    zx: literal.Real
+    xy: literal.Real
+    yy: literal.Real
+    m: literal.Real | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
 
 class Rotation_3(Rotation):
@@ -117,13 +116,13 @@ class Rotation_3(Rotation):
         m: rotation group ``m`` parameter.
     """
 
-    o1: literal.Real | int | float | decimal.Decimal | str
-    o2: literal.Real | int | float | decimal.Decimal | str
-    o3: literal.Real | int | float | decimal.Decimal | str
-    xx: literal.Real | int | float | decimal.Decimal | str
-    yx: literal.Real | int | float | decimal.Decimal | str
-    zx: literal.Real | int | float | decimal.Decimal | str
-    m: literal.Real | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = abc.Terminal[r'']('')
+    o1: literal.Real
+    o2: literal.Real
+    o3: literal.Real
+    xx: literal.Real
+    yx: literal.Real
+    zx: literal.Real
+    m: literal.Real | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
 
 class Rotation_4(Rotation):
@@ -137,7 +136,7 @@ class Rotation_4(Rotation):
         m: rotation group ``m`` parameter.
     """
 
-    o1: literal.Real | int | float | decimal.Decimal | str
-    o2: literal.Real | int | float | decimal.Decimal | str
-    o3: literal.Real | int | float | decimal.Decimal | str
-    m: literal.Real | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = abc.Terminal[r'']('')
+    o1: literal.Real
+    o2: literal.Real
+    o3: literal.Real
+    m: literal.Real | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

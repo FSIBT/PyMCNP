@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from .... import abc
 from ... import literal
@@ -19,16 +18,11 @@ class Mx(Data):
         z: mx data card ``z`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'MX'] | str = abc.Terminal[r'MX']('MX')
-    suffix: literal.Integer | int | str
-    colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str
-    z: (
-        typing.Annotated[abc.Array, literal.Zaid | typing.Annotated[abc.Terminal, r'MODEL|0'], None]
-        | typing.Annotated[abc.Terminal, r'']
-        | collections.abc.Sequence[literal.Zaid | typing.Annotated[abc.Terminal, r'MODEL|0'] | str]
-        | str
-    ) = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'MX'] = abc.Terminal[r'MX']('MX')
+    suffix: literal.Integer
+    colon: typing.Annotated[abc.Terminal, r':'] = abc.Terminal[r':'](':')
+    particle: literal.Particle
+    z: typing.Annotated[abc.Array, literal.Zaid | typing.Annotated[abc.Terminal, r'MODEL|0'], None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -37,8 +31,6 @@ class Mx(Data):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (0 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')

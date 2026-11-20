@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from .... import literal
@@ -17,7 +16,7 @@ class Geb(Ft):
         c: geb group ``c`` parameter.
     """
 
-    id: typing.Annotated[abc.Terminal, r'GEB'] | str = abc.Terminal[r'GEB']('GEB')
-    a: literal.Real | int | float | decimal.Decimal | str
-    b: literal.Real | int | float | decimal.Decimal | str
-    c: literal.Real | int | float | decimal.Decimal | str
+    id: typing.Annotated[abc.Terminal, r'GEB'] = abc.Terminal[r'GEB']('GEB')
+    a: literal.Real
+    b: literal.Real
+    c: literal.Real

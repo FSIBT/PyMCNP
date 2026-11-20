@@ -15,6 +15,6 @@ class Estep(M):
         n: estep m data option ``n`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'ESTEP'] | str = abc.Terminal[r'ESTEP']('ESTEP')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    n: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'ESTEP'] = abc.Terminal[r'ESTEP']('ESTEP')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    n: literal.Integer

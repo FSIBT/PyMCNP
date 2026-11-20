@@ -15,9 +15,9 @@ class Sc(Data):
         comment: sc data card ``comment`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'SC'] | str = abc.Terminal[r'SC']('SC')
-    suffix: literal.Integer | int | str
-    comment: typing.Annotated[abc.Terminal, r'[\s\S]*?(?=\n[^ ]{1,5}|\Z)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'SC'] = abc.Terminal[r'SC']('SC')
+    suffix: literal.Integer
+    comment: typing.Annotated[abc.Terminal, r'[\s\S]*?(?=\n[^ ]{1,5}|\Z)']
 
     def __post_init__(self) -> None:
         """
@@ -26,8 +26,6 @@ class Sc(Data):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (1 <= self.suffix <= 999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')

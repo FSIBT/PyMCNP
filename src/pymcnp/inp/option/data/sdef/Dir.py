@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Sdef import Sdef
@@ -16,6 +15,6 @@ class Dir(Sdef):
         u: dir sdef data option ``u`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'DIR'] | str = abc.Terminal[r'DIR']('DIR')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    u: literal.Real | literal.DependentDistribution | literal.EmbeddedDistribution | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'DIR'] = abc.Terminal[r'DIR']('DIR')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    u: literal.Real | literal.DependentDistribution | literal.EmbeddedDistribution

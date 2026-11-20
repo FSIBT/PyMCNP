@@ -14,6 +14,6 @@ class Errors(Embee):
         value: errors embee data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'ERRORS'] | str = abc.Terminal[r'ERRORS']('ERRORS')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:YES|NO)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'ERRORS'] = abc.Terminal[r'ERRORS']('ERRORS')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'(?:YES|NO)']

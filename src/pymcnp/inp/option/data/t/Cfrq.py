@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from .... import literal
@@ -16,6 +15,6 @@ class Cfrq(T):
         value: cfrq t data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'CFRQ'] | str = abc.Terminal[r'CFRQ']('CFRQ')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'CFRQ'] = abc.Terminal[r'CFRQ']('CFRQ')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Real

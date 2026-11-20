@@ -14,6 +14,6 @@ class Eloss(Tropt):
         value: eloss tropt data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'ELOSS'] | str = abc.Terminal[r'ELOSS']('ELOSS')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:OFF|STRAG1|CSDA)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'ELOSS'] = abc.Terminal[r'ELOSS']('ELOSS')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'(?:OFF|STRAG1|CSDA)']

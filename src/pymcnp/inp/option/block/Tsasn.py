@@ -15,6 +15,6 @@ class Tsasn(Block):
         value: tsasn block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'TSASN'] | str = abc.Terminal[r'TSASN']('TSASN')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'TSASN'] = abc.Terminal[r'TSASN']('TSASN')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

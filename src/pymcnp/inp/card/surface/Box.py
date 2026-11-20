@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 import numpy
 
@@ -13,6 +12,20 @@ class Box(Surface):
     """
     Represents box surface cards.
     """
+
+    if typing.TYPE_CHECKING:
+        prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+        j: literal.Integer
+        keyword: typing.Annotated[abc.Terminal, r'BOX']
+        vx: literal.Real
+        vy: literal.Real
+        vz: literal.Real
+        a1x: literal.Real
+        a1y: literal.Real
+        a1z: literal.Real
+        a2x: literal.Real
+        a2y: literal.Real
+        a2z: literal.Real
 
 
 class Box_0(Box):
@@ -37,21 +50,21 @@ class Box_0(Box):
         a3z: box surface card ``a3z`` parameter.
     """
 
-    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Integer | int | str
-    keyword: typing.Annotated[abc.Terminal, r'BOX'] | str = abc.Terminal[r'BOX']('BOX')
-    vx: literal.Real | int | float | decimal.Decimal | str
-    vy: literal.Real | int | float | decimal.Decimal | str
-    vz: literal.Real | int | float | decimal.Decimal | str
-    a1x: literal.Real | int | float | decimal.Decimal | str
-    a1y: literal.Real | int | float | decimal.Decimal | str
-    a1z: literal.Real | int | float | decimal.Decimal | str
-    a2x: literal.Real | int | float | decimal.Decimal | str
-    a2y: literal.Real | int | float | decimal.Decimal | str
-    a2z: literal.Real | int | float | decimal.Decimal | str
-    a3x: literal.Real | int | float | decimal.Decimal | str
-    a3y: literal.Real | int | float | decimal.Decimal | str
-    a3z: literal.Real | int | float | decimal.Decimal | str
+    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    j: literal.Integer
+    keyword: typing.Annotated[abc.Terminal, r'BOX'] = abc.Terminal[r'BOX']('BOX')
+    vx: literal.Real
+    vy: literal.Real
+    vz: literal.Real
+    a1x: literal.Real
+    a1y: literal.Real
+    a1z: literal.Real
+    a2x: literal.Real
+    a2y: literal.Real
+    a2z: literal.Real
+    a3x: literal.Real
+    a3y: literal.Real
+    a3z: literal.Real
 
     def __post_init__(self) -> None:
         """
@@ -60,8 +73,6 @@ class Box_0(Box):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.j, literal.Integer)
 
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')
@@ -104,6 +115,7 @@ class Box_1(Box):
     Represents box surface cards, form #1.
 
     Attributes:
+        prefix: box surface card ``prefix`` parameter.
         j: box surface card ``j`` parameter.
         keyword: box surface card ``r'BOX'`` symbol.
         vx: box surface card ``vx`` parameter.
@@ -117,17 +129,18 @@ class Box_1(Box):
         a2z: box surface card ``a2z`` parameter.
     """
 
-    j: literal.Integer | int | str
-    keyword: typing.Annotated[abc.Terminal, r'BOX'] | str = abc.Terminal[r'BOX']('BOX')
-    vx: literal.Real | int | float | decimal.Decimal | str
-    vy: literal.Real | int | float | decimal.Decimal | str
-    vz: literal.Real | int | float | decimal.Decimal | str
-    a1x: literal.Real | int | float | decimal.Decimal | str
-    a1y: literal.Real | int | float | decimal.Decimal | str
-    a1z: literal.Real | int | float | decimal.Decimal | str
-    a2x: literal.Real | int | float | decimal.Decimal | str
-    a2y: literal.Real | int | float | decimal.Decimal | str
-    a2z: literal.Real | int | float | decimal.Decimal | str
+    prefix: typing.Annotated[abc.Terminal, r'[+*]'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    j: literal.Integer
+    keyword: typing.Annotated[abc.Terminal, r'BOX'] = abc.Terminal[r'BOX']('BOX')
+    vx: literal.Real
+    vy: literal.Real
+    vz: literal.Real
+    a1x: literal.Real
+    a1y: literal.Real
+    a1z: literal.Real
+    a2x: literal.Real
+    a2y: literal.Real
+    a2z: literal.Real
 
     def __post_init__(self) -> None:
         """
@@ -136,8 +149,6 @@ class Box_1(Box):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.j, literal.Integer)
 
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')

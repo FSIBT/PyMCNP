@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from .... import abc
 from ..Data import Data
@@ -16,5 +15,5 @@ class Ssr(Data):
         options: ssr data card ``options`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'SSR'] | str = abc.Terminal[r'SSR']('SSR')
-    options: typing.Annotated[abc.Array, option.data.Ssr, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Ssr | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'SSR'] = abc.Terminal[r'SSR']('SSR')
+    options: typing.Annotated[abc.Array, option.data.Ssr, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

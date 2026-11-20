@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from .... import abc
 from ..Cell import Cell
@@ -25,12 +24,12 @@ class Wwn_0(Wwn):
         w: wwn cell option ``w`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'WWN'] | str = abc.Terminal[r'WWN']('WWN')
-    suffix: literal.Integer | int | str
-    colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    w: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'WWN'] = abc.Terminal[r'WWN']('WWN')
+    suffix: literal.Integer
+    colon: typing.Annotated[abc.Terminal, r':'] = abc.Terminal[r':'](':')
+    particle: literal.Particle
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    w: literal.Real
 
 
 class Wwn_1(Wwn):
@@ -45,8 +44,8 @@ class Wwn_1(Wwn):
         w: wwn cell option ``w`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'WWN'] | str = abc.Terminal[r'WWN']('WWN')
-    colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    w: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'WWN'] = abc.Terminal[r'WWN']('WWN')
+    colon: typing.Annotated[abc.Terminal, r':'] = abc.Terminal[r':'](':')
+    particle: literal.Particle
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    w: literal.Real

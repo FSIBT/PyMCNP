@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Act import Act
@@ -16,6 +15,6 @@ class Hlcut(Act):
         t: hlcut act data option ``t`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'HLCUT'] | str = abc.Terminal[r'HLCUT']('HLCUT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    t: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'HLCUT'] = abc.Terminal[r'HLCUT']('HLCUT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    t: literal.Real

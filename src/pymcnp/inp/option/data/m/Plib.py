@@ -14,6 +14,6 @@ class Plib(M):
         x: plib m data option ``x`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'PLIB'] | str = abc.Terminal[r'PLIB']('PLIB')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    x: typing.Annotated[abc.Terminal, r'\S+'] | str
+    keyword: typing.Annotated[abc.Terminal, r'PLIB'] = abc.Terminal[r'PLIB']('PLIB')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    x: typing.Annotated[abc.Terminal, r'\S+']

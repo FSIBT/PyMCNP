@@ -15,6 +15,6 @@ class Asfrnt(Block):
         value: asfrnt block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'ASFRNT'] | str = abc.Terminal[r'ASFRNT']('ASFRNT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'ASFRNT'] = abc.Terminal[r'ASFRNT']('ASFRNT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

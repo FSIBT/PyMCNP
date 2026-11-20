@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Sdef import Sdef
@@ -18,11 +17,11 @@ class Loc(Sdef):
         alt: loc sdef data option ``alt`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'LOC'] | str = abc.Terminal[r'LOC']('LOC')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    lat: literal.Real | int | float | decimal.Decimal | str
-    lng: literal.Real | int | float | decimal.Decimal | str
-    alt: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'LOC'] = abc.Terminal[r'LOC']('LOC')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    lat: literal.Real
+    lng: literal.Real
+    alt: literal.Real
 
     def __post_init__(self) -> None:
         """
@@ -31,9 +30,6 @@ class Loc(Sdef):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.lat, literal.Real)
-        assert isinstance(self.lng, literal.Real)
 
         if not (-90 <= self.lat <= 90):
             raise abc.Error('Invalid value.', f'{self.lat=}')

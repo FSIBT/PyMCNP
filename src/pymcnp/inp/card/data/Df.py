@@ -1,6 +1,4 @@
 import typing
-import decimal
-import collections
 
 
 from .... import abc
@@ -14,6 +12,10 @@ class Df(Data):
     Represents df data cards.
     """
 
+    if typing.TYPE_CHECKING:
+        keyword: typing.Annotated[abc.Terminal, r'DF'] = abc.Terminal[r'DF']('DF')
+        suffix: literal.Integer
+
 
 class Df_0(Df):
     """
@@ -26,12 +28,10 @@ class Df_0(Df):
         f: df data card ``f`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'DF'] | str = abc.Terminal[r'DF']('DF')
-    suffix: literal.Integer | int | str
-    b: typing.Annotated[abc.Terminal, r'LOG|LIN'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    f: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Real | int | float | decimal.Decimal | str] | str = abc.Terminal[r''](
-        ''
-    )
+    keyword: typing.Annotated[abc.Terminal, r'DF'] = abc.Terminal[r'DF']('DF')
+    suffix: literal.Integer
+    b: typing.Annotated[abc.Terminal, r'LOG|LIN'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    f: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -40,8 +40,6 @@ class Df_0(Df):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (1 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')
@@ -57,9 +55,9 @@ class Df_1(Df):
         options: df data card ``options`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'DF'] | str = abc.Terminal[r'DF']('DF')
-    suffix: literal.Integer | int | str
-    options: typing.Annotated[abc.Array, option.data.Df, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Df | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'DF'] = abc.Terminal[r'DF']('DF')
+    suffix: literal.Integer
+    options: typing.Annotated[abc.Array, option.data.Df, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -68,8 +66,6 @@ class Df_1(Df):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (1 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')

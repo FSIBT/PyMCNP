@@ -1,6 +1,4 @@
 import typing
-import decimal
-import collections
 
 from .... import abc
 from ... import literal
@@ -65,54 +63,54 @@ class Bbrem(Data):
         m: bbrem data card ``m`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'BBREM'] | str = abc.Terminal[r'BBREM']('BBREM')
-    b1: literal.Real | int | float | decimal.Decimal | str
-    b2: literal.Real | int | float | decimal.Decimal | str
-    b3: literal.Real | int | float | decimal.Decimal | str
-    b4: literal.Real | int | float | decimal.Decimal | str
-    b5: literal.Real | int | float | decimal.Decimal | str
-    b6: literal.Real | int | float | decimal.Decimal | str
-    b7: literal.Real | int | float | decimal.Decimal | str
-    b8: literal.Real | int | float | decimal.Decimal | str
-    b9: literal.Real | int | float | decimal.Decimal | str
-    b10: literal.Real | int | float | decimal.Decimal | str
-    b11: literal.Real | int | float | decimal.Decimal | str
-    b12: literal.Real | int | float | decimal.Decimal | str
-    b13: literal.Real | int | float | decimal.Decimal | str
-    b14: literal.Real | int | float | decimal.Decimal | str
-    b15: literal.Real | int | float | decimal.Decimal | str
-    b16: literal.Real | int | float | decimal.Decimal | str
-    b17: literal.Real | int | float | decimal.Decimal | str
-    b18: literal.Real | int | float | decimal.Decimal | str
-    b19: literal.Real | int | float | decimal.Decimal | str
-    b20: literal.Real | int | float | decimal.Decimal | str
-    b21: literal.Real | int | float | decimal.Decimal | str
-    b22: literal.Real | int | float | decimal.Decimal | str
-    b23: literal.Real | int | float | decimal.Decimal | str
-    b24: literal.Real | int | float | decimal.Decimal | str
-    b25: literal.Real | int | float | decimal.Decimal | str
-    b26: literal.Real | int | float | decimal.Decimal | str
-    b27: literal.Real | int | float | decimal.Decimal | str
-    b28: literal.Real | int | float | decimal.Decimal | str
-    b29: literal.Real | int | float | decimal.Decimal | str
-    b30: literal.Real | int | float | decimal.Decimal | str
-    b31: literal.Real | int | float | decimal.Decimal | str
-    b32: literal.Real | int | float | decimal.Decimal | str
-    b33: literal.Real | int | float | decimal.Decimal | str
-    b34: literal.Real | int | float | decimal.Decimal | str
-    b35: literal.Real | int | float | decimal.Decimal | str
-    b36: literal.Real | int | float | decimal.Decimal | str
-    b37: literal.Real | int | float | decimal.Decimal | str
-    b38: literal.Real | int | float | decimal.Decimal | str
-    b39: literal.Real | int | float | decimal.Decimal | str
-    b40: literal.Real | int | float | decimal.Decimal | str
-    b41: literal.Real | int | float | decimal.Decimal | str
-    b42: literal.Real | int | float | decimal.Decimal | str
-    b43: literal.Real | int | float | decimal.Decimal | str
-    b44: literal.Real | int | float | decimal.Decimal | str
-    b45: literal.Real | int | float | decimal.Decimal | str
-    b46: literal.Real | int | float | decimal.Decimal | str
-    b47: literal.Real | int | float | decimal.Decimal | str
-    b48: literal.Real | int | float | decimal.Decimal | str
-    b49: literal.Real | int | float | decimal.Decimal | str
-    m: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'BBREM'] = abc.Terminal[r'BBREM']('BBREM')
+    b1: literal.Real
+    b2: literal.Real
+    b3: literal.Real
+    b4: literal.Real
+    b5: literal.Real
+    b6: literal.Real
+    b7: literal.Real
+    b8: literal.Real
+    b9: literal.Real
+    b10: literal.Real
+    b11: literal.Real
+    b12: literal.Real
+    b13: literal.Real
+    b14: literal.Real
+    b15: literal.Real
+    b16: literal.Real
+    b17: literal.Real
+    b18: literal.Real
+    b19: literal.Real
+    b20: literal.Real
+    b21: literal.Real
+    b22: literal.Real
+    b23: literal.Real
+    b24: literal.Real
+    b25: literal.Real
+    b26: literal.Real
+    b27: literal.Real
+    b28: literal.Real
+    b29: literal.Real
+    b30: literal.Real
+    b31: literal.Real
+    b32: literal.Real
+    b33: literal.Real
+    b34: literal.Real
+    b35: literal.Real
+    b36: literal.Real
+    b37: literal.Real
+    b38: literal.Real
+    b39: literal.Real
+    b40: literal.Real
+    b41: literal.Real
+    b42: literal.Real
+    b43: literal.Real
+    b44: literal.Real
+    b45: literal.Real
+    b46: literal.Real
+    b47: literal.Real
+    b48: literal.Real
+    b49: literal.Real
+    m: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

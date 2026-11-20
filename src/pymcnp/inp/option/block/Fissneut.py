@@ -15,6 +15,6 @@ class Fissneut(Block):
         value: fissneut block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FISSNEUT'] | str = abc.Terminal[r'FISSNEUT']('FISSNEUT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'FISSNEUT'] = abc.Terminal[r'FISSNEUT']('FISSNEUT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

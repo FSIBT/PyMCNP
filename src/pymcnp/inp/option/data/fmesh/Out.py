@@ -14,6 +14,6 @@ class Out(Fmesh):
         value: out fmesh data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'OUT'] | str = abc.Terminal[r'OUT']('OUT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:COL|COLSCI|CF|CFSCI|IJ|IK|JK|NONE|XDMF)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'OUT'] = abc.Terminal[r'OUT']('OUT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'(?:COL|COLSCI|CF|CFSCI|IJ|IK|JK|NONE|XDMF)']

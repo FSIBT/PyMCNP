@@ -15,9 +15,9 @@ class Shift(Fmult):
         s: shift fmult data option ``s`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'SHIFT'] | str = abc.Terminal[r'SHIFT']('SHIFT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    s: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'SHIFT'] = abc.Terminal[r'SHIFT']('SHIFT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    s: literal.Integer
 
     def __post_init__(self) -> None:
         """

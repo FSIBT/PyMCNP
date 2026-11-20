@@ -15,6 +15,6 @@ class Nrm(Sdef):
         x: nrm sdef data option ``x`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NRM'] | str = abc.Terminal[r'NRM']('NRM')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'NRM'] = abc.Terminal[r'NRM']('NRM')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
     x: literal.Integer | literal.Distribution | literal.DependentDistribution

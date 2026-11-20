@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from .... import abc
 from ... import literal
@@ -18,11 +17,11 @@ class Leb(Data):
         bzero: leb data card ``bzero`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'LEB'] | str = abc.Terminal[r'LEB']('LEB')
-    yzere: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    bzere: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    yzero: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    bzero: literal.Real | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'LEB'] = abc.Terminal[r'LEB']('LEB')
+    yzere: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    bzere: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    yzero: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    bzero: literal.Real | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """

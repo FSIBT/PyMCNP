@@ -1,6 +1,4 @@
 import typing
-import decimal
-import collections
 
 from ..... import abc
 from .... import literal
@@ -17,8 +15,6 @@ class Pfrac(Burn):
         f: pfrac burn data option ``f`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'PFRAC'] | str = abc.Terminal[r'PFRAC']('PFRAC')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    f: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Real | int | float | decimal.Decimal | str] | str = abc.Terminal[r''](
-        ''
-    )
+    keyword: typing.Annotated[abc.Terminal, r'PFRAC'] = abc.Terminal[r'PFRAC']('PFRAC')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    f: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from ..... import abc
 from ..Bfld import Bfld
@@ -17,6 +16,6 @@ class Ffedges(Bfld):
         s: ffedges bfld data option ``s`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FFEDGES'] | str = abc.Terminal[r'FFEDGES']('FFEDGES')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    s: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'FFEDGES'] = abc.Terminal[r'FFEDGES']('FFEDGES')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    s: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from .... import literal
@@ -16,6 +15,6 @@ class Power(Burn):
         pwr: power burn data option ``pwr`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'POWER'] | str = abc.Terminal[r'POWER']('POWER')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    pwr: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'POWER'] = abc.Terminal[r'POWER']('POWER')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    pwr: literal.Real

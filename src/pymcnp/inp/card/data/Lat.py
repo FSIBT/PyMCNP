@@ -1,7 +1,6 @@
 import typing
 import dataclasses
 
-import collections
 
 from .... import abc
 from ... import literal
@@ -17,10 +16,8 @@ class Lat(Data):
         n: lat data card ``n`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'LAT'] | str = abc.Terminal[r'LAT']('LAT')
-    n: typing.Annotated[abc.Array, literal.Integer | literal.Jump, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | literal.Jump | int | str] | str = (
-        dataclasses.field(kw_only=True)
-    )
+    keyword: typing.Annotated[abc.Terminal, r'LAT'] = abc.Terminal[r'LAT']('LAT')
+    n: typing.Annotated[abc.Array, literal.Integer | literal.Jump, None] | typing.Annotated[abc.Terminal, r''] = dataclasses.field(kw_only=True)
 
     def __post_init__(self) -> None:
         """

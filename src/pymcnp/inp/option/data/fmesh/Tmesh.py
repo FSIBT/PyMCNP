@@ -1,6 +1,4 @@
 import typing
-import decimal
-import collections
 
 from ..... import abc
 from ..Fmesh import Fmesh
@@ -17,8 +15,6 @@ class Tmesh(Fmesh):
         t: tmesh fmesh data option ``t`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'TMESH'] | str = abc.Terminal[r'TMESH']('TMESH')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    t: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Real | int | float | decimal.Decimal | str] | str = abc.Terminal[r''](
-        ''
-    )
+    keyword: typing.Annotated[abc.Terminal, r'TMESH'] = abc.Terminal[r'TMESH']('TMESH')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    t: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

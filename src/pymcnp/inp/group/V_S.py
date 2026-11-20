@@ -1,5 +1,3 @@
-import decimal
-
 from .. import literal
 from ..Group import Group
 
@@ -13,5 +11,5 @@ class V_S(Group):
         s: v_s group ``s`` parameter.
     """
 
-    i: literal.Distribution | literal.Real | int | float | decimal.Decimal | str
-    j: literal.Distribution | literal.Real | int | float | decimal.Decimal | str
+    i: literal.Distribution | literal.Real
+    j: literal.Distribution | literal.Real

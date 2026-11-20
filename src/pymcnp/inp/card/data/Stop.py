@@ -1,6 +1,5 @@
 import typing
 
-import collections
 from .... import abc
 from ... import option
 from ..Data import Data
@@ -15,5 +14,5 @@ class Stop(Data):
         options: stop data card ``options`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'STOP'] | str = abc.Terminal[r'STOP']('STOP')
-    options: typing.Annotated[abc.Array, option.data.Stop, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Stop | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'STOP'] = abc.Terminal[r'STOP']('STOP')
+    options: typing.Annotated[abc.Array, option.data.Stop, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

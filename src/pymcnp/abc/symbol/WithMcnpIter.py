@@ -4,7 +4,11 @@ import typing
 from ..Symbol import Symbol
 
 
-class WithMcnpIter(abc.ABC):
+T = typing.TypeVar('T', bound=Symbol)
+U = typing.TypeVar('U', bound=Symbol)
+
+
+class WithMcnpIter(abc.ABC, typing.Generic[T, U]):
     """
     Represents symbols with iterative compilers.
     """
@@ -13,7 +17,7 @@ class WithMcnpIter(abc.ABC):
     @abc.abstractmethod
     def from_mcnp_iter(
         cls, source: str, returning: bool = False
-    ) -> typing.Generator[typing.Generator[tuple[Symbol, str], None, tuple[Symbol, str] | None] | tuple[Symbol, str], None, tuple[typing.Self, str] | None]:
+    ) -> typing.Generator[typing.Generator[tuple[U, str], None, tuple[T, str] | None] | tuple[T, str], None, tuple[typing.Self, str] | None]:
         """
         Compiles source strings into their corresponding nonterminal symbols iteratively.
 

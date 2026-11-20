@@ -15,5 +15,5 @@ class Disable(Data):
         options: disable data card ``options`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'DISABLE'] | str = abc.Terminal[r'DISABLE']('DISABLE')
-    options: option.data.Disable | str
+    keyword: typing.Annotated[abc.Terminal, r'DISABLE'] = abc.Terminal[r'DISABLE']('DISABLE')
+    options: option.data.Disable

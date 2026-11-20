@@ -1,6 +1,5 @@
 import typing
 
-import collections
 from .... import abc
 from ... import literal
 from ..Data import Data
@@ -17,9 +16,9 @@ class Kpert(Data):
         options: kpert data card ``options`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'KPERT'] | str = abc.Terminal[r'KPERT']('KPERT')
-    suffix: literal.Integer | int | str
-    options: typing.Annotated[abc.Array, option.data.Kpert, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Kpert | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'KPERT'] = abc.Terminal[r'KPERT']('KPERT')
+    suffix: literal.Integer
+    options: typing.Annotated[abc.Array, option.data.Kpert, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -28,8 +27,6 @@ class Kpert(Data):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (1 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')

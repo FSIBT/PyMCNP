@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from .... import abc
 from ..Data import Data
@@ -16,5 +15,5 @@ class Field(Data):
         options: field data card ``options`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FIELD'] | str = abc.Terminal[r'FIELD']('FIELD')
-    options: typing.Annotated[abc.Array, option.data.Field, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Field | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'FIELD'] = abc.Terminal[r'FIELD']('FIELD')
+    options: typing.Annotated[abc.Array, option.data.Field, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

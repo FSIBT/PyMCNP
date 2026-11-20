@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from .... import abc
 from ..Data import Data
@@ -16,5 +15,5 @@ class Ptrac(Data):
         options: ptrac data card ``options`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'PTRAC'] | str = abc.Terminal[r'PTRAC']('PTRAC')
-    options: typing.Annotated[abc.Array, option.data.Ptrac, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Ptrac | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'PTRAC'] = abc.Terminal[r'PTRAC']('PTRAC')
+    options: typing.Annotated[abc.Array, option.data.Ptrac, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

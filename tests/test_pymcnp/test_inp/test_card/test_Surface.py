@@ -171,7 +171,7 @@ class Test_Surface(classes.Test_FromMcnp):
         assert +surface_a
 
     def test_and_or_build_intersections_and_unions(self) -> None:
-        a, b, c = (pymcnp.inp.card.surface.So(j=i, r=i) for i in (1, 2, 3))
+        a, b, c = (pymcnp.inp.card.surface.So(j=i, r=i) for i in (pymcnp.inp.literal.Integer('1'), pymcnp.inp.literal.Integer('2'), pymcnp.inp.literal.Integer('3')))
 
         assert str(-a & +b & +c) == '-1 +2 +3'
         assert str(-a | +b) == '(-1:+2)'

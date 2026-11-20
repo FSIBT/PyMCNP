@@ -14,5 +14,5 @@ class Pio(Data):
         value: pio data card ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'PIO'] | str = abc.Terminal[r'PIO']('PIO')
-    value: typing.Annotated[abc.Terminal, r'(?:NO|ON)'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'PIO'] = abc.Terminal[r'PIO']('PIO')
+    value: typing.Annotated[abc.Terminal, r'(?:NO|ON)'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

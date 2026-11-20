@@ -1,9 +1,10 @@
 import re
+import dataclasses
 
 from .. import abc
 
 
-class Space(abc.Terminal):
+class OptionSpace(abc.Terminal):
     """
     Represents spaces for parameters.
     """
@@ -17,4 +18,6 @@ class Option(abc.Nonterminal):
     Represents options.
     """
 
-    _space = (Space,)
+    _space = (OptionSpace,)
+
+    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict)

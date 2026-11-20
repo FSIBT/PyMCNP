@@ -14,5 +14,5 @@ class Elc(Ft):
         c: elc group ``c`` parameter.
     """
 
-    id: typing.Annotated[abc.Terminal, r'ELC'] | str = abc.Terminal[r'ELC']('ELC')
-    c: literal.Integer | int | str
+    id: typing.Annotated[abc.Terminal, r'ELC'] = abc.Terminal[r'ELC']('ELC')
+    c: literal.Integer

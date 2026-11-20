@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from .... import literal
@@ -15,5 +14,5 @@ class Roc(Ft):
         nhb: roc group ``nhb`` parameter.
     """
 
-    id: typing.Annotated[abc.Terminal, r'ROC'] | str = abc.Terminal[r'ROC']('ROC')
-    nhb: literal.Real | int | float | decimal.Decimal | str
+    id: typing.Annotated[abc.Terminal, r'ROC'] = abc.Terminal[r'ROC']('ROC')
+    nhb: literal.Real

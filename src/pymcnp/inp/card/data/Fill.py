@@ -1,7 +1,6 @@
 import typing
 import dataclasses
 
-import collections
 
 from .... import abc
 from ... import literal
@@ -17,10 +16,8 @@ class Fill(Data):
         n: fill data card ``n`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FILL'] | str = abc.Terminal[r'FILL']('FILL')
-    n: typing.Annotated[abc.Array, literal.Integer | literal.Jump, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | literal.Jump | int | str] | str = (
-        dataclasses.field(kw_only=True)
-    )
+    keyword: typing.Annotated[abc.Terminal, r'FILL'] = abc.Terminal[r'FILL']('FILL')
+    n: typing.Annotated[abc.Array, literal.Integer | literal.Jump, None] | typing.Annotated[abc.Terminal, r''] = dataclasses.field(kw_only=True)
 
     def __post_init__(self) -> None:
         """
@@ -29,9 +26,6 @@ class Fill(Data):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.n, (abc.Array, abc.Terminal[r'']))
-        assert isinstance(self.n, abc.Array) and all(isinstance(nk, (literal.Integer, literal.Jump)) for nk in self.n)
 
         if isinstance(self.n, abc.Array) and not all(0 <= nj <= 99_999_999 for nj in self.n):
             raise abc.Error('Invalid value.', f'{self.n=}')

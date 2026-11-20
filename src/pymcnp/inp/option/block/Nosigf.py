@@ -15,6 +15,6 @@ class Nosigf(Block):
         value: nosigf block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NOSIGF'] | str = abc.Terminal[r'NOSIGF']('NOSIGF')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'NOSIGF'] = abc.Terminal[r'NOSIGF']('NOSIGF')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

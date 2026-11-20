@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Sdef import Sdef
@@ -16,6 +15,6 @@ class Y(Sdef):
         y: y sdef data option ``y`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'Y'] | str = abc.Terminal[r'Y']('Y')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    y: literal.Real | literal.Distribution | literal.DependentDistribution | literal.EmbeddedDistribution | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'Y'] = abc.Terminal[r'Y']('Y')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    y: literal.Real | literal.Distribution | literal.DependentDistribution | literal.EmbeddedDistribution

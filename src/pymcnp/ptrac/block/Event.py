@@ -12,7 +12,16 @@ class Event(Block, abc.symbol.WithDataIter):
     """
 
     if typing.TYPE_CHECKING:
+        blank_0: typing.Annotated[abc.Terminal, r' ']
         type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:0[1-9]|1\d|2[0-6]|3[0-4])']
+        pbl_i_node: typing.Annotated[abc.Terminal, r'.{10}']
+        ncl_pbl_i_icl: typing.Annotated[abc.Terminal, r'.{10}']
+        mat_pbl_i_icl: typing.Annotated[abc.Terminal, r'.{10}']
+        newline: typing.Annotated[abc.Terminal, r'\n']
+        blank_1: typing.Annotated[abc.Terminal, r' ']
+        pbl_r_x: typing.Annotated[abc.Terminal, r'.{13}']
+        pbl_r_y: typing.Annotated[abc.Terminal, r'.{13}']
+        pbl_r_z: typing.Annotated[abc.Terminal, r'.{13}']
 
     def to_dataframe_iter(self, returning: bool = False) -> typing.Generator[pandas.DataFrame, None, pandas.DataFrame | None]:
         """
@@ -138,6 +147,19 @@ class EventSource(Event):
     """
     Represents source event blocks.
     """
+
+    if typing.TYPE_CHECKING:
+        blank_0: typing.Annotated[abc.Terminal, r' ']
+        type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:0[1-9]|1\d|2[0-6]|3[0-4])']
+        pbl_i_node: typing.Annotated[abc.Terminal, r'.{10}']
+        nsr: typing.Annotated[abc.Terminal, r'.{10}']
+        ncl_pbl_i_icl: typing.Annotated[abc.Terminal, r'.{10}']
+        mat_pbl_i_icl: typing.Annotated[abc.Terminal, r'.{10}']
+        newline: typing.Annotated[abc.Terminal, r'\n']
+        blank_1: typing.Annotated[abc.Terminal, r' ']
+        pbl_r_x: typing.Annotated[abc.Terminal, r'.{13}']
+        pbl_r_y: typing.Annotated[abc.Terminal, r'.{13}']
+        pbl_r_z: typing.Annotated[abc.Terminal, r'.{13}']
 
 
 class EventSource_1(EventSource):
@@ -1164,6 +1186,20 @@ class EventTermination(Event):
     """
     Represents termination event blocks.
     """
+
+    if typing.TYPE_CHECKING:
+        blank_0: typing.Annotated[abc.Terminal, r' ']
+        type: typing.Annotated[abc.Terminal, r'      [13459]000|     [- ]20(?:0[1-9]|1\d|2[0-6]|3[0-4])']
+        pbl_i_node: typing.Annotated[abc.Terminal, r'.{10}']
+        nter: typing.Annotated[abc.Terminal, r'.{10}']
+        branch_number: typing.Annotated[abc.Terminal, r'.{10}']
+        ncl_pbl_i_icl: typing.Annotated[abc.Terminal, r'.{10}']
+        mat_pbl_i_icl: typing.Annotated[abc.Terminal, r'.{10}']
+        newline: typing.Annotated[abc.Terminal, r'\n']
+        blank_1: typing.Annotated[abc.Terminal, r' ']
+        pbl_r_x: typing.Annotated[abc.Terminal, r'.{13}']
+        pbl_r_y: typing.Annotated[abc.Terminal, r'.{13}']
+        pbl_r_z: typing.Annotated[abc.Terminal, r'.{13}']
 
 
 class EventTermination_1(EventTermination):

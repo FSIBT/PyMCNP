@@ -12,4 +12,4 @@ class Scd(Ft):
         id: scd group ``r'SCD'`` symbol.
     """
 
-    id: typing.Annotated[abc.Terminal, r'SCD'] | str = abc.Terminal[r'SCD']('SCD')
+    id: typing.Annotated[abc.Terminal, r'SCD'] = abc.Terminal[r'SCD']('SCD')

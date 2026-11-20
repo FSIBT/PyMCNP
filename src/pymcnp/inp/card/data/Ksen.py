@@ -1,6 +1,5 @@
 import typing
 
-import collections
 from .... import abc
 from ... import literal
 from ..Data import Data
@@ -18,10 +17,10 @@ class Ksen(Data):
         options: ksen data card ``options`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'KSEN'] | str = abc.Terminal[r'KSEN']('KSEN')
-    suffix: literal.Integer | int | str
-    sen: typing.Annotated[abc.Terminal, r'XS'] | str = abc.Terminal[r'XS']('XS')
-    options: typing.Annotated[abc.Array, option.data.Ksen, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Ksen | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'KSEN'] = abc.Terminal[r'KSEN']('KSEN')
+    suffix: literal.Integer
+    sen: typing.Annotated[abc.Terminal, r'XS'] = abc.Terminal[r'XS']('XS')
+    options: typing.Annotated[abc.Array, option.data.Ksen, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -30,8 +29,6 @@ class Ksen(Data):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (0 <= self.suffix <= 999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')

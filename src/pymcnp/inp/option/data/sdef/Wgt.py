@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Sdef import Sdef
@@ -16,6 +15,6 @@ class Wgt(Sdef):
         x: wgt sdef data option ``x`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'WGT'] | str = abc.Terminal[r'WGT']('WGT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    x: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'WGT'] = abc.Terminal[r'WGT']('WGT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    x: literal.Real

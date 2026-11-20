@@ -1,5 +1,3 @@
-import decimal
-
 from .. import literal
 from ..Group import Group
 
@@ -13,5 +11,5 @@ class EspltEntry(Group):
         e: espltentry group ``e`` parameter.
     """
 
-    r: literal.Real | int | float | decimal.Decimal | str
-    e: literal.Real | int | float | decimal.Decimal | str
+    r: literal.Real
+    e: literal.Real

@@ -14,6 +14,6 @@ class Type(Fmesh):
         type: type fmesh data option ``type`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'TYPE'] | str = abc.Terminal[r'TYPE']('TYPE')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    type: typing.Annotated[abc.Terminal, r'(?:FLUX|SOURCE)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'TYPE'] = abc.Terminal[r'TYPE']('TYPE')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    type: typing.Annotated[abc.Terminal, r'(?:FLUX|SOURCE)']

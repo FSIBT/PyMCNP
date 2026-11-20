@@ -15,6 +15,6 @@ class Hist(Rand):
         n: hist rand data option ``n`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'HIST'] | str = abc.Terminal[r'HIST']('HIST')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    n: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'HIST'] = abc.Terminal[r'HIST']('HIST')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    n: literal.Integer

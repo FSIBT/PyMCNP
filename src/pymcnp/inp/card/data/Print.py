@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from .... import abc
 from ... import literal
@@ -16,5 +15,5 @@ class Print(Data):
         x: print data card ``x`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'PRINT'] | str = abc.Terminal[r'PRINT']('PRINT')
-    x: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'PRINT'] = abc.Terminal[r'PRINT']('PRINT')
+    x: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

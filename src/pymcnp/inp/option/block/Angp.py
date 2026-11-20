@@ -15,6 +15,6 @@ class Angp(Block):
         value: angp block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'ANGP'] | str = abc.Terminal[r'ANGP']('ANGP')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'ANGP'] = abc.Terminal[r'ANGP']('ANGP')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

@@ -115,9 +115,6 @@ class Array(Symbol, list):
             Subclasses of ``Array`` representing arrays of ``kind``s.
         """
 
-        assert isinstance(parameters, tuple)
-        assert len(parameters) == 2
-
         if parameters[1] is None:
             parameters = (parameters[0], Space)
 
@@ -143,11 +140,6 @@ class Array(Symbol, list):
         Raises:
             Error: Invalid spaces.
         """
-
-        assert isinstance(items, tuple)
-        assert all(isinstance(item, Symbol) for item in items)
-        assert isinstance(spaces, (collections.abc.Sequence, type(None)))
-        assert not isinstance(spaces, collections.abc.Sequence) or all(isinstance(space, Symbol) for space in spaces)
 
         super().__init__(items)
 
@@ -189,8 +181,6 @@ class Array(Symbol, list):
         Returns:
             List of symbols corresponding to ``source``.
         """
-
-        assert isinstance(source, str)
 
         spaces: list[Terminal] = []
         parameters: list[Symbol] = []

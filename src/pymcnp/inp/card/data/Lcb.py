@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from .... import abc
 from ... import literal
@@ -22,12 +21,12 @@ class Lcb(Data):
         film0: lcb data card ``film0`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'LCB'] | str = abc.Terminal[r'LCB']('LCB')
-    flenb1: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    flenb2: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    flenb3: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    flenb4: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    flenb5: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    flenb6: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    cotfe: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    film0: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
+    keyword: typing.Annotated[abc.Terminal, r'LCB'] = abc.Terminal[r'LCB']('LCB')
+    flenb1: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    flenb2: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    flenb3: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    flenb4: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    flenb5: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    flenb6: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    cotfe: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    film0: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')

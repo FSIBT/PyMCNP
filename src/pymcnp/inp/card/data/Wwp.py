@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from .... import abc
 from ... import literal
@@ -26,16 +25,16 @@ class Wwp(Data):
         nmfp: wwp data card ``nmfp`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'WWP'] | str = abc.Terminal[r'WWP']('WWP')
-    colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str
-    wupn: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    wsurvn: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    mxspln: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    mwhere: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | str = literal.Jump('J')
-    switchn: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    mtime: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | str = literal.Jump('J')
-    wnorm: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    etsplt: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | str = literal.Jump('J')
-    wu: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    nmfp: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
+    keyword: typing.Annotated[abc.Terminal, r'WWP'] = abc.Terminal[r'WWP']('WWP')
+    colon: typing.Annotated[abc.Terminal, r':'] = abc.Terminal[r':'](':')
+    particle: literal.Particle
+    wupn: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    wsurvn: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    mxspln: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    mwhere: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    switchn: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    mtime: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    wnorm: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    etsplt: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    wu: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    nmfp: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')

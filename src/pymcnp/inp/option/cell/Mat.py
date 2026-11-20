@@ -15,9 +15,9 @@ class Mat(Cell):
         m: mat cell option ``m`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'MAT'] | str = abc.Terminal[r'MAT']('MAT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    m: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'MAT'] = abc.Terminal[r'MAT']('MAT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    m: literal.Integer
 
     def __post_init__(self) -> None:
         """
@@ -26,8 +26,6 @@ class Mat(Cell):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.m, literal.Integer)
 
         if not (0 <= self.m <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.m=}')

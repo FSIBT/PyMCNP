@@ -12,4 +12,4 @@ class Let(Ft):
         id: let group ``r'LET'`` symbol.
     """
 
-    id: typing.Annotated[abc.Terminal, r'LET'] | str = abc.Terminal[r'LET']('LET')
+    id: typing.Annotated[abc.Terminal, r'LET'] = abc.Terminal[r'LET']('LET')

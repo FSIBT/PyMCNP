@@ -13,4 +13,4 @@ class Notrn(Data):
         keyword: notrn data card ``r'NOTRN'`` symbol.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NOTRN'] | str = abc.Terminal[r'NOTRN']('NOTRN')
+    keyword: typing.Annotated[abc.Terminal, r'NOTRN'] = abc.Terminal[r'NOTRN']('NOTRN')

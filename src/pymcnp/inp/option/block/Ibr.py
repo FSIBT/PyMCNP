@@ -15,6 +15,6 @@ class Ibr(Block):
         value: ibr block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'IBR'] | str = abc.Terminal[r'IBR']('IBR')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'IBR'] = abc.Terminal[r'IBR']('IBR')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

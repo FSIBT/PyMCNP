@@ -15,6 +15,6 @@ class Fmmix(Block):
         value: fmmix block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FMMIX'] | str = abc.Terminal[r'FMMIX']('FMMIX')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'FMMIX'] = abc.Terminal[r'FMMIX']('FMMIX')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

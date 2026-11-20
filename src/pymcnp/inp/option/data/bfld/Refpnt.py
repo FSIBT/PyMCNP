@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Bfld import Bfld
@@ -18,8 +17,8 @@ class Refpnt(Bfld):
         z: refpnt bfld data option ``z`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'REFPNT'] | str = abc.Terminal[r'REFPNT']('REFPNT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    x: literal.Real | int | float | decimal.Decimal | str
-    y: literal.Real | int | float | decimal.Decimal | str
-    z: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'REFPNT'] = abc.Terminal[r'REFPNT']('REFPNT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    x: literal.Real
+    y: literal.Real
+    z: literal.Real

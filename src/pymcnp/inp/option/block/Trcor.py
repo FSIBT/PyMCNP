@@ -14,6 +14,6 @@ class Trcor(Block):
         value: trcor block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'TRCOR'] | str = abc.Terminal[r'TRCOR']('TRCOR')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'\S+'] | str
+    keyword: typing.Annotated[abc.Terminal, r'TRCOR'] = abc.Terminal[r'TRCOR']('TRCOR')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'\S+']

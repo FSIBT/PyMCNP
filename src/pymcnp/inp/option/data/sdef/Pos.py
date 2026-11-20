@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Sdef import Sdef
@@ -24,11 +23,11 @@ class Pos_0(Pos):
         z: pos sdef data option ``z`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'POS'] | str = abc.Terminal[r'POS']('POS')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    x: literal.Real | int | float | decimal.Decimal | str
-    y: literal.Real | int | float | decimal.Decimal | str
-    z: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'POS'] = abc.Terminal[r'POS']('POS')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    x: literal.Real
+    y: literal.Real
+    z: literal.Real
 
 
 class Pos_1(Pos):
@@ -41,6 +40,6 @@ class Pos_1(Pos):
         value: pos sdef data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'POS'] | str = abc.Terminal[r'POS']('POS')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Distribution | literal.DependentDistribution | str
+    keyword: typing.Annotated[abc.Terminal, r'POS'] = abc.Terminal[r'POS']('POS')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Distribution | literal.DependentDistribution

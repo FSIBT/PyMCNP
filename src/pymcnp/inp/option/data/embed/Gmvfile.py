@@ -14,6 +14,6 @@ class Gmvfile(Embed):
         filename: gmvfile embed data option ``filename`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'GMVFILE'] | str = abc.Terminal[r'GMVFILE']('GMVFILE')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    filename: typing.Annotated[abc.Terminal, r'\S+'] | str
+    keyword: typing.Annotated[abc.Terminal, r'GMVFILE'] = abc.Terminal[r'GMVFILE']('GMVFILE')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    filename: typing.Annotated[abc.Terminal, r'\S+']

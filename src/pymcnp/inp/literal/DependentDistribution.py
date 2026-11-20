@@ -14,6 +14,6 @@ class DependentDistribution(abc.Nonterminal):
         distribution: dependent distribution literal ``distribution`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'F(?:CEL|SUR|ERG|TME|DIR|VEC|NRM|POS|RAD|EXT|AXS|X|Y|Z|CCC|ARA|WGT|TR|EFF|PAR|DAT|LOC|BEM|BAP)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'F(?:CEL|SUR|ERG|TME|DIR|VEC|NRM|POS|RAD|EXT|AXS|X|Y|Z|CCC|ARA|WGT|TR|EFF|PAR|DAT|LOC|BEM|BAP)']
     equals: typing.Annotated[abc.Terminal, r'=| ']
-    distribution: Distribution | str
+    distribution: Distribution

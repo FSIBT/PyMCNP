@@ -12,4 +12,4 @@ class Icd(Ft):
         id: icd group ``r'ICD'`` symbol.
     """
 
-    id: typing.Annotated[abc.Terminal, r'ICD'] | str = abc.Terminal[r'ICD']('ICD')
+    id: typing.Annotated[abc.Terminal, r'ICD'] = abc.Terminal[r'ICD']('ICD')

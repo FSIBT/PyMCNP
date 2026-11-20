@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Embee import Embee
@@ -16,6 +15,6 @@ class Factor(Embee):
         value: factor embee data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FACTOR'] | str = abc.Terminal[r'FACTOR']('FACTOR')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'FACTOR'] = abc.Terminal[r'FACTOR']('FACTOR')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Real

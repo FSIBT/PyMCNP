@@ -61,17 +61,27 @@ def str_b() -> str:
 
 @pytest.fixture(scope='session')
 def cell_a() -> pymcnp.inp.card.Cell:
-    return pymcnp.inp.card.Cell_2(j=2, n=1, options='rho=3.1')
+    return pymcnp.inp.card.Cell_2(
+        j=pymcnp.inp.literal.Integer('2'), n=pymcnp.inp.literal.Integer('1'), options=pymcnp.abc.Array[pymcnp.inp.option.Cell, pymcnp.inp.OptionSpace].from_mcnp('rho=3.1')[0]
+    )
 
 
 @pytest.fixture(scope='session')
 def surface_a() -> pymcnp.inp.card.Surface:
-    return pymcnp.inp.card.surface.So(j='101', r='1')
+    return pymcnp.inp.card.surface.So(j=pymcnp.inp.literal.Integer('101'), r=pymcnp.inp.literal.Integer('1'))
 
 
 @pytest.fixture(scope='session')
 def surface_b() -> pymcnp.inp.card.Surface:
-    return pymcnp.inp.card.surface.Rpp(j='102', xmin='0', xmax='1', ymin='0', ymax='1', zmin='0', zmax='1')
+    return pymcnp.inp.card.surface.Rpp(
+        j=pymcnp.inp.literal.Integer('102'),
+        xmin=pymcnp.inp.literal.Integer('0'),
+        xmax=pymcnp.inp.literal.Integer('1'),
+        ymin=pymcnp.inp.literal.Integer('0'),
+        ymax=pymcnp.inp.literal.Integer('1'),
+        zmin=pymcnp.inp.literal.Integer('0'),
+        zmax=pymcnp.inp.literal.Integer('1'),
+    )
 
 
 @pytest.fixture(scope='session')

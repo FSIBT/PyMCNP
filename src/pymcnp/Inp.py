@@ -48,22 +48,19 @@ class Inp(abc.File):
         other: inp other block.
     """
 
-    title: typing.Annotated[abc.Terminal, r'.+\n'] | str
-    cells: typing.Annotated[abc.Array, inp.card.Cell | inp.card.Comment, SpaceCard] | collections.abc.Sequence[inp.card.Cell | inp.card.Comment | str] | str
-    blank_0: typing.Annotated[abc.Terminal, r' *(?:\$.*)?\n\n'] | str = abc.Terminal[r' *(?:\$.*)?\n\n']('\n\n')
-    surfaces: typing.Annotated[abc.Array, inp.card.Surface | inp.card.Comment, SpaceCard] | collections.abc.Sequence[inp.card.Surface | inp.card.Comment | str] | str
-    blank_1: typing.Annotated[abc.Terminal, r' *(?:\$.*)?\n\n'] | str = abc.Terminal[r' *(?:\$.*)?\n\n']('\n\n')
-    data: typing.Annotated[abc.Array, inp.card.Data | inp.card.Comment, SpaceCard] | collections.abc.Sequence[inp.card.Data | inp.card.Comment | str] | str
-    blank_2: typing.Annotated[abc.Terminal, r' *(?:\$.*)?(?:\n|\Z)'] | str = abc.Terminal[r' *(?:\$.*)?(?:\n|\Z)']('\n')
-    other: typing.Annotated[abc.Terminal, r'\n[\s\S]*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
+    title: typing.Annotated[abc.Terminal, r'.+\n']
+    cells: typing.Annotated[abc.Array, inp.card.Cell | inp.card.Comment, SpaceCard]
+    blank_0: typing.Annotated[abc.Terminal, r' *(?:\$.*)?\n\n'] = abc.Terminal[r' *(?:\$.*)?\n\n']('\n\n')
+    surfaces: typing.Annotated[abc.Array, inp.card.Surface | inp.card.Comment, SpaceCard]
+    blank_1: typing.Annotated[abc.Terminal, r' *(?:\$.*)?\n\n'] = abc.Terminal[r' *(?:\$.*)?\n\n']('\n\n')
+    data: typing.Annotated[abc.Array, inp.card.Data | inp.card.Comment, SpaceCard]
+    blank_2: typing.Annotated[abc.Terminal, r' *(?:\$.*)?(?:\n|\Z)'] = abc.Terminal[r' *(?:\$.*)?(?:\n|\Z)']('\n')
+    other: typing.Annotated[abc.Terminal, r'\n[\s\S]*'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
         Validates input files.
         """
-
-        assert isinstance(self.data, abc.Array)
-        assert all(isinstance(card, (inp.card.Data | inp.card.Comment)) for card in self.data)
 
         cell_numbers = set()
         for card in (cells := self.cells.filter(inp.card.Cell)):
@@ -109,7 +106,6 @@ class Inp(abc.File):
             Error: Expected space.
         """
 
-        assert isinstance(source, str)
 
         source = re.sub(r'\n +\n', '\n\n', source)
 
@@ -145,9 +141,6 @@ class Inp(abc.File):
         Input file nps.
         """
 
-        assert isinstance(self.data, abc.Array)
-        assert all(isinstance(card, (inp.card.Data | inp.card.Comment)) for card in self.data)
-
         for card in self.data:
             if not isinstance(card, inp.card.data.Nps):
                 continue
@@ -165,8 +158,7 @@ class Inp(abc.File):
             nps: Nps to set.
         """
 
-        assert isinstance(self.data, abc.Array)
-        assert all(isinstance(card, (inp.card.Data | inp.card.Comment)) for card in self.data)
+        nps = inp.literal.Integer(str(nps))
 
         for card in self.data:
             if not isinstance(card, inp.card.data.Nps):
@@ -183,9 +175,6 @@ class Inp(abc.File):
         """
         Input file seed.
         """
-
-        assert isinstance(self.data, abc.Array)
-        assert all(isinstance(card, (inp.card.Data | inp.card.Comment)) for card in self.data)
 
         for card in self.data:
             if not isinstance(card, inp.card.data.Rand):
@@ -213,8 +202,7 @@ class Inp(abc.File):
             seed: Seed to set.
         """
 
-        assert isinstance(self.data, abc.Array)
-        assert all(isinstance(card, (inp.card.Data | inp.card.Comment)) for card in self.data)
+        seed = inp.literal.Integer(str(seed))
 
         for card in self.data:
             if not isinstance(card, inp.card.data.Rand):
@@ -236,7 +224,7 @@ class Inp(abc.File):
             return
 
         option = inp.option.data.rand.Seed(value=seed)
-        card = inp.card.data.Rand(options=[option])
+        card = inp.card.data.Rand(options=abc.Array[inp.option.Cell, None](option))
         self.data.append(card)
         return
 

@@ -14,6 +14,6 @@ class Elementchk(Embed):
         value: elementchk embed data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'ELEMENTCHK'] | str = abc.Terminal[r'ELEMENTCHK']('ELEMENTCHK')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:YES|NO)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'ELEMENTCHK'] = abc.Terminal[r'ELEMENTCHK']('ELEMENTCHK')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'(?:YES|NO)']

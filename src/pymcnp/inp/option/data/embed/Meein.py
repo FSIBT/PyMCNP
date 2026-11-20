@@ -14,6 +14,6 @@ class Meein(Embed):
         filename: meein embed data option ``filename`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'MEEIN'] | str = abc.Terminal[r'MEEIN']('MEEIN')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    filename: typing.Annotated[abc.Terminal, r'\S+'] | str
+    keyword: typing.Annotated[abc.Terminal, r'MEEIN'] = abc.Terminal[r'MEEIN']('MEEIN')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    filename: typing.Annotated[abc.Terminal, r'\S+']

@@ -42,8 +42,6 @@ class _Nv(abc.Nonterminal):
             Error: Invalid source string.
         """
 
-        assert isinstance(source, str)
-
         spaces = {}
 
         n, source = abc.Terminal[r'.{12}'].from_mcnp(source)

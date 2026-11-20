@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from ..... import abc
 from ..Ptrac import Ptrac
@@ -17,6 +16,6 @@ class Type(Ptrac):
         value: type ptrac data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'TYPE'] | str = abc.Terminal[r'TYPE']('TYPE')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Array, literal.Particle, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Particle | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'TYPE'] = abc.Terminal[r'TYPE']('TYPE')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Array, literal.Particle, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

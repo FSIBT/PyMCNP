@@ -15,6 +15,6 @@ class Asrite(Block):
         value: asrite block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'ASRITE'] | str = abc.Terminal[r'ASRITE']('ASRITE')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'ASRITE'] = abc.Terminal[r'ASRITE']('ASRITE')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

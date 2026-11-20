@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from .... import abc
 from ... import literal
@@ -17,14 +16,9 @@ class Fq(Data):
         a: fq data card ``a`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FQ'] | str = abc.Terminal[r'FQ']('FQ')
-    suffix: literal.Integer | int | str
-    a: (
-        typing.Annotated[abc.Array, typing.Annotated[abc.Terminal, r'F|D|U|S|M|C|E|T'], None]
-        | typing.Annotated[abc.Terminal, r'']
-        | collections.abc.Sequence[typing.Annotated[abc.Terminal, r'F|D|U|S|M|C|E|T'] | str]
-        | str
-    ) = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'FQ'] = abc.Terminal[r'FQ']('FQ')
+    suffix: literal.Integer
+    a: typing.Annotated[abc.Array, typing.Annotated[abc.Terminal, r'F|D|U|S|M|C|E|T'], None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -33,8 +27,6 @@ class Fq(Data):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (1 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')

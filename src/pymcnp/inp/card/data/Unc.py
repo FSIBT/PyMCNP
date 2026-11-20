@@ -1,7 +1,6 @@
 import typing
 import dataclasses
 
-import collections
 
 from .... import abc
 from ... import literal
@@ -19,12 +18,10 @@ class Unc(Data):
         u: unc data card ``u`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'UNC'] | str = abc.Terminal[r'UNC']('UNC')
-    colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str
-    u: typing.Annotated[abc.Array, literal.Integer | literal.Jump, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | literal.Jump | int | str] | str = (
-        dataclasses.field(kw_only=True)
-    )
+    keyword: typing.Annotated[abc.Terminal, r'UNC'] = abc.Terminal[r'UNC']('UNC')
+    colon: typing.Annotated[abc.Terminal, r':'] = abc.Terminal[r':'](':')
+    particle: literal.Particle
+    u: typing.Annotated[abc.Array, literal.Integer | literal.Jump, None] | typing.Annotated[abc.Terminal, r''] = dataclasses.field(kw_only=True)
 
     def __post_init__(self) -> None:
         """

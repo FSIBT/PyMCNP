@@ -1,5 +1,3 @@
-import decimal
-
 from .. import literal
 from ..Group import Group
 
@@ -13,5 +11,5 @@ class Constituent(Group):
         f: constituent group ``f`` parameter.
     """
 
-    z: literal.Zaid | str
-    f: literal.Real | int | float | decimal.Decimal | str
+    z: literal.Zaid
+    f: literal.Real

@@ -1,6 +1,4 @@
 import typing
-import decimal
-import collections
 
 from .... import abc
 from ... import literal
@@ -16,10 +14,5 @@ class Pwt(Data):
         w: pwt data card ``w`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'PWT'] | str = abc.Terminal[r'PWT']('PWT')
-    w: (
-        typing.Annotated[abc.Array, literal.Real | literal.Jump, None]
-        | typing.Annotated[abc.Terminal, r'']
-        | collections.abc.Sequence[literal.Real | literal.Jump | int | float | decimal.Decimal | str]
-        | str
-    )
+    keyword: typing.Annotated[abc.Terminal, r'PWT'] = abc.Terminal[r'PWT']('PWT')
+    w: typing.Annotated[abc.Array, literal.Real | literal.Jump, None] | typing.Annotated[abc.Terminal, r'']

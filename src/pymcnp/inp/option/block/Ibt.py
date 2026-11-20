@@ -15,6 +15,6 @@ class Ibt(Block):
         value: ibt block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'IBT'] | str = abc.Terminal[r'IBT']('IBT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'IBT'] = abc.Terminal[r'IBT']('IBT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

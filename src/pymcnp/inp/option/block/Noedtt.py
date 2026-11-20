@@ -15,6 +15,6 @@ class Noedtt(Block):
         value: noedtt block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NOEDTT'] | str = abc.Terminal[r'NOEDTT']('NOEDTT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'NOEDTT'] = abc.Terminal[r'NOEDTT']('NOEDTT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

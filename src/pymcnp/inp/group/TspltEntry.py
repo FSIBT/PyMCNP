@@ -1,5 +1,3 @@
-import decimal
-
 from .. import literal
 from ..Group import Group
 
@@ -13,5 +11,5 @@ class TspltEntry(Group):
         t: tsplt entry group ``t`` parameter.
     """
 
-    r: literal.Real | int | float | decimal.Decimal | str
-    t: literal.Real | int | float | decimal.Decimal | str
+    r: literal.Real
+    t: literal.Real

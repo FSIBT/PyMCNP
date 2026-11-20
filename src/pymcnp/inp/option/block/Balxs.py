@@ -15,6 +15,6 @@ class Balxs(Block):
         value: balxs block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'BALXS'] | str = abc.Terminal[r'BALXS']('BALXS')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'BALXS'] = abc.Terminal[r'BALXS']('BALXS')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

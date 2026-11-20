@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from .... import abc
 from ... import literal
@@ -15,5 +14,5 @@ class Ctme(Data):
         tme: ctme data card ``tme`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'CTME'] | str = abc.Terminal[r'CTME']('CTME')
-    tme: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'CTME'] = abc.Terminal[r'CTME']('CTME')
+    tme: literal.Real

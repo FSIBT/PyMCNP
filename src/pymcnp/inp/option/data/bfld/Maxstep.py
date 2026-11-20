@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Bfld import Bfld
@@ -16,6 +15,6 @@ class Maxstep(Bfld):
         ss: maxstep bfld data option ``ss`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'MAXSTEP'] | str = abc.Terminal[r'MAXSTEP']('MAXSTEP')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    ss: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'MAXSTEP'] = abc.Terminal[r'MAXSTEP']('MAXSTEP')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    ss: literal.Real

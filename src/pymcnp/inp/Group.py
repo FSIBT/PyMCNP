@@ -1,9 +1,10 @@
 import re
+import dataclasses
 
 from .. import abc
 
 
-class Space(abc.Terminal):
+class GroupSpace(abc.Terminal):
     """
     Represents spaces for parameters.
     """
@@ -17,4 +18,6 @@ class Group(abc.Nonterminal):
     Represents groups.
     """
 
-    _space = (Space,)
+    _space = (GroupSpace,)
+
+    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict)

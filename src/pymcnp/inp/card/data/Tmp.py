@@ -1,6 +1,4 @@
 import typing
-import decimal
-import collections
 
 
 from .... import abc
@@ -13,6 +11,10 @@ class Tmp(Data):
     Represents tmp data cards.
     """
 
+    if typing.TYPE_CHECKING:
+        keyword: typing.Annotated[abc.Terminal, r'TMP']
+        t: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r'']
+
 
 class Tmp_0(Tmp):
     """
@@ -24,11 +26,9 @@ class Tmp_0(Tmp):
         t: tmp data card ``t`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'TMP'] | str = abc.Terminal[r'TMP']('TMP')
-    suffix: literal.Integer | int | str
-    t: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Real | int | float | decimal.Decimal | str] | str = abc.Terminal[r''](
-        ''
-    )
+    keyword: typing.Annotated[abc.Terminal, r'TMP'] = abc.Terminal[r'TMP']('TMP')
+    suffix: literal.Integer
+    t: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -37,8 +37,6 @@ class Tmp_0(Tmp):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
 
         if not (1 <= self.suffix <= 99):
             raise abc.Error('Invalid value.', f'{self.suffix=}')
@@ -53,5 +51,5 @@ class Tmp_1(Tmp):
         t: tmp data card ``t`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'TMP'] | str = abc.Terminal[r'TMP']('TMP')
-    t: typing.Annotated[abc.Array, literal.Real, None] | collections.abc.Sequence[int | float | decimal.Decimal | str] | str
+    keyword: typing.Annotated[abc.Terminal, r'TMP'] = abc.Terminal[r'TMP']('TMP')
+    t: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

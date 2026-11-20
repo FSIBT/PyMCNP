@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Pert import Pert
@@ -16,6 +15,6 @@ class Method(Pert):
         j: method pert data option ``j`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'METHOD'] | str = abc.Terminal[r'METHOD']('METHOD')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    j: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'METHOD'] = abc.Terminal[r'METHOD']('METHOD')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    j: literal.Real

@@ -1,9 +1,10 @@
 import re
+import dataclasses
 
 from .. import abc
 
 
-class Space(abc.Terminal):
+class CardSpace(abc.Terminal):
     """
     Represents spaces for parameters.
     """
@@ -17,4 +18,6 @@ class Card(abc.Nonterminal):
     Represents cards.
     """
 
-    _space = (Space,)
+    _space = (CardSpace,)
+
+    spaces: dict[str, abc.Terminal] = dataclasses.field(default_factory=dict)

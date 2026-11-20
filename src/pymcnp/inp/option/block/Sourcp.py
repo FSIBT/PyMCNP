@@ -15,6 +15,6 @@ class Sourcp(Block):
         value: sourcp block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'SOURCP'] | str = abc.Terminal[r'SOURCP']('SOURCP')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'SOURCP'] = abc.Terminal[r'SOURCP']('SOURCP')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

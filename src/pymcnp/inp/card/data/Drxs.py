@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from .... import abc
 from ... import literal
@@ -16,5 +15,5 @@ class Drxs(Data):
         z: drxs data card ``z`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'DRXS'] | str = abc.Terminal[r'DRXS']('DRXS')
-    z: typing.Annotated[abc.Array, literal.Zaid, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Zaid | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'DRXS'] = abc.Terminal[r'DRXS']('DRXS')
+    z: typing.Annotated[abc.Array, literal.Zaid, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from .... import literal
@@ -16,6 +15,6 @@ class Fmatnz(Kopts):
         fmat_nz: fmatnz kopts data option ``fmat_nz`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FMATNZ'] | str = abc.Terminal[r'FMATNZ']('FMATNZ')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    fmat_nz: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'FMATNZ'] = abc.Terminal[r'FMATNZ']('FMATNZ')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    fmat_nz: literal.Real

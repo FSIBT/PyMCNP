@@ -14,6 +14,6 @@ class Filetype(Embed):
         type: filetype embed data option ``type`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FILETYPE'] | str = abc.Terminal[r'FILETYPE']('FILETYPE')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    type: typing.Annotated[abc.Terminal, r'(?:ASCII|BINARY)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'FILETYPE'] = abc.Terminal[r'FILETYPE']('FILETYPE')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    type: typing.Annotated[abc.Terminal, r'(?:ASCII|BINARY)']

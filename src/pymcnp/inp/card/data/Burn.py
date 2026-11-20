@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from .... import abc
 from ..Data import Data
@@ -16,5 +15,5 @@ class Burn(Data):
         options: burn data card ``options`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'BURN'] | str = abc.Terminal[r'BURN']('BURN')
-    options: typing.Annotated[abc.Array, option.data.Burn, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.data.Burn | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'BURN'] = abc.Terminal[r'BURN']('BURN')
+    options: typing.Annotated[abc.Array, option.data.Burn, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

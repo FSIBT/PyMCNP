@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 
 from .... import abc
@@ -11,6 +10,9 @@ class Phys(Data):
     """
     Represents phys data cards.
     """
+
+    if typing.TYPE_CHECKING:
+        keyword: typing.Annotated[abc.Terminal, r'PHYS']
 
 
 class Phys_0(Phys):
@@ -34,20 +36,20 @@ class Phys_0(Phys):
         i_els_model: phys data card ``i_els_model`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'PHYS:N'] | str = abc.Terminal[r'PHYS:N']('PHYS:N')
-    emax: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    emcnf: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    iunr: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    j_0: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
-    j_1: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
-    j_2: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
-    coilf: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    cutn: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    ngam: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    j_3: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
-    j_4: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
-    i_int_model: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    i_els_model: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
+    keyword: typing.Annotated[abc.Terminal, r'PHYS:N'] = abc.Terminal[r'PHYS:N']('PHYS:N')
+    emax: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    emcnf: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    iunr: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    j_0: literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    j_1: literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    j_2: literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    coilf: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    cutn: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    ngam: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    j_3: literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    j_4: literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    i_int_model: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    i_els_model: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
 
     def __post_init__(self) -> None:
         """
@@ -93,14 +95,14 @@ class Phys_1(Phys):
         fism: phys data card ``fism`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'PHYS:P'] | str = abc.Terminal[r'PHYS:P']('PHYS:P')
-    emcpf: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    ides: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    nocoh: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    ispn: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    nodop: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    j: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
-    fism: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
+    keyword: typing.Annotated[abc.Terminal, r'PHYS:P'] = abc.Terminal[r'PHYS:P']('PHYS:P')
+    emcpf: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    ides: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    nocoh: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    ispn: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    nodop: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    j: literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    fism: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
 
     def __post_init__(self) -> None:
         """
@@ -150,23 +152,23 @@ class Phys_2(Phys):
         ckvnum: phys data card ``ckvnum`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'PHYS:E'] | str = abc.Terminal[r'PHYS:E']('PHYS:E')
-    emax: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    ides: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    iphot: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    ibad: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    istrg: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    bnum: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    xnum: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    rnok: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    enum: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    numb: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    i_mcs_model: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    mode_electron_elastic: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    j: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
-    efac: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    electron_method_boundary: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    ckvnum: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
+    keyword: typing.Annotated[abc.Terminal, r'PHYS:E'] = abc.Terminal[r'PHYS:E']('PHYS:E')
+    emax: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    ides: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    iphot: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    ibad: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    istrg: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    bnum: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    xnum: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    rnok: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    enum: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    numb: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    i_mcs_model: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    mode_electron_elastic: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    j: literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    efac: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    electron_method_boundary: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    ckvnum: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
 
     def __post_init__(self) -> None:
         """
@@ -238,24 +240,24 @@ class Phys_3(Phys):
         drp: phys data card ``drp`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'PHYS:H'] | str = abc.Terminal[r'PHYS:H']('PHYS:H')
-    emax: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    ean: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    tabl: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    j_0: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
-    istrg: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    j_1: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
-    recl: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    j_2: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
-    j_3: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
-    j_4: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
-    i_mcs_model: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    i_int_model: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    i_els_model: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    efac: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    j_5: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
-    ckvnum: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    drp: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
+    keyword: typing.Annotated[abc.Terminal, r'PHYS:H'] = abc.Terminal[r'PHYS:H']('PHYS:H')
+    emax: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    ean: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    tabl: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    j_0: literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    istrg: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    j_1: literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    recl: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    j_2: literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    j_3: literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    j_4: literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    i_mcs_model: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    i_int_model: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    i_els_model: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    efac: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    j_5: literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    ckvnum: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    drp: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
 
     def __post_init__(self) -> None:
         """
@@ -320,26 +322,26 @@ class Phys_4(Phys):
         drp: phys data card ``drp`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'PHYS'] | str = abc.Terminal[r'PHYS']('PHYS')
-    colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str
-    emax: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    j_0: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
-    j_1: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
-    j_2: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
-    istrg: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    j_3: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
-    xmunum: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    xmugam: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    j_4: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
-    j_5: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
-    i_mcs_model: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    i_int_model: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    i_els_model: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] | str | int = literal.Jump('J')
-    efac: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    j_6: literal.Jump | typing.Annotated[abc.Terminal, r''] | str = literal.Jump('J')
-    ckvnum: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    drp: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
+    keyword: typing.Annotated[abc.Terminal, r'PHYS'] = abc.Terminal[r'PHYS']('PHYS')
+    colon: typing.Annotated[abc.Terminal, r':'] = abc.Terminal[r':'](':')
+    particle: literal.Particle
+    emax: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    j_0: literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    j_1: literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    j_2: literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    istrg: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    j_3: literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    xmunum: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    xmugam: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    j_4: literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    j_5: literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    i_mcs_model: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    i_int_model: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    i_els_model: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    efac: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    j_6: literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    ckvnum: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    drp: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
 
     def __post_init__(self) -> None:
         """

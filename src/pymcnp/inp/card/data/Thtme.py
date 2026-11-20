@@ -1,6 +1,4 @@
 import typing
-import decimal
-import collections
 
 from .... import abc
 from ... import literal
@@ -16,10 +14,8 @@ class Thtme(Data):
         t: thtme data card ``t`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'THTME'] | str = abc.Terminal[r'THTME']('THTME')
-    t: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Real | int | float | decimal.Decimal | str] | str = abc.Terminal[r''](
-        ''
-    )
+    keyword: typing.Annotated[abc.Terminal, r'THTME'] = abc.Terminal[r'THTME']('THTME')
+    t: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """

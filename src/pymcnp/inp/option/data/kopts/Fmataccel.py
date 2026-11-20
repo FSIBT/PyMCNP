@@ -14,6 +14,6 @@ class Fmataccel(Kopts):
         value: fmataccel kopts data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FMATACCEL'] | str = abc.Terminal[r'FMATACCEL']('FMATACCEL')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:YES|NO)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'FMATACCEL'] = abc.Terminal[r'FMATACCEL']('FMATACCEL')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'(?:YES|NO)']

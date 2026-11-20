@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from ..... import abc
 from .... import group
@@ -19,8 +18,8 @@ class Overlap(Embed):
         value: overlap embed data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'OVERLAP'] | str = abc.Terminal[r'OVERLAP']('OVERLAP')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    key1: typing.Annotated[abc.Terminal, r'EXIT|ENTRY|AVERAGE'] | str
-    key2: typing.Annotated[abc.Terminal, r'EXIT|ENTRY|AVERAGE'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Array, group.MatCell, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[group.MatCell | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'OVERLAP'] = abc.Terminal[r'OVERLAP']('OVERLAP')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    key1: typing.Annotated[abc.Terminal, r'EXIT|ENTRY|AVERAGE']
+    key2: typing.Annotated[abc.Terminal, r'EXIT|ENTRY|AVERAGE'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Array, group.MatCell, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

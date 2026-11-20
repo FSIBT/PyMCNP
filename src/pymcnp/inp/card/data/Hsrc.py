@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from .... import abc
 from ... import literal
@@ -23,16 +22,16 @@ class Hsrc(Data):
         zmax: hsrc data card ``zmax`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'HSRC'] | str = abc.Terminal[r'HSRC']('HSRC')
-    nx: literal.Integer | int | str
-    xmin: literal.Real | int | float | decimal.Decimal | str
-    xmax: literal.Real | int | float | decimal.Decimal | str
-    ny: literal.Integer | int | str
-    ymin: literal.Real | int | float | decimal.Decimal | str
-    ymax: literal.Real | int | float | decimal.Decimal | str
-    nz: literal.Integer | int | str
-    zmin: literal.Real | int | float | decimal.Decimal | str
-    zmax: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'HSRC'] = abc.Terminal[r'HSRC']('HSRC')
+    nx: literal.Integer
+    xmin: literal.Real
+    xmax: literal.Real
+    ny: literal.Integer
+    ymin: literal.Real
+    ymax: literal.Real
+    nz: literal.Integer
+    zmin: literal.Real
+    zmax: literal.Real
 
     def __post_init__(self) -> None:
         """
@@ -41,10 +40,6 @@ class Hsrc(Data):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.nx, literal.Integer)
-        assert isinstance(self.ny, literal.Integer)
-        assert isinstance(self.nz, literal.Integer)
 
         if not self.nx > 0:
             raise abc.Error('Invalid value.', f'{self.nx=}')

@@ -15,6 +15,6 @@ class ParenthesizedIntegers(Group):
         parenthesis_close: parenthesized integer group ``r')'`` symbol.
     """
 
-    parenthesis_open: typing.Annotated[abc.Terminal, r'\('] | str = abc.Terminal[r'\(']('(')
-    integers: literal.CellIndex | str
-    parenthesis_close: typing.Annotated[abc.Terminal, r'\)'] | str = abc.Terminal[r'\)'](')')
+    parenthesis_open: typing.Annotated[abc.Terminal, r'\('] = abc.Terminal[r'\(']('(')
+    integers: literal.CellIndex
+    parenthesis_close: typing.Annotated[abc.Terminal, r'\)'] = abc.Terminal[r'\)'](')')

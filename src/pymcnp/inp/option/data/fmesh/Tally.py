@@ -14,6 +14,6 @@ class Tally(Fmesh):
         value: tally fmesh data option ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'TALLY'] | str = abc.Terminal[r'TALLY']('TALLY')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: typing.Annotated[abc.Terminal, r'(?:HIST|FAST_HIST|BATCH|RMA_BATCH)'] | str
+    keyword: typing.Annotated[abc.Terminal, r'TALLY'] = abc.Terminal[r'TALLY']('TALLY')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: typing.Annotated[abc.Terminal, r'(?:HIST|FAST_HIST|BATCH|RMA_BATCH)']

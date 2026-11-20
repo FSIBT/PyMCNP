@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from .... import abc
 from ... import literal
@@ -27,20 +26,20 @@ class Fip(Data):
         f3: fip data card ``f3`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FIP'] | str = abc.Terminal[r'FIP']('FIP')
-    suffix: literal.Integer | int | str
-    colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str
-    x1: literal.Real | int | float | decimal.Decimal | str
-    y1: literal.Real | int | float | decimal.Decimal | str
-    z1: literal.Real | int | float | decimal.Decimal | str
-    r0: literal.Real | int | float | decimal.Decimal | str
-    x2: literal.Real | int | float | decimal.Decimal | str
-    y2: literal.Real | int | float | decimal.Decimal | str
-    z2: literal.Real | int | float | decimal.Decimal | str
-    f1: literal.Real | literal.Jump | int | float | decimal.Decimal | str = literal.Jump('J')
-    f2: literal.Real | int | float | decimal.Decimal | str
-    f3: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'FIP'] = abc.Terminal[r'FIP']('FIP')
+    suffix: literal.Integer
+    colon: typing.Annotated[abc.Terminal, r':'] = abc.Terminal[r':'](':')
+    particle: literal.Particle
+    x1: literal.Real
+    y1: literal.Real
+    z1: literal.Real
+    r0: literal.Real
+    x2: literal.Real
+    y2: literal.Real
+    z2: literal.Real
+    f1: literal.Real | literal.Jump = literal.Jump('J')
+    f2: literal.Real
+    f3: literal.Real
 
     def __post_init__(self) -> None:
         """
@@ -49,11 +48,6 @@ class Fip(Data):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
-        assert isinstance(self.r0, literal.Real)
-        assert isinstance(self.f1, (literal.Real, literal.Jump))
-        assert isinstance(self.f2, literal.Real)
 
         if not (1 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')

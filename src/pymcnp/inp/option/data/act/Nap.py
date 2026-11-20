@@ -15,6 +15,6 @@ class Nap(Act):
         valuem: nap act data option ``valuem`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'NAP'] | str = abc.Terminal[r'NAP']('NAP')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    valuem: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'NAP'] = abc.Terminal[r'NAP']('NAP')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    valuem: literal.Integer

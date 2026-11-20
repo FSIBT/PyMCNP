@@ -15,9 +15,9 @@ class Data(Fmult):
         d: data fmult data option ``d`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'DATA'] | str = abc.Terminal[r'DATA']('DATA')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    d: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'DATA'] = abc.Terminal[r'DATA']('DATA')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    d: literal.Integer
 
     def __post_init__(self) -> None:
         """

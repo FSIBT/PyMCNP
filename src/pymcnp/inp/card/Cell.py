@@ -2,8 +2,6 @@ from __future__ import annotations
 
 import abc as abc_
 import typing
-import decimal
-import collections
 
 from ... import _show
 from ... import abc
@@ -17,6 +15,10 @@ class Cell(Card):
     Represents cell cards.
     """
 
+    if typing.TYPE_CHECKING:
+        j: literal.Integer
+        options: typing.Annotated[abc.Array, option.Cell, None] | typing.Annotated[abc.Terminal, r'']
+
     def __invert__(self) -> literal.Geometry:
         """
         Complements cell cards.
@@ -24,8 +26,6 @@ class Cell(Card):
         Returns:
             Geometry of cell cards.
         """
-
-        assert hasattr(self, 'j')
 
         return literal.Geometry.from_mcnp(f'#{self.j}')[0]
 
@@ -70,11 +70,11 @@ class Cell_0(Cell):
         options: cell card ``options`` parameter.
     """
 
-    j: literal.Integer | int | str
-    m: literal.Integer | int | str
-    d: literal.Real | int | float | decimal.Decimal | str
-    geom: literal.Geometry | str
-    options: typing.Annotated[abc.Array, option.Cell, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.Cell | str] | str = abc.Terminal[r'']('')
+    j: literal.Integer
+    m: literal.Integer
+    d: literal.Real
+    geom: literal.Geometry
+    options: typing.Annotated[abc.Array, option.Cell, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -83,9 +83,6 @@ class Cell_0(Cell):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.j, literal.Integer)
-        assert isinstance(self.m, literal.Integer)
 
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')
@@ -108,8 +105,6 @@ class Cell_0(Cell):
         Returns:
             Visualization of cell cards.
         """
-
-        assert isinstance(self.geom, literal.Geometry)
 
         return self.geom.to_show(surfaces, cells)
 
@@ -151,10 +146,10 @@ class Cell_1(Cell):
         options: cell card ``options`` parameter.
     """
 
-    j: literal.Integer | int | str
-    m: literal.Integer | int | str
-    geom: literal.Geometry | str
-    options: typing.Annotated[abc.Array, option.Cell, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.Cell | str] | str = abc.Terminal[r'']('')
+    j: literal.Integer
+    m: literal.Integer
+    geom: literal.Geometry
+    options: typing.Annotated[abc.Array, option.Cell, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -163,10 +158,6 @@ class Cell_1(Cell):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.j, literal.Integer)
-        assert isinstance(self.m, literal.Integer)
-        assert isinstance(self.options, (abc.Array, abc.Terminal[r'']))
 
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')
@@ -189,8 +180,6 @@ class Cell_1(Cell):
         Returns:
             Visualization of cell cards.
         """
-
-        assert isinstance(self.geom, literal.Geometry)
 
         return self.geom.to_show(surfaces, cells)
 
@@ -233,11 +222,11 @@ class Cell_2(Cell):
         options: cell card ``options`` parameter.
     """
 
-    j: literal.Integer | int | str
-    like: typing.Annotated[abc.Terminal, r'LIKE'] | str = abc.Terminal[r'LIKE']('LIKE')
-    n: literal.Integer | int | str
-    but: typing.Annotated[abc.Terminal, r'BUT'] | str = abc.Terminal[r'BUT']('BUT')
-    options: typing.Annotated[abc.Array, option.Cell, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[option.Cell | str] | str = abc.Terminal[r'']('')
+    j: literal.Integer
+    like: typing.Annotated[abc.Terminal, r'LIKE'] = abc.Terminal[r'LIKE']('LIKE')
+    n: literal.Integer
+    but: typing.Annotated[abc.Terminal, r'BUT'] = abc.Terminal[r'BUT']('BUT')
+    options: typing.Annotated[abc.Array, option.Cell, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -246,9 +235,6 @@ class Cell_2(Cell):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.j, literal.Integer)
-        assert isinstance(self.n, literal.Integer)
 
         if not (1 <= self.j <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.j=}')

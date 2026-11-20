@@ -1,6 +1,4 @@
 import typing
-import decimal
-import collections
 
 from .... import abc
 from ... import literal
@@ -20,14 +18,12 @@ class C(Data):
         c: c data card ``r'C'`` symbol.
     """
 
-    prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    keyword: typing.Annotated[abc.Terminal, r'C'] | str = abc.Terminal[r'C']('C')
-    suffix: literal.Integer | int | str
-    ck: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Real | int | float | decimal.Decimal | str] | str = abc.Terminal[r''](
-        ''
-    )
-    nt: typing.Annotated[abc.Terminal, r'T'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    c: typing.Annotated[abc.Terminal, r'C'] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
+    prefix: typing.Annotated[abc.Terminal, r'\*'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'C'] = abc.Terminal[r'C']('C')
+    suffix: literal.Integer
+    ck: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    nt: typing.Annotated[abc.Terminal, r'T'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    c: typing.Annotated[abc.Terminal, r'C'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -36,10 +32,6 @@ class C(Data):
         Raises:
             Error: Invalid value.
         """
-
-        assert isinstance(self.suffix, literal.Integer)
-        assert isinstance(self.ck, (abc.Array, abc.Terminal[r'']))
-        assert not isinstance(self.ck, abc.Array) or all(isinstance(c, literal.Real) for c in self.ck)
 
         if not (1 <= self.suffix <= 99_999_999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')

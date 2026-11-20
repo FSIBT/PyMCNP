@@ -15,6 +15,6 @@ class Asbott(Block):
         value: asbott block suboption ``value`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'ASBOTT'] | str = abc.Terminal[r'ASBOTT']('ASBOTT')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    value: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'ASBOTT'] = abc.Terminal[r'ASBOTT']('ASBOTT')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    value: literal.Integer

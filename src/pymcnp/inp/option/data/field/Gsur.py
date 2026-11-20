@@ -1,6 +1,5 @@
 import typing
 
-import collections
 
 from ..... import abc
 from .... import literal
@@ -17,6 +16,6 @@ class Gsur(Field):
         s: gsur field data option ``s`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'GSUR'] | str = abc.Terminal[r'GSUR']('GSUR')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    s: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[literal.Integer | int | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'GSUR'] = abc.Terminal[r'GSUR']('GSUR')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    s: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

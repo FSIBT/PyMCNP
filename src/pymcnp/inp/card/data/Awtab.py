@@ -1,7 +1,5 @@
 import typing
 
-import collections
-
 
 from .... import abc
 from ..Data import Data
@@ -17,5 +15,5 @@ class Awtab(Data):
         z_a: awtab data card ``z_a`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'AWTAB'] | str = abc.Terminal[r'AWTAB']('AWTAB')
-    z_a: typing.Annotated[abc.Array, group.Constituent, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[group.Constituent | str] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'AWTAB'] = abc.Terminal[r'AWTAB']('AWTAB')
+    z_a: typing.Annotated[abc.Array, group.Constituent, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

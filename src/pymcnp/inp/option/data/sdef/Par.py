@@ -15,8 +15,8 @@ class Par(Sdef):
         m: par sdef data option ``m`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'PAR'] | str = abc.Terminal[r'PAR']('PAR')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
+    keyword: typing.Annotated[abc.Terminal, r'PAR'] = abc.Terminal[r'PAR']('PAR')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
     m: (
         literal.Particle
         | literal.Distribution
@@ -24,5 +24,4 @@ class Par(Sdef):
         | typing.Annotated[
             abc.Terminal, r'(?:-?CR)|(?:-?CH)|(?:-?C1001)|(?:-?CA)|(?:-?C2004)|(?:-?C7014)|(?:-?C14028)|(?:-?C26056)|(?:-?BG)|(?:-?BN)|(?:-?BP)|(?:-?SF)|(?:SN)|(?:SP)|(?:SB)|(?:ST)|(?:SA)|(?:SD)'
         ]
-        | str
     )

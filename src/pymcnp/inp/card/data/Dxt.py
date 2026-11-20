@@ -1,6 +1,4 @@
 import typing
-import decimal
-import collections
 
 from .... import abc
 from ... import literal
@@ -22,10 +20,10 @@ class Dxt(Data):
         dpwt: dxt data card ``dpwt`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'DXT'] | str = abc.Terminal[r'DXT']('DXT')
-    colon: typing.Annotated[abc.Terminal, r':'] | str = abc.Terminal[r':'](':')
-    particle: literal.Particle | str
-    x_y_z_ri_ro: typing.Annotated[abc.Array, group.Dxtran, None] | typing.Annotated[abc.Terminal, r''] | collections.abc.Sequence[group.Dxtran | str] | str = abc.Terminal[r'']('')
-    dwc1: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    dwc2: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
-    dpwt: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] | int | float | decimal.Decimal | str = literal.Jump('J')
+    keyword: typing.Annotated[abc.Terminal, r'DXT'] = abc.Terminal[r'DXT']('DXT')
+    colon: typing.Annotated[abc.Terminal, r':'] = abc.Terminal[r':'](':')
+    particle: literal.Particle
+    x_y_z_ri_ro: typing.Annotated[abc.Array, group.Dxtran, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    dwc1: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    dwc2: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    dpwt: literal.Real | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')

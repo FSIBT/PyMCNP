@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from .... import literal
@@ -16,6 +15,6 @@ class Tmc(Ft):
         b: tmc group ``b`` parameter.
     """
 
-    id: typing.Annotated[abc.Terminal, r'TMC'] | str = abc.Terminal[r'TMC']('TMC')
-    a: literal.Real | int | float | decimal.Decimal | str
-    b: literal.Real | int | float | decimal.Decimal | str
+    id: typing.Annotated[abc.Terminal, r'TMC'] = abc.Terminal[r'TMC']('TMC')
+    a: literal.Real
+    b: literal.Real

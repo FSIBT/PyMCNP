@@ -44,9 +44,6 @@ class Cell(Tally, abc.symbol.WithDataIter):
             Pandas dataframe for all cell subtally blocks.
         """
 
-        assert isinstance(self.table_body, (abc.Array, abc.Terminal[r'']))
-        assert not isinstance(self.table_body, abc.Array) or all(isinstance(row, line.Tally) for row in self.table_body)
-
         if isinstance(self.table_body, abc.Array) and self.table_body:
             frame = pandas.concat((row.to_dataframe() for row in self.table_body), ignore_index=True)
             frame['cell_number'] = self.cell_number.strip()

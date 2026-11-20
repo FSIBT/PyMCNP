@@ -15,6 +15,6 @@ class Background(Embed):
         c: background embed data option ``c`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'BACKGROUND'] | str = abc.Terminal[r'BACKGROUND']('BACKGROUND')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    c: literal.Integer | int | str
+    keyword: typing.Annotated[abc.Terminal, r'BACKGROUND'] = abc.Terminal[r'BACKGROUND']('BACKGROUND')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    c: literal.Integer

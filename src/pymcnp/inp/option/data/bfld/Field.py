@@ -1,5 +1,4 @@
 import typing
-import decimal
 
 from ..... import abc
 from ..Bfld import Bfld
@@ -16,6 +15,6 @@ class Field(Bfld):
         f: field bfld data option ``f`` parameter.
     """
 
-    keyword: typing.Annotated[abc.Terminal, r'FIELD'] | str = abc.Terminal[r'FIELD']('FIELD')
-    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] | str = abc.Terminal[r'']('')
-    f: literal.Real | int | float | decimal.Decimal | str
+    keyword: typing.Annotated[abc.Terminal, r'FIELD'] = abc.Terminal[r'FIELD']('FIELD')
+    equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    f: literal.Real
