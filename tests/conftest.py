@@ -21,6 +21,13 @@ arguments = dict(argument.split('=', 1) for argument in sys.argv[1:])
 pathlib.Path(arguments['outp']).write_text('ok\\n')
 """
 
+_FAKE_MCNP_FAIL = """#!{python}
+import os, sys, pathlib
+arguments = dict(argument.split('=', 1) for argument in sys.argv[1:])
+pathlib.Path(arguments['outp']).write_text('ok\\n')
+os.exit(1)
+"""
+
 
 @pytest.fixture
 def fake_mcnp(tmp_path: pathlib.Path) -> str:
@@ -30,6 +37,18 @@ def fake_mcnp(tmp_path: pathlib.Path) -> str:
 
     path = tmp_path / 'fake-mcnp'
     path.write_text(_FAKE_MCNP.format(python=sys.executable))
+    path.chmod(0o755)
+    return str(path)
+
+
+@pytest.fixture
+def fake_mcnp_fail(tmp_path: pathlib.Path) -> str:
+    """
+    Path to a stand-in for ``mcnp6`` that writes an output file and exits with 0.
+    """
+
+    path = tmp_path / 'fake-mcnp'
+    path.write_text(_FAKE_MCNP_FAIL.format(python=sys.executable))
     path.chmod(0o755)
     return str(path)
 
@@ -137,23 +156,3 @@ def ptrac(path_ptrac: pathlib.Path) -> pymcnp.Ptrac:
 @pytest.fixture(scope='session')
 def event(ptrac: pymcnp.Ptrac) -> pymcnp.ptrac.block.Event:
     return ptrac.histories[0]
-
-
-@pytest.fixture(scope='session')
-def check(path_inp: pathlib.Path) -> pymcnp.Check:
-    return pymcnp.Check(path_inp)
-
-
-@pytest.fixture(scope='session')
-def plot(outp: pymcnp.Outp) -> pymcnp.Plot:
-    return pymcnp.Plot(outp)
-
-
-@pytest.fixture(scope='session')
-def run(inp: pymcnp.Inp) -> pymcnp.Run:
-    return pymcnp.Run((inp,), command='echo')
-
-
-@pytest.fixture(scope='session')
-def visualize(inp: pymcnp.Inp) -> pymcnp.Visualize:
-    return pymcnp.Visualize(inp)

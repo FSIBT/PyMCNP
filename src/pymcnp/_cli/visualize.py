@@ -37,7 +37,6 @@ def main() -> None:
     # Reading input file.
     try:
         inpt = Inp.from_file(file)[0]
-        visualize = Visualize(inpt)
     except abc.Error as err:
         _io.error(str(err))
         sys.exit(1)
@@ -56,22 +55,24 @@ def main() -> None:
                 _io.error(f'{option}: no such {"cell" if "cell" in option else "surface"}: {", ".join(missing)}.')
                 sys.exit(2)
 
+    visualize = Visualize()
+
     # Visualizing!
     try:
         if args['--cells']:
             if args['--pdf']:
-                visualize.to_pdf_cells(_io.get_outfile(file, 'pdf', 'cells'))
+                visualize.to_pdf_cells(inpt, _io.get_outfile(file, 'pdf', 'cells'))
             else:
-                plot = visualize.to_show_cells()
+                plot = visualize.to_show_cells(inpt)
 
                 if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
                     plot.show()
 
         if args['--surfaces']:
             if args['--pdf']:
-                visualize.to_pdf_surfaces(_io.get_outfile(file, 'pdf', 'surfaces'))
+                visualize.to_pdf_surfaces(inpt, _io.get_outfile(file, 'pdf', 'surfaces'))
             else:
-                plot = visualize.to_show_surfaces()
+                plot = visualize.to_show_surfaces(inpt)
 
                 if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
                     plot.show()
@@ -80,9 +81,9 @@ def main() -> None:
             number = tuple(map(int, number.split(',')))
 
             if args['--pdf']:
-                visualize.to_pdf_cells(_io.get_outfile(file, 'pdf', 'cells-skip'), skip=number)
+                visualize.to_pdf_cells(inpt, _io.get_outfile(file, 'pdf', 'cells-skip'), skip=number)
             else:
-                plot = visualize.to_show_cells(skip=number)
+                plot = visualize.to_show_cells(inpt, skip=number)
 
                 if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
                     plot.show()
@@ -91,9 +92,9 @@ def main() -> None:
             number = tuple(map(int, number.split(',')))
 
             if args['--pdf']:
-                visualize.to_pdf_surfaces(_io.get_outfile(file, 'pdf', 'surfaces-skip'), skip=number)
+                visualize.to_pdf_surfaces(inpt, _io.get_outfile(file, 'pdf', 'surfaces-skip'), skip=number)
             else:
-                plot = visualize.to_show_surfaces(skip=number)
+                plot = visualize.to_show_surfaces(inpt, skip=number)
 
                 if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
                     plot.show()
@@ -102,9 +103,9 @@ def main() -> None:
             number = number.split(',')
 
             if args['--pdf']:
-                visualize.to_pdf_cell(_io.get_outfile(file, 'pdf', f'cell_{number}'), *number)
+                visualize.to_pdf_cell(inpt, _io.get_outfile(file, 'pdf', f'cell_{number}'), *number)
             else:
-                plot = visualize.to_show_cell(number)
+                plot = visualize.to_show_cell(inpt, number)
 
                 if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
                     plot.show()
@@ -113,9 +114,9 @@ def main() -> None:
             number = number.split(',')
 
             if args['--pdf']:
-                visualize.to_pdf_surface(_io.get_outfile(file, 'pdf', f'surface_{number}'), *number)
+                visualize.to_pdf_surface(inpt, _io.get_outfile(file, 'pdf', f'surface_{number}'), *number)
             else:
-                plot = visualize.to_show_surface(number)
+                plot = visualize.to_show_surface(inpt, number)
 
                 if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
                     plot.show()

@@ -5,7 +5,7 @@ import dataclasses
 import numpy
 import pyvista
 
-from . import inp
+from . import inp as inp_
 from . import _show
 from . import abc
 from .Inp import Inp
@@ -15,16 +15,10 @@ from .Inp import Inp
 class Visualize(abc.Utility):
     """
     Visualizes input files.
-
-    Attributes:
-        file: Input file to visualize.
     """
 
-    file: Inp
-
-    @property
-    def _grid(self):
-        surfaces = self.to_show_surfaces()
+    def _grid(self, inp: Inp):
+        surfaces = self.to_show_surfaces(inp)
 
         return pyvista.ImageData(
             dimensions=(_show.pyvista.RESOLUTION, _show.pyvista.RESOLUTION, _show.pyvista.RESOLUTION),
@@ -36,61 +30,7 @@ class Visualize(abc.Utility):
             origin=(-(surfaces.bounds[1] - surfaces.bounds[0]) / 2, -(surfaces.bounds[3] - surfaces.bounds[2]) / 2, -(surfaces.bounds[5] - surfaces.bounds[4]) / 2),
         )
 
-    def to_show_cells(self, skip=()) -> pyvista.Plotter:
-        """
-        Visualizes all cells.
-        """
-
-        assert isinstance(self.file.surfaces, abc.Array)
-        assert all(isinstance(card, (inp.card.Comment | inp.card.Surface)) for card in self.file.surfaces)
-        assert isinstance(self.file.cells, abc.Array)
-        assert all(isinstance(card, (inp.card.Comment | inp.card.Cell)) for card in self.file.cells)
-
-        plot = pyvista.Plotter()
-        pyvista.Plotter.add_axes(plot)
-
-        surfaces = {str(surface.j): surface.to_show() for surface in self.file.surfaces.filter(inp.card.Surface)}
-        cells = {}
-
-        for cell in self.file.cells:
-            if isinstance(cell, inp.card.Comment):
-                continue
-
-            shape = cell.to_show(surfaces, cells)
-            cells[str(cell.j)] = shape
-
-            if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-                grid = self._grid
-                grid['cell'] = shape.cell(grid.points).astype(numpy.float32)
-                plot.add_volume(grid, scalars='cell', opacity=[0, 0, 0.01, 0.01])
-                plot.add_mesh(shape.surface, opacity=0.9)
-
-        return plot
-
-    def to_show_surfaces(self, skip=()) -> pyvista.Plotter:
-        """
-        Visualizes INP all surfaces.
-        """
-
-        assert isinstance(self.file.surfaces, abc.Array)
-        assert all(isinstance(card, (inp.card.Comment, inp.card.Surface)) for card in self.file.surfaces)
-        assert isinstance(self.file.cells, abc.Array)
-        assert all(isinstance(card, (inp.card.Comment, inp.card.Cell)) for card in self.file.cells)
-
-        plot = pyvista.Plotter()
-        pyvista.Plotter.add_axes(plot)
-
-        for surface in self.file.surfaces:
-            if isinstance(surface, inp.card.Comment):
-                continue
-            shape = surface.to_show()
-
-            if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-                plot.add_mesh(shape.surface)
-
-        return plot
-
-    def to_show_cell(self, *number: str) -> pyvista.Plotter:
+    def to_show_cell(self, inp: Inp, *number: str) -> pyvista.Plotter:
         """
         Visualizes input cell ``number``.
 
@@ -98,36 +38,28 @@ class Visualize(abc.Utility):
             numbers: Cell to visualize.
         """
 
-        assert isinstance(self.file.surfaces, abc.Array)
-        assert all(isinstance(card, (inp.card.Comment | inp.card.Surface)) for card in self.file.surfaces)
-        assert isinstance(self.file.cells, abc.Array)
-        assert all(isinstance(card, (inp.card.Comment | inp.card.Cell)) for card in self.file.cells)
-
         plot = pyvista.Plotter()
         pyvista.Plotter.add_axes(plot)
 
-        surfaces = {str(surface.j): surface.to_show() for surface in self.file.surfaces.filter(inp.card.Surface)}
+        surfaces = {str(surface.j): surface.to_show() for surface in inp.surfaces.filter(inp_.card.Surface)}
         cells = {}
 
-        for cell in self.file.cells:
-            if isinstance(cell, inp.card.Comment):
-                continue
-
+        for cell in inp.cells.filter(inp_.card.Cell):
             shape = cell.to_show(surfaces, cells)
             cells[str(cell.j)] = shape
 
             if str(cell.j) not in number:
                 continue
 
+            grid = self._grid(inp)
             if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-                grid = self._grid
                 grid['cell'] = shape.cell(grid.points).astype(numpy.float32)
-                plot.add_volume(grid, scalars='cell', opacity=[0, 0, 0.01, 0.01])
+                plot.add_volume(grid, scalars='cell', opacity=numpy.array([0, 0, 0.01, 0.01]))
                 plot.add_mesh(shape.surface, opacity=0.9)
 
         return plot
 
-    def to_show_surface(self, *number: str) -> pyvista.Plotter:
+    def to_show_surface(self, inp: Inp, *number: str) -> pyvista.Plotter:
         """
         Visualizes INP surface(s).
 
@@ -135,18 +67,10 @@ class Visualize(abc.Utility):
             number: Surface number to visualize.
         """
 
-        assert isinstance(self.file.surfaces, abc.Array)
-        assert all(isinstance(card, (inp.card.Comment | inp.card.Surface)) for card in self.file.surfaces)
-        assert isinstance(self.file.cells, abc.Array)
-        assert all(isinstance(card, (inp.card.Comment | inp.card.Cell)) for card in self.file.cells)
-
         plot = pyvista.Plotter()
         pyvista.Plotter.add_axes(plot)
 
-        for surface in self.file.surfaces:
-            if isinstance(surface, inp.card.Comment):
-                continue
-
+        for surface in inp.surfaces.filter(inp_.card.Surface):
             if str(surface.j) not in number:
                 continue
 
@@ -155,7 +79,46 @@ class Visualize(abc.Utility):
 
         return plot
 
-    def to_pdf_cells(self, path: pathlib.Path | str, skip=()):
+    def to_show_cells(self, inp: Inp, skip=()) -> pyvista.Plotter:
+        """
+        Visualizes all cells.
+        """
+
+        plot = pyvista.Plotter()
+        pyvista.Plotter.add_axes(plot)
+
+        surfaces = {str(surface.j): surface.to_show() for surface in inp.surfaces.filter(inp_.card.Surface)}
+        cells = {}
+
+        for cell in inp.cells.filter(inp_.card.Cell):
+            shape = cell.to_show(surfaces, cells)
+            cells[str(cell.j)] = shape
+
+            grid = self._grid(inp)
+            if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
+                grid['cell'] = shape.cell(grid.points).astype(numpy.float32)
+                plot.add_volume(grid, scalars='cell', opacity=numpy.array([0, 0, 0.01, 0.01]))
+                plot.add_mesh(shape.surface, opacity=0.9)
+
+        return plot
+
+    def to_show_surfaces(self, inp: Inp, skip=()) -> pyvista.Plotter:
+        """
+        Visualizes INP all surfaces.
+        """
+
+        plot = pyvista.Plotter()
+        pyvista.Plotter.add_axes(plot)
+
+        for surface in inp.surfaces.filter(inp_.card.Surface):
+            shape = surface.to_show()
+
+            if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
+                plot.add_mesh(shape.surface)
+
+        return plot
+
+    def to_pdf_cells(self, inp: Inp, path: pathlib.Path | str, skip=()):
         """
         Saves render of cells as PDF.
 
@@ -164,12 +127,12 @@ class Visualize(abc.Utility):
             skip: Cells numbers to leave out.
         """
 
-        plot = self.to_show_cells(skip=skip)
+        plot = self.to_show_cells(inp, skip=skip)
 
         if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
             plot.save_graphic(str(path))
 
-    def to_pdf_surfaces(self, path: pathlib.Path | str, skip=()):
+    def to_pdf_surfaces(self, inp: Inp, path: pathlib.Path | str, skip=()):
         """
         Saves render of surfaces as PDF.
 
@@ -178,12 +141,12 @@ class Visualize(abc.Utility):
             skip: Surfaces numbers to leave out.
         """
 
-        plot = self.to_show_surfaces(skip=skip)
+        plot = self.to_show_surfaces(inp, skip=skip)
 
         if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
             plot.save_graphic(str(path))
 
-    def to_pdf_cell(self, path: pathlib.Path | str, *number: str):
+    def to_pdf_cell(self, inp: Inp, path: pathlib.Path | str, *number: str):
         """
         Saves render of cells as PDF.
 
@@ -192,12 +155,12 @@ class Visualize(abc.Utility):
             number: Cell numbers to visualize.
         """
 
-        plot = self.to_show_cell(*number)
+        plot = self.to_show_cell(inp, *number)
 
         if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
             plot.save_graphic(str(path))
 
-    def to_pdf_surface(self, path: pathlib.Path | str, *number: str):
+    def to_pdf_surface(self, inp: Inp, path: pathlib.Path | str, *number: str):
         """
         Saves render of surfaces as PDF.
 
@@ -206,7 +169,7 @@ class Visualize(abc.Utility):
             number: Surface numbers to visualize.
         """
 
-        plot = self.to_show_surface(*number)
+        plot = self.to_show_surface(inp, *number)
 
         if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
             plot.save_graphic(str(path))

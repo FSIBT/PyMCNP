@@ -4,6 +4,7 @@ import pathlib
 import dataclasses
 
 import matplotlib.pyplot
+import matplotlib.figure
 import matplotlib.backends.backend_pdf
 
 from . import abc
@@ -17,33 +18,29 @@ matplotlib.pyplot.rcParams['figure.max_open_warning'] = 0
 class Plot(abc.Utility):
     """
     Represents utilties that plot output files.
-
-    Attribute:
-        file: Output file to plot.
     """
 
-    file: Outp
-
-    def to_show(self, number: str):
+    def to_show(self, outp: Outp, number: str) -> tuple[matplotlib.figure.Figure, ...]:
         """
-        Plots tally ``number`` of output files in window.
+        Plots tally `number` of output file `outp`.
 
         Parameter:
             number: Tally number to plot.
 
         Raises:
+            Error: File not found.
             Error: Tally not found.
         """
 
-        tallies = {str(frame['number'].iloc[0]).strip(): frame for frame in self.file.to_dataframe_iter() if not frame.empty}
-        number = str(number).strip()
-        if number not in tallies:
-            raise abc.Error('Tally not found.', f'{number=}')
-
-        names = tallies[number].columns[3:-4]
+        try:
+            tally = next(frame for frame in outp.to_dataframe_iter() if frame.empty or frame['number'].iloc[0].strip() == number)
+        except StopIteration:
+            raise abc.Error('Tally not found', f'{number=}')
 
         figures = []
-        subtallies = tallies[number].groupby(list(names))
+        names = tally.columns[3:-4]
+        subtallies = tally.groupby(list(names))
+
         for idents, subtally in subtallies:
             fig, ax = matplotlib.pyplot.subplots()
 
@@ -56,7 +53,10 @@ class Plot(abc.Utility):
                 zorder=1,
                 fmt='none',
             )
-            ax.set_title(f'Counts vs Bins\n{" ".join(f"{name}: {ident}" for name, ident in zip(names, idents if isinstance(idents, typing.Iterable) else (idents,)))}', fontsize=12)
+            ax.set_title(
+                f'Counts vs Bins\n{" ".join(f"{name}: {ident}" for name, ident in zip(names, idents if isinstance(idents, typing.Iterable) else (idents,)))}',
+                fontsize=12,
+            )
             ax.set_xlabel('Bins', fontsize=12)
             ax.set_ylabel('Counts', fontsize=12)
             ax.step(subtally['bins'], subtally['counts'], color='blue', where='mid', zorder=2, label='Tally')
@@ -64,9 +64,9 @@ class Plot(abc.Utility):
 
             figures.append(fig)
 
-        return figures
+        return tuple(figures)
 
-    def to_pdf(self, number: str, path: pathlib.Path | str):
+    def to_pdf(self, outp: Outp, number: str, path: pathlib.Path | str) -> None:
         """
         Plots tally ``number`` of output files in PDF file.
 
@@ -77,6 +77,6 @@ class Plot(abc.Utility):
 
         if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
             with matplotlib.backends.backend_pdf.PdfPages(path) as pdf:
-                for fig in self.to_show(number):
+                for fig in self.to_show(outp, number):
                     pdf.savefig(fig)
             matplotlib.pyplot.close()

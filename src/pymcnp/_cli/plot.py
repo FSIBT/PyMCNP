@@ -32,18 +32,19 @@ def main() -> None:
 
     # Reading output file.
     try:
-        outp = Outp.from_file(file)[0]
-        plot = Plot(outp)
+        outp, _ = Outp.from_file(file)
     except abc.Error as err:
         _io.error(str(err))
         sys.exit(1)
 
+    ploter = Plot()
+
     # Plotting!
     try:
         if args['--pdf']:
-            plot.to_pdf(number, pathlib.Path(_io.get_outfile(file, 'pdf')))
+            ploter.to_pdf(outp, number, pathlib.Path(_io.get_outfile(file, 'pdf')))
         else:
-            plot.to_show(number)
+            ploter.to_show(outp, number)
 
             if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
                 matplotlib.pyplot.show()

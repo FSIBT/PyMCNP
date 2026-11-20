@@ -4,14 +4,11 @@ import rich
 import rich.panel
 
 
-def get_outfile(path: pathlib.Path | str, ext: str, i: str | int | None = None) -> pathlib.Path:
-    if isinstance(i, int):
-        i = f'{i:05}'
-
+def get_outfile(path: pathlib.Path | str, ext: str, i: str | None = None) -> pathlib.Path:
     path = str(path)
     path, _ = path.rsplit('.', maxsplit=1)
 
-    return pathlib.Path(path + (f'-{i}' if i else '') + '.' + ext)
+    return pathlib.Path(path + (f'-{i}' if i is not None else '') + '.' + ext)
 
 
 def info(msg: str):

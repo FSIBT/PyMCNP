@@ -1,8 +1,6 @@
-import os
 import sys
 import pathlib
 
-import pandas
 import pytest
 
 from pymcnp._cli import convert
@@ -18,6 +16,7 @@ def test_main_valid(monkeypatch) -> None:
 
         monkeypatch.setattr(sys, 'argv', ['pymcnp', 'convert', kind, '--parquet', str(path)])
         convert.main()
+
 
 def test_main_invalid(monkeypatch) -> None:
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'convert', 'outp', '--csv', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'invalid_00.inp')])

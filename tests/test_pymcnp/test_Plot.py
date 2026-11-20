@@ -6,12 +6,18 @@ import pymcnp
 
 
 class Test_Plot:
-    def test_to_show_valid(self, plot: pymcnp.Plot) -> None:
-        plot.to_show('21')
+    def test_to_show_valid(self, outp: pymcnp.Outp) -> None:
+        plotter = pymcnp.Plot()
 
-    def test_to_show_invalid(self, plot: pymcnp.Plot) -> None:
+        plotter.to_show(outp, '21')
+
+    def test_to_show_invalid(self, outp: pymcnp.Outp) -> None:
+        plotter = pymcnp.Plot()
+
         with pytest.raises(pymcnp.abc.Error):
-            plot.to_show('23423432')
+            plotter.to_show(outp, '23423432')
 
-    def test_to_pdf_valid(self, plot: pymcnp.Plot) -> None:
-        plot.to_pdf('1', pathlib.Path('hello.pdf'))
+    def test_to_pdf_valid(self, outp: pymcnp.Outp) -> None:
+        plotter = pymcnp.Plot()
+
+        plotter.to_pdf(outp, '1', pathlib.Path('hello.pdf'))

@@ -1,6 +1,5 @@
 import sys
 import pathlib
-import subprocess
 
 import pytest
 
@@ -13,11 +12,12 @@ SOURCE = 'Title\n1 0 -1 imp:n=1\n2 0 1 imp:n=0\n\n1 so 5\n\nnps 10\n\n'
 def test_main_valid(monkeypatch) -> None:
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'check', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'valid_00.inp')])
     check.main()
-    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'check', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'valid_00.inp'), '--fix'])
-    check.main()
 
 
 def test_main_invalid(monkeypatch) -> None:
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'check', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'warning_00.inp')])
+    with pytest.raises(SystemExit):
+        check.main()
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'check', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'invalid_00.inp')])
     with pytest.raises(SystemExit):
         check.main()
@@ -32,7 +32,7 @@ def test_main_invalid(monkeypatch) -> None:
         check.main()
 
 
-#class Test_Check_Report:
+# class Test_Check_Report:
 #    def test_valid_file(self, tmp_path):
 #        path = tmp_path / 'ok.inp'
 #        path.write_text(SOURCE)

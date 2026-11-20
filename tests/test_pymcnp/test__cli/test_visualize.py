@@ -38,6 +38,9 @@ def test_main_valid(monkeypatch) -> None:
 
 
 def test_main_invalid(monkeypatch) -> None:
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'valid_00.inp'), '--cell=81023'])
+    with pytest.raises(SystemExit):
+        visualize.main()
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'invalid_00.inp')])
     with pytest.raises(SystemExit):
         visualize.main()
