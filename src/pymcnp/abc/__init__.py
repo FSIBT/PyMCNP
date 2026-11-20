@@ -23,6 +23,7 @@ from .Visualization import Sphere
 from .Visualization import Torus
 from .Visualization import Wedge
 from .Visualization import Endpoint
+from .Warning import Warning
 
 __all__ = (
     'file',
@@ -50,4 +51,5 @@ __all__ = (
     'Torus',
     'Wedge',
     'Endpoint',
+    'Warning',
 )

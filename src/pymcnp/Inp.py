@@ -1,6 +1,6 @@
 import re
 import typing
-import collections
+import warnings
 
 import numpy
 
@@ -106,6 +106,8 @@ class Inp(abc.File):
             Error: Expected space.
         """
 
+        for line in re.finditer(r'[^\n]{81}', source):
+            warnings.warn(abc.Warning('Line exceeds 80 characters maximum length', f'{line[0]}'))
 
         source = re.sub(r'\n +\n', '\n\n', source)
 
