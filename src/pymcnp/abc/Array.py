@@ -61,7 +61,7 @@ def _parse_hint(hint: typing.Any) -> tuple[type[Symbol], ...]:
     if isinstance(hint, type) and issubclass(hint, Symbol):
         return (hint,)
 
-    return ()
+    assert False
 
 
 class Space(Terminal):
@@ -161,7 +161,7 @@ class Array(Symbol, list):
             memo: Memory for copy objects.
         """
 
-        if id(self) in memo:
+        if id(self) in memo:  # pragma: no cover
             return memo[id(self)]
 
         clone = type(self)(*(copy.deepcopy(item, memo) for item in self), spaces=[copy.deepcopy(space, memo) for space in self.spaces])

@@ -56,13 +56,14 @@ class Row(Line, abc.symbol.WithDataIter):
         if match is None:
             raise abc.Error('Expected ``Row``.', f'{source[:200]=}')
 
-        Values = cls._fields['values'][0]
-        Value, Space = Values._kind[0], Values._space[0]
         parts = _SPACES.split(match[2])
-        values = Values(*(str.__new__(Value, value) for value in parts[0::2]), spaces=[str.__new__(Space, space) for space in parts[1::2]])
+        values = abc.Array[abc.Terminal[r'Total|[-+]?(?:\d+\.?\d*|\.\d+)(?:E[-+]?\d+)?|[-+]?(?:NaN|Inf(?:inity)?)'], abc.Terminal[r' +']](
+            *(str.__new__(abc.Terminal[r'Total|[-+]?(?:\d+\.?\d*|\.\d+)(?:E[-+]?\d+)?|[-+]?(?:NaN|Inf(?:inity)?)'], value) for value in parts[0::2]),
+            spaces=[str.__new__(abc.Terminal[r' +'], space) for space in parts[1::2]],
+        )
 
         row = object.__new__(cls)
-        object.__setattr__(row, '_indent', str.__new__(cls._fields['indent'][0], match[1]))
+        object.__setattr__(row, '_indent', str.__new__(abc.Terminal[r' *'], match[1]))
         object.__setattr__(row, '_values', values)
         row.spaces = {}
         row.__post_init__()

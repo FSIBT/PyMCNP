@@ -84,6 +84,9 @@ testpaths = [
     "tests"
 ]
 [tool.coverage.report]
+omit = [
+    "*/version.py",
+]
 exclude_also = [
     "raise AssertionError",
     "raise NotImplementedError",
