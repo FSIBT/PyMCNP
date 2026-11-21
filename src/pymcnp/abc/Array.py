@@ -243,7 +243,21 @@ class Array(Symbol, list):
         array: Array = CACHE[typing.Union[self._kind], typing.Union[self._space]]()
 
         for item in self:
-            if (not kinds or isinstance(item, kinds)) and all(not hasattr(item, name) or getattr(item, name) == field for name, field in fields.items()):
+            if kinds and not isinstance(item, kinds):
+                continue
+
+            matches: bool = True
+            for path, value in fields.items():
+                try:
+                    actual = eval(f'item.{path}', {'__builtins__': {}}, {'item': item})
+                except (AttributeError, LookupError, TypeError, SyntaxError):
+                    raise Error('Invalid value.', f'{item=} in `self` does not have parameter {path=}')
+
+                if actual != value:
+                    matches = False
+                    break
+
+            if matches:
                 array.append(item)
 
         return array

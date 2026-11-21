@@ -40,9 +40,11 @@ class Test_Nonterminal:
 
     def test_scan_valid(self) -> None:
         vol, _ = pymcnp.inp.card.data.Vol.from_mcnp('VOL 3.1 3.1')
-        assert tuple(map(str, vol.scan(no=['', 'no']))) == ('VOL 3.1 3.1', 'VOL no 3.1 3.1')
+        assert tuple(map(str, vol.scan(no=('', 'no')))) == ('VOL 3.1 3.1', 'VOL no 3.1 3.1')
 
     def test_scan_invalid(self) -> None:
         vol, _ = pymcnp.inp.card.data.Vol.from_mcnp('VOL 3.1 3.1')
         with pytest.raises(pymcnp.abc.Error):
-            next(vol.scan(hello=['', 'no']))
+            next(vol.scan(hello=('', 'no')))
+        with pytest.raises(pymcnp.abc.Error):
+            next(vol.scan())

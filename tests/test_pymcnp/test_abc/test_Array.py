@@ -1,8 +1,8 @@
 import copy
 
-import pymcnp
-
 import pytest
+
+import pymcnp
 
 
 class Test_Array:
@@ -27,7 +27,7 @@ class Test_Array:
                 _kind = ()
 
     def test_mcnp_valid(self) -> None:
-        parse = pymcnp.abc.Array[pymcnp.inp.card.surface.X_0 | pymcnp.inp.card.surface.X_1, None].from_mcnp('1 x 1 1 1 1')
+        parse = pymcnp.abc.Array[pymcnp.inp.card.surface.X, None].from_mcnp('1 x 1 1 1 1')
         assert parse[0].to_mcnp() == '1 x 1 1 1 1'
         assert parse[1] == ''
 
@@ -37,3 +37,10 @@ class Test_Array:
         assert clone == array
         assert len(clone.spaces) == len(array.spaces) == 1
         assert clone.to_mcnp() == array.to_mcnp()
+
+    def test_filter(self) -> None:
+        array, _ = pymcnp.abc.Array[pymcnp.inp.card.Surface, None].from_mcnp('1 x 1 1 1 1\n2 so 1')
+        assert array.filter(pymcnp.inp.card.surface.X) == [pymcnp.inp.card.surface.X.from_mcnp('1 x 1 1 1 1')[0]]
+        assert array.filter(j=3) == []
+        with pytest.raises(pymcnp.abc.Error):
+            assert array.filter(hello=2)
