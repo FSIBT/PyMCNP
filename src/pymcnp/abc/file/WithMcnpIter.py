@@ -30,7 +30,7 @@ class WithMcnpIter(symbol.WithMcnpIter[T, U], typing.Generic[T, U]):
             Nonterminal subsymbols.
 
         Returns:
-            Nonterminal symbol corresponding to `source`.
+            Nonterminal symbol corresponding to ``source``.
         """
 
         path = pathlib.Path(path)

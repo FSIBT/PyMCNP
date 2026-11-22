@@ -8,8 +8,9 @@
 .. toctree::
    :maxdepth: 1
 
-   meshtal/line
    meshtal/block
+   meshtal/line
+   meshtal/literal
 ```
 
 ## AST Classes
@@ -28,6 +29,8 @@ These AST class have methods for translating between PyMCNP and MESHTAL:
    :inherited-members:
 ```
 
+[block subpackage](meshtal/block)
+
 ### `Line` Class
 
 ```{eval-rst}
@@ -37,3 +40,13 @@ These AST class have methods for translating between PyMCNP and MESHTAL:
 ```
 
 [line subpackage](meshtal/line)
+
+### `Literal` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.meshtal.Literal
+   :members:
+   :inherited-members:
+```
+
+[literal subpackage](meshtal/literal)

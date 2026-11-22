@@ -22,6 +22,7 @@
 ```
 
 [block subpackage](option/block)
+
 ### `Cell` Class
 
 ```{eval-rst}
@@ -31,6 +32,7 @@
 ```
 
 [cell subpackage](option/cell)
+
 ### `Data` Class
 
 ```{eval-rst}

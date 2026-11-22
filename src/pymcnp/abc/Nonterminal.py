@@ -348,7 +348,7 @@ class Nonterminal(Symbol):
             try:
                 eval(f'self.{path}', {'__builtins__': {}}, {'self': self})
             except (AttributeError, LookupError, TypeError, SyntaxError):
-                raise Error('Invalid value.', f'`self` does not have parameter {path=}')
+                raise Error('Invalid value.', f'``self`` does not have parameter {path=}')
 
         for combination in itertools.product(*parameters.values()):
             clone = copy.deepcopy(self)

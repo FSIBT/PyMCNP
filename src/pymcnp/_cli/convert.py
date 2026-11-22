@@ -9,7 +9,7 @@ Options:
     -p --parquet    Write PARQUET.
 
 Writes the data of OUTP (all tallies), PTRAC (one row per event), or
-MESHTAL files next to them, e.g., `file.outp` to `file.csv`.
+MESHTAL files next to them, e.g., ``file.outp` to `file.csv``.
 """
 
 import pathlib

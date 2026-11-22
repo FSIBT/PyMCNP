@@ -29,7 +29,7 @@ class WithMcnpIter(abc.ABC, typing.Generic[T, U]):
             Nonterminal subsymbols.
 
         Returns:
-            Nonterminal symbol corresponding to `source`.
+            Nonterminal symbol corresponding to ``source``.
         """
 
         raise NotImplementedError

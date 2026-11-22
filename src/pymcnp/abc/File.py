@@ -2,7 +2,6 @@ import os
 import typing
 import pathlib
 
-
 from .Nonterminal import Nonterminal
 from .Error import Error
 

@@ -11,17 +11,17 @@ class Meshtal(abc.file.WithMcnpIter, abc.file.WithDataIter, abc.File):
     Represents meshtal files.
 
     Attributes:
-        header: meshtal `header` item.
-        title_preamble: meshtal `r'\\n'` symbol.
-        title: meshtal `title` item.
-        histories_preamble: meshtal `r'\\n Number of histories used for normalizing tallies ='` symbol.
-        histories: meshtal `histories` item.
-        number_preamble: meshtal `r'\\n\\n Mesh Tally Number'` symbol.
-        number: meshtal `number` item.
-        particles_preamble: meshtal `r'\\n\\n '` symbol.
-        particle: meshtal `particle` item.
-        particle_postable: meshtal `r' mesh tally\\.\\n\\n'` symbol.
-        bins: meshtal `bins` item.
+        header: meshtal ``header`` item.
+        title_preamble: meshtal ``r'\\n'`` symbol.
+        title: meshtal ``title`` item.
+        histories_preamble: meshtal ``r'\\n Number of histories used for normalizing tallies ='`` symbol.
+        histories: meshtal ``histories`` item.
+        number_preamble: meshtal ``r'\\n\\n Mesh Tally Number'`` symbol.
+        number: meshtal ``number`` item.
+        particles_preamble: meshtal ``r'\\n\\n '`` symbol.
+        particle: meshtal ``particle`` item.
+        particle_postable: meshtal ``r' mesh tally\\.\\n\\n'`` symbol.
+        bins: meshtal ``bins`` item.
         blank: meshtal blank line before the data.
         labels: meshtal data column labels.
         rows: meshtal data rows.
@@ -77,7 +77,7 @@ class Meshtal(abc.file.WithMcnpIter, abc.file.WithDataIter, abc.File):
             Meshtal data rows, in order.
 
         Returns:
-            Meshtal file corresponding to `source` if `returning`.
+            Meshtal file corresponding to ``source` if `returning``.
         """
 
         header, source = meshtal.line.Header.from_mcnp(source)

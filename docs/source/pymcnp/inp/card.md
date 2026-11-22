@@ -6,8 +6,8 @@
 .. toctree::
    :maxdepth: 1
 
-   card/surface
    card/data
+   card/surface
 ```
 
 ## AST Classes
@@ -61,6 +61,7 @@
 ```
 
 [data subpackage](card/data)
+
 ### `Surface` Class
 
 ```{eval-rst}

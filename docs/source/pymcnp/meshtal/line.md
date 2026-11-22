@@ -20,6 +20,7 @@
 ```
 
 [boundary subpackage](line/boundary)
+
 ### `Header` Class
 
 ```{eval-rst}

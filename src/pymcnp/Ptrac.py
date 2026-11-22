@@ -31,10 +31,10 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
             source: Source string to compile.
 
         Yields:
-            Generators yielding ptrac events and returning ptrac histories corresponding to `source`.
+            Generators yielding ptrac events and returning ptrac histories corresponding to ``source``.
 
         Returns:
-            Ptrac file corresponding to `source`.
+            Ptrac file corresponding to ``source``.
 
         Raises:
             Error: Inner generator not done.

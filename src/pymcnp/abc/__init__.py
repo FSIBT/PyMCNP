@@ -1,34 +1,36 @@
-from . import file
-from . import symbol
-from .Array import Array
+from . import file, symbol
+from .Array import Array, ArraySpace
 from .Error import Error
 from .File import File
 from .Nonterminal import Nonterminal
 from .Symbol import Symbol
 from .Terminal import Terminal
 from .Utility import Utility
-from .Visualization import Visualization
-from .Visualization import Box
-from .Visualization import ConeTruncated
-from .Visualization import ConeUnbounded
-from .Visualization import CylinderCircular
-from .Visualization import CylinderElliptical
-from .Visualization import CylinderHexagonal
-from .Visualization import CylinderUnbounded
-from .Visualization import Ellipsoid
-from .Visualization import Empty
-from .Visualization import Parallelipiped
-from .Visualization import Plane
-from .Visualization import Sphere
-from .Visualization import Torus
-from .Visualization import Wedge
-from .Visualization import Endpoint
+from .Visualization import (
+    Visualization,
+    Box,
+    ConeTruncated,
+    ConeUnbounded,
+    CylinderCircular,
+    CylinderElliptical,
+    CylinderHexagonal,
+    CylinderUnbounded,
+    Ellipsoid,
+    Empty,
+    Parallelipiped,
+    Plane,
+    Sphere,
+    Torus,
+    Wedge,
+    Endpoint,
+)
 from .Warning import Warning
 
 __all__ = (
     'file',
     'symbol',
     'Array',
+    'ArraySpace',
     'Error',
     'File',
     'Nonterminal',

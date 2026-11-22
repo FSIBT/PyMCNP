@@ -6,12 +6,12 @@ from .Line import Line
 from .Subblock import Subblock
 
 __all__ = (
+    'block',
+    'line',
+    'subblock',
     'Block',
     'Footer',
     'Header',
     'Line',
     'Subblock',
-    'block',
-    'line',
-    'subblock',
 )

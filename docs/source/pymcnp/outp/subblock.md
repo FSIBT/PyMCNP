@@ -20,3 +20,11 @@
 ```
 
 [tally subpackage](subblock/tally)
+
+### `Statistics` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.outp.subblock.Statistics
+   :members:
+   :inherited-members:
+```

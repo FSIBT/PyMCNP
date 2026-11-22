@@ -86,11 +86,11 @@ class History(abc.symbol.WithMcnpIter, abc.symbol.WithDataIter, Block):
     Represents history blocks.
 
     Attributes:
-        nps: history block i line `nps` parameter.
-        event_type: history block i line `event_type` parameter.
-        number: history block i line `number` parameter.
-        tfc: history block i line `tfc` parameter.
-        newline: event block `r'\\n'` symbol.
+        nps: history block i line ``nps`` parameter.
+        event_type: history block i line ``event_type`` parameter.
+        number: history block i line ``number`` parameter.
+        tfc: history block i line ``tfc`` parameter.
+        newline: event block ``r'\\n'`` symbol.
         events: history block events.
     """
 
@@ -123,7 +123,7 @@ class History(abc.symbol.WithMcnpIter, abc.symbol.WithDataIter, Block):
             Events of history blocks.
 
         Returns:
-            History block corresponding to `source`.
+            History block corresponding to ``source``.
         """
 
         blank, source = abc.Terminal[r' '].from_mcnp(source)

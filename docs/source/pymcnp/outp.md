@@ -29,6 +29,24 @@ These AST class have methods for translating between PyMCNP and OUTP:
    :inherited-members:
 ```
 
+[block subpackage](outp/block)
+
+### `Footer` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.outp.Footer
+   :members:
+   :inherited-members:
+```
+
+### `Header` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.outp.Header
+   :members:
+   :inherited-members:
+```
+
 ### `Line` Class
 
 ```{eval-rst}
@@ -36,6 +54,8 @@ These AST class have methods for translating between PyMCNP and OUTP:
    :members:
    :inherited-members:
 ```
+
+[line subpackage](outp/line)
 
 ### `Subblock` Class
 

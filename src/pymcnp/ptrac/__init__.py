@@ -1,5 +1,4 @@
-from . import block
-from . import line
+from . import block, line
 from .Block import Block
 from .Line import Line
 

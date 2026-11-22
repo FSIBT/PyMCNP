@@ -14,7 +14,7 @@ class Check(abc.Utility):
 
     def check(self, path: pathlib.Path | str) -> tuple[abc.Warning | abc.Error, ...]:
         """
-        Checks input file at `path`.
+        Checks input file at ``path``.
 
         Parameters:
             path: Input file or its path to check.

@@ -41,7 +41,6 @@
    * `option.data.burn.Swapb`
    * `option.data.ptrac.Filter`
    * `option.data.ft.`
-
 ```
 
 `pymcnp.inp` contains PyMCNP's input file parser.
@@ -52,10 +51,10 @@
 .. toctree::
 	:maxdepth: 1
 
-	inp/literal
-	inp/group
-	inp/option
 	inp/card
+	inp/group
+	inp/literal
+	inp/option
 ```
 
 ## AST Classes

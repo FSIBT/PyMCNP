@@ -1,6 +1,4 @@
-from . import block
-from . import line
-from . import literal
+from . import block, line, literal
 from .Block import Block
 from .Line import Line
 from .Literal import Literal

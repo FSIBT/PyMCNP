@@ -64,7 +64,7 @@ def _parse_hint(hint: typing.Any) -> tuple[type[Symbol], ...]:
     assert False
 
 
-class Space(Terminal):
+class ArraySpace(Terminal):
     """
     Represents spaces for array items.
     """
@@ -84,7 +84,7 @@ class Array(Symbol, list):
         spaces: Whitespaces between constituents.
     """
 
-    _space: typing.ClassVar[tuple[type[Terminal], ...]] = (Space,)
+    _space: typing.ClassVar[tuple[type[Terminal], ...]] = (ArraySpace,)
     _kind: typing.ClassVar[tuple[type[Symbol], ...]] = (Symbol,)
 
     spaces: list[Terminal]
@@ -116,7 +116,7 @@ class Array(Symbol, list):
         """
 
         if parameters[1] is None:
-            parameters = (parameters[0], Space)
+            parameters = (parameters[0], ArraySpace)
 
         if parameters not in CACHE:
             kind, space = parameters
@@ -131,7 +131,7 @@ class Array(Symbol, list):
 
     def __init__(self, *items: Symbol, spaces: collections.abc.Sequence[Terminal] | None = None) -> None:
         """
-        Constructs `Array`.
+        Constructs ``Array``.
 
         Parameters:
             items: Items in array.
@@ -143,7 +143,7 @@ class Array(Symbol, list):
 
         super().__init__(items)
 
-        # Validates `spaces`.
+        # Validates ``spaces``.
         if spaces is not None:
             if not ((len(spaces) == 0 and len(items) == 0) or len(spaces) == len(items) - 1):
                 raise Error('Invalid spaces.', f'\n{items=}\n{spaces=}')
@@ -251,7 +251,7 @@ class Array(Symbol, list):
                 try:
                     actual = eval(f'item.{path}', {'__builtins__': {}}, {'item': item})
                 except (AttributeError, LookupError, TypeError, SyntaxError):
-                    raise Error('Invalid value.', f'{item=} in `self` does not have parameter {path=}')
+                    raise Error('Invalid value.', f'{item=} in ``self`` does not have parameter {path=}')
 
                 if actual != value:
                     matches = False

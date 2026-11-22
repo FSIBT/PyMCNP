@@ -1,25 +1,19 @@
-from . import literal
-from . import group
-from . import option
-from . import card
+from . import card, group, literal, option
+from .Card import Card, CardSpace
 from .Literal import Literal
-from .Group import Group
-from .Group import GroupSpace
-from .Option import Option
-from .Option import OptionSpace
-from .Card import Card
-from .Card import CardSpace
+from .Group import Group, GroupSpace
+from .Option import Option, OptionSpace
 
 __all__ = (
-    'literal',
-    'group',
-    'option',
     'card',
+    'group',
+    'literal',
+    'option',
+    'Card',
+    'CardSpace',
     'Literal',
     'Group',
     'GroupSpace',
     'Option',
     'OptionSpace',
-    'Card',
-    'CardSpace',
 )

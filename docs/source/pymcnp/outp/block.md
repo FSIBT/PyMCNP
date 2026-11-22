@@ -10,22 +10,6 @@
    :inherited-members:
 ```
 
-### `AnalysisTallyFluctuation` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.outp.block.AnalysisTallyFluctuation
-   :members:
-   :inherited-members:
-```
-
-### `Else` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.outp.block.Else
-   :members:
-   :inherited-members:
-```
-
 ### `NeutronActivity` Class
 
 ```{eval-rst}
@@ -38,6 +22,22 @@
 
 ```{eval-rst}
 .. autoclass:: pymcnp.outp.block.PhotonActivity
+   :members:
+   :inherited-members:
+```
+
+### `AnalysisTallyFluctuation` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.outp.block.AnalysisTallyFluctuation
+   :members:
+   :inherited-members:
+```
+
+### `Else` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.outp.block.Else
    :members:
    :inherited-members:
 ```

@@ -22,7 +22,7 @@ class Plot(abc.Utility):
 
     def to_show(self, outp: Outp, number: str) -> tuple[matplotlib.figure.Figure, ...]:
         """
-        Plots tally `number` of output file `outp`.
+        Plots tally ``number` of output file `outp``.
 
         Parameter:
             number: Tally number to plot.
