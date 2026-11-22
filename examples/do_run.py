@@ -8,6 +8,7 @@ files in parallel (two at a time) and prints the result of each run. `Run` also
 collects `.outp`, `.ptrac` and `.runtpe` files, and raises if a run failed.
 """
 
+import typing
 import pathlib
 
 import pymcnp
@@ -21,17 +22,19 @@ OUTPUT.mkdir(exist_ok=True)
 
 # Creating `Run` subclass.
 class MyRun(pymcnp.Run):
-    def prehook_file(self, path, index):
-        print(f'Calling `prehook_file` {path} {index}')
+    def prehook_file(self, inp: pymcnp.Inp, index: int) -> None:
+        print(f'Calling `prehook_file` {index}')
 
-    def posthook_file(self, result):
+    def posthook_file(self, result: pymcnp.Result, index: int) -> typing.Any:
         print(f'Calling `posthook_file` {result.directory} {result.index} (ok={result.ok})')
+        return super().posthook_file(result, index)
 
-    def prehook_batch(self, path):
-        print(f'Calling `prehook_batch` {path}')
+    def prehook_batch(self, *inps: pymcnp.Inp) -> None:
+        print('Calling `prehook_batch')
 
-    def posthook_batch(self, path):
-        print(f'Calling `posthook_batch` {path}')
+    def posthook_batch(self, results: tuple[typing.Any, ...]) -> typing.Any:
+        print('Calling `posthook_batch`')
+        return super().posthook_batch(results)
 
 
 # Reading INP.
@@ -51,8 +54,8 @@ inp2.seed = 123534727
 
 # Running.
 print(f'Running `{COMMAND}` in `{OUTPUT}`:')
-# `check=False`, since ECHO writes no OUTP, so the runs count as failed; use `command='mcnp6'` for real runs.
-runner = MyRun([inp0, inp1, inp2], command=COMMAND, max_workers=2, check=False)
-results = runner.run(OUTPUT)
+runner = MyRun(command=COMMAND, directory=OUTPUT)
+results = runner.run(inp0, inp1, inp2)
+
 for result in results:
     print(f'Run {result.index}: exit code {result.returncode}, input `{result.inp.name}`, output `{result.outp}`')

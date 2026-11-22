@@ -8,24 +8,20 @@ position, direction, energy, weight, time and the originating isotope (parent_za
 import pathlib
 import sys
 
-import pandas
 import pymcnp
-from pymcnp.ptrac import EventType, Particle
-
-DETECTOR_CELL = 3
 
 
-def convert(ptrac: pathlib.Path, out: pathlib.Path) -> int:
+DETECTOR_CELL = '3'
+
+
+def convert(path: pathlib.Path, out: pathlib.Path) -> int:
     """Writes the detector entries of one PTRAC file to parquet; returns the row count."""
-    rows = [
-        {**e.to_dict(), 'parent_zaid': track.parent_zaid}
-        for track in pymcnp.Ptrac.tracks(ptrac)
-        if track.particle == Particle.PHOTON
-        for e in track.events
-        if e.type is EventType.SURFACE and e.cell_entered == DETECTOR_CELL
-    ]
-    frame = pandas.DataFrame(rows)
+
+    ptrac, _ = pymcnp.Ptrac.from_file('examples/example_02.ptrac')
+    frame = ptrac.to_dataframe()
+    frame = frame.loc[frame['NCL(PBL%I%ICL)'] == DETECTOR_CELL]
     frame.to_parquet(out)
+
     return len(frame)
 
 

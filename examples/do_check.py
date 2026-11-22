@@ -18,12 +18,9 @@ OUTPUT.mkdir(exist_ok=True)
 # Working on a copy, since `fix` rewrites the file in place.
 path = OUTPUT / 'example_00.inp'
 shutil.copy(HERE / 'example_00.inp', path)
-checker = pymcnp.Check(path)
+checker = pymcnp.Check()
 
 # Checking.
 print(f'Checking INP file: `{path}`')
-checker.check()
-
-# Fixing.
-print(f'Fixing and writing to INP file: `{path}`')
-checker.fix()
+problems = checker.check(path)
+print(problems)

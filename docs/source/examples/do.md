@@ -19,7 +19,7 @@ Code:
 Output:
 
     Checking INP file: `examples/output/example_00.inp`
-    Fixing and writing to INP file: `examples/output/example_00.inp`
+    ()
 
 ## Converting OUTP Files
 
@@ -56,8 +56,8 @@ Code:
 
 Output:
 
-    Plotting tally #1 from files/outp/example_00.outp.
-    Writing plots tally #1 from files/outp/example_00.outp to `examples/output/example_00-1.pdf`.
+    Plotting tally #1 from examples/example_00.outp.
+    Writing plots tally #1 from examples/example_00.outp to `examples/output/example_00-1.pdf`.
 
 ![do_plot_0](../images/do_plot_0.png)
 ![do_plot_1](../images/do_plot_1.png)
@@ -81,17 +81,11 @@ Code:
 Output:
 
     Running `echo` in `examples/output`:
-    Calling `prehook_batch` examples/output/pymcnp-2026-10-19--20-03-42
-    Calling `prehook_file` examples/output/pymcnp-2026-10-19--20-03-42/run-00001 1
-    Calling `prehook_file` examples/output/pymcnp-2026-10-19--20-03-42/run-00000 0
-    Calling `posthook_file` examples/output/pymcnp-2026-10-19--20-03-42/run-00001 1 (ok=True)
-    Calling `posthook_file` examples/output/pymcnp-2026-10-19--20-03-42/run-00000 0 (ok=True)
-    Calling `prehook_file` examples/output/pymcnp-2026-10-19--20-03-42/run-00002 2
-    Calling `posthook_file` examples/output/pymcnp-2026-10-19--20-03-42/run-00002 2 (ok=True)
-    Calling `posthook_batch` examples/output/pymcnp-2026-10-19--20-03-42
-    Run 0: exit code 0, input `run-00000.inp`, output `None`
-    Run 1: exit code 0, input `run-00001.inp`, output `None`
-    Run 2: exit code 0, input `run-00002.inp`, output `None`
+    Calling `prehook_batch
+    Calling `posthook_batch`
+    Run 0: exit code 0, input `run-00000.inp`, output `examples/output/run-00000.outp`
+    Run 1: exit code 0, input `run-00001.inp`, output `examples/output/run-00001.outp`
+    Run 2: exit code 0, input `run-00002.inp`, output `examples/output/run-00002.outp`
 
 ## Visualizing INP Files
 
@@ -109,8 +103,8 @@ Code:
 
 Output:
 
-    Visualizing all surfaces from `example_05.inp`.
-    Writing visualizations of all surfaces from `example_05.inp` to `examples/output/example_05-surfaces.pdf`
+    Visualizing all surfaces from `examples/example_05.inp`.
+    Writing visualizations of all surfaces from `examples/example_05.inp` to `examples/output/example_05-surfaces.pdf`
 
 ![do_visualize](../images/do_visualize.png)
 

@@ -9,21 +9,27 @@ string directly. Finally, it prints the results (only the first five streamed ev
 """
 
 import pathlib
-import itertools
 
 import pymcnp
 
+
 # Reading PTRAC using `from_file`.
-path = pathlib.Path('example_02.ptrac')
+path = pathlib.Path('example_00.ptrac')
 ptrac, _ = pymcnp.Ptrac.from_file(path)
 
 print(f'Reading PTRAC from `{path}`:')
 print(ptrac)
 
 # Streaming PTRAC using `stream`, one event at a time.
-print(f'Streaming first five PTRAC events from `{path}`:')
-for event in itertools.islice(pymcnp.Ptrac.stream(path), 5):
-    print(event.nps, event.type.name, event.position)
+path = pathlib.Path('example_02.ptrac')
+ptrac_generator = pymcnp.Ptrac.from_file_iter(path)
+history_generator = next(ptrac_generator)
+event, _ = next(history_generator)
+
+print(f'Reading PTRAC from `{path}`, iteratively:')
+print(ptrac_generator)
+print(history_generator)
+print(event)
 
 # Reading PTRAC using `from_mcnp`.
 ptrac, _ = pymcnp.Ptrac.from_mcnp("""   -1

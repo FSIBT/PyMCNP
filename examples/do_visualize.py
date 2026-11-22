@@ -19,9 +19,9 @@ inp, _ = pymcnp.Inp.from_file(path)
 
 # Visualizing surfaces.
 print(f'Visualizing all surfaces from `{path}`.')
-visualizer = pymcnp.Visualize(inp)
-visualizer.to_show_surfaces(skip=(1, 3)).show()
+visualizer = pymcnp.Visualize()
+visualizer.to_show_surfaces(inp, skip=(1, 3)).show()
 
 # Converting to PDF.
 print(f'Writing visualizations of all surfaces from `{path}` to `{OUTPUT}/example_05-surfaces.pdf`')
-visualizer.to_pdf_surfaces(OUTPUT / 'example_05-surfaces.pdf')
+visualizer.to_pdf_surfaces(inp, OUTPUT / 'example_05-surfaces.pdf')

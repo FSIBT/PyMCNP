@@ -13,6 +13,7 @@ import pymcnp
 import script_example_01_geometry as geometry
 import script_example_01_ptrac_to_parquet as to_parquet
 
+
 ROOT = geometry.OUTPUT
 
 
@@ -26,4 +27,4 @@ class Cases(pymcnp.Run):
 if __name__ == '__main__':
     shutil.rmtree(ROOT, ignore_errors=True)
     inps = list(geometry.base.scan(nps=[int(n) for n in geometry.NPS_VALUES]))
-    Cases(inps, command='mcnp6', names='{index}', batch=False).run(ROOT)
+    Cases(command='mcnp6', directory=ROOT).run(inps)

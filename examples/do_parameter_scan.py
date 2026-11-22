@@ -7,6 +7,7 @@ it visualizes the surfaces. Fourth, it subclasses `Run`, adding callbacks that p
 the output files. Finaly, it runs the input files in parallel.
 """
 
+import typing
 import pathlib
 
 import pymcnp
@@ -19,7 +20,7 @@ OUTPUT.mkdir(exist_ok=True)
 
 
 class MyRun(pymcnp.Run):
-    def posthook_file(self, result):
+    def posthook_one(self, result: pymcnp.Result, index: int):
         # Copying OUTP (ECHO used for demo).
         path_copy = HERE / 'example_01.outp'
         path_outp = result.inp.with_suffix('.outp')
@@ -35,7 +36,7 @@ class MyRun(pymcnp.Run):
         # plotter = pymcnp.Plot(outp)
         # plotter.to_pdf('1', path_pdf)
 
-    def posthook_batch(self, path):
+    def posthook_batch(self, results: tuple[typing.Any, ...]):
         # Deleting Run.
         # shutil.rmtree(path)
         print('DONE! :)')
@@ -44,24 +45,16 @@ class MyRun(pymcnp.Run):
 # Reading INP.
 path_inp = HERE / 'example_04.inp'
 inp, _ = pymcnp.Inp.from_file(path_inp)
-
-
-# Scanning.
-def set_vy(inp, vy):
-    assert isinstance(inp.surfaces[0], pymcnp.inp.card.surface.Sph)
-    inp.surfaces[0].vy = vy
-
-
-inps = list(inp.scan_with([-2, -1, 0, 1, 2], set_vy))
+inps = tuple(inp.scan(**{'surfaces[0].vy': [-2, -1, 0, 1, 2]}))
 
 # Visualizing.
+visualizer = pymcnp.Visualize()
 for inp in inps:
-    visualizer = pymcnp.Visualize(inp)
-    visualization = visualizer.to_show_surfaces()
+    visualization = visualizer.to_show_surfaces(inp)
     visualization.show()
 
 # Running.
 print(f'Running parameter scan `{COMMAND}` in `{OUTPUT}`:')
 # `check=False`, since ECHO writes no OUTP, so MCNP would count the runs as failed.
-runner = MyRun(inps, command=COMMAND, check=False)
-runner.run(OUTPUT)
+runner = MyRun(command=COMMAND, directory=OUTPUT)
+runner.run(*inps)

@@ -10,14 +10,16 @@ import pathlib
 
 import pymcnp
 
-TALLY = 2
-SURFACE = 8
+TALLY = '2'
+SURFACE = '8'
 
 # Reading tallies.
 path = pathlib.Path('example_03.outp')
 outp, _ = pymcnp.Outp.from_file(path)
-tally = outp.tally(TALLY)
-tally = tally.loc[tally['surface'] == SURFACE]
+
+# Reading tallies.
+tally = outp.tallies(TALLY)[0].to_dataframe()
+tally = tally.loc[tally['surface_number'] == SURFACE]
 
 print(f'Reading tally #{TALLY} surface #{SURFACE} from `{path}`:')
 print(tally)

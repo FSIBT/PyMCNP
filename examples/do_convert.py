@@ -26,4 +26,5 @@ outp.to_file_parquet(OUTPUT / 'example_00.parquet')
 
 # Converting one tally.
 print(f'Converting tally #{TALLY} from `{path}` to `{OUTPUT}/example_00-{TALLY}.csv`')
-outp.tally(TALLY).to_csv(OUTPUT / f'example_00-{TALLY}.csv', index=False)
+tally = outp.tallies(number='1')[0]
+tally.to_dataframe().to_csv(OUTPUT / f'example_00-{TALLY}.csv', index=False)

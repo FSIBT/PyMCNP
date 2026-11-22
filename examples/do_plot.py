@@ -21,14 +21,14 @@ path = HERE / 'example_00.outp'
 outp, _ = pymcnp.Outp.from_file(path)
 
 # Initializing `Plot`
-plotter = pymcnp.Plot(outp)
+plotter = pymcnp.Plot()
 
 # Ploting.
 print(f'Plotting tally #{TALLY} from {path}.')
-plotter.to_show(TALLY)
+plotter.to_show(outp, TALLY)
 matplotlib.pyplot.show()
 matplotlib.pyplot.close()
 
 # Writting PDF.
 print(f'Writing plots tally #{TALLY} from {path} to `{OUTPUT}/example_00-{TALLY}.pdf`.')
-plotter.to_pdf(TALLY, OUTPUT / f'example_00-{TALLY}.pdf')
+plotter.to_pdf(outp, TALLY, OUTPUT / f'example_00-{TALLY}.pdf')
