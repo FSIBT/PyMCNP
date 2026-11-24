@@ -13,18 +13,14 @@ jobs:
     steps:
     - uses: actions/checkout@v7
 
-    - uses: actions/setup-python@v7
-      with:
-        python-version: "3.13"
-
-    - name: Installing Ruff
-      run: python -m pip install ruff==0.17.0
+    - name: Installing uv
+      uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
 
     - name: Checking with Ruff
-      run: ruff check --output-format=github .
+      run: uvx ruff@0.17.0 check --output-format=github .
 
     - name: Checking format with Ruff
-      run: ruff format --check .
+      run: uvx ruff@0.17.0 format --check .
 
   test:
     runs-on: ${{ matrix.os }}
@@ -34,24 +30,20 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest]
         python-version: ["3.11", "3.12", "3.13", "3.14", "3.15"]
+    env:
+      UV_PYTHON: ${{ matrix.python-version }}
 
     steps:
     - uses: actions/checkout@v7
 
-    - name: Setting Up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v7
-      with:
-        python-version: ${{ matrix.python-version }}
-        allow-prereleases: true
-
-    - name: Upgrading pip
-      run: python -m pip install --upgrade pip
+    - name: Installing uv
+      uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
 
     - name: Installing packages
-      run: python -m pip install -e .[dev,docs,test]
+      run: uv sync --locked --extra dev --extra docs --extra test
 
     - name: Testing with PyTest
-      run: python -m pytest
+      run: uv run --no-sync python -m pytest
 
   package:
     runs-on: ubuntu-latest
@@ -61,15 +53,13 @@ jobs:
       with:
         fetch-depth: 0
 
-    - uses: actions/setup-python@v7
-      with:
-        python-version: "3.13"
+    - name: Installing uv
+      uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
 
     - name: Building the package
       run: |
-        python -m pip install build twine
-        python -m build
-        python -m twine check dist/*
+        uv build
+        uvx --exclude-newer "7 days" twine check dist/*
 
   docs:
     runs-on: ubuntu-latest
@@ -79,12 +69,11 @@ jobs:
       with:
         fetch-depth: 0
 
-    - uses: actions/setup-python@v7
-      with:
-        python-version: "3.13"
+    - name: Installing uv
+      uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
 
     - name: Installing packages
-      run: python -m pip install -e .[docs]
+      run: uv sync --locked --extra docs
 
     - name: Building the documentation
-      run: python -m sphinx -W --keep-going -b html docs/source docs/build/html
+      run: uv run --no-sync python -m sphinx -W --keep-going -b html docs/source docs/build/html

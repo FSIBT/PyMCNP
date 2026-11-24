@@ -70,6 +70,10 @@ Changelog = "https://github.com/FSIBT/PyMCNP/blob/main/CHANGELOG.md"
 [project.scripts]
 pymcnp = "pymcnp._cli.main:main"
 
+[tool.uv]
+# only use releases that are at least a week old (supply-chain cooldown)
+exclude-newer = "7 days"
+
 [tool.setuptools.packages.find]
 where = ["./src"]
 

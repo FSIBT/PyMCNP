@@ -18,17 +18,15 @@ jobs:
           fetch-depth: '0'
           fetch-tags: 'true'
 
-      - uses: actions/setup-python@v7
-        with:
-          python-version: "3.x"
+      - name: Install uv
+        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
 
       - name: Build release distributions
         run: |
           # check out latest tag
           git checkout $(git describe --tags --abbrev=0)
           # NOTE: put your own distribution build steps here.
-          python -m pip install build
-          python -m build
+          uv build
 
       - name: Upload distributions
         uses: actions/upload-artifact@v7
