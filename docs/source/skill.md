@@ -7,6 +7,6 @@ The example above was created this way from a short prompt.
 Always review generated models and results before relying on them.
 
 ```{eval-rst}
-.. literalinclude:: ../../skill.md
+.. literalinclude:: ../../SKILL.md
    :language: markdown
 ```
