@@ -279,7 +279,7 @@ class Inp(abc.File):
             return
 
         option = inp.option.data.rand.Seed(value=seed)
-        card = inp.card.data.Rand(options=abc.Array[inp.option.Cell, None](option))
+        card = inp.card.data.Rand(options=abc.Array[inp.option.data.Rand, None](option))
         self.data.append(card)
         return
 
@@ -335,7 +335,7 @@ class Inp(abc.File):
             Surface cards with ``number`` number, if specified, and kind ``kind``.
         """
 
-        every = self.cells.filter(kind)
+        every = self.surfaces.filter(kind)
 
         number_matches = every
 
@@ -356,7 +356,7 @@ class Inp(abc.File):
             Data cards with kind ``kind``.
         """
 
-        every = self.cells.filter(kind)
+        every = self.data.filter(kind)
 
         return tuple(every)
 
