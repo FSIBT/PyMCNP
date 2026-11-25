@@ -144,6 +144,8 @@ class Outp(abc.file.WithDataIter, abc.File):
             rows = []
             for row in block.table_body:
                 fields = row.to_mcnp().split()
+                if len(fields) != 10:
+                    raise abc.Error('Invalid table row.', f'{row=}')
                 rows.append([int(fields[1]), int(fields[2]), int(fields[3]), int(fields[4]), *map(float, fields[5:])])
 
             frame = pandas.DataFrame(rows, columns=list(_ACTIVITY_COLUMNS))

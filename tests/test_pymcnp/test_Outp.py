@@ -254,3 +254,12 @@ def test_surface_helper() -> None:
     assert _surface(' 12.3 ') == (12, 3)
     assert _surface('12') == (12, 0)
     assert _surface('total') == (None, None)
+
+
+def test_activity_malformed_row_is_rejected() -> None:
+    text = (PATH / 'valid_01.outp').read_text()
+    line = next(line for line in text.splitlines() if line.split()[:1] == ['1'] and len(line.split()) == 10 and '.' in line)
+    broken = text.replace(line, line[:-13] + ' ' * 13, 1)
+    outp, _ = pymcnp.Outp.from_mcnp(broken)
+    with pytest.raises(pymcnp.abc.Error, match='Invalid table row'):
+        outp.activity('neutron')

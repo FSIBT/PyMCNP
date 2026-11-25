@@ -215,7 +215,7 @@ class Meshtal(abc.file.WithMcnpIter, abc.file.WithDataIter, abc.File):
         Particle of the mesh tally, e.g., ``'neutron'``.
         """
 
-        return str(self.particle)
+        return str(str.__str__(self.particle))
 
     @property
     def names(self) -> list[str]:
@@ -223,32 +223,29 @@ class Meshtal(abc.file.WithMcnpIter, abc.file.WithDataIter, abc.File):
         Names of the data columns, e.g., ``['Time', 'X', 'Y', 'Z', 'Result', 'Rel Error']``.
         """
 
-        return list(self.labels)
+        return [str(str.__str__(label)) for label in self.labels]
 
     def to_dataframe_iter(self, returning: bool = False) -> typing.Generator[pandas.DataFrame, None, pandas.DataFrame | None]:
         """
-        Generates pandas dataframes for rows.
+        Generates pandas dataframes for meshtal files; a meshtal file holds one mesh tally, so this yields one dataframe.
 
         Parameters:
             returning: Flag to/to not return.
 
         Yields:
-            Pandas dataframes for rows.
+            Dataframe with one row per mesh bin. Energy and time columns hold floats, or strings (``'Total'`` included) if some row sums over all bins.
 
         Returns:
-            Pandas dataframe for all rows.
+            The same dataframe if ``returning``.
         """
 
-        if returning:
-            frames = []
+        names = self.names
+        frame = pandas.DataFrame([[str(value) for value in row.values] for row in self.rows], columns=names)
+        for name in names:
+            if name not in ('Energy', 'Time') or (frame[name].str.lower() != 'total').all():
+                frame[name] = frame[name].astype(float)
 
-        for row in self.rows:
-            frame = row.to_dataframe()
-            frame.columns = self.labels
-            yield frame
-
-            if returning:
-                frames.append(frame)
+        yield frame
 
         if returning:
-            return pandas.concat(frames, ignore_index=True)
+            return frame
