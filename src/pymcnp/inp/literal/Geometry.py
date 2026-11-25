@@ -43,10 +43,11 @@ class _Complement(_Subexpression):
     ast: _Primary
 
     def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista, is_cell: bool = False) -> abc.Visualization:
-        if isinstance(self.ast, _Primary_1):
-            return self.ast.to_show(surfaces, cells, shapes, self.operator == '#')
-        else:
+        # ``#N`` complements cell ``N`` and ``#(...)`` complements the region in parentheses.
+        if self.operator != '#':
             return self.ast.to_show(surfaces, cells, shapes, False)
+
+        return ~self.ast.to_show(surfaces, cells, shapes, isinstance(self.ast, _Primary_1))
 
 
 class _IntersectionPrime(_Subexpression):
