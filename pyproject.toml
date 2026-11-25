@@ -49,7 +49,7 @@ docs = [
 
 dev = [
     "pre-commit",
-    "ruff==0.17.0",
+    "ruff==0.17.5",
     "ty",
 ]
 
