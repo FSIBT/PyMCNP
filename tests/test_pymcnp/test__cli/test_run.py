@@ -9,11 +9,18 @@ from pymcnp._cli import run
 FILES: pathlib.Path = pathlib.Path(__file__).parent.parent.parent.parent / 'files'
 
 
-def test_main_valid(monkeypatch, fake_mcnp: str, fake_mcnp_fail: str) -> None:
+def test_main_valid(monkeypatch, fake_mcnp: str) -> None:
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'run', str(FILES / 'inp' / 'valid_00.inp'), f'--command={fake_mcnp}'])
     run.main()
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'run', str(FILES / 'inp' / 'valid_00.inp'), f'--command={fake_mcnp}'])
     run.main()
+
+
+def test_main_run_failed(monkeypatch, fake_mcnp_fail: str) -> None:
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'run', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'valid_00.inp'), f'--command={fake_mcnp_fail}'])
+    with pytest.raises(SystemExit) as error:
+        run.main()
+    assert error.value.code == 2
 
 
 def test_main_invalid(monkeypatch) -> None:

@@ -82,10 +82,10 @@ pathlib.Path(arguments['outp']).write_text('ok\\n')
 """
 
 _FAKE_MCNP_FAIL = """#!{python}
-import os, sys, pathlib
+import sys, pathlib
 arguments = dict(argument.split('=', 1) for argument in sys.argv[1:])
 pathlib.Path(arguments['outp']).write_text('ok\\n')
-os.exit(1)
+sys.exit(1)
 """
 
 
@@ -104,7 +104,7 @@ def fake_mcnp(tmp_path: pathlib.Path) -> str:
 @pytest.fixture
 def fake_mcnp_fail(tmp_path: pathlib.Path) -> str:
     """
-    Path to a stand-in for ``mcnp6`` that writes an output file and exits with 0.
+    Path to a stand-in for ``mcnp6`` that writes an output file and exits with 1.
     """
 
     path = tmp_path / 'fake-mcnp'

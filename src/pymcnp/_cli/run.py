@@ -38,11 +38,9 @@ def main() -> None:
 
     # Running!
     try:
-        runner = Run(command=command, directory=pathlib.Path(path))
+        Run(inps, command=command).run(pathlib.Path(path))
     except abc.Error as err:
         _io.error(str(err))
         sys.exit(2)
-
-    runner.run(*inps)
 
     _io.done()
