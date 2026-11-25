@@ -11,6 +11,7 @@ from .Array import Array
 from .Array import _parse_hint
 from .Symbol import Symbol
 from .Symbol import _parse
+from .Symbol import _parse_at
 from .Terminal import Terminal
 from ._path import get_path
 from ._path import set_path
@@ -167,6 +168,8 @@ class Nonterminal(Symbol):
         Constructs cutsom dataclasses.
         """
 
+        super().__init_subclass__()
+
         # Processing annotations.
         annotations = typing.get_type_hints(cls, include_extras=True)
         fields = {}
@@ -233,15 +236,16 @@ class Nonterminal(Symbol):
         return clone
 
     @classmethod
-    def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
+    def _from_mcnp_at(cls, source: str, pos: int) -> tuple[typing.Self, int]:
         """
-        Compiles source strings into their corresponding nonterminal symbols.
+        Compiles source strings at positions into their corresponding nonterminal symbols.
 
         Parameters:
             source: Source string to compile.
+            pos: Position in ``source`` to compile at.
 
         Returns:
-            Nonterminal symbol corresponding to ``source``.
+            Nonterminal symbol corresponding to ``source`` at ``pos`` and the position where it ends.
 
         Raises:
             Error: Expected symbol.
@@ -252,31 +256,29 @@ class Nonterminal(Symbol):
         if len(cls._forms) == 0:
             spaces: dict[str, Terminal] = {}
             parameters: dict[str, Symbol] = {}
+            length = len(source)
 
             # Iterating over consituents.
             for name, kinds in cls._fields.items():
                 try:
-                    parse = _parse(kinds, source)
-                    parameters[name] = parse[0]
-                    source = parse[1]
+                    parameters[name], pos = _parse_at(kinds, source, pos)
                 except Error as err:
-                    err.append(Error(f'Expected ``{cls.__name__}.{name}``.', f'source={source[:80]!r}'))
+                    err.append(Error(f'Expected ``{cls.__name__}.{name}``.', f'source={source[pos : pos + 80]!r}'))
                     # print(err)
                     raise err
 
                 if (
-                    source != ''  # Checking match is not complete.
+                    pos != length  # Checking match is not complete.
                     and not isinstance(parameters[name], EMPTY_STRING_TYPE)  # Checking parameter is not empty.
                     and cls._space != (EMPTY_STRING_TYPE,)  # Checking if this consituent has spaces.
                     and name not in _space_null(cls._fields)
                 ):
                     try:
-                        parse = _parse(cls._space, source)
-                        spaces[name] = typing.cast(Terminal, parse[0])
-                        source = parse[1]
+                        space, pos = _parse_at(cls._space, source, pos)
+                        spaces[name] = typing.cast(Terminal, space)
                     except Error as err:
                         if name not in _space_nullable(cls._fields):  # Checking consituent is not space null.
-                            err.append(Error(f'Expected ``{"`` ``".join(Space.__name__ for Space in cls._space)}.{name}``.', f'source={source[:80]!r}'))
+                            err.append(Error(f'Expected ``{"`` ``".join(Space.__name__ for Space in cls._space)}.{name}``.', f'source={source[pos : pos + 80]!r}'))
                             raise err
                         else:
                             if name in _space_end(cls._fields):  # Checking consituent is not last when null.
@@ -294,18 +296,18 @@ class Nonterminal(Symbol):
 
             try:
                 if last is not None and last in spaces:
-                    source = str(spaces.pop(last)) + source
-                return cls(spaces=spaces, **parameters), source
+                    # Giving back the space after the last nonempty constituent.
+                    pos -= len(spaces.pop(last))
+                return cls(spaces=spaces, **parameters), pos
             except TypeError:
-                raise Error(f'Expected ``{cls.__name__}.{name}``.', f'source={source[:80]!r}')
+                raise Error(f'Expected ``{cls.__name__}.{name}``.', f'source={source[pos : pos + 80]!r}')
 
         # Compiling multi-form nonterminal.
         else:
             try:
-                parse = _parse(cls._forms, source)
-                return typing.cast(tuple[typing.Self, str], parse)
+                return typing.cast(tuple[typing.Self, int], _parse_at(cls._forms, source, pos))
             except Error as err:
-                err.append(Error(f'Expected ``{cls.__name__}``.', f'source={source[:80]!r}'))
+                err.append(Error(f'Expected ``{cls.__name__}``.', f'source={source[pos : pos + 80]!r}'))
                 raise err
 
     def to_mcnp(self) -> str:

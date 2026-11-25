@@ -21,6 +21,8 @@ class Terminal(Symbol, str):
         Validates subclasses.
         """
 
+        super().__init_subclass__()
+
         if cls._default is not None:
             cls.from_mcnp(cls._default)
 
@@ -68,25 +70,26 @@ class Terminal(Symbol, str):
         return typing.cast(type[typing.Self], CACHE[pattern])
 
     @classmethod
-    def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
+    def _from_mcnp_at(cls, source: str, pos: int) -> tuple[typing.Self, int]:
         """
-        Compiles source strings into their corresponding terminal symbols.
+        Compiles source strings at positions into their corresponding terminal symbols.
 
         Parameters:
             source: Source string to compile.
+            pos: Position in ``source`` to compile at.
 
         Returns:
-            Terminal symbol corresponding to ``source``.
+            Terminal symbol corresponding to ``source`` at ``pos`` and the position where it ends.
 
         Raises:
             Error: Expected terminal.
         """
 
-        match = cls._pattern.match(source)
+        match = cls._pattern.match(source, pos)
         if match is None:
-            raise Error(f"Expected Terminal[r'{cls._pattern.pattern}']", f'{source[:200]=}')
+            raise Error(f"Expected Terminal[r'{cls._pattern.pattern}']", f'source[:200]={source[pos : pos + 200]!r}')
 
-        return str.__new__(cls, match[0]), source[match.end() :]
+        return str.__new__(cls, match[0]), match.end()
 
     def to_mcnp(self) -> str:
         """

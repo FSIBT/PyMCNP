@@ -10,7 +10,7 @@ import collections.abc
 
 from .Error import Error
 from .Symbol import Symbol
-from .Symbol import _parse
+from .Symbol import _parse_at
 from .Terminal import Terminal
 from ._path import get_path
 
@@ -98,6 +98,8 @@ class Array(Symbol, list):
             Errors: Invalid ``Array`` subclass.
         """
 
+        super().__init_subclass__()
+
         if len(cls._kind) == 0:
             raise Error('``Array._kind`` must be nonempty.', f'{cls._kind=}')
 
@@ -172,39 +174,39 @@ class Array(Symbol, list):
         return clone
 
     @classmethod
-    def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
+    def _from_mcnp_at(cls, source: str, pos: int) -> tuple[typing.Self, int]:
         """
-        Compiles source strings into their corresponding arrays of symbols.
+        Compiles source strings at positions into their corresponding arrays of symbols.
 
         Parameters:
             source: Source string to compile.
+            pos: Position in ``source`` to compile at.
 
         Returns:
-            List of symbols corresponding to ``source``.
+            List of symbols corresponding to ``source`` at ``pos`` and the position where it ends.
         """
 
         spaces: list[Terminal] = []
         parameters: list[Symbol] = []
         while True:
             try:
-                parse = _parse(cls._kind, source)
+                item, pos = _parse_at(cls._kind, source, pos)
             except Error:
                 if spaces:
-                    source = spaces.pop(-1).to_mcnp() + source
+                    # Giving back the space after the last item.
+                    pos -= len(spaces.pop(-1))
                 break
 
-            parameters.append(parse[0])
-            source = parse[1]
+            parameters.append(item)
 
             if cls._space is not None:
                 try:
-                    parse = _parse(cls._space, source)
+                    space, pos = _parse_at(cls._space, source, pos)
                 except Error:
                     break
-                spaces.append(typing.cast(Terminal, parse[0]))
-                source = parse[1]
+                spaces.append(typing.cast(Terminal, space))
 
-        return cls(*parameters, spaces=spaces), source
+        return cls(*parameters, spaces=spaces), pos
 
     def to_mcnp(self) -> str:
         """

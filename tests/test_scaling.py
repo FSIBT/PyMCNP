@@ -36,7 +36,6 @@ def ratio(build: collections.abc.Callable[[int], str], parse: collections.abc.Ca
     return _best(parse, build(2 * n)) / _best(parse, build(n))
 
 
-@QUADRATIC
 def test_ptrac_scales_linearly() -> None:
     lines = (FILES / 'ptrac' / 'valid_27.ptrac').read_text().split('\n')
     header, history = lines[:8], lines[8:737]  # the first history, up to the start of the second
