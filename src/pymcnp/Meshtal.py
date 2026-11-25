@@ -1,3 +1,5 @@
+import collections.abc
+import pathlib
 import typing
 
 import pandas
@@ -145,6 +147,83 @@ class Meshtal(abc.file.WithMcnpIter, abc.file.WithDataIter, abc.File):
                 rows=rows,
                 end=end,
             ), source
+
+    @staticmethod
+    def iter_tallies(path: pathlib.Path | str) -> collections.abc.Iterator['Meshtal']:
+        """
+        Parses meshtal files with any number of mesh tallies, one tally at a time.
+
+        Every tally is a ``Meshtal`` with the file's header, title and histories.
+        ``from_file`` only reads the first tally of a file.
+
+        Parameters:
+            path: Path to meshtal file to read.
+
+        Yields:
+            One ``Meshtal`` per mesh tally, in file order.
+
+        Raises:
+            Error: File not found.
+            Error: Expected mesh tally.
+        """
+
+        path = pathlib.Path(path)
+        if not path.is_file():
+            raise abc.Error('File not found.', f'{path=}')
+
+        def parse(head: list[str], body: list[str]) -> Meshtal:
+            while body and body[-1].strip() == '':
+                body.pop()
+            text = ''.join(head + body)
+            if not text.endswith('\n'):
+                text += '\n'
+            tally, remainder = Meshtal.from_mcnp(text)
+            if remainder != '':
+                raise abc.Error('Expected mesh tally.', f'{remainder[:80]!r}')
+            return tally
+
+        head: list[str] = []
+        body: list[str] = []
+        found = False
+        with path.open() as file:
+            for line in file:
+                if line.startswith(' Mesh Tally Number'):
+                    if found:
+                        yield parse(head, body)
+                        body = []
+                    found = True
+                if found:
+                    body.append(line)
+                else:
+                    head.append(line)
+
+        if not found:
+            raise abc.Error('Expected mesh tally.', f'{path=}')
+        yield parse(head, body)
+
+    @property
+    def tally_number(self) -> int:
+        """
+        Mesh tally number, e.g., ``4``.
+        """
+
+        return int(self.number)
+
+    @property
+    def particle_name(self) -> str:
+        """
+        Particle of the mesh tally, e.g., ``'neutron'``.
+        """
+
+        return str(self.particle)
+
+    @property
+    def names(self) -> list[str]:
+        """
+        Names of the data columns, e.g., ``['Time', 'X', 'Y', 'Z', 'Result', 'Rel Error']``.
+        """
+
+        return list(self.labels)
 
     def to_dataframe_iter(self, returning: bool = False) -> typing.Generator[pandas.DataFrame, None, pandas.DataFrame | None]:
         """
