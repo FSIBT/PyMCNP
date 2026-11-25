@@ -218,7 +218,9 @@ def head(tmp_path_factory: pytest.TempPathFactory):
         path = directory / f'{histories}_{name}'
         if not path.exists():
             lines = (pathlib.Path(__file__).parent.parent / 'files' / 'ptrac' / name).read_text().split('\n')
-            starts = [i for i, line in enumerate(lines) if re.match(r' {10}\d+ +\d+$', line)]
+            # History lines, as in `Ptrac.iter_histories`: after the header, a number then the first event type.
+            starts = [i for i, line in enumerate(lines) if i >= 6 and re.match(r' *\d+ +(?:[1345]000|-?20\d\d)(?: |$)', line)]
+            assert starts or len(lines) <= 9, f'no histories found in {name}'  # else a header only
             path.write_text('\n'.join(lines[: starts[histories]]) + '\n' if len(starts) > histories else '\n'.join(lines))
         return path
 

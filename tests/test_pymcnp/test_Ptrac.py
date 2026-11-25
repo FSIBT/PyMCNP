@@ -1,11 +1,13 @@
 import pathlib
 import re
 import types
+import warnings
 
 import pandas
 import pytest
 
 import pymcnp
+from pymcnp.Ptrac import _history_events as pymcnp_history_events
 from .. import classes
 
 
@@ -50,13 +52,29 @@ def _type_of(code: str) -> pymcnp.ptrac.EventType:
 
 
 @pytest.mark.parametrize('path', sorted(FILES.glob('valid*.ptrac')), ids=lambda path: path.name)
-def test_stream_matches_full_parse(head, path: pathlib.Path) -> None:
+def test_stream_matches_parse_of_first_histories(head, path: pathlib.Path) -> None:
     path = head(path.name)
     ptrac, remainder = pymcnp.Ptrac.from_file(path)
     assert remainder == ''
     streamed = [(event.nps, event.type, event.raw) for event in pymcnp.Ptrac.stream(path)]
     assert streamed == [(nps, _type_of(kind), raw) for nps, kind, raw in _kinds(ptrac)]
     assert all(event.creation_code is not None for event in pymcnp.Ptrac.stream(path) if event.type is pymcnp.ptrac.EventType.BANK)
+
+
+@pytest.mark.parametrize('path', sorted(FILES.glob('valid*.ptrac')), ids=lambda path: path.name)
+def test_stream_whole_file(path: pathlib.Path) -> None:
+    histories = 0
+    with warnings.catch_warnings():
+        warnings.simplefilter('error')  # no truncation
+        for history in pymcnp.Ptrac.iter_histories(path):
+            assert isinstance(history, pymcnp.ptrac.block.History)
+            events = list(pymcnp_history_events(history))
+            assert events
+            assert events[0].type is pymcnp.ptrac.EventType.SOURCE
+            assert int(events[-1].block.type) == 9000
+            histories += 1
+    # Some of the files only have a header.
+    assert histories > 0 or len(path.read_text().splitlines()) <= 9
 
 
 @pytest.mark.parametrize('path', sorted(FILES.glob('valid*.ptrac')), ids=lambda path: path.name)
@@ -238,13 +256,15 @@ def _lines(path: pathlib.Path) -> tuple[list[str], list[int]]:
     return lines, [i for i, line in enumerate(lines) if re.match(r' {10}\d+ +\d+$', line)]
 
 
+@pytest.mark.filterwarnings('ignore::pymcnp.abc.Warning')
 @pytest.mark.parametrize('cut', [1, 2, 3, 4, 5])
 def test_truncated_last_history_is_kept(tmp_path: pathlib.Path, cut: int, valid_27: pathlib.Path) -> None:
     lines, starts = _lines(valid_27)
     path = tmp_path / 'ptrac'
     path.write_text('\n'.join(lines[: starts[1] + cut]) + '\n')
     full = list(pymcnp.Ptrac.iter_histories(valid_27))
-    histories = list(pymcnp.Ptrac.iter_histories(path))
+    with pytest.warns(pymcnp.abc.Warning, match='truncated'):
+        histories = list(pymcnp.Ptrac.iter_histories(path))
     assert len(histories) == 2
     assert histories[0].to_mcnp() == full[0].to_mcnp()
     assert int(histories[1].nps) == int(full[1].nps)
@@ -348,5 +368,60 @@ def test_to_dataframe_rows_match_stream(head) -> None:
     frame = ptrac.to_dataframe()
     assert frame['track'].notna().all()
     assert frame['track'].max() > 0
+    tracks = list(pymcnp.Ptrac.tracks(path))
+    assert frame['track'].tolist() == [track.index for track in tracks for _ in track.events]
+    assert frame['parent_zaid'].tolist() == [track.parent_zaid if track.parent_zaid is not None else pandas.NA for track in tracks for _ in track.events]
     expected = pymcnp.ptrac.to_dataframe([event.to_dict() for event in pymcnp.Ptrac.stream(path)])
     pandas.testing.assert_frame_equal(frame.drop(columns=['track', 'parent_zaid']), expected.drop(columns=['track', 'parent_zaid']))
+
+
+@pytest.mark.filterwarnings('ignore::pymcnp.abc.Warning')
+def test_truncated_history_tracks(tmp_path: pathlib.Path, valid_27: pathlib.Path) -> None:
+    lines, starts = _lines(valid_27)
+    path = tmp_path / 'ptrac'
+    path.write_text('\n'.join(lines[: starts[1] + 7]) + '\n')
+    last = list(pymcnp.Ptrac.iter_histories(path))[-1]
+    assert isinstance(last, pymcnp.ptrac.block.HistoryTruncated)
+    assert [event for track in last.tracks for event in track.events] == list(pymcnp_history_events(last))
+
+
+def test_truncated_warning_reports_kept_events(tmp_path: pathlib.Path, valid_27: pathlib.Path) -> None:
+    lines, starts = _lines(valid_27)
+    path = tmp_path / 'ptrac'
+    path.write_text('\n'.join(lines[: starts[1] + 5]) + '\n')
+    with pytest.warns(pymcnp.abc.Warning, match='kept=2'):
+        list(pymcnp.Ptrac.iter_histories(path))
+
+
+@pytest.mark.filterwarnings('ignore::pymcnp.abc.Warning')
+@pytest.mark.parametrize('kept', [0, 1, 2])
+def test_cut_in_the_middle_of_a_line(tmp_path: pathlib.Path, valid_27: pathlib.Path, kept: int) -> None:
+    lines, starts = _lines(valid_27)
+    # i line, then J/P pairs; cut inside the J line and inside the P line of the next event.
+    for cut_line in (starts[1] + 1 + 2 * kept, starts[1] + 2 + 2 * kept):
+        for column in (3, 15):
+            text = '\n'.join([*lines[:cut_line], lines[cut_line][:column]])
+            path = tmp_path / f'ptrac_{cut_line}_{column}'
+            path.write_text(text)
+            histories = list(pymcnp.Ptrac.iter_histories(path))
+            assert len(histories) == 2
+            assert len(histories[1].events) <= kept + 1
+            assert histories[0].to_mcnp() == next(iter(pymcnp.Ptrac.iter_histories(valid_27))).to_mcnp()
+
+
+@pytest.mark.parametrize('corruption', ['bad_type', 'bad_p_line', 'inserted_line'])
+def test_corrupt_truncated_history_is_rejected(tmp_path: pathlib.Path, valid_27: pathlib.Path, corruption: str) -> None:
+    lines, starts = _lines(valid_27)
+    cut = lines[: starts[1] + 11]  # history i line and five events, then the file ends
+    second_event = starts[1] + 3
+    match corruption:
+        case 'bad_type':
+            cut[second_event] = '       7777' + cut[second_event][11:]
+        case 'bad_p_line':
+            cut[second_event + 1] = 'garbage'
+        case _:
+            cut.insert(second_event, 'garbage line')
+    path = tmp_path / 'ptrac'
+    path.write_text('\n'.join(cut) + '\n')
+    with pytest.raises(pymcnp.abc.Error):
+        list(pymcnp.Ptrac.iter_histories(path))

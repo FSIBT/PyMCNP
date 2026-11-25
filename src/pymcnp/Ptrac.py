@@ -1,5 +1,6 @@
 import re
 import typing
+import warnings
 import pathlib
 import collections.abc
 
@@ -155,7 +156,9 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
         def parse(lines: list[str], number: int, complete: bool) -> ptrac.block.History | ptrac.block.HistoryTruncated:
             # Only the last history of a file can be cut short (e.g., by a killed run); it is read as far as it goes.
             if not complete:
-                return ptrac.block.HistoryTruncated.from_mcnp('\n'.join(lines))
+                truncated = ptrac.block.HistoryTruncated.from_mcnp('\n'.join(lines))
+                warnings.warn(abc.Warning('Last history is truncated.', f'{path=} nps={truncated.nps.strip()} events kept={len(truncated.events)}'))
+                return truncated
             history, remainder = ptrac.block.History.from_mcnp('\n'.join(lines))
             if remainder != '':
                 raise abc.Error('Expected history.', f'line {number}: {remainder[:80]!r}')

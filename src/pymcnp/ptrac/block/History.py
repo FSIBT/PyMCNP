@@ -208,7 +208,27 @@ class HistoryTruncated:
 
         Raises:
             Error: Invalid history line.
+            Error: Expected history.
         """
 
-        events = [event for event, _ in History.from_mcnp_iter(source + '\n')]
+        events: list[Event] = []
+        remainder = source.partition('\n')[2]
+        for event, remainder in History.from_mcnp_iter(source + '\n'):
+            events.append(event)
+
+        # Only the event that was being written when the file was cut (its J and P lines) may be left over.
+        if len(remainder.removeprefix('\n').rstrip('\n').split('\n')) > 2 and remainder.strip():
+            raise abc.Error('Expected history.', f'{remainder[:80]!r}')
+
         return cls(nps=source[1:11], event_type=source[11:21], events=events)
+
+    @property
+    def tracks(self) -> collections.abc.Iterator[Track]:
+        """
+        History block tracks, with banked particles linked to their parents; see ``pymcnp.ptrac.Track``.
+        """
+
+        from ... import ptrac
+        from ...Ptrac import _history_events
+
+        yield from ptrac.tracks(_history_events(self))
