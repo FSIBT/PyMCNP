@@ -14,6 +14,43 @@ _REGEX_JUMP = re.compile(r'(?<=\s)(\d+)(J)(?=\s)', re.IGNORECASE)
 _REGEX_LOG = re.compile(r'(\S+) (\d+)I?LOG (\S+)', re.IGNORECASE)
 _REGEX_UNWRAPPED_CARD = re.compile(r'(?:c|[fs]c\d+)(?:\s|\Z)', re.IGNORECASE)
 
+_WIDTH = 80
+_INDENT = 5
+
+
+def _wrap(line: str) -> str:
+    """
+    Wraps long card lines at ``_WIDTH`` columns with ``&`` continuation.
+
+    Parameters:
+        line: Line to wrap.
+
+    Returns:
+        ``line`` unchanged if it fits, is a comment or text card (``c``, ``fc``, ``sc``), or cannot be split, otherwise its wrapped lines.
+    """
+
+    if len(line) <= _WIDTH or _REGEX_UNWRAPPED_CARD.match(line):
+        return line
+
+    code, dollar, comment = line.partition('$')
+    code = code.rstrip().removesuffix('&').rstrip()
+    indent = ' ' * _INDENT if line.startswith(' ' * _INDENT) else ''
+    words = code.split()
+    if len(words) < 2:
+        return line
+
+    lines: list[str] = []
+    current = indent + words[0] if indent else words[0]
+    for word in words[1:]:
+        if len(current) + 1 + len(word) + 2 > _WIDTH:
+            lines.append(f'{current} &')
+            current = ' ' * _INDENT + word
+        else:
+            current += f' {word}'
+
+    lines.append(current + (f' {dollar}{comment}' if dollar else ''))
+    return '\n'.join(lines)
+
 
 class SpaceBlock(abc.Terminal):
     """
@@ -136,6 +173,22 @@ class Inp(abc.File):
         source = _REGEX_LOG.sub(lambda match: ' '.join(map(str, numpy.geomspace(float(match[1]), float(match[3]), num=int(match[2]) + 2))), source)
 
         return super().from_mcnp(source)
+
+    def to_mcnp(self) -> str:
+        """
+        Decompiles inps into source strings, wrapping long card lines at 80 columns.
+
+        Returns:
+            Source string corresponding to ``self``.
+        """
+
+        assert isinstance(self.other, abc.Terminal)
+
+        source = super().to_mcnp()
+        body = source[: len(source) - len(self.other)] if self.other else source
+        title, _, rest = body.partition('\n')
+
+        return title + '\n' + '\n'.join(_wrap(line) for line in rest.split('\n')) + self.other
 
     @property
     def nps(self) -> inp.literal.Integer | None:
