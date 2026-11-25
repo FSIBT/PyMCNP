@@ -63,3 +63,62 @@ class Test_Visualize:
 
         assert path.exists()
         assert path.stat().st_size > 0
+
+
+# Cell 2 refers to cell 1 with ``#1``, so skipping cell 1 must still resolve it.
+SPHERES = 'title\n1 0 -1\n2 0 -2 #1\n3 0 2\n\n1 so 1\n2 so 2\n\nnps 1\n'
+
+
+def _actors(plot: pyvista.Plotter) -> int:
+    return len(plot.renderer.actors)
+
+
+class Test_Visualize_numbers:
+    @pytest.fixture
+    def spheres(self) -> pymcnp.Inp:
+        return pymcnp.Inp.from_mcnp(SPHERES)[0]
+
+    @pytest.mark.parametrize('skip', [(1,), ('1',), (' 1 ',), (pymcnp.inp.literal.Integer('1'),)])
+    def test_to_show_cells_skips(self, spheres: pymcnp.Inp, skip: tuple) -> None:
+        visualizer = pymcnp.Visualize()
+        everything = _actors(visualizer.to_show_cells(spheres))
+
+        # Each cell adds a volume and a mesh.
+        assert _actors(visualizer.to_show_cells(spheres, skip=skip)) == everything - 2
+        assert _actors(visualizer.to_show_cells(spheres, skip=(1, 2, 3))) == _actors(visualizer.to_show_cell(spheres))
+
+    @pytest.mark.parametrize('skip', [(1,), ('1',), (' 1 ',), (pymcnp.inp.literal.Integer('1'),)])
+    def test_to_show_surfaces_skips(self, spheres: pymcnp.Inp, skip: tuple) -> None:
+        visualizer = pymcnp.Visualize()
+        everything = _actors(visualizer.to_show_surfaces(spheres))
+
+        assert _actors(visualizer.to_show_surfaces(spheres, skip=skip)) == everything - 1
+        assert _actors(visualizer.to_show_surfaces(spheres, skip=(1, 2))) == _actors(visualizer.to_show_surface(spheres))
+
+    def test_to_pdf_skips(self, spheres: pymcnp.Inp, tmp_path: pathlib.Path, monkeypatch: pytest.MonkeyPatch) -> None:
+        saved = []
+        monkeypatch.setattr(pyvista.Plotter, 'save_graphic', lambda self, path: saved.append(_actors(self)))
+        visualizer = pymcnp.Visualize()
+
+        visualizer.to_pdf_cells(spheres, tmp_path / 'cells.pdf')
+        visualizer.to_pdf_cells(spheres, tmp_path / 'cells.pdf', skip=(1,))
+        visualizer.to_pdf_surfaces(spheres, tmp_path / 'surfaces.pdf')
+        visualizer.to_pdf_surfaces(spheres, tmp_path / 'surfaces.pdf', skip=(1,))
+
+        assert saved[1] == saved[0] - 2
+        assert saved[3] == saved[2] - 1
+
+    @pytest.mark.parametrize('number', [1, ' 1 ', pymcnp.inp.literal.Integer('1')])
+    def test_to_show_cell_normalizes_numbers(self, spheres: pymcnp.Inp, number: object) -> None:
+        visualizer = pymcnp.Visualize()
+
+        assert _actors(visualizer.to_show_cell(spheres, number)) == _actors(visualizer.to_show_cell(spheres, '1'))
+        assert _actors(visualizer.to_show_cell(spheres, number, 2)) == _actors(visualizer.to_show_cell(spheres, '1', '2'))
+        assert _actors(visualizer.to_show_cell(spheres, '1')) > _actors(visualizer.to_show_cell(spheres))
+
+    @pytest.mark.parametrize('number', [1, ' 1 ', pymcnp.inp.literal.Integer('1')])
+    def test_to_show_surface_normalizes_numbers(self, spheres: pymcnp.Inp, number: object) -> None:
+        visualizer = pymcnp.Visualize()
+
+        assert _actors(visualizer.to_show_surface(spheres, number)) == _actors(visualizer.to_show_surface(spheres, '1'))
+        assert _actors(visualizer.to_show_surface(spheres, '1')) > _actors(visualizer.to_show_surface(spheres))

@@ -10,6 +10,11 @@ from . import abc
 from .Inp import Inp
 
 
+def _numbers(numbers) -> set[str]:
+    # Card numbers as plain strings, so ``1``, ``'1'``, ``' 1 '`` and ``Integer('1')`` all match.
+    return {str(number).strip() for number in numbers}
+
+
 @dataclasses.dataclass
 class Visualize(abc.Utility):
     """
@@ -29,7 +34,7 @@ class Visualize(abc.Utility):
             origin=(-(surfaces.bounds[1] - surfaces.bounds[0]) / 2, -(surfaces.bounds[3] - surfaces.bounds[2]) / 2, -(surfaces.bounds[5] - surfaces.bounds[4]) / 2),
         )
 
-    def to_show_cell(self, inp: Inp, *number: str) -> pyvista.Plotter:
+    def to_show_cell(self, inp: Inp, *number: int | str) -> pyvista.Plotter:
         """
         Visualizes input cell ``number``.
 
@@ -40,6 +45,7 @@ class Visualize(abc.Utility):
         plot = pyvista.Plotter()
         pyvista.Plotter.add_axes(plot)
 
+        number = _numbers(number)
         surfaces = {str(surface.j): surface.to_show() for surface in inp.surfaces.filter(inp_.card.Surface)}
         cells = {}
 
@@ -47,7 +53,7 @@ class Visualize(abc.Utility):
             shape = cell.to_show(surfaces, cells)
             cells[str(cell.j)] = shape
 
-            if str(cell.j) not in number:
+            if str(cell.j).strip() not in number:
                 continue
 
             grid = self._grid(inp)
@@ -57,7 +63,7 @@ class Visualize(abc.Utility):
 
         return plot
 
-    def to_show_surface(self, inp: Inp, *number: str) -> pyvista.Plotter:
+    def to_show_surface(self, inp: Inp, *number: int | str) -> pyvista.Plotter:
         """
         Visualizes INP surface(s).
 
@@ -68,8 +74,10 @@ class Visualize(abc.Utility):
         plot = pyvista.Plotter()
         pyvista.Plotter.add_axes(plot)
 
+        number = _numbers(number)
+
         for surface in inp.surfaces.filter(inp_.card.Surface):
-            if str(surface.j) not in number:
+            if str(surface.j).strip() not in number:
                 continue
 
             plot.add_mesh(surface.to_show().surface)
@@ -79,8 +87,12 @@ class Visualize(abc.Utility):
     def to_show_cells(self, inp: Inp, skip=()) -> pyvista.Plotter:
         """
         Visualizes all cells.
+
+        Parameters:
+            skip: Cell numbers to leave out.
         """
 
+        skip = _numbers(skip)
         plot = pyvista.Plotter()
         pyvista.Plotter.add_axes(plot)
 
@@ -88,8 +100,12 @@ class Visualize(abc.Utility):
         cells = {}
 
         for cell in inp.cells.filter(inp_.card.Cell):
+            # Skipped cells are still resolved, since other cells may refer to them with ``#``.
             shape = cell.to_show(surfaces, cells)
             cells[str(cell.j)] = shape
+
+            if str(cell.j).strip() in skip:
+                continue
 
             grid = self._grid(inp)
             grid['cell'] = shape.cell(grid.points).astype(numpy.float32)
@@ -101,12 +117,19 @@ class Visualize(abc.Utility):
     def to_show_surfaces(self, inp: Inp, skip=()) -> pyvista.Plotter:
         """
         Visualizes INP all surfaces.
+
+        Parameters:
+            skip: Surface numbers to leave out.
         """
 
+        skip = _numbers(skip)
         plot = pyvista.Plotter()
         pyvista.Plotter.add_axes(plot)
 
         for surface in inp.surfaces.filter(inp_.card.Surface):
+            if str(surface.j).strip() in skip:
+                continue
+
             shape = surface.to_show()
 
             plot.add_mesh(shape.surface)
@@ -139,7 +162,7 @@ class Visualize(abc.Utility):
 
         plot.save_graphic(str(path))
 
-    def to_pdf_cell(self, inp: Inp, path: pathlib.Path | str, *number: str):
+    def to_pdf_cell(self, inp: Inp, path: pathlib.Path | str, *number: int | str):
         """
         Saves render of cells as PDF.
 
@@ -152,7 +175,7 @@ class Visualize(abc.Utility):
 
         plot.save_graphic(str(path))
 
-    def to_pdf_surface(self, inp: Inp, path: pathlib.Path | str, *number: str):
+    def to_pdf_surface(self, inp: Inp, path: pathlib.Path | str, *number: int | str):
         """
         Saves render of surfaces as PDF.
 

@@ -3,6 +3,7 @@ import shutil
 import pathlib
 
 import pytest
+import pyvista
 
 from pymcnp._cli import visualize
 
@@ -65,3 +66,24 @@ def test_main_invalid(monkeypatch) -> None:
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'visualize', 'hello'])
     with pytest.raises(SystemExit):
         visualize.main()
+
+
+@pytest.mark.render
+@pytest.mark.parametrize('pdf', [False, True])
+def test_main_skips(monkeypatch, tmp_path: pathlib.Path, pdf: bool) -> None:
+    # Records how many actors each rendered plot has, instead of opening windows or writing PDFs.
+    inp = tmp_path / 'spheres.inp'
+    inp.write_text('title\n1 0 -1\n2 0 -2 #1\n3 0 2\n\n1 so 1\n2 so 2\n\nnps 1\n')
+    actors = []
+    name = 'save_graphic' if pdf else 'show'
+    monkeypatch.setattr(pyvista.Plotter, name, lambda self, *args, **kwargs: actors.append(len(self.renderer.actors)))
+    extra = ['--pdf'] if pdf else []
+
+    for option in ['--cells', '--cells-skip=1', '--cells-skip=1,2', '--surfaces', '--surfaces-skip=2']:
+        monkeypatch.setattr(sys, 'argv', ['pymcnp', 'visualize', str(inp), option, *extra])
+        visualize.main()
+
+    cells, cells_skip_1, cells_skip_12, surfaces, surfaces_skip_2 = actors
+    assert cells_skip_1 == cells - 2
+    assert cells_skip_12 == cells - 4
+    assert surfaces_skip_2 == surfaces - 1
