@@ -42,5 +42,24 @@ class Test_Array:
         array, _ = pymcnp.abc.Array[pymcnp.inp.card.Surface, None].from_mcnp('1 x 1 1 1 1\n2 so 1')
         assert array.filter(pymcnp.inp.card.surface.X) == [pymcnp.inp.card.surface.X.from_mcnp('1 x 1 1 1 1')[0]]
         assert array.filter(j=3) == []
-        with pytest.raises(pymcnp.abc.Error):
-            assert array.filter(hello=2)
+        assert array.filter(hello=2) == []
+
+    def test_filter_skips_items_without_field(self) -> None:
+        inp, _ = pymcnp.Inp.from_mcnp('Hello\n1 0 -1\n\n1 SO 1\n\nc a comment\nnps 10\n')
+        found = inp.data.filter(npp=10)
+        assert len(found) == 1
+        assert found[0].to_mcnp() == 'nps 10'
+
+    def test_filter_rejects_code_in_path(self) -> None:
+        array, _ = pymcnp.abc.Array[pymcnp.inp.card.Surface, None].from_mcnp('1 x 1 1 1 1\n2 so 1')
+        assert array.filter(**{'__class__.__init__.__globals__': 1}) == []
+        assert array.filter(**{'j; import os': 1}) == []
+        assert array.filter(**{'': 1}) == []
+        assert array.filter(**{'j[': 1}) == []
+        assert array.filter(**{'[0]': 1}) == []
+        assert array.filter(**{'': 1, '..': 1}) == []
+
+    def test_filter_path_syntax(self) -> None:
+        array, _ = pymcnp.abc.Array[pymcnp.inp.card.Surface, None].from_mcnp('1 x 1 1 1 1\n2 so 1')
+        assert len(array.filter(**{'j': 1})) == 1
+        assert len(array.filter(**{'[5]': 1})) == 0

@@ -48,3 +48,9 @@ class Test_Nonterminal:
             next(vol.scan(hello=('', 'no')))
         with pytest.raises(pymcnp.abc.Error):
             next(vol.scan())
+
+    def test_scan_with(self) -> None:
+        inp, _ = pymcnp.Inp.from_mcnp('Hello\n1 0 -1\n\n1 SO 1\n\nnps 10\n')
+        copies = list(inp.scan_with([1, 2], lambda i, v: setattr(i, 'nps', v)))
+        assert [c.nps for c in copies] == [1, 2]
+        assert inp.nps == 10

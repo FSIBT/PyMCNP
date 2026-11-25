@@ -12,6 +12,7 @@ from .Error import Error
 from .Symbol import Symbol
 from .Symbol import _parse
 from .Terminal import Terminal
+from ._path import get_path
 
 
 def _parse_hint(hint: typing.Any) -> tuple[type[Symbol], ...]:
@@ -237,7 +238,7 @@ class Array(Symbol, list):
             fields: Fields to filter items with.
 
         Returns:
-            Subarray of items with the given fields.
+            Subarray of items with the given fields. Items missing a field are skipped.
         """
 
         array: Array = CACHE[typing.Union[self._kind], typing.Union[self._space]]()
@@ -249,9 +250,10 @@ class Array(Symbol, list):
             matches: bool = True
             for path, value in fields.items():
                 try:
-                    actual = eval(f'item.{path}', {'__builtins__': {}}, {'item': item})
-                except (AttributeError, LookupError, TypeError, SyntaxError):
-                    raise Error('Invalid value.', f'{item=} in ``self`` does not have parameter {path=}')
+                    actual = get_path(item, path)
+                except (AttributeError, IndexError, KeyError):
+                    matches = False
+                    break
 
                 if actual != value:
                     matches = False

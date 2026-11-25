@@ -12,6 +12,8 @@ from .Array import _parse_hint
 from .Symbol import Symbol
 from .Symbol import _parse
 from .Terminal import Terminal
+from ._path import get_path
+from ._path import set_path
 
 
 EMPTY_STRING_TYPE: type[Terminal] = Terminal[r'']
@@ -346,12 +348,29 @@ class Nonterminal(Symbol):
 
         for path in parameters:
             try:
-                eval(f'self.{path}', {'__builtins__': {}}, {'self': self})
-            except (AttributeError, LookupError, TypeError, SyntaxError):
+                get_path(self, path)
+            except (AttributeError, LookupError):
                 raise Error('Invalid value.', f'``self`` does not have parameter {path=}')
 
         for combination in itertools.product(*parameters.values()):
             clone = copy.deepcopy(self)
             for path, value in zip(parameters, combination):
-                exec(f'obj.{path} = val', {'__builtins__': {}}, {'obj': clone, 'val': value})
+                set_path(clone, path, value)
             yield clone
+
+    def scan_with(self, values: collections.abc.Iterable[typing.Any], apply: collections.abc.Callable[[typing.Self, typing.Any], None]) -> typing.Generator[typing.Self, None, None]:
+        """
+        Scans over nonterminals: yields one deep copy per value, changed by ``apply``.
+
+        Parameters:
+            values: Values to scan.
+            apply: Function that changes a copy for one value, e.g., ``lambda inp, r: setattr(inp.surfaces[0], 'r', r)``.
+
+        Yields:
+            Independent copies, in the order of ``values``.
+        """
+
+        for value in values:
+            nonterminal = copy.deepcopy(self)
+            apply(nonterminal, value)
+            yield nonterminal
