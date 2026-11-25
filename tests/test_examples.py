@@ -1,3 +1,4 @@
+import os
 import sys
 import shutil
 import pathlib
@@ -56,14 +57,35 @@ def examples(tmp_path: pathlib.Path) -> pathlib.Path:
     return path
 
 
+def environment(examples: pathlib.Path) -> dict[str, str]:
+    # Keeps the caller's environment (e.g. ``DISPLAY`` from a headless X server on CI), but puts
+    # this interpreter first on ``PATH``, uses a non-interactive matplotlib backend and isolates
+    # ``HOME`` in the temporary copy of ``examples/``.
+    env = dict(os.environ)
+    env['MPLBACKEND'] = 'Agg'
+    env['PATH'] = os.pathsep.join([str(pathlib.Path(sys.executable).parent), '/usr/bin', '/bin'])
+    env['HOME'] = str(examples)
+    return env
+
+
 def run(examples: pathlib.Path, name: str, *arguments: str) -> subprocess.CompletedProcess:
     return subprocess.run(
         [sys.executable, '-c', DRIVER, name, *arguments],
         cwd=examples,
-        env={'MPLBACKEND': 'Agg', 'PATH': str(pathlib.Path(sys.executable).parent) + ':/usr/bin:/bin', 'HOME': str(examples)},
+        env=environment(examples),
         capture_output=True,
         text=True,
     )
+
+
+def test_environment_keeps_display(tmp_path: pathlib.Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv('DISPLAY', ':99')
+    monkeypatch.setenv('MPLBACKEND', 'TkAgg')
+    env = environment(tmp_path)
+    assert env['DISPLAY'] == ':99'
+    assert env['MPLBACKEND'] == 'Agg'
+    assert env['HOME'] == str(tmp_path)
+    assert env['PATH'].split(os.pathsep)[0] == str(pathlib.Path(sys.executable).parent)
 
 
 def test_all_examples_are_listed() -> None:
