@@ -19,7 +19,7 @@ class Plot(abc.Utility):
     Represents utilties that plot output files.
     """
 
-    def to_show(self, outp: Outp, number: str) -> tuple[matplotlib.figure.Figure, ...]:
+    def to_show(self, outp: Outp, number: int | str) -> tuple[matplotlib.figure.Figure, ...]:
         """
         Plots tally ``number` of output file `outp``.
 
@@ -31,8 +31,10 @@ class Plot(abc.Utility):
             Error: Tally not found.
         """
 
+        number = str(number).strip()
+
         try:
-            tally = next(frame for frame in outp.to_dataframe_iter() if frame.empty or frame['number'].iloc[0].strip() == number)
+            tally = next(frame for frame in outp.to_dataframe_iter() if not frame.empty and str(frame['number'].iloc[0]).strip() == number)
         except StopIteration:
             raise abc.Error('Tally not found', f'{number=}')
 
@@ -65,7 +67,7 @@ class Plot(abc.Utility):
 
         return tuple(figures)
 
-    def to_pdf(self, outp: Outp, number: str, path: pathlib.Path | str) -> None:
+    def to_pdf(self, outp: Outp, number: int | str, path: pathlib.Path | str) -> None:
         """
         Plots tally ``number`` of output files in PDF file.
 
