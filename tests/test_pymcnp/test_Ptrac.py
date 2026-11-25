@@ -405,7 +405,7 @@ def test_cut_in_the_middle_of_a_line(tmp_path: pathlib.Path, valid_27: pathlib.P
             path.write_text(text)
             histories = list(pymcnp.Ptrac.iter_histories(path))
             assert len(histories) == 2
-            assert len(histories[1].events) <= kept + 1
+            assert len(histories[1].events) == kept
             assert histories[0].to_mcnp() == next(iter(pymcnp.Ptrac.iter_histories(valid_27))).to_mcnp()
 
 
@@ -425,3 +425,40 @@ def test_corrupt_truncated_history_is_rejected(tmp_path: pathlib.Path, valid_27:
     path.write_text('\n'.join(cut) + '\n')
     with pytest.raises(pymcnp.abc.Error):
         list(pymcnp.Ptrac.iter_histories(path))
+
+
+def _last_history_lines(valid_27: pathlib.Path) -> tuple[list[str], int, int]:
+    lines, starts = _lines(valid_27)
+    return lines, starts[1], starts[2] - 2  # lines, i line and the J line announcing 9000 of the second history
+
+
+@pytest.mark.parametrize('variant', ['after_j', 'after_j_without_newline', 'mid_p'])
+def test_cut_inside_the_final_event_is_truncated(tmp_path: pathlib.Path, valid_27: pathlib.Path, variant: str) -> None:
+    lines, first, j = _last_history_lines(valid_27)
+    match variant:
+        case 'after_j':
+            text = '\n'.join(lines[: j + 1]) + '\n'
+        case 'after_j_without_newline':
+            text = '\n'.join(lines[: j + 1])
+        case _:
+            text = '\n'.join([*lines[: j + 1], lines[j + 1][:15]])
+    path = tmp_path / 'ptrac'
+    path.write_text(text)
+    with pytest.warns(pymcnp.abc.Warning, match='truncated'):
+        histories = list(pymcnp.Ptrac.iter_histories(path))
+    assert len(histories) == 2
+    assert isinstance(histories[1], pymcnp.ptrac.block.HistoryTruncated)
+    full = list(pymcnp.Ptrac.iter_histories(valid_27))[1]
+    assert len(histories[1].events) == len(full.events) - 1
+    assert [event.to_mcnp() for event in histories[1].events] == [event.to_mcnp() for event in full.events[:-1]]
+
+
+def test_final_newline_missing_is_not_truncation(tmp_path: pathlib.Path, valid_27: pathlib.Path) -> None:
+    lines, _, j = _last_history_lines(valid_27)
+    path = tmp_path / 'ptrac'
+    path.write_text('\n'.join(lines[: j + 2]))
+    with warnings.catch_warnings():
+        warnings.simplefilter('error')
+        histories = list(pymcnp.Ptrac.iter_histories(path))
+    assert len(histories) == 2
+    assert type(histories[1]) is pymcnp.ptrac.block.History

@@ -153,16 +153,22 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
         if not path.is_file():
             raise abc.Error('File not found.', f'{path=}')
 
-        def parse(lines: list[str], number: int, complete: bool) -> ptrac.block.History | ptrac.block.HistoryTruncated:
+        def parse(lines: list[str], number: int, complete: bool, last: bool) -> ptrac.block.History | ptrac.block.HistoryTruncated:
             # Only the last history of a file can be cut short (e.g., by a killed run); it is read as far as it goes.
-            if not complete:
-                truncated = ptrac.block.HistoryTruncated.from_mcnp('\n'.join(lines))
-                warnings.warn(abc.Warning('Last history is truncated.', f'{path=} nps={truncated.nps.strip()} events kept={len(truncated.events)}'))
-                return truncated
-            history, remainder = ptrac.block.History.from_mcnp('\n'.join(lines))
-            if remainder != '':
-                raise abc.Error('Expected history.', f'line {number}: {remainder[:80]!r}')
-            return history
+            if complete:
+                try:
+                    history, remainder = ptrac.block.History.from_mcnp('\n'.join(lines))
+                except abc.Error:
+                    if not last:
+                        raise
+                else:
+                    if remainder != '':
+                        raise abc.Error('Expected history.', f'line {number}: {remainder[:80]!r}')
+                    return history
+
+            truncated = ptrac.block.HistoryTruncated.from_mcnp('\n'.join(lines))
+            warnings.warn(abc.Warning('Last history is truncated.', f'{path=} nps={truncated.nps.strip()} events kept={len(truncated.events)}'))
+            return truncated
 
         with path.open() as file:
             # Header: everything before the first history line.
@@ -194,8 +200,8 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
                         break
                 if len(lines) > 1 and lines[-1] == '':
                     lines.pop()
-                yield parse(lines, number, complete)
                 line = file.readline()
+                yield parse(lines, number, complete, last=line == '')
                 number += 1
                 while line.strip() == '':
                     line = file.readline() if line else ''
