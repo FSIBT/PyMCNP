@@ -202,8 +202,23 @@ def test_surface_cards_kind() -> None:
 
 
 @pytest.mark.parametrize('path', EXAMPLE_INPS_NO_RAND, ids=lambda p: p.name)
-def test_seed_added_when_no_rand(path: pathlib.Path) -> None:
+def test_seed_added_when_no_rand(path: pathlib.Path, monkeypatch: pytest.MonkeyPatch) -> None:
     inp_obj, _ = pymcnp.Inp.from_file(path)
+
+    # The Rand constructor coerces ``options`` to its annotated kind, so the final card cannot
+    # show which kind the setter used; spy on the Array kinds requested during the call instead.
+    requested = []
+    original = pymcnp.abc.Array.__class_getitem__.__func__
+
+    def spy(cls, parameters):
+        requested.append(parameters[0])
+        return original(cls, parameters)
+
+    monkeypatch.setattr(pymcnp.abc.Array, '__class_getitem__', classmethod(spy))
     inp_obj.seed = 12345
+    monkeypatch.undo()
+
+    assert pymcnp.inp.option.data.Rand in requested
+    assert pymcnp.inp.option.Cell not in requested
     again, _ = pymcnp.Inp.from_mcnp(inp_obj.to_mcnp())
     assert again.seed == pymcnp.inp.literal.Integer('12345')
