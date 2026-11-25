@@ -1,3 +1,4 @@
+import re
 import sys
 import pathlib
 
@@ -205,3 +206,25 @@ def ptrac(path_ptrac: pathlib.Path) -> pymcnp.Ptrac:
 @pytest.fixture(scope='session')
 def event(ptrac: pymcnp.Ptrac) -> pymcnp.ptrac.block.Event:
     return ptrac.histories[0]
+
+
+@pytest.fixture(scope='session')
+def head(tmp_path_factory: pytest.TempPathFactory):
+    """Makes files with only the header and the first histories of a ptrac file, since parsing whole 1 MB files is slow."""
+
+    directory = tmp_path_factory.mktemp('head')
+
+    def make(name: str, histories: int = 3) -> pathlib.Path:
+        path = directory / f'{histories}_{name}'
+        if not path.exists():
+            lines = (pathlib.Path(__file__).parent.parent / 'files' / 'ptrac' / name).read_text().split('\n')
+            starts = [i for i, line in enumerate(lines) if re.match(r' {10}\d+ +\d+$', line)]
+            path.write_text('\n'.join(lines[: starts[histories]]) + '\n' if len(starts) > histories else '\n'.join(lines))
+        return path
+
+    return make
+
+
+@pytest.fixture(scope='session')
+def valid_27(head) -> pathlib.Path:
+    return head('valid_27.ptrac', 4)

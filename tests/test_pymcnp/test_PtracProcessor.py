@@ -1,6 +1,5 @@
-import pathlib
-
 import pymcnp
+from pymcnp.Ptrac import _events
 
 
 class Test_PtracProcessor:
@@ -22,8 +21,8 @@ class Test_PtracProcessor:
     def test_run_valid(self, ptrac: pymcnp.Ptrac):
         pymcnp.PtracProcessor().run(ptrac)
 
-    def test_run_path_matches_object(self) -> None:
-        path = pathlib.Path(__file__).parents[2] / 'files' / 'ptrac' / 'valid_00.ptrac'
+    def test_run_path_matches_object(self, head) -> None:
+        path = head('valid_00.ptrac')
         ptrac, _ = pymcnp.Ptrac.from_file(path)
 
         class Count(pymcnp.PtracProcessor):
@@ -57,4 +56,4 @@ class Test_PtracProcessor:
             def process_source(self, event) -> int:
                 return 1
 
-        assert Collect().run(ptrac) == [1] * sum(1 for history in ptrac.histories for _ in [0])
+        assert Collect().run(ptrac) == [1] * sum(1 for event in _events(ptrac) if event.type is pymcnp.ptrac.EventType.SOURCE)

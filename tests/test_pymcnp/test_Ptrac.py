@@ -50,7 +50,8 @@ def _type_of(code: str) -> pymcnp.ptrac.EventType:
 
 
 @pytest.mark.parametrize('path', sorted(FILES.glob('valid*.ptrac')), ids=lambda path: path.name)
-def test_stream_matches_full_parse(path: pathlib.Path) -> None:
+def test_stream_matches_full_parse(head, path: pathlib.Path) -> None:
+    path = head(path.name)
     ptrac, remainder = pymcnp.Ptrac.from_file(path)
     assert remainder == ''
     streamed = [(event.nps, event.type, event.raw) for event in pymcnp.Ptrac.stream(path)]
@@ -59,7 +60,8 @@ def test_stream_matches_full_parse(path: pathlib.Path) -> None:
 
 
 @pytest.mark.parametrize('path', sorted(FILES.glob('valid*.ptrac')), ids=lambda path: path.name)
-def test_stream_accessors_never_fail(path: pathlib.Path) -> None:
+def test_stream_accessors_never_fail(head, path: pathlib.Path) -> None:
+    path = head(path.name)
     for event in pymcnp.Ptrac.stream(path):
         row = event.to_dict()
         assert row['type'] == event.type.name
@@ -67,8 +69,8 @@ def test_stream_accessors_never_fail(path: pathlib.Path) -> None:
         assert (event.energy is None) == (event.direction is None)
 
 
-def test_stream_values_on_surface_and_collision() -> None:
-    events = list(pymcnp.Ptrac.stream(FILES / 'valid_27.ptrac'))
+def test_stream_values_on_surface_and_collision(valid_27: pathlib.Path) -> None:
+    events = list(pymcnp.Ptrac.stream(valid_27))
     surface = next(event for event in events if event.type is pymcnp.ptrac.EventType.SURFACE)
     assert surface.particle is pymcnp.ptrac.Particle.PHOTON
     assert surface.surface == pymcnp.ptrac.Surface(11, 0)
@@ -88,8 +90,8 @@ def test_surface_parse() -> None:
     assert str(pymcnp.ptrac.Surface(3, 1)) == '3.1'
 
 
-def test_iter_histories_matches_full_parse() -> None:
-    path = FILES / 'valid_00.ptrac'
+def test_iter_histories_matches_full_parse(head) -> None:
+    path = head('valid_00.ptrac')
     ptrac, _ = pymcnp.Ptrac.from_file(path)
     assert [history.to_mcnp() for history in pymcnp.Ptrac.iter_histories(path)] == [history.to_mcnp() for history in ptrac.histories]
 
@@ -125,9 +127,9 @@ def test_iter_junk_is_rejected(tmp_path: pathlib.Path) -> None:
         list(pymcnp.Ptrac.iter_histories(path))
 
 
-def test_tracks_group_events_and_link_parents() -> None:
-    tracks = list(pymcnp.Ptrac.tracks(FILES / 'valid_27.ptrac'))
-    events = list(pymcnp.Ptrac.stream(FILES / 'valid_27.ptrac'))
+def test_tracks_group_events_and_link_parents(valid_27: pathlib.Path) -> None:
+    tracks = list(pymcnp.Ptrac.tracks(valid_27))
+    events = list(pymcnp.Ptrac.stream(valid_27))
     assert [event for track in tracks for event in track.events] == events
     for track in tracks:
         assert track.creation.type in (pymcnp.ptrac.EventType.SOURCE, pymcnp.ptrac.EventType.BANK)
@@ -140,21 +142,21 @@ def test_tracks_group_events_and_link_parents() -> None:
             assert track.parent_zaid == track.creation.zaid
 
 
-def test_tracks_inherit_zaid_from_parent() -> None:
+def test_tracks_inherit_zaid_from_parent(valid_27: pathlib.Path) -> None:
     # A photon banked with ZAID 0 (made by a photon interaction) takes its parent's ZAID, `None` if there is no parent.
-    for track in pymcnp.Ptrac.tracks(FILES / 'valid_27.ptrac'):
+    for track in pymcnp.Ptrac.tracks(valid_27):
         if track.creation.type is pymcnp.ptrac.EventType.BANK and not track.creation.zaid:
             assert track.parent_zaid == (track.parent.parent_zaid if track.parent else None)
 
 
-def test_to_dict_has_plain_values() -> None:
-    for event in pymcnp.Ptrac.stream(FILES / 'valid_27.ptrac'):
+def test_to_dict_has_plain_values(valid_27: pathlib.Path) -> None:
+    for event in pymcnp.Ptrac.stream(valid_27):
         for value in event.to_dict().values():
             assert value is None or type(value) in (int, float, str)
 
 
-def test_tracks_filters_keep_parents() -> None:
-    path = FILES / 'valid_27.ptrac'
+def test_tracks_filters_keep_parents(valid_27: pathlib.Path) -> None:
+    path = valid_27
     everything = list(pymcnp.Ptrac.tracks(path))
     photons = list(pymcnp.Ptrac.tracks(path, particle=pymcnp.ptrac.Particle.PHOTON))
     assert photons and len(photons) < len(everything)
@@ -166,8 +168,8 @@ def test_tracks_filters_keep_parents() -> None:
     assert all(by_key[(track.nps, track.index)] == track.parent_zaid for track in photons)
 
 
-def test_to_parquet(tmp_path: pathlib.Path) -> None:
-    path = FILES / 'valid_27.ptrac'
+def test_to_parquet(tmp_path: pathlib.Path, valid_27: pathlib.Path) -> None:
+    path = valid_27
     out = tmp_path / 'out.parquet'
     count = pymcnp.Ptrac.to_parquet(path, out, chunk=7)
     frame = pandas.read_parquet(out)
@@ -182,27 +184,26 @@ def test_to_parquet(tmp_path: pathlib.Path) -> None:
     assert set(frame['type']) <= {'SURFACE'} and set(frame['particle']) <= {'PHOTON'} and set(frame['cell']) <= {2}
 
 
-def test_to_parquet_empty_and_invalid(tmp_path: pathlib.Path) -> None:
+def test_to_parquet_empty_and_invalid(tmp_path: pathlib.Path, valid_27: pathlib.Path) -> None:
     out = tmp_path / 'out.parquet'
-    assert pymcnp.Ptrac.to_parquet(FILES / 'valid_27.ptrac', out, cell_entered=99999) == 0
+    assert pymcnp.Ptrac.to_parquet(valid_27, out, cell_entered=99999) == 0
     assert len(pandas.read_parquet(out)) == 0
     with pytest.raises(pymcnp.abc.Error):
-        pymcnp.Ptrac.to_parquet(FILES / 'valid_27.ptrac', out, chunk=0)
+        pymcnp.Ptrac.to_parquet(valid_27, out, chunk=0)
     with pytest.raises(pymcnp.abc.Error):
         pymcnp.Ptrac.to_parquet(tmp_path / 'missing', tmp_path / 'never.parquet')
     assert not (tmp_path / 'never.parquet').exists() and not list(tmp_path.glob('*.partial'))
 
 
 def test_history_tracks_links_bank_parent() -> None:
-    ptrac, _ = pymcnp.Ptrac.from_file(FILES / 'valid_01.ptrac')
-    history = next(history for history in ptrac.histories if int(history.nps) == 646)
+    history = next(history for history in pymcnp.Ptrac.iter_histories(FILES / 'valid_01.ptrac') if int(history.nps) == 646)
     tracks = list(history.tracks)
     assert len(tracks) == 2
     assert tracks[1].parent is tracks[0]
 
 
-def test_truncated_last_history() -> None:
-    path = FILES / 'valid_00.ptrac'
+def test_stream_matches_from_file_events(head) -> None:
+    path = head('valid_00.ptrac')
     ptrac, _ = pymcnp.Ptrac.from_file(path)
     assert sum(1 for _ in pymcnp.Ptrac.stream(path)) == sum(len(history.events) for history in ptrac.histories)
     list(pymcnp.Ptrac.tracks(path))
@@ -216,8 +217,8 @@ def test_stream_does_not_read_whole_file(monkeypatch: pytest.MonkeyPatch) -> Non
     assert next(pymcnp.Ptrac.stream(FILES / 'valid_00.ptrac')) is not None
 
 
-def test_to_dataframe_typed() -> None:
-    ptrac, _ = pymcnp.Ptrac.from_file(FILES / 'valid_01.ptrac')
+def test_to_dataframe_typed(head) -> None:
+    ptrac, _ = pymcnp.Ptrac.from_file(head('valid_01.ptrac'))
     frame = ptrac.to_dataframe()
     assert str(frame['nps'].dtype) == 'Int64'
     assert not [column for column in frame.columns if frame[column].dtype == object]
@@ -232,29 +233,51 @@ def test_to_dataframe_empty() -> None:
     assert 'nps' in stop.value.value.columns
 
 
-def _lines() -> tuple[list[str], list[int]]:
-    lines = (FILES / 'valid_27.ptrac').read_text().split('\n')
+def _lines(path: pathlib.Path) -> tuple[list[str], list[int]]:
+    lines = path.read_text().split('\n')
     return lines, [i for i, line in enumerate(lines) if re.match(r' {10}\d+ +\d+$', line)]
 
 
-@pytest.mark.parametrize('cut', [1, 2, 3])
-def test_iter_truncated_history_is_rejected(tmp_path: pathlib.Path, cut: int) -> None:
-    lines, starts = _lines()
+@pytest.mark.parametrize('cut', [1, 2, 3, 4, 5])
+def test_truncated_last_history_is_kept(tmp_path: pathlib.Path, cut: int, valid_27: pathlib.Path) -> None:
+    lines, starts = _lines(valid_27)
     path = tmp_path / 'ptrac'
     path.write_text('\n'.join(lines[: starts[1] + cut]) + '\n')
+    full = list(pymcnp.Ptrac.iter_histories(valid_27))
+    histories = list(pymcnp.Ptrac.iter_histories(path))
+    assert len(histories) == 2
+    assert histories[0].to_mcnp() == full[0].to_mcnp()
+    assert int(histories[1].nps) == int(full[1].nps)
+    assert len(histories[1].events) == (cut - 1) // 2
+    assert [event.nps for event in pymcnp.Ptrac.stream(path)] == [int(histories[0].nps)] * len(histories[0].events) + [int(histories[1].nps)] * len(histories[1].events)
+    list(pymcnp.Ptrac.tracks(path))
+    out = tmp_path / 'out.parquet'
+    assert pymcnp.Ptrac.to_parquet(path, out) == len(histories[0].events) + len(histories[1].events)
+
+
+def test_malformed_inner_history_is_rejected(tmp_path: pathlib.Path, valid_27: pathlib.Path) -> None:
+    lines, starts = _lines(valid_27)
+    lines[starts[0] + 3] = '       7777' + lines[starts[0] + 3][11:]
+    path = tmp_path / 'ptrac'
+    path.write_text('\n'.join(lines[: starts[2]]) + '\n')
     with pytest.raises(pymcnp.abc.Error):
         list(pymcnp.Ptrac.iter_histories(path))
 
 
-def test_iter_complete_history_then_end(tmp_path: pathlib.Path) -> None:
-    lines, starts = _lines()
+def test_history_without_events_is_rejected() -> None:
+    with pytest.raises(pymcnp.abc.Error):
+        pymcnp.ptrac.block.History.from_mcnp('         12      1000\n')
+
+
+def test_iter_complete_history_then_end(tmp_path: pathlib.Path, valid_27: pathlib.Path) -> None:
+    lines, starts = _lines(valid_27)
     path = tmp_path / 'ptrac'
     path.write_text('\n'.join(lines[: starts[1]]) + '\n')
     assert len(list(pymcnp.Ptrac.iter_histories(path))) == 1
 
 
-def test_iter_empty_and_bad_header(tmp_path: pathlib.Path) -> None:
-    lines, starts = _lines()
+def test_iter_empty_and_bad_header(tmp_path: pathlib.Path, valid_27: pathlib.Path) -> None:
+    lines, starts = _lines(valid_27)
     path = tmp_path / 'ptrac'
     path.write_text('')
     with pytest.raises(pymcnp.abc.Error):
@@ -264,8 +287,8 @@ def test_iter_empty_and_bad_header(tmp_path: pathlib.Path) -> None:
         list(pymcnp.Ptrac.iter_histories(path))
 
 
-def test_iter_trailing_junk_is_rejected(tmp_path: pathlib.Path) -> None:
-    lines, starts = _lines()
+def test_iter_trailing_junk_is_rejected(tmp_path: pathlib.Path, valid_27: pathlib.Path) -> None:
+    lines, starts = _lines(valid_27)
     path = tmp_path / 'ptrac'
     path.write_text('\n'.join(lines[: starts[1]]) + '\njunk\n')
     with pytest.raises(pymcnp.abc.Error):
@@ -276,23 +299,23 @@ def test_iter_trailing_junk_is_rejected(tmp_path: pathlib.Path) -> None:
     assert not out.exists() and not list(tmp_path.glob('*.partial'))
 
 
-def test_to_parquet_types_only(tmp_path: pathlib.Path) -> None:
+def test_to_parquet_types_only(tmp_path: pathlib.Path, valid_27: pathlib.Path) -> None:
     out = tmp_path / 'out.parquet'
-    count = pymcnp.Ptrac.to_parquet(FILES / 'valid_27.ptrac', out, types={pymcnp.ptrac.EventType.COLLISION})
+    count = pymcnp.Ptrac.to_parquet(valid_27, out, types={pymcnp.ptrac.EventType.COLLISION})
     frame = pandas.read_parquet(out)
     assert count == len(frame) > 0
     assert set(frame['type']) == {'COLLISION'}
 
 
-def test_unknown_particle_number() -> None:
-    event = next(pymcnp.Ptrac.stream(FILES / 'valid_27.ptrac'))
+def test_unknown_particle_number(valid_27: pathlib.Path) -> None:
+    event = next(pymcnp.Ptrac.stream(valid_27))
     event._j = ['0', '0', '99', '0', '0', '0']
     assert event.type is pymcnp.ptrac.EventType.SOURCE
     assert event.particle == 99
 
 
-def test_track_entries_and_creation_code() -> None:
-    tracks = list(pymcnp.Ptrac.tracks(FILES / 'valid_27.ptrac'))
+def test_track_entries_and_creation_code(valid_27: pathlib.Path) -> None:
+    tracks = list(pymcnp.Ptrac.tracks(valid_27))
     bank = next(track for track in tracks if track.creation.type is pymcnp.ptrac.EventType.BANK)
     assert bank.creation_code == bank.creation.creation_code is not None
     assert next(track for track in tracks if track.creation.type is pymcnp.ptrac.EventType.SOURCE).creation_code is None
@@ -303,17 +326,27 @@ def test_track_entries_and_creation_code() -> None:
     assert list(crossing.entries(cell=99999)) == []
 
 
-def test_tracks_skip_events_before_a_source() -> None:
-    events = list(pymcnp.Ptrac.stream(FILES / 'valid_27.ptrac'))
+def test_tracks_skip_events_before_a_source(valid_27: pathlib.Path) -> None:
+    events = list(pymcnp.Ptrac.stream(valid_27))
     assert events[0].type is pymcnp.ptrac.EventType.SOURCE
     tracks = list(pymcnp.ptrac.tracks(events[1:]))
     assert all(track.creation.type in (pymcnp.ptrac.EventType.SOURCE, pymcnp.ptrac.EventType.BANK) for track in tracks)
 
 
-def test_iter_history_with_trailing_text_is_rejected(tmp_path: pathlib.Path) -> None:
-    lines, starts = _lines()
+def test_iter_history_with_trailing_text_is_rejected(tmp_path: pathlib.Path, valid_27: pathlib.Path) -> None:
+    lines, starts = _lines(valid_27)
     lines[starts[1] - 1] += ' extra'
     path = tmp_path / 'ptrac'
     path.write_text('\n'.join(lines[: starts[1]]) + '\n')
     with pytest.raises(pymcnp.abc.Error):
         list(pymcnp.Ptrac.iter_histories(path))
+
+
+def test_to_dataframe_rows_match_stream(head) -> None:
+    path = head('valid_27.ptrac', 4)
+    ptrac, _ = pymcnp.Ptrac.from_file(path)
+    frame = ptrac.to_dataframe()
+    assert frame['track'].notna().all()
+    assert frame['track'].max() > 0
+    expected = pymcnp.ptrac.to_dataframe([event.to_dict() for event in pymcnp.Ptrac.stream(path)])
+    pandas.testing.assert_frame_equal(frame.drop(columns=['track', 'parent_zaid']), expected.drop(columns=['track', 'parent_zaid']))

@@ -27,7 +27,7 @@ from .Event import (
     EventTermination_4,
 )
 from .Header import Header
-from .History import History
+from .History import History, HistoryTruncated
 
 __all__ = (
     'Event',
@@ -58,4 +58,5 @@ __all__ = (
     'EventTermination_4',
     'Header',
     'History',
+    'HistoryTruncated',
 )

@@ -105,7 +105,7 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
         """
         Generates pandas dataframes for histories, one history at a time.
 
-        Columns are those of ``ptrac.Event.to_dict``, with nullable ``Int64``, ``string`` and ``float64`` dtypes.
+        Columns are those of ``ptrac.Event.to_dict`` plus ``track`` (track number within the history) and ``parent_zaid`` (see ``ptrac.Track``), with nullable ``Int64``, ``string`` and ``float64`` dtypes.
 
         Parameters:
             returning: Flag to/to not return.
@@ -121,7 +121,9 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
             frames = []
 
         for history in self.histories:
-            yield (frame := ptrac.to_dataframe([event.to_dict() for event in _history_events(history)]))
+            yield (
+                frame := ptrac.to_dataframe([{**event.to_dict(), 'track': track.index, 'parent_zaid': track.parent_zaid} for track in ptrac.tracks(_history_events(history)) for event in track.events])
+            )
 
             if returning:
                 frames.append(frame)
@@ -130,7 +132,7 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
             return pandas.concat(frames, ignore_index=True) if frames else ptrac.to_dataframe([])
 
     @staticmethod
-    def iter_histories(path: pathlib.Path | str) -> collections.abc.Iterator[ptrac.block.History]:
+    def iter_histories(path: pathlib.Path | str) -> collections.abc.Iterator[ptrac.block.History | ptrac.block.HistoryTruncated]:
         """
         Parses ptrac files one history at a time, without holding the file or the histories in memory.
 
@@ -138,7 +140,7 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
             path: Path to ptrac file to read.
 
         Yields:
-            History blocks in file order, each parsed once.
+            History blocks in file order, each parsed once. A last history that is cut short is yielded as far as it goes, as ``ptrac.block.HistoryTruncated``.
 
         Raises:
             Error: File not found.
@@ -150,7 +152,10 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
         if not path.is_file():
             raise abc.Error('File not found.', f'{path=}')
 
-        def parse(lines: list[str], number: int) -> ptrac.block.History:
+        def parse(lines: list[str], number: int, complete: bool) -> ptrac.block.History | ptrac.block.HistoryTruncated:
+            # Only the last history of a file can be cut short (e.g., by a killed run); it is read as far as it goes.
+            if not complete:
+                return ptrac.block.HistoryTruncated.from_mcnp('\n'.join(lines))
             history, remainder = ptrac.block.History.from_mcnp('\n'.join(lines))
             if remainder != '':
                 raise abc.Error('Expected history.', f'line {number}: {remainder[:80]!r}')
@@ -173,6 +178,7 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
             number = len(header)
             while line:
                 lines = [line.rstrip('\n')]
+                complete = False
                 while True:
                     j = file.readline()
                     p = file.readline() if j else ''
@@ -181,10 +187,11 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
                         break
                     lines.extend((j.rstrip('\n'), p.rstrip('\n')))
                     if j[1:11].strip() == '9000':
+                        complete = True
                         break
                 if len(lines) > 1 and lines[-1] == '':
                     lines.pop()
-                yield parse(lines, number)
+                yield parse(lines, number, complete)
                 line = file.readline()
                 number += 1
                 while line.strip() == '':
@@ -308,7 +315,7 @@ def _events(file: Ptrac | pathlib.Path | str) -> collections.abc.Iterator[ptrac.
         yield from _history_events(history)
 
 
-def _history_events(history: ptrac.block.History) -> collections.abc.Iterator[ptrac.Event]:
+def _history_events(history: ptrac.block.History | ptrac.block.HistoryTruncated) -> collections.abc.Iterator[ptrac.Event]:
     """
     Yields the events of history blocks, each with its own type, i.e., the type announced by the line before it.
     """

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import typing
+import dataclasses
 import collections.abc
 
 import pandas
@@ -174,3 +175,40 @@ class History(abc.symbol.WithMcnpIter, abc.symbol.WithDataIter, Block):
         from ...Ptrac import _history_events
 
         yield from ptrac.tracks(_history_events(self))
+
+
+@dataclasses.dataclass
+class HistoryTruncated:
+    """
+    Represents history blocks that were cut short, e.g., the last one of a ptrac file of a killed run.
+
+    This is not a symbol, so ``History`` keeps requiring the event announcing type 9000.
+    It has the attributes of ``History`` that are needed to read events.
+
+    Attributes:
+        nps: History number.
+        event_type: Type of the first event.
+        events: Events that are complete.
+    """
+
+    nps: str
+    event_type: str
+    events: list[Event]
+
+    @classmethod
+    def from_mcnp(cls, source: str) -> HistoryTruncated:
+        """
+        Reads as many events of a cut-short history block as there are.
+
+        Parameters:
+            source: Source string to read.
+
+        Returns:
+            Truncated history block corresponding to ``source``.
+
+        Raises:
+            Error: Invalid history line.
+        """
+
+        events = [event for event, _ in History.from_mcnp_iter(source + '\n')]
+        return cls(nps=source[1:11], event_type=source[11:21], events=events)
