@@ -2,6 +2,7 @@ import sys
 import pathlib
 
 import pytest
+import pyvista
 
 import pymcnp
 
@@ -9,6 +10,59 @@ import pymcnp
 @pytest.fixture(scope='session')
 def pyvista_visualizations() -> tuple[pymcnp._show.pyvista.Visualization, ...]:
     return (pymcnp._show.pyvista.Sphere(0.5), pymcnp._show.pyvista.Sphere(1))
+
+
+@pytest.fixture(scope='session')
+def pyvista_shapes() -> dict[str, pymcnp._show.pyvista.Visualization]:
+    """
+    One instance of every concrete PyVista shape class.
+    """
+
+    show = pymcnp._show.pyvista
+
+    return {
+        'Box': show.Box(1.0, 1.5, 2.0),
+        'ConeTruncated': show.ConeTruncated(1.0, 1.0, 0.5),
+        'ConeUnbounded': show.ConeUnbounded(0.5, 1),
+        'CylinderCircular': show.CylinderCircular(1.0, 1.0),
+        'CylinderElliptical': show.CylinderElliptical(1.0, 0.5, 1.0),
+        'CylinderHexagonal': show.CylinderHexagonal(1.0, 1.0, 1.0, 1.0),
+        'CylinderUnbounded': show.CylinderUnbounded(1.0),
+        'Ellipsoid': show.Ellipsoid(1.0, 0.5),
+        'Empty': show.Empty(),
+        'Parallelipiped': show.Parallelipiped(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0),
+        'Plane': show.Plane(1.0, 0.5, 0.25, 0.5),
+        'Sphere': show.Sphere(1.0),
+        'Torus': show.Torus(0.5, 0.25, 1.0),
+        'Wedge': show.Wedge(1.0, 1.0, 1.0),
+    }
+
+
+@pytest.fixture(scope='session', autouse=True)
+def _pyvista_off_screen() -> None:
+    """
+    Renders off screen for the whole session.
+    """
+
+    pyvista.OFF_SCREEN = True
+
+
+@pytest.fixture(autouse=True)
+def _coarse_resolution(monkeypatch: pytest.MonkeyPatch) -> None:
+    """
+    Uses a coarse mesh resolution, since the default 256**3 voxel grid per cell takes minutes and gigabytes to render.
+    """
+
+    monkeypatch.setattr(pymcnp._show.pyvista, 'RESOLUTION', 24)
+
+
+@pytest.fixture(autouse=True)
+def _no_plot_window(monkeypatch: pytest.MonkeyPatch) -> None:
+    """
+    Never opens an interactive window.
+    """
+
+    monkeypatch.setattr(pyvista.Plotter, 'show', lambda self, *args, **kwargs: None)
 
 
 @pytest.fixture(autouse=True)

@@ -12,7 +12,6 @@ Options:
     --pdf                          Write PDF.
 """
 
-import os
 import sys
 import pathlib
 
@@ -65,8 +64,7 @@ def main() -> None:
             else:
                 plot = visualize.to_show_cells(inpt)
 
-                if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-                    plot.show()
+                plot.show()
 
         if args['--surfaces']:
             if args['--pdf']:
@@ -74,8 +72,7 @@ def main() -> None:
             else:
                 plot = visualize.to_show_surfaces(inpt)
 
-                if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-                    plot.show()
+                plot.show()
 
         for number in args['--cells-skip']:
             number = tuple(map(int, number.split(',')))
@@ -85,8 +82,7 @@ def main() -> None:
             else:
                 plot = visualize.to_show_cells(inpt, skip=number)
 
-                if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-                    plot.show()
+                plot.show()
 
         for number in args['--surfaces-skip']:
             number = tuple(map(int, number.split(',')))
@@ -96,8 +92,7 @@ def main() -> None:
             else:
                 plot = visualize.to_show_surfaces(inpt, skip=number)
 
-                if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-                    plot.show()
+                plot.show()
 
         for number in args['--cell']:
             number = number.split(',')
@@ -105,10 +100,9 @@ def main() -> None:
             if args['--pdf']:
                 visualize.to_pdf_cell(inpt, _io.get_outfile(file, 'pdf', f'cell_{number}'), *number)
             else:
-                plot = visualize.to_show_cell(inpt, number)
+                plot = visualize.to_show_cell(inpt, *number)
 
-                if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-                    plot.show()
+                plot.show()
 
         for number in args['--surface']:
             number = number.split(',')
@@ -116,10 +110,9 @@ def main() -> None:
             if args['--pdf']:
                 visualize.to_pdf_surface(inpt, _io.get_outfile(file, 'pdf', f'surface_{number}'), *number)
             else:
-                plot = visualize.to_show_surface(inpt, number)
+                plot = visualize.to_show_surface(inpt, *number)
 
-                if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-                    plot.show()
+                plot.show()
     except abc.Error as err:
         _io.error(str(err))
         sys.exit(2)

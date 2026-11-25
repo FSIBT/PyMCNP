@@ -28,12 +28,12 @@ class _Primary_1(_Primary):
 
     def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista, is_cell: bool = False) -> abc.Visualization:
         if self.ast.startswith('-'):
-            return ~surfaces[Integer(self.ast[1:])]
-        elif self.ast.startswith('+'):
             return surfaces[Integer(self.ast[1:])]
+        elif self.ast.startswith('+'):
+            return ~surfaces[Integer(self.ast[1:])]
         else:
             try:
-                return cells[Integer(self.ast)] if is_cell else surfaces[Integer(self.ast)]
+                return cells[Integer(self.ast)] if is_cell else ~surfaces[Integer(self.ast)]
             except KeyError:
                 raise abc.Error('Invalid value.', f'{self.ast}')
 

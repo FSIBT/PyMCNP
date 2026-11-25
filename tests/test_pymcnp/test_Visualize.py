@@ -1,6 +1,11 @@
 import pathlib
 
+import pyvista
+
 import pymcnp
+
+
+EXAMPLE = pathlib.Path(__file__).parent.parent.parent / 'examples' / 'example_00.inp'
 
 
 class Test_Visualize:
@@ -21,18 +26,36 @@ class Test_Visualize:
         visualizer.to_show_cell(inp, '1')
         visualizer.to_show_cell(inp, '4')
 
-    def test_to_pdf_surfaces_valid(self, inp: pymcnp.Inp) -> None:
+    def test_to_pdf_surfaces_valid(self, inp: pymcnp.Inp, tmp_path: pathlib.Path) -> None:
         visualizer = pymcnp.Visualize()
-        visualizer.to_pdf_surfaces(inp, pathlib.Path('hello.pdf'))
+        visualizer.to_pdf_surfaces(inp, tmp_path / 'hello.pdf')
 
-    def test_to_pdf_cells_valid(self, inp: pymcnp.Inp) -> None:
+    def test_to_pdf_cells_valid(self, inp: pymcnp.Inp, tmp_path: pathlib.Path) -> None:
         visualizer = pymcnp.Visualize()
-        visualizer.to_pdf_cells(inp, pathlib.Path('hello.pdf'))
+        visualizer.to_pdf_cells(inp, tmp_path / 'hello.pdf')
 
-    def test_to_pdf_surface_valid(self, inp: pymcnp.Inp) -> None:
+    def test_to_pdf_surface_valid(self, inp: pymcnp.Inp, tmp_path: pathlib.Path) -> None:
         visualizer = pymcnp.Visualize()
-        visualizer.to_pdf_surface(inp, pathlib.Path('hello.pdf'), '1')
+        visualizer.to_pdf_surface(inp, tmp_path / 'hello.pdf', '1')
 
-    def test_to_pdf_cell_valid(self, inp: pymcnp.Inp) -> None:
+    def test_to_pdf_cell_valid(self, inp: pymcnp.Inp, tmp_path: pathlib.Path) -> None:
         visualizer = pymcnp.Visualize()
-        visualizer.to_pdf_cell(inp, pathlib.Path('hello.pdf'), '1')
+        visualizer.to_pdf_cell(inp, tmp_path / 'hello.pdf', '1')
+
+    def test_visualize_cells_runs(self) -> None:
+        inp = pymcnp.Inp.from_file(EXAMPLE)[0]
+
+        plot = pymcnp.Visualize().to_show_cells(inp)
+
+        assert isinstance(plot, pyvista.Plotter)
+        assert len(plot.renderer.actors) >= 1
+
+    def test_visualize_pdf(self, tmp_path: pathlib.Path) -> None:
+        # Renders for real, off screen (``pyvista.OFF_SCREEN`` is set in ``conftest.py``).
+        inp = pymcnp.Inp.from_file(EXAMPLE)[0]
+        path = tmp_path / 'c.pdf'
+
+        pymcnp.Visualize().to_pdf_cells(inp, path)
+
+        assert path.exists()
+        assert path.stat().st_size > 0

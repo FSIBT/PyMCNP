@@ -1,4 +1,3 @@
-import os
 import pathlib
 import dataclasses
 
@@ -52,10 +51,9 @@ class Visualize(abc.Utility):
                 continue
 
             grid = self._grid(inp)
-            if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-                grid['cell'] = shape.cell(grid.points).astype(numpy.float32)
-                plot.add_volume(grid, scalars='cell', opacity=numpy.array([0, 0, 0.01, 0.01]))
-                plot.add_mesh(shape.surface, opacity=0.9)
+            grid['cell'] = shape.cell(grid.points).astype(numpy.float32)
+            plot.add_volume(grid, scalars='cell', opacity=numpy.array([0, 0, 0.01, 0.01]))
+            plot.add_mesh(shape.surface, opacity=0.9)
 
         return plot
 
@@ -74,8 +72,7 @@ class Visualize(abc.Utility):
             if str(surface.j) not in number:
                 continue
 
-            if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-                plot.add_mesh(surface.to_show().surface)
+            plot.add_mesh(surface.to_show().surface)
 
         return plot
 
@@ -95,10 +92,9 @@ class Visualize(abc.Utility):
             cells[str(cell.j)] = shape
 
             grid = self._grid(inp)
-            if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-                grid['cell'] = shape.cell(grid.points).astype(numpy.float32)
-                plot.add_volume(grid, scalars='cell', opacity=numpy.array([0, 0, 0.01, 0.01]))
-                plot.add_mesh(shape.surface, opacity=0.9)
+            grid['cell'] = shape.cell(grid.points).astype(numpy.float32)
+            plot.add_volume(grid, scalars='cell', opacity=numpy.array([0, 0, 0.01, 0.01]))
+            plot.add_mesh(shape.surface, opacity=0.9)
 
         return plot
 
@@ -113,8 +109,7 @@ class Visualize(abc.Utility):
         for surface in inp.surfaces.filter(inp_.card.Surface):
             shape = surface.to_show()
 
-            if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-                plot.add_mesh(shape.surface)
+            plot.add_mesh(shape.surface)
 
         return plot
 
@@ -129,8 +124,7 @@ class Visualize(abc.Utility):
 
         plot = self.to_show_cells(inp, skip=skip)
 
-        if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-            plot.save_graphic(str(path))
+        plot.save_graphic(str(path))
 
     def to_pdf_surfaces(self, inp: Inp, path: pathlib.Path | str, skip=()):
         """
@@ -143,8 +137,7 @@ class Visualize(abc.Utility):
 
         plot = self.to_show_surfaces(inp, skip=skip)
 
-        if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-            plot.save_graphic(str(path))
+        plot.save_graphic(str(path))
 
     def to_pdf_cell(self, inp: Inp, path: pathlib.Path | str, *number: str):
         """
@@ -157,8 +150,7 @@ class Visualize(abc.Utility):
 
         plot = self.to_show_cell(inp, *number)
 
-        if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-            plot.save_graphic(str(path))
+        plot.save_graphic(str(path))
 
     def to_pdf_surface(self, inp: Inp, path: pathlib.Path | str, *number: str):
         """
@@ -171,5 +163,4 @@ class Visualize(abc.Utility):
 
         plot = self.to_show_surface(inp, *number)
 
-        if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-            plot.save_graphic(str(path))
+        plot.save_graphic(str(path))

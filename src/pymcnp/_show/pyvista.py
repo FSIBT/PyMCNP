@@ -89,7 +89,7 @@ class Visualization(abc.Visualization):
 
         vis = Visualization()
         vis.surface = self.surface
-        vis.cell = lambda p: not self.cell(p)
+        vis.cell = lambda p: numpy.logical_not(self.cell(p))
 
         return vis
 
@@ -107,6 +107,8 @@ class Visualization(abc.Visualization):
         """
 
         vis = Visualization()
+        axis = numpy.asarray(axis, dtype=float)
+        center = numpy.asarray(center, dtype=float)
         norm = numpy.linalg.norm(axis)
 
         if norm == 0 or angle == 0:
@@ -125,7 +127,13 @@ class Visualization(abc.Visualization):
             point=center,
             inplace=False,
         )
-        vis.cell = lambda p: self.cell((p - center) * cos_t + numpy.cross(unit_axis, p - center) * sin_t + unit_axis * numpy.dot(unit_axis, p - center) * (1.0 - cos_t) + center)
+
+        def cell(p: numpy.ndarray) -> numpy.ndarray:
+            v = p - center
+            rotated = v * cos_t + numpy.cross(unit_axis, v) * sin_t + unit_axis * numpy.sum(unit_axis * v, axis=1, keepdims=True) * (1.0 - cos_t)
+            return self.cell(rotated + center)
+
+        vis.cell = cell
         return vis
 
     def translate(self, vector: numpy.ndarray) -> Visualization:
@@ -163,7 +171,7 @@ class Box(abc.Box, Visualization):
         """
 
         self.surface = pyvista.Box((0, self.a, 0, self.b, 0, self.c))
-        self.cell = lambda p: bool(not numpy.all((p >= 0) & (p <= [self.a, self.b, self.c])))
+        self.cell = lambda p: numpy.all((p >= 0) & (p <= [self.a, self.b, self.c]), axis=1)
 
 
 @dataclasses.dataclass
@@ -187,7 +195,7 @@ class ConeTruncated(abc.ConeTruncated, Visualization):
             .extract_surface(algorithm='dataset_surface')
             .extrude_rotate(capping=True, resolution=RESOLUTION)
         )
-        self.cell = lambda p: ~(p[:, 2] <= self.h) & (p[:, 2] >= 0) & (p[:, 0] ** 2 + p[:, 1] ** 2 <= (self.r1 + p[:, 2] / self.h * (self.r2 - self.r1)) ** 2)
+        self.cell = lambda p: (p[:, 2] <= self.h) & (p[:, 2] >= 0) & (p[:, 0] ** 2 + p[:, 1] ** 2 <= (self.r1 + p[:, 2] / self.h * (self.r2 - self.r1)) ** 2)
 
 
 @dataclasses.dataclass
@@ -210,7 +218,7 @@ class ConeUnbounded(abc.ConeUnbounded, Visualization):
             .extract_surface(algorithm='dataset_surface')
             .extrude_rotate(resolution=RESOLUTION, capping=False)
         )
-        self.cell = lambda p: ~(p[:, 0] ** 2 + p[:, 1] ** 2 == self.sign * self.m**2 * p[:, 2] ** 2)
+        self.cell = lambda p: (self.sign * p[:, 2] >= 0) & (p[:, 0] ** 2 + p[:, 1] ** 2 <= self.m**2 * p[:, 2] ** 2)
 
 
 @dataclasses.dataclass
@@ -229,7 +237,7 @@ class CylinderCircular(abc.CylinderCircular, Visualization):
         """
 
         self.surface = pyvista.Cylinder(radius=self.r, height=self.h, direction=(0.0, 0.0, 1.0))
-        self.cell = lambda p: ~((p[:, 2] >= 0) & (p[:, 2] <= self.h) & (p[:, 0] ** 2 + p[:, 1] ** 2 <= self.r**2))
+        self.cell = lambda p: (p[:, 2] >= 0) & (p[:, 2] <= self.h) & (p[:, 0] ** 2 + p[:, 1] ** 2 <= self.r**2)
 
 
 @dataclasses.dataclass
@@ -249,7 +257,7 @@ class CylinderElliptical(abc.CylinderElliptical, Visualization):
         """
 
         self.surface = pyvista.ParametricSuperEllipsoid(xradius=self.a, yradius=self.b, zradius=self.h, n1=0.001)
-        self.cell = lambda p: ~((p[:, 2] >= 0) & (p[:, 2] <= self.h) & ((p[:, 0] / self.a) ** 2 + (p[:, 1] / self.b) ** 2 <= 1))
+        self.cell = lambda p: (p[:, 2] >= 0) & (p[:, 2] <= self.h) & ((p[:, 0] / self.a) ** 2 + (p[:, 1] / self.b) ** 2 <= 1)
 
 
 @dataclasses.dataclass
@@ -286,7 +294,11 @@ class CylinderHexagonal(abc.CylinderHexagonal, Visualization):
         cells = [len(points), *list(range(len(points)))]
 
         self.surface = pyvista.UnstructuredGrid(cells, [pyvista.CellType.HEXAGONAL_PRISM], points)
-        self.cell = lambda p: 0 <= p[:, 2] <= self.h and all(abs(p[:, 0] * math.cos(i * math.pi / 3) + p[:, 1] * math.sin(i * math.pi / 3)) <= (self.a, self.b, self.c)[i % 3] for i in range(6))
+        self.cell = lambda p: (
+            (p[:, 2] >= 0)
+            & (p[:, 2] <= self.h)
+            & numpy.all([numpy.abs(p[:, 0] * math.cos(i * math.pi / 3) + p[:, 1] * math.sin(i * math.pi / 3)) <= (self.a, self.b, self.c)[i % 3] for i in range(6)], axis=0)
+        )
 
 
 @dataclasses.dataclass
@@ -338,7 +350,7 @@ class Empty(abc.Empty, Visualization):
         """
 
         self.surface = pyvista.PolyData()
-        self.cell = lambda p: False
+        self.cell = lambda p: numpy.zeros(len(p), dtype=bool)
 
 
 @dataclasses.dataclass
@@ -361,7 +373,7 @@ class Parallelipiped(abc.Parallelipiped, Visualization):
         """
 
         self.surface = pyvista.Box(bounds=(self.xmin, self.xmax, self.ymin, self.ymax, self.zmin, self.zmax))
-        self.cell = lambda p: bool(not numpy.all((p >= [self.xmin, self.ymin, self.zmin]) & (p <= [self.xmax, self.ymax, self.zmax])))
+        self.cell = lambda p: numpy.all((p >= [self.xmin, self.ymin, self.zmin]) & (p <= [self.xmax, self.ymax, self.zmax]), axis=1)
 
 
 @dataclasses.dataclass
@@ -393,7 +405,7 @@ class Plane(abc.Plane, Visualization):
             point = (0, 0, self.d)
 
         self.surface = pyvista.Plane(center=point, i_size=int(BOUND), j_size=int(BOUND), direction=(self.a, self.b, self.c))
-        self.cell = lambda p: self.a * p[:, 0] + self.b * p[:, 1] + self.c * p[:, 2] - self.d > 0
+        self.cell = lambda p: self.a * p[:, 0] + self.b * p[:, 1] + self.c * p[:, 2] - self.d < 0
 
 
 @dataclasses.dataclass
@@ -411,7 +423,7 @@ class Sphere(abc.Sphere, Visualization):
         """
 
         self.surface = pyvista.Sphere(radius=self.r, center=numpy.zeros(3))
-        self.cell = lambda p: ~(p[:, 0] ** 2 + p[:, 1] ** 2 + p[:, 2] ** 2 <= self.r**2)
+        self.cell = lambda p: p[:, 0] ** 2 + p[:, 1] ** 2 + p[:, 2] ** 2 <= self.r**2
 
 
 @dataclasses.dataclass
@@ -435,7 +447,7 @@ class Torus(abc.Torus, Visualization):
         ellipse = pyvista.UnstructuredGrid([len(points), *list(range(len(points)))], [pyvista.CellType.POLYGON], points)
 
         self.surface = ellipse.extract_surface(algorithm='dataset_surface').extrude_rotate(capping=False, resolution=RESOLUTION)
-        self.cell = lambda p: (p[:, 0] ** 2 + (self.a - (p[:, 1] ** 2 / self.a**2 + p[:, 2] ** 2 / self.b**2) ** 0.5 * self.a) ** 2 - self.r**2) ** 2
+        self.cell = lambda p: ((numpy.hypot(p[:, 0], p[:, 1]) - self.r) / self.a) ** 2 + (p[:, 2] / self.b) ** 2 <= 1
 
 
 @dataclasses.dataclass
@@ -464,7 +476,7 @@ class Wedge(abc.Wedge, Visualization):
         ]
 
         self.surface = pyvista.UnstructuredGrid([len(points), *list(range(len(points)))], [pyvista.CellType.WEDGE], points)
-        self.cell = lambda p: 0 <= p[:, 0] <= self.a and 0 <= p[:, 1] <= self.b and 0 <= p[:, 2] <= self.h and p[:, 0] / self.a + p[:1] / self.b <= 1
+        self.cell = lambda p: (p[:, 0] >= 0) & (p[:, 0] <= self.a) & (p[:, 1] >= 0) & (p[:, 1] <= self.b) & (p[:, 2] >= 0) & (p[:, 2] <= self.h) & (p[:, 0] / self.a + p[:, 1] / self.b <= 1)
 
 
 endpoint = abc.Endpoint(
