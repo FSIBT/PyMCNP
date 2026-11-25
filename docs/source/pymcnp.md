@@ -87,7 +87,7 @@ truncated last history: it stays in the returned remainder, so use `stream` or `
 
 `Meshtal.from_file` reads the first mesh tally of a file; use `Meshtal.iter_tallies(path)` for files that hold several.
 `to_dataframe` gives one dataframe per tally with float columns (`Energy` and `Time` stay strings if a bin is `Total`), and
-`tally_number`, `particle_name` and `names` are plain `str`.
+`tally_number` is an `int`, `particle_name` a plain `str` and `names` a list of plain `str`.
 
 [meshtal subpackage](pymcnp/meshtal)
 

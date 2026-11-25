@@ -18,15 +18,19 @@ Thanks to BitterB0NG0, whose refactor of the parsers (iterative parsing mixins, 
 - `abc.Warning`, the warning category of PyMCNP; warnings use Python's standard `warnings.showwarning`, and PyMCNP installs no global hook.
 - Iterative parsing mixins (`abc.file.WithMcnpIter`, `abc.file.WithDataIter`) with `from_mcnp_iter`, `from_file_iter` and `to_dataframe_iter`.
 - `Inp.cell_cards`, `Inp.surface_cards` and `Inp.data_cards` filter cards by number, material, density or kind, e.g., `inp.surface_cards(99)[0]` and `inp.cell_cards(material=2)`.
-- `Check.problems`, which returns `Problem(line, kind, message)` entries, and `pymcnp check --fix/--diff`.
 - `scan` and `scan_with` on all nonterminals, e.g., `inp.scan(nps=[...], seed=[...])`, for independent copies in parameter scans.
-- `Outp`, `Meshtal` and `Ptrac` are `abc.DataFile`s with `to_dataframe`, `to_dataframe_iter`, `to_file_csv` and `to_file_parquet`.
+- `Outp`, `Meshtal` and `Ptrac` are `abc.File`s with the `abc.file.WithDataIter` mixin: `to_dataframe`, `to_dataframe_iter`, `to_file_csv` and `to_file_parquet`.
 - `Run`: per-run directories, worker limit, run names, `Result` objects with `fatal_errors`, `batch=False` and `Run.directory`.
 - The FM tally multiplier card, and `M.from_formula` library suffixes.
 - `SKILL.md`, which describes PyMCNP to AI coding agents, and examples 01 (PTRAC to parquet) and 02 (loop-built ground model with a flux plot).
 
 ### Changed
-- **Breaking:** `Visualize`, `Plot` and `Check` take their data in the call: `pymcnp.Visualize().to_show_surfaces(inp)`, `pymcnp.Plot().to_pdf(outp, '1', path)` and `pymcnp.Check(path).check()`.
+- **Breaking:** `Visualize` and `Plot` take their data in the call: `pymcnp.Visualize().to_show_surfaces(inp)` instead of `pymcnp.Visualize(inp).to_show_surfaces()`, and `pymcnp.Plot().to_pdf(outp, '1', path)` instead of `pymcnp.Plot(outp).to_pdf('1', path)`. Tally, cell and surface numbers may be given as `int` or `str`.
+- **Breaking:** `Inp`, `Outp`, `Meshtal` and `Ptrac` `from_mcnp` and `from_file` return `(obj, remainder)` instead of the object; check that the remainder is empty.
+- **Breaking:** `Run(inps=...)` is `Run(files=...)`; `Run.run` returns a list of `Result` instead of the batch directory (now in `Run.directory`), and `posthook_file(path, index)` is `posthook_file(result)`.
+- **Breaking:** the INP card classes moved from `pymcnp.inp` (`inp.Cell`, `inp.Arb`, `inp.Nps`, ...) to `pymcnp.inp.card` (`card.Cell`, `card.surface.Arb`, `card.data.Nps`, ...), and their options to `pymcnp.inp.option`.
+- **Breaking:** removed `pymcnp.errors` (`CliError`, `InpError`, ...); PyMCNP raises `pymcnp.abc.Error`. Removed `pymcnp.types`; the literals are in `pymcnp.inp.literal`.
+- **Breaking:** removed `MeshtalFilter` and `MeshtalProcessor`.
 - `Inp.to_mcnp` wraps card lines longer than 80 columns again.
 - The test suite is much faster (sentinels, truncated PTRAC fixtures, a coarse visualization resolution), runs in temporary directories, and the rendering tests are marked `render`, which macOS CI skips.
 - `scan` and `scan_with` work on all nonterminals without `eval`, and `Array.filter` skips items that lack the field.
