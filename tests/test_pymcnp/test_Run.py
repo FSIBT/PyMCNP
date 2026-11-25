@@ -111,6 +111,15 @@ class Test_Run:
         with pytest.raises(pymcnp.abc.Error, match='Run failed'):
             pymcnp.Run(inps, command=fake).run(tmp_path)
 
+    def test_missing_outp_is_named(self, inp: pymcnp.Inp, tmp_path: pathlib.Path) -> None:
+        # ``echo`` exits with 0 but writes no output file: say so, and ``check=False`` dry-runs.
+        with pytest.raises(pymcnp.abc.Error) as error:
+            pymcnp.Run((inp,), command='echo').run(tmp_path / 'a')
+        assert 'run-00000: exit code 0, no output file' in str(error.value.body)
+
+        (result,) = pymcnp.Run((inp,), command='echo', check=False).run(tmp_path / 'b')
+        assert result.returncode == 0 and result.outp is None and not result.ok
+
     def test_failed_run_not_ok(self, inp: pymcnp.Inp, fake: str, tmp_path: pathlib.Path) -> None:
         (result,) = pymcnp.Run(_inps(inp, 1, title='EXIT'), command=fake, check=False).run(tmp_path)
         assert result.ok is False and result.returncode == 3

@@ -219,7 +219,13 @@ class Run(abc.Utility):
         if failed and self.check:
             raise abc.Error(
                 'Run failed.',
-                '\n'.join(f'{result.directory.name}: exit code {result.returncode}' + ''.join(f'\n    {error}' for error in result.fatal_errors[:3]) + f'\n    see {result.log}' for result in failed),
+                '\n'.join(
+                    f'{result.directory.name}: exit code {result.returncode}'
+                    + (', no output file' if result.outp is None else '')
+                    + ''.join(f'\n    {error}' for error in result.fatal_errors[:3])
+                    + f'\n    see {result.log}'
+                    for result in failed
+                ),
             )
 
         self.posthook_batch(directory)
