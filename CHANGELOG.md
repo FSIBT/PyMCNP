@@ -12,7 +12,7 @@ Thanks to BitterB0NG0, whose refactor of the parsers (iterative parsing mixins, 
 ### Added
 - `Outp.summary` (`outp.Summary`): version, histories, run time, termination, `keff`, warnings, fatal errors and the statistical checks of each tally.
 - `Outp.fatal_errors`, `Outp.activity(particle)` (print table 126 as a dataframe) and `Outp.tally(number)` with typed columns. `Outp.tallies()` and `Outp.activities()` return the parsed blocks.
-- `Meshtal.iter_tallies` for meshtal files with several mesh tallies, which `from_file` silently truncated; `Meshtal.to_dataframe` with float columns.
+- `Meshtal.iter_tallies` for meshtal files with several mesh tallies, which `from_file` silently truncated; `Meshtal.to_dataframe` with float columns; `Meshtal.tally_number` (`int`), `particle_name` (`str`) and `names` (list of `str`).
 - PTRAC streaming on the event-block parser: `Ptrac.stream`, `Ptrac.iter_histories` (yields `ptrac.block.History` or `ptrac.block.HistoryTruncated`), `Ptrac.tracks` (particle tracks linked to their parents and originating nuclide), `Ptrac.to_parquet` (chunked, with filters), `Ptrac.to_dataframe` with typed columns including `track` and `parent_zaid`, and `ptrac.Event`, `ptrac.Track`, `ptrac.EventType`, `ptrac.Particle`, `ptrac.Surface`. `PtracFilter.run` and `PtracProcessor.run` accept a path.
 - A PTRAC file cut short, e.g., by a killed MCNP run, keeps its truncated last history with an `abc.Warning`; damage before the final event still raises. `Ptrac.from_file` leaves a truncated last history in the remainder, so use `stream` or `iter_histories` for such files.
 - `abc.Warning`, the warning category of PyMCNP; warnings use Python's standard `warnings.showwarning`, and PyMCNP installs no global hook.
@@ -27,7 +27,6 @@ Thanks to BitterB0NG0, whose refactor of the parsers (iterative parsing mixins, 
 
 ### Changed
 - **Breaking:** `Visualize`, `Plot` and `Check` take their data in the call: `pymcnp.Visualize().to_show_surfaces(inp)`, `pymcnp.Plot().to_pdf(outp, '1', path)` and `pymcnp.Check(path).check()`.
-- `Meshtal` `tally_number`, `particle_name` and `names` are plain `str`.
 - `Inp.to_mcnp` wraps card lines longer than 80 columns again.
 - The test suite is much faster (sentinels, truncated PTRAC fixtures, a coarse visualization resolution), runs in temporary directories, and the rendering tests are marked `render`, which macOS CI skips.
 - `scan` and `scan_with` work on all nonterminals without `eval`, and `Array.filter` skips items that lack the field.
