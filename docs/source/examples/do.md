@@ -1,6 +1,6 @@
 # "Do" Examples
 
-PyMCNP enables common workflows using `pyvista`, `pandas`, `subprocesss`, `matplotlib`, and `difflib`.
+PyMCNP enables common workflows using `pyvista`, `pandas`, `subprocess`, `matplotlib`, and `difflib`.
 
 ## Checking INP Files
 
@@ -19,7 +19,8 @@ Code:
 Output:
 
     Checking INP file: `examples/output/example_00.inp`
-    ()
+    219 lines differ from the reformatted file.
+    Fixing and writing to INP file: `examples/output/example_00.inp`
 
 ## Converting OUTP Files
 
@@ -81,11 +82,19 @@ Code:
 Output:
 
     Running `echo` in `examples/output`:
-    Calling `prehook_batch
-    Calling `posthook_batch`
-    Run 0: exit code 0, input `run-00000.inp`, output `examples/output/run-00000.outp`
-    Run 1: exit code 0, input `run-00001.inp`, output `examples/output/run-00001.outp`
-    Run 2: exit code 0, input `run-00002.inp`, output `examples/output/run-00002.outp`
+    Calling `prehook_batch` pymcnp-2026-11-25--10-26-01
+    Calling `prehook_file` 1 in run-00001
+    Calling `prehook_file` 0 in run-00000
+    Calling `posthook_file` run-00000 0 (ok=False)
+    Calling `posthook_file` run-00001 1 (ok=False)
+    Calling `prehook_file` 2 in run-00002
+    Calling `posthook_file` run-00002 2 (ok=False)
+    Calling `posthook_batch` pymcnp-2026-11-25--10-26-01
+    Run 0: exit code 0, input `run-00000.inp`, output `None`
+    Run 1: exit code 0, input `run-00001.inp`, output `None`
+    Run 2: exit code 0, input `run-00002.inp`, output `None`
+
+With a real MCNP (`command='mcnp6'`) every run writes its output files into its own directory `examples/output/pymcnp-<timestamp>/run-0000N/`, `ok` is true for runs that finished without fatal errors, and `Run.run` raises if one failed (the default `check=True`).
 
 ## Visualizing INP Files
 

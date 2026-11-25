@@ -265,21 +265,21 @@ Code:
 
 Output:
 
-    Reading tally #1 surface #2.1 from `example_00.outp`:
-             bins    counts  errors surface_number angle_from     angle_to number                                          type particles      nps
-    0     0.10000  0.000010  0.3177            2.1      180.0  0.90000E+02      1  1    number of particles crossing a surface.   photons  1000000
-    1     0.11934  0.000003  0.5773            2.1      180.0  0.90000E+02      1  1    number of particles crossing a surface.   photons  1000000
-    2     0.13867  0.000005  0.4472            2.1      180.0  0.90000E+02      1  1    number of particles crossing a surface.   photons  1000000
-    3     0.15801  0.000002  0.7071            2.1      180.0  0.90000E+02      1  1    number of particles crossing a surface.   photons  1000000
-    4     0.17734  0.000002  0.7072            2.1      180.0  0.90000E+02      1  1    number of particles crossing a surface.   photons  1000000
-    ..        ...       ...     ...            ...        ...          ...    ...                                           ...       ...      ...
-    508   9.92270  0.000000  0.0000            2.1      180.0  0.90000E+02      1  1    number of particles crossing a surface.   photons  1000000
-    509   9.94200  0.000000  0.0000            2.1      180.0  0.90000E+02      1  1    number of particles crossing a surface.   photons  1000000
-    510   9.96130  0.000000  0.0000            2.1      180.0  0.90000E+02      1  1    number of particles crossing a surface.   photons  1000000
-    511   9.98070  0.000000  0.0000            2.1      180.0  0.90000E+02      1  1    number of particles crossing a surface.   photons  1000000
-    512  10.00000  0.000000  0.0000            2.1      180.0  0.90000E+02      1  1    number of particles crossing a surface.   photons  1000000
+    Reading tally #1 surface #2 from `example_00.outp`:
+             bins    counts  errors  angle_from  angle_to  surface  facet  number                                 quantity particles      nps
+    0     0.10000  0.000010  0.3177       180.0      90.0        2      1       1  number of particles crossing a surface.   photons  1000000
+    1     0.11934  0.000003  0.5773       180.0      90.0        2      1       1  number of particles crossing a surface.   photons  1000000
+    2     0.13867  0.000005  0.4472       180.0      90.0        2      1       1  number of particles crossing a surface.   photons  1000000
+    3     0.15801  0.000002  0.7071       180.0      90.0        2      1       1  number of particles crossing a surface.   photons  1000000
+    4     0.17734  0.000002  0.7072       180.0      90.0        2      1       1  number of particles crossing a surface.   photons  1000000
+    ..        ...       ...     ...         ...       ...      ...    ...     ...                                      ...       ...      ...
+    508   9.92270  0.000000  0.0000       180.0      90.0        2      1       1  number of particles crossing a surface.   photons  1000000
+    509   9.94200  0.000000  0.0000       180.0      90.0        2      1       1  number of particles crossing a surface.   photons  1000000
+    510   9.96130  0.000000  0.0000       180.0      90.0        2      1       1  number of particles crossing a surface.   photons  1000000
+    511   9.98070  0.000000  0.0000       180.0      90.0        2      1       1  number of particles crossing a surface.   photons  1000000
+    512  10.00000  0.000000  0.0000       180.0      90.0        2      1       1  number of particles crossing a surface.   photons  1000000
 
-    [513 rows x 10 columns]
+    [513 rows x 11 columns]
 
 ## Reading OUTP Tally 2
 
@@ -298,20 +298,20 @@ Code:
 Output:
 
     Reading tally #2 surface #8 from `example_03.outp`:
-              bins    counts  errors surface_number number                                               type particles     nps
-    0          0.0  0.000000  0.0000              8      2  2    particle flux averaged over a surface.   ...  neutrons  100000
-    1        100.0  0.000078  0.1010              8      2  2    particle flux averaged over a surface.   ...  neutrons  100000
-    2        200.0  0.000085  0.0966              8      2  2    particle flux averaged over a surface.   ...  neutrons  100000
-    3        300.0  0.000080  0.0999              8      2  2    particle flux averaged over a surface.   ...  neutrons  100000
-    4        400.0  0.000085  0.0966              8      2  2    particle flux averaged over a surface.   ...  neutrons  100000
-    ...        ...       ...     ...            ...    ...                                                ...       ...     ...
-    4496  449600.0  0.000000  0.0000              8      2  2    particle flux averaged over a surface.   ...  neutrons  100000
-    4497  449700.0  0.000000  0.0000              8      2  2    particle flux averaged over a surface.   ...  neutrons  100000
-    4498  449800.0  0.000000  0.0000              8      2  2    particle flux averaged over a surface.   ...  neutrons  100000
-    4499  449900.0  0.000000  0.0000              8      2  2    particle flux averaged over a surface.   ...  neutrons  100000
-    4500  450000.0  0.000000  0.0000              8      2  2    particle flux averaged over a surface.   ...  neutrons  100000
-    
-    [4501 rows x 8 columns]
+              bins    counts  errors  surface  facet  number                                quantity particles     nps
+    0          0.0  0.000000  0.0000        8      0       2  particle flux averaged over a surface.  neutrons  100000
+    1        100.0  0.000078  0.1010        8      0       2  particle flux averaged over a surface.  neutrons  100000
+    2        200.0  0.000085  0.0966        8      0       2  particle flux averaged over a surface.  neutrons  100000
+    3        300.0  0.000080  0.0999        8      0       2  particle flux averaged over a surface.  neutrons  100000
+    4        400.0  0.000085  0.0966        8      0       2  particle flux averaged over a surface.  neutrons  100000
+    ...        ...       ...     ...      ...    ...     ...                                     ...       ...     ...
+    4496  449600.0  0.000000  0.0000        8      0       2  particle flux averaged over a surface.  neutrons  100000
+    4497  449700.0  0.000000  0.0000        8      0       2  particle flux averaged over a surface.  neutrons  100000
+    4498  449800.0  0.000000  0.0000        8      0       2  particle flux averaged over a surface.  neutrons  100000
+    4499  449900.0  0.000000  0.0000        8      0       2  particle flux averaged over a surface.  neutrons  100000
+    4500  450000.0  0.000000  0.0000        8      0       2  particle flux averaged over a surface.  neutrons  100000
+
+    [4501 rows x 9 columns]
 
 ## Reading OUTP Tally 4
 
@@ -330,19 +330,19 @@ Code:
 Output:
 
     Reading tally #14 cell #12 from `example_02.outp`:
-              bins        counts  errors cell_number number                                               type particles         nps
-    0      0.10000  3.622140e-07  0.0025          12     14  4    track length estimate of particle flux.  ...   photons  1000000000
-    1      0.10989  6.949680e-08  0.0045          12     14  4    track length estimate of particle flux.  ...   photons  1000000000
-    2      0.11978  6.931230e-08  0.0045          12     14  4    track length estimate of particle flux.  ...   photons  1000000000
-    3      0.12967  6.818310e-08  0.0045          12     14  4    track length estimate of particle flux.  ...   photons  1000000000
-    4      0.13956  6.641000e-08  0.0046          12     14  4    track length estimate of particle flux.  ...   photons  1000000000
-    ...        ...           ...     ...         ...    ...                                                ...       ...         ...
-    997    9.96040  2.980820e-10  0.0862          12     14  4    track length estimate of particle flux.  ...   photons  1000000000
-    998    9.97030  2.593030e-10  0.0989          12     14  4    track length estimate of particle flux.  ...   photons  1000000000
-    999    9.98020  2.353170e-10  0.1060          12     14  4    track length estimate of particle flux.  ...   photons  1000000000
-    1000   9.99010  2.747060e-10  0.1015          12     14  4    track length estimate of particle flux.  ...   photons  1000000000
-    1001  10.00000  2.536390e-10  0.1054          12     14  4    track length estimate of particle flux.  ...   photons  1000000000
-    
+              bins        counts  errors  cell  number                                 quantity particles         nps
+    0      0.10000  3.622140e-07  0.0025    12      14  track length estimate of particle flux.   photons  1000000000
+    1      0.10989  6.949680e-08  0.0045    12      14  track length estimate of particle flux.   photons  1000000000
+    2      0.11978  6.931230e-08  0.0045    12      14  track length estimate of particle flux.   photons  1000000000
+    3      0.12967  6.818310e-08  0.0045    12      14  track length estimate of particle flux.   photons  1000000000
+    4      0.13956  6.641000e-08  0.0046    12      14  track length estimate of particle flux.   photons  1000000000
+    ...        ...           ...     ...   ...     ...                                      ...       ...         ...
+    997    9.96040  2.980820e-10  0.0862    12      14  track length estimate of particle flux.   photons  1000000000
+    998    9.97030  2.593030e-10  0.0989    12      14  track length estimate of particle flux.   photons  1000000000
+    999    9.98020  2.353170e-10  0.1060    12      14  track length estimate of particle flux.   photons  1000000000
+    1000   9.99010  2.747060e-10  0.1015    12      14  track length estimate of particle flux.   photons  1000000000
+    1001  10.00000  2.536390e-10  0.1054    12      14  track length estimate of particle flux.   photons  1000000000
+
     [1002 rows x 8 columns]
 
 ## Reading OUTP Tally 8
@@ -362,19 +362,19 @@ Code:
 Output:
 
     Reading tally #18 cell #200 from `example_01.outp`:
-             bins    counts  errors cell_number number                                               type particles       nps
-    0     0.10000  0.000109  0.0303         200     18  8    pulse height distribution.               ...   photons  10000000
-    1     0.11934  0.000008  0.1098         200     18  8    pulse height distribution.               ...   photons  10000000
-    2     0.13867  0.000008  0.1132         200     18  8    pulse height distribution.               ...   photons  10000000
-    3     0.15801  0.000007  0.1204         200     18  8    pulse height distribution.               ...   photons  10000000
-    4     0.17734  0.000006  0.1270         200     18  8    pulse height distribution.               ...   photons  10000000
-    ..        ...       ...     ...         ...    ...                                                ...       ...       ...
-    508   9.92270  0.000000  0.0000         200     18  8    pulse height distribution.               ...   photons  10000000
-    509   9.94200  0.000000  0.0000         200     18  8    pulse height distribution.               ...   photons  10000000
-    510   9.96130  0.000000  0.0000         200     18  8    pulse height distribution.               ...   photons  10000000
-    511   9.98070  0.000000  0.0000         200     18  8    pulse height distribution.               ...   photons  10000000
-    512  10.00000  0.000000  0.0000         200     18  8    pulse height distribution.               ...   photons  10000000
-    
+             bins    counts  errors  cell  number                    quantity particles       nps
+    0     0.10000  0.000109  0.0303   200      18  pulse height distribution.   photons  10000000
+    1     0.11934  0.000008  0.1098   200      18  pulse height distribution.   photons  10000000
+    2     0.13867  0.000008  0.1132   200      18  pulse height distribution.   photons  10000000
+    3     0.15801  0.000007  0.1204   200      18  pulse height distribution.   photons  10000000
+    4     0.17734  0.000006  0.1270   200      18  pulse height distribution.   photons  10000000
+    ..        ...       ...     ...   ...     ...                         ...       ...       ...
+    508   9.92270  0.000000  0.0000   200      18  pulse height distribution.   photons  10000000
+    509   9.94200  0.000000  0.0000   200      18  pulse height distribution.   photons  10000000
+    510   9.96130  0.000000  0.0000   200      18  pulse height distribution.   photons  10000000
+    511   9.98070  0.000000  0.0000   200      18  pulse height distribution.   photons  10000000
+    512  10.00000  0.000000  0.0000   200      18  pulse height distribution.   photons  10000000
+
     [513 rows x 8 columns]
 
 ## Reading PTRAC
@@ -403,11 +403,12 @@ Output:
         1   2   7   8   9  16  17  18  20  21  22   7   8  10  11  16  17  18  20  21  22   7   8  12  13  16  17  18  20  21
        22   7   8  10  11  16  17  18  20  21  22   7   8  14  15  16  17  18  20  21  22
     
-    Reading PTRAC from `example_02.ptrac`, iteratively:
-    <generator object WithMcnpIter.from_file_iter at 0x1026c0b80>
-    <generator object Ptrac.from_mcnp_iter.<locals>._generator at 0x11a5b1360>
-           3000         1        40         1        77         1
-       0.00000E+00  0.00000E+00  0.00000E+00
+    Reading PTRAC from `example_02.ptrac`, event by event:
+    1 SOURCE None 1 (0.0, 0.0, 0.0)
+    1 SURFACE 1 99 (101.7, 94.656, 143.87)
+    1 TERMINAL 1 99 (101.7, 94.656, 143.87)
+    2 SOURCE None 1 (0.0, 0.0, 0.0)
+    2 SURFACE 1 99 (179.04, -88.936, -5.8889)
     Reading PTRAC file from string:
        -1
     mcnp    6                        05/08/13 07/14/25 11:39:04 

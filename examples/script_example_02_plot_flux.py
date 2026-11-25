@@ -19,7 +19,7 @@ from matplotlib.patches import Rectangle
 matplotlib.use('Agg')
 path = sys.argv[1] if len(sys.argv) > 1 else glob.glob('script_example_02_output/run/*/ground/meshtal')[0]
 
-tally = next(pymcnp.Meshtal.from_file_iter(path))
+tally = next(pymcnp.Meshtal.iter_tallies(path))
 frame = tally.to_dataframe()
 xs, ys = np.sort(frame.X.unique()), np.sort(frame.Y.unique())
 shape = (len(ys), len(xs))

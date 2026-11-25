@@ -24,7 +24,7 @@ Read an input file, scan the radius of a sphere, and write one input file per ra
 import pymcnp
 
 inp, _ = pymcnp.Inp.from_file('example_00.inp')
-for i, copy in enumerate(inp.scan_with([500, 600, 700], lambda inp, r: setattr(inp.surface(99), 'r', r))):
+for i, copy in enumerate(inp.scan_with([500, 600, 700], lambda inp, r: setattr(inp.surface_cards(99)[0], 'r', r))):
     copy.to_file(f'sphere-{i}.inp')
 
 outp, _ = pymcnp.Outp.from_file('example_00.outp')

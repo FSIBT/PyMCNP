@@ -2,12 +2,11 @@
 Example parameter scan.
 
 This example mocks the parameter scan workflow. First, it reads INP file `example_04.inp`.
-Second, it creates independent copies of the input with `Inp.scan_with`, setting a surface's `vy` parameter (`Inp.scan(nps=..., seed=...)` does the same for `nps` and `seed`). Thrid,
+Second, it creates independent copies of the input with `Inp.scan_with`, setting a surface's `vy` parameter (`Inp.scan(nps=..., seed=...)` does the same for `nps` and `seed`). Third,
 it visualizes the surfaces. Fourth, it subclasses `Run`, adding callbacks that process
-the output files. Finaly, it runs the input files in parallel.
+the output files. Finally, it runs the input files in parallel.
 """
 
-import typing
 import pathlib
 
 import pymcnp
@@ -20,7 +19,7 @@ OUTPUT.mkdir(exist_ok=True)
 
 
 class MyRun(pymcnp.Run):
-    def posthook_one(self, result: pymcnp.Result, index: int):
+    def posthook_file(self, result: pymcnp.Result) -> None:
         # Copying OUTP (ECHO used for demo).
         path_copy = HERE / 'example_01.outp'
         path_outp = result.inp.with_suffix('.outp')
@@ -29,14 +28,13 @@ class MyRun(pymcnp.Run):
             file_outp.write(file_copy.read())
 
         # Reading OUTP.
-        # outp, _ = pymcnp.Outp.from_file(result.outp)
+        # outp, _ = pymcnp.Outp.from_file(path_outp)
 
         # Plotting.
         # path_pdf = result.directory / '..' / f'run-{result.index}.pdf'
-        # plotter = pymcnp.Plot(outp)
-        # plotter.to_pdf('1', path_pdf)
+        # pymcnp.Plot().to_pdf(outp, '1', path_pdf)
 
-    def posthook_batch(self, results: tuple[typing.Any, ...]):
+    def posthook_batch(self, path: pathlib.Path) -> None:
         # Deleting Run.
         # shutil.rmtree(path)
         print('DONE! :)')
@@ -56,5 +54,5 @@ for inp in inps:
 # Running.
 print(f'Running parameter scan `{COMMAND}` in `{OUTPUT}`:')
 # `check=False`, since ECHO writes no OUTP, so MCNP would count the runs as failed.
-runner = MyRun(command=COMMAND, directory=OUTPUT)
-runner.run(*inps)
+runner = MyRun(inps, command=COMMAND, check=False)
+runner.run(OUTPUT)

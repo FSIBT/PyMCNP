@@ -27,4 +27,4 @@ class Cases(pymcnp.Run):
 if __name__ == '__main__':
     shutil.rmtree(ROOT, ignore_errors=True)
     inps = list(geometry.base.scan(nps=[int(n) for n in geometry.NPS_VALUES]))
-    Cases(command='mcnp6', directory=ROOT).run(inps)
+    Cases(inps, command='mcnp6', names='{index}', batch=False).run(ROOT)

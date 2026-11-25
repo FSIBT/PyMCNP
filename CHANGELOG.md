@@ -5,14 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.0] - 2026-11-25
+
+Thanks to BitterB0NG0, whose refactor of the parsers (iterative parsing mixins, the event-block PTRAC core, `Inp.cell_cards`/`surface_cards`/`data_cards`, `abc.Warning`, a much faster test suite) is part of this release. The APIs below that the refactor had dropped, and the problems it introduced, were restored and fixed on top of it.
 
 ### Added
 - `Outp.summary` (`outp.Summary`): version, histories, run time, termination, `keff`, warnings, fatal errors and the statistical checks of each tally.
-- `Outp.fatal_errors`, `Outp.activity(particle)` (print table 126 as a dataframe), `Outp.tallies()` and `Outp.tally(number)` with typed columns.
+- `Outp.fatal_errors`, `Outp.activity(particle)` (print table 126 as a dataframe) and `Outp.tally(number)` with typed columns. `Outp.tallies()` and `Outp.activities()` return the parsed blocks.
 - `Meshtal.iter_tallies` for meshtal files with several mesh tallies, which `from_file` silently truncated; `Meshtal.to_dataframe` with float columns.
-- PTRAC streaming: `Ptrac.stream`, `Ptrac.iter_histories`, `Ptrac.tracks` (particle tracks linked to their parents and originating nuclide), `Ptrac.to_parquet` (chunked, with filters), and `ptrac.Event`, `ptrac.Track`, `ptrac.EventType`, `ptrac.Particle`, `ptrac.Surface`.
-- `Inp.cell`, `surface`, `material` and `tally` lookups by number, and `Inp.cells_with_material`.
+- PTRAC streaming on the event-block parser: `Ptrac.stream`, `Ptrac.iter_histories` (yields `ptrac.block.History` or `ptrac.block.HistoryTruncated`), `Ptrac.tracks` (particle tracks linked to their parents and originating nuclide), `Ptrac.to_parquet` (chunked, with filters), `Ptrac.to_dataframe` with typed columns including `track` and `parent_zaid`, and `ptrac.Event`, `ptrac.Track`, `ptrac.EventType`, `ptrac.Particle`, `ptrac.Surface`. `PtracFilter.run` and `PtracProcessor.run` accept a path.
+- A PTRAC file cut short, e.g., by a killed MCNP run, keeps its truncated last history with an `abc.Warning`; damage before the final event still raises. `Ptrac.from_file` leaves a truncated last history in the remainder, so use `stream` or `iter_histories` for such files.
+- `abc.Warning`, the warning category of PyMCNP; warnings use Python's standard `warnings.showwarning`, and PyMCNP installs no global hook.
+- Iterative parsing mixins (`abc.file.WithMcnpIter`, `abc.file.WithDataIter`) with `from_mcnp_iter`, `from_file_iter` and `to_dataframe_iter`.
+- `Inp.cell_cards`, `Inp.surface_cards` and `Inp.data_cards` filter cards by number, material, density or kind.
+- `Check.problems`, which returns `Problem(line, kind, message)` entries, and `pymcnp check --fix/--diff`.
 - `scan` and `scan_with` on all nonterminals, e.g., `inp.scan(nps=[...], seed=[...])`, for independent copies in parameter scans.
 - `Outp`, `Meshtal` and `Ptrac` are `abc.DataFile`s with `to_dataframe`, `to_dataframe_iter`, `to_file_csv` and `to_file_parquet`.
 - `Run`: per-run directories, worker limit, run names, `Result` objects with `fatal_errors`, `batch=False` and `Run.directory`.
@@ -20,6 +26,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `SKILL.md`, which describes PyMCNP to AI coding agents, and examples 01 (PTRAC to parquet) and 02 (loop-built ground model with a flux plot).
 
 ### Changed
+- **Breaking:** `Inp.cell_cards`, `Inp.surface_cards` and `Inp.data_cards` replace `Inp.cell`, `surface`, `material`, `tally` and `cells_with_material`, e.g., `inp.surface_cards(99)[0]` instead of `inp.surface(99)`, and `inp.cell_cards(material=2)` instead of `inp.cells_with_material(2)`.
+- **Breaking:** `Visualize`, `Plot` and `Check` take their data in the call: `pymcnp.Visualize().to_show_surfaces(inp)`, `pymcnp.Plot().to_pdf(outp, '1', path)` and `pymcnp.Check(path).check()`.
+- **Breaking:** `Outp.tallies()` returns tally blocks, not typed dataframes; use `Outp.tally(number)` for the dataframe.
+- `Meshtal.to_dataframe` gives one dataframe per tally with float columns, and `tally_number`, `particle_name` and `names` are plain `str`.
+- `Inp.to_mcnp` wraps card lines longer than 80 columns again.
+- The test suite is much faster (sentinels, truncated PTRAC fixtures, a coarse visualization resolution), runs in temporary directories, and the rendering tests are marked `render`, which macOS CI skips.
+- `scan` and `scan_with` work on all nonterminals without `eval`, and `Array.filter` skips items that lack the field.
 - **Breaking:** `Outp.to_dataframe` returns one dataframe with a `number` column instead of a dictionary of dataframes.
 - **Breaking:** removed `Convert`; use `to_file_csv` and `to_file_parquet`. `pymcnp convert` is now `pymcnp convert outp|ptrac|meshtal (--csv | --parquet) <file>` and converts the whole file.
 - **Breaking:** the PTRAC `I`, `J`, `N` and `P` lines are replaced by `ptrac.block.History` fields and event blocks named after the MCNP manual's variables (`EventSource_1`, ..., `EventTermination_4`), picked by the event type announced on the previous line.
@@ -30,6 +43,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Parsing time is linear in file size; it was quadratic, which made large OUTP, MESHTAL and PTRAC files very slow.
 
 ### Fixed
+- The hexagonal prism visualization mask, and the shape masks of `Visualize` (vectorized, with the sign convention of MCNP).
+- `examples/`: `do_run.py`, `do_parameter_scan.py`, `do_check.py`, `read_ptrac.py`, the tally examples, and `script_example_01_ptrac_to_parquet.py` (which ignored its `path` argument) use the current API, and `tests/test_examples.py` runs them.
+- The documentation described `Outp.tallies()` as returning typed columns.
 - `&` and `|` on surfaces and geometries were swapped.
 - OUTP files whose footer was written to `runtpe`, ends with a newline, or is missing (runs that stopped early) did not parse.
 - MESHTAL files: tally bin boundaries are required and data rows are parsed.
@@ -50,6 +66,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Continuous integration builds the package (with `twine check`) and the documentation.
 
 ### Changed
+- **Breaking:** `Inp.cell_cards`, `Inp.surface_cards` and `Inp.data_cards` replace `Inp.cell`, `surface`, `material`, `tally` and `cells_with_material`, e.g., `inp.surface_cards(99)[0]` instead of `inp.surface(99)`, and `inp.cell_cards(material=2)` instead of `inp.cells_with_material(2)`.
+- **Breaking:** `Visualize`, `Plot` and `Check` take their data in the call: `pymcnp.Visualize().to_show_surfaces(inp)`, `pymcnp.Plot().to_pdf(outp, '1', path)` and `pymcnp.Check(path).check()`.
+- **Breaking:** `Outp.tallies()` returns tally blocks, not typed dataframes; use `Outp.tally(number)` for the dataframe.
+- `Meshtal.to_dataframe` gives one dataframe per tally with float columns, and `tally_number`, `particle_name` and `names` are plain `str`.
+- `Inp.to_mcnp` wraps card lines longer than 80 columns again.
+- The test suite is much faster (sentinels, truncated PTRAC fixtures, a coarse visualization resolution), runs in temporary directories, and the rendering tests are marked `render`, which macOS CI skips.
+- `scan` and `scan_with` work on all nonterminals without `eval`, and `Array.filter` skips items that lack the field.
 - **Breaking:** `pymcnp check` exit codes: lines over 80 columns exit 1, files PyMCNP cannot parse exit 3, and a bad path exits 2. `--fix` no longer rewrites a file PyMCNP cannot parse.
 - **Breaking:** `Integer` fields reject non-integral values such as `2.5` instead of truncating them.
 - **Breaking:** removed the unused `Tally_8` block, superseded by `Tally_8A` and `Tally_8B`.
@@ -63,6 +86,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Documentation recommends `uv`, and the active-development warnings were removed.
 
 ### Fixed
+- The hexagonal prism visualization mask, and the shape masks of `Visualize` (vectorized, with the sign convention of MCNP).
+- `examples/`: `do_run.py`, `do_parameter_scan.py`, `do_check.py`, `read_ptrac.py`, the tally examples, and `script_example_01_ptrac_to_parquet.py` (which ignored its `path` argument) use the current API, and `tests/test_examples.py` runs them.
+- The documentation described `Outp.tallies()` as returning typed columns.
 - Cell and material options were silently dropped when parsing `INP`.
 - Vertical-data rows whose length differed from the header were accepted.
 - `pymcnp visualize` had ambiguous short options, did not validate cell and surface numbers, and wrote the cell PDF for `--surface --pdf`.
@@ -73,10 +99,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.9.0]  - 2025-12-01
 
 ### Fixed
+- The hexagonal prism visualization mask, and the shape masks of `Visualize` (vectorized, with the sign convention of MCNP).
+- `examples/`: `do_run.py`, `do_parameter_scan.py`, `do_check.py`, `read_ptrac.py`, the tally examples, and `script_example_01_ptrac_to_parquet.py` (which ignored its `path` argument) use the current API, and `tests/test_examples.py` runs them.
+- The documentation described `Outp.tallies()` as returning typed columns.
 - Fixed `INP` importance card, `imp`, validation.
 - Fixed `OUTP` `1tally8` table parsing.
 
 ### Changed
+- **Breaking:** `Inp.cell_cards`, `Inp.surface_cards` and `Inp.data_cards` replace `Inp.cell`, `surface`, `material`, `tally` and `cells_with_material`, e.g., `inp.surface_cards(99)[0]` instead of `inp.surface(99)`, and `inp.cell_cards(material=2)` instead of `inp.cells_with_material(2)`.
+- **Breaking:** `Visualize`, `Plot` and `Check` take their data in the call: `pymcnp.Visualize().to_show_surfaces(inp)`, `pymcnp.Plot().to_pdf(outp, '1', path)` and `pymcnp.Check(path).check()`.
+- **Breaking:** `Outp.tallies()` returns tally blocks, not typed dataframes; use `Outp.tally(number)` for the dataframe.
+- `Meshtal.to_dataframe` gives one dataframe per tally with float columns, and `tally_number`, `particle_name` and `names` are plain `str`.
+- `Inp.to_mcnp` wraps card lines longer than 80 columns again.
+- The test suite is much faster (sentinels, truncated PTRAC fixtures, a coarse visualization resolution), runs in temporary directories, and the rendering tests are marked `render`, which macOS CI skips.
+- `scan` and `scan_with` work on all nonterminals without `eval`, and `Array.filter` skips items that lack the field.
 - Refactored `INP` parser.
 - Refactored `OUTP` parser.
 - Refactored `PTRAC` parser.
@@ -100,6 +136,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.2.0]  - 2024-10-27
 
 ### Fixed
+- The hexagonal prism visualization mask, and the shape masks of `Visualize` (vectorized, with the sign convention of MCNP).
+- `examples/`: `do_run.py`, `do_parameter_scan.py`, `do_check.py`, `read_ptrac.py`, the tally examples, and `script_example_01_ptrac_to_parquet.py` (which ignored its `path` argument) use the current API, and `tests/test_examples.py` runs them.
+- The documentation described `Outp.tallies()` as returning typed columns.
 - Fixed `from_mcnp` and `to_mcnp` for several classes.
 - Fixed pre-commit.
 - Fixed CI.
@@ -111,6 +150,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `modify` function to change `INP` objects.
 
 ### Changed
+- **Breaking:** `Inp.cell_cards`, `Inp.surface_cards` and `Inp.data_cards` replace `Inp.cell`, `surface`, `material`, `tally` and `cells_with_material`, e.g., `inp.surface_cards(99)[0]` instead of `inp.surface(99)`, and `inp.cell_cards(material=2)` instead of `inp.cells_with_material(2)`.
+- **Breaking:** `Visualize`, `Plot` and `Check` take their data in the call: `pymcnp.Visualize().to_show_surfaces(inp)`, `pymcnp.Plot().to_pdf(outp, '1', path)` and `pymcnp.Check(path).check()`.
+- **Breaking:** `Outp.tallies()` returns tally blocks, not typed dataframes; use `Outp.tally(number)` for the dataframe.
+- `Meshtal.to_dataframe` gives one dataframe per tally with float columns, and `tally_number`, `particle_name` and `names` are plain `str`.
+- `Inp.to_mcnp` wraps card lines longer than 80 columns again.
+- The test suite is much faster (sentinels, truncated PTRAC fixtures, a coarse visualization resolution), runs in temporary directories, and the rendering tests are marked `render`, which macOS CI skips.
+- `scan` and `scan_with` work on all nonterminals without `eval`, and `Array.filter` skips items that lack the field.
 - Updated documentation.
 - Updated `cli` subpackage.
 - Imporved `__str__` and `__repr__` for several classes.
@@ -118,6 +164,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.2]  - 2024-10-19
 
 ### Fixed
+- The hexagonal prism visualization mask, and the shape masks of `Visualize` (vectorized, with the sign convention of MCNP).
+- `examples/`: `do_run.py`, `do_parameter_scan.py`, `do_check.py`, `read_ptrac.py`, the tally examples, and `script_example_01_ptrac_to_parquet.py` (which ignored its `path` argument) use the current API, and `tests/test_examples.py` runs them.
+- The documentation described `Outp.tallies()` as returning typed columns.
 - Fixed automated release on `PyPI`.
 
 ## [0.1.1]  - 2024-10-19

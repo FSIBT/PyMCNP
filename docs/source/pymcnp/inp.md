@@ -24,7 +24,6 @@
 	* `card.data.Corb`
 	* `card.data.Corc`
 	* `card.data.Ergsh`
-	* `card.data.Fm`
 	* `card.data.Mshmf`
 	* `card.data.Rmesh`
 	* `card.data.Sd`

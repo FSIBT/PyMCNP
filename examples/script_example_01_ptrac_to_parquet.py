@@ -9,20 +9,16 @@ import pathlib
 import sys
 
 import pymcnp
+from pymcnp.ptrac import Particle
 
 
-DETECTOR_CELL = '3'
+DETECTOR_CELL = 3
 
 
 def convert(path: pathlib.Path, out: pathlib.Path) -> int:
     """Writes the detector entries of one PTRAC file to parquet; returns the row count."""
 
-    ptrac, _ = pymcnp.Ptrac.from_file('examples/example_02.ptrac')
-    frame = ptrac.to_dataframe()
-    frame = frame.loc[frame['NCL(PBL%I%ICL)'] == DETECTOR_CELL]
-    frame.to_parquet(out)
-
-    return len(frame)
+    return pymcnp.Ptrac.to_parquet(path, out, particle=Particle.PHOTON, cell_entered=DETECTOR_CELL, surface=DETECTOR_CELL)
 
 
 if __name__ == '__main__':

@@ -1,14 +1,17 @@
 """
 Example reading PTRAC files.
 
-This example reads an PTRAC file using three methods: `from_file`, `stream`
+This example reads a PTRAC file using three methods: `from_file`, `stream`
 and `from_mcnp`. First, it reads the ptrac file from a path, second, it streams
-the same file event by event (use this for large files, since `from_file` keeps
-the whole file in memory), and third, it reads an ptrac file from the source
-string directly. Finally, it prints the results (only the first five streamed events).
+a file event by event (use this for large files, since `from_file` keeps the
+whole file in memory, and for files cut short by a killed MCNP run, since
+`from_file` leaves the partial last history in the remainder), and third, it
+reads a ptrac file from the source string directly. Finally, it prints the
+results (only the first five streamed events).
 """
 
 import pathlib
+import itertools
 
 import pymcnp
 
@@ -22,14 +25,10 @@ print(ptrac)
 
 # Streaming PTRAC using `stream`, one event at a time.
 path = pathlib.Path('example_02.ptrac')
-ptrac_generator = pymcnp.Ptrac.from_file_iter(path)
-history_generator = next(ptrac_generator)
-event, _ = next(history_generator)
 
-print(f'Reading PTRAC from `{path}`, iteratively:')
-print(ptrac_generator)
-print(history_generator)
-print(event)
+print(f'Reading PTRAC from `{path}`, event by event:')
+for event in itertools.islice(pymcnp.Ptrac.stream(path), 5):
+    print(event.nps, event.type.name, event.particle, event.cell, event.position)
 
 # Reading PTRAC using `from_mcnp`.
 ptrac, _ = pymcnp.Ptrac.from_mcnp("""   -1
