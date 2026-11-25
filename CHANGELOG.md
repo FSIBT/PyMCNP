@@ -7,8 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2026-11-25
 
-Thanks to BitterB0NG0, whose refactor of the parsers (iterative parsing mixins, the event-block PTRAC core, `Inp.cell_cards`/`surface_cards`/`data_cards`, `abc.Warning`, a much faster test suite) is part of this release. The APIs below that the refactor had dropped, and the problems it introduced, were restored and fixed on top of it.
-
 ### Added
 - `Outp.summary` (`outp.Summary`): version, histories, run time, termination, `keff`, warnings, fatal errors and the statistical checks of each tally.
 - `Outp.fatal_errors`, `Outp.activity(particle)` (print table 126 as a dataframe) and `Outp.tally(number)` with typed columns. `Outp.tallies()` and `Outp.activities()` return the parsed blocks.
