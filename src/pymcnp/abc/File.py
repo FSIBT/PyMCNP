@@ -1,4 +1,3 @@
-import os
 import typing
 import pathlib
 
@@ -41,5 +40,4 @@ class File(Nonterminal):
         """
 
         path = pathlib.Path(path)
-        if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-            path.write_text(self.to_mcnp())
+        path.write_text(self.to_mcnp())

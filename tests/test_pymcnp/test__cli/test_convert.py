@@ -1,4 +1,5 @@
 import sys
+import shutil
 import pathlib
 
 import pytest
@@ -9,8 +10,11 @@ from pymcnp._cli import convert
 FILES: pathlib.Path = pathlib.Path(__file__).parent.parent.parent.parent / 'files'
 
 
-def test_main_valid(monkeypatch) -> None:
-    for kind, path in (('outp', FILES / 'outp' / 'valid_39.outp'), ('meshtal', FILES / 'meshtal' / 'valid_40.meshtal'), ('ptrac', FILES / 'ptrac' / 'valid_38.ptrac')):
+def test_main_valid(monkeypatch, tmp_path: pathlib.Path) -> None:
+    for kind, source in (('outp', FILES / 'outp' / 'valid_39.outp'), ('meshtal', FILES / 'meshtal' / 'valid_40.meshtal'), ('ptrac', FILES / 'ptrac' / 'valid_38.ptrac')):
+        path = tmp_path / source.name
+        shutil.copy(source, path)
+
         monkeypatch.setattr(sys, 'argv', ['pymcnp', 'convert', kind, '--csv', str(path)])
         convert.main()
 

@@ -1,4 +1,5 @@
 import sys
+import shutil
 import pathlib
 
 import pytest
@@ -10,11 +11,16 @@ from pymcnp._cli import plot
 FILES: pathlib.Path = pathlib.Path(__file__).parent.parent.parent.parent / 'files'
 
 
-def test_main_valid(monkeypatch) -> None:
-    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'plot', str(FILES / 'outp' / 'valid_39.outp'), '21'])
+def test_main_valid(monkeypatch, tmp_path: pathlib.Path) -> None:
+    path = tmp_path / 'valid_39.outp'
+    shutil.copy(FILES / 'outp' / 'valid_39.outp', path)
+
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'plot', str(path), '21'])
     plot.main()
-    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'plot', str(FILES / 'outp' / 'valid_39.outp'), '21', '--pdf'])
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'plot', str(path), '21', '--pdf'])
     plot.main()
+
+    assert path.with_suffix('.pdf').stat().st_size > 0
 
     matplotlib.pyplot.close()
 

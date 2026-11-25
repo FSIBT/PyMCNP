@@ -6,7 +6,6 @@ Options:
     --pdf       Write PDF.
 """
 
-import os
 import sys
 import pathlib
 
@@ -46,8 +45,7 @@ def main() -> None:
         else:
             ploter.to_show(outp, number)
 
-            if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-                matplotlib.pyplot.show()
+            matplotlib.pyplot.show()
 
             matplotlib.pyplot.close()
     except abc.Error as err:

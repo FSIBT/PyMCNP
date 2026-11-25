@@ -1,4 +1,3 @@
-import os
 import typing
 import pathlib
 import dataclasses
@@ -75,8 +74,7 @@ class Plot(abc.Utility):
             path: Path to new pdf file.
         """
 
-        if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-            with matplotlib.backends.backend_pdf.PdfPages(path) as pdf:
-                for fig in self.to_show(outp, number):
-                    pdf.savefig(fig)
-            matplotlib.pyplot.close()
+        with matplotlib.backends.backend_pdf.PdfPages(path) as pdf:
+            for fig in self.to_show(outp, number):
+                pdf.savefig(fig)
+        matplotlib.pyplot.close()
