@@ -82,7 +82,10 @@ version_file = "src/version.py"
 
 [tool.pytest.ini_options]
 env = ["MPLBACKEND=Agg"]
-markers = ["render: test performs real off-screen VTK rendering"]
+markers = [
+    "render: test performs real off-screen VTK rendering",
+    "scaling: test checks that parsing time grows linearly with file size",
+]
 # Temporary test directories are removed unless the test failed.
 tmp_path_retention_policy = "failed"
 testpaths = [

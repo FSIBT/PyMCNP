@@ -1,0 +1,2649 @@
+{
+ "inp/invalid_00.inp": {
+  "error": "Expected ``Inp.title``.\nExpected Terminal[r'(.+\\n)']\n source[:200]='hello'",
+  "ok": false,
+  "problems": [
+   [
+    1,
+    "warning",
+    "PyMCNP cannot parse this file: Expected ``Inp.title``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ]
+ },
+ "inp/invalid_01.inp": {
+  "error": "Expected ``Inp.blank_0``.\nExpected Terminal[r'( *(?:\\$.*)?\\n\\n)']\n source[:200]='@4 imp:@=1\\n\\n1 so 3\\n\\nsdef\\nnps 10\\n'",
+  "ok": false,
+  "problems": [
+   [
+    1,
+    "warning",
+    "PyMCNP cannot parse this file: Expected ``Inp.blank_0``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ]
+ },
+ "inp/invalid_02.inp": {
+  "error": "Expected ``Inp.blank_1``.\nExpected Terminal[r'( *(?:\\$.*)?\\n\\n)']\n source[:200]='\\nsdef\\nnps 10\\n'",
+  "ok": false,
+  "problems": [
+   [
+    5,
+    "warning",
+    "PyMCNP cannot parse this card: Expected ``Surface``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ]
+ },
+ "inp/todo_13.inp": {
+  "error": "Expected ``Inp.blank_0``.\nExpected Terminal[r'( *(?:\\$.*)?\\n\\n)']\n source[:200]='(3) 1 1 3 1 1 1\\n   1 2 3 2 1 1 1 1 1 1 1 4(2) 2 1 1 1 1 3 4(1) 1\\n   1 2 3 1 1 1 1 1 1 1\\n5 3 -0.5 -11 10 12 imp:n=1 u=2\\n6 4 -0.4 11:-10:-12 imp:n=1 u=2\\n7 0 -13 imp:n=1 u=3 fill=5\\n8 3 -0.5 13 imp:n=1 u='",
+  "ok": false,
+  "problems": [
+   [
+    1,
+    "warning",
+    "PyMCNP cannot parse this file: Expected ``Inp.blank_0``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ]
+ },
+ "inp/todo_28.inp": {
+  "error": "Expected ``Inp.blank_2``.\nExpected Terminal[r'( *(?:\\$.*)?(?:\\n|\\Z))']\n source[:200]=' res 1 99\\nfq8 u e\\nlca 2 1 1 23 1 1 0 -2 0\\n\\n(MCNP Manual 6.2 Section 4.2.5)'",
+  "ok": false,
+  "problems": [
+   [
+    16,
+    "warning",
+    "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ]
+ },
+ "inp/valid_00.inp": {
+  "mcnp": "334a38ef8602a0c642eddb64aa50c2b16d16bd561091cca2a71fcf105a0f2b15",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_01.inp": {
+  "mcnp": "ca059d10dd3e7263123a67b38fca5d1c4f9aa056bf47867e44ff0ff63001b6fc",
+  "ok": true,
+  "problems": [
+   [
+    11,
+    "warning",
+    "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ],
+  "remainder": "96b7c1a66e733964ecd92650de3849df2570e037a66359cca359bf6487b02265",
+  "remainder_len": 386
+ },
+ "inp/valid_02.inp": {
+  "error": "Expected ``Inp.blank_0``.\nExpected Terminal[r'( *(?:\\$.*)?\\n\\n)']\n source[:200]=' fill=e10 imp:n=1 $ fill cell\\nc\\n21 0 2 imp:n=0 $ outside world\\n\\n2 so 17.4\\n\\nkcode 1000 1.0 10 100\\nksrc -5.0 0.0 0.0 5.0 0.0 0.0\\n     0.0 -5.0 0.0 0.0 5.0 0.0\\n     0.0 0.0 -5.0 0.0 0.0 5.0\\ntotnu no\\nm1 9'",
+  "ok": false,
+  "problems": [
+   [
+    5,
+    "warning",
+    "PyMCNP cannot parse this card: Expected ``Cell``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ]
+ },
+ "inp/valid_03.inp": {
+  "mcnp": "2debd9aea4d50b5f49594b003895e48bffacc87038a0dd10dc0d1eb0cc44829f",
+  "ok": true,
+  "problems": [
+   [
+    2,
+    "warning",
+    "PyMCNP cannot parse this card: Expected ``Cell``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ],
+  "remainder": "d5066ddd66e3a7ecf01f58c61341c098850871b30a7c67b2d5633edbd0cc0c23",
+  "remainder_len": 273
+ },
+ "inp/valid_04.inp": {
+  "mcnp": "38a85c18bb2520bd93523fc892f15ca8386609fb5a715b541eb0e03ec8fe0c08",
+  "ok": true,
+  "problems": [
+   [
+    19,
+    "warning",
+    "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ],
+  "remainder": "452edc87e885a44bcbb26bf4e29567bcea39a96ff18f6b94acb19ff4f372c65b",
+  "remainder_len": 72
+ },
+ "inp/valid_05.inp": {
+  "mcnp": "aab4e63537772282f377e6136921481a735eb370ddb322a286a997c754cec6a7",
+  "ok": true,
+  "problems": [
+   [
+    15,
+    "warning",
+    "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ],
+  "remainder": "bbe9383c3ef59ccf677bf73a132346ac6dd5b01285a0777e89aaadbde8301779",
+  "remainder_len": 47
+ },
+ "inp/valid_06.inp": {
+  "mcnp": "ca49274dac78c9191574523be2ff004eca704d1eada81f0a82ea13b85c852d8a",
+  "ok": true,
+  "problems": [
+   [
+    21,
+    "warning",
+    "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ],
+  "remainder": "9994770017de2684a56237a0499159b91e299d5c01b270c769c47b9887251bf0",
+  "remainder_len": 350
+ },
+ "inp/valid_07.inp": {
+  "mcnp": "3428262fbe37958484ff5ef8e2f6c47270af69fe3754e5ce6e54cc3988be31b2",
+  "ok": true,
+  "problems": [
+   [
+    15,
+    "warning",
+    "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ],
+  "remainder": "5d77f01450959605655eedcd8cab95a573b2828bee77f22d1833a0147ac5fbd2",
+  "remainder_len": 102
+ },
+ "inp/valid_08.inp": {
+  "mcnp": "110be4fdf09e4a243a5df21ec0aa5414dfbe9d90830c0585bd2d2ee6b6475df0",
+  "ok": true,
+  "problems": [
+   [
+    1,
+    "warning",
+    "PyMCNP cannot parse this file: Expected end of file. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ],
+  "remainder": "304633995aa9df3943fd4516bbcbe2e986562e22538ee6134e122eb1367e9281",
+  "remainder_len": 94
+ },
+ "inp/valid_09.inp": {
+  "mcnp": "4faf40023ec3ca5714fbb08c2395635e4023c9303bfdcb953feb9438d7b61e7a",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_10.inp": {
+  "mcnp": "74dfe2b17f9a522bc693c061219760bb027bb70cdbfe98f82ae68f7c3ec120d9",
+  "ok": true,
+  "problems": [
+   [
+    32,
+    "warning",
+    "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ],
+  "remainder": "d10621f8d05026f1957a23ef53e80d851501f2325272d2b27692a19dd0c5041d",
+  "remainder_len": 392
+ },
+ "inp/valid_11.inp": {
+  "mcnp": "5b1b00dda738bebd47695360dde110c6b9efa58544da99c7119cabdb7b3b39f7",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_12.inp": {
+  "error": "Invalid value.\n card.j='2'",
+  "ok": false,
+  "problems": [
+   [
+    38,
+    "warning",
+    "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ]
+ },
+ "inp/valid_14.inp": {
+  "mcnp": "242c5b1cbb06e236dea2e81e1b64c6d21fb165f4931cb4b4c712922e0b191e26",
+  "ok": true,
+  "problems": [
+   [
+    6,
+    "warning",
+    "PyMCNP cannot parse this card: Expected ``Cell``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ],
+  "remainder": "acced07e3604249eba90558879c94efa590d0056541a9467fc98e5e5d6605508",
+  "remainder_len": 728
+ },
+ "inp/valid_15.inp": {
+  "mcnp": "749a8b57edef410e3913b3a290521e7c9812b5434d3d8897386f828e06343c9c",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_16.inp": {
+  "mcnp": "824a7518cb77947084ccd4bea929695061e3b2379b4d9a642242600005413ce8",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_17.inp": {
+  "mcnp": "daa932bdab8c0a0926c9eb8650ba0b7c5e799b3e27dab332f06c52c34f0ab2fe",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_18.inp": {
+  "mcnp": "8b6273ee6c769836ca54791f5fd0f8c00388eed4e54d958c037877ce9060f641",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_19.inp": {
+  "error": "Expected ``Inp.blank_0``.\nExpected Terminal[r'( *(?:\\$.*)?\\n\\n)']\n source[:200]=' fill=e10 imp:n=1 $ embedded mesh fill cell\\n99 0 1 imp:n=0 $ outside world\\n\\n1 so 20\\n\\nkcode 500 1.0 50 100\\nksrc 1 1 5 1 -1 5 -1 -1 5 -1 1 5\\n    5 5 5 5 -5 5 -5 -5 5 -5 5 5\\n    1 1 -5 1 -1 -5 -1 -1 -5 -'",
+  "ok": false,
+  "problems": [
+   [
+    1,
+    "warning",
+    "PyMCNP cannot parse this file: Expected ``Inp.blank_0``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ]
+ },
+ "inp/valid_20.inp": {
+  "error": "Expected ``Inp.blank_0``.\nExpected Terminal[r'( *(?:\\$.*)?\\n\\n)']\n source[:200]=' fill=1e10 (20 0 0) imp:n=1 $ fill cell 1\\n21 0 -2 fill=1e10 (-20 0 0 -1 1 0 1 1 0) imp:n=1 $ fill cell 2\\n\\n1 so 20\\n\\nkcode 500 1.0 50 100\\nksrc 1 1 5 1 -1 5 -1 -1 5 -1 1 5\\n    5 5 5 5 -5 5 -5 -5 5 -5 5 5'",
+  "ok": false,
+  "problems": [
+   [
+    1,
+    "warning",
+    "PyMCNP cannot parse this file: Expected ``Inp.blank_0``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ]
+ },
+ "inp/valid_21.inp": {
+  "mcnp": "599274cfb5ca46511d66758087aada760ca87fd9706ff6ed4e8d24030de346b2",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_22.inp": {
+  "mcnp": "9f73c3190eaaeba04b1d83976ea44f76fa1af873e2997af1c72bb474f553cab7",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_23.inp": {
+  "mcnp": "01a464d262288782af308f854ab59257eafa4ca29d835fd5f879ceada1e0ce7c",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_24.inp": {
+  "mcnp": "552e2436c77074ef06ae78eee278a4c090399e44e4e50b03f118954cf91f7202",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_25.inp": {
+  "mcnp": "f25f7b67360db48ffe592df43710ed48789f7e0a4ca2a9945b79d9ca8162250c",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_26.inp": {
+  "mcnp": "766b88555b506f06450abb6ee28317b97d98c92000521d6741057689a52b65be",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_27.inp": {
+  "mcnp": "1181957a802e5d2ae611b4b6d98d5e56c223d7a24e6f2e980517cebe236b7a28",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_29.inp": {
+  "mcnp": "cafcc9303072ae56781feebcf85d470a16b4de4bbd5390316213ff7485092a2f",
+  "ok": true,
+  "problems": [
+   [
+    25,
+    "warning",
+    "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ],
+  "remainder": "173cd6dad0ff4ea61ae57fc37091761f4966f265e0eddac15fe1599481945fff",
+  "remainder_len": 759
+ },
+ "inp/valid_30.inp": {
+  "error": "Expected ``Inp.blank_2``.\nExpected Terminal[r'( *(?:\\$.*)?(?:\\n|\\Z))']\n source[:200]=' (5<(3[-2:2 -2:0 0:0])) $2 bins\\n    (5<(7 8 9 10 11)) (5<7 8 9 10 11<1) (5<1) $7 bins\\n    ((5 6)<3[0 -1 0]) ((5 6)<3[0:0 -1:-1 0:0]) ((5 6)<3[8]) $3 bins\\n    (5<(4[0 0 0]3[8]))(5<4[0 0 0]<3[8])\\n    (3'",
+  "ok": false,
+  "problems": [
+   [
+    1,
+    "warning",
+    "PyMCNP cannot parse this file: Expected ``Inp.blank_2``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ]
+ },
+ "inp/valid_31.inp": {
+  "mcnp": "5bccdb731014900c7244f6adaaac9a9a7c0db66fcdd3192edd03d05f4b6b475f",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_32.inp": {
+  "error": "Expected ``Inp.blank_2``.\nExpected Terminal[r'( *(?:\\$.*)?(?:\\n|\\Z))']\n source[:200]=' T\\nlca 2 1 1 23 1 1 0 -2 0\\n\\n(MCNP Manual 6.2 Section 4.2.7.2)'",
+  "ok": false,
+  "problems": [
+   [
+    17,
+    "warning",
+    "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ]
+ },
+ "inp/valid_33.inp": {
+  "mcnp": "c2dd729d605b9e46275cb0a990b37259de2405102f7baf330b4bfafbbad06812",
+  "ok": true,
+  "problems": [
+   [
+    22,
+    "warning",
+    "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ],
+  "remainder": "8665db865220efcf5a8c84cdf83bc48eddfc00121b37daf51785bfafaa26193b",
+  "remainder_len": 389
+ },
+ "inp/valid_34.inp": {
+  "mcnp": "478adf67dcf9d3ab661936a728384bb9d409ceb21591a35e8c7213a5760292cc",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_35.inp": {
+  "mcnp": "bd9a73f014df8620deede3e794c749dc1f47f9adaac6ceee6fee4d30a570b367",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_36.inp": {
+  "mcnp": "3cb7d73a7bbb2d2b9feff9cea547604e3883f8acf53feb146beea53a17271299",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_37.inp": {
+  "mcnp": "3cb7d73a7bbb2d2b9feff9cea547604e3883f8acf53feb146beea53a17271299",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_38.inp": {
+  "mcnp": "2156546e07e3d40e90d5a7932d574996a5e9bd023d8dc73cfdf674fda7b3ee8d",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_39.inp": {
+  "mcnp": "e8ee82158835d22c62ffa821f06c1a54c4333d46fba6a344ac8415e03d759196",
+  "ok": true,
+  "problems": [
+   [
+    2,
+    "warning",
+    "PyMCNP cannot parse this card: Expected ``Cell``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ],
+  "remainder": "c1db1e6a0bacf1eae72f41cab3269add9895337b638a11afa358c419018ef6ef",
+  "remainder_len": 182
+ },
+ "inp/valid_40.inp": {
+  "mcnp": "be451a88da058ae7c0b59fa62ffa2de348f03bf56ba623892e1f5a33c012c41d",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_41.inp": {
+  "mcnp": "3c28f90f213a8f10733e677b8a983f4de8135c77eac5e30b061178a44735ad20",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_42.inp": {
+  "mcnp": "296a6205c1626fe435845576568e61bba3f249a247ca6860731449835c67950c",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "inp/valid_43.inp": {
+  "mcnp": "08e520a8f73f778a0d1b4d6caf039f86daf3ca0017c9fab8d16cca61256d81e7",
+  "ok": true,
+  "problems": [
+   [
+    2,
+    "warning",
+    "PyMCNP cannot parse this card: Expected ``Cell``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ],
+  "remainder": "603cec7d06e6b702b5dc199b8fab9ae2bee6d74d38533174c085bdead3071959",
+  "remainder_len": 118
+ },
+ "inp/warning_00.inp": {
+  "mcnp": "317224a3a77c479665082c088eb52f8bd40c0c3adf80c06a6888700dc36dcbfb",
+  "ok": true,
+  "problems": [
+   [
+    8,
+    "error",
+    "Line exceeds 80 characters maximum length (82 columns)."
+   ]
+  ],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "meshtal/invalid_04.meshtal": {
+  "error": "Expected ``Header.code``.\nExpected Terminal[r'(.{7})']\n source[:200]=''",
+  "ok": false
+ },
+ "meshtal/invalid_05.meshtal": {
+  "error": "Invalid value.\n self.boundaries=[]",
+  "ok": false
+ },
+ "meshtal/invalid_06.meshtal": {
+  "error": "Invalid value.\n \n row=Row(spaces={}, indent='    ', values=['-90.000', '-90.000', '-149.500', '3.99211E+00', '3.16463E-02', '12837128'])\n self.labels=['X', 'Y', 'Z', 'Result', 'Rel Error']",
+  "ok": false
+ },
+ "meshtal/invalid_07.meshtal": {
+  "frame": [
+   {
+    "columns": [
+     "X",
+     "Y",
+     "Z",
+     "Result",
+     "Rel Error"
+    ],
+    "dtypes": [
+     "float64",
+     "float64",
+     "float64",
+     "float64",
+     "float64"
+    ],
+    "hash": "b99d3303d1ec7448fdd3f0a4ed0ade1f2906e50852c27dbb0020d69166a33c5b"
+   }
+  ],
+  "mcnp": "9d8453e80b5b493b822c542ca4d0300394ceb941a4d3ba614928fe83b690018a",
+  "ok": true,
+  "remainder": "f9172af94fb7941fd607035e0c48c05be7d1688993d86dafbfb6ef2f654ac546",
+  "remainder_len": 2
+ },
+ "meshtal/invalid_08.meshtal": {
+  "error": "Invalid value.\n self.rows=[]",
+  "ok": false
+ },
+ "meshtal/invalid_09.meshtal": {
+  "error": "Invalid value.\n \n row=Row(spaces={}, indent='    ', values=['-90.000', '-90.000', '-149.500', '3.99211E+00', 'total'])\n self.labels=['X', 'Y', 'Z', 'Result', 'Rel Error']",
+  "ok": false
+ },
+ "meshtal/multi_00.meshtal": {
+  "frame": [
+   {
+    "columns": [
+     "X",
+     "Y",
+     "Z",
+     "Result",
+     "Rel Error"
+    ],
+    "dtypes": [
+     "float64",
+     "float64",
+     "float64",
+     "float64",
+     "float64"
+    ],
+    "hash": "2744ce3b01d1960fcb4063d6e3b2113f4ef08c0391f03e1005f56f526fbac002"
+   }
+  ],
+  "mcnp": "2de55d416560e85eef5ab3938f02a6baf3c53881422e29890c9b7457e2aeb666",
+  "ok": true,
+  "remainder": "12c0aa5b7d9d9681ca3381263459aadbb3ffc821e2c2c884709ee5f9e97bd3dc",
+  "remainder_len": 924
+ },
+ "meshtal/valid_38.meshtal": {
+  "frame": [
+   {
+    "columns": [
+     "X",
+     "Y",
+     "Z",
+     "Result",
+     "Rel Error"
+    ],
+    "dtypes": [
+     "float64",
+     "float64",
+     "float64",
+     "float64",
+     "float64"
+    ],
+    "hash": "a3625a6360d94e656ad21896b79e4651eaa271ba9ed18822c34450b889251df8"
+   }
+  ],
+  "mcnp": "23b909283d72bb9d24f86a4e52b04096a25b71347bd13d5a9d958e1fc05f6e8d",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "meshtal/valid_39.meshtal": {
+  "frame": [
+   {
+    "columns": [
+     "Time",
+     "X",
+     "Y",
+     "Z",
+     "Result",
+     "Rel Error"
+    ],
+    "dtypes": [
+     "str",
+     "float64",
+     "float64",
+     "float64",
+     "float64",
+     "float64"
+    ],
+    "hash": "6602094ab9ad66267cee7c6cd016d0911819469166590b5d54ebe02f094df389"
+   }
+  ],
+  "mcnp": "dd8af79172a42987b1dbe161f98edd7c9c34d8a312d5bd9b40708eb76ead6deb",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "meshtal/valid_40.meshtal": {
+  "frame": [
+   {
+    "columns": [
+     "Energy",
+     "Time",
+     "X",
+     "Y",
+     "Z",
+     "Result",
+     "Rel Error"
+    ],
+    "dtypes": [
+     "str",
+     "str",
+     "float64",
+     "float64",
+     "float64",
+     "float64",
+     "float64"
+    ],
+    "hash": "5b583e4c3970b6db9e4b5b630a0f1e02390f8f5302710044cdbb4105e3ec084d"
+   }
+  ],
+  "mcnp": "8efa66eea4470acc6f2e1275fb0055da5406165c9feb083105a1c98013c5ca7d",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "meshtal/valid_41.meshtal": {
+  "frame": [
+   {
+    "columns": [
+     "X",
+     "Y",
+     "Z",
+     "Result",
+     "Rel Error"
+    ],
+    "dtypes": [
+     "float64",
+     "float64",
+     "float64",
+     "float64",
+     "float64"
+    ],
+    "hash": "1331a0ff00dd73fa8c1d84c3b59079e69ef823c42a0136adbe4e0f72530259e1"
+   }
+  ],
+  "mcnp": "55d2785c40ec0f811597031117a2779358aec80e581665b343da05cd1aa59833",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "meshtal/valid_42.meshtal": {
+  "frame": [
+   {
+    "columns": [
+     "Energy",
+     "X",
+     "Y",
+     "Z",
+     "Result",
+     "Rel Error"
+    ],
+    "dtypes": [
+     "str",
+     "float64",
+     "float64",
+     "float64",
+     "float64",
+     "float64"
+    ],
+    "hash": "afd0ac2c192a4663983e688b7e221d239844baef89e1a137f69d2947abfc068e"
+   }
+  ],
+  "mcnp": "374c78702605dfd0540da599c583333b4ecd69cb32658224cadd6854a49684e4",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/invalid_02.outp": {
+  "error": "Expected ``Outp.header``.\nExpected ``Header.version_preable``.\nExpected Terminal[r'(          Code Name & Version = )']\n source[:200]='hello'",
+  "ok": false
+ },
+ "outp/todo_04.outp": {
+  "error": "Expected ``Outp.header``.\nExpected ``Header.version_preable``.\nExpected Terminal[r'(          Code Name & Version = )']\n source[:200]='\\n bad trouble in subroutine imcn of imcn                               \\n\\n file inxc does not exist.\\n'",
+  "ok": false
+ },
+ "outp/todo_05.outp": {
+  "error": "Expected ``Outp.header``.\nExpected ``Header.version_preable``.\nExpected Terminal[r'(          Code Name & Version = )']\n source[:200]='\\n bad trouble in subroutine imcn of imcn                               \\n\\n file inxc01 does not exist.\\n'",
+  "ok": false
+ },
+ "outp/valid_00.outp": {
+  "frame": {
+   "columns": [
+    "bins",
+    "counts",
+    "errors",
+    "cell_number",
+    "number",
+    "type",
+    "particles",
+    "nps"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64",
+    "str",
+    "str",
+    "str",
+    "str",
+    "str"
+   ],
+   "hash": "57a1303fd954f8dbfb7aae28baa2e2956bb3c79c083b73918ead820687de4b25"
+  },
+  "mcnp": "31860a027c50c6b331b5b0ad8701101947fcc63e67b4888037ef50cdd86bdd26",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_01.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "4dd32710610915f3891b2c0c87390536a8a996ca5d3ebd4a98179dbc9950b2ea",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_02.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "ea1fe4b597e974eb9db15f32e36814693c1cd7b1a5c903fab5d27e1cf2bca509",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_03.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "b7f8c3168b47c3e93601c40ddb653c91dd2a787e3b5e3813083c88e2faae7898",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_06.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "5e76105350e076e3b44ba9f804cb4f29ea6cacc14927885641faa3f525bf5d6e",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_07.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "df66908c894b8cab7b5d14154088ce3de9271f54fad7dd65ac220714cfa2ed3c",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_08.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "2055da40f10c0321d91323faabb8e9c40741eafc0ba5f48f9d88483c00c4cde6",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_09.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "b10801c0fd0401fc82b1c2f1ada48688cc33ba1ec42b991e25245ba0561cef7f",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_10.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "9940569a770acc29ba2411565a1134f869493c281474d78621818c9bb1ac4e77",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_11.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "f4d9cffa31f2b2df37fc282552a5549baff0d5460e7e7e7c5bdccb1ae69c8b5f",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_12.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "619d925c968d46123de47ec2774c98a780bcefca8a8b4b728cb0eaff1f77705b",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_13.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "1ada00bbc182371e2a1d636c034cc2480b4ca39c18022121bd54c15d5a40f9ed",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_14.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "05b51eeab31ed279dcab0624c5f01e0d58785d0cc34bb5a90b221c53ca1b7911",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_15.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "df42f448dafba0859d185b087317458c5d93bbca272d8b4875070af7c77e9551",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_16.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "a19ca8568634f8e5453b40a4504517b62f36e9ad3e160bf237ef822895a10916",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_17.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "3447a239477ffe3792e666b02e8e6c65e8025b4edaa13971859de3e405b06c1d",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_18.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "3907b3605bbc0c15cef2df7077226c7a0bd8fd50f2e8b86f5a41a235a530f8c7",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_19.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "1d669abd7596bab2fc72402692df4e9439e0289f88ccb8a8cd958347ae1b57bc",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_20.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "169854215e187cdf9e06b60622e03d19abf5c1b51079cac3a9bbe1ca01554393",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_21.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "357f06649cc843bb9d64cb5ace3177138a4ce462a59f3ffcad14af6abebad2a6",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_22.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "cbec8edc7485a60e2298e3317ff72c0bdd1a26d0d3572ef03b8956d3325579fd",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_23.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "4609825cf4bce8f84e3a0892ee9fbe792103b422bb7e4066919adab5f952e88a",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_24.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "5030f2a83fb0f54ab945b291dcbe0996b6cbfa5055c7278eda7a77e1478ea074",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_25.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "39728044b9ab03568293aa7c710eb792693b0a4d9f5b09936292d47b88bc0b50",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_26.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "851a6ff25ca3755ec0da25ee7be65fb77dd058d4f29556d3eadc38749e79bc50",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_27.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "1fbb2359d1237a108c4f2f7d12c80caa2af001a990fd61808a26c00865749a3a",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_28.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "25fcf655674e770fe3d70ad40352ac69141c1ee62dd8f4f1250373b5e94f4c35",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_29.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "7c22cea24dea3b1852335d4afeed0a795c16d784e0a89f0e6ac62e9eda803218",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_30.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "283a28a07aa7d15e5e987264e4d2c341db28bd427df244fe4a02e0082e39945f",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_31.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "f74d5eb93921508e71dd74bdfd528450c302d1209c930595882afe87c03d0ef3",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_32.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "551aadb9079129efbcb792b570b86a75a9965d8a9fb72ea967b36a215238bb65",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_33.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "11362f01ef81ae948b393afda9376cc77941ea1b00b4d2e036e37ba60f9a5543",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_34.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "ffa096cd39a2fdb02c655934135a195ae8a22251542443c2a8781b971dc809c2",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_35.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "06e2e564e876f18d3c7a0302973bfc4fd00b441c82b67d605d9ef98b1187b74a",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_36.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "de8277935f750fe2907fb4cd71b75977caec0f4c5095553f97cb5ca64fc703ab",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_37.outp": {
+  "frame": {
+   "columns": [],
+   "dtypes": [],
+   "hash": "bd85bcdb8d4e613a79cb62d0903946ad10c83e63dc75f67614c159c0dbf4d184"
+  },
+  "mcnp": "e78f28a5c8432bf3a41d6accc0b85aeb5a008b7c35c83454555809cf048a0fca",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_38.outp": {
+  "frame": {
+   "columns": [
+    "bins",
+    "counts",
+    "errors",
+    "surface_number",
+    "angle_from",
+    "angle_to",
+    "number",
+    "type",
+    "particles",
+    "nps"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64",
+    "str",
+    "str",
+    "str",
+    "str",
+    "str",
+    "str",
+    "str"
+   ],
+   "hash": "3bc1456191d78af12a3c58d98e6941d1265179a61a973875f3186841b18adf20"
+  },
+  "mcnp": "c5e73cd1b7fe8d3b138316b2ff30b6c32514c9beec6748b84d3b8e53b7bcb344",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "outp/valid_39.outp": {
+  "frame": {
+   "columns": [
+    "bins",
+    "counts",
+    "errors",
+    "surface_number",
+    "angle_from",
+    "angle_to",
+    "number",
+    "type",
+    "particles",
+    "nps"
+   ],
+   "dtypes": [
+    "float64",
+    "float64",
+    "float64",
+    "str",
+    "str",
+    "str",
+    "str",
+    "str",
+    "str",
+    "str"
+   ],
+   "hash": "82042ec3c6bb9207bf9384fad0f2ca7dbd8aeff623cb1fb027361b0776aa8b41"
+  },
+  "mcnp": "0ed4ec9095db4d8ff77ae7ee831e4151054d668826cf06a2dfb19a831648a965",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/invalid_02.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "603dc44d8ac5af036e8d64ca3d9d4a60140ea257f44431a483c23e20edd4b0f6"
+  },
+  "mcnp": "2b890198690d374c0479cb3d1ae9118c5064a12b72cf304f80002fe02964cab3",
+  "ok": true,
+  "remainder": "4d76d53623bce61648f75eea1d3190e13bad4be01ffe064659b445e443fb1db4",
+  "remainder_len": 1
+ },
+ "ptrac/invalid_03.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "603dc44d8ac5af036e8d64ca3d9d4a60140ea257f44431a483c23e20edd4b0f6"
+  },
+  "mcnp": "2b890198690d374c0479cb3d1ae9118c5064a12b72cf304f80002fe02964cab3",
+  "ok": true,
+  "remainder": "4d76d53623bce61648f75eea1d3190e13bad4be01ffe064659b445e443fb1db4",
+  "remainder_len": 1
+ },
+ "ptrac/invalid_04.ptrac": {
+  "error": "Expected ``Header.magic``.\nExpected Terminal[r'(   -1)']\n source[:200]=''",
+  "ok": false
+ },
+ "ptrac/valid_00.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "2db8950a70a1e5c8c5ba392845787e89b90a8ce6eeb2051c17034cdd808f4708"
+  },
+  "mcnp": "38f8c44b9e49563bb5653ad7a297fefe5f9bdb8fab803230b628fd1cffd4b113",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_01.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "6a15c5000ff25b2e6e60f8bce054cc55a05f723fba1a294827bc339862ee6df8"
+  },
+  "mcnp": "59bf5ffabfe76aad95b261c72571d545c45e0b87500378339e9353a081345183",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_03.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "90add933a786cd22e400dc03ad35bf0094f493be9094b01dbc1bff82540c7691"
+  },
+  "mcnp": "54d6e97a1b7f8a6d6ca489918f23c147a901c485391bce8a7f0a6518bbbb5a22",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_08.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "90add933a786cd22e400dc03ad35bf0094f493be9094b01dbc1bff82540c7691"
+  },
+  "mcnp": "7606eddca06b993e3e27e16dc16620a0335449b3d85de4983e6c8347854d3bb3",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_09.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "47fca5fab0dc188274e2268e7c80c13240e8227dc260c568acee8f466c94fde0"
+  },
+  "mcnp": "951f8371aa352c729f94ee4bee0230c42adc8d17bfffa60ef981cfd0e73143ad",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_10.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "1fa3129fa02b1dc86259ce20e087e153c861bbc4e795e9cb4293095307fba5d0"
+  },
+  "mcnp": "75b0b8e6802ae481740019aa5a3cdc23cea12c0d0449ae607a7825557d2ca925",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_14.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "90add933a786cd22e400dc03ad35bf0094f493be9094b01dbc1bff82540c7691"
+  },
+  "mcnp": "e8c2b8553d70ec1f0be21e8834b1b4420bcb38ad2305f3317025cf0c286fa77d",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_15.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "c506dedae72e5b83ef6d30aa21bcb2b382e673066a614fe90229d3b9c21686f3"
+  },
+  "mcnp": "8c19b8ae79e0d9d20769873c15234d7852d695d0f7b38d2e60c77c2d1551ea1f",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_16.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "d483ca350bc0313138cdc71a4abfce6c003d15d52c909cfb34214b9b3c0e6c76"
+  },
+  "mcnp": "056d4527abfb5186cca749d07ae6510de040ab25e503a6c6bff9c96ba608319b",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_18.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "90add933a786cd22e400dc03ad35bf0094f493be9094b01dbc1bff82540c7691"
+  },
+  "mcnp": "01fde16663b1d011869e0bcb4b6ec5a9c6d6a897c1b793aa6bd87e330af90fe8",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_21.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "734d903f9530baa17810d81b2052af79aa622bbdeaec8a16412dbf36e0f0bccf"
+  },
+  "mcnp": "313c3f00fff9736748ca8d90596026177747d4d57b3a02ae7b401bf9098809c4",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_22.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "6f8fa88ebd98b8475d83e14f6d5ba85db4cebd216311724698edc7715f1c0cfd"
+  },
+  "mcnp": "63b3fc67daf4763cdbcbe440387b3d64daa927ac2f5950027bbdabc4d29d76b0",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_23.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "c3b28fb925b8550b80c700f7af70f657c62ffb731c48d5b53c3be708323bb245"
+  },
+  "mcnp": "24996b619461e5b6ec4bc3ddd352c3c1d94d23b62a051928433241078bc5891e",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_24.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "90add933a786cd22e400dc03ad35bf0094f493be9094b01dbc1bff82540c7691"
+  },
+  "mcnp": "87b8e2c0f47f6e1af0034db1b660000c7ef5c970cb0b7f16bb0cdded1c094eb4",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_25.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "90add933a786cd22e400dc03ad35bf0094f493be9094b01dbc1bff82540c7691"
+  },
+  "mcnp": "94b5f28bf217433abc267f5656fa556eb42bfc8ea680c4192a5bb1ab2d5d6709",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_26.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "90add933a786cd22e400dc03ad35bf0094f493be9094b01dbc1bff82540c7691"
+  },
+  "mcnp": "fc1b7f4948bd7e3c9bb7b0ec376912f56ac2a8fe97b67c40d5a79519e89893ad",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_27.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "39ff4f9470a2b5b0349793e59d466c19660c9d828507de7193d4f8e722fca207"
+  },
+  "mcnp": "cf118f2b6ad18c28728ef452a1c7b643c9ad5e89e1a3286469f4bde8d60364dd",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_28.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "90add933a786cd22e400dc03ad35bf0094f493be9094b01dbc1bff82540c7691"
+  },
+  "mcnp": "b9dccd4c5623a9e345c63999b45d7ed908c1d6d022989185c326da2a8727397e",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_29.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "90add933a786cd22e400dc03ad35bf0094f493be9094b01dbc1bff82540c7691"
+  },
+  "mcnp": "9ec94e4b842c9352eb9fa55858639b95e13e4988f324894b42783ea2e5d29cd1",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_31.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "fc90a748ab80525935eedcdcee4e20d07f2be53d05a96c6e75d9673649e1d337"
+  },
+  "mcnp": "02aa6bd2ba53ed1f5978dfdfd9073d899f53e3d8bf98ffef4b59441353b531a1",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_32.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "90add933a786cd22e400dc03ad35bf0094f493be9094b01dbc1bff82540c7691"
+  },
+  "mcnp": "b9dccd4c5623a9e345c63999b45d7ed908c1d6d022989185c326da2a8727397e",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_35.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "8e5d5e7ffbe6d6415248d034e6562c7e358296b43353f8dbb4eeb8cdc0c4df17"
+  },
+  "mcnp": "b0d778930e5a0708f718780cb859897f928db5b0235330578d5fcb1aba00b415",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_36.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "26cbedbc16bee21b1d310e076899424463065a24830f0b14cf8104c55c026807"
+  },
+  "mcnp": "b28a31dc08f939a281fe77fd834bc0ebed72e346e196f7d7cc5aa62ef0fd4dd6",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_37.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "26cbedbc16bee21b1d310e076899424463065a24830f0b14cf8104c55c026807"
+  },
+  "mcnp": "b28a31dc08f939a281fe77fd834bc0ebed72e346e196f7d7cc5aa62ef0fd4dd6",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_38.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "33821e23b3b94749f7c9ec43484378f0c7b59f242450e8d4433288497f64b19e"
+  },
+  "mcnp": "9b14f4fa4359734fb7fbd79f66a5fa16940dc2dde6d5c90e2ec610eff3e1767e",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
+ "ptrac/valid_39.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "45d798953310b22e309532d8892c2f8ddc7c11f016a4488f839a50e7e8767539"
+  },
+  "mcnp": "2278d11e5a58677f164bd2eebb5d046adfe22d606a07cf52d1f6e373f64fd5f4",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ }
+}
