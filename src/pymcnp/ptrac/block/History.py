@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import typing
-import dataclasses
+import collections.abc
 
 import pandas
 
@@ -14,71 +14,8 @@ from .Event import EventSurface
 from .Event import EventCollision
 from .Event import EventTermination
 
-
-@dataclasses.dataclass
-class Track:
-    """
-    Represents tracks of particles.
-
-    Attributes:
-        history: Track history block.
-        events: Track events.
-        parent: Parent track.
-    """
-
-    history: History
-    events: tuple[Event, ...]
-    parent: Track | None
-
-    @property
-    def source(self) -> EventSource | EventBank:
-        """
-        source: Track source event.
-        """
-
-        assert isinstance(self.events[0], EventSource | EventBank)
-        return self.events[0]
-
-    @property
-    def banks(self) -> tuple[EventBank, ...]:
-        """
-        Track bank events.
-        """
-
-        return tuple(event for event in self.events[1:] if isinstance(event, EventBank))
-
-    @property
-    def surfaces(self) -> tuple[EventSurface, ...]:
-        """
-        Track surface events.
-        """
-
-        return tuple(event for event in self.events if isinstance(event, EventSurface))
-
-    @property
-    def collisions(self) -> tuple[EventCollision, ...]:
-        """
-        Track collision events.
-        """
-
-        return tuple(event for event in self.events if isinstance(event, EventCollision))
-
-    @property
-    def termination(self) -> EventTermination:
-        """
-        Track termination event.
-        """
-
-        assert isinstance(self.events[-1], EventTermination)
-        return self.events[-1]
-
-    @property
-    def particle(self) -> abc.Terminal:
-        """
-        Track particle.
-        """
-
-        return self.source.particle
+if typing.TYPE_CHECKING:
+    from ..Track import Track
 
 
 class History(abc.symbol.WithMcnpIter, abc.symbol.WithDataIter, Block):
@@ -106,6 +43,9 @@ class History(abc.symbol.WithMcnpIter, abc.symbol.WithDataIter, Block):
         """
         Validates history blocks.
         """
+
+        if not self.events:
+            raise abc.Error('Invalid value.', f'{self.events=}')
 
         if self.events[-1].type != '      9000':
             raise abc.Error('Invalid value.', f'{self.events[-1].type=}')
@@ -225,28 +165,12 @@ class History(abc.symbol.WithMcnpIter, abc.symbol.WithDataIter, Block):
             return pandas.concat(frames, ignore_index=True)
 
     @property
-    def tracks(self) -> typing.Generator[Track, None, None]:
+    def tracks(self) -> collections.abc.Iterator[Track]:
         """
-        History block tracks.
+        History block tracks, with banked particles linked to their parents; see ``pymcnp.ptrac.Track``.
         """
 
-        stack: list[Track] = []
-        source: int = 0
-        banks: int = 0
+        from ... import ptrac
+        from ...Ptrac import _history_events
 
-        for i, event in enumerate(self.events):
-            if isinstance(event, EventBank):
-                banks += 1
-            elif isinstance(event, EventTermination):
-                track = Track(
-                    history=self,
-                    events=tuple(self.events[source : i + 1]),
-                    parent=stack.pop() if stack else None,
-                )
-
-                yield track
-                source = i + 1
-
-                while banks > 0:
-                    stack.append(track)
-                    banks -= 1
+        yield from ptrac.tracks(_history_events(self))

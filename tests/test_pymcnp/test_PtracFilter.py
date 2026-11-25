@@ -3,10 +3,7 @@ import pathlib
 import pymcnp
 
 
-PATH = pathlib.Path(__file__).parent.parent.parent / 'files' / 'ptrac'
-
-
-class Filter(pymcnp.PtracFilter):
+class Filter0(pymcnp.PtracFilter):
     def check_source(self, event: pymcnp.ptrac.block.Event) -> bool:
         return False
 
@@ -24,34 +21,33 @@ class Filter(pymcnp.PtracFilter):
 
 
 class Test_PtracFilter:
-    def test_check_source(self, event: pymcnp.ptrac.block.Event) -> None:
-        Filter().check_source(event)
+    def test_check_source_valid(self, event: pymcnp.ptrac.block.Event) -> None:
+        Filter0().check_source(event)
         pymcnp.PtracFilter().check_source(event)
 
-    def test_check_bank(self, event: pymcnp.ptrac.block.Event) -> None:
-        Filter().check_bank(event)
+    def test_check_bank_valid(self, event: pymcnp.ptrac.block.Event) -> None:
+        Filter0().check_bank(event)
         pymcnp.PtracFilter().check_bank(event)
 
-    def test_check_surface(self, event: pymcnp.ptrac.block.Event) -> None:
-        Filter().check_surface(event)
+    def test_check_surface_valid(self, event: pymcnp.ptrac.block.Event) -> None:
+        Filter0().check_surface(event)
         pymcnp.PtracFilter().check_surface(event)
 
-    def test_check_collision(self, event: pymcnp.ptrac.block.Event) -> None:
-        Filter().check_collision(event)
+    def test_check_collision_valid(self, event: pymcnp.ptrac.block.Event) -> None:
+        Filter0().check_collision(event)
         pymcnp.PtracFilter().check_collision(event)
 
-    def test_check_terminal(self, event: pymcnp.ptrac.block.Event) -> None:
-        Filter().check_terminal(event)
+    def test_check_terminal_valid(self, event: pymcnp.ptrac.block.Event) -> None:
+        Filter0().check_terminal(event)
         pymcnp.PtracFilter().check_terminal(event)
 
-    def test_run(self, ptrac: pymcnp.Ptrac) -> None:
-        generator = Filter().run(ptrac)
+    def test_run_valid(self, ptrac: pymcnp.Ptrac) -> None:
+        generator = Filter0().run(ptrac)
         assert not list(generator)
         generator = pymcnp.PtracFilter().run(ptrac)
         assert list(generator)
 
-    def test_run_file(self, ptrac: pymcnp.Ptrac) -> None:
-        generator = Filter().run_file(PATH / 'valid_38.ptrac')
-        assert not list(generator)
-        generator = pymcnp.PtracFilter().run_file(PATH / 'valid_38.ptrac')
-        assert list(generator)
+    def test_run_path_matches_object(self, ptrac: pymcnp.Ptrac) -> None:
+        path = pathlib.Path(__file__).parents[2] / 'files' / 'ptrac' / 'valid_00.ptrac'
+        full, _ = pymcnp.Ptrac.from_file(path)
+        assert [event.raw for event in pymcnp.PtracFilter().run(path)] == [event.raw for event in pymcnp.PtracFilter().run(full)]

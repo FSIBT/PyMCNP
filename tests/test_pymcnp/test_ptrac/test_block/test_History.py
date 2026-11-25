@@ -2,81 +2,22 @@ import pymcnp
 from .... import classes
 
 
-class Test_Track:
-    def test_source(self) -> None:
-        history, _ = pymcnp.ptrac.block.History.from_mcnp(
-            '         12      1000\n       4000         1        40        10         1\n   0.00000E+00  0.00000E+00  0.00000E+00\n       3000         2     92238        16        10         1\n  -0.13113E+01 -0.64468E+00  0.55020E+00\n       3000         3         1        11        11         0\n  -0.30173E+01 -0.14341E+01  0.37201E+01\n       5000         4         2         9        12         0\n  -0.34878E+01 -0.16517E+01  0.45943E+01\n       2007         4         1         1        12         0\n  -0.34878E+01 -0.16517E+01  0.45943E+01\n       3000         2     92238        -2        10         1\n  -0.13113E+01 -0.64468E+00  0.55020E+00\n       3000         3         1        18        11         0\n  -0.17062E+01  0.25558E+01  0.39442E+01\n       5000         4         2        15        12         0\n  -0.17941E+01  0.32689E+01  0.47005E+01\n       9000         4         1         2        12         0\n  -0.17941E+01  0.32689E+01  0.47005E+01'
-        )
-        tracks = history.tracks
+HISTORY = '         12      1000\n       4000         1        40        10         1\n   0.00000E+00  0.00000E+00  0.00000E+00\n       3000         2     92238        16        10         1\n  -0.13113E+01 -0.64468E+00  0.55020E+00\n       3000         3         1        11        11         0\n  -0.30173E+01 -0.14341E+01  0.37201E+01\n       5000         4         2         9        12         0\n  -0.34878E+01 -0.16517E+01  0.45943E+01\n       2007         4         1         1        12         0\n  -0.34878E+01 -0.16517E+01  0.45943E+01\n       3000         2     92238        -2        10         1\n  -0.13113E+01 -0.64468E+00  0.55020E+00\n       3000         3         1        18        11         0\n  -0.17062E+01  0.25558E+01  0.39442E+01\n       5000         4         2        15        12         0\n  -0.17941E+01  0.32689E+01  0.47005E+01\n       9000         4         1         2        12         0\n  -0.17941E+01  0.32689E+01  0.47005E+01'
 
-        track = next(tracks)
-        assert track.source.to_mcnp() == '       4000         1        40        10         1\n   0.00000E+00  0.00000E+00  0.00000E+00'
 
-        track = next(tracks)
-        assert track.source.to_mcnp() == '       3000         2     92238        -2        10         1\n  -0.13113E+01 -0.64468E+00  0.55020E+00'
+class Test_Tracks:
+    def test_tracks(self) -> None:
+        history, _ = pymcnp.ptrac.block.History.from_mcnp(HISTORY)
+        tracks = list(history.tracks)
 
-    def test_banks(self) -> None:
-        history, _ = pymcnp.ptrac.block.History.from_mcnp(
-            '         12      1000\n       4000         1        40        10         1\n   0.00000E+00  0.00000E+00  0.00000E+00\n       3000         2     92238        16        10         1\n  -0.13113E+01 -0.64468E+00  0.55020E+00\n       3000         3         1        11        11         0\n  -0.30173E+01 -0.14341E+01  0.37201E+01\n       5000         4         2         9        12         0\n  -0.34878E+01 -0.16517E+01  0.45943E+01\n       2007         4         1         1        12         0\n  -0.34878E+01 -0.16517E+01  0.45943E+01\n       3000         2     92238        -2        10         1\n  -0.13113E+01 -0.64468E+00  0.55020E+00\n       3000         3         1        18        11         0\n  -0.17062E+01  0.25558E+01  0.39442E+01\n       5000         4         2        15        12         0\n  -0.17941E+01  0.32689E+01  0.47005E+01\n       9000         4         1         2        12         0\n  -0.17941E+01  0.32689E+01  0.47005E+01'
-        )
-        tracks = history.tracks
-
-        track = next(tracks)
-        assert track.banks == ()
-
-        track = next(tracks)
-        assert track.banks == ()
-
-    def test_surfaces(self) -> None:
-        history, _ = pymcnp.ptrac.block.History.from_mcnp(
-            '         12      1000\n       4000         1        40        10         1\n   0.00000E+00  0.00000E+00  0.00000E+00\n       3000         2     92238        16        10         1\n  -0.13113E+01 -0.64468E+00  0.55020E+00\n       3000         3         1        11        11         0\n  -0.30173E+01 -0.14341E+01  0.37201E+01\n       5000         4         2         9        12         0\n  -0.34878E+01 -0.16517E+01  0.45943E+01\n       2007         4         1         1        12         0\n  -0.34878E+01 -0.16517E+01  0.45943E+01\n       3000         2     92238        -2        10         1\n  -0.13113E+01 -0.64468E+00  0.55020E+00\n       3000         3         1        18        11         0\n  -0.17062E+01  0.25558E+01  0.39442E+01\n       5000         4         2        15        12         0\n  -0.17941E+01  0.32689E+01  0.47005E+01\n       9000         4         1         2        12         0\n  -0.17941E+01  0.32689E+01  0.47005E+01'
-        )
-        tracks = history.tracks
-
-        track = next(tracks)
-        assert tuple(map(str, track.surfaces)) == (
-            '       3000         3         1        11        11         0\n  -0.30173E+01 -0.14341E+01  0.37201E+01',
-            '       5000         4         2         9        12         0\n  -0.34878E+01 -0.16517E+01  0.45943E+01',
-        )
-
-        track = next(tracks)
-        assert tuple(map(str, track.surfaces)) == (
-            '       3000         3         1        18        11         0\n  -0.17062E+01  0.25558E+01  0.39442E+01',
-            '       5000         4         2        15        12         0\n  -0.17941E+01  0.32689E+01  0.47005E+01',
-        )
-
-    def test_collisions(self) -> None:
-        history, _ = pymcnp.ptrac.block.History.from_mcnp(
-            '         12      1000\n       4000         1        40        10         1\n   0.00000E+00  0.00000E+00  0.00000E+00\n       3000         2     92238        16        10         1\n  -0.13113E+01 -0.64468E+00  0.55020E+00\n       3000         3         1        11        11         0\n  -0.30173E+01 -0.14341E+01  0.37201E+01\n       5000         4         2         9        12         0\n  -0.34878E+01 -0.16517E+01  0.45943E+01\n       2007         4         1         1        12         0\n  -0.34878E+01 -0.16517E+01  0.45943E+01\n       3000         2     92238        -2        10         1\n  -0.13113E+01 -0.64468E+00  0.55020E+00\n       3000         3         1        18        11         0\n  -0.17062E+01  0.25558E+01  0.39442E+01\n       5000         4         2        15        12         0\n  -0.17941E+01  0.32689E+01  0.47005E+01\n       9000         4         1         2        12         0\n  -0.17941E+01  0.32689E+01  0.47005E+01'
-        )
-        tracks = history.tracks
-
-        track = next(tracks)
-        assert tuple(map(str, track.collisions)) == ('       3000         2     92238        16        10         1\n  -0.13113E+01 -0.64468E+00  0.55020E+00',)
-
-        track = next(tracks)
-        assert tuple(map(str, track.collisions)) == ()
-
-    def test_termination(self) -> None:
-        history, _ = pymcnp.ptrac.block.History.from_mcnp(
-            '         12      1000\n       4000         1        40        10         1\n   0.00000E+00  0.00000E+00  0.00000E+00\n       3000         2     92238        16        10         1\n  -0.13113E+01 -0.64468E+00  0.55020E+00\n       3000         3         1        11        11         0\n  -0.30173E+01 -0.14341E+01  0.37201E+01\n       5000         4         2         9        12         0\n  -0.34878E+01 -0.16517E+01  0.45943E+01\n       2007         4         1         1        12         0\n  -0.34878E+01 -0.16517E+01  0.45943E+01\n       3000         2     92238        -2        10         1\n  -0.13113E+01 -0.64468E+00  0.55020E+00\n       3000         3         1        18        11         0\n  -0.17062E+01  0.25558E+01  0.39442E+01\n       5000         4         2        15        12         0\n  -0.17941E+01  0.32689E+01  0.47005E+01\n       9000         4         1         2        12         0\n  -0.17941E+01  0.32689E+01  0.47005E+01'
-        )
-        tracks = history.tracks
-
-        track = next(tracks)
-        assert track.termination.to_mcnp() == '       2007         4         1         1        12         0\n  -0.34878E+01 -0.16517E+01  0.45943E+01'
-
-        track = next(tracks)
-        assert track.termination.to_mcnp() == '       9000         4         1         2        12         0\n  -0.17941E+01  0.32689E+01  0.47005E+01'
-
-    def test_particle(self) -> None:
-        history, _ = pymcnp.ptrac.block.History.from_mcnp(
-            '         12      1000\n       4000         1        40        10         1\n   0.00000E+00  0.00000E+00  0.00000E+00\n       3000         2     92238        16        10         1\n  -0.13113E+01 -0.64468E+00  0.55020E+00\n       3000         3         1        11        11         0\n  -0.30173E+01 -0.14341E+01  0.37201E+01\n       5000         4         2         9        12         0\n  -0.34878E+01 -0.16517E+01  0.45943E+01\n       2007         4         1         1        12         0\n  -0.34878E+01 -0.16517E+01  0.45943E+01\n       3000         2     92238        -2        10         1\n  -0.13113E+01 -0.64468E+00  0.55020E+00\n       3000         3         1        18        11         0\n  -0.17062E+01  0.25558E+01  0.39442E+01\n       5000         4         2        15        12         0\n  -0.17941E+01  0.32689E+01  0.47005E+01\n       9000         4         1         2        12         0\n  -0.17941E+01  0.32689E+01  0.47005E+01'
-        )
-        tracks = history.tracks
-
-        track = next(tracks)
-        _ = track.particle
+        assert len(tracks) == 2
+        assert tracks[0].parent is None
+        assert tracks[1].parent is tracks[0]
+        assert [track.index for track in tracks] == [0, 1]
+        assert all(track.nps == 12 for track in tracks)
+        assert tracks[0].creation.type is pymcnp.ptrac.EventType.SOURCE
+        assert tracks[1].creation.type is pymcnp.ptrac.EventType.BANK
+        assert tracks[0].particle is None
 
 
 class Test_History(classes.Test_FromMcnpIter, classes.Test_ToDataframe):
