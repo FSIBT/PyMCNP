@@ -1,5 +1,6 @@
 import numpy
 import pytest
+import pyvista
 
 import pymcnp
 
@@ -234,3 +235,29 @@ def test_complement() -> None:
     show = pymcnp._show.pyvista
 
     assert (~show.Sphere(1)).cell(numpy.array([[0, 0, 0], [2, 0, 0]])).tolist() == [False, True]
+
+
+@pytest.mark.parametrize('abc_', [(1.0, 1.0, 1.0), (1.0, 2.0, 1.5)])
+def test_hexagonal_mask_matches_mesh(abc_: tuple[float, float, float]) -> None:
+    """
+    Probes just inside and just outside every face (and the 30 degree directions) against the mesh.
+    """
+
+    shape = pymcnp._show.pyvista.CylinderHexagonal(*abc_, 1.0)
+    vertices = shape.surface.points[:6, :2]
+    inner, expected = [], []
+
+    for k in range(6):
+        mid = (vertices[k] + vertices[(k + 1) % 6]) / 2
+        for scale, flag in ((0.98, True), (1.02, False)):
+            inner.append([*(mid * scale), 0.5])
+            expected.append(flag)
+    points = numpy.array(inner)
+
+    assert shape.cell(points).tolist() == expected
+
+    surface = shape.surface.extract_surface(algorithm='dataset_surface').triangulate().clean()
+    enclosed = pyvista.PolyData(points).select_interior_points(surface, check_surface=False)
+    assert enclosed['selected_points'].astype(bool).tolist() == expected
+
+    assert not shape.cell(numpy.array([[0, 0, -0.1], [0, 0, 1.1]])).any()

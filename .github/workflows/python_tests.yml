@@ -42,6 +42,9 @@ jobs:
     - name: Installing packages
       run: uv sync --locked --extra dev --extra docs --extra test
 
+    - uses: pyvista/setup-headless-display-action@v4
+      if: runner.os == 'Linux'
+
     - name: Testing with PyTest
       run: uv run --no-sync python -m pytest
 

@@ -294,11 +294,21 @@ class CylinderHexagonal(abc.CylinderHexagonal, Visualization):
         cells = [len(points), *list(range(len(points)))]
 
         self.surface = pyvista.UnstructuredGrid(cells, [pyvista.CellType.HEXAGONAL_PRISM], points)
-        self.cell = lambda p: (
-            (p[:, 2] >= 0)
-            & (p[:, 2] <= self.h)
-            & numpy.all([numpy.abs(p[:, 0] * math.cos(i * math.pi / 3) + p[:, 1] * math.sin(i * math.pi / 3)) <= (self.a, self.b, self.c)[i % 3] for i in range(6)], axis=0)
-        )
+        polygon = numpy.array(points[:6])[:, :2]
+
+        def cell(p: numpy.ndarray) -> numpy.ndarray:
+            # Even-odd ray casting against the mesh's own hexagon vertices, so mask and mesh agree.
+            x, y = p[:, 0], p[:, 1]
+            inside = numpy.zeros(len(p), dtype=bool)
+
+            for (x1, y1), (x2, y2) in zip(polygon, numpy.roll(polygon, -1, axis=0)):
+                crosses = (y1 > y) != (y2 > y)
+                x_cross = x1 + (y - y1) * (x2 - x1) / (y2 - y1 if y2 != y1 else 1)
+                inside ^= crosses & (x < x_cross)
+
+            return inside & (p[:, 2] >= 0) & (p[:, 2] <= self.h)
+
+        self.cell = cell
 
 
 @dataclasses.dataclass
