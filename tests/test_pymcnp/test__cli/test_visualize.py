@@ -10,6 +10,7 @@ from pymcnp._cli import visualize
 FILES: pathlib.Path = pathlib.Path(__file__).parent.parent.parent.parent / 'files'
 
 
+@pytest.mark.render
 def test_main_valid(monkeypatch, tmp_path: pathlib.Path) -> None:
     # The CLI writes PDFs next to its input, so run on a copy inside ``tmp_path``.
     inp = tmp_path / 'valid_00.inp'

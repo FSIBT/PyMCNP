@@ -1,11 +1,15 @@
 import pathlib
 
+import pytest
 import pyvista
 
 import pymcnp
 
 
 EXAMPLE = pathlib.Path(__file__).parent.parent.parent / 'examples' / 'example_00.inp'
+
+
+pytestmark = pytest.mark.render
 
 
 class Test_Visualize:

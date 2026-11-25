@@ -82,6 +82,7 @@ version_file = "src/version.py"
 
 [tool.pytest.ini_options]
 env = ["MPLBACKEND=Agg"]
+markers = ["render: test performs real off-screen VTK rendering"]
 # Temporary test directories are removed unless the test failed.
 tmp_path_retention_policy = "failed"
 testpaths = [

@@ -46,7 +46,12 @@ jobs:
       if: runner.os == 'Linux'
 
     - name: Testing with PyTest
+      if: runner.os != 'macOS'
       run: uv run --no-sync python -m pytest
+
+    - name: Testing with PyTest (macOS, skipping GPU-less rendering tests)
+      if: runner.os == 'macOS'
+      run: uv run --no-sync python -m pytest -m "not render"
 
   package:
     runs-on: ubuntu-latest

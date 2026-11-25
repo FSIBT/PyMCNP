@@ -2,6 +2,8 @@ import sys
 import shutil
 import pathlib
 
+import pytest
+
 import pymcnp
 from pymcnp._cli import main
 
@@ -38,7 +40,14 @@ def test_main_valid(monkeypatch, fake_mcnp: str, tmp_path: pathlib.Path) -> None
     main.main()
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'run', str(FILES / 'inp' / 'valid_00.inp'), f'--command={fake_mcnp}'])
     main.main()
-    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'visualize', str(FILES / 'inp' / 'valid_00.inp')])
+
+
+@pytest.mark.render
+def test_main_visualize(monkeypatch, tmp_path: pathlib.Path) -> None:
+    inp = tmp_path / 'valid_00.inp'
+    shutil.copy(FILES / 'inp' / 'valid_00.inp', inp)
+
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'visualize', str(inp)])
     main.main()
 
 
