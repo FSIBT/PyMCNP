@@ -87,3 +87,30 @@ def test_main_skips(monkeypatch, tmp_path: pathlib.Path, pdf: bool) -> None:
     assert cells_skip_1 == cells - 2
     assert cells_skip_12 == cells - 4
     assert surfaces_skip_2 == surfaces - 1
+
+
+@pytest.mark.render
+@pytest.mark.parametrize(
+    ('options', 'names'),
+    [
+        (['--cells'], ['cells']),
+        (['--surfaces'], ['surfaces']),
+        (['--cells-skip=1'], ['cells-skip']),
+        (['-c', '1,2'], ['cell_1_2']),
+        (['-s', '1'], ['surface_1']),
+        (['-s', '1,2'], ['surface_1_2']),
+        (['--surfaces-skip=1'], ['surfaces-skip']),
+    ],
+)
+def test_main_pdf_names(monkeypatch, capsys, tmp_path: pathlib.Path, options, names) -> None:
+    inp = tmp_path / 'spheres.inp'
+    inp.write_text('title\n1 0 -1\n2 0 -2 #1\n3 0 2\n\n1 so 1\n2 so 2\n\nnps 1\n')
+    monkeypatch.setattr(pyvista.Plotter, 'save_graphic', lambda self, *args, **kwargs: None)
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'visualize', str(inp), *options, '--pdf'])
+
+    visualize.main()
+
+    out = ''.join(capsys.readouterr().out.replace('│', '').split())
+
+    for name in names:
+        assert f'Wrote{tmp_path / f"spheres-{name}.pdf"}.' in out

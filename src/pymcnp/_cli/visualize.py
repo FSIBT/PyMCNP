@@ -60,7 +60,9 @@ def main() -> None:
     try:
         if args['--cells']:
             if args['--pdf']:
-                visualize.to_pdf_cells(inpt, _io.get_outfile(file, 'pdf', 'cells'))
+                out = _io.get_outfile(file, 'pdf', 'cells')
+                visualize.to_pdf_cells(inpt, out)
+                _io.info(f'Wrote {out}.')
             else:
                 plot = visualize.to_show_cells(inpt)
 
@@ -68,7 +70,9 @@ def main() -> None:
 
         if args['--surfaces']:
             if args['--pdf']:
-                visualize.to_pdf_surfaces(inpt, _io.get_outfile(file, 'pdf', 'surfaces'))
+                out = _io.get_outfile(file, 'pdf', 'surfaces')
+                visualize.to_pdf_surfaces(inpt, out)
+                _io.info(f'Wrote {out}.')
             else:
                 plot = visualize.to_show_surfaces(inpt)
 
@@ -78,7 +82,9 @@ def main() -> None:
             number = tuple(map(int, number.split(',')))
 
             if args['--pdf']:
-                visualize.to_pdf_cells(inpt, _io.get_outfile(file, 'pdf', 'cells-skip'), skip=number)
+                out = _io.get_outfile(file, 'pdf', 'cells-skip')
+                visualize.to_pdf_cells(inpt, out, skip=number)
+                _io.info(f'Wrote {out}.')
             else:
                 plot = visualize.to_show_cells(inpt, skip=number)
 
@@ -88,27 +94,33 @@ def main() -> None:
             number = tuple(map(int, number.split(',')))
 
             if args['--pdf']:
-                visualize.to_pdf_surfaces(inpt, _io.get_outfile(file, 'pdf', 'surfaces-skip'), skip=number)
+                out = _io.get_outfile(file, 'pdf', 'surfaces-skip')
+                visualize.to_pdf_surfaces(inpt, out, skip=number)
+                _io.info(f'Wrote {out}.')
             else:
                 plot = visualize.to_show_surfaces(inpt, skip=number)
 
                 plot.show()
 
         for number in args['--cell']:
-            number = number.split(',')
+            number = [item.strip() for item in number.split(',')]
 
             if args['--pdf']:
-                visualize.to_pdf_cell(inpt, _io.get_outfile(file, 'pdf', f'cell_{number}'), *number)
+                out = _io.get_outfile(file, 'pdf', 'cell_' + '_'.join(number))
+                visualize.to_pdf_cell(inpt, out, *number)
+                _io.info(f'Wrote {out}.')
             else:
                 plot = visualize.to_show_cell(inpt, *number)
 
                 plot.show()
 
         for number in args['--surface']:
-            number = number.split(',')
+            number = [item.strip() for item in number.split(',')]
 
             if args['--pdf']:
-                visualize.to_pdf_surface(inpt, _io.get_outfile(file, 'pdf', f'surface_{number}'), *number)
+                out = _io.get_outfile(file, 'pdf', 'surface_' + '_'.join(number))
+                visualize.to_pdf_surface(inpt, out, *number)
+                _io.info(f'Wrote {out}.')
             else:
                 plot = visualize.to_show_surface(inpt, *number)
 
