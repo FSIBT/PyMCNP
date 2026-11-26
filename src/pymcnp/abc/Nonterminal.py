@@ -161,6 +161,11 @@ class Nonterminal(Symbol):
         ) -> None: ...
 
     def __post_init__(self) -> None:
+        """
+        Validates the constituents.
+
+        Must be free of side effects: it may run several times during construction.
+        """
         # Checks ``__init__`` if multi-form nonterminal.
         if len(type(self)._forms) != 0:
             raise NotImplementedError
