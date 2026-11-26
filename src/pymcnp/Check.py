@@ -185,14 +185,23 @@ class Check(abc.Utility):
 
         Rewrites the file as PyMCNP prints it, which wraps card lines wider
         than 80 columns. Lines it cannot shorten, e.g., long comments, stay as
-        they are.
+        they are. A file PyMCNP cannot parse completely is not rewritten,
+        since the part it cannot parse would be lost.
 
         Returns:
             List of ``Problem`` left in the fixed file, as ``problems`` finds
             them; empty if the file is clean.
+
+        Raises:
+            Error: PyMCNP cannot parse the file completely; the file is left
+                as it is.
         """
 
         assert isinstance(self.path, pathlib.Path)
+
+        for problem in self.problems():
+            if problem.kind == 'warning':
+                raise abc.Error(f'File not rewritten: PyMCNP cannot parse line {problem.line}.', f'{self.path=}\n{problem.message}')
 
         with _quiet():
             file = Inp.from_file(self.path)[0]

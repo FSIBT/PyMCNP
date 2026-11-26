@@ -141,7 +141,8 @@ overridable methods for filtering data, and `PtracProcessor` has overridable met
 
 `Check(path)` checks and fixes an MCNP input file: `problems()` returns `Problem(line, kind, message)` entries (lines
 wider than 80 columns are errors, a card PyMCNP cannot parse is a warning), `check()` yields the unified diff (using `difflib`)
-between the file and its reformatted version, and `fix()` rewrites the file. The command line equivalent is
+between the file and its reformatted version, and `fix()` rewrites the file, or raises `abc.Error` and leaves it as it is if
+PyMCNP cannot parse it completely. The command line equivalent is
 `pymcnp check [--diff] [--fix] <inp>`.
 
 ```{eval-rst}

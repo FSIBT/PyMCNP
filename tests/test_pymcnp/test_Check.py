@@ -74,6 +74,26 @@ class Test_Check:
 
         assert pymcnp.Check(path).fix() == []
 
+    @pytest.mark.parametrize(
+        'source, line',
+        [
+            # A card PyMCNP cannot parse: it and the cards after it would be the remainder.
+            (SOURCE.replace('nps 10', 'mode n\nqqq 1 2 3\nnps 10'), 8),
+            # A file that does not parse as a whole, here two surfaces numbered 1.
+            (SOURCE.replace('1 so 5', '1 so 5\n1 so 6'), 1),
+        ],
+    )
+    def test_fix_refuses_file_it_cannot_parse(self, tmp_path: pathlib.Path, source: str, line: int) -> None:
+        # Rewriting would drop the part PyMCNP cannot parse, so `fix` raises and leaves the file as it is.
+        path = tmp_path / 'partial.inp'
+        path.write_text(source)
+
+        with pytest.raises(pymcnp.abc.Error, match=f'cannot parse line {line}') as error:
+            pymcnp.Check(path).fix()
+
+        assert 'not rewritten' in str(error.value)
+        assert path.read_text() == source
+
 
 class Test_Check_Problems:
     def test_problems_line_numbers(self, tmp_path: pathlib.Path) -> None:
