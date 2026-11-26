@@ -2,6 +2,8 @@ import typing
 import pathlib
 import dataclasses
 
+import numpy
+import pandas
 import matplotlib.pyplot
 import matplotlib.figure
 import matplotlib.backends.backend_pdf
@@ -18,6 +20,32 @@ class Plot(abc.Utility):
     """
     Represents utilities that plot output files.
     """
+
+    @staticmethod
+    def _edges(bins: pandas.Series) -> numpy.ndarray:
+        """
+        Finds the bin edges of tally bins.
+
+        OUTP bins are upper bin edges, so the lower edge of the first bin is
+        not in the file. It is 0 if the first bin is positive, e.g., an
+        energy, else one bin width below the first bin, e.g., -1 for cosine
+        bins -0.5, 0, 1 (MCNP's lower bound for cosines is -1).
+
+        Parameters:
+            bins: Upper bin edges, increasing.
+
+        Returns:
+            Bin edges, one more than ``bins``.
+        """
+
+        upper = bins.to_numpy(dtype=float)
+        if upper[0] > 0:
+            lower = 0.0
+        elif len(upper) > 1:
+            lower = upper[0] - (upper[1] - upper[0])
+        else:
+            lower = upper[0] - 1
+        return numpy.concatenate(([lower], upper))
 
     def to_show(self, outp: Outp, number: int | str) -> tuple[matplotlib.figure.Figure, ...]:
         """
@@ -48,8 +76,9 @@ class Plot(abc.Utility):
         for idents, subtally in subtallies:
             fig, ax = matplotlib.pyplot.subplots()
 
+            edges = self._edges(subtally['bins'])
             ax.errorbar(
-                subtally['bins'],
+                (edges[:-1] + edges[1:]) / 2,
                 subtally['counts'],
                 yerr=subtally['errors'] * subtally['counts'],
                 label='Error',
@@ -63,7 +92,7 @@ class Plot(abc.Utility):
             )
             ax.set_xlabel('Bins', fontsize=12)
             ax.set_ylabel('Counts', fontsize=12)
-            ax.step(subtally['bins'], subtally['counts'], color='blue', where='pre', zorder=2, label='Tally')
+            ax.stairs(subtally['counts'], edges, color='blue', zorder=2, label='Tally')
             ax.legend()
 
             figures.append(fig)

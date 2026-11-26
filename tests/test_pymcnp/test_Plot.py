@@ -1,6 +1,7 @@
 import pathlib
 
 import pandas
+import matplotlib.pyplot
 import pytest
 
 import pymcnp
@@ -52,11 +53,27 @@ class Test_Plot:
 
 
 def test_energy_bins_are_upper_edges(tmp_path: pathlib.Path) -> None:
-    # OUTP energy bins are upper bin edges, so each value is drawn from the previous edge up to its own edge.
+    # OUTP energy bins are upper bin edges, so each value is drawn from the previous edge up to its own edge, the first
+    # from 0, and its error bar sits at the centre of its bin.
     outp, _ = pymcnp.Outp.from_file(pathlib.Path(__file__).parent.parent.parent / 'files' / 'outp' / 'valid_38.outp')
-    (figure, *_) = pymcnp.Plot().to_show(outp, 1)
-    (line,) = [line for line in figure.axes[0].get_lines() if line.get_label() == 'Tally']
-    assert line.get_drawstyle() == 'steps-pre'
-    x, y = line.get_xydata().T
-    # The steps are drawn at the bins themselves, one group of increasing energies per figure.
-    assert 1 < len(x) < len(outp.tally(1)) and set(x) <= set(outp.tally(1)['bins']) and all(x[1:] > x[:-1])
+    figures = pymcnp.Plot().to_show(outp, 1)
+    tally = outp.tally(1)
+    for figure in figures:
+        (stairs,) = [patch for patch in figure.axes[0].patches if patch.get_label() == 'Tally']
+        values, edges, _ = stairs.get_data()
+        bins = edges[1:]
+        assert edges[0] == 0 and all(edges[1:] > edges[:-1]) and set(bins) <= set(tally['bins'])
+        assert len(values) == len(bins) > 1
+        (errors,) = figure.axes[0].containers
+        segments = errors.lines[2][0].get_segments()
+        assert [segment[0][0] for segment in segments] == pytest.approx((edges[:-1] + edges[1:]) / 2)
+    matplotlib.pyplot.close('all')
+
+
+@pytest.mark.parametrize(
+    'bins, lower',
+    [([1.0, 2.0, 4.0], 0.0), ([-0.5, 0.0, 1.0], -1.0), ([0.0, 0.5], -0.5), ([-2.0], -3.0)],
+)
+def test_lower_edge(bins: list[float], lower: float) -> None:
+    # The first bin starts at 0 for positive bins, e.g., energies, else one bin width below.
+    assert pymcnp.Plot._edges(pandas.Series(bins)).tolist() == [lower, *bins]
