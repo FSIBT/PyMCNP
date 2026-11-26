@@ -6,6 +6,8 @@ import subprocess
 
 import pytest
 
+from .executables import fake_executable
+
 EXAMPLES = pathlib.Path(__file__).parent.parent / 'examples'
 
 # Starts an example the way a user would, but without windows or the default mesh resolution.
@@ -129,18 +131,16 @@ def test_ptrac_to_parquet_uses_path(examples: pathlib.Path) -> None:
 def test_example_01_run_cases(examples: pathlib.Path) -> None:
     """Runs ``script_example_01_run`` with a fake MCNP that writes a PTRAC file."""
 
-    fake = examples / 'fake-mcnp'
-    fake.write_text(
-        f'#!{sys.executable}\n'
+    fake = fake_executable(
+        examples / 'fake-mcnp',
         'import sys, shutil\n'
         'arguments = dict(argument.split("=", 1) for argument in sys.argv[1:])\n'
-        f'shutil.copy("{examples / "example_01.ptrac"}", arguments["ptrac"])\n'
-        'open(arguments["outp"], "w").write("ok\\n")\n'
+        f'shutil.copy({str(examples / "example_01.ptrac")!r}, arguments["ptrac"])\n'
+        'open(arguments["outp"], "w").write("ok\\n")\n',
     )
-    fake.chmod(0o755)
     script = examples / 'script_example_01_run.py'
     assert "command='mcnp6'" in script.read_text()
-    script.write_text(script.read_text().replace("command='mcnp6'", f"command='{fake}'"))
+    script.write_text(script.read_text().replace("command='mcnp6'", f'command={fake!r}'))
     done = run(examples, 'script_example_01_run.py')
     assert done.returncode == 0, done.stderr
     assert sorted(path.name for path in examples.glob('script_example_01_output/*/*.parquet')) == sorted(f'{n}.parquet' for n in range(20))
@@ -182,15 +182,13 @@ def test_example_02_automate_workflow(examples: pathlib.Path) -> None:
     fakebin = examples / 'fakebin'
     fakebin.mkdir()
     (examples / 'fake.meshtal').write_text(MESHTAL_2D)
-    fake = fakebin / 'mcnp6'
-    fake.write_text(
-        f'#!{sys.executable}\n'
+    fake_executable(
+        fakebin / 'mcnp6',
         'import sys, shutil\n'
         'arguments = dict(argument.split("=", 1) for argument in sys.argv[1:])\n'
-        f'shutil.copy("{examples / "example_00.outp"}", arguments["outp"])\n'
-        f'shutil.copy("{examples / "fake.meshtal"}", "meshtal")\n'
+        f'shutil.copy({str(examples / "example_00.outp")!r}, arguments["outp"])\n'
+        f'shutil.copy({str(examples / "fake.meshtal")!r}, "meshtal")\n',
     )
-    fake.chmod(0o755)
     env = environment(examples)
     env['PATH'] = os.pathsep.join([str(fakebin), env['PATH']])
 

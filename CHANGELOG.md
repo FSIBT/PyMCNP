@@ -88,6 +88,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The `AREA` card was checked against the number of cells instead of the number of surfaces, so a valid card raised `abc.Error`.
 - `from_mcnp` and `from_mcnp_iter` failed on text with Windows (`\r\n`) line ends, which `from_file` reads; they now translate line ends as `from_file` does.
 - Windows: PyMCNP read and wrote files in the locale's encoding, e.g., cp1252, so a UTF-8 file with a character outside ASCII was read wrong, and `to_file` wrote such characters as cp1252 or failed. Every file is now read and written as UTF-8 on every OS, as on Linux and macOS before; a UTF-8 byte order mark, as Windows Notepad may write, is skipped.
+- Windows: `Run` and `pymcnp run` found an MCNP command such as `mcnp6.bat` or `mcnp6.cmd` on `PATH` but could not start it; they now start the executable that `PATH` and `PATHEXT` give, as the shell would.
+- `Run(command=...)` with a relative path, e.g., `./mcnp6` or `bin/mcnp6`, was looked for in each run's own directory and not found; it is now relative to the working directory.
 - A `$` comment after a continuation `&`, e.g., `1 1 -2.7 -1 & $ geometry`, made the card fail to parse.
 - `Inp.to_mcnp` moved a long continuation line indented by fewer than 5 spaces, e.g., `    lat=1 fill= ...` in a cell card, to column 1 when wrapping it, so the output no longer parsed. A wrapped line keeps an indent of 1-4 spaces; one indented by 5 or more starts at column 6, as before.
 - `from_mcnp` of a single card did not expand the shorthands `nR`, `nI`, `nJ`, `nLOG` and `xM`, so it stopped at the first one, e.g., `data.E.from_mcnp('E14 0.1 100i 10')` returned `E14 0.1 100` and the remainder `'i 10'`. Cards now expand them as `Inp` does.

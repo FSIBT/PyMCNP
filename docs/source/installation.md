@@ -12,8 +12,8 @@ PyMCNP is accessible for installation through [PyPI](https://pypi.org/project/py
 - Python 3.11 or newer.
 - MCNP, only for running simulations (`pymcnp run`, `pymcnp.Run`). MCNP is not included with PyMCNP; it is distributed by
   [RSICC](https://rsicc.ornl.gov). PyMCNP starts it as a program on your `PATH`, by default `mcnp6` (change it with
-  `pymcnp run -c <command>` or `Run(..., command=...)`), and MCNP finds its nuclear data through the `DATAPATH`
-  environment variable. Everything else, reading, checking, editing, visualizing, converting and plotting, works without
+  `pymcnp run -c <command>` or `Run(..., command=...)`; on Windows, `mcnp6.exe`, `mcnp6.bat` or `mcnp6.cmd` are found
+  for `mcnp6`), and MCNP finds its nuclear data through the `DATAPATH` environment variable. Everything else, reading, checking, editing, visualizing, converting and plotting, works without
   MCNP.
 
 After installing, continue with [Getting Started](getting_started.md).

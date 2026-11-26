@@ -58,7 +58,7 @@ class Run(abc.Utility):
 
     Attributes:
         files: Input files to run.
-        command: Command to run.
+        command: Command to run: a program on the ``PATH`` (on Windows also with an extension from ``PATHEXT``, e.g., ``mcnp6.bat``), or a path, relative to the working directory.
         max_workers: Maximum number of simultaneous runs, defaults to the number of CPUs.
         names: Names of the runs: a sequence with one name per file, or a template with ``{index}``, e.g., ``'case-{index}'``. Defaults to ``run-{index:05}``.
         check: Whether ``run`` raises if a run failed.
@@ -83,8 +83,7 @@ class Run(abc.Utility):
             Error: Invalid value.
         """
 
-        if not shutil.which(self.command):
-            raise abc.Error(f'MCNP command not found: {self.command}', f'{self.command!r} is not an executable file or on the PATH.')
+        self._executable()
 
         if self.max_workers is not None and self.max_workers < 1:
             raise abc.Error('Invalid value.', f'{self.max_workers=}')
@@ -92,6 +91,22 @@ class Run(abc.Utility):
         names = self._names()
         if len(names) != len(self.files) or len(set(names)) != len(names) or any(not name or name != pathlib.Path(name).name or name.startswith('.') for name in names):
             raise abc.Error('Invalid value.', f'{self.names=}')
+
+    def _executable(self) -> str:
+        """
+        Finds the command as the shell would, e.g., ``mcnp6`` on the ``PATH``, or on Windows ``mcnp6.exe``, ``mcnp6.bat`` or ``mcnp6.cmd``.
+
+        Returns:
+            Absolute path of the executable, since every run starts in its own directory.
+
+        Raises:
+            Error: MCNP command not found.
+        """
+
+        found = shutil.which(self.command)
+        if not found:
+            raise abc.Error(f'MCNP command not found: {self.command}', f'{self.command!r} is not an executable file or on the PATH.')
+        return os.path.abspath(found)
 
     def _names(self) -> list[str]:
         if self.names is None:
@@ -134,7 +149,7 @@ class Run(abc.Utility):
             path: Path to batch directory.
         """
 
-    def _run_one(self, directory: pathlib.Path, name: str, index: int, file: Inp) -> Result:
+    def _run_one(self, executable: str, directory: pathlib.Path, name: str, index: int, file: Inp) -> Result:
         directory.mkdir()
         inp = directory / f'{name}.inp'
         file.to_file(inp)
@@ -143,9 +158,9 @@ class Run(abc.Utility):
 
         keywords = {key: f'{name}.{key}' for key in ('inp', 'outp', 'ptrac', 'runtpe')}
         log = directory / f'{name}.log'
-        with log.open('w') as stream:
+        with log.open('wb') as stream:
             done = subprocess.run(
-                [self.command, *(f'{key}={value}' for key, value in keywords.items())],
+                [executable, *(f'{key}={value}' for key, value in keywords.items())],
                 cwd=directory,
                 stdin=subprocess.DEVNULL,
                 stdout=stream,
@@ -185,11 +200,13 @@ class Run(abc.Utility):
             Results of the runs, in the order of the input files.
 
         Raises:
+            Error: MCNP command not found.
             Error: A run failed and ``check`` is set, raised after all runs finished.
         """
 
         path = pathlib.Path(path)
         names = self._names()
+        executable = self._executable()
 
         if self.batch:
             stamp = datetime.datetime.today().strftime('%Y-%m-%d--%H-%M-%S')
@@ -213,7 +230,7 @@ class Run(abc.Utility):
         self.prehook_batch(directory)
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=self.max_workers or os.cpu_count() or 1) as pool:
-            futures = [pool.submit(self._run_one, directory / name, name, i, file) for i, (name, file) in enumerate(zip(names, self.files))]
+            futures = [pool.submit(self._run_one, executable, directory / name, name, i, file) for i, (name, file) in enumerate(zip(names, self.files))]
             results = [future.result() for future in futures]
 
         failed = [result for result in results if not result.ok]

@@ -1,5 +1,4 @@
 import re
-import sys
 import pathlib
 
 import pytest
@@ -8,6 +7,8 @@ import matplotlib.pyplot
 
 import pymcnp
 from pymcnp.Ptrac import _events
+
+from .executables import fake_executable
 
 
 def pytest_addoption(parser: pytest.Parser) -> None:
@@ -100,14 +101,12 @@ def _run_in_tmp_path(tmp_path: pathlib.Path, monkeypatch: pytest.MonkeyPatch) ->
     monkeypatch.chdir(tmp_path)
 
 
-_FAKE_MCNP = """#!{python}
-import sys, pathlib
+_FAKE_MCNP = """import sys, pathlib
 arguments = dict(argument.split('=', 1) for argument in sys.argv[1:])
 pathlib.Path(arguments['outp']).write_text('ok\\n')
 """
 
-_FAKE_MCNP_FAIL = """#!{python}
-import sys, pathlib
+_FAKE_MCNP_FAIL = """import sys, pathlib
 arguments = dict(argument.split('=', 1) for argument in sys.argv[1:])
 pathlib.Path(arguments['outp']).write_text('ok\\n')
 sys.exit(1)
@@ -120,10 +119,7 @@ def fake_mcnp(tmp_path: pathlib.Path) -> str:
     Path to a stand-in for ``mcnp6`` that writes an output file and exits with 0.
     """
 
-    path = tmp_path / 'fake-mcnp'
-    path.write_text(_FAKE_MCNP.format(python=sys.executable))
-    path.chmod(0o755)
-    return str(path)
+    return fake_executable(tmp_path / 'fake-mcnp', _FAKE_MCNP)
 
 
 @pytest.fixture
@@ -132,10 +128,7 @@ def fake_mcnp_fail(tmp_path: pathlib.Path) -> str:
     Path to a stand-in for ``mcnp6`` that writes an output file and exits with 1.
     """
 
-    path = tmp_path / 'fake-mcnp'
-    path.write_text(_FAKE_MCNP_FAIL.format(python=sys.executable))
-    path.chmod(0o755)
-    return str(path)
+    return fake_executable(tmp_path / 'fake-mcnp', _FAKE_MCNP_FAIL)
 
 
 @pytest.fixture(scope='session')

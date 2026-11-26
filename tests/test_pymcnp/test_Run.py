@@ -1,3 +1,4 @@
+import os
 import sys
 import datetime
 import pathlib
@@ -6,8 +7,9 @@ import pytest
 
 import pymcnp
 
-FAKE = """#!{python}
-import sys, pathlib
+from ..executables import fake_executable
+
+FAKE = """import sys, pathlib
 arguments = dict(argument.split('=', 1) for argument in sys.argv[1:])
 text = pathlib.Path(arguments['inp']).read_text()
 pathlib.Path(arguments['outp']).write_text('  fatal error.  surface 7 not found\\n' if 'FAIL' in text else 'ok\\n')
@@ -21,9 +23,7 @@ sys.exit(3 if 'EXIT' in text else 0)
 def fake(tmp_path: pathlib.Path) -> str:
     path = tmp_path / 'bin' / 'fake-mcnp'
     path.parent.mkdir()
-    path.write_text(FAKE.format(python=sys.executable))
-    path.chmod(0o755)
-    return str(path)
+    return fake_executable(path, FAKE)
 
 
 def _inps(inp: pymcnp.Inp, count: int, title: str = 'T') -> list[pymcnp.Inp]:
@@ -110,6 +110,18 @@ class Test_Run:
         assert 'run-00001' in str(error.value.body) and 'surface 7 not found' in str(error.value.body)
         assert sorted(calls) == [0, 2]  # the other runs finished, no batch hook
         assert len(list(next(tmp_path.glob('pymcnp-*')).glob('run-*'))) == 3
+
+    def test_relative_command(self, inp: pymcnp.Inp, fake: str, tmp_path: pathlib.Path, monkeypatch: pytest.MonkeyPatch) -> None:
+        # A command given relative to the working directory, e.g., ``./mcnp6``, although each run starts in its own directory.
+        monkeypatch.chdir(tmp_path)
+        (result,) = pymcnp.Run(_inps(inp, 1), command=str(pathlib.Path('bin') / 'fake-mcnp')).run('out')
+        assert result.ok
+
+    def test_command_on_path(self, inp: pymcnp.Inp, fake: str, tmp_path: pathlib.Path, monkeypatch: pytest.MonkeyPatch) -> None:
+        # ``mcnp6`` is found on ``PATH``; on Windows also as ``mcnp6.exe``, ``mcnp6.bat`` or ``mcnp6.cmd``.
+        monkeypatch.setenv('PATH', os.pathsep.join([str(pathlib.Path(fake).parent), os.environ['PATH']]))
+        (result,) = pymcnp.Run(_inps(inp, 1), command='fake-mcnp').run(tmp_path)
+        assert result.ok
 
     def test_run_exit_code_is_a_failure(self, inp: pymcnp.Inp, fake: str, tmp_path: pathlib.Path) -> None:
         inps = _inps(inp, 1, title='EXIT')
