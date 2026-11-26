@@ -16,7 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `abc.Warning`, the warning category of PyMCNP; warnings use Python's standard `warnings.showwarning`, and PyMCNP installs no global hook.
 - Iterative parsing mixins (`abc.file.WithMcnpIter`, `abc.file.WithDataIter`) with `from_mcnp_iter`, `from_file_iter` and `to_dataframe_iter`. The iterators yield the parsed items, e.g., `meshtal.line.Row`, or for PTRAC one generator of `ptrac.block.Event`s per history, and return `(obj, remainder)`.
 - `Inp.cell_cards`, `Inp.surface_cards` and `Inp.data_cards` filter cards by number, material, density or kind, e.g., `inp.surface_cards(99)[0]` and `inp.cell_cards(material=2)`.
-- `scan` and `scan_with` on all nonterminals, e.g., `inp.scan(nps=[...], seed=[...])`, for independent copies in parameter scans.
+- `scan` and `scan_with` on all nonterminals, e.g., `inp.scan(nps=[...], seed=[...])`, for independent copies in parameter scans. In `Inp` scan paths, the index into `cells`, `surfaces` or `data` counts cards and skips comment cards: `inp.scan(**{'surfaces[0].r': [...]})` changes the first surface card, while `inp.surfaces[0]` may be a comment card.
+- `Array.filter(*kinds, **fields)` selects the items of an array by type and field values, skipping items that lack the field.
 - `Outp`, `Meshtal` and `Ptrac` are `abc.File`s with the `abc.file.WithDataIter` mixin: `to_dataframe`, `to_dataframe_iter`, `to_file_csv` and `to_file_parquet`.
 - `Run`: per-run directories, worker limit, run names, `Result` objects with `fatal_errors`, `batch=False` and `Run.directory`.
 - The FM tally multiplier card, and `M.from_formula` library suffixes.
@@ -31,13 +32,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Breaking:** removed `MeshtalFilter` and `MeshtalProcessor`.
 - `Inp.to_mcnp` wraps card lines longer than 80 columns again.
 - The test suite is much faster (sentinels, truncated PTRAC fixtures, a coarse visualization resolution), runs in temporary directories, and the rendering tests are marked `render`, which macOS CI skips.
-- `scan` and `scan_with` work on all nonterminals without `eval`, and `Array.filter` skips items that lack the field.
 - **Breaking:** `Outp.to_dataframe` returns one dataframe with a `number` column instead of a dictionary of dataframes.
 - **Breaking:** removed `Convert`; use `to_file_csv` and `to_file_parquet`. `pymcnp convert` is now `pymcnp convert outp|ptrac|meshtal (--csv | --parquet) <file>` and converts the whole file; for meshtal files every mesh tally, with a `number` column for the tally number, as in `Outp.to_dataframe`.
 - **Breaking:** the PTRAC `I`, `J`, `N` and `P` lines are replaced by `ptrac.block.History` fields and event blocks named after the MCNP manual's variables (`EventSource_1`, ..., `EventTermination_4`), picked by the event type announced on the previous line.
 - **Breaking:** OUTP blocks are now `Header`, `Footer`, `Activity` (`NeutronActivity`, `PhotonActivity`), and `Tally` (`TallySurface`, `TallyAngle`, `TallyCell`); the `Tally_0` to `Tally_7` blocks are gone.
 - **Breaking:** the `value` of the PTRAC card's `EVENT` option (`inp.option.data.ptrac.Event`) is an `abc.Array` of event types instead of an `abc.Terminal` string, so that `EVENT=SRC,COL,BNK` keeps every value; use `[str(v) for v in option.value]` or `option.value.to_mcnp()`.
-- **Breaking:** in `Inp.scan` paths, the index into `cells`, `surfaces` or `data` counts cards and skips comment cards: `inp.scan(**{'surfaces[0].r': [...]})` changes the first surface card, not a comment card before it. `inp.cells`, `inp.surfaces` and `inp.data` still list comment cards.
 - Values put into an array, e.g., `card.e[1] = 2`, `append`, `insert`, `extend`, `+=` or a scan path such as `data[0].e[1]`, are converted to the item type (`inp.literal.Real`) as field values are, and invalid values raise `abc.Error`; a plain `int` was stored, and `to_mcnp` then failed.
 - **Breaking:** `PtracProcessor.run` returns the results of the `process_*` methods; a `Run` result without an output file is not `ok`.
 - The `pymcnp` command prints Python warnings, e.g., "Tally not parsed." or "Line exceeds 80 characters maximum length", as warning panels, like its own messages, instead of Python's format with the source line.
