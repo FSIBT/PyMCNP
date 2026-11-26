@@ -8,12 +8,14 @@ files in parallel (two at a time) and prints the result of each run. Every input
 directory, and `Run` collects the `.outp`, `.ptrac` and `.runtpe` files in each `Result`. With `check` (the default) `run` raises if a run failed.
 """
 
+import os
 import pathlib
 
 import pymcnp
 
 
-COMMAND = 'echo'
+# A stand-in for MCNP that writes no files: `echo`, or on Windows, which has no `echo` program, `where`.
+COMMAND = 'where' if os.name == 'nt' else 'echo'
 HERE = pathlib.Path(__file__).parent
 OUTPUT = HERE / 'output'
 OUTPUT.mkdir(exist_ok=True)

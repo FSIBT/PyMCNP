@@ -71,7 +71,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `pymcnp convert`, `plot --pdf` and `visualize --pdf` crashed on a file name without an extension, e.g., MCNP's default `outp`, and wrote next to the directory for a dot only in a directory name, e.g., `run.csv` for `run.d/meshtal`; they now write, e.g., `outp.csv` and `run.d/meshtal.csv`.
 - The hexagonal prism visualization mask, and the shape masks of `Visualize` (vectorized, with the sign convention of MCNP).
 - `Visualize` drew a general plane `P A B C D` with `A`, `B` and `C` all non-zero centred at (0, 0, D), off the plane unless C is 1.
-- `examples/`: `do_run.py`, `do_parameter_scan.py`, `do_check.py`, `read_ptrac.py`, the tally examples, and `script_example_01_ptrac_to_parquet.py` (which ignored its `path` argument) use the current API, and `tests/test_examples.py` runs them.
+- `examples/`: `do_run.py`, `do_parameter_scan.py`, `do_check.py`, `read_ptrac.py`, the tally examples, and `script_example_01_ptrac_to_parquet.py` (which ignored its `path` argument) use the current API, and `tests/test_examples.py` runs them. `do_run.py` and `do_parameter_scan.py` use `where` instead of `echo` on Windows, which has no `echo` program.
 - `&` and `|` on surfaces and geometries were swapped.
 - OUTP files whose footer was written to `runtpe`, ends with a newline, or is missing (runs that stopped early) did not parse.
 - OUTP tally blocks in a layout PyMCNP cannot parse yet (e.g., F8, and some F1/F2/F4/F5 layouts) were dropped silently while the remainder stayed empty; `Outp.from_file` now issues an `abc.Warning` naming the file and each such tally's number and type, on every call, and `Outp.tally(number)` raises "Tally not parsed." for it instead of "Tally not found.".

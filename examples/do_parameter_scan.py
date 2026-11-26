@@ -9,12 +9,14 @@ it visualizes the surfaces. Fourth, it subclasses `Run`, adding callbacks that p
 the output files. Finally, it runs the input files in parallel.
 """
 
+import os
 import pathlib
 
 import pymcnp
 
 
-COMMAND = 'echo'
+# A stand-in for MCNP that writes no files: `echo`, or on Windows, which has no `echo` program, `where`.
+COMMAND = 'where' if os.name == 'nt' else 'echo'
 HERE = pathlib.Path(__file__).parent
 OUTPUT = HERE / 'output'
 OUTPUT.mkdir(exist_ok=True)
