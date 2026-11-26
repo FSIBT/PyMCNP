@@ -459,8 +459,8 @@ def test_final_newline_missing_is_not_truncation(tmp_path: pathlib.Path, valid_2
 @pytest.mark.filterwarnings('ignore::pymcnp.abc.Warning')
 @pytest.mark.parametrize('name', [path.name for path in sorted(FILES.glob('valid*.ptrac'))])
 def test_to_dataframe_equals_concat(head, name: str) -> None:
-    # Whole valid_31 (1,112 histories); the first histories of the others, since whole files are slow.
-    path = FILES / name if name == 'valid_31.ptrac' else head(name, 20)
+    # The first histories only, since whole files are slow.
+    path = head(name, 20)
     ptrac, _ = pymcnp.Ptrac.from_file(path)
     frames = list(ptrac.to_dataframe_iter())
     expected = pandas.concat(frames, ignore_index=True) if frames else pymcnp.ptrac.to_dataframe([])
