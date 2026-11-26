@@ -188,6 +188,22 @@ class Nonterminal(Symbol):
         if len(type(self)._forms) != 0:
             raise NotImplementedError
 
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        """
+        Sets fields, ``spaces``, settable properties and private attributes; other names raise ``AttributeError``.
+
+        Without this, a misspelt or missing field, e.g., ``rpp.r = 5`` on a box, would be stored and ignored.
+
+        Raises:
+            AttributeError: ``name`` is not a field or settable property.
+        """
+
+        if not name.startswith('_') and name != 'spaces' and not hasattr(inspect.getattr_static(type(self), name, None), '__set__'):
+            fields = ' '.join(type(self)._fields)
+            raise AttributeError(f'{type(self).__name__} has no field {name!r}; fields: {fields}.', name=name, obj=self)
+
+        object.__setattr__(self, name, value)
+
     def __init_subclass__(cls) -> None:
         """
         Constructs cutsom dataclasses.

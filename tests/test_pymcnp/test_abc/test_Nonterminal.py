@@ -55,6 +55,31 @@ class Test_Nonterminal:
         with pytest.raises(pymcnp.abc.Error, match='Invalid value'):
             e.e[0] = value
 
+    def test_setting_an_unknown_attribute_raises(self) -> None:
+        # A name that is not a field, e.g., a typo or the radius of a box, is not silently stored.
+        rpp, _ = pymcnp.inp.card.Surface.from_mcnp('1 rpp -1 1 -1 1 -1 1')
+        with pytest.raises(AttributeError, match="Rpp has no field 'r'.*xmin"):
+            rpp.r = 5  # type:ignore
+        with pytest.raises(AttributeError, match="'x_min'"):
+            setattr(rpp, 'x_min', 5)
+        assert 'r' not in vars(rpp) and rpp.to_mcnp() == '1 rpp -1 1 -1 1 -1 1'
+        # Methods are not fields either.
+        with pytest.raises(AttributeError, match="'to_mcnp'"):
+            rpp.to_mcnp = None  # type:ignore
+        # Fields, ``spaces``, settable properties and private names may be set.
+        rpp.xmin = -2  # type:ignore
+        rpp.spaces = dict(rpp.spaces)
+        rpp._note = 'private'
+        assert rpp.to_mcnp() == '1 rpp -2 1 -1 1 -1 1'
+        inp, _ = pymcnp.Inp.from_mcnp('Hello\n1 0 -1\n\n1 SO 1\n\nnps 10\n')
+        inp.nps = 20
+        assert inp.nps == 20
+        with pytest.raises(AttributeError):
+            inp.npss = 20  # type:ignore
+        # ``scan_with`` with a wrong name fails instead of making identical copies.
+        with pytest.raises(AttributeError):
+            next(inp.scan_with([1], lambda copy, r: setattr(copy.surface_cards(1)[0], 'radius', r)))
+
     def test___class_getitem___valid(self) -> None:
         assert pymcnp.inp.card.Cell[0] == pymcnp.inp.card.Cell_0
         assert pymcnp.inp.card.Cell[1] == pymcnp.inp.card.Cell_1
