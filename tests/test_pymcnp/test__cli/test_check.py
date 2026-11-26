@@ -157,7 +157,8 @@ def test_latin_1_file_warns_once_and_fix_writes_utf8(monkeypatch, capsys, tmp_pa
     out = capsys.readouterr()
     assert (out.out + out.err).count('not UTF-8') == 1
     if '--fix' in options:
-        assert path.read_bytes().startswith('Titel Müller\n'.encode('utf-8'))
+        # --fix writes UTF-8 with the line ends of the OS, CRLF on Windows.
+        assert path.read_bytes().replace(b'\r\n', b'\n').startswith('Titel Müller\n'.encode('utf-8'))
     else:
         assert path.read_bytes().startswith(b'Titel M\xfcller\n')
 
