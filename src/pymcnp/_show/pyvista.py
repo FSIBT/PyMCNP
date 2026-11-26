@@ -412,7 +412,7 @@ class Plane(abc.Plane, Visualization):
         elif self.c == 0:
             point = (0, self.d / self.b, 0)
         else:
-            point = (0, 0, self.d)
+            point = (0, 0, self.d / self.c)
 
         self.surface = pyvista.Plane(center=point, i_size=int(BOUND), j_size=int(BOUND), direction=(self.a, self.b, self.c))
         self.cell = lambda p: self.a * p[:, 0] + self.b * p[:, 1] + self.c * p[:, 2] - self.d < 0
