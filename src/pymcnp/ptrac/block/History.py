@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import sys
 import typing
+import warnings
 import dataclasses
 import collections.abc
 
@@ -182,6 +184,7 @@ _KINDS: dict[str, type[Event]] = {
     '      4000': EventCollision,
     '      5000': EventTermination,
 }
+_NAMES = {'      1000': 'source', _BANK: 'bank', '      3000': 'surface', '      4000': 'collision', '      5000': 'termination'}
 
 # Variable IDs of the J-line fields of event blocks (MCNP manual, PTRAC file format).
 _IDS = {
@@ -216,7 +219,8 @@ def _kinds(header: Header) -> dict[str, type[Event]]:
 
     An event type gets the form whose J-line variable IDs and number of P-line values are the header's, e.g.,
     ``EventSource_3`` for ``8 9 17 18 19`` and 9 P values. An event type that no form fits, or a header whose counts
-    and IDs do not fit together, keeps the class whose forms are tried in turn, as without a header.
+    and IDs do not fit together, keeps the class whose forms are tried in turn, as without a header; event types that
+    no form fits get one ``abc.Warning``.
 
     Returns:
         Event block class per event type, as ``_KINDS``.
@@ -225,10 +229,19 @@ def _kinds(header: Header) -> dict[str, type[Event]]:
     kinds = dict(_KINDS)
     lines = _event_lines(header)
     if lines is not None:
-        for code, line in zip(_KINDS, lines):
+        unmatched = []
+        for (code, name), line in zip(_NAMES.items(), lines):
             forms = [form for form in _KINDS[code]._forms if _shape(form) == line]
             if forms:
                 kinds[code] = forms[0]
+            else:
+                unmatched.append(f'{name} (J line {" ".join(map(str, line[0]))}, {line[1]} P values)')
+        if unmatched:
+            warning = abc.Warning(
+                'PTRAC header layout has no event block form.',
+                f'{", ".join(unmatched)}: these event blocks are parsed by trial, so their ptrac.block field names may not follow the header; stream and to_dataframe do',
+            )
+            warnings.warn_explicit(warning, abc.Warning, __file__, sys._getframe().f_lineno, module=__name__)
 
     return kinds
 

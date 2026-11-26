@@ -576,6 +576,8 @@ def _with_header(path: pathlib.Path, tmp_path: pathlib.Path, old: str, new: str)
     return out
 
 
+# The header's source line (8 9 17 18 19, 3 P values) fits no form, which warns.
+@pytest.mark.filterwarnings('ignore:PTRAC header layout has no event block form:pymcnp.abc.Warning')
 def test_stream_reads_values_by_header_variable_ids(head, tmp_path: pathlib.Path) -> None:
     # The header says the source J line holds NODE NSR NCL MAT NCP (8 9 17 18 19), so the values are read that way, whatever the event block guessed.
     path = _with_header(head('valid_35.ptrac', 1), tmp_path, '   9  16  17  18', '   9  17  18  19')
@@ -588,6 +590,8 @@ def test_stream_reads_values_by_header_variable_ids(head, tmp_path: pathlib.Path
     assert (event.particle, event.cell, event.material) == (pymcnp.ptrac.Particle.PHOTON, 200, 2)
 
 
+# The header's source line (8 9 17 18 19, 3 P values) fits no form, which warns.
+@pytest.mark.filterwarnings('ignore:PTRAC header layout has no event block form:pymcnp.abc.Warning')
 def test_event_layout_is_private(head, tmp_path: pathlib.Path) -> None:
     # The header layout is an implementation detail: it is an init-only `_layout` argument, not a field, attribute or repr entry.
     names = [field.name for field in dataclasses.fields(pymcnp.ptrac.Event)]
@@ -623,7 +627,7 @@ def test_event_layout_is_private(head, tmp_path: pathlib.Path) -> None:
         # A J line whose IDs do not start with the event type (ID 7).
         ('   2   7   8   9', '   2   6   8   9'),
         # A J line with another number of values than the event has.
-        ('     2    6    3', '     2    5    4'),
+        pytest.param('     2    6    3', '     2    5    4', marks=pytest.mark.filterwarnings('ignore:PTRAC header layout has no event block form:pymcnp.abc.Warning')),
     ],
     ids=['number', 'counts', 'type', 'length'],
 )
@@ -664,21 +668,37 @@ def _with_headers(path: pathlib.Path, tmp_path: pathlib.Path, *changes: tuple[st
 
 
 @pytest.mark.parametrize(
-    'changes',
+    'changes, warned',
     [
-        # A source J line `8 9 17 18 19` with 3 P values, which no form has.
-        [('    2    5', '    2    6'), ('   9  17  18', '   9  17  18  19')],
-        # Counts that are not numbers.
-        [('    2    5', '    x    5')],
+        # A source J line `8 9 17 18 19` with 3 P values, which no form has: one warning.
+        ([('    2    5', '    2    6'), ('   9  17  18', '   9  17  18  19')], True),
+        # Counts that are not numbers: the header describes no lines, so nothing to warn about.
+        ([('    2    5', '    x    5')], False),
     ],
 )
-def test_header_without_a_matching_form_keeps_the_trial_parse(head, tmp_path: pathlib.Path, changes: list[tuple[str, str]]) -> None:
+def test_header_without_a_matching_form_keeps_the_trial_parse(head, tmp_path: pathlib.Path, changes: list[tuple[str, str]], warned: bool) -> None:
     # Event types no form fits are left to the parse by length, as without a header.
     path = head('valid_00.ptrac', 1)
     changed = _with_headers(path, tmp_path, *changes)
-    header = next(_read_header(changed))
-    assert pymcnp_history_kinds(header)['      1000'] is pymcnp.ptrac.block.EventSource
-    ptrac, remainder = pymcnp.Ptrac.from_file(changed)
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore')
+        header = next(_read_header(changed))
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter('always')
+        kinds = pymcnp_history_kinds(header)
+    assert kinds['      1000'] is pymcnp.ptrac.block.EventSource
+    messages = [str(warning.message) for warning in caught if issubclass(warning.category, pymcnp.abc.Warning)]
+    if warned:
+        assert len(messages) == 1
+        assert 'source' in messages[0] and 'ptrac.block' in messages[0] and 'stream' in messages[0]
+    else:
+        assert messages == []
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter('always')
+        ptrac, remainder = pymcnp.Ptrac.from_file(changed)
+        events = list(pymcnp.Ptrac.stream(changed))
+    assert len([warning for warning in caught if issubclass(warning.category, pymcnp.abc.Warning)]) == 2 * warned
+    assert events
     assert remainder == ''
     assert ptrac.histories.to_mcnp() == pymcnp.Ptrac.from_file(path)[0].histories.to_mcnp()
 
