@@ -36,14 +36,14 @@ def main() -> None:
         _io.error(str(err))
         sys.exit(1)
 
-    ploter = Plot()
+    plotter = Plot()
 
     # Plotting!
     try:
         if args['--pdf']:
-            ploter.to_pdf(outp, number, pathlib.Path(_io.get_outfile(file, 'pdf')))
+            plotter.to_pdf(outp, number, pathlib.Path(_io.get_outfile(file, 'pdf')))
         else:
-            ploter.to_show(outp, number)
+            plotter.to_show(outp, number)
 
             matplotlib.pyplot.show()
 

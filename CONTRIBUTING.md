@@ -54,7 +54,8 @@ that are newer. CI tests Python 3.11 to 3.15 on Linux and macOS.
 
 Pull requests must pass [ruff](https://docs.astral.sh/ruff/) with the same rules we use.
 The ruff version is pinned and the rules are configured in `pyproject.toml` (single
-quotes, 200-column lines), so local and CI results agree. Installing the `dev` extra and
+quotes, 200-column lines); CI and the pre-commit hooks use the same ruff version, so local
+and CI results agree. Installing the `dev` extra and
 running `pre-commit install` applies them automatically.
 
     ruff check .

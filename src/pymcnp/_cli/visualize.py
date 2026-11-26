@@ -6,10 +6,13 @@ Options:
     --cells                        Visualize all cells.
     --surfaces                     Visualize all surfaces.
     --cells-skip=<numbers>         Visualize all cells except listed cells.
-    --surfaces-skip=<numbers>      Visualize all surfaces excepted listed surfaces.
+    --surfaces-skip=<numbers>      Visualize all surfaces except listed surfaces.
     -c --cell=<numbers>            Visualize listed cells.
     -s --surface=<numbers>         Visualize listed surfaces.
     --pdf                          Write PDF.
+
+Options may be given more than once; each gives its own plot, e.g., -c 1 -c 2,3
+shows cell 1, then cells 2 and 3 together.
 """
 
 import sys

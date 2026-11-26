@@ -51,7 +51,7 @@ class Result:
 @dataclasses.dataclass
 class Run(abc.Utility):
     """
-    Represents utitlites that run input files.
+    Represents utilities that run input files.
 
     Every input runs in its own directory (``<batch>/<name>/<name>.inp``, ``.outp``, ``.ptrac``, ``.runtpe``, ``.log``),
     since MCNP refuses to reuse output files and parallel runs would share one ``runtpe``.

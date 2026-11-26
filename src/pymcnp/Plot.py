@@ -16,7 +16,7 @@ matplotlib.pyplot.rcParams['figure.max_open_warning'] = 0
 @dataclasses.dataclass
 class Plot(abc.Utility):
     """
-    Represents utilties that plot output files.
+    Represents utilities that plot output files.
     """
 
     def to_show(self, outp: Outp, number: int | str) -> tuple[matplotlib.figure.Figure, ...]:

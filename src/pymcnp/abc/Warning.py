@@ -7,7 +7,7 @@ import dataclasses
 @dataclasses.dataclass
 class Warning(Warning):
     """
-    Represents errors.
+    Represents warnings.
 
     Attributes:
         title: Warning title.

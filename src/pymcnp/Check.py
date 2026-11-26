@@ -39,7 +39,7 @@ class Check(abc.Utility):
 
     def __post_init__(self):
         """
-        Validates utitlites that check input files.
+        Validates utilities that check input files.
 
         Raises:
             Error.
