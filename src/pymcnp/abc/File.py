@@ -30,7 +30,7 @@ class File(Nonterminal):
         if not path.is_file():
             raise Error('File not found.', f'{path=}')
 
-        source = path.read_text()
+        source = path.read_text(encoding='utf-8-sig')
 
         return cls.from_mcnp(source)
 
@@ -40,4 +40,4 @@ class File(Nonterminal):
         """
 
         path = pathlib.Path(path)
-        path.write_text(self.to_mcnp())
+        path.write_text(self.to_mcnp(), encoding='utf-8')

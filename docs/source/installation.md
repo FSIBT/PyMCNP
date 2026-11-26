@@ -28,6 +28,8 @@ We recommend [uv](https://docs.astral.sh/uv/) for installing PyMCNP. Optionally,
 
 On Windows, activate the environment with `.venv\Scripts\activate` instead.
 
+PyMCNP reads and writes files as UTF-8 text on every OS, and reads files with Windows (CRLF) or Unix (LF) line ends.
+
 Without a virtual environment, uv can also install PyMCNP as a command-line tool:
 
     uv tool install pymcnp

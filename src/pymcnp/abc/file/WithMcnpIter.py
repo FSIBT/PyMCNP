@@ -36,7 +36,7 @@ class WithMcnpIter(symbol.WithMcnpIter[T, U], typing.Generic[T, U]):
         if not path.is_file():
             raise Error('File not found.', f'{path=}')
 
-        source = path.read_text()
+        source = path.read_text(encoding='utf-8-sig')
 
         return (yield from cls.from_mcnp_iter(source, returning=returning))
 

@@ -82,7 +82,7 @@ def partly_parsed(path: pathlib.Path | str, remainder: str, unit: str = 'card') 
 
     skip, first = next((index, line.strip()) for index, line in enumerate(remainder.split('\n')) if line.strip())
     number = None
-    text = pathlib.Path(path).read_text()
+    text = pathlib.Path(path).read_text(encoding='utf-8-sig')
     if unit == 'card':
         lines = text.split('\n')
         found = _unparseable_card(lines)
@@ -137,12 +137,12 @@ def read(path: pathlib.Path, parse: typing.Callable[[pathlib.Path], T], unit: st
     try:
         return parse(path)
     except UnicodeDecodeError as err:
-        fail(f'{path}: not {err.encoding.upper()} text (byte offset {err.start}), so PyMCNP cannot read it.{" " + hint if hint else ""}', USAGE)
+        fail(f'{path}: not UTF-8 text (byte offset {err.start}), so PyMCNP cannot read it.{" " + hint if hint else ""}', USAGE)
     except OSError as err:
         fail(f'{path}: cannot read the file: {err.strerror}.', USAGE)
     except abc.Error as err:
         # Errors of the grammar have a stack; others, e.g., two cells with one number, are not about one card.
-        if unit == 'card' and err.stack and (found := _unparseable_card(path.read_text().split('\n'))) is not None:
+        if unit == 'card' and err.stack and (found := _unparseable_card(path.read_text(encoding='utf-8-sig').split('\n'))) is not None:
             number, card_err = found
             fail(f'{path}, line {number}: PyMCNP cannot parse this card: {str(card_err).splitlines()[0]} Nothing is read; fix the card and check the file with "pymcnp check".', PARTLY_PARSED)
         fail(f'{path}: PyMCNP cannot parse this file: {" ".join(str(err).split())}', PARTLY_PARSED)

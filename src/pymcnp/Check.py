@@ -68,7 +68,7 @@ class Check(abc.Utility):
 
         assert isinstance(self.path, pathlib.Path)
 
-        current = self.path.read_text()
+        current = self.path.read_text(encoding='utf-8-sig')
         with _quiet():
             correct = Inp.from_mcnp(current)[0].to_mcnp()
 
@@ -90,7 +90,7 @@ class Check(abc.Utility):
         assert isinstance(self.path, pathlib.Path)
 
         try:
-            text = self.path.read_text()
+            text = self.path.read_text(encoding='utf-8-sig')
         except FileNotFoundError as err:
             raise abc.Error('File not found', f'{self.path=}') from err
 

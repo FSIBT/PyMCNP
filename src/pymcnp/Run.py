@@ -166,7 +166,7 @@ class Run(abc.Utility):
             runtpe=found('runtpe'),
             log=log,
             returncode=done.returncode,
-            fatal_errors=_fatal_errors(outp.read_text(errors='replace')) if outp else [],
+            fatal_errors=_fatal_errors(outp.read_text(encoding='utf-8', errors='replace')) if outp else [],
         )
 
         if result.ok or not self.check:

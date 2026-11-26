@@ -70,7 +70,7 @@ class Outp(abc.file.WithDataIter, abc.File):
         if not path.is_file():
             raise abc.Error('File not found.', f'{path=}')
 
-        return cls._from_mcnp_warning(path.read_text(), f'{path=} ')
+        return cls._from_mcnp_warning(path.read_text(encoding='utf-8-sig'), f'{path=} ')
 
     @classmethod
     def _from_mcnp_warning(cls, source: str, prefix: str) -> tuple[typing.Self, str]:

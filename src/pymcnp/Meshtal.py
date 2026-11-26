@@ -196,7 +196,7 @@ class Meshtal(abc.file.WithMcnpIter, abc.file.WithDataIter, abc.File):
         head: list[str] = []
         body: list[str] = []
         found = False
-        with path.open() as file:
+        with path.open(encoding='utf-8-sig') as file:
             for line in file:
                 if line.startswith(' Mesh Tally Number'):
                     if found:
