@@ -213,3 +213,14 @@ def test_example_02_plot_flux_without_run(examples: pathlib.Path) -> None:
     assert done.returncode != 0
     assert 'pymcnp run' in done.stderr
     assert 'IndexError' not in done.stderr
+
+
+def test_example_02_plot_flux_given_path(examples: pathlib.Path) -> None:
+    # A meshtal from elsewhere, before script_example_02_output/ exists.
+    (examples / 'given.meshtal').write_text(MESHTAL_2D)
+    shutil.rmtree(examples / 'script_example_02_output', ignore_errors=True)
+
+    done = run(examples, 'script_example_02_plot_flux.py', 'given.meshtal')
+
+    assert done.returncode == 0, done.stderr
+    assert (examples / 'script_example_02_output' / 'flux.png').exists()

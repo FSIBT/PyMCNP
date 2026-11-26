@@ -49,5 +49,6 @@ for ax, data, label, kwargs in (
 axes[0].set_title(f'Neutron flux at z = 30 cm, {step:.0f} cm bins')
 axes[1].set_title('Statistical error (dashed: disc array, star: source axis)')
 output = pathlib.Path('script_example_02_output/flux.png')
+output.parent.mkdir(parents=True, exist_ok=True)
 figure.savefig(output, dpi=150)
 print(output, f'total={flux.sum():.3e}', f'mean rel err={error.mean():.2f}')
