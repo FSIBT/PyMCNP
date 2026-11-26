@@ -2,9 +2,9 @@ name: Run Python tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, ci-windows-probe ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, ci-windows-probe ]
 
 jobs:
   lint:
