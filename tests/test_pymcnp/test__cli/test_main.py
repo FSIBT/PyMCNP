@@ -20,8 +20,6 @@ def test_main_valid(monkeypatch, fake_mcnp: str, tmp_path: pathlib.Path) -> None
 
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'help'])
     main.main()
-    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'help', 'hello'])
-    main.main()
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'help', 'check'])
     main.main()
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'help', 'convert'])
@@ -37,6 +35,7 @@ def test_main_valid(monkeypatch, fake_mcnp: str, tmp_path: pathlib.Path) -> None
     main.main()
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'convert', 'outp', '--csv', str(outp)])
     main.main()
+    assert outp.with_name('valid_39.outp.csv').stat().st_size > 1
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'plot', str(outp), '21'])
     main.main()
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'run', str(FILES / 'inp' / 'valid_00.inp'), f'--command={fake_mcnp}'])

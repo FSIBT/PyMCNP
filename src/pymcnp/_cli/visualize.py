@@ -13,6 +13,13 @@ Options:
 
 Options may be given more than once; each gives its own plot, e.g., -c 1 -c 2,3
 shows cell 1, then cells 2 and 3 together.
+
+Exit codes:
+    0    Visualized.
+    1    PyMCNP cannot parse the input or visualize it.
+    2    Usage error, e.g., no such cell or surface, or the file does not exist
+         or cannot be read as text.
+    3    PyMCNP cannot parse all of the input; the part before is visualized.
 """
 
 import sys
@@ -22,7 +29,6 @@ from docopt import docopt
 
 from . import _io
 from .. import abc
-from .. import inp
 from ..Inp import Inp
 from ..Visualize import Visualize
 
@@ -37,11 +43,7 @@ def main() -> None:
     file = pathlib.Path(args['<inp>'])
 
     # Reading input file.
-    try:
-        inpt, remainder = Inp.from_file(file)
-    except abc.Error as err:
-        _io.error(str(err))
-        sys.exit(1)
+    inpt, remainder = _io.read(file, Inp.from_file, 'card')
 
     partly = _io.partly_parsed(file, remainder)
 
@@ -50,14 +52,17 @@ def main() -> None:
         args['--surfaces'] = True
 
     for option, items in (('--cell', inpt.cells), ('--surface', inpt.surfaces), ('--cells-skip', inpt.cells), ('--surfaces-skip', inpt.surfaces)):
-        known = {str(item.j) for item in items if hasattr(item, 'j')}
+        known = {int(item.j) for item in items if hasattr(item, 'j')}
 
         for numbers in args[option]:
-            missing = [number for number in numbers.split(',') if inp.literal.Integer(number) not in known]
+            try:
+                wanted = [int(number) for number in numbers.split(',')]
+            except ValueError:
+                _io.fail(f'{option}: expected numbers separated by commas, e.g., 1,2, not {numbers}.', _io.USAGE)
 
+            missing = [str(number) for number in wanted if number not in known]
             if missing:
-                _io.error(f'{option}: no such {"cell" if "cell" in option else "surface"}: {", ".join(missing)}.')
-                sys.exit(2)
+                _io.fail(f'{option}: no such {"cell" if "cell" in option else "surface"}: {", ".join(missing)}.', _io.USAGE)
 
     visualize = Visualize()
 
@@ -131,10 +136,9 @@ def main() -> None:
 
                 plot.show()
     except abc.Error as err:
-        _io.error(str(err))
-        sys.exit(2)
+        _io.fail(str(err), _io.PROBLEMS)
 
     if partly:
-        sys.exit(3)
+        sys.exit(_io.PARTLY_PARSED)
 
     _io.done()

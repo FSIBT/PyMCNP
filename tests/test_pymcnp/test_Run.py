@@ -59,6 +59,11 @@ class Test_Run:
         with pytest.raises(pymcnp.abc.Error):
             pymcnp.Run((inp, inp), 'echo', names='same')
 
+    def test_missing_command_is_named(self, inp: pymcnp.Inp) -> None:
+        with pytest.raises(pymcnp.abc.Error, match='MCNP command not found: nosuchmcnp6') as error:
+            pymcnp.Run((inp,), 'nosuchmcnp6')
+        assert 'PATH' in error.value.body
+
     def test_hooks_valid(self, inp: pymcnp.Inp, tmp_path: pathlib.Path) -> None:
         run = pymcnp.Run((inp,), command='echo')
         run.prehook_file(tmp_path, 0)

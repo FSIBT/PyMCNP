@@ -79,11 +79,12 @@ class Run(abc.Utility):
         Validates utilities that run input files.
 
         Raises:
+            Error: MCNP command not found.
             Error: Invalid value.
         """
 
         if not shutil.which(self.command):
-            raise abc.Error('Invalid value.', f'{self.command=}')
+            raise abc.Error(f'MCNP command not found: {self.command}', f'{self.command!r} is not an executable file or on the PATH.')
 
         if self.max_workers is not None and self.max_workers < 1:
             raise abc.Error('Invalid value.', f'{self.max_workers=}')

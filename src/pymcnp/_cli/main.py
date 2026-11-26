@@ -20,13 +20,20 @@ Commands:
 Options:
     --version  Show the PyMCNP version.
 
+Exit codes (of every command):
+    0    Success.
+    1    The input or output has problems, or the command failed.
+    2    Usage error, or a file does not exist or cannot be read.
+    3    PyMCNP cannot parse all of a file.
+
 PyMCNP helps create, run, analyze MCNP simulation input and output.
 """
 
+import sys
 import warnings
 
-import rich.markup
 from docopt import docopt
+from docopt import DocoptExit
 
 import pymcnp
 
@@ -44,20 +51,24 @@ def _showwarning(message: Warning | str, category: type[Warning], filename: str,
     """
 
     text = str(message) if issubclass(category, pymcnp.abc.Warning) else f'{category.__name__}: {message}'
-    _io.warning(rich.markup.escape(text))
+    _io.warning(text)
 
 
 def main() -> None:
     """
     Runs the PyMCNP command line interface.
 
-    Warnings of every command are printed as warning panels.
+    Warnings of every command are printed as warning panels. Usage errors
+    print the usage and exit with 2.
     """
 
     showwarning = warnings.showwarning
     warnings.showwarning = _showwarning
     try:
         _main()
+    except DocoptExit as err:
+        print(err, file=sys.stderr)
+        sys.exit(_io.USAGE)
     finally:
         warnings.showwarning = showwarning
 
@@ -80,20 +91,13 @@ def _main() -> None:
     elif args['plot']:
         plot.main()
     elif args['help']:
-        if args['<command>'] == 'run':
-            print(str(run.__doc__)[1:-1])
-        elif args['<command>'] == 'check':
-            print(str(check.__doc__)[1:-1])
-        elif args['<command>'] == 'visualize':
-            print(str(visualize.__doc__)[1:-1])
-        elif args['<command>'] == 'convert':
-            print(str(convert.__doc__)[1:-1])
-        elif args['<command>'] == 'plot':
-            print(str(plot.__doc__)[1:-1])
-        elif args['<command>'] is None:
+        commands = {'run': run, 'check': check, 'visualize': visualize, 'convert': convert, 'plot': plot}
+        if args['<command>'] is None:
             print(str(__doc__)[1:-1])
+        elif args['<command>'] in commands:
+            print(str(commands[args['<command>']].__doc__)[1:-1])
         else:
-            print(str(plot.__doc__)[1:-1])
+            _io.fail(f'No command {args["<command>"]}; the commands are {", ".join(commands)}.', _io.USAGE)
 
 
 if __name__ == '__main__':

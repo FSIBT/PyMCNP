@@ -79,3 +79,10 @@ def test_partly_parsed_lines(monkeypatch, capsys, tmp_path: pathlib.Path, remain
 def test_partly_parsed_empty_remainder(capsys, tmp_path: pathlib.Path) -> None:
     assert not _io.partly_parsed(tmp_path / 'missing.inp', ' \n')
     assert not _warning(capsys)
+
+
+@pytest.mark.parametrize('report', [_io.info, _io.error, _io.warning])
+def test_messages_are_not_rich_markup(capsys, report) -> None:
+    # Square brackets in cards and paths, e.g., `f4:n 1 [1]` or `fill=1 [1 0 0]`, are printed, not read as rich markup.
+    report('card "f4:n (1<2[0 0 0])" in [bold]run[/bold] [red]')
+    assert _squeeze('card "f4:n (1<2[0 0 0])" in [bold]run[/bold] [red]') in _warning(capsys)

@@ -20,25 +20,30 @@ def test_main_run_failed(monkeypatch, fake_mcnp_fail: str) -> None:
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'run', str(pathlib.Path(__file__).parent.parent.parent.parent / 'files' / 'inp' / 'valid_00.inp'), f'--command={fake_mcnp_fail}'])
     with pytest.raises(SystemExit) as error:
         run.main()
-    assert error.value.code == 2
+    assert error.value.code == 1
 
 
 def test_main_invalid(monkeypatch) -> None:
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'run', str(FILES / 'inp' / 'valid_00.inp'), '--command=""'])
-    with pytest.raises(SystemExit):
+    with pytest.raises(SystemExit) as error:
         run.main()
+    assert error.value.code == 1
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'run', str(FILES / 'inp' / 'invalid_00.inp')])
-    with pytest.raises(SystemExit):
+    with pytest.raises(SystemExit) as error:
         run.main()
+    assert error.value.code == 1
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'run', str(FILES / 'inp' / 'invalid_01.inp')])
-    with pytest.raises(SystemExit):
+    with pytest.raises(SystemExit) as error:
         run.main()
+    assert error.value.code == 3
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'run', str(FILES / 'inp' / 'invalid_02.inp')])
-    with pytest.raises(SystemExit):
+    with pytest.raises(SystemExit) as error:
         run.main()
+    assert error.value.code == 3
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'run', 'hello'])
-    with pytest.raises(SystemExit):
+    with pytest.raises(SystemExit) as error:
         run.main()
+    assert error.value.code == 2
 
 
 def test_main_partly_parsed(monkeypatch, capsys, tmp_path: pathlib.Path, fake_mcnp: str) -> None:

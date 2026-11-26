@@ -49,23 +49,29 @@ def test_main_valid(monkeypatch, tmp_path: pathlib.Path) -> None:
 
 def test_main_invalid(monkeypatch) -> None:
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'visualize', str(FILES / 'inp' / 'valid_00.inp'), '--cell=81023'])
-    with pytest.raises(SystemExit):
+    with pytest.raises(SystemExit) as error:
         visualize.main()
+    assert error.value.code == 2
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'visualize', str(FILES / 'inp' / 'invalid_00.inp')])
-    with pytest.raises(SystemExit):
+    with pytest.raises(SystemExit) as error:
         visualize.main()
+    assert error.value.code == 1
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'visualize', str(FILES / 'inp' / 'invalid_01.inp')])
-    with pytest.raises(SystemExit):
+    with pytest.raises(SystemExit) as error:
         visualize.main()
+    assert error.value.code == 3
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'visualize', str(FILES / 'inp' / 'invalid_02.inp')])
-    with pytest.raises(SystemExit):
+    with pytest.raises(SystemExit) as error:
         visualize.main()
+    assert error.value.code == 3
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'visualize', str(FILES / 'inp' / 'valid_41.inp')])
-    with pytest.raises(SystemExit):
+    with pytest.raises(SystemExit) as error:
         visualize.main()
+    assert error.value.code == 1
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'visualize', 'hello'])
-    with pytest.raises(SystemExit):
+    with pytest.raises(SystemExit) as error:
         visualize.main()
+    assert error.value.code == 2
 
 
 @pytest.mark.render

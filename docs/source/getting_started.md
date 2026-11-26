@@ -76,7 +76,7 @@ Its exit code says what it found:
 |---|---|
 | 0 | No problems (or `--fix` reformatted the file and no line is wider than 80 columns). |
 | 1 | Lines wider than 80 columns, which MCNP rejects. `--diff` shows how `--fix` would rewrap them; `--fix` rewrites the file in place, and still exits with 1 if a line, e.g., a long comment, stays too wide. |
-| 2 | The file does not exist. |
+| 2 | The file does not exist or cannot be read as text. |
 | 3 | PyMCNP cannot parse a card. MCNP may still accept it. Checking stops at that card, so check again after fixing it. `--fix` refuses to rewrite such a file. |
 
 ![pymcnp check --diff with a line over 80 columns](images/cli_check_diff.svg)
@@ -185,7 +185,7 @@ matplotlib.pyplot.show()
 ![Tally 1 of example_00.outp](images/getting_started_tally.png)
 
 For a quick look, `pymcnp plot example_00.outp 1` plots every bin combination of tally 1, and with `--pdf` writes them
-to `example_00.pdf`. `pymcnp convert outp --csv example_00.outp` writes all parsed tallies to `example_00.csv`.
+to `example_00.pdf`. `pymcnp convert outp --csv example_00.outp` writes all parsed tallies to `example_00.outp.csv`.
 
 (running-mcnp)=
 ## 7. Run MCNP

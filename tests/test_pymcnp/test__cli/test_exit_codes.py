@@ -1,0 +1,258 @@
+"""
+Every command exits with the codes of one table: 0 success; 1 the input or
+output has problems, or the command failed; 2 usage error, or a file that does
+not exist or cannot be read as text; 3 PyMCNP cannot parse all of a file.
+"""
+
+import os
+import sys
+import shutil
+import pathlib
+
+import pandas
+import pytest
+import matplotlib.pyplot
+
+import pymcnp
+from pymcnp._cli import main
+
+
+FILES: pathlib.Path = pathlib.Path(__file__).parent.parent.parent.parent / 'files'
+
+# The OUTP fixtures hold tallies PyMCNP cannot parse.
+pytestmark = pytest.mark.filterwarnings('ignore:Tally not parsed:pymcnp.abc.Warning')
+
+# Cell card 2 parses only in part, so nothing after it can be read.
+BAD_CELL = 'title\n1 0 -1 imp:n=1\n2 0 1 imp:n=0 foo=3\n\n1 so 5\n\nnps 10\n'
+
+COMMANDS = [
+    ['check'],
+    ['convert', 'outp', '--csv'],
+    ['convert', 'ptrac', '--parquet'],
+    ['convert', 'meshtal', '--csv'],
+    ['plot', '--pdf', '{file}', '1'],
+    ['visualize', '--pdf'],
+    ['run'],
+]
+
+
+def _args(command: list[str], file: pathlib.Path) -> list[str]:
+    if '{file}' in command:
+        return [str(file) if arg == '{file}' else arg for arg in command]
+    return [*command, str(file)]
+
+
+def _run(monkeypatch, capsys, *args: str) -> tuple[int, str]:
+    """
+    Runs ``pymcnp`` as from the shell, returning its exit code and output with the panel borders and line breaks removed.
+    """
+
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', *args])
+    try:
+        main.main()
+    except SystemExit as exit:
+        code = 0 if exit.code is None else exit.code
+    else:
+        code = 0
+    out = capsys.readouterr()
+    text = ' '.join((out.out + out.err).translate(str.maketrans('│╭╮╰╯─', '      ')).split())
+    assert 'Traceback' not in text
+    return code, text
+
+
+@pytest.mark.parametrize('args', [['nosuch'], ['check'], ['check', '--bogus', 'a.inp'], ['convert', 'outp', 'a.outp'], ['plot', 'a.outp'], ['run'], ['visualize']])
+def test_usage_error_exits_2(monkeypatch, capsys, args) -> None:
+    code, text = _run(monkeypatch, capsys, *args)
+    assert code == 2
+    assert 'Usage:' in text
+
+
+def test_help(monkeypatch, capsys) -> None:
+    assert _run(monkeypatch, capsys, 'help') == (0, ' '.join(str(main.__doc__).split()))
+    code, text = _run(monkeypatch, capsys, 'help', 'convert')
+    assert code == 0 and 'pymcnp convert outp' in text
+
+
+def test_help_unknown_command_exits_2(monkeypatch, capsys) -> None:
+    code, text = _run(monkeypatch, capsys, 'help', 'hello')
+    assert code == 2
+    assert 'Error: No command hello; the commands are run, check, visualize, convert, plot.' in text
+
+
+@pytest.mark.parametrize('command', COMMANDS)
+def test_missing_file_exits_2(monkeypatch, capsys, tmp_path: pathlib.Path, command) -> None:
+    monkeypatch.chdir(tmp_path)
+    code, text = _run(monkeypatch, capsys, *_args(command, pathlib.Path('nosuch')))
+    assert code == 2
+    assert 'Error: nosuch: no such file.' in text
+
+
+@pytest.mark.parametrize('command', COMMANDS)
+def test_binary_file_exits_2(monkeypatch, capsys, tmp_path: pathlib.Path, command) -> None:
+    # E.g., a PTRAC file MCNP wrote in binary, its default.
+    monkeypatch.chdir(tmp_path)
+    pathlib.Path('binary').write_bytes(b'\x00\xff\xfe\x80 binary PTRAC\n')
+    code, text = _run(monkeypatch, capsys, *_args(command, pathlib.Path('binary')))
+    assert code == 2
+    assert 'binary: not a text file. PyMCNP reads text files only; for PTRAC, have MCNP write text with FILE=ASC.' in text
+
+
+@pytest.mark.skipif(os.name == 'nt' or (hasattr(os, 'geteuid') and os.geteuid() == 0), reason='needs file permissions that the user cannot override')
+@pytest.mark.parametrize('command', COMMANDS)
+def test_unreadable_file_exits_2(monkeypatch, capsys, tmp_path: pathlib.Path, command) -> None:
+    monkeypatch.chdir(tmp_path)
+    path = pathlib.Path('locked')
+    path.write_text('title\n')
+    path.chmod(0)
+    try:
+        code, text = _run(monkeypatch, capsys, *_args(command, path))
+    finally:
+        path.chmod(0o644)
+    assert code == 2
+    assert 'locked: cannot read the file: Permission denied.' in text
+
+
+@pytest.mark.parametrize('command', [['check'], ['visualize', '--pdf'], ['run']])
+def test_cell_card_that_does_not_parse_exits_3(monkeypatch, capsys, tmp_path: pathlib.Path, command) -> None:
+    # As `pymcnp check` does: the card is named with its line.
+    monkeypatch.chdir(tmp_path)
+    pathlib.Path('bad.inp').write_text(BAD_CELL)
+    code, text = _run(monkeypatch, capsys, *command, 'bad.inp', *(['--command=echo', f'--path={tmp_path}'] if command == ['run'] else []))
+    assert code == 3
+    assert ('Line 3: PyMCNP cannot parse this card' if command == ['check'] else 'bad.inp, line 3: PyMCNP cannot parse this card') in text
+    assert "Expected end of card at 'foo=3'." in text
+    assert not list(tmp_path.glob('pymcnp-*')) and not list(tmp_path.glob('*.pdf'))
+
+
+def test_data_card_that_parses_in_part_exits_3(monkeypatch, capsys, tmp_path: pathlib.Path, fake_mcnp: str) -> None:
+    # valid_07.inp has a tally PyMCNP parses only in part; this was "Expected Inp.blank_2", exit 1.
+    code, text = _run(monkeypatch, capsys, 'run', str(FILES / 'inp' / 'valid_07.inp'), f'--command={fake_mcnp}', f'--path={tmp_path}')
+    assert code == 3
+    assert 'line 18: PyMCNP cannot parse the card "f4:p (11<16[-10:10 -10:10 -10:10]<17)"' in text
+    assert 'Not running' in text and not list(tmp_path.glob('pymcnp-*'))
+
+
+def test_check_exit_codes(monkeypatch, capsys, tmp_path: pathlib.Path) -> None:
+    code, text = _run(monkeypatch, capsys, 'check', str(FILES / 'inp' / 'valid_00.inp'))
+    assert (code, text) == (0, 'Info: Done!')
+
+    wide = tmp_path / 'wide.inp'
+    wide.write_text(BAD_CELL.replace(' foo=3', '').replace('nps 10', 'c ' + 'x' * 90 + '\nnps 10'))
+    code, text = _run(monkeypatch, capsys, 'check', str(wide))
+    assert code == 1
+    assert 'Line 7: Line exceeds 80 characters maximum length (92 columns).' in text
+
+
+def test_convert_exit_codes(monkeypatch, capsys, tmp_path: pathlib.Path) -> None:
+    outp = tmp_path / 'run.outp'
+    shutil.copy(FILES / 'outp' / 'valid_39.outp', outp)
+    code, text = _run(monkeypatch, capsys, 'convert', 'outp', '--csv', str(outp))
+    assert code == 0
+    assert f'Wrote {tmp_path / "run.outp.csv"}'.replace(' ', '') in text.replace(' ', '') and 'Done!' in text
+    assert len(pandas.read_csv(tmp_path / 'run.outp.csv')) > 0
+
+    # An INP file is not an OUTP file.
+    code, text = _run(monkeypatch, capsys, 'convert', 'outp', '--csv', str(FILES / 'inp' / 'valid_00.inp'))
+    assert code == 1
+    assert 'Error:' in text
+
+
+def test_convert_with_nothing_to_convert_exits_1(monkeypatch, capsys, tmp_path: pathlib.Path) -> None:
+    # valid_01.outp parses, but its only tally is in a layout PyMCNP cannot parse yet: write no empty CSV.
+    outp = tmp_path / 'valid_01.outp'
+    shutil.copy(FILES / 'outp' / 'valid_01.outp', outp)
+    monkeypatch.chdir(tmp_path)
+    code, text = _run(monkeypatch, capsys, 'convert', 'outp', '--csv', 'valid_01.outp')
+    assert code == 1
+    assert 'Error: valid_01.outp: nothing to convert; no file written.' in text
+    assert sorted(path.name for path in tmp_path.iterdir()) == ['valid_01.outp']
+
+
+def test_convert_with_nothing_parsed_but_a_remainder_exits_3(monkeypatch, capsys, tmp_path: pathlib.Path) -> None:
+    outp = tmp_path / 'valid_01.outp'
+    shutil.copy(FILES / 'outp' / 'valid_01.outp', outp)
+    from_file = pymcnp.Outp.from_file
+    monkeypatch.setattr(pymcnp.Outp, 'from_file', lambda file: (from_file(file)[0], 'garbage [here]\n'))
+    code, text = _run(monkeypatch, capsys, 'convert', 'outp', '--parquet', str(outp))
+    assert code == 3
+    assert 'nothing to convert; no file written.' in text
+    assert sorted(path.name for path in tmp_path.iterdir()) == ['valid_01.outp']
+
+
+def test_convert_outp_and_ptrac_of_one_run_write_two_files(monkeypatch, capsys, tmp_path: pathlib.Path) -> None:
+    shutil.copy(FILES / 'outp' / 'valid_39.outp', tmp_path / 'run.outp')
+    shutil.copy(FILES / 'ptrac' / 'valid_38.ptrac', tmp_path / 'run.ptrac')
+    assert _run(monkeypatch, capsys, 'convert', 'outp', '--csv', str(tmp_path / 'run.outp'))[0] == 0
+    assert _run(monkeypatch, capsys, 'convert', 'ptrac', '--csv', str(tmp_path / 'run.ptrac'))[0] == 0
+
+    outp, ptrac = pandas.read_csv(tmp_path / 'run.outp.csv'), pandas.read_csv(tmp_path / 'run.ptrac.csv')
+    assert 'counts' in outp.columns and 'counts' not in ptrac.columns
+    assert len(ptrac) == len(pymcnp.Ptrac.from_file(tmp_path / 'run.ptrac')[0].to_dataframe())
+
+
+def test_plot_exit_codes(monkeypatch, capsys, tmp_path: pathlib.Path) -> None:
+    outp = tmp_path / 'run.outp'
+    shutil.copy(FILES / 'outp' / 'valid_39.outp', outp)
+
+    code, text = _run(monkeypatch, capsys, 'plot', '--pdf', str(outp), '21')
+    assert (code, text) == (0, 'Info: Done!')
+    assert (tmp_path / 'run.pdf').stat().st_size > 0
+
+    # A tally that is not in the file is a usage error.
+    code, text = _run(monkeypatch, capsys, 'plot', '--pdf', str(outp), '999')
+    assert code == 2
+    assert "Error: Tally not found number='999'" in text
+
+    code, text = _run(monkeypatch, capsys, 'plot', '--pdf', str(FILES / 'inp' / 'valid_00.inp'), '1')
+    assert code == 1
+    matplotlib.pyplot.close('all')
+
+
+def test_run_exit_codes(monkeypatch, capsys, tmp_path: pathlib.Path, fake_mcnp: str) -> None:
+    code, text = _run(monkeypatch, capsys, 'run', str(FILES / 'inp' / 'valid_00.inp'), f'--command={fake_mcnp}', f'--path={tmp_path}')
+    assert (code, text) == (0, 'Info: Done!')
+    (outp,) = tmp_path.glob('pymcnp-*/run-00000/run-00000.outp')
+    assert outp.read_text() == 'ok\n'
+
+    # The missing executable is named.
+    code, text = _run(monkeypatch, capsys, 'run', str(FILES / 'inp' / 'valid_00.inp'), '--command=nosuchmcnp6')
+    assert code == 1
+    assert "Error: MCNP command not found: nosuchmcnp6 'nosuchmcnp6' is not an executable file or on the PATH." in text
+
+    # Every card parses, but two cells have the same number.
+    twice = tmp_path / 'twice.inp'
+    twice.write_text('title\n1 0 -1\n1 0 1\n\n1 so 5\n\nnps 10\n')
+    code, text = _run(monkeypatch, capsys, 'run', str(twice), f'--command={fake_mcnp}', f'--path={tmp_path / "not"}')
+    assert code == 1
+    assert "Error: Invalid value. card.j='1'" in text
+    assert not (tmp_path / 'not').exists()
+
+
+def test_run_failed_exits_1(monkeypatch, capsys, tmp_path: pathlib.Path, fake_mcnp_fail: str) -> None:
+    code, text = _run(monkeypatch, capsys, 'run', str(FILES / 'inp' / 'valid_00.inp'), f'--command={fake_mcnp_fail}', f'--path={tmp_path}')
+    assert code == 1
+    assert 'Error: Run failed.' in text
+
+
+@pytest.mark.parametrize('option', ['-c abc', '--cell=1,x', '-s abc', '--cells-skip=abc', '--surfaces-skip=1;2'])
+def test_visualize_numbers_that_are_not_numbers_exit_2(monkeypatch, capsys, option: str) -> None:
+    code, text = _run(monkeypatch, capsys, 'visualize', '--pdf', *option.split(), str(FILES / 'inp' / 'valid_00.inp'))
+    assert code == 2
+    assert 'expected numbers separated by commas, e.g., 1,2, not' in text
+
+
+def test_visualize_exit_codes(monkeypatch, capsys, tmp_path: pathlib.Path) -> None:
+    code, text = _run(monkeypatch, capsys, 'visualize', '--pdf', '--cell=81023', str(FILES / 'inp' / 'valid_00.inp'))
+    assert code == 2
+    assert 'Error: --cell: no such cell: 81023.' in text
+
+    # A geometry PyMCNP cannot visualize.
+    def fail(*args, **kwargs):
+        raise pymcnp.abc.Error('Cannot visualize.', 'body')
+
+    monkeypatch.setattr(pymcnp.Visualize, 'to_pdf_cells', fail)
+    inp = tmp_path / 'valid_00.inp'
+    shutil.copy(FILES / 'inp' / 'valid_00.inp', inp)
+    code, text = _run(monkeypatch, capsys, 'visualize', '--pdf', '--cells', str(inp))
+    assert code == 1
+    assert 'Error: Cannot visualize. body' in text

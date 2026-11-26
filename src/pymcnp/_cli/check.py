@@ -14,7 +14,7 @@ cards, but not comments; lines it cannot shorten are reported as errors.
 Exit codes:
     0    No problems (or --fix left no line wider than 80 columns).
     1    Lines wider than 80 columns (with --fix, lines it cannot shorten).
-    2    The file does not exist.
+    2    Usage error, or the file does not exist or cannot be read as text.
     3    PyMCNP cannot parse a card; --fix does not rewrite the file.
 """
 
@@ -24,7 +24,6 @@ import sys
 from docopt import docopt
 
 from . import _io
-from .. import abc
 from ..Check import Check
 
 
@@ -38,12 +37,8 @@ def main() -> None:
     file = pathlib.Path(args['<inp>'])
 
     # Checking INP.
-    try:
-        check = Check(file)
-        problems = check.problems()
-    except abc.Error as err:
-        _io.error(str(err))
-        sys.exit(2)
+    check = _io.read(file, Check)
+    problems = _io.read(file, lambda _: check.problems())
 
     unparseable = any(problem.kind == 'warning' for problem in problems)
 
@@ -67,13 +62,13 @@ def main() -> None:
             for problem in remaining:
                 _io.error(f'Line {problem.line}: {problem.message} --fix cannot shorten this line, e.g., a long comment; shorten it by hand.')
             if remaining:
-                sys.exit(1)
+                sys.exit(_io.PROBLEMS)
 
     if unparseable:
-        sys.exit(3)
+        sys.exit(_io.PARTLY_PARSED)
 
     if any(problem.kind == 'error' for problem in problems) and not args['--fix']:
-        sys.exit(1)
+        sys.exit(_io.PROBLEMS)
 
     if not problems or args['--fix']:
         _io.done()

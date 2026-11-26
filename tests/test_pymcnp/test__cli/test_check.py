@@ -25,11 +25,12 @@ def _check(monkeypatch, capsys, *args):
     return code, capsys.readouterr().out
 
 
-@pytest.mark.parametrize('name', ['warning_00.inp', 'invalid_00.inp', 'invalid_01.inp', 'invalid_02.inp', 'hello'])
-def test_main_invalid(monkeypatch, name) -> None:
+@pytest.mark.parametrize('name, code', [('warning_00.inp', 1), ('invalid_00.inp', 3), ('invalid_01.inp', 3), ('invalid_02.inp', 3), ('hello', 2)])
+def test_main_invalid(monkeypatch, name, code) -> None:
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'check', str(FILES / name)])
-    with pytest.raises(SystemExit):
+    with pytest.raises(SystemExit) as error:
         check.main()
+    assert error.value.code == code
 
 
 class Test_Check_Report:

@@ -9,12 +9,16 @@ Options:
     -p --parquet    Write PARQUET.
 
 Writes the data of OUTP (all tallies), PTRAC (one row per event), or
-MESHTAL (all mesh tallies, with a ``number`` column) files next to them,
-e.g., ``file.outp`` to ``file.csv``.
+MESHTAL (all mesh tallies, with a "number" column) files next to them, with
+.csv or .parquet appended to the file name, e.g., run.outp to run.outp.csv and
+run.ptrac to run.ptrac.csv, or outp to outp.csv. Nothing is written if there
+is nothing to convert.
 
 Exit codes:
     0    Converted.
-    1    The file cannot be read.
+    1    There is nothing to convert, or PyMCNP cannot parse the file.
+    2    Usage error, or the file does not exist or cannot be read as text,
+         e.g., a binary PTRAC file.
     3    PyMCNP cannot parse all of the file; the part before is converted.
 """
 
@@ -25,7 +29,6 @@ import pandas
 from docopt import docopt
 
 from . import _io
-from .. import abc
 from ..abc.file.WithDataIter import _write_parquet
 from ..Outp import Outp
 from ..Ptrac import Ptrac
@@ -50,27 +53,38 @@ def main() -> None:
     file = pathlib.Path(args['<file>'])
 
     # Reading output file; meshtal files may hold several mesh tallies.
-    remainder = ''
-    try:
-        if Nonterminal is Meshtal:
-            frame = pandas.concat([tally.to_dataframe().assign(number=tally.tally_number) for tally in Meshtal.iter_tallies(file)], ignore_index=True)
-            frame.insert(0, 'number', frame.pop('number'))
-        else:
-            nonterminal, remainder = Nonterminal.from_file(file)
-            frame = nonterminal.to_dataframe()
-    except abc.Error as err:
-        _io.error(str(err))
-        sys.exit(1)
+    if Nonterminal is Meshtal:
+        frame, remainder = _io.read(file, _meshtal), ''
+    else:
+        nonterminal, remainder = _io.read(file, Nonterminal.from_file)
+        frame = nonterminal.to_dataframe()
 
     partly = _io.partly_parsed(file, remainder, 'line')
 
-    # Converting!
+    if frame.empty:
+        _io.fail(f'{file}: nothing to convert; no file written.', _io.PARTLY_PARSED if partly else _io.PROBLEMS)
+
+    # Converting! The output keeps the whole file name, so run.outp and run.ptrac of one run do not write the same file.
     if args['--csv']:
-        frame.to_csv(_io.get_outfile(file, 'csv'), index=False)
+        out = file.with_name(file.name + '.csv')
+        frame.to_csv(out, index=False)
     else:
-        _write_parquet(frame, _io.get_outfile(file, 'parquet'))
+        out = file.with_name(file.name + '.parquet')
+        _write_parquet(frame, out)
+
+    _io.info(f'Wrote {out}')
 
     if partly:
-        sys.exit(3)
+        sys.exit(_io.PARTLY_PARSED)
 
     _io.done()
+
+
+def _meshtal(path: pathlib.Path) -> pandas.DataFrame:
+    """
+    Reads every mesh tally of a MESHTAL file into one frame, with a ``number`` column first.
+    """
+
+    frame = pandas.concat([tally.to_dataframe().assign(number=tally.tally_number) for tally in Meshtal.iter_tallies(path)], ignore_index=True)
+    frame.insert(0, 'number', frame.pop('number'))
+    return frame

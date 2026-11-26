@@ -31,14 +31,17 @@ def test_main_valid(monkeypatch, tmp_path: pathlib.Path) -> None:
 
 def test_main_invalid(monkeypatch) -> None:
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'plot', str(FILES / 'outp' / 'invalid_02.outp'), '21'])
-    with pytest.raises(SystemExit):
+    with pytest.raises(SystemExit) as error:
         plot.main()
+    assert error.value.code == 1
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'plot', str(FILES / 'outp' / 'valid_39.outp'), '123'])
-    with pytest.raises(SystemExit):
+    with pytest.raises(SystemExit) as error:
         plot.main()
+    assert error.value.code == 2
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'plot', 'hello', '1'])
-    with pytest.raises(SystemExit):
+    with pytest.raises(SystemExit) as error:
         plot.main()
+    assert error.value.code == 2
 
     matplotlib.pyplot.close()
 
