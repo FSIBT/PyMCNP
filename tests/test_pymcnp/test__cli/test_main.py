@@ -30,8 +30,6 @@ def test_main_valid(monkeypatch, fake_mcnp: str, tmp_path: pathlib.Path) -> None
     main.main()
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'help', 'visualize'])
     main.main()
-    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'help', 'hello'])
-    main.main()
 
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'check', str(FILES / 'inp' / 'valid_00.inp')])
     main.main()

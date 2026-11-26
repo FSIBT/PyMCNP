@@ -22,7 +22,6 @@ class Test_Sdef(classes.Test_FromMcnp):
         'ERG=D5',
         'ERG=FCEL=D6',
         'ERG=D11<D12<D13',
-        'ERG=D11<D12<D13',
         'TME=0',
         'TME=1.5e-3',
         'TME=D7',

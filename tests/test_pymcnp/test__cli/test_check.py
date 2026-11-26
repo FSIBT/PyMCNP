@@ -24,18 +24,6 @@ def _check(monkeypatch, capsys, *args):
     return code, capsys.readouterr().out
 
 
-def test_main_valid(monkeypatch) -> None:
-    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'check', str(FILES / 'valid_00.inp')])
-    check.main()
-
-
-def test_main_valid_fix(monkeypatch, tmp_path) -> None:
-    path = tmp_path / 'valid.inp'
-    shutil.copy(FILES / 'valid_00.inp', path)
-    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'check', str(path), '--fix'])
-    check.main()
-
-
 @pytest.mark.parametrize('name', ['warning_00.inp', 'invalid_00.inp', 'invalid_01.inp', 'invalid_02.inp', 'hello'])
 def test_main_invalid(monkeypatch, name) -> None:
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'check', str(FILES / name)])

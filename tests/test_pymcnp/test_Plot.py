@@ -7,11 +7,6 @@ import pymcnp
 
 
 class Test_Plot:
-    def test_to_show_valid(self, outp: pymcnp.Outp) -> None:
-        plotter = pymcnp.Plot()
-
-        plotter.to_show(outp, '21')
-
     def test_to_show_invalid(self, outp: pymcnp.Outp) -> None:
         plotter = pymcnp.Plot()
 

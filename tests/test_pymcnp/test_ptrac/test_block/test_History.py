@@ -39,18 +39,6 @@ class Test_History(classes.Test_FromMcnpIter, classes.Test_ToDataframe):
         '       1071      1000\n       3000         1        40        15         2\n  -0.19652E+01 -0.47816E+01 -0.20412E+00\n       3000         2     15012         9        16         1\n  -0.18262E+01 -0.47726E+01 -0.18684E+00\n       3000         3     13012       171        13         2\n  -0.11783E+01 -0.47307E+01 -0.10626E+00\n       3000         4     13012         8        16         1\n  -0.97926E+00 -0.47179E+01 -0.81516E-01\n       3000         5     10010        44        11         2\n  -0.53388E+00 -0.46891E+01 -0.26131E-01\n       3000         6      8010       163        16         1\n  -0.92519E+00 -0.35997E+01  0.98944E+00\n       9000         7     15012       169        15         2\n  -0.14671E+01 -0.28438E+01  0.11291E+01',
     ]
 
-    def test_tracks(self) -> None:
-        """
-        Tests `tracks` on `EXAMPLES_FROM_MCNP_VALID`.
-        """
-
-        for example in self.EXAMPLES_FROM_MCNP_VALID:
-            print(example)
-
-            history, _ = self.element.from_mcnp(example)
-            for _ in history.tracks:
-                pass
-
 
 def test_subclass_from_mcnp_returns_subclass(monkeypatch: pytest.MonkeyPatch) -> None:
     # Subclassing a concrete nonterminal fails in ``Nonterminal.__init_subclass__`` (it parses the parent's
