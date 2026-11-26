@@ -9,7 +9,6 @@ from . import abc
 from . import inp
 from .Inp import Inp
 from .inp._shorthand import _REGEX_COMMENT
-from .inp._shorthand import _expand
 from .Inp import _vertical_block
 
 _WIDTH = 80
@@ -59,8 +58,8 @@ def _unparseable_card(lines: list[str]) -> tuple[int, abc.Error] | None:
                 index += 1
                 continue
 
-            # Cards are parsed as ``Inp`` parses them: shorthands expanded, without ``$`` comments.
-            code = _expand(line.partition('$')[0]).rstrip()
+            # Cards are parsed without ``$`` comments; ``from_mcnp`` expands their shorthands as ``Inp`` does.
+            code = line.partition('$')[0].rstrip()
             if cards and (re.match(r'\s', line) or cards[-1][1][-1].endswith('&')):
                 cards[-1][1].append(code)
             else:

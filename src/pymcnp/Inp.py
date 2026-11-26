@@ -5,7 +5,7 @@ import warnings
 from . import abc
 from . import inp
 from .abc.Symbol import _unix_newlines
-from .inp._shorthand import _expand_line
+from .inp._shorthand import _expand_lines
 from .abc._path import _join
 from .abc._path import _steps
 
@@ -85,7 +85,7 @@ def _expand_cards(source: str) -> str:
     """
     Expands the horizontal data format shorthands in the cards of an input file.
 
-    The title, comment cards, ``$`` comments and the text after the data block are left verbatim.
+    The title, comment cards, ``$`` comments, text cards (``fc``, ``sc``) and the text after the data block are left verbatim.
 
     Parameters:
         source: Input file text, with blank lines already empty.
@@ -95,16 +95,17 @@ def _expand_cards(source: str) -> str:
     """
 
     title, newline, rest = source.partition('\n')
-    lines = []
+    lines = rest.split('\n')
+    # The cell, surface and data blocks end at the third blank line.
+    end = len(lines)
     blanks = 0
-    for line in rest.split('\n'):
-        if blanks < 3:
-            line = _expand_line(line)
-
+    for index, line in enumerate(lines):
         blanks += not line
-        lines.append(line)
+        if blanks == 3:
+            end = index
+            break
 
-    return title + newline + '\n'.join(lines)
+    return title + newline + '\n'.join(_expand_lines(lines[:end]) + lines[end:])
 
 
 def _wrap(line: str) -> str:

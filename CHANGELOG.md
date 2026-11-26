@@ -73,6 +73,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A `$` comment after a continuation `&`, e.g., `1 1 -2.7 -1 & $ geometry`, made the card fail to parse.
 - `Inp.to_mcnp` moved a long continuation line indented by fewer than 5 spaces, e.g., `    lat=1 fill= ...` in a cell card, to column 1 when wrapping it, so the output no longer parsed. A wrapped line keeps its indent.
 - `from_mcnp` of a single card did not expand the shorthands `nR`, `nI`, `nJ`, `nLOG` and `xM`, so it stopped at the first one, e.g., `data.E.from_mcnp('E14 0.1 100i 10')` returned `E14 0.1 100` and the remainder `'i 10'`. Cards now expand them as `Inp` does.
+- `Inp` and `Check` expanded shorthand-like words in the free text of `fc` and `sc` cards, e.g., `sc1 source 2r here` became `sc1 source source source here`; the text of these cards and their continuation lines is now kept as written.
 - Tests no longer write files into the repository.
 
 ## [0.10.0] - 2026-10-15
