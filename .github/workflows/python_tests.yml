@@ -2,7 +2,7 @@ name: Run Python tests
 
 on:
   push:
-    branches: [ main, ci-windows-probe ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
