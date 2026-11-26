@@ -117,6 +117,23 @@ class Test_Inp(classes.Test_FromFile):
         # The original is unchanged.
         assert inp.title == self.SCAN.partition('\n')[0] + '\n'
 
+    def test_title_adds_missing_newline(self) -> None:
+        # The constructor and the setter add the title card's trailing newline as ``scan`` does.
+        inp, _ = pymcnp.Inp.from_mcnp(self.SCAN)
+        built = pymcnp.Inp(title='Sphere', cells=inp.cells, surfaces=inp.surfaces, data=inp.data)
+        assert built.title == 'Sphere\n'
+        assert built.to_mcnp().startswith('Sphere\nc cells\n')
+        built.title = 'Other'
+        assert built.title == 'Other\n'
+        built.title = 'Kept\n'
+        assert built.title == 'Kept\n'
+        assert pymcnp.Inp.from_mcnp(built.to_mcnp())[0].title == 'Kept\n'
+        # A symbol is kept as it is.
+        built.title = pymcnp.abc.Terminal[r'.+\n']('Symbol\n')
+        assert built.title == 'Symbol\n'
+        with pytest.raises(pymcnp.abc.Error):
+            built.title = ''
+
     def test_scan_values_keep_their_numeric_type(self) -> None:
         inp, _ = pymcnp.Inp.from_mcnp(self.SCAN)
         for path in ('surfaces[1].r', 'data[0].e[1]'):

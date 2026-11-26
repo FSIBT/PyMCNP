@@ -290,23 +290,6 @@ class Inp(abc.File):
 
         return _join(steps)
 
-    def _scan_value(self, path: str, value: typing.Any) -> typing.Any:
-        """
-        Adjusts ``scan`` values: a ``title`` value gets the trailing newline the title card needs if it has none.
-
-        Parameters:
-            path: Path into ``self``.
-            value: Value given to ``scan``, e.g., ``'Case A'``.
-
-        Returns:
-            Value to set, e.g., ``'Case A\\n'``.
-        """
-
-        if path == 'title' and isinstance(value, str) and not value.endswith('\n'):
-            return value + '\n'
-
-        return value
-
     @property
     def nps(self) -> inp.literal.Integer | None:
         """
@@ -490,3 +473,21 @@ class Inp(abc.File):
             tuple(self.surfaces.filter(inp.card.Comment)),
             tuple(self.data.filter(inp.card.Comment)),
         )
+
+
+def _title_field(field: property) -> property:
+    """
+    Wraps the ``title`` field so that a ``str`` value without the title card's trailing newline gets one.
+
+    The constructor, the setter and ``scan`` all set the title through it, e.g., ``Inp(title='Sphere', ...)``.
+    """
+
+    def setter(self: Inp, value: typing.Any) -> None:
+        if isinstance(value, str) and not isinstance(value, abc.Symbol) and not value.endswith('\n'):
+            value += '\n'
+        typing.cast(typing.Callable, field.fset)(self, value)
+
+    return property(field.fget, setter, doc=field.__doc__)
+
+
+Inp.title = _title_field(typing.cast(property, Inp.__dict__['title']))  # type: ignore[method-assign, assignment]

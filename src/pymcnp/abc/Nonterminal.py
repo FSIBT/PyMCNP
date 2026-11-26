@@ -461,7 +461,7 @@ class Nonterminal(Symbol):
         for combination in itertools.product(*parameters.values()):
             clone = copy.deepcopy(self)
             for path, value in zip(paths, combination):
-                set_path(clone, path, self._scan_value(path, value))
+                set_path(clone, path, value)
             yield clone
 
     def _scan_path(self, path: str) -> str:
@@ -476,20 +476,6 @@ class Nonterminal(Symbol):
         """
 
         return path
-
-    def _scan_value(self, path: str, value: typing.Any) -> typing.Any:
-        """
-        Adjusts ``scan`` values before they are set; subclasses may complete them.
-
-        Parameters:
-            path: Path into ``self``, as returned by ``_scan_path``.
-            value: Value given to ``scan``.
-
-        Returns:
-            Value to set.
-        """
-
-        return value
 
     def scan_with(self, values: collections.abc.Iterable[typing.Any], apply: collections.abc.Callable[[typing.Self, typing.Any], None]) -> typing.Generator[typing.Self, None, None]:
         """
