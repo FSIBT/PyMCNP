@@ -41,3 +41,14 @@ class Test_Plot:
         with pytest.raises(pymcnp.abc.Error, match='Tally not found'):
             plotter.to_show(outp, '23423432')
         assert len(plotter.to_show(outp, 21)) > 0
+
+
+def test_energy_bins_are_upper_edges(tmp_path: pathlib.Path) -> None:
+    # OUTP energy bins are upper bin edges, so each value is drawn from the previous edge up to its own edge.
+    outp, _ = pymcnp.Outp.from_file(pathlib.Path(__file__).parent.parent.parent / 'files' / 'outp' / 'valid_38.outp')
+    (figure, *_) = pymcnp.Plot().to_show(outp, 1)
+    (line,) = [line for line in figure.axes[0].get_lines() if line.get_label() == 'Tally']
+    assert line.get_drawstyle() == 'steps-pre'
+    x, y = line.get_xydata().T
+    # The steps are drawn at the bins themselves, one group of increasing energies per figure.
+    assert 1 < len(x) < len(outp.tally(1)) and set(x) <= set(outp.tally(1)['bins']) and all(x[1:] > x[:-1])

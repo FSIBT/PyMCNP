@@ -60,7 +60,7 @@ class Plot(abc.Utility):
             )
             ax.set_xlabel('Bins', fontsize=12)
             ax.set_ylabel('Counts', fontsize=12)
-            ax.step(subtally['bins'], subtally['counts'], color='blue', where='mid', zorder=2, label='Tally')
+            ax.step(subtally['bins'], subtally['counts'], color='blue', where='pre', zorder=2, label='Tally')
             ax.legend()
 
             figures.append(fig)
