@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you use PyMCNP in your research, please cite it using the metadata below."
+type: software
+title: "PyMCNP: Python tools for creating, validating, running, and analyzing MCNP simulations"
+abstract: >-
+  PyMCNP is a Python package and command-line interface for the Monte Carlo
+  N-Particle (MCNP) code. It parses, creates, validates, and writes MCNP input
+  files, reads OUTP, MESHTAL, and PTRAC output files, and provides utilities to
+  check inputs, convert and plot tallies, run simulations in parallel, and
+  visualize cell and surface geometries.
+authors:
+  - given-names: Devin
+    family-names: Pease
+    orcid: "https://orcid.org/0009-0006-1387-1640"
+    affiliation: "Lawrence Berkeley National Laboratory; University of Arizona"
+  - given-names: Mauricio
+    family-names: Ayllon Unzueta
+    orcid: "https://orcid.org/0000-0001-7109-169X"
+    affiliation: "Lawrence Berkeley National Laboratory"
+  - given-names: Arun
+    family-names: Persaud
+    orcid: "https://orcid.org/0000-0003-3186-8358"
+    affiliation: "Lawrence Berkeley National Laboratory"
+license: BSD-3-Clause-LBNL
+repository-code: "https://github.com/FSIBT/PyMCNP"
+url: "https://pymcnp.readthedocs.io/"
+keywords:
+  - MCNP
+  - Monte Carlo
+  - radiation transport
+  - nuclear engineering
+  - Python
