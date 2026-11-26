@@ -364,14 +364,14 @@ class Empty(abc.Empty, Visualization):
 
 
 @dataclasses.dataclass
-class Parallelipiped(abc.Parallelipiped, Visualization):
+class Parallelepiped(abc.Parallelepiped, Visualization):
     """
-    Represents PyVista parallelipipeds.
+    Represents PyVista parallelepipeds.
     """
 
     def __post_init__(self) -> None:
         """
-        Initializes PyVista parallelipipeds.
+        Initializes PyVista parallelepipeds.
 
         Paremeters:
             xmin: Parllelipied lower x bound.
@@ -502,7 +502,7 @@ endpoint = abc.Endpoint(
     CylinderUnbounded=CylinderUnbounded,
     Ellipsoid=Ellipsoid,
     Empty=Empty,
-    Parallelipiped=Parallelipiped,
+    Parallelepiped=Parallelepiped,
     Plane=Plane,
     Sphere=Sphere,
     Torus=Torus,

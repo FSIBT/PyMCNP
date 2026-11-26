@@ -55,7 +55,7 @@ class Rpp(Surface):
             Visualizations of rpp surface cards.
         """
 
-        vis = shapes.Parallelipiped(
+        vis = shapes.Parallelepiped(
             float(self.xmin),
             float(self.xmax),
             float(self.ymin),

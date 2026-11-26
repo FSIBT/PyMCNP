@@ -22,7 +22,7 @@ class Meshtal(abc.file.WithMcnpIter, abc.file.WithDataIter, abc.File):
         number: meshtal ``number`` item.
         particles_preamble: meshtal ``r'\\n\\n '`` symbol.
         particle: meshtal ``particle`` item.
-        particle_postable: meshtal ``r' mesh tally\\.\\n\\n'`` symbol.
+        particle_postamble: meshtal ``r' mesh tally\\.\\n\\n'`` symbol.
         bins: meshtal ``bins`` item.
         blank: meshtal blank line before the data.
         labels: meshtal data column labels.
@@ -39,11 +39,11 @@ class Meshtal(abc.file.WithMcnpIter, abc.file.WithDataIter, abc.File):
     number: typing.Annotated[abc.Terminal, r'\d+']
     particles_preamble: typing.Annotated[abc.Terminal, '\n ']
     particle: typing.Annotated[abc.Terminal, r'\S+']
-    particle_postable: typing.Annotated[abc.Terminal, r' +mesh tally\.\n\n']
+    particle_postamble: typing.Annotated[abc.Terminal, r' +mesh tally\.\n\n']
     bins: meshtal.block.Bin
     blank: typing.Annotated[abc.Terminal, r'\n\n *']
     labels: typing.Annotated[abc.Array, meshtal.literal.Label, typing.Annotated[abc.Terminal, r' +']]
-    labels_postable: typing.Annotated[abc.Terminal, r'\n']
+    labels_postamble: typing.Annotated[abc.Terminal, r'\n']
     rows: typing.Annotated[abc.Array, meshtal.line.Row, typing.Annotated[abc.Terminal, r' *\n']]
     end: typing.Annotated[abc.Terminal, r'(?: *\n)?']
 
@@ -92,11 +92,11 @@ class Meshtal(abc.file.WithMcnpIter, abc.file.WithDataIter, abc.File):
         number, pos = _NUMBER._from_mcnp_at(source, pos)
         particles_preamble, pos = _PARTICLES_PREAMBLE._from_mcnp_at(source, pos)
         particle, pos = _PARTICLE._from_mcnp_at(source, pos)
-        particle_postable, pos = _PARTICLE_POSTABLE._from_mcnp_at(source, pos)
+        particle_postamble, pos = _PARTICLE_POSTAMBLE._from_mcnp_at(source, pos)
         bins, pos = meshtal.block.Bin._from_mcnp_at(source, pos)
         blank, pos = _BLANK._from_mcnp_at(source, pos)
         labels, pos = _LABELS._from_mcnp_at(source, pos)
-        labels_postable, pos = _LABELS_POSTABLE._from_mcnp_at(source, pos)
+        labels_postamble, pos = _LABELS_POSTAMBLE._from_mcnp_at(source, pos)
 
         spaces: list[abc.Terminal] = []
         if returning:
@@ -142,11 +142,11 @@ class Meshtal(abc.file.WithMcnpIter, abc.file.WithDataIter, abc.File):
             number=number,
             particles_preamble=particles_preamble,
             particle=particle,
-            particle_postable=particle_postable,
+            particle_postamble=particle_postamble,
             bins=bins,
             blank=blank,
             labels=labels,
-            labels_postable=labels_postable,
+            labels_postamble=labels_postamble,
             rows=rows,
             end=end,
         ), pos
@@ -270,10 +270,10 @@ _NUMBER_PREAMBLE = abc.Terminal[r'\n\n Mesh Tally Number *']
 _NUMBER = abc.Terminal[r'\d+']
 _PARTICLES_PREAMBLE = abc.Terminal['\n ']
 _PARTICLE = abc.Terminal[r'\S+']
-_PARTICLE_POSTABLE = abc.Terminal[r' +mesh tally\.\n\n']
+_PARTICLE_POSTAMBLE = abc.Terminal[r' +mesh tally\.\n\n']
 _BLANK = abc.Terminal[r'\n\n *']
 _LABELS = abc.Array[meshtal.literal.Label, abc.Terminal[r' +']]
-_LABELS_POSTABLE = abc.Terminal[r'\n']
+_LABELS_POSTAMBLE = abc.Terminal[r'\n']
 _ROW_SPACE = abc.Terminal[r' *\n']
 _ROWS = abc.Array[meshtal.line.Row, _ROW_SPACE]
 _END = abc.Terminal[r'(?: *\n)?']

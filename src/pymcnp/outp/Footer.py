@@ -11,7 +11,7 @@ class Footer(abc.Nonterminal):
         preamble: footer ``r' \\*{119}\\n\\n'`` symbol.
         dump_number_preamble: footer ``r' dump no\\. '`` symbol.
         dump_number: footer dump number.
-        dump_number_postable: footer ``r' on file runtp.'`` symbol.
+        dump_number_postamble: footer ``r' on file runtp.'`` symbol.
         nps_preamble: footer ``r'     nps = '`` symbol.
         nps: footer nps.
         coll_preamble: footer ``r'     coll = '`` symbol.
@@ -41,7 +41,7 @@ class Footer(abc.Nonterminal):
     preamble: typing.Annotated[abc.Terminal, r'\n \*{119}\n\n']
     dump_number_preamble: typing.Annotated[abc.Terminal, r' dump no\. ']
     dump_number: typing.Annotated[abc.Terminal, r'.{4}']
-    dump_number_postable: typing.Annotated[abc.Terminal, r' on file runtp.']
+    dump_number_postamble: typing.Annotated[abc.Terminal, r' on file runtp.']
     nps_preamble: typing.Annotated[abc.Terminal, r'     nps = ']
     nps: typing.Annotated[abc.Terminal, r'.{11}']
     coll_preamble: typing.Annotated[abc.Terminal, r'     coll = ']

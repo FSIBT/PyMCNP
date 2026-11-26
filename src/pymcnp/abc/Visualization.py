@@ -199,9 +199,9 @@ class Empty(Visualization):
 
 
 @dataclasses.dataclass
-class Parallelipiped(Visualization):
+class Parallelepiped(Visualization):
     """
-    Represents parallelipipeds.
+    Represents parallelepipeds.
     """
 
     xmin: float
@@ -265,7 +265,7 @@ CYLINDERHEXAGONAL = typing.TypeVar('CYLINDERHEXAGONAL', bound=type[CylinderHexag
 CYLINDERUNBOUNDED = typing.TypeVar('CYLINDERUNBOUNDED', bound=type[CylinderUnbounded])
 ELLIPSOID = typing.TypeVar('ELLIPSOID', bound=type[Ellipsoid])
 EMPTY = typing.TypeVar('EMPTY', bound=type[Empty])
-PARALLELIPIPED = typing.TypeVar('PARALLELIPIPED', bound=type[Parallelipiped])
+PARALLELEPIPED = typing.TypeVar('PARALLELEPIPED', bound=type[Parallelepiped])
 PLANE = typing.TypeVar('PLANE', bound=type[Plane])
 SPHERE = typing.TypeVar('SPHERE', bound=type[Sphere])
 TORUS = typing.TypeVar('TORUS', bound=type[Torus])
@@ -276,7 +276,7 @@ WEDGE = typing.TypeVar('WEDGE', bound=type[Wedge])
 class Endpoint(
     abc.ABC,
     typing.Generic[
-        VISUALIZATION, BOX, CONETRUNCATED, CONEUNBOUNDED, CYLINDERCIRCULAR, CYLINDERELLIPTICAL, CYLINDERHEXAGONAL, CYLINDERUNBOUNDED, ELLIPSOID, EMPTY, PARALLELIPIPED, PLANE, SPHERE, TORUS, WEDGE
+        VISUALIZATION, BOX, CONETRUNCATED, CONEUNBOUNDED, CYLINDERCIRCULAR, CYLINDERELLIPTICAL, CYLINDERHEXAGONAL, CYLINDERUNBOUNDED, ELLIPSOID, EMPTY, PARALLELEPIPED, PLANE, SPHERE, TORUS, WEDGE
     ],
 ):
     """
@@ -294,7 +294,7 @@ class Endpoint(
         CylinderUnbounded: Endpoint unbounded cylinder visualization class.
         Ellipsoid: Endpoint ellipsoid visualization class.
         Empty: Endpoint empty visualization class.
-        Parallelipiped: Endpoint parallelipiped visualization class.
+        Parallelepiped: Endpoint parallelepiped visualization class.
         Plane: Endpoint plane visualization class.
         Sphere: Endpoint sphere visualization class.
         Torus: Endpoint torus visualization class.
@@ -313,7 +313,7 @@ class Endpoint(
     CylinderUnbounded: typing.Final[CYLINDERUNBOUNDED]
     Ellipsoid: typing.Final[ELLIPSOID]
     Empty: typing.Final[EMPTY]
-    Parallelipiped: typing.Final[PARALLELIPIPED]
+    Parallelepiped: typing.Final[PARALLELEPIPED]
     Plane: typing.Final[PLANE]
     Sphere: typing.Final[SPHERE]
     Torus: typing.Final[TORUS]

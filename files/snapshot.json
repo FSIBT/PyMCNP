@@ -653,15 +653,15 @@
   "remainder_len": 0
  },
  "outp/invalid_02.outp": {
-  "error": "Expected ``Outp.header``.\nExpected ``Header.version_preable``.\nExpected Terminal[r'(          Code Name & Version = )']\n source[:200]='hello'",
+  "error": "Expected ``Outp.header``.\nExpected ``Header.version_preamble``.\nExpected Terminal[r'(          Code Name & Version = )']\n source[:200]='hello'",
   "ok": false
  },
  "outp/todo_04.outp": {
-  "error": "Expected ``Outp.header``.\nExpected ``Header.version_preable``.\nExpected Terminal[r'(          Code Name & Version = )']\n source[:200]='\\n bad trouble in subroutine imcn of imcn                               \\n\\n file inxc does not exist.\\n'",
+  "error": "Expected ``Outp.header``.\nExpected ``Header.version_preamble``.\nExpected Terminal[r'(          Code Name & Version = )']\n source[:200]='\\n bad trouble in subroutine imcn of imcn                               \\n\\n file inxc does not exist.\\n'",
   "ok": false
  },
  "outp/todo_05.outp": {
-  "error": "Expected ``Outp.header``.\nExpected ``Header.version_preable``.\nExpected Terminal[r'(          Code Name & Version = )']\n source[:200]='\\n bad trouble in subroutine imcn of imcn                               \\n\\n file inxc01 does not exist.\\n'",
+  "error": "Expected ``Outp.header``.\nExpected ``Header.version_preamble``.\nExpected Terminal[r'(          Code Name & Version = )']\n source[:200]='\\n bad trouble in subroutine imcn of imcn                               \\n\\n file inxc01 does not exist.\\n'",
   "ok": false
  },
  "outp/valid_00.outp": {

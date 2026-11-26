@@ -69,7 +69,7 @@ SHAPE_NAMES = (
     'CylinderUnbounded',
     'Ellipsoid',
     'Empty',
-    'Parallelipiped',
+    'Parallelepiped',
     'Plane',
     'Sphere',
     'Torus',
@@ -108,7 +108,7 @@ def test_cell_values() -> None:
     inside = numpy.array([[0.5, 0.5, 0.5], [2, 0.5, 0.5], [-0.1, 0.5, 0.5]])
 
     assert show.Box(1, 1, 1).cell(inside).tolist() == [True, False, False]
-    assert show.Parallelipiped(0, 1, 0, 1, 0, 1).cell(inside).tolist() == [True, False, False]
+    assert show.Parallelepiped(0, 1, 0, 1, 0, 1).cell(inside).tolist() == [True, False, False]
     assert show.Sphere(1).cell(numpy.array([[0, 0, 0], [2, 0, 0]])).tolist() == [True, False]
     assert show.Empty().cell(inside).tolist() == [False, False, False]
     assert show.Wedge(1, 1, 1).cell(numpy.array([[0.1, 0.1, 0.5], [0.9, 0.9, 0.5], [2, 0, 0]])).tolist() == [True, False, False]

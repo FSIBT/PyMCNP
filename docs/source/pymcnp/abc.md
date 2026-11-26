@@ -124,10 +124,10 @@
    :inherited-members:
 ```
 
-### `Parallelipiped` Class
+### `Parallelepiped` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.abc.Parallelipiped
+.. autoclass:: pymcnp.abc.Parallelepiped
    :members:
    :inherited-members:
 ```

@@ -56,7 +56,7 @@ def pyvista_shapes() -> dict[str, pymcnp._show.pyvista.Visualization]:
         'CylinderUnbounded': show.CylinderUnbounded(1.0),
         'Ellipsoid': show.Ellipsoid(1.0, 0.5),
         'Empty': show.Empty(),
-        'Parallelipiped': show.Parallelipiped(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0),
+        'Parallelepiped': show.Parallelepiped(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0),
         'Plane': show.Plane(1.0, 0.5, 0.25, 0.5),
         'Sphere': show.Sphere(1.0),
         'Torus': show.Torus(0.5, 0.25, 1.0),

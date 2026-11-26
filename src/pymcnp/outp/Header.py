@@ -8,13 +8,13 @@ class Header(abc.Nonterminal):
     Represents headers.
 
     Attributes:
-        version_preable: header version preambles.
+        version_preamble: header version preambles.
         version: header code name and version.
         logo: header logo.
         copyright: header copyright.
     """
 
-    version_preable: typing.Annotated[abc.Terminal, r'          Code Name & Version = ']
+    version_preamble: typing.Annotated[abc.Terminal, r'          Code Name & Version = ']
     version: typing.Annotated[abc.Terminal, r'.+']
     logo: (
         typing.Annotated[
