@@ -52,7 +52,7 @@ several keys, the last varies fastest. The index into `cells` or `surfaces` is t
 surface card 99 wherever it is in `inp.surfaces`, and a number no card has raises `abc.Error`. The index into `data` is
 the list position, as in `inp.data[i]`, comment cards included. Values are converted to the field's type, e.g.,
 `inp.literal.Real`, which compares and computes as a number; a value that does not parse whole, e.g., `'7 8'` for a
-radius, raises `abc.Error`. A message, e.g., `inp.message = 'outp=run.o'`, gets the `message:` keyword if it has none. A path that does not exist raises `abc.Error`. For changes a path cannot express, use `scan_with(values, apply)` with a function that changes each copy.
+radius, raises `abc.Error` (whitespace around it is dropped, and a float such as `10.0` for an integer field raises). A message, e.g., `inp.message = 'outp=run.o'`, gets the `message:` keyword if it has none. A path that does not exist raises `abc.Error`. For changes a path cannot express, use `scan_with(values, apply)` with a function that changes each copy.
 
 [inp subpackage](pymcnp/inp)
 

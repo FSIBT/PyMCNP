@@ -534,6 +534,14 @@ class Test_Message:
         assert inp.message == 'message: outp=x.o\n\n'
         assert [copy.message for copy in base.scan(message=['outp=y.o', 'message: outp=w.o'])] == ['message: outp=y.o\n\n', 'message: outp=w.o\n\n']
 
+    @pytest.mark.parametrize('value', ['', '\n', '  \n\n', None])
+    def test_set_empty_is_no_message(self, value) -> None:
+        inp = pymcnp.Inp.from_mcnp('message: o=x\n\n' + self.SOURCE)[0]
+
+        inp.message = value
+        assert inp.message is None
+        assert inp.to_mcnp() == self.SOURCE
+
     @pytest.mark.parametrize('value', ['message: a\n\nb', 'a\n\nb', 'message: a\n   \nb'])
     def test_set_with_blank_line_inside_raises(self, value) -> None:
         # A blank line ends the message block, so a message cannot hold one.

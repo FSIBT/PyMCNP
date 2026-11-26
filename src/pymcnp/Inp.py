@@ -283,9 +283,9 @@ class Inp(abc.File):
             abc.Error: The message holds a blank line, which would end the message block.
         """
 
-        if value is None:
+        if value is None or (isinstance(value, str) and not isinstance(value, abc.Symbol) and not value.strip()):
             return ''
-        if not isinstance(value, str) or isinstance(value, abc.Symbol) or not value.strip():
+        if not isinstance(value, str) or isinstance(value, abc.Symbol):
             return value
         value = value.rstrip()
         if re.search(r'\n[ \t]*\n', value):

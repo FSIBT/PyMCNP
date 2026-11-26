@@ -77,6 +77,38 @@ def _space_end(fields: dict[str, tuple[type[Symbol], ...]]) -> set[str]:
     return s
 
 
+def _parse_whole(kinds: tuple[type[Symbol], ...], value: typing.Any, source: str) -> Symbol:
+    """
+    Compiles all of ``source``, the text of ``value``, into a symbol; whitespace around it is dropped if it does not
+    parse with it, e.g., a value read from a line of a file.
+    """
+
+    error: Error | None = None
+    rest = source
+    for text in dict.fromkeys((source, source.strip())):
+        try:
+            match, rest = _parse(kinds, text)
+        except Error as err:
+            error = error or err
+            continue
+        if not rest:
+            return match
+
+    # An integral float for an integer field, e.g., ``10.0``, is not rounded, which could hide a wrong value.
+    if not isinstance(value, (str, numbers.Integral)):
+        try:
+            integral = int(value)
+            whole = integral == value and not _parse(kinds, str(integral))[1]
+        except (ValueError, OverflowError, Error):
+            whole = False
+        if whole:
+            raise Error(f'{value!r} is not an integer; use int({value!r}).', f'{value=}')
+
+    if rest == source and error is not None:
+        raise error
+    raise Error(f'Value does not parse whole, {rest!r} is left over.', f'{value=}')
+
+
 def _parse_value(kinds: tuple[type[Symbol], ...], value: typing.Any) -> Symbol:
     # Skipping valid Symbols.
     if any(isinstance(value, kind) for kind in kinds):
@@ -86,10 +118,7 @@ def _parse_value(kinds: tuple[type[Symbol], ...], value: typing.Any) -> Symbol:
     # The whole value must parse: a value is stored whole or not at all, e.g., ``r = '7 8'`` does not store ``7``.
     if isinstance(value, (str, numbers.Real, decimal.Decimal)):
         source = value if isinstance(value, str) else str(value)
-        match, rest = _parse(kinds, source)
-        if rest:
-            raise Error(f'Value does not parse whole, ``{rest}`` is left over.', f'{value=}')
-        return match
+        return _parse_whole(kinds, value, source)
 
     # Compiling non-string sequences into symbols.
     if isinstance(value, collections.abc.Sequence):

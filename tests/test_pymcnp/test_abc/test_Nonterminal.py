@@ -65,6 +65,32 @@ class Test_Nonterminal:
         with pytest.raises(pymcnp.abc.Error, match='left over'):
             pymcnp.inp.card.surface.So(j=1, r=value)  # type:ignore
 
+    @pytest.mark.parametrize('value', ['7 ', '7\n', ' 7', '\t7 \n'])
+    def test_setter_strips_surrounding_whitespace(self, value) -> None:
+        # E.g., a value read from a line of a file.
+        so, _ = pymcnp.inp.card.Surface.from_mcnp('1 SO 10')
+        so.r = value  # type:ignore
+        assert so.to_mcnp() == '1 SO 7'
+
+    def test_setter_left_over_is_shown_as_repr(self) -> None:
+        so, _ = pymcnp.inp.card.Surface.from_mcnp('1 SO 10')
+        with pytest.raises(pymcnp.abc.Error, match=re.escape("' 8' is left over")):
+            so.r = '7 8'  # type:ignore
+
+    @pytest.mark.parametrize('value', [10.0, numpy.float64(10)])
+    def test_setter_integral_float_for_integer_field_raises(self, value) -> None:
+        so, _ = pymcnp.inp.card.Surface.from_mcnp('1 SO 10')
+        with pytest.raises(pymcnp.abc.Error, match=re.escape(f'{value!r} is not an integer; use int({value!r}).')):
+            so.j = value  # type:ignore
+        assert so.to_mcnp() == '1 SO 10'
+
+    @pytest.mark.parametrize('value', [float('nan'), float('inf'), 1e300])
+    def test_setter_float_that_is_no_integer_for_integer_field_raises(self, value) -> None:
+        so, _ = pymcnp.inp.card.Surface.from_mcnp('1 SO 10')
+        with pytest.raises(pymcnp.abc.Error) as info:
+            so.j = value  # type:ignore
+        assert 'use int' not in str(info.value)
+
     def test_setter_title_with_a_second_line_raises_error(self) -> None:
         inp, _ = pymcnp.Inp.from_mcnp('title\n1 0 -1\n\n1 so 1\n\nnps 5\n')
         with pytest.raises(pymcnp.abc.Error, match='left over'):
