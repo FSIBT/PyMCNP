@@ -39,7 +39,7 @@ We recommend [uv](https://docs.astral.sh/uv/); the pip equivalents work too.
 
 Code must work on the minimum Python version PyMCNP supports (`requires-python` in
 `pyproject.toml`, currently 3.11), so don't use syntax or standard-library features
-that are newer. CI tests Python 3.11 to 3.14.
+that are newer. CI tests Python 3.11 to 3.15 on Linux and macOS.
 
 ## Making a change
 
@@ -66,19 +66,31 @@ CI runs `ruff check` and `ruff format --check`, so run them before pushing.
 Other conventions:
 
 - Write comments only for non-obvious reasons, not to restate the code.
-- Raise the exceptions from `pymcnp.errors` for parse and validation failures rather than bare `ValueError`.
-- Input cards, options and types follow the existing `Field` descriptor pattern. Look at a neighbouring card before adding a new one.
+- Raise `pymcnp.abc.Error(title, body)` for parse and validation failures rather than a bare `ValueError`.
+  For problems that do not stop parsing (a line over 80 columns, a tally PyMCNP cannot parse, a truncated
+  PTRAC file), issue `warnings.warn(pymcnp.abc.Warning(title, body))` instead; PyMCNP installs no warning hook.
+- Input cards, options and types are dataclasses whose fields are `typing.Annotated` terminals and
+  nonterminals, validated in `__post_init__`. Look at a neighbouring card before adding a new one.
 
 ## Testing
 
     python -m pytest
 
-By default pytest runs with coverage and [testmon](https://github.com/tarpas/pytest-testmon),
-which only reruns tests affected by your changes. Use `python -m pytest -o addopts=""` for a
-plain full run. Tests live under `tests/test_pymcnp/` and mirror the layout of `src/pymcnp/`.
+This runs the whole suite (`testpaths` in `pyproject.toml`), with `MPLBACKEND=Agg` so no plot
+windows open. Coverage and [testmon](https://github.com/tarpas/pytest-testmon) are installed
+with the `test` extra but are not switched on by default. Line coverage is kept at 100%, so run
 
-Tests marked `mcnp` run the real `mcnp6` executable on every example input, which takes
-minutes, so they are skipped unless you ask for them: `python -m pytest --run-mcnp -m mcnp`.
+    python -m pytest --cov --cov-report term-missing:skip-covered
+
+before opening a pull request, and use `python -m pytest --testmon` to rerun only the tests
+affected by your changes. Tests live under `tests/test_pymcnp/` and mirror the layout of
+`src/pymcnp/`. Tests marked `render` do real off-screen VTK rendering; deselect them with
+`-m "not render"` on machines without a display or GPU (CI does this on macOS).
+
+Tests marked `mcnp` run the real `mcnp6` executable on every example input, as written and
+after a PyMCNP round trip, and check that MCNP accepts both. They take minutes and need MCNP
+(`mcnp6` on `PATH`, `DATAPATH` set), so they are skipped unless you ask for them:
+`python -m pytest --run-mcnp -m mcnp`. Run them when you change how inputs are written.
 
 - New parsing or writing code needs tests for both `from_mcnp` and `to_mcnp`, including a round trip.
 - Tests that write files must use pytest's `tmp_path`, never the working directory.
@@ -92,6 +104,9 @@ Docs are built with Sphinx from `docs/`:
     uv pip install -e .[docs]
     cd docs
     make html
+
+CI builds them with `python -m sphinx -W --keep-going -b html docs/source docs/build/html`,
+so any Sphinx warning fails the build.
 
 Please document public classes and functions with docstrings. Keep claims in the docs
 modest, and say which MCNP versions a feature was checked against.
