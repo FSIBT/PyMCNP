@@ -30,3 +30,27 @@ def test_main_invalid(monkeypatch) -> None:
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'convert', 'outp', '--csv', 'hello'])
     with pytest.raises(SystemExit):
         convert.main()
+
+
+@pytest.mark.parametrize('flag', ['--csv', '--parquet'])
+def test_main_meshtal_converts_every_tally(monkeypatch, tmp_path: pathlib.Path, flag: str) -> None:
+    import pandas
+
+    path = tmp_path / 'multi_00.meshtal'
+    shutil.copy(FILES / 'meshtal' / 'multi_00.meshtal', path)
+
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'convert', 'meshtal', flag, str(path)])
+    convert.main()
+
+    if flag == '--csv':
+        frame = pandas.read_csv(tmp_path / 'multi_00.csv')
+    else:
+        frame = pandas.read_parquet(tmp_path / 'multi_00.parquet')
+
+    assert len(frame) == 8 + 9
+    assert frame.columns[0] == 'tally'
+    assert frame['tally'].tolist() == [4] * 8 + [14] * 9
+    assert list(frame.columns) == ['tally', 'X', 'Y', 'Z', 'Result', 'Rel Error', 'Energy']
+    assert frame['Result'].iloc[0] == pytest.approx(0.002874, rel=1e-3)
+    assert pandas.isna(frame['Energy'].iloc[0])
+    assert str(frame['Energy'].iloc[-1]) == 'Total'

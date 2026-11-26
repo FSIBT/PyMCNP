@@ -33,7 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The test suite is much faster (sentinels, truncated PTRAC fixtures, a coarse visualization resolution), runs in temporary directories, and the rendering tests are marked `render`, which macOS CI skips.
 - `scan` and `scan_with` work on all nonterminals without `eval`, and `Array.filter` skips items that lack the field.
 - **Breaking:** `Outp.to_dataframe` returns one dataframe with a `number` column instead of a dictionary of dataframes.
-- **Breaking:** removed `Convert`; use `to_file_csv` and `to_file_parquet`. `pymcnp convert` is now `pymcnp convert outp|ptrac|meshtal (--csv | --parquet) <file>` and converts the whole file.
+- **Breaking:** removed `Convert`; use `to_file_csv` and `to_file_parquet`. `pymcnp convert` is now `pymcnp convert outp|ptrac|meshtal (--csv | --parquet) <file>` and converts the whole file; for meshtal files every mesh tally, with a `tally` column.
 - **Breaking:** the PTRAC `I`, `J`, `N` and `P` lines are replaced by `ptrac.block.History` fields and event blocks named after the MCNP manual's variables (`EventSource_1`, ..., `EventTermination_4`), picked by the event type announced on the previous line.
 - **Breaking:** OUTP blocks are now `Header`, `Footer`, `Activity` (`NeutronActivity`, `PhotonActivity`), and `Tally` (`TallySurface`, `TallyAngle`, `TallyCell`); the `Tally_0` to `Tally_7` blocks are gone.
 - **Breaking:** `PtracProcessor.run` returns the results of the `process_*` methods; a `Run` result without an output file is not `ok`.

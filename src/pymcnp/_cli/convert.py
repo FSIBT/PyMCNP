@@ -9,16 +9,19 @@ Options:
     -p --parquet    Write PARQUET.
 
 Writes the data of OUTP (all tallies), PTRAC (one row per event), or
-MESHTAL files next to them, e.g., ``file.outp` to `file.csv``.
+MESHTAL (all mesh tallies, with a ``tally`` column) files next to them,
+e.g., ``file.outp`` to ``file.csv``.
 """
 
 import pathlib
 import sys
 
+import pandas
 from docopt import docopt
 
 from . import _io
 from .. import abc
+from ..abc.file.WithDataIter import write_parquet
 from ..Outp import Outp
 from ..Ptrac import Ptrac
 from ..Meshtal import Meshtal
@@ -41,17 +44,22 @@ def main() -> None:
 
     file = pathlib.Path(args['<file>'])
 
-    # Reading output file.
+    # Reading output file; meshtal files may hold several mesh tallies.
     try:
-        nonterminal, _ = Nonterminal.from_file(file)
+        if Nonterminal is Meshtal:
+            frame = pandas.concat([tally.to_dataframe().assign(tally=tally.tally_number) for tally in Meshtal.iter_tallies(file)], ignore_index=True)
+            frame.insert(0, 'tally', frame.pop('tally'))
+        else:
+            nonterminal, _ = Nonterminal.from_file(file)
+            frame = nonterminal.to_dataframe()
     except abc.Error as err:
         _io.error(str(err))
         sys.exit(1)
 
     # Converting!
     if args['--csv']:
-        nonterminal.to_file_csv(_io.get_outfile(file, 'csv'))
+        frame.to_csv(_io.get_outfile(file, 'csv'), index=False)
     else:
-        nonterminal.to_file_parquet(_io.get_outfile(file, 'parquet'))
+        write_parquet(frame, _io.get_outfile(file, 'parquet'))
 
     _io.done()

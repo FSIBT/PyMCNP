@@ -28,7 +28,20 @@ class WithDataIter(symbol.WithDataIter):
             path: Path of parquet file to write.
         """
 
-        frame = self.to_dataframe()
-        for column in [column for column in frame.columns if pandas.api.types.is_object_dtype(frame[column])]:
-            frame[column] = frame[column].map(lambda value: value if value is None or isinstance(value, str) or pandas.isna(value) else str(value))
-        frame.to_parquet(pathlib.Path(path), index=False)
+        write_parquet(self.to_dataframe(), path)
+
+
+def write_parquet(frame: pandas.DataFrame, path: pathlib.Path | str) -> None:
+    """
+    Writes a dataframe to a parquet file, storing mixed object columns as strings.
+
+    The object columns of ``frame`` are converted in place.
+
+    Parameters:
+        frame: Dataframe to write.
+        path: Path of parquet file to write.
+    """
+
+    for column in [column for column in frame.columns if pandas.api.types.is_object_dtype(frame[column])]:
+        frame[column] = frame[column].map(lambda value: value if value is None or isinstance(value, str) or pandas.isna(value) else str(value))
+    frame.to_parquet(pathlib.Path(path), index=False)
