@@ -32,7 +32,9 @@ on, with fields named as in the MCNP manual (`j` for the number, `r` for the rad
 `to_mcnp()`, writes it as MCNP text again.
 
 Every parser returns a pair `(object, remainder)`. The remainder is the text PyMCNP could not parse: it stops at the first
-card it does not understand. An empty remainder means the whole file was read, so check it every time. MCNP has many
+card it does not understand. An empty remainder means the whole file was read, so check it every time. In an input
+file, a cell or surface card PyMCNP does not understand raises `pymcnp.abc.Error` instead, and `pymcnp check` names
+its line. MCNP has many
 options and PyMCNP does not cover all of them yet; when it stops on a valid file, please
 [report it](https://github.com/FSIBT/PyMCNP/issues). For OUTP files, a tally in a layout PyMCNP cannot parse yet leaves
 no remainder; instead PyMCNP issues a warning (`pymcnp.abc.Warning`, "Tally not parsed.") that names the tally.

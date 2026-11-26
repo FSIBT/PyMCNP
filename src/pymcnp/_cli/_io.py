@@ -4,7 +4,7 @@ import rich
 import rich.markup
 import rich.panel
 
-from ..Check import _unparseable_card
+from ..Inp import _unparseable_card
 
 
 def get_outfile(path: pathlib.Path | str, ext: str, i: str | None = None) -> pathlib.Path:

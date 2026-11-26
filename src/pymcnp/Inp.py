@@ -6,6 +6,7 @@ from . import abc
 from . import inp
 from .abc.Symbol import _unix_newlines
 from .inp._shorthand import _expand_lines
+from .inp._shorthand import _REGEX_COMMENT
 from .abc._path import _join
 from .abc._path import _steps
 
@@ -151,6 +152,58 @@ def _wrap(line: str) -> str:
     return '\n'.join(lines)
 
 
+def _unparseable_card(lines: list[str]) -> tuple[int, abc.Error] | None:
+    """
+    Finds the first card of an INP file that PyMCNP cannot parse.
+
+    Comment cards are skipped, and each card is parsed as ``Inp`` parses it:
+    shorthands expanded, without ``$`` comments, to its end.
+
+    Parameters:
+        lines: Lines of the INP file.
+
+    Returns:
+        Number of the card's first line, counting from 1, and the error, or
+        None if every card parses.
+    """
+
+    index = 2 if lines and lines[0].lower().startswith('message:') else 1
+    for union in (inp.card.Cell, inp.card.Surface, inp.card.Data):
+        while index < len(lines) and not lines[index].strip():
+            index += 1
+
+        cards = []
+        while index < len(lines) and lines[index].strip():
+            line = lines[index]
+            if (block := _vertical_block(lines, index)) is not None:
+                # Vertical data format is only valid across the whole block.
+                index = block[1]
+                continue
+
+            if _REGEX_COMMENT.match(line):
+                # Comment cards are not cards to parse, but count as lines.
+                index += 1
+                continue
+
+            # Cards are parsed without ``$`` comments; ``from_mcnp`` expands their shorthands as ``Inp`` does.
+            code = line.partition('$')[0].rstrip()
+            if cards and (re.match(r'\s', line) or cards[-1][1][-1].endswith('&')):
+                cards[-1][1].append(code)
+            else:
+                cards.append((index + 1, [code]))
+            index += 1
+
+        for number, card in cards:
+            try:
+                rest = union.from_mcnp('\n'.join(card))[1]
+                if rest.strip():
+                    raise abc.Error(f'Expected end of card at {rest.strip().split()[0]!r}.', f'{rest=}')
+            except abc.Error as card_err:
+                return number, card_err
+
+    return None
+
+
 class SpaceBlock(abc.Terminal):
     """
     Represents spaces for blocks.
@@ -231,14 +284,19 @@ class Inp(abc.File):
         """
         Compiles source strings into input files.
 
+        Parsing stops at the first data card PyMCNP cannot parse, even one that
+        parses in part: that card and every card after it are the remainder,
+        with their shorthands expanded.
+
         Parameters:
             source: Source string to compile.
 
         Returns:
-            Nonterminal symbol corresponding to ``source``.
+            Nonterminal symbol corresponding to ``source`` and the remainder.
 
         Raises:
-            Error: Expected symbol.
+            Error: Expected symbol, e.g., a cell or surface card PyMCNP cannot
+                parse.
             Error: Expected space.
         """
 
@@ -254,7 +312,23 @@ class Inp(abc.File):
         # Preprocessing horizontal data format.
         source = _expand_cards(source)
 
-        return super().from_mcnp(source)
+        try:
+            return super().from_mcnp(source)
+        except abc.Error as err:
+            # A data card that parses only in part stops the data block inside the card. Parsing up to the card
+            # instead leaves it and every card after it as the remainder.
+            if not err.stack or err.stack[-1].title != 'Expected ``Inp.blank_2``.':
+                raise
+            lines = source.split('\n')
+            found = _unparseable_card(lines)
+            if found is None:
+                raise
+            start = sum(len(line) + 1 for line in lines[: found[0] - 1])
+            try:
+                inpt, rest = super().from_mcnp(source[:start])
+            except abc.Error:
+                raise err from None
+            return inpt, rest + source[start:]
 
     def to_mcnp(self) -> str:
         """

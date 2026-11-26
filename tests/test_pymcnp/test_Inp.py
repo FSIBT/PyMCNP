@@ -1,3 +1,4 @@
+import sys
 import pathlib
 
 import numpy
@@ -413,3 +414,41 @@ def test_continuation_after_dollar_comment(cell, data, cards) -> None:
     assert [_words(card) for card in inp.cell_cards()] == ['1 1 -2.7 -1 imp:n=1', '2 0 1 imp:n=0']
     assert [_words(card) for card in inp.data_cards()] == [*cards, 'nps 10']
     assert pymcnp.Inp.from_mcnp(inp.to_mcnp()) == (inp, '')
+
+
+_BASE = 'title\n1 0 -1 imp:n=1\n2 0 1 imp:n=0\n\n1 so 5\n\n'
+
+
+@pytest.mark.parametrize('card', ['f4:n 1 [1]', 'df4 iu=1 ic=10', 'zzz 10', 'f4:p (11<16[-10:10 -10:10 -10:10]<17)'])
+def test_data_card_that_does_not_parse_is_the_remainder(card) -> None:
+    # A data card PyMCNP cannot parse, even one that parses in part, ends parsing: it and every card after it are the remainder.
+    inp, remainder = pymcnp.Inp.from_mcnp(_BASE + 'mode n\n' + card + '\nnps 10\n')
+    assert remainder == card + '\nnps 10\n'
+    assert [_words(item) for item in inp.data_cards()] == ['mode n']
+
+
+def test_data_card_that_does_not_parse_first() -> None:
+    inp, remainder = pymcnp.Inp.from_mcnp(_BASE + 'f4:n 1 [1]\nnps 10\n')
+    assert remainder == 'f4:n 1 [1]\nnps 10\n'
+    assert inp.data_cards() == ()
+
+
+def test_valid_07_leaves_its_tally_as_the_remainder() -> None:
+    inp, remainder = pymcnp.Inp.from_file(PATH / 'valid_07.inp')
+    assert remainder.startswith('f4:p (11<16[-10:10 -10:10 -10:10]<17)\n')
+    assert inp.nps == 10000
+
+
+@pytest.mark.parametrize('cards', ['1 0 -1 imp:n=1 foo=3\n2 0 1 imp:n=0\n\n1 so 5\n\n', '1 0 -1 imp:n=1\n2 0 1 imp:n=0\n\n1 so 5 7 8 9 9 9\n\n'])
+def test_cell_or_surface_card_that_does_not_parse_raises(cards) -> None:
+    # Cells and surfaces cannot be cut short: the blocks after them would be missing.
+    with pytest.raises(pymcnp.abc.Error):
+        pymcnp.Inp.from_mcnp('title\n' + cards + 'nps 10\n')
+
+
+@pytest.mark.parametrize('found', [None, (2, pymcnp.abc.Error('x', 'y'))])
+def test_data_block_error_is_raised_if_no_card_can_be_cut(monkeypatch, found) -> None:
+    # If the card cannot be found, or parsing up to it fails as well, the original error stands.
+    monkeypatch.setattr(sys.modules['pymcnp.Inp'], '_unparseable_card', lambda lines: found)
+    with pytest.raises(pymcnp.abc.Error, match='Inp.blank_2'):
+        pymcnp.Inp.from_mcnp(_BASE + 'f4:n 1 [1]\nnps 10\n')
