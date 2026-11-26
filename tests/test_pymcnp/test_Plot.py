@@ -72,8 +72,8 @@ def test_energy_bins_are_upper_edges(tmp_path: pathlib.Path) -> None:
 
 @pytest.mark.parametrize(
     'bins, lower',
-    [([1.0, 2.0, 4.0], 0.0), ([-0.5, 0.0, 1.0], -1.0), ([0.0, 0.5], -0.5), ([-2.0], -3.0)],
+    [([1.0, 2.0, 4.0], 0.0), ([-0.5, 0.0, 1.0], -1.0), ([0.0, 0.5], 0.0), ([0.0, 1.0, 2.0], 0.0), ([-1.0, -0.5], -1.5), ([-2.0], -3.0)],
 )
 def test_lower_edge(bins: list[float], lower: float) -> None:
-    # The first bin starts at 0 for positive bins, e.g., energies, else one bin width below.
+    # The first bin starts at 0 unless the bins are negative (cosines), then one bin width below.
     assert pymcnp.Plot._edges(pandas.Series(bins)).tolist() == [lower, *bins]

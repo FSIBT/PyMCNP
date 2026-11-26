@@ -215,7 +215,7 @@ class Nonterminal(Symbol):
             AttributeError: ``name`` is not a field or settable property.
         """
 
-        if name in type(self)._settable or name[0] == '_':
+        if name in type(self)._settable or name[:1] == '_':
             _object_setattr(self, name, value)
             return
 

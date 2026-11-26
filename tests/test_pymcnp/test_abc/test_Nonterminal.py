@@ -55,6 +55,11 @@ class Test_Nonterminal:
         with pytest.raises(pymcnp.abc.Error, match='Invalid value'):
             e.e[0] = value
 
+    def test_setting_an_empty_name_raises_attribute_error(self) -> None:
+        rpp, _ = pymcnp.inp.card.Surface.from_mcnp('1 rpp -1 1 -1 1 -1 1')
+        with pytest.raises(AttributeError, match="has no field ''"):
+            setattr(rpp, '', 1)
+
     def test_setting_an_unknown_attribute_raises(self) -> None:
         # A name that is not a field, e.g., a typo or the radius of a box, is not silently stored.
         rpp, _ = pymcnp.inp.card.Surface.from_mcnp('1 rpp -1 1 -1 1 -1 1')

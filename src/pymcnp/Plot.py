@@ -27,9 +27,10 @@ class Plot(abc.Utility):
         Finds the bin edges of tally bins.
 
         OUTP bins are upper bin edges, so the lower edge of the first bin is
-        not in the file. It is 0 if the first bin is positive, e.g., an
-        energy, else one bin width below the first bin, e.g., -1 for cosine
-        bins -0.5, 0, 1 (MCNP's lower bound for cosines is -1).
+        not in the file. It is 0 if the first bin is not negative, e.g., an
+        energy or time (which may itself be 0), else one bin width below the
+        first bin, e.g., -1 for cosine bins -0.5, 0, 1 (MCNP's lower bound
+        for cosines is -1).
 
         Parameters:
             bins: Upper bin edges, increasing.
@@ -39,7 +40,7 @@ class Plot(abc.Utility):
         """
 
         upper = bins.to_numpy(dtype=float)
-        if upper[0] > 0:
+        if upper[0] >= 0:
             lower = 0.0
         elif len(upper) > 1:
             lower = upper[0] - (upper[1] - upper[0])
