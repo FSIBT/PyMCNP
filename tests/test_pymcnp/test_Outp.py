@@ -259,8 +259,35 @@ def test_every_unparsed_tally_warns(path: pathlib.Path) -> None:
         warnings.simplefilter('always')
         outp, _ = pymcnp.Outp.from_file(path)
     parsed = {tally.number.strip() for tally in outp.tallies()}
-    warned = {w.message.body.split()[1] for w in record if isinstance(w.message, pymcnp.abc.Warning) and w.message.title == 'Tally not parsed.'}
+    warned = {re.search(r'tally (\S+) \(type', w.message.body)[1] for w in record if isinstance(w.message, pymcnp.abc.Warning) and w.message.title == 'Tally not parsed.'}
     assert warned == printed - parsed
+
+
+def test_unparsed_tally_warns_for_every_file() -> None:
+    import warnings
+
+    paths = [PATH / 'valid_00.outp', PATH / 'valid_39.outp', PATH / 'valid_00.outp']
+    with warnings.catch_warnings(record=True) as record:
+        # Default filters show a warning once per text and location; each file must still warn.
+        warnings.simplefilter('default')
+        for path in paths:
+            pymcnp.Outp.from_file(path)
+    bodies = [w.message.body for w in record if isinstance(w.message, pymcnp.abc.Warning) and w.message.title == 'Tally not parsed.']
+    assert len(bodies) == len(paths)
+    for body, path in zip(bodies, paths):
+        assert body.startswith(f'{path=} tally ')
+
+
+def test_unparsed_tally_warning_from_text_has_no_path() -> None:
+    import warnings
+
+    source = (PATH / 'valid_00.outp').read_text()
+    with warnings.catch_warnings(record=True) as record:
+        warnings.simplefilter('default')
+        pymcnp.Outp.from_mcnp(source)
+        pymcnp.Outp.from_mcnp(source)
+    bodies = [w.message.body for w in record if isinstance(w.message, pymcnp.abc.Warning) and w.message.title == 'Tally not parsed.']
+    assert bodies == ['tally 2 (type 2) is in the file, but PyMCNP cannot parse its layout, so it is missing from the result'] * 2
 
 
 def test_tally_of_unparsed_tally_says_so() -> None:

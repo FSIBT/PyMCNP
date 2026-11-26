@@ -1,5 +1,7 @@
 import re
+import sys
 import typing
+import pathlib
 import warnings
 
 import pandas
@@ -30,6 +32,7 @@ class Outp(abc.file.WithDataIter, abc.File):
         Tally blocks whose layout PyMCNP does not parse yet, e.g., F8 pulse height tallies, are kept as
         unparsed ``outp.block.Else`` blocks, so they leave no remainder; each one issues an ``abc.Warning``
         naming its tally number and type, and is missing from ``tallies``, ``tally`` and ``to_dataframe``.
+        The warning is issued on every call, also for text or files that warned before.
 
         Parameters:
             source: Output file text.
@@ -41,10 +44,55 @@ class Outp(abc.file.WithDataIter, abc.File):
             Warning: Tally not parsed.
         """
 
+        return cls._from_mcnp_warning(source, '')
+
+    @classmethod
+    def from_file(cls, path: pathlib.Path | str) -> tuple[typing.Self, str]:
+        """
+        Compiles output files, warning about tally blocks PyMCNP cannot parse; see ``from_mcnp``.
+
+        The warnings name the file, e.g., ``path=PosixPath('run.outp') tally 8 (type 8) ...``.
+
+        Parameters:
+            path: Path to output file.
+
+        Returns:
+            Output file and remainder.
+
+        Raises:
+            Error: File not found.
+
+        Warns:
+            Warning: Tally not parsed.
+        """
+
+        path = pathlib.Path(path)
+        if not path.is_file():
+            raise abc.Error('File not found.', f'{path=}')
+
+        return cls._from_mcnp_warning(path.read_text(), f'{path=} ')
+
+    @classmethod
+    def _from_mcnp_warning(cls, source: str, prefix: str) -> tuple[typing.Self, str]:
+        """
+        Compiles output file text, warning about tally blocks PyMCNP cannot parse.
+
+        The warnings start with ``prefix``. They bypass the warning registry, so the default filter shows
+        them on every call instead of once per message.
+
+        Parameters:
+            source: Output file text.
+            prefix: Text the warning bodies start with, e.g., the file path.
+
+        Returns:
+            Output file and remainder.
+        """
+
         outp_, remainder = super().from_mcnp(source)
 
         for number, kind in outp_._unparsed_tallies().items():
-            warnings.warn(abc.Warning('Tally not parsed.', f'tally {number} (type {kind}) is in the file, but PyMCNP cannot parse its layout, so it is missing from the result'))
+            warning = abc.Warning('Tally not parsed.', f'{prefix}tally {number} (type {kind}) is in the file, but PyMCNP cannot parse its layout, so it is missing from the result')
+            warnings.warn_explicit(warning, abc.Warning, __file__, sys._getframe().f_lineno, module=__name__)
 
         return outp_, remainder
 

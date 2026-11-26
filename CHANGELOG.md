@@ -48,7 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `examples/`: `do_run.py`, `do_parameter_scan.py`, `do_check.py`, `read_ptrac.py`, the tally examples, and `script_example_01_ptrac_to_parquet.py` (which ignored its `path` argument) use the current API, and `tests/test_examples.py` runs them.
 - `&` and `|` on surfaces and geometries were swapped.
 - OUTP files whose footer was written to `runtpe`, ends with a newline, or is missing (runs that stopped early) did not parse.
-- OUTP tally blocks in a layout PyMCNP cannot parse yet (e.g., F8, and some F1/F2/F4/F5 layouts) were dropped silently while the remainder stayed empty; `Outp.from_file` now issues an `abc.Warning` naming each such tally's number and type, and `Outp.tally(number)` raises "Tally not parsed." for it instead of "Tally not found.".
+- OUTP tally blocks in a layout PyMCNP cannot parse yet (e.g., F8, and some F1/F2/F4/F5 layouts) were dropped silently while the remainder stayed empty; `Outp.from_file` now issues an `abc.Warning` naming the file and each such tally's number and type, on every call (not once per process), and `Outp.tally(number)` raises "Tally not parsed." for it instead of "Tally not found.".
 - MESHTAL files: tally bin boundaries are required and data rows are parsed.
 - PTRAC: every history is parsed, event types 2010, 2020 and 2030 are accepted, and macrobody facets work in the `SURFACE` option.
 - `particle` of the PTRAC event blocks (`ptrac.block.EventSource_2`, ...) returned the cell, `NCL(PBL%I%ICL)`, instead of the particle type, `PBL%I%IPT`; it is `None` for the forms that do not write the particle type (`_1`, `_3`). `ptrac.Event.particle` and `Ptrac.to_dataframe` were not affected.
