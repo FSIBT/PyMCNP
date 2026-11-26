@@ -52,7 +52,7 @@ PyMCNP ships a skill file, [SKILL.md](SKILL.md), that describes the API, the par
 With the skill installed, an agent can write, scan, run, and plot MCNP models for you from a short description, so automating MCNP becomes easy even for complex geometries.
 For Claude Code, save it as `~/.claude/skills/pymcnp/SKILL.md` (all your projects) or `.claude/skills/pymcnp/SKILL.md` (one project), taking the version that matches your installed PyMCNP:
 
-    v=$(python -c 'import pymcnp; print(pymcnp.__version__)')
+    v=$(pymcnp --version | cut -d' ' -f2)
     mkdir -p ~/.claude/skills/pymcnp
     curl -fsSL "https://raw.githubusercontent.com/FSIBT/PyMCNP/v$v/SKILL.md" -o ~/.claude/skills/pymcnp/SKILL.md
 

@@ -23,9 +23,10 @@ Claude Code looks for skills in a folder named after the skill that holds a `SKI
 | Project | `.claude/skills/pymcnp/SKILL.md` in the project | sessions in that project; commit it to share it with your team |
 
 `SKILL.md` is not part of the installed Python package, so download it from GitHub. Take the version that matches your
-installed PyMCNP, since the skill describes that version's API. For a personal install:
+installed PyMCNP, since the skill describes that version's API; `pymcnp --version` prints it, also for `uv tool` and
+`pipx` installs. For a personal install:
 
-    v=$(python -c 'import pymcnp; print(pymcnp.__version__)')
+    v=$(pymcnp --version | cut -d' ' -f2)
     mkdir -p ~/.claude/skills/pymcnp
     curl -fsSL "https://raw.githubusercontent.com/FSIBT/PyMCNP/v$v/SKILL.md" -o ~/.claude/skills/pymcnp/SKILL.md
 
