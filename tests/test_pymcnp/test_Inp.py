@@ -459,3 +459,78 @@ def test_error_before_the_card_that_does_not_parse_is_raised() -> None:
     with pytest.raises(pymcnp.abc.Error, match='Invalid value') as error:
         pymcnp.Inp.from_mcnp('title\n1 0 -1\n1 0 1\n\n1 so 5\n\nnps 10\nqqq 1\n')
     assert error.value.stack == []
+
+
+class Test_Message:
+    """
+    Tests the ``message:`` block before the title.
+    """
+
+    SOURCE = 'title\n1 0 -1 imp:n=1\n2 0 1 imp:n=0\n\n1 so 1\n\nnps 5 $ 2r\n'
+
+    def test_fixture(self) -> None:
+        inp, remainder = pymcnp.Inp.from_file(PATH / 'valid_44.inp')
+
+        assert remainder == ''
+        assert inp.message == 'MESSAGE: outp=sphere.o runtpe=sphere.r\n        srctp=sphere.s\n\n'
+        assert inp.title == 'Sphere with a message block\n'
+        assert [card.to_mcnp() for card in inp.data] == ['m1 13027 1', 'sdef pos=0 0 0 erg=d1', 'si1 1 1 1 5', 'sp1 0 1 1 1', 'nps 1000']
+        assert inp.to_mcnp().startswith('MESSAGE: outp=sphere.o runtpe=sphere.r\n        srctp=sphere.s\n\nSphere with')
+
+    def test_absent(self) -> None:
+        inp, remainder = pymcnp.Inp.from_mcnp(self.SOURCE)
+
+        assert remainder == ''
+        assert inp.message is None
+        assert inp.to_mcnp() == self.SOURCE
+
+    @pytest.mark.parametrize(
+        'message',
+        [
+            'message: outp=x\n\n',
+            'Message: o=x.o\n  2r 3j stays as it is\n\n',
+            # A long message line is not wrapped.
+            'message: ' + ' '.join(['outp=a'] * 15) + '\n\n',
+        ],
+    )
+    def test_round_trip(self, message) -> None:
+        inp, remainder = pymcnp.Inp.from_mcnp(message + self.SOURCE)
+
+        assert remainder == ''
+        assert inp.message == message
+        assert inp.title == 'title\n'
+        assert inp.to_mcnp() == message + self.SOURCE
+
+    def test_blank_line_with_spaces_ends_message(self) -> None:
+        inp, remainder = pymcnp.Inp.from_mcnp('message: o=x\n   \n' + self.SOURCE)
+
+        assert remainder == ''
+        assert inp.message == 'message: o=x\n\n'
+
+    def test_set(self) -> None:
+        inp = pymcnp.Inp.from_mcnp(self.SOURCE)[0]
+
+        # A message without its blank line gets it, as a title gets its newline.
+        inp.message = 'message: o=x'
+        assert inp.to_mcnp() == 'message: o=x\n\n' + self.SOURCE
+        inp.message = None
+        assert inp.message is None
+        assert inp.to_mcnp() == self.SOURCE
+
+    def test_constructor_deepcopy_and_scan(self) -> None:
+        import copy
+
+        base = pymcnp.Inp.from_mcnp(self.SOURCE)[0]
+        inp = pymcnp.Inp(message='message: o=x\n\n', title='title', cells=base.cells, surfaces=base.surfaces, data=base.data)
+        assert inp.message == 'message: o=x\n\n'
+        assert copy.deepcopy(inp).message == 'message: o=x\n\n'
+        assert copy.deepcopy(base).message is None
+        assert [copy.to_mcnp().split('\n')[0] for copy in inp.scan(nps=[1, 2])] == ['message: o=x'] * 2
+        assert [copy.nps for copy in inp.scan(nps=[1, 2])] == [1, 2]
+
+    def test_data_card_that_does_not_parse_after_message(self) -> None:
+        # The remainder of a data card that does not parse is found below the message block too.
+        inp, remainder = pymcnp.Inp.from_mcnp('message: o=x\n  more\n\n' + self.SOURCE.replace('nps 5', 'qqq 1\nnps 5'))
+
+        assert inp.message == 'message: o=x\n  more\n\n'
+        assert remainder.startswith('qqq 1\n')

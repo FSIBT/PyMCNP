@@ -444,6 +444,13 @@
   "remainder": "88068f6acacddbd7c8339fcbb0eea0ecdc4c0eb0172a5df73520f108f8ea40d3",
   "remainder_len": 118
  },
+ "inp/valid_44.inp": {
+  "mcnp": "0b3a9b167fddef673b7dba37b2cd257a776421037c43094add6079fb9bcca85a",
+  "ok": true,
+  "problems": [],
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
+ },
  "inp/warning_00.inp": {
   "mcnp": "317224a3a77c479665082c088eb52f8bd40c0c3adf80c06a6888700dc36dcbfb",
   "ok": true,

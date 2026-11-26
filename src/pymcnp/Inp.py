@@ -19,6 +19,9 @@ _REGEX_VERTICAL_ROW = re.compile(r'[ \t]*(?:[-+]?\.?\d|\d*J(?:\s|\Z))[^$]*\Z', r
 # A shorthand in a row is not one entry of one card (``2J`` jumps over two cards), so a row with one is not read.
 _REGEX_VERTICAL_SHORTHAND = re.compile(r'\d+J|[-+]?(?:\d+\.?\d*|\.\d+)(?:E[-+]?\d+)?(?:R|I|M|I?LOG)', re.IGNORECASE)
 
+# The message block: ``message:`` in column 1, up to and including the first blank line.
+_REGEX_MESSAGE = re.compile(r'message:[\s\S]*?\n\n', re.IGNORECASE)
+
 _WIDTH = 80
 _INDENT = 5
 
@@ -152,6 +155,25 @@ def _wrap(line: str) -> str:
     return '\n'.join(lines)
 
 
+def _title_line(lines: list[str]) -> int:
+    """
+    Finds the title card of an INP file, after its ``message:`` block if it has one.
+
+    Parameters:
+        lines: Lines of the INP file.
+
+    Returns:
+        Index of the title card's line.
+    """
+
+    if lines and lines[0].lower().startswith('message:'):
+        for index, line in enumerate(lines):
+            if not line.strip():
+                return index + 1
+
+    return 0
+
+
 def _unparseable_card(lines: list[str]) -> tuple[int, abc.Error] | None:
     """
     Finds the first card of an INP file that PyMCNP cannot parse.
@@ -167,7 +189,7 @@ def _unparseable_card(lines: list[str]) -> tuple[int, abc.Error] | None:
         None if every card parses.
     """
 
-    index = 2 if lines and lines[0].lower().startswith('message:') else 1
+    index = _title_line(lines) + 1
     for union in (inp.card.Cell, inp.card.Surface, inp.card.Data):
         while index < len(lines) and not lines[index].strip():
             index += 1
@@ -227,6 +249,7 @@ class Inp(abc.File):
     Represents input files.
 
     Attributes:
+        message: inp ``message:`` block, up to and including its blank line, or None.
         title: inp ``title`` card.
         cells: inp cell block.
         blank_0: inp black-line delimiter #0.
@@ -237,6 +260,7 @@ class Inp(abc.File):
         other: inp other block.
     """
 
+    message: typing.Annotated[abc.Terminal, _REGEX_MESSAGE.pattern] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
     title: typing.Annotated[abc.Terminal, r'.+\n']
     cells: typing.Annotated[abc.Array, inp.card.Cell | inp.card.Comment, SpaceCard]
     blank_0: typing.Annotated[abc.Terminal, r' *(?:\$.*)?\n\n'] = abc.Terminal[r' *(?:\$.*)?\n\n']('\n\n')
@@ -245,6 +269,20 @@ class Inp(abc.File):
     data: typing.Annotated[abc.Array, inp.card.Data | inp.card.Comment, SpaceCard]
     blank_2: typing.Annotated[abc.Terminal, r' *(?:\$.*)?(?:\n|\Z)'] = abc.Terminal[r' *(?:\$.*)?(?:\n|\Z)']('\n')
     other: typing.Annotated[abc.Terminal, r'\n[\s\S]*'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+
+    @staticmethod
+    def _prepare_message(value: typing.Any) -> typing.Any:
+        """
+        Prepares ``message`` values: None is no message block, and a ``str`` message gets its ending blank line.
+
+        The ``message`` field's setter calls it, e.g., ``inp.message = 'message: outp=run.o'``.
+        """
+
+        if value is None:
+            return ''
+        if isinstance(value, str) and not isinstance(value, abc.Symbol) and value and not value.endswith('\n\n'):
+            return value.rstrip('\n') + '\n\n'
+        return value
 
     @staticmethod
     def _prepare_title(value: typing.Any) -> typing.Any:
@@ -319,11 +357,15 @@ class Inp(abc.File):
 
         source = re.sub(r'\n +\n', '\n\n', source)
 
+        # The message block is kept as it is; the title follows it.
+        message = match[0] if (match := _REGEX_MESSAGE.match(source)) else ''
+        source = source[len(message) :]
+
         # Preprocessing vertical data format.
         source = _vertical(source)
 
         # Preprocessing horizontal data format.
-        source = _expand_cards(source)
+        source = message + _expand_cards(source)
 
         try:
             return super().from_mcnp(source)
@@ -355,10 +397,12 @@ class Inp(abc.File):
         assert isinstance(self.other, abc.Terminal)
 
         source = super().to_mcnp()
-        body = source[: len(source) - len(self.other)] if self.other else source
+        message = self.message or ''
+        body = source[len(message) : len(source) - len(self.other)] if self.other else source[len(message) :]
         title, _, rest = body.partition('\n')
 
-        return title + '\n' + '\n'.join(_wrap(line) for line in rest.split('\n')) + self.other
+        # The message block is not wrapped: it is not a card.
+        return message + title + '\n' + '\n'.join(_wrap(line) for line in rest.split('\n')) + self.other
 
     def _scan_path(self, path: str) -> str:
         """
@@ -572,3 +616,18 @@ class Inp(abc.File):
             tuple(self.surfaces.filter(inp.card.Comment)),
             tuple(self.data.filter(inp.card.Comment)),
         )
+
+
+def _message(self: Inp) -> abc.Terminal | None:
+    """
+    inp ``message:`` block, up to and including its blank line, or None if the file has none.
+    """
+
+    message = _message_field.fget(self)
+    return message if message != '' else None
+
+
+# ``message`` reads None, rather than an empty terminal, when there is no message block; ``to_mcnp`` writes the stored
+# constituent.
+_message_field = typing.cast(property, Inp.message)
+Inp.message = property(_message, _message_field.fset, doc=_message.__doc__)  # type: ignore[method-assign,assignment]

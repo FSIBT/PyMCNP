@@ -449,10 +449,11 @@ class Nonterminal(Symbol):
         Space = type(self)._space[0]
         null = _space_null(type(self)._fields)
 
+        # The stored constituents, which a subclass's property may present differently, e.g., ``Inp.message`` as None.
         names = list(type(self)._fields)
         end = 0
         for index in range(len(names), 0, -1):
-            if getattr(self, names[index - 1]) != '' and getattr(self, names[index - 1]) != []:
+            if getattr(self, f'_{names[index - 1]}') != '' and getattr(self, f'_{names[index - 1]}') != []:
                 end = index
                 break
 
@@ -461,7 +462,7 @@ class Nonterminal(Symbol):
         return ''.join(
             f'{value.to_mcnp()}{self.spaces.get(name, Space(Space._default or "") if name not in null else "") if index < end - 1 else ""}'
             for index, name in enumerate(names)
-            if (value := getattr(self, name)) != ''
+            if (value := getattr(self, f'_{name}')) != ''
         )
 
     def scan(self, **parameters: tuple[typing.Any, ...]) -> typing.Generator[typing.Self, None, None]:

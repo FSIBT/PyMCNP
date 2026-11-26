@@ -212,3 +212,12 @@ class Test_Check_Problems:
 
         assert [(problem.line, problem.kind) for problem in problems] == [(66, 'warning')]
         assert "Expected end of card at 'c'" in problems[0].message
+
+
+@pytest.mark.parametrize('message', ['message: o=x\n\n', 'MESSAGE: o=x\n        r=y\n\n'])
+def test_message_block(tmp_path: pathlib.Path, message: str) -> None:
+    # `Check` skips the `message:` block as `Inp` reads it, up to its blank line, and counts its lines.
+    path = tmp_path / 'message.inp'
+    path.write_text(message + 'title\n1 0 -1 imp:n=1\n2 0 1 imp:n=0\n\n1 so 1\n\nqqq 1\nnps 5\n')
+
+    assert pymcnp.Check(path).problems()[0].line == message.count('\n') + 7
