@@ -17,7 +17,7 @@ _REGEX_INSERT = re.compile(r'(\S+)(?<!\d[mM]) (\d+)I (\S+)', re.IGNORECASE)
 _REGEX_JUMP = re.compile(r'(?<!\S)(\d+)(J)(?!\S)', re.IGNORECASE)
 _REGEX_LOG = re.compile(r'(\S+)(?<!\d[mM]) (\d+)I?LOG (\S+)', re.IGNORECASE)
 _REGEX_MULTIPLY = re.compile(rf'(?<!\S)({_NUMBER}) ({_NUMBER})M(?!\S)', re.IGNORECASE)
-_REGEX_UNWRAPPED_CARD = re.compile(r'(?:c|[fs]c\d+)(?:\s|\Z)', re.IGNORECASE)
+_REGEX_UNWRAPPED_CARD = re.compile(r' {0,4}(?:c|[fs]c\d+)(?:\s|\Z)', re.IGNORECASE)
 _REGEX_COMMENT = re.compile(r' {0,4}c(?:\s|\Z)', re.IGNORECASE)
 # Vertical data format: a ``#`` in columns 1-5 followed by card names, then one row of entries per line. Rows start with
 # a number or a jump, so the next card ends the block, and they carry no ``$`` comment.
@@ -151,14 +151,18 @@ def _wrap(line: str) -> str:
         line: Line to wrap.
 
     Returns:
-        ``line`` unchanged if it fits, is a comment or text card (``c``, ``fc``, ``sc``), or cannot be split, otherwise its wrapped lines.
+        ``line`` unchanged if it fits, is a comment or text card (``c``, ``fc``, ``sc``) starting in columns 1-5, or cannot be
+        split, otherwise its wrapped lines. A ``$`` comment stays at the end of the last line.
     """
 
     if len(line) <= _WIDTH or _REGEX_UNWRAPPED_CARD.match(line):
         return line
 
     code, dollar, comment = line.partition('$')
-    code = code.rstrip().removesuffix('&').rstrip()
+    code = code.rstrip()
+    # A line that ends in ``&`` is continued on the next line, so its last wrapped line keeps the ``&``.
+    continued = code.endswith('&')
+    code = code.removesuffix('&').rstrip()
     indent = ' ' * _INDENT if line.startswith(' ' * _INDENT) else ''
     words = code.split()
     if len(words) < 2:
@@ -173,7 +177,7 @@ def _wrap(line: str) -> str:
         else:
             current += f' {word}'
 
-    lines.append(current + (f' {dollar}{comment}' if dollar else ''))
+    lines.append(current + (' &' if continued else '') + (f' {dollar}{comment}' if dollar else ''))
     return '\n'.join(lines)
 
 

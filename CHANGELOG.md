@@ -66,6 +66,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Subclasses of `Inp`, `Outp`, `Meshtal`, `Ptrac`, `ptrac.block.History` and the card classes are parsed as the subclass, e.g., `MyInp.from_file` returned an `Inp` for `class MyInp(pymcnp.Inp)`; they inherit the parent's fields, and a subclass that adds a field, or a class attribute or method named like an inherited field, now raises `abc.Error` (0.10 ignored it).
 - Vertical data format (`#`) blocks lost cards: two blocks in a row dropped the cards after the second block and moved it after the data block, and rows indented with spaces shifted every value one column left. Rows may now be indented, hold one column, or start with a sign, a decimal point or `J`; a block whose rows do not have one entry per card name, or carry a `$` comment, is left in the remainder instead of being read wrong.
 - `Check.fix` rewrote a file PyMCNP could parse only in part, dropping the unparsed card and every card after it, and then reported the shortened file as clean. It now raises `abc.Error`, naming the first line PyMCNP cannot parse, and leaves the file as it is, as `pymcnp check --fix` does.
+- `Inp.to_mcnp` and `pymcnp check --fix` wrapped a long comment card indented in columns 2-5 with `&`, so its second half became a continuation line, and dropped the `&` at the end of a long line, so the line after it became a new card. Comment cards in columns 1-5 are written as they are, and a wrapped line keeps its `&`.
 - Tests no longer write files into the repository.
 
 ## [0.10.0] - 2026-10-15
