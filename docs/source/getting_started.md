@@ -166,6 +166,7 @@ The dataframe goes straight into `matplotlib`:
 
 ```python
 import matplotlib.pyplot
+import numpy
 import pymcnp
 
 outp, _ = pymcnp.Outp.from_file('example_00.outp')
@@ -174,7 +175,8 @@ spectra = tally.groupby(['surface', 'facet', 'bins'], as_index=False)['counts'].
 
 figure, axis = matplotlib.pyplot.subplots(figsize=(7, 4))
 for (surface, facet), rows in spectra.groupby(['surface', 'facet']):
-    axis.step(rows['bins'], rows['counts'], where='pre', label=f'surface {surface}.{facet}')
+    edges = numpy.concatenate(([0.0], rows['bins']))  # the bins are upper edges; the first bin starts at 0
+    axis.stairs(rows['counts'], edges, label=f'surface {surface}.{facet}')
 axis.set_yscale('log')
 axis.set_xlabel('Energy (MeV)')
 axis.set_ylabel('Photons per source neutron')

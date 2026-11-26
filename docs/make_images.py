@@ -17,6 +17,7 @@ import matplotlib
 matplotlib.use('Agg')
 
 import matplotlib.pyplot
+import numpy
 import pyvista
 import rich.console
 import rich.text
@@ -129,7 +130,8 @@ def getting_started_tally() -> None:
 
     figure, axis = matplotlib.pyplot.subplots(figsize=(7, 4))
     for (surface, facet), rows in spectra.groupby(['surface', 'facet']):
-        axis.step(rows['bins'], rows['counts'], where='pre', label=f'surface {surface}.{facet}')
+        edges = numpy.concatenate(([0.0], rows['bins']))  # the bins are upper edges; the first bin starts at 0
+        axis.stairs(rows['counts'], edges, label=f'surface {surface}.{facet}')
     axis.set_yscale('log')
     axis.set_xlabel('Energy (MeV)')
     axis.set_ylabel('Photons per source neutron')
@@ -156,6 +158,8 @@ def cli_check() -> None:
     """``pymcnp check`` with exit code 0, ``pymcnp check --diff`` with exit code 1, and ``pymcnp check`` with exit code 3."""
 
     cli('cli_check_ok.svg', 'check', 'example_00.inp')
+    # ``files/inp/todo_13.inp`` has a lattice card PyMCNP cannot parse yet (line 5, ``2(3)`` in a ``fill`` array), the usual case: a valid card of
+    # MCNP that PyMCNP does not know; ``check`` names the line.
     cli('cli_check_unparsed.svg', 'check', 'todo_13.inp', cwd=FILES / 'inp')
     with tempfile.TemporaryDirectory() as directory:
         directory = pathlib.Path(directory)
