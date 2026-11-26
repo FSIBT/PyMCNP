@@ -1,5 +1,7 @@
+import os
 import sys
 import shutil
+import subprocess
 import pathlib
 import matplotlib.pyplot
 
@@ -73,9 +75,11 @@ def test_main_prints_warnings_as_panels(monkeypatch, capsys, recwarn, tmp_path: 
     main.main()
 
     out = capsys.readouterr()
-    assert '╭' in out.out
+    # A panel: rich draws its box with round corners, square ones on legacy Windows consoles, or ASCII.
+    first = out.out.splitlines()[0]
+    assert first[0] in '╭┌+' and first[-1] in '╮┐+'
     # The panel wraps long lines.
-    text = ' '.join(out.out.replace('│', ' ').split())
+    text = ' '.join(out.out.translate(str.maketrans('│|', '  ')).split())
     assert 'Warning: Tally not parsed.' in text and 'tally 1 (type 1)' in text
     # Not Python's own format, which prints the source line of the warning.
     assert 'warnings.warn' not in out.out + out.err
@@ -93,3 +97,13 @@ def test_main_prints_other_warnings_with_their_category(monkeypatch, capsys) -> 
     main.main()
 
     assert 'Warning: RuntimeWarning: bins [1, 2] are empty' in capsys.readouterr().out
+
+
+def test_main_prints_any_path_to_a_legacy_encoding(tmp_path: pathlib.Path) -> None:
+    # On Windows, output redirected to a file or pipe is cp1252, which has no lambda.
+    outp = tmp_path / 'λ.outp'
+    shutil.copy(FILES / 'outp' / 'valid_00.outp', outp)
+    env = dict(os.environ, PYTHONIOENCODING='cp1252')
+    done = subprocess.run([sys.executable, '-c', 'from pymcnp._cli.main import main; main()', 'convert', 'outp', '--csv', str(outp)], env=env, capture_output=True)
+    assert done.returncode == 0, done.stderr.decode('cp1252', 'replace')
+    assert b'\\u03bb.outp' in done.stdout

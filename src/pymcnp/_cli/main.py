@@ -30,6 +30,7 @@ A file gets the same code from every command that reads it.
 PyMCNP helps create, run, analyze MCNP simulation input and output.
 """
 
+import io
 import sys
 import warnings
 
@@ -60,9 +61,14 @@ def main() -> None:
     Runs the PyMCNP command line interface.
 
     Warnings of every command are printed as warning panels. Usage errors
-    print the usage and exit with 2.
+    print the usage and exit with 2. Characters the terminal's encoding
+    lacks, e.g., in file names on Windows with output redirected to a file
+    (cp1252), are printed as ``\\u`` escapes instead of failing.
     """
 
+    for stream in (sys.stdout, sys.stderr):
+        if isinstance(stream, io.TextIOWrapper):
+            stream.reconfigure(errors='backslashreplace')
     showwarning = warnings.showwarning
     warnings.showwarning = _showwarning
     try:
