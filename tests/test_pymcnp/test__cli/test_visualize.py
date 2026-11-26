@@ -113,4 +113,6 @@ def test_main_pdf_names(monkeypatch, capsys, tmp_path: pathlib.Path, options, na
     out = ''.join(capsys.readouterr().out.replace('│', '').split())
 
     for name in names:
-        assert f'Wrote{tmp_path / f"spheres-{name}.pdf"}.' in out
+        path = tmp_path / f'spheres-{name}.pdf'
+        assert f'Wrote{path}' in out
+        assert f'Wrote{path}.' not in out
