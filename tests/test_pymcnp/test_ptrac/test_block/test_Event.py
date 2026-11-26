@@ -95,9 +95,15 @@ def test_base_class_parses_to_a_form() -> None:
     assert (_strip(event.material), _strip(event.position)) == ('2', ('0.74673E+01', '0.47397E+01', '0.30091E+01'))
 
 
-@pytest.mark.xfail(strict=True, reason='Event.particle returns NCL(PBL%I%ICL), the cell, not PBL%I%IPT, the particle type')
 @pytest.mark.parametrize('name', [name for name, *_ in EVENTS if name[-1] in '24'])
 def test_particle_is_ipt(name: str) -> None:
     event = _event(name)
 
     assert event.particle == event.pbl_i_ipt
+    assert event.particle != event.ncl_pbl_i_icl
+
+
+@pytest.mark.parametrize('name', [name for name, *_ in EVENTS if name[-1] in '13'])
+def test_particle_is_none_without_ipt(name: str) -> None:
+    # Forms 1 and 3 do not write PBL%I%IPT.
+    assert _event(name).particle is None

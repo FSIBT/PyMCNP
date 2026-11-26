@@ -50,6 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - OUTP tally blocks in a layout PyMCNP cannot parse yet (e.g., F8, and some F1/F2/F4/F5 layouts) were dropped silently while the remainder stayed empty; `Outp.from_file` now issues an `abc.Warning` naming each such tally's number and type, and `Outp.tally(number)` raises "Tally not parsed." for it instead of "Tally not found.".
 - MESHTAL files: tally bin boundaries are required and data rows are parsed.
 - PTRAC: every history is parsed, event types 2010, 2020 and 2030 are accepted, and macrobody facets work in the `SURFACE` option.
+- `particle` of the PTRAC event blocks (`ptrac.block.EventSource_2`, ...) returned the cell, `NCL(PBL%I%ICL)`, instead of the particle type, `PBL%I%IPT`; it is `None` for the forms that do not write the particle type (`_1`, `_3`). `ptrac.Event.particle` and `Ptrac.to_dataframe` were not affected.
 - The PTRAC card's `EVENT`, `CELL` and `SURFACE` options take several values separated by commas or spaces, e.g., `PTRAC EVENT=SRC,COL,BNK FILE=ASC`; they kept only the first value.
 - `nI` and `nILOG` entries expand to the values between the endpoints.
 - Input files with library keywords between substances, unindented continuation lines after `&`, thermal scattering names such as `h-zr.20t`, trailing spaces or comments at the ends of cards, or no final newline failed to parse.

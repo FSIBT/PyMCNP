@@ -71,12 +71,12 @@ class Event(Block, abc.symbol.WithDataIter):
             return frame
 
     @property
-    def particle(self) -> abc.Terminal:
+    def particle(self) -> abc.Terminal | None:
         """
-        Event block particle.
+        Event block particle type, ``PBL%I%IPT``; ``None`` for forms 1 and 3, which do not write it.
         """
 
-        return self.ncl_pbl_i_icl
+        return getattr(self, 'pbl_i_ipt', None)
 
     @property
     def material(self) -> abc.Terminal:
