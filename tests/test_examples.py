@@ -155,3 +155,61 @@ def test_readme_example(examples: pathlib.Path) -> None:
     done = run(examples, 'readme.py')
     assert done.returncode == 0, done.stderr
     assert len(list(examples.glob('sphere-*.inp'))) == 3
+
+
+# A one-plane mesh tally like the FMESH of script_example_02, with the header of a real meshtal file.
+MESHTAL_2D = ''.join((EXAMPLES.parent / 'files' / 'meshtal' / 'multi_00.meshtal').read_text().splitlines(keepends=True)[:3])
+MESHTAL_2D += """
+ Mesh Tally Number         4
+ neutron  mesh tally.
+
+ Tally bin boundaries:
+    X direction:    -20.00    -10.00      0.00     10.00
+    Y direction:    -20.00    -10.00      0.00     10.00
+    Z direction:     29.00     31.00
+    Energy bin boundaries: 0.00E+00 1.00E+36
+
+        X         Y         Z     Result     Rel Error
+"""
+for x in (-15.0, -5.0, 5.0):
+    for y in (-15.0, -5.0, 5.0):
+        MESHTAL_2D += f'   {x:8.3f}  {y:8.3f}    30.000 {1e-3 * (2 + x / 20 + y / 40):.5E} {0.1:.5E}\n'
+
+
+def test_example_02_automate_workflow(examples: pathlib.Path) -> None:
+    """Follows docs/source/examples/automate.md with a fake ``mcnp6`` on ``PATH`` that writes a meshtal."""
+
+    fakebin = examples / 'fakebin'
+    fakebin.mkdir()
+    (examples / 'fake.meshtal').write_text(MESHTAL_2D)
+    fake = fakebin / 'mcnp6'
+    fake.write_text(
+        f'#!{sys.executable}\n'
+        'import sys, shutil\n'
+        'arguments = dict(argument.split("=", 1) for argument in sys.argv[1:])\n'
+        f'shutil.copy("{examples / "example_00.outp"}", arguments["outp"])\n'
+        f'shutil.copy("{examples / "fake.meshtal"}", "meshtal")\n'
+    )
+    fake.chmod(0o755)
+    env = environment(examples)
+    env['PATH'] = os.pathsep.join([str(fakebin), env['PATH']])
+
+    done = run(examples, 'script_example_02_ground_model.py')
+    assert done.returncode == 0, done.stderr
+
+    # The command of automate.md.
+    command = [str(pathlib.Path(sys.executable).parent / 'pymcnp'), 'run', '-p', 'script_example_02_output/run', 'script_example_02_output/ground.inp']
+    done = subprocess.run(command, cwd=examples, env=env, capture_output=True, text=True)
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert len(list(examples.glob('script_example_02_output/run/pymcnp-*/run-00000/meshtal'))) == 1
+
+    done = run(examples, 'script_example_02_plot_flux.py')
+    assert done.returncode == 0, done.stderr
+    assert (examples / 'script_example_02_output' / 'flux.png').exists()
+
+
+def test_example_02_plot_flux_without_run(examples: pathlib.Path) -> None:
+    done = run(examples, 'script_example_02_plot_flux.py')
+    assert done.returncode != 0
+    assert 'pymcnp run' in done.stderr
+    assert 'IndexError' not in done.stderr

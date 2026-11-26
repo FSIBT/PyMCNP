@@ -26,6 +26,8 @@ Run it, and then run MCNP:
     python script_example_02_ground_model.py
     pymcnp run -p script_example_02_output/run script_example_02_output/ground.inp
 
+`pymcnp run` runs MCNP in `script_example_02_output/run/pymcnp-<timestamp>/run-00000/`, where MCNP writes the mesh tally to `meshtal`.
+
 ## Plotting the Setup
 
 The plotting script imports the model and draws the very same surface objects with `pyvista`, so the picture cannot drift away from the input.
@@ -41,7 +43,7 @@ The source (gold) sits 1 m above the ground, the iron discs (red) are at 50 cm, 
 
 ## Plotting the Flux
 
-`Meshtal.iter_tallies` reads the mesh tally and `to_dataframe` gives one row per voxel. The script reshapes it into an image of the flux and of its relative error.
+The script reads the newest `meshtal` of those runs, or the file given as its argument. `Meshtal.iter_tallies` reads the mesh tally and `to_dataframe` gives one row per voxel. The script reshapes it into an image of the flux and of its relative error.
 
 ```{eval-rst}
 .. literalinclude:: ../../../examples/script_example_02_plot_flux.py

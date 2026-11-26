@@ -3,9 +3,11 @@
 python script_example_02_ground_model.py
 pymcnp run -p script_example_02_output/run script_example_02_output/ground.inp
 python script_example_02_plot_flux.py [meshtal_path]
+
+``pymcnp run`` runs MCNP in script_example_02_output/run/pymcnp-<timestamp>/run-00000/, where MCNP
+writes the file ``meshtal``. Without ``meshtal_path`` the script plots the newest one.
 """
 
-import glob
 import pathlib
 import sys
 
@@ -17,7 +19,13 @@ from matplotlib.colors import LogNorm
 from matplotlib.patches import Rectangle
 
 matplotlib.use('Agg')
-path = sys.argv[1] if len(sys.argv) > 1 else glob.glob('script_example_02_output/run/*/ground/meshtal')[0]
+if len(sys.argv) > 1:
+    path = pathlib.Path(sys.argv[1])
+else:
+    paths = sorted(pathlib.Path('script_example_02_output/run').glob('pymcnp-*/*/meshtal'), key=lambda path: path.stat().st_mtime)
+    if not paths:
+        sys.exit('No meshtal found in script_example_02_output/run; run MCNP first: pymcnp run -p script_example_02_output/run script_example_02_output/ground.inp')
+    path = paths[-1]
 
 tally = next(pymcnp.Meshtal.iter_tallies(path))
 frame = tally.to_dataframe()
