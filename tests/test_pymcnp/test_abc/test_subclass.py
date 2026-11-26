@@ -125,8 +125,9 @@ def test_subclass_shadowing_a_field_raises() -> None:
                 """Replaces the field."""
 
 
+# Skipped before Python 3.14, so its body runs, and counts for coverage, only from 3.14 on.
 @pytest.mark.skipif(sys.version_info < (3, 14), reason='annotations are evaluated lazily from Python 3.14')
-def test_subclass_with_lazy_forward_references() -> None:
+def test_subclass_with_lazy_forward_references() -> None:  # pragma: no cover
     # Names defined later, or never, in private and class-variable annotations do not stop the class.
     class MyHistory(pymcnp.ptrac.block.History):
         _cache: Later  # noqa: F821
