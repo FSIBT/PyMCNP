@@ -65,12 +65,14 @@ the list position, as in `inp.data[i]`, comment cards included. Values are conve
 
 `Outp.summary` and `Outp.fatal_errors` give the headline results and the fatal errors, `Outp.tally(number)` gives one
 tally as a dataframe with typed columns, and `Outp.activity(particle)` gives an activity table as a dataframe.
-`Outp.tallies()` and `Outp.activities()` return the parsed tally and activity blocks, not dataframes.
+`Outp.tallies()` and `Outp.activities()` return the parsed tally and activity blocks, not dataframes; a tally block's
+`tally_number` is an `int`, while its fields, e.g., `number`, are the padded text of the file. Run values such as the
+version, the number of histories and the warnings are in `Outp.summary` only.
 
 `Outp.to_dataframe()` stacks all parsed tallies in one dataframe, as `pymcnp convert outp` writes them. Its columns
 differ from those of `Outp.tally(number)`: it names the surface column `surface_number` and the tally kind `type`, and
 has no `facet` column, whereas `tally` splits surface numbers such as `2.1` into `surface` and `facet` and has a
-`quantity` column. Use `tally` for analysis and `to_dataframe` for export.
+`quantity` column. In both, `number` and `nps` are `int`s. Use `tally` for analysis and `to_dataframe` for export.
 
 [outp subpackage](pymcnp/outp)
 
@@ -106,7 +108,8 @@ truncated last history: it stays in the returned remainder, so use `stream` or `
 
 `Meshtal.from_file` reads the first mesh tally of a file; use `Meshtal.iter_tallies(path)` for files that hold several.
 `to_dataframe` gives one dataframe per tally with float columns (`Energy` and `Time` stay strings if a bin is `Total`), and
-`tally_number` is an `int`, `particle_name` a plain `str` and `names` a list of plain `str`.
+`tally_number` and `nps` (the number of histories) are `int`s, `particle_name` a plain `str` and `names` a list of plain
+`str`; the fields, e.g., `histories`, are the padded text of the file.
 
 [meshtal subpackage](pymcnp/meshtal)
 

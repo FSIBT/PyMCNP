@@ -681,10 +681,10 @@
     "float64",
     "float64",
     "str",
+    "int64",
     "str",
     "str",
-    "str",
-    "str"
+    "int64"
    ],
    "hash": "57a1303fd954f8dbfb7aae28baa2e2956bb3c79c083b73918ead820687de4b25"
   },
@@ -1099,10 +1099,10 @@
     "str",
     "str",
     "str",
+    "int64",
     "str",
     "str",
-    "str",
-    "str"
+    "int64"
    ],
    "hash": "3bc1456191d78af12a3c58d98e6941d1265179a61a973875f3186841b18adf20"
   },
@@ -1132,10 +1132,10 @@
     "str",
     "str",
     "str",
+    "int64",
     "str",
     "str",
-    "str",
-    "str"
+    "int64"
    ],
    "hash": "82042ec3c6bb9207bf9384fad0f2ca7dbd8aeff623cb1fb027361b0776aa8b41"
   },

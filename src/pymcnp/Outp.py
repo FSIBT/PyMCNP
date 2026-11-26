@@ -111,46 +111,6 @@ class Outp(abc.file.WithDataIter, abc.File):
 
         return found
 
-    @property
-    def version(self) -> str:
-        """
-        Outp file version.
-        """
-
-        return self.header.version
-
-    @property
-    def nps(self) -> str | None:
-        """
-        Output file nps, ``None`` without footer.
-        """
-
-        return self.footer.nps if isinstance(self.footer, outp.Footer) else None
-
-    @property
-    def run_time(self) -> str | None:
-        """
-        Output file run time, ``None`` without footer.
-        """
-
-        return self.footer.run_time if isinstance(self.footer, outp.Footer) else None
-
-    @property
-    def terminated(self) -> str | None:
-        """
-        Output file terminated, ``None`` without footer.
-        """
-
-        return self.footer.terminated if isinstance(self.footer, outp.Footer) else None
-
-    @property
-    def warnings(self) -> str | None:
-        """
-        Output file warnings, ``None`` without footer.
-        """
-
-        return self.footer.warnings if isinstance(self.footer, outp.Footer) else None
-
     def activities(self, kind: type[outp.block.Activity] = outp.block.Activity) -> tuple[outp.block.Activity, ...]:
         """
         Gets output file activity blocks.

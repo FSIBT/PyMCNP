@@ -32,20 +32,20 @@ class Test_Outp(classes.Test_FromFile):
             outp.to_dataframe(),
             pandas.DataFrame(
                 [
-                    [1.0000e00, 0.00000e00, 0.0000, '2', '4', '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', '10000'],
-                    [2.0000e00, 0.00000e00, 0.0000, '2', '4', '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', '10000'],
-                    [3.0000e00, 2.45053e-05, 0.9999, '2', '4', '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', '10000'],
-                    [4.0000e00, 0.00000e00, 0.0000, '2', '4', '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', '10000'],
-                    [5.0000e00, 0.00000e00, 0.0000, '2', '4', '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', '10000'],
-                    [6.0000e00, 0.00000e00, 0.0000, '2', '4', '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', '10000'],
-                    [7.0000e00, 0.00000e00, 0.0000, '2', '4', '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', '10000'],
-                    [8.0000e00, 0.00000e00, 0.0000, '2', '4', '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', '10000'],
-                    [9.0000e00, 0.00000e00, 0.0000, '2', '4', '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', '10000'],
-                    [1.0000e01, 0.00000e00, 0.0000, '2', '4', '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', '10000'],
-                    [1.1000e01, 0.00000e00, 0.0000, '2', '4', '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', '10000'],
-                    [1.2000e01, 0.00000e00, 0.0000, '2', '4', '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', '10000'],
-                    [1.3000e01, 0.00000e00, 0.0000, '2', '4', '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', '10000'],
-                    [1.4000e01, 3.24502e-04, 0.7074, '2', '4', '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', '10000'],
+                    [1.0000e00, 0.00000e00, 0.0000, '2', 4, '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', 10000],
+                    [2.0000e00, 0.00000e00, 0.0000, '2', 4, '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', 10000],
+                    [3.0000e00, 2.45053e-05, 0.9999, '2', 4, '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', 10000],
+                    [4.0000e00, 0.00000e00, 0.0000, '2', 4, '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', 10000],
+                    [5.0000e00, 0.00000e00, 0.0000, '2', 4, '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', 10000],
+                    [6.0000e00, 0.00000e00, 0.0000, '2', 4, '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', 10000],
+                    [7.0000e00, 0.00000e00, 0.0000, '2', 4, '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', 10000],
+                    [8.0000e00, 0.00000e00, 0.0000, '2', 4, '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', 10000],
+                    [9.0000e00, 0.00000e00, 0.0000, '2', 4, '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', 10000],
+                    [1.0000e01, 0.00000e00, 0.0000, '2', 4, '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', 10000],
+                    [1.1000e01, 0.00000e00, 0.0000, '2', 4, '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', 10000],
+                    [1.2000e01, 0.00000e00, 0.0000, '2', 4, '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', 10000],
+                    [1.3000e01, 0.00000e00, 0.0000, '2', 4, '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', 10000],
+                    [1.4000e01, 3.24502e-04, 0.7074, '2', 4, '4    track length estimate of particle flux.      units   1/cm**2', 'neutrons', 10000],
                 ],
                 columns=['bins', 'counts', 'errors', 'cell_number', 'number', 'type', 'particles', 'nps'],
             ),
@@ -69,23 +69,35 @@ class Test_Outp(classes.Test_FromFile):
         for index, expected in rows.items():
             row = frame.iloc[index]
             assert [row[name] for name in frame.columns[:6]] == expected
-            assert [row[name].strip() for name in frame.columns[6:]] == ['21', '1    number of particles crossing a surface.', 'photons', '1000000']
+            assert [row[name] for name in frame.columns[6:]] == [21, '1    number of particles crossing a surface.', 'photons', 1000000]
 
-    def test_footer_properties(self) -> None:
+    def test_summary_is_the_one_place_for_run_values(self) -> None:
+        # ``Outp`` has no ``version``, ``nps``, ``run_time``, ``terminated`` or ``warnings`` of its own, which
+        # returned padded text and clashed with the ``summary`` fields of the same names.
         outp, _ = self.element.from_file(PATH / 'valid_39.outp')
+        for name in ('version', 'nps', 'run_time', 'terminated', 'warnings'):
+            assert not hasattr(outp, name), name
+        summary = outp.summary
+        assert (summary.version, summary.nps, summary.run_time, summary.terminated) == ('MCNP_6.20, 6.2.0', 1000000, 0.79, 'histories')
+        assert len(summary.warnings) > 0 and all(type(warning) is str for warning in summary.warnings)
+        # The raw footer fields stay available.
+        assert outp.footer.nps.strip() == '1000000'
 
-        assert outp.version == 'MCNP_6.20, 6.2.0'
-        assert outp.nps.strip() == '1000000'
-        assert outp.run_time.strip() == '0.79'
-        assert outp.terminated.strip() == '1000000  particle histories were done.'
-        assert outp.warnings.strip() == '15'
-
-    def test_footer_properties_without_footer(self) -> None:
+    def test_without_footer(self) -> None:
         outp, _ = self.element.from_file(PATH / 'valid_06.outp')
 
-        assert outp.version == 'MCNP6, 1.0'
-        assert (outp.nps, outp.run_time, outp.terminated, outp.warnings) == (None, None, None, None)
+        assert outp.summary.version == 'MCNP6, 1.0'
+        assert (outp.summary.nps, outp.summary.run_time, outp.summary.terminated) == (None, None, None)
+        assert outp.footer == ''
         assert outp.activities() == () and outp.tallies() == ()
+
+    def test_tally_number_is_an_int(self) -> None:
+        outp, _ = self.element.from_file(PATH / 'valid_39.outp')
+        assert [tally.tally_number for tally in outp.tallies()] == [21]
+        assert type(outp.tallies()[0].tally_number) is int
+        frame = outp.to_dataframe()
+        assert frame['number'].dtype == 'int64' and frame['nps'].dtype == 'int64'
+        assert set(frame['number']) == {21} and set(frame['nps']) == {1000000}
 
     def test_activities(self) -> None:
         outp, _ = self.element.from_file(PATH / 'valid_39.outp')

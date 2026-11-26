@@ -25,6 +25,14 @@ class Tally(Block, abc.symbol.WithDataIter):
         subtallies: typing.Annotated[abc.Array, subblock.Tally, typing.Annotated[abc.Terminal, r'']]
         statistics: subblock.Statistics
 
+    @property
+    def tally_number(self) -> int:
+        """
+        Tally number, e.g., ``14`` for F14; ``number`` is the padded text of the file.
+        """
+
+        return int(self.number)
+
     def to_dataframe_iter(self, returning: bool = False) -> typing.Generator[pandas.DataFrame, None, pandas.DataFrame | None]:
         """
         Generates pandas dataframes for tally blocks.
@@ -41,10 +49,10 @@ class Tally(Block, abc.symbol.WithDataIter):
 
         if self.subtallies:
             df = pandas.concat((subtally.to_dataframe() for subtally in self.subtallies), ignore_index=True)
-            df['number'] = self.number.strip()
+            df['number'] = self.tally_number
             df['type'] = self.tally_type.strip()
             df['particles'] = self.particles.strip()
-            df['nps'] = self.nps.strip()
+            df['nps'] = int(self.nps)
         else:
             df = pandas.DataFrame()
 

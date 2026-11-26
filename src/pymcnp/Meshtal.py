@@ -221,6 +221,14 @@ class Meshtal(abc.file.WithMcnpIter, abc.file.WithDataIter, abc.File):
         return int(self.number)
 
     @property
+    def nps(self) -> int:
+        """
+        Number of histories the mesh tally is normalized to, e.g., ``2000``; ``histories`` is the padded text of the file.
+        """
+
+        return int(float(self.histories))
+
+    @property
     def particle_name(self) -> str:
         """
         Particle of the mesh tally, e.g., ``'neutron'``.

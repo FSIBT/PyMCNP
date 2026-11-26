@@ -142,6 +142,10 @@ class Test_Meshtal_Tallies:
     def test_iter_tallies_reads_every_tally(self) -> None:
         tallies = list(pymcnp.Meshtal.iter_tallies(self.MULTI))
         assert [tally.tally_number for tally in tallies] == [4, 14]
+        # The number of histories is an ``int``, like ``Outp.summary.nps``; ``histories`` is the padded text.
+        assert [tally.nps for tally in tallies] == [2000, 2000]
+        assert all(type(tally.nps) is int for tally in tallies)
+        assert tallies[0].histories == '          2000.00'
         assert [tally.particle_name for tally in tallies] == ['neutron', 'photon']
         assert [tally.names for tally in tallies] == [['X', 'Y', 'Z', 'Result', 'Rel Error'], ['Energy', 'X', 'Y', 'Z', 'Result', 'Rel Error']]
         assert [len(tally.to_dataframe()) for tally in tallies] == [8, 9]
