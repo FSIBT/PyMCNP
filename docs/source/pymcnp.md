@@ -1,6 +1,6 @@
 # PyMCNP Library
 
-PyMCNP provides the backend for the CLI and useful tools for programatically interfacing with
+PyMCNP provides the backend for the CLI and useful tools for programmatically interfacing with
 MCNP. This package supports INP, OUTP, PTRAC, and MESHTAL parsing using subpackages.
 
 ## Table of Contents
@@ -39,6 +39,12 @@ Cards are found with `Inp.cell_cards(number, material, density, kind)`, `Inp.sur
 `inp.surface_cards(99)[0].r = 600`. `scan(**parameters)` and `scan_with(values, apply)` yield independent copies for
 parameter scans. `to_mcnp` wraps lines longer than 80 columns, since MCNP rejects data past column 80.
 
+The keys of `scan` are fields or settable properties, e.g., `inp.scan(nps=[10**4, 10**5])`, or paths into the input
+for nested values: dotted attributes and integer indices, e.g., `inp.scan(**{'surfaces[0].r': [5, 10]})`; with several
+keys, the last varies fastest. Indices count every entry of `inp.cells`, `inp.surfaces` or `inp.data`, comment cards
+included. A path that does not exist raises `abc.Error`. For changes a path cannot
+express, use `scan_with(values, apply)` with a function that changes each copy.
+
 [inp subpackage](pymcnp/inp)
 
 ### `Outp` Class
@@ -52,6 +58,11 @@ parameter scans. `to_mcnp` wraps lines longer than 80 columns, since MCNP reject
 `Outp.summary` and `Outp.fatal_errors` give the headline results and the fatal errors, `Outp.tally(number)` gives one
 tally as a dataframe with typed columns, and `Outp.activity(particle)` gives an activity table as a dataframe.
 `Outp.tallies()` and `Outp.activities()` return the parsed tally and activity blocks, not dataframes.
+
+`Outp.to_dataframe()` stacks all parsed tallies in one dataframe, as `pymcnp convert outp` writes them. Its columns
+differ from those of `Outp.tally(number)`: it names the surface column `surface_number` and the tally kind `type`, and
+has no `facet` column, whereas `tally` splits surface numbers such as `2.1` into `surface` and `facet` and has a
+`quantity` column. Use `tally` for analysis and `to_dataframe` for export.
 
 [outp subpackage](pymcnp/outp)
 
@@ -93,8 +104,8 @@ truncated last history: it stays in the returned remainder, so use `stream` or `
 
 ## Utility Classes
 
-The `PtracFilter` and `PtracProcessor` classes help handle large `Ptrac` using generators. `PtracFilter` have 
-overridable methods for filtering data, and `PtracProcessor` have overridable methods for processing data, and all can be run:
+The `PtracFilter` and `PtracProcessor` classes help handle large `Ptrac` using generators. `PtracFilter` has
+overridable methods for filtering data, and `PtracProcessor` has overridable methods for processing data, and all can be run:
 
 * `check_*`. Returns `True`/`False` if data should be kept/removed.
 * `process_*`. Operates with side effects on data.
