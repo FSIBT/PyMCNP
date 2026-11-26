@@ -115,7 +115,8 @@ PyMCNP writes shorthands such as `511i` as explicit values and wraps long lines.
 ## 5. Look at the Geometry
 
 `pymcnp visualize` draws cells and surfaces with [PyVista](https://pyvista.org) in a window; with `--pdf` it writes a
-PDF next to the input instead (here `example_00-surface_2_3.pdf`). The two detectors of `example_00.inp` are surfaces 2
+PDF next to the input instead (here `example_00-surface_2_3.pdf`), which is also what to use on a machine without a
+display; the window needs one (or `PYVISTA_OFF_SCREEN=true`, which opens no window). The two detectors of `example_00.inp` are surfaces 2
 and 3:
 
     pymcnp visualize -s 2,3 example_00.inp
@@ -205,6 +206,11 @@ for the runs (default: the current directory). PyMCNP creates a directory `runs/
 one directory per input in it, `run-00000`, `run-00001`, ..., and runs MCNP there as
 `mcnp6 inp=run-00000.inp outp=run-00000.outp ptrac=run-00000.ptrac runtpe=run-00000.runtpe`. Other output files, such as
 `meshtal` and `mctal`, get MCNP's default names in the same directory. The runs go in parallel, at most one per CPU.
+
+When the run is over, look for the results in `runs/pymcnp-<timestamp>/run-00000/` (the timestamp names the batch;
+`pymcnp run` does not print it, so take the newest directory in `runs/`): `run-00000.outp` is the output file, which
+you read with `pymcnp.Outp.from_file`, `run-00000.ptrac` the PTRAC file, if the input asks for one, and
+`run-00000.log` holds what MCNP printed. In Python, `result.directory` and `result.outp` give these paths.
 
 In Python, `Run` does the same and returns one `Result` per input:
 

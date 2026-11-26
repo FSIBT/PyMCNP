@@ -152,6 +152,11 @@ PyMCNP cannot parse it completely. The command line equivalent is
    :inherited-members:
 ```
 
+```{eval-rst}
+.. autoclass:: pymcnp.Check.Problem
+   :members:
+```
+
 ### `Plot` Class
 
 `Plot` plots OUTP files, using `matplotlib`: `pymcnp.Plot().to_pdf(outp, '1', path)` or `pymcnp.Plot().to_show(outp, '1')`.
