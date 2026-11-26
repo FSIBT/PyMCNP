@@ -200,3 +200,17 @@ def head(tmp_path_factory: pytest.TempPathFactory):
 @pytest.fixture(scope='session')
 def valid_27(head) -> pathlib.Path:
     return head('valid_27.ptrac', 4)
+
+
+@pytest.fixture(autouse=True)
+def _render_needs_marker(request: pytest.FixtureRequest, monkeypatch: pytest.MonkeyPatch) -> None:
+    """
+    Fails tests that render with VTK without the ``render`` marker, since CI skips rendering on runners without a GPU, where VTK crashes.
+    """
+
+    if request.node.get_closest_marker('render') is None:
+
+        def render(self, *args, **kwargs):
+            raise AssertionError('this test renders with VTK: mark it with @pytest.mark.render')
+
+        monkeypatch.setattr(pyvista.Plotter, 'render', render)

@@ -47,6 +47,7 @@ def test_main_valid(monkeypatch, tmp_path: pathlib.Path) -> None:
     visualize.main()
 
 
+@pytest.mark.render
 def test_main_invalid(monkeypatch) -> None:
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'visualize', str(FILES / 'inp' / 'valid_00.inp'), '--cell=81023'])
     with pytest.raises(SystemExit) as error:
@@ -142,6 +143,7 @@ def test_main_partly_parsed(monkeypatch, capsys, tmp_path: pathlib.Path) -> None
     assert 'Warning:' in out and 'line 10: PyMCNP cannot parse the card "qqq j j -1"' in out and 'Done!' not in out
 
 
+@pytest.mark.render
 @pytest.mark.parametrize('options', [['-s', '1'], ['-c', '1'], ['--cells']])
 def test_main_surface_it_cannot_draw(monkeypatch, capsys, tmp_path: pathlib.Path, options) -> None:
     # A surface type PyMCNP cannot draw yet, e.g., GQ, is an error, not a traceback.

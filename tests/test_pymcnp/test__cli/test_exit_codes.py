@@ -292,7 +292,7 @@ def test_visualize_exit_codes(monkeypatch, capsys, tmp_path: pathlib.Path) -> No
         pytest.param('title\n1 0 -1\n1 0 1\n\n1 so 5\n\nnps 10\n', id='duplicate cells'),
         pytest.param('title\n1 0 -1\n1 0 1\n\n1 so 5\n\nnps 10\nqqq 1\n', id='duplicate cells and a card that does not parse'),
         pytest.param(BAD_CELL, id='cell card'),
-        pytest.param('title\n1 0 -1 imp:n=1\n2 0 1 imp:n=0\n\n1 so 5\n\nnps 10\nqqq 1\n', id='data card'),
+        pytest.param('title\n1 0 -1 imp:n=1\n2 0 1 imp:n=0\n\n1 so 5\n\nnps 10\nqqq 1\n', id='data card', marks=pytest.mark.render),  # `visualize` draws the cards before it
         pytest.param('title\n1 0 -1 imp:n=1\n', id='no surfaces'),
     ],
 )

@@ -95,7 +95,8 @@ def test_all_examples_are_listed() -> None:
     assert names == set(RUNNABLE) | set(NEEDS_MCNP) | {'do_visualize.py', 'script_example_01_ptrac_to_parquet.py', 'script_example_02_plot_setup.py'}
 
 
-@pytest.mark.parametrize('name', RUNNABLE)
+# ``do_parameter_scan.py`` shows its surfaces, which renders with VTK.
+@pytest.mark.parametrize('name', [pytest.param(name, marks=pytest.mark.render) if name == 'do_parameter_scan.py' else name for name in RUNNABLE])
 def test_example(examples: pathlib.Path, name: str) -> None:
     done = run(examples, name)
     assert done.returncode == 0, done.stderr
