@@ -231,7 +231,7 @@ class CylinderCircular(abc.CylinderCircular, Visualization):
         """
         Initializes PyVista circular cylinders.
 
-        Paremeters:
+        Parameters:
             r: Circular cylinder radius.
             h: Circular cylinder height.
         """
@@ -250,7 +250,7 @@ class CylinderElliptical(abc.CylinderElliptical, Visualization):
         """
         Initializes PyVista elliptical cylinders.
 
-        Paremeters:
+        Parameters:
             a: Elliptical cylinder major axis length.
             b: Elliptical cylinder minor axis length.
             h: Elliptical cylinder height.
@@ -270,7 +270,7 @@ class CylinderHexagonal(abc.CylinderHexagonal, Visualization):
         """
         Initializes PyVista hexagonal cylinders.
 
-        Paremeters:
+        Parameters:
             a: Hexagon apothem length #1.
             b: Hexagon apothem length #2.
             c: Hexagon apothem length #3.
@@ -321,7 +321,7 @@ class CylinderUnbounded(abc.CylinderUnbounded, Visualization):
         """
         Initializes PyVista unbounded cylinders.
 
-        Paremeters:
+        Parameters:
             radius: Circular cylinder radius.
         """
 
@@ -339,7 +339,7 @@ class Ellipsoid(abc.Ellipsoid, Visualization):
         """
         Initializes PyVista ellipsoids.
 
-        Paremeters:
+        Parameters:
             a: Ellipsoid major axis length.
             b: Ellipsoid minor axis length.
         """
@@ -373,13 +373,13 @@ class Parallelepiped(abc.Parallelepiped, Visualization):
         """
         Initializes PyVista parallelepipeds.
 
-        Paremeters:
-            xmin: Parllelipied lower x bound.
-            xmax: Parllelipied upper x bound.
-            ymin: Parllelipied lower y bound.
-            ymax: Parllelipied upper y bound.
-            zmin: Parllelipied lower z bound.
-            zmax: Parllelipied upper z bound.
+        Parameters:
+            xmin: Parallelepiped lower x bound.
+            xmax: Parallelepiped upper x bound.
+            ymin: Parallelepiped lower y bound.
+            ymax: Parallelepiped upper y bound.
+            zmin: Parallelepiped lower z bound.
+            zmax: Parallelepiped upper z bound.
         """
 
         self.surface = pyvista.Box(bounds=(self.xmin, self.xmax, self.ymin, self.ymax, self.zmin, self.zmax))
@@ -396,7 +396,7 @@ class Plane(abc.Plane, Visualization):
         """
         Initializes PyVista planes.
 
-        Paremeters:
+        Parameters:
             a: Plane equation parameter #1.
             b: Plane equation parameter #2.
             c: Plane equation parameter #3.
@@ -428,7 +428,7 @@ class Sphere(abc.Sphere, Visualization):
         """
         Initializes PyVista spheres.
 
-        Paremeters:
+        Parameters:
             r: Sphere radius.
         """
 
