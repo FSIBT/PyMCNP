@@ -15,9 +15,9 @@
   "ok": false,
   "problems": [
    [
-    1,
+    2,
     "warning",
-    "PyMCNP cannot parse this file: Expected ``Inp.blank_0``. Checking stops at the first problem: fix it and run the check again to find further problems."
+    "PyMCNP cannot parse this card: Expected end of card at '@4'. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
   ]
  },
@@ -48,9 +48,9 @@
   "ok": false,
   "problems": [
    [
-    1,
+    5,
     "warning",
-    "PyMCNP cannot parse this file: Expected ``Inp.blank_0``. Checking stops at the first problem: fix it and run the check again to find further problems."
+    "PyMCNP cannot parse this card: Expected end of card at 'fill=e10'. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
   ]
  },
@@ -59,9 +59,9 @@
   "ok": false,
   "problems": [
    [
-    1,
+    5,
     "warning",
-    "PyMCNP cannot parse this file: Expected ``Inp.blank_0``. Checking stops at the first problem: fix it and run the check again to find further problems."
+    "PyMCNP cannot parse this card: Expected end of card at 'fill=1e10'. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
   ]
  },
@@ -70,9 +70,9 @@
   "ok": false,
   "problems": [
    [
-    17,
+    18,
     "warning",
-    "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
+    "PyMCNP cannot parse this card: Expected end of card at 'T'. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
   ]
  },
@@ -81,9 +81,9 @@
   "ok": false,
   "problems": [
    [
-    5,
+    4,
     "warning",
-    "PyMCNP cannot parse this card: Expected ``Cell``. Checking stops at the first problem: fix it and run the check again to find further problems."
+    "PyMCNP cannot parse this card: Expected end of card at 'fill=e10'. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
   ]
  },
@@ -92,9 +92,9 @@
   "ok": false,
   "problems": [
    [
-    1,
+    5,
     "warning",
-    "PyMCNP cannot parse this file: Expected ``Inp.blank_0``. Checking stops at the first problem: fix it and run the check again to find further problems."
+    "PyMCNP cannot parse this card: Expected end of card at '(3)'. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
   ]
  },
@@ -103,9 +103,9 @@
   "ok": false,
   "problems": [
    [
-    16,
+    14,
     "warning",
-    "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
+    "PyMCNP cannot parse this card: Expected end of card at 'res'. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
   ]
  },
@@ -114,9 +114,9 @@
   "ok": false,
   "problems": [
    [
-    1,
+    32,
     "warning",
-    "PyMCNP cannot parse this file: Expected ``Inp.blank_2``. Checking stops at the first problem: fix it and run the check again to find further problems."
+    "PyMCNP cannot parse this card: Expected end of card at '(5<(3[-2:2'. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
   ]
  },
@@ -145,9 +145,9 @@
   "ok": true,
   "problems": [
    [
-    2,
+    19,
     "warning",
-    "PyMCNP cannot parse this card: Expected ``Cell``. Checking stops at the first problem: fix it and run the check again to find further problems."
+    "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
   ],
   "remainder": "1c6028d004d2d381dc2068e73711a6734b19cbf5a42f504cb6fd90e981c27a66",
@@ -171,7 +171,7 @@
   "ok": true,
   "problems": [
    [
-    15,
+    19,
     "warning",
     "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
@@ -210,9 +210,9 @@
   "ok": true,
   "problems": [
    [
-    1,
+    15,
     "warning",
-    "PyMCNP cannot parse this file: Expected end of file. Checking stops at the first problem: fix it and run the check again to find further problems."
+    "PyMCNP cannot parse this card: Expected end of card at 'J'. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
   ],
   "remainder": "0bd1f49878e0586f7561277ad2faa2c83b93594630e84f65140f2b4dd7d031ca",
@@ -230,7 +230,7 @@
   "ok": true,
   "problems": [
    [
-    32,
+    48,
     "warning",
     "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
@@ -250,9 +250,9 @@
   "ok": true,
   "problems": [
    [
-    6,
+    47,
     "warning",
-    "PyMCNP cannot parse this card: Expected ``Cell``. Checking stops at the first problem: fix it and run the check again to find further problems."
+    "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
   ],
   "remainder": "acced07e3604249eba90558879c94efa590d0056541a9467fc98e5e5d6605508",
@@ -408,9 +408,9 @@
   "ok": true,
   "problems": [
    [
-    2,
+    66,
     "warning",
-    "PyMCNP cannot parse this card: Expected ``Cell``. Checking stops at the first problem: fix it and run the check again to find further problems."
+    "PyMCNP cannot parse this card: Expected end of card at 'c'. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
   ],
   "remainder": "9520017806905f52c1bea03c2e6f60fd12211afa14bda32c2ef76ed5e39c40cf",
@@ -442,9 +442,9 @@
   "ok": true,
   "problems": [
    [
-    2,
+    66,
     "warning",
-    "PyMCNP cannot parse this card: Expected ``Cell``. Checking stops at the first problem: fix it and run the check again to find further problems."
+    "PyMCNP cannot parse this card: Expected end of card at 'c'. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
   ],
   "remainder": "88068f6acacddbd7c8339fcbb0eea0ecdc4c0eb0172a5df73520f108f8ea40d3",

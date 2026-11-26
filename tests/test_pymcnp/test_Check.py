@@ -142,3 +142,34 @@ class Test_Check_Problems:
         problems = pymcnp.Check(path).problems()
 
         assert [(problem.line, problem.kind) for problem in problems] == [(11, 'warning')]
+
+    def test_unknown_card_after_comment_cards(self, tmp_path: pathlib.Path) -> None:
+        # Comment cards, including indented ones and those in the middle of a card, are not cards to parse.
+        path = FILES.parents[1] / 'examples' / 'example_00.inp'
+        lines = path.read_text().split('\n')
+        index = next(i for i, line in enumerate(lines) if line.lower().startswith('nps'))
+        lines.insert(index, 'PRDMP J J -1 bogus=3')
+        lines.insert(index, '   c an indented comment card')
+        bad = tmp_path / 'commented.inp'
+        bad.write_text('\n'.join(lines))
+
+        problems = pymcnp.Check(bad).problems()
+
+        assert [(problem.line, problem.kind) for problem in problems] == [(index + 2, 'warning')]
+        assert 'cannot parse this card' in problems[0].message
+
+    def test_unknown_card_with_shorthands(self, tmp_path: pathlib.Path) -> None:
+        # Cards are checked with their shorthands expanded, as ``Inp`` parses them.
+        path = tmp_path / 'shorthand.inp'
+        path.write_text(SOURCE.replace('nps 10', 'nps 10\ne0 1 3r 2m\nfoo 1'))
+
+        problems = pymcnp.Check(path).problems()
+
+        assert [(problem.line, problem.kind) for problem in problems] == [(9, 'warning')]
+
+    def test_card_parsed_to_its_end(self) -> None:
+        # A card that parses only in part, here up to an indented ``c`` in a continuation line, is the problem.
+        problems = pymcnp.Check(FILES / 'valid_39.inp').problems()
+
+        assert [(problem.line, problem.kind) for problem in problems] == [(66, 'warning')]
+        assert "Expected end of card at 'c'" in problems[0].message

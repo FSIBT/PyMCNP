@@ -6,6 +6,8 @@ import dataclasses
 from . import abc
 from . import inp
 from .Inp import Inp
+from .Inp import _REGEX_COMMENT
+from .Inp import _expand
 
 _WIDTH = 80
 
@@ -98,6 +100,9 @@ class Check(abc.Utility):
     def _unparseable(lines, err):
         """
         Finds the first card that PyMCNP cannot parse.
+
+        Comment cards are skipped, and each card is parsed as ``Inp`` parses
+        it: shorthands expanded, without ``$`` comments, to its end.
         """
 
         stop = 'Checking stops at the first problem: fix it and run the check again to find further problems.'
@@ -117,15 +122,24 @@ class Check(abc.Utility):
                         index += 1
                     continue
 
-                if cards and (re.match(r'\s', line) or cards[-1][1][-1].rstrip().endswith('&')):
-                    cards[-1][1].append(line)
+                if _REGEX_COMMENT.match(line):
+                    # Comment cards are not cards to parse, but count as lines.
+                    index += 1
+                    continue
+
+                # Cards are parsed as ``Inp`` parses them: shorthands expanded, without ``$`` comments.
+                code = _expand(line.partition('$')[0]).rstrip()
+                if cards and (re.match(r'\s', line) or cards[-1][1][-1].endswith('&')):
+                    cards[-1][1].append(code)
                 else:
-                    cards.append((index + 1, [line]))
+                    cards.append((index + 1, [code]))
                 index += 1
 
             for number, card in cards:
                 try:
-                    union.from_mcnp('\n'.join(card))
+                    rest = union.from_mcnp('\n'.join(card))[1]
+                    if rest.strip():
+                        raise abc.Error(f'Expected end of card at {rest.strip().split()[0]!r}.', f'{rest=}')
                 except abc.Error as card_err:
                     return Problem(number, 'warning', f'PyMCNP cannot parse this card: {str(card_err).splitlines()[0]} {stop}')
 

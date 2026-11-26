@@ -48,6 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Parsing time is linear in file size; it was quadratic, which made large OUTP, MESHTAL and PTRAC files very slow. E.g., `Ptrac.from_file` of a 1.1 MB file takes 0.3 s instead of 3.6 s, and `Meshtal.from_file` of a 3.3 MB file 0.5 s instead of 2.7 s. `Ptrac.to_dataframe` builds one dataframe for all histories; reading the same file and converting it with `to_dataframe` takes 0.35 s instead of 5.1 s.
 
 ### Fixed
+- `pymcnp check` and `Check.problems` reported the wrong line for a card PyMCNP cannot parse when comment cards came first, e.g., line 2, the first comment, for every example input; and they passed a card that parsed only in part, or whose shorthands were not expanded. Comment cards are now skipped, and each card is parsed to its end with its shorthands expanded.
 - `pymcnp visualize --pdf` names cell and surface PDFs `<input>-cell_100.pdf` (not `cell_['100']`) and prints where it wrote each PDF.
 - `pymcnp convert`, `plot --pdf` and `visualize --pdf` crashed on a file name without an extension, e.g., MCNP's default `outp`, or with a dot only in a directory name; they now write, e.g., `outp.csv`.
 - The hexagonal prism visualization mask, and the shape masks of `Visualize` (vectorized, with the sign convention of MCNP).
