@@ -3,8 +3,12 @@ Usage:
     pymcnp run [options] <inp>...
 
 Options:
-    -c --command=<command>        Command to run.
-    -p --path=<path>              Working directory.
+    -c --command=<command>        MCNP command to run (default: mcnp6, found on PATH).
+    -p --path=<path>              Directory for the runs (default: the current directory).
+
+Each input runs in its own directory, <path>/pymcnp-<timestamp>/run-0000N/. Exits
+with 1 if an input cannot be read, 2 if a run failed, and 3 (running nothing) if
+PyMCNP cannot parse a card of an input.
 """
 
 import os

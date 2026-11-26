@@ -2,8 +2,13 @@
 Usage:
     pymcnp plot [options] <outp> <number>
 
+Arguments:
+    <outp>      MCNP output (OUTP) file.
+    <number>    Tally number, e.g., 1 for F1 or 14 for F14.
+
 Options:
-    --pdf       Write PDF.
+    --pdf       Write all figures to <outp> with the extension .pdf instead of
+                showing them.
 """
 
 import sys

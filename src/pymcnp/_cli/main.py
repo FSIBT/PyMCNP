@@ -10,7 +10,8 @@ Usage:
 
 Commands:
     run        Run MCNP.
-    check      Check if we can parse an input file.
+    check      Check that PyMCNP can parse an input file and that its lines fit
+               in 80 columns; reformat it with --fix.
     visualize  Create a 3D visualization of an input file.
     convert    Convert OUTP, PTRAC, or MESHTAL files to CSV or parquet.
     plot       Plot the output of an MCNP simulation.

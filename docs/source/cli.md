@@ -78,6 +78,11 @@ naming it. Large PTRAC files are better streamed in Python with `Ptrac.to_parque
 `pymcnp plot` plots one tally of an OUTP file, given by its number, with one figure per combination of the other bins
 (e.g., surface facet and angle bin). With `--pdf`, it writes all figures to `example_00.pdf` instead of showing them.
 
+For tally 1 of `example_00.outp`, these are six figures, the three facets of surface 2 times the two angle bins (shown
+here side by side):
+
+![The six figures of pymcnp plot example_00.outp 1](images/do_plot.png)
+
 ## Manual Pages
 
 The manual page for `pymcnp`:

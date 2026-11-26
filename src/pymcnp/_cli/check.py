@@ -10,6 +10,12 @@ Lines wider than 80 columns are reported as errors. A card that PyMCNP cannot
 parse is reported as a warning, since MCNP may still accept it. Checking stops
 at the first such card, so run the check again after fixing it. --fix rewraps
 cards, but not comments; lines it cannot shorten are reported as errors.
+
+Exit codes:
+    0    No problems (or --fix left no line wider than 80 columns).
+    1    Lines wider than 80 columns (with --fix, lines it cannot shorten).
+    2    The file does not exist.
+    3    PyMCNP cannot parse a card; --fix does not rewrite the file.
 """
 
 import pathlib
