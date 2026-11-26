@@ -118,7 +118,7 @@ truncated last history: it stays in the returned remainder, so use `stream` or `
 The `PtracFilter` and `PtracProcessor` classes help handle large `Ptrac` using generators. `PtracFilter` has
 overridable methods for filtering data, and `PtracProcessor` has overridable methods for processing data, and all can be run:
 
-* `check_*`. Returns `True`/`False` if data should be kept/removed.
+* `check_*`. Returns `True`/`False` if data should be kept/removed. Every `check_*` returns `True` unless overridden, so overriding one restricts only that type of event.
 * `process_*`. Operates with side effects on data.
 * `run`. Runs the filter or processor. It accepts a `Ptrac` or a path to a PTRAC file; a path is streamed event by event.
 

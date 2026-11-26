@@ -45,7 +45,7 @@ class M(Data):
         Parameters:
             formulas: Dictionary of formulas and atomic/weight fractions.
             is_weight: Weight (atomic) fraction true (false) flag.
-            cutoff: Nuclide fraction cutoff.
+            cutoff: Nuclides of an element whose fraction is below ``cutoff`` (default 0.01, i.e., 1%) are dropped, e.g., H-2 and O-17 of water, and the fractions of the others are not renormalised; pass ``0`` to keep every nuclide.
             library: Library suffix appended to every ZAID, e.g., ``80c``, or ``None`` for the default library.
 
         Returns:

@@ -9,6 +9,10 @@ from .Ptrac import Ptrac, _events
 class PtracFilter(abc.Utility):
     """
     Filters PTRAC files.
+
+    Every ``check_*`` method returns ``True`` by default, so the filter keeps every event until you override a check.
+    Overriding one method restricts only that type of event, e.g., ``check_collision`` leaves source, bank, surface
+    and terminal events in; override the other ``check_*`` methods too, with ``return False``, to drop them.
     """
 
     def check_source(self, event: ptrac.Event) -> bool:
