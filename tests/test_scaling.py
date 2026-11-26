@@ -21,19 +21,20 @@ FILES: pathlib.Path = pathlib.Path(__file__).parent.parent / 'files'
 
 
 def _best(parse: collections.abc.Callable[[str], object], source: str) -> float:
-    # Freezing the objects that exist before parsing, i.e., the imported library, keeps full garbage
-    # collections from walking them: one such collection costs as much as a small parse, so whether it
-    # falls into the parse of ``n`` or of ``2n`` would decide the ratio. Objects of the parse are still collected.
+    # The cyclic garbage collector is off while parsing: its collections walk every live object, the
+    # library and the objects of the parse so far, so they make the time grow faster than the input
+    # (a ratio of 2.6 for MESHTAL on Python 3.11, 2.0 without them), which is not the parser's doing.
+    # Reference counting still frees the objects of the parse.
     best = float('inf')
     for _ in range(3):
         gc.collect()
-        gc.freeze()
+        gc.disable()
         try:
             start = time.perf_counter()
             parse(source)
             best = min(best, time.perf_counter() - start)
         finally:
-            gc.unfreeze()  # unfreezes all frozen objects; nothing else in the test suite freezes any
+            gc.enable()
     return best
 
 
