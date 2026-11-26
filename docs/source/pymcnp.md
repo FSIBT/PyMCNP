@@ -42,9 +42,11 @@ parameter scans. `to_mcnp` wraps lines longer than 80 columns, since MCNP reject
 The keys of `scan` are fields or settable properties, e.g., `inp.scan(nps=[10**4, 10**5])`, or paths into the input
 for nested values: dotted attributes and integer indices, e.g., `inp.scan(**{'surfaces[0].r': [5, 10]})`; with several
 keys, the last varies fastest. The index into `cells`, `surfaces` or `data` counts cards and skips comment cards, so
-`surfaces[0]` is the first surface card, whereas `inp.surfaces[0]` may be a comment card. Values are converted to the
-field's type, e.g., `inp.literal.Real`, which compares and computes as a number. A path that does not exist raises `abc.Error`. For changes a path cannot
-express, use `scan_with(values, apply)` with a function that changes each copy.
+`surfaces[0]` is the first surface card, whereas `inp.surfaces[0]` may be a comment card. The index is a position, not
+a card number: to change a card by its number, prefer `scan_with` with `surface_cards(n)`, e.g.,
+`inp.scan_with([5, 10], lambda copy, r: setattr(copy.surface_cards(99)[0], 'r', r))`. Values are converted to the
+field's type, e.g., `inp.literal.Real`, which compares and computes as a number. A path that does not exist raises
+`abc.Error`. For changes a path cannot express, use `scan_with(values, apply)` with a function that changes each copy.
 
 [inp subpackage](pymcnp/inp)
 
