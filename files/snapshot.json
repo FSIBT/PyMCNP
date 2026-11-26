@@ -32,6 +32,61 @@
    ]
   ]
  },
+ "inp/invalid_12.inp": {
+  "error": "Invalid value.\n card.j='2'",
+  "ok": false,
+  "problems": [
+   [
+    38,
+    "warning",
+    "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ]
+ },
+ "inp/invalid_19.inp": {
+  "error": "Expected ``Inp.blank_0``.\nExpected Terminal[r'( *(?:\\$.*)?\\n\\n)']\n source[:200]=' fill=e10 imp:n=1 $ embedded mesh fill cell\\n99 0 1 imp:n=0 $ outside world\\n\\n1 so 20\\n\\nkcode 500 1.0 50 100\\nksrc 1 1 5 1 -1 5 -1 -1 5 -1 1 5\\n    5 5 5 5 -5 5 -5 -5 5 -5 5 5\\n    1 1 -5 1 -1 -5 -1 -1 -5 -'",
+  "ok": false,
+  "problems": [
+   [
+    1,
+    "warning",
+    "PyMCNP cannot parse this file: Expected ``Inp.blank_0``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ]
+ },
+ "inp/invalid_20.inp": {
+  "error": "Expected ``Inp.blank_0``.\nExpected Terminal[r'( *(?:\\$.*)?\\n\\n)']\n source[:200]=' fill=1e10 (20 0 0) imp:n=1 $ fill cell 1\\n21 0 -2 fill=1e10 (-20 0 0 -1 1 0 1 1 0) imp:n=1 $ fill cell 2\\n\\n1 so 20\\n\\nkcode 500 1.0 50 100\\nksrc 1 1 5 1 -1 5 -1 -1 5 -1 1 5\\n    5 5 5 5 -5 5 -5 -5 5 -5 5 5'",
+  "ok": false,
+  "problems": [
+   [
+    1,
+    "warning",
+    "PyMCNP cannot parse this file: Expected ``Inp.blank_0``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ]
+ },
+ "inp/invalid_32.inp": {
+  "error": "Expected ``Inp.blank_2``.\nExpected Terminal[r'( *(?:\\$.*)?(?:\\n|\\Z))']\n source[:200]=' T\\nlca 2 1 1 23 1 1 0 -2 0\\n\\n(MCNP Manual 6.2 Section 4.2.7.2)'",
+  "ok": false,
+  "problems": [
+   [
+    17,
+    "warning",
+    "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ]
+ },
+ "inp/todo_02.inp": {
+  "error": "Expected ``Inp.blank_0``.\nExpected Terminal[r'( *(?:\\$.*)?\\n\\n)']\n source[:200]=' fill=e10 imp:n=1 $ fill cell\\nc\\n21 0 2 imp:n=0 $ outside world\\n\\n2 so 17.4\\n\\nkcode 1000 1.0 10 100\\nksrc -5.0 0.0 0.0 5.0 0.0 0.0\\n     0.0 -5.0 0.0 0.0 5.0 0.0\\n     0.0 0.0 -5.0 0.0 0.0 5.0\\ntotnu no\\nm1 9'",
+  "ok": false,
+  "problems": [
+   [
+    5,
+    "warning",
+    "PyMCNP cannot parse this card: Expected ``Cell``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ]
+ },
  "inp/todo_13.inp": {
   "error": "Expected ``Inp.blank_0``.\nExpected Terminal[r'( *(?:\\$.*)?\\n\\n)']\n source[:200]='(3) 1 1 3 1 1 1\\n   1 2 3 2 1 1 1 1 1 1 1 4(2) 2 1 1 1 1 3 4(1) 1\\n   1 2 3 1 1 1 1 1 1 1\\n5 3 -0.5 -11 10 12 imp:n=1 u=2\\n6 4 -0.4 11:-10:-12 imp:n=1 u=2\\n7 0 -13 imp:n=1 u=3 fill=5\\n8 3 -0.5 13 imp:n=1 u='",
   "ok": false,
@@ -54,6 +109,17 @@
    ]
   ]
  },
+ "inp/todo_30.inp": {
+  "error": "Expected ``Inp.blank_2``.\nExpected Terminal[r'( *(?:\\$.*)?(?:\\n|\\Z))']\n source[:200]=' (5<(3[-2:2 -2:0 0:0])) $2 bins\\n    (5<(7 8 9 10 11)) (5<7 8 9 10 11<1) (5<1) $7 bins\\n    ((5 6)<3[0 -1 0]) ((5 6)<3[0:0 -1:-1 0:0]) ((5 6)<3[8]) $3 bins\\n    (5<(4[0 0 0]3[8]))(5<4[0 0 0]<3[8])\\n    (3'",
+  "ok": false,
+  "problems": [
+   [
+    1,
+    "warning",
+    "PyMCNP cannot parse this file: Expected ``Inp.blank_2``. Checking stops at the first problem: fix it and run the check again to find further problems."
+   ]
+  ]
+ },
  "inp/valid_00.inp": {
   "mcnp": "4bef2a39952bc0d60ab3a9f9effe887bd3ef11008241184e5e7de84c2a4315a2",
   "ok": true,
@@ -73,17 +139,6 @@
   ],
   "remainder": "7375dd88ac23f48a266fd4863f0711762e6a409d0d11843757167e855aca0d6c",
   "remainder_len": 386
- },
- "inp/valid_02.inp": {
-  "error": "Expected ``Inp.blank_0``.\nExpected Terminal[r'( *(?:\\$.*)?\\n\\n)']\n source[:200]=' fill=e10 imp:n=1 $ fill cell\\nc\\n21 0 2 imp:n=0 $ outside world\\n\\n2 so 17.4\\n\\nkcode 1000 1.0 10 100\\nksrc -5.0 0.0 0.0 5.0 0.0 0.0\\n     0.0 -5.0 0.0 0.0 5.0 0.0\\n     0.0 0.0 -5.0 0.0 0.0 5.0\\ntotnu no\\nm1 9'",
-  "ok": false,
-  "problems": [
-   [
-    5,
-    "warning",
-    "PyMCNP cannot parse this card: Expected ``Cell``. Checking stops at the first problem: fix it and run the check again to find further problems."
-   ]
-  ]
  },
  "inp/valid_03.inp": {
   "mcnp": "c1db6d9095a2e1083934a9d5ca619b02423ad11e1d99dec51c32bff170fe10a3",
@@ -190,17 +245,6 @@
   "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
   "remainder_len": 0
  },
- "inp/valid_12.inp": {
-  "error": "Invalid value.\n card.j='2'",
-  "ok": false,
-  "problems": [
-   [
-    38,
-    "warning",
-    "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
-   ]
-  ]
- },
  "inp/valid_14.inp": {
   "mcnp": "946ce0975dc4e4a5d3f80f2b22954fc33b02586e0189baf82159a3431d7e69d4",
   "ok": true,
@@ -241,28 +285,6 @@
   "problems": [],
   "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
   "remainder_len": 0
- },
- "inp/valid_19.inp": {
-  "error": "Expected ``Inp.blank_0``.\nExpected Terminal[r'( *(?:\\$.*)?\\n\\n)']\n source[:200]=' fill=e10 imp:n=1 $ embedded mesh fill cell\\n99 0 1 imp:n=0 $ outside world\\n\\n1 so 20\\n\\nkcode 500 1.0 50 100\\nksrc 1 1 5 1 -1 5 -1 -1 5 -1 1 5\\n    5 5 5 5 -5 5 -5 -5 5 -5 5 5\\n    1 1 -5 1 -1 -5 -1 -1 -5 -'",
-  "ok": false,
-  "problems": [
-   [
-    1,
-    "warning",
-    "PyMCNP cannot parse this file: Expected ``Inp.blank_0``. Checking stops at the first problem: fix it and run the check again to find further problems."
-   ]
-  ]
- },
- "inp/valid_20.inp": {
-  "error": "Expected ``Inp.blank_0``.\nExpected Terminal[r'( *(?:\\$.*)?\\n\\n)']\n source[:200]=' fill=1e10 (20 0 0) imp:n=1 $ fill cell 1\\n21 0 -2 fill=1e10 (-20 0 0 -1 1 0 1 1 0) imp:n=1 $ fill cell 2\\n\\n1 so 20\\n\\nkcode 500 1.0 50 100\\nksrc 1 1 5 1 -1 5 -1 -1 5 -1 1 5\\n    5 5 5 5 -5 5 -5 -5 5 -5 5 5'",
-  "ok": false,
-  "problems": [
-   [
-    1,
-    "warning",
-    "PyMCNP cannot parse this file: Expected ``Inp.blank_0``. Checking stops at the first problem: fix it and run the check again to find further problems."
-   ]
-  ]
  },
  "inp/valid_21.inp": {
   "mcnp": "36c99bb0c9236af4c39cb7fd70d5ce94001a68febbcfe51697f896f153db96c0",
@@ -326,34 +348,12 @@
   "remainder": "f74678e5a150683913954082c39ee0e33aad2d15f1a310ba0fb54575103060c8",
   "remainder_len": 759
  },
- "inp/valid_30.inp": {
-  "error": "Expected ``Inp.blank_2``.\nExpected Terminal[r'( *(?:\\$.*)?(?:\\n|\\Z))']\n source[:200]=' (5<(3[-2:2 -2:0 0:0])) $2 bins\\n    (5<(7 8 9 10 11)) (5<7 8 9 10 11<1) (5<1) $7 bins\\n    ((5 6)<3[0 -1 0]) ((5 6)<3[0:0 -1:-1 0:0]) ((5 6)<3[8]) $3 bins\\n    (5<(4[0 0 0]3[8]))(5<4[0 0 0]<3[8])\\n    (3'",
-  "ok": false,
-  "problems": [
-   [
-    1,
-    "warning",
-    "PyMCNP cannot parse this file: Expected ``Inp.blank_2``. Checking stops at the first problem: fix it and run the check again to find further problems."
-   ]
-  ]
- },
  "inp/valid_31.inp": {
   "mcnp": "92756dc678c309c291b88787537081081c626ef34d1baba8641f57877bc4b0d4",
   "ok": true,
   "problems": [],
   "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
   "remainder_len": 0
- },
- "inp/valid_32.inp": {
-  "error": "Expected ``Inp.blank_2``.\nExpected Terminal[r'( *(?:\\$.*)?(?:\\n|\\Z))']\n source[:200]=' T\\nlca 2 1 1 23 1 1 0 -2 0\\n\\n(MCNP Manual 6.2 Section 4.2.7.2)'",
-  "ok": false,
-  "problems": [
-   [
-    17,
-    "warning",
-    "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
-   ]
-  ]
  },
  "inp/valid_33.inp": {
   "mcnp": "c2dd729d605b9e46275cb0a990b37259de2405102f7baf330b4bfafbbad06812",
@@ -475,31 +475,6 @@
   "error": "Invalid value.\n \n row=Row(spaces={}, indent='    ', values=['-90.000', '-90.000', '-149.500', '3.99211E+00', '3.16463E-02', '12837128'])\n self.labels=['X', 'Y', 'Z', 'Result', 'Rel Error']",
   "ok": false
  },
- "meshtal/invalid_07.meshtal": {
-  "frame": [
-   {
-    "columns": [
-     "X",
-     "Y",
-     "Z",
-     "Result",
-     "Rel Error"
-    ],
-    "dtypes": [
-     "float64",
-     "float64",
-     "float64",
-     "float64",
-     "float64"
-    ],
-    "hash": "b99d3303d1ec7448fdd3f0a4ed0ade1f2906e50852c27dbb0020d69166a33c5b"
-   }
-  ],
-  "mcnp": "2c2b3b76d31d08e608d40ccccbbf948d79df705270697c954c80c496cdbbba0d",
-  "ok": true,
-  "remainder": "f9172af94fb7941fd607035e0c48c05be7d1688993d86dafbfb6ef2f654ac546",
-  "remainder_len": 2
- },
  "meshtal/invalid_08.meshtal": {
   "error": "Invalid value.\n self.rows=[]",
   "ok": false
@@ -532,6 +507,31 @@
   "ok": true,
   "remainder": "09ff7ef2caeb55645fa80565e29c159edefe55ef397eda6ef5b5e0cf2c650e5d",
   "remainder_len": 924
+ },
+ "meshtal/trailing_07.meshtal": {
+  "frame": [
+   {
+    "columns": [
+     "X",
+     "Y",
+     "Z",
+     "Result",
+     "Rel Error"
+    ],
+    "dtypes": [
+     "float64",
+     "float64",
+     "float64",
+     "float64",
+     "float64"
+    ],
+    "hash": "b99d3303d1ec7448fdd3f0a4ed0ade1f2906e50852c27dbb0020d69166a33c5b"
+   }
+  ],
+  "mcnp": "2c2b3b76d31d08e608d40ccccbbf948d79df705270697c954c80c496cdbbba0d",
+  "ok": true,
+  "remainder": "f9172af94fb7941fd607035e0c48c05be7d1688993d86dafbfb6ef2f654ac546",
+  "remainder_len": 2
  },
  "meshtal/valid_38.meshtal": {
   "frame": [
@@ -1158,115 +1158,115 @@
   "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
   "remainder_len": 0
  },
- "ptrac/invalid_02.ptrac": {
-  "frame": {
-   "columns": [
-    "nps",
-    "type",
-    "creation_code",
-    "particle",
-    "cell",
-    "material",
-    "surface",
-    "facet",
-    "zaid",
-    "x",
-    "y",
-    "z",
-    "u",
-    "v",
-    "w",
-    "energy",
-    "weight",
-    "time",
-    "track",
-    "parent_zaid"
-   ],
-   "dtypes": [
-    "Int64",
-    "string",
-    "Int64",
-    "string",
-    "Int64",
-    "Int64",
-    "Int64",
-    "Int64",
-    "Int64",
-    "float64",
-    "float64",
-    "float64",
-    "float64",
-    "float64",
-    "float64",
-    "float64",
-    "float64",
-    "float64",
-    "Int64",
-    "Int64"
-   ],
-   "hash": "603dc44d8ac5af036e8d64ca3d9d4a60140ea257f44431a483c23e20edd4b0f6"
-  },
-  "mcnp": "4d28b34fca516fd2dfc846e38de19f19116c599316b64a86e30df474da3c7031",
-  "ok": true,
-  "remainder": "4d76d53623bce61648f75eea1d3190e13bad4be01ffe064659b445e443fb1db4",
-  "remainder_len": 1
- },
- "ptrac/invalid_03.ptrac": {
-  "frame": {
-   "columns": [
-    "nps",
-    "type",
-    "creation_code",
-    "particle",
-    "cell",
-    "material",
-    "surface",
-    "facet",
-    "zaid",
-    "x",
-    "y",
-    "z",
-    "u",
-    "v",
-    "w",
-    "energy",
-    "weight",
-    "time",
-    "track",
-    "parent_zaid"
-   ],
-   "dtypes": [
-    "Int64",
-    "string",
-    "Int64",
-    "string",
-    "Int64",
-    "Int64",
-    "Int64",
-    "Int64",
-    "Int64",
-    "float64",
-    "float64",
-    "float64",
-    "float64",
-    "float64",
-    "float64",
-    "float64",
-    "float64",
-    "float64",
-    "Int64",
-    "Int64"
-   ],
-   "hash": "603dc44d8ac5af036e8d64ca3d9d4a60140ea257f44431a483c23e20edd4b0f6"
-  },
-  "mcnp": "4d28b34fca516fd2dfc846e38de19f19116c599316b64a86e30df474da3c7031",
-  "ok": true,
-  "remainder": "4d76d53623bce61648f75eea1d3190e13bad4be01ffe064659b445e443fb1db4",
-  "remainder_len": 1
- },
  "ptrac/invalid_04.ptrac": {
   "error": "Expected ``Header.magic``.\nExpected Terminal[r'(   -1)']\n source[:200]=''",
   "ok": false
+ },
+ "ptrac/trailing_02.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "603dc44d8ac5af036e8d64ca3d9d4a60140ea257f44431a483c23e20edd4b0f6"
+  },
+  "mcnp": "4d28b34fca516fd2dfc846e38de19f19116c599316b64a86e30df474da3c7031",
+  "ok": true,
+  "remainder": "4d76d53623bce61648f75eea1d3190e13bad4be01ffe064659b445e443fb1db4",
+  "remainder_len": 1
+ },
+ "ptrac/trailing_03.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "603dc44d8ac5af036e8d64ca3d9d4a60140ea257f44431a483c23e20edd4b0f6"
+  },
+  "mcnp": "4d28b34fca516fd2dfc846e38de19f19116c599316b64a86e30df474da3c7031",
+  "ok": true,
+  "remainder": "4d76d53623bce61648f75eea1d3190e13bad4be01ffe064659b445e443fb1db4",
+  "remainder_len": 1
  },
  "ptrac/valid_00.ptrac": {
   "frame": {

@@ -100,21 +100,6 @@ class Test_Cell(classes.Test_FromMcnp):
     ]
     EXAMPLES_FROM_MCNP_INVALID = [
         '2 like 2 but rho=-5.2',
-        '3 0 -1 2 -4 $ definition of cell 3',
-        '1 0 1 -2 3 $ cell 1',
-        '1 0 -17 $ rcc can',
-        '999 0 -999 $ cookie cutter cell CCC',
-        '1 0 -2 1 -3 $ inside cylinder 2, right of plane 1, left of plane 3',
-        '2 0 -4 3 -5 $ inside cylinder 4, right of plane 3, left of plane 5',
-        '3 0 (2 3): 1:4:5 $ parentheses used for clarity; not required',
-        '3 0 4: 1:5:(2 3) $ parentheses not required',
-        '3 0 (1:2) (-3:4):5 $ parentheses are requireed for correctness',
-        '3 0 #1 #2 $ everything that is “not” cell 1 or 2',
-        '4 0 #1 #2 #3 -8 $ or (-1:4:7:2 -3:5 6) -8',
-        '5 0 8 $ everything outside the outer sphere',
-        '3 0 -3 2 (-4:5:-6:7:8:-9) $ These parentheses are required.',
-        '5 0 -4 $ Cell card',
-        '2 0 #1 $ or -8.4:-8.6:8.3:(8.5 5):8.1:-8.2',
         '-1 3 -1.4 #(2.3)',
         '1 -3 -1.4 #(2.3)',
         '1 3 -1.4 #(2.3) rho=3.4',
@@ -125,6 +110,23 @@ class Test_Cell(classes.Test_FromMcnp):
         '1 like -2 but rho=-5.2',
         'hello',
     ]
+    EXAMPLES_FROM_MCNP_REMAINDER = {
+        '3 0 -1 2 -4 $ definition of cell 3': ' $ definition of cell 3',
+        '1 0 1 -2 3 $ cell 1': ' $ cell 1',
+        '1 0 -17 $ rcc can': ' $ rcc can',
+        '999 0 -999 $ cookie cutter cell CCC': ' $ cookie cutter cell CCC',
+        '1 0 -2 1 -3 $ inside cylinder 2, right of plane 1, left of plane 3': ' $ inside cylinder 2, right of plane 1, left of plane 3',
+        '2 0 -4 3 -5 $ inside cylinder 4, right of plane 3, left of plane 5': ' $ inside cylinder 4, right of plane 3, left of plane 5',
+        '3 0 (2 3): 1:4:5 $ parentheses used for clarity; not required': ' $ parentheses used for clarity; not required',
+        '3 0 4: 1:5:(2 3) $ parentheses not required': ' $ parentheses not required',
+        '3 0 (1:2) (-3:4):5 $ parentheses are requireed for correctness': ' $ parentheses are requireed for correctness',
+        '3 0 #1 #2 $ everything that is “not” cell 1 or 2': ' $ everything that is “not” cell 1 or 2',
+        '4 0 #1 #2 #3 -8 $ or (-1:4:7:2 -3:5 6) -8': ' $ or (-1:4:7:2 -3:5 6) -8',
+        '5 0 8 $ everything outside the outer sphere': ' $ everything outside the outer sphere',
+        '3 0 -3 2 (-4:5:-6:7:8:-9) $ These parentheses are required.': ' $ These parentheses are required.',
+        '5 0 -4 $ Cell card': ' $ Cell card',
+        '2 0 #1 $ or -8.4:-8.6:8.3:(8.5 5):8.1:-8.2': ' $ or -8.4:-8.6:8.3:(8.5 5):8.1:-8.2',
+    }
 
     def test___invert__(self, cell_a: pymcnp.inp.card.Cell) -> None:
         assert str(~cell_a) == '#2'

@@ -217,7 +217,6 @@ class Test_Data(classes.Test_FromMcnp):
         'mt-1 001001 001001 001001',
         'mx-1:@ 001001 001001 001001',
         'xs-1 001001 0.5 001001 0.5 001001 0.5',
-        'tmp10000 3.1 3.1 3.1',
         'bfld-1 const field=3.1',
         'si-1 h d1 d1 d1',
         'si-1 h 3.1 3.1 3.1',
@@ -360,11 +359,14 @@ class Test_Data(classes.Test_FromMcnp):
         'dbrc isos=001001 001001',
         'dawwg points=1',
         'dawwg xsec=hello',
-        'cosyp 1 4 1 3.1',
-        'cosyp 1 1 4 3.1',
         'cf1 0 0 0',
         '*c1 3.1 3.1 3.1 t c',
         '*c-1 3.1 3.1 1 t c',
         'BFLD1 const maxstep=3.1',
         'hello',
     ]
+    EXAMPLES_FROM_MCNP_REMAINDER = {
+        'tmp10000 3.1 3.1 3.1': '10000 3.1 3.1 3.1',
+        'cosyp 1 4 1 3.1': 'p 1 4 1 3.1',
+        'cosyp 1 1 4 3.1': 'p 1 1 4 3.1',
+    }

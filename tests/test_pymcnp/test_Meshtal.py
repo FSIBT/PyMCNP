@@ -22,13 +22,15 @@ class Test_Meshtal(classes.Test_FromFileIter):
         PATH / 'invalid_05.meshtal',
         # Testing wrong number of columns.
         PATH / 'invalid_06.meshtal',
-        # Testing invalid space in row.
-        PATH / 'invalid_07.meshtal',
         # Testing zero rows.
         PATH / 'invalid_08.meshtal',
         # Testing total in spatial column.
         PATH / 'invalid_09.meshtal',
     ]
+    # Testing a trailing ideographic space (U+3000) after the last row.
+    EXAMPLES_FROM_FILE_REMAINDER = {
+        PATH / 'trailing_07.meshtal': '\u3000\n',
+    }
 
     def test_to_dataframe(self) -> None:
         # Testing row count.

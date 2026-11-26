@@ -11,6 +11,6 @@ class Test_Zaid(classes.Test_FromMcnp):
         'h/zr.28t',
         'lwtr.23t',
     ]
-    EXAMPLES_FROM_MCNP_INVALID = [
-        '001001.hi',
-    ]
+    EXAMPLES_FROM_MCNP_REMAINDER = {
+        '001001.hi': '.hi',
+    }

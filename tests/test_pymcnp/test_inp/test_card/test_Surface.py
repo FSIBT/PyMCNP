@@ -96,8 +96,6 @@ class Test_Surface(classes.Test_FromMcnp):
         '-1 z 1 1 1 1 1 1',
         '-1 box 1 1 1 0 0 1 0 1 0 1 0 0',
         '-1 box 1 1 1 0 0 1 0 1 0',
-        '1 box 1 1 1 1 1 1 1 1 1 1 1 1',
-        '1 box 1 1 1 1 1 1 1 1 1',
         '-1 rpp 1 1 1 1 1 1',
         '-1 sph 1 1 1 1',
         '-1 rcc 1 1 1 1 1 1 1',
@@ -105,8 +103,6 @@ class Test_Surface(classes.Test_FromMcnp):
         '-1 rhp 1 1 1 1 1 1 1 1 1',
         '-1 rec 1 1 1 1 0 0 0 1 0 1 1 1',
         '-1 rec 1 1 1 1 0 0 0 1 0 2',
-        '1 rec 1 1 1 1 1 1 1 1 1 1 1 1',
-        '1 rec 1 1 1 1 1 1 1 1 1 2',
         '-1 trc 1 1 1 1 1 1 1 1',
         '-1 ell 1 1 1 1 1 1 1',
         '-1 wed 1 1 1 1 1 1 1 1 1 1 1 1',
@@ -149,6 +145,12 @@ class Test_Surface(classes.Test_FromMcnp):
         '1 1000 z 1 1 1 1 1 1',
         'hello',
     ]
+    EXAMPLES_FROM_MCNP_REMAINDER = {
+        '1 box 1 1 1 1 1 1 1 1 1 1 1 1': ' 1 1 1 1 1',
+        '1 box 1 1 1 1 1 1 1 1 1': ' 1 1',
+        '1 rec 1 1 1 1 1 1 1 1 1 1 1 1': ' 1 1 1 1 1',
+        '1 rec 1 1 1 1 1 1 1 1 1 2': ' 1 1 2',
+    }
 
     def test_to_show(self) -> None:
         for example in self.EXAMPLES_FROM_MCNP_VALID:

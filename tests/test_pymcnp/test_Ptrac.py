@@ -23,10 +23,14 @@ class Test_Ptrac(classes.Test_FromFileIter):
         PATH / 'valid_03.ptrac',
     ]
     EXAMPLES_FROM_FILE_INVALID = [
-        PATH / 'invalid_02.ptrac',
-        PATH / 'invalid_03.ptrac',
+        PATH / 'invalid_04.ptrac',
         PATH / 'hello',
     ]
+    # Testing a trailing ideographic space (U+3000) after the last event.
+    EXAMPLES_FROM_FILE_REMAINDER = {
+        PATH / 'trailing_02.ptrac': '\u3000',
+        PATH / 'trailing_03.ptrac': '\u3000',
+    }
 
 
 FILES = PATH

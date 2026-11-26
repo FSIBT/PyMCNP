@@ -1,5 +1,7 @@
 import os
 import types
+
+import pytest
 import typing
 import pathlib
 import collections
@@ -15,6 +17,8 @@ class Test_FromMcnp(typing.Generic[T]):
 
     EXAMPLES_FROM_MCNP_VALID: collections.abc.Sequence[str] = []
     EXAMPLES_FROM_MCNP_INVALID: collections.abc.Sequence[str] = []
+    # Examples that parse only in part, mapped to the text left over.
+    EXAMPLES_FROM_MCNP_REMAINDER: collections.abc.Mapping[str, str] = {}
 
     def test_from_mcnp_valid(self) -> None:
         """
@@ -31,17 +35,25 @@ class Test_FromMcnp(typing.Generic[T]):
 
     def test_from_mcnp_invalid(self) -> None:
         """
-        Tests `EXAMPLES_FROM_MCNP_INVALID` on `from_mcnp`.
+        Tests that `from_mcnp` rejects `EXAMPLES_FROM_MCNP_INVALID`.
         """
 
         for example in self.EXAMPLES_FROM_MCNP_INVALID:
             print(example)
 
-            try:
-                _, source = self.element.from_mcnp(example)
-                assert source
-            except pymcnp.abc.Error:
-                assert True
+            with pytest.raises(pymcnp.abc.Error):
+                self.element.from_mcnp(example)
+
+    def test_from_mcnp_remainder(self) -> None:
+        """
+        Tests that `from_mcnp` leaves the expected text of `EXAMPLES_FROM_MCNP_REMAINDER`.
+        """
+
+        for example, remainder in self.EXAMPLES_FROM_MCNP_REMAINDER.items():
+            print(example)
+
+            _, source = self.element.from_mcnp(example)
+            assert source == remainder
 
 
 U = typing.TypeVar('U', bound=pymcnp.abc.File)
@@ -52,6 +64,8 @@ class Test_FromFile(Test_FromMcnp, typing.Generic[U]):
 
     EXAMPLES_FROM_FILE_VALID: collections.abc.Sequence[pathlib.Path] = []
     EXAMPLES_FROM_FILE_INVALID: collections.abc.Sequence[pathlib.Path] = []
+    # Files that parse only in part, mapped to the text left over.
+    EXAMPLES_FROM_FILE_REMAINDER: collections.abc.Mapping[pathlib.Path, str] = {}
 
     def test_from_file_valid(self) -> None:
         """
@@ -67,17 +81,25 @@ class Test_FromFile(Test_FromMcnp, typing.Generic[U]):
 
     def test_from_file_invalid(self) -> None:
         """
-        Tests `EXAMPLES_FROM_FILE_INVALID` on `from_file`.
+        Tests that `from_file` rejects `EXAMPLES_FROM_FILE_INVALID`.
         """
 
         for example in self.EXAMPLES_FROM_FILE_INVALID:
             print(example)
 
-            try:
-                _, source = self.element.from_file(example)
-                assert source
-            except pymcnp.abc.Error:
-                assert True
+            with pytest.raises(pymcnp.abc.Error):
+                self.element.from_file(example)
+
+    def test_from_file_remainder(self) -> None:
+        """
+        Tests that `from_file` leaves the expected text of `EXAMPLES_FROM_FILE_REMAINDER`.
+        """
+
+        for example, remainder in self.EXAMPLES_FROM_FILE_REMAINDER.items():
+            print(example)
+
+            _, source = self.element.from_file(example)
+            assert source == remainder
 
     def test_to_file(self) -> None:
         """
