@@ -68,7 +68,7 @@ class History(abc.symbol.WithMcnpIter, abc.symbol.WithDataIter, Block):
             History block corresponding to ``source`` at ``pos`` if ``returning`` (else ``None``), and the position where it ends.
         """
 
-        events = _events_at(source, pos, returning)
+        events = _events_at(cls, source, pos, returning)
         try:
             while True:
                 yield next(events)[0]
@@ -150,7 +150,7 @@ class HistoryTruncated:
         events: list[Event] = []
         text = source + '\n'
         end = None
-        for event, end in _events_at(text, 0, returning=False):
+        for event, end in _events_at(History, text, 0, returning=False):
             events.append(event)
         remainder = source.partition('\n')[2] if end is None else text[end:]
 
@@ -187,11 +187,12 @@ _KINDS: dict[str, type[Event]] = {
 }
 
 
-def _events_at(source: str, pos: int, returning: bool) -> typing.Generator[tuple[Event, int], None, tuple[History | None, int]]:
+def _events_at(cls: type[History], source: str, pos: int, returning: bool) -> typing.Generator[tuple[Event, int], None, tuple[History | None, int]]:
     """
     Compiles history blocks at positions, yielding each event with the position where it ends.
 
     Parameters:
+        cls: History block class to build.
         source: Source string to compile.
         pos: Position in ``source`` to compile at.
         returning: Flag to/to not build the history block.
@@ -254,7 +255,7 @@ def _events_at(source: str, pos: int, returning: bool) -> typing.Generator[tuple
     if not returning:
         return None, pos
 
-    return History(
+    return cls(
         blank=blank,
         nps=nps,
         event_type=event_type,
