@@ -94,6 +94,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `from pymcnp import *` imported the private `_cli` and `_show` modules, and `pymcnp.importlib` was a public name.
 - `Plot` and `pymcnp plot` drew each tally value centred on its energy bin, half a bin too low; OUTP bins are upper bin edges, so each value is now drawn from the previous edge up to its own, the first from 0 (for negative bins, e.g., cosines, from one bin width below), with its error bar at the centre of its bin.
 - Tests no longer write files into the repository.
+- The docstrings of `PtracFilter` (every `check_*` returns `True` unless overridden) and `data.M.from_formula` (isotopes below `cutoff`, default 0.01, are dropped; pass `cutoff=0` to keep them all) say what the code does, as `SKILL.md` and the documentation do.
+- `README.md` links are absolute, so that they work on PyPI.
 
 ## [0.10.0] - 2026-10-15
 

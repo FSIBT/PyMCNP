@@ -83,6 +83,8 @@ Its exit code says what it found:
 
 ![pymcnp check with a card PyMCNP cannot parse](images/cli_check_unparsed.svg)
 
+(The last image is `pymcnp check files/inp/todo_13.inp`, an input of the repository with a lattice card that PyMCNP cannot parse yet.)
+
 ## 4. Read and Edit an Input in Python
 
 ```python

@@ -48,6 +48,9 @@ rewrap them and `--fix` rewrites the file in place. The exit code says what it f
 
 ![pymcnp check with a card PyMCNP cannot parse](images/cli_check_unparsed.svg)
 
+The last image is `pymcnp check files/inp/todo_13.inp`, an input of the repository with a lattice card that PyMCNP cannot parse
+yet; `check` names its line. `docs/make_images.py` makes all the images.
+
 `--fix` writes the file as PyMCNP prints it, which is equivalent but not identical: shorthands such as `511i` become
 explicit values. Commit or copy the file first.
 
