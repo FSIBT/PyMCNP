@@ -37,10 +37,10 @@ def test_partly_parsed_inp_names_the_line(monkeypatch, capsys, tmp_path: pathlib
     # A short relative path, since panels cut long words short.
     monkeypatch.chdir(tmp_path)
     path = pathlib.Path('partly.inp')
-    path.write_text('title\n1 0 -1\n\n1 so 1\n\nc a comment\nnps 1\nprdmp j j -1\nc after\n')
+    path.write_text('title\n1 0 -1\n\n1 so 1\n\nc a comment\nnps 1\nqqq j j -1\nc after\n')
 
-    assert _io.partly_parsed(path, 'c a comment\nnps 1\nprdmp j j -1\nc after\n')
-    assert _squeeze(f'{path}, line 8: PyMCNP cannot parse the card "prdmp j j -1", so it and every card after it are missing.') in _warning(capsys)
+    assert _io.partly_parsed(path, 'c a comment\nnps 1\nqqq j j -1\nc after\n')
+    assert _squeeze(f'{path}, line 8: PyMCNP cannot parse the card "qqq j j -1", so it and every card after it are missing.') in _warning(capsys)
 
 
 def test_partly_parsed_inp_without_a_located_card(monkeypatch, capsys, tmp_path: pathlib.Path) -> None:

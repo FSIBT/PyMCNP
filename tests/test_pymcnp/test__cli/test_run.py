@@ -44,7 +44,7 @@ def test_main_invalid(monkeypatch) -> None:
 def test_main_partly_parsed(monkeypatch, capsys, tmp_path: pathlib.Path, fake_mcnp: str) -> None:
     # A card PyMCNP cannot parse drops it and every card after it, so nothing is run (as `pymcnp check --fix` does not rewrite).
     partial = tmp_path / 'partial.inp'
-    partial.write_text((FILES / 'inp' / 'valid_00.inp').read_text().replace('NPS 100000', 'PRDMP J J [1]\nNPS 100000'))
+    partial.write_text((FILES / 'inp' / 'valid_00.inp').read_text().replace('NPS 100000', 'QQQ J J [1]\nNPS 100000'))
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'run', str(FILES / 'inp' / 'valid_00.inp'), str(partial), f'--command={fake_mcnp}', f'--path={tmp_path}'])
 
     with pytest.raises(SystemExit) as error:
@@ -53,4 +53,4 @@ def test_main_partly_parsed(monkeypatch, capsys, tmp_path: pathlib.Path, fake_mc
     assert error.value.code == 3
     assert not list(tmp_path.glob('pymcnp-*'))
     out = ' '.join(capsys.readouterr().out.replace('│', '').split())
-    assert 'line 28: PyMCNP cannot parse the card "PRDMP J J [1]"' in out and 'Not running' in out and 'Done!' not in out
+    assert 'line 28: PyMCNP cannot parse the card "QQQ J J [1]"' in out and 'Not running' in out and 'Done!' not in out

@@ -122,7 +122,7 @@ def test_main_pdf_names(monkeypatch, capsys, tmp_path: pathlib.Path, options, na
 def test_main_partly_parsed(monkeypatch, capsys, tmp_path: pathlib.Path) -> None:
     # A card PyMCNP cannot parse drops it and every card after it, so warn (as `pymcnp check` does) and exit 3.
     inp = tmp_path / 'spheres.inp'
-    inp.write_text('title\n1 0 -1\n2 0 -2 #1\n3 0 2\n\n1 so 1\n2 so 2\n\nnps 1\nprdmp j j -1\n')
+    inp.write_text('title\n1 0 -1\n2 0 -2 #1\n3 0 2\n\n1 so 1\n2 so 2\n\nnps 1\nqqq j j -1\n')
     shown = []
     monkeypatch.setattr(pyvista.Plotter, 'show', lambda self, *args, **kwargs: shown.append(True))
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'visualize', str(inp), '--cells'])
@@ -133,4 +133,4 @@ def test_main_partly_parsed(monkeypatch, capsys, tmp_path: pathlib.Path) -> None
     assert error.value.code == 3
     assert shown == [True]
     out = ' '.join(capsys.readouterr().out.replace('│', '').split())
-    assert 'Warning:' in out and 'line 10: PyMCNP cannot parse the card "prdmp j j -1"' in out and 'Done!' not in out
+    assert 'Warning:' in out and 'line 10: PyMCNP cannot parse the card "qqq j j -1"' in out and 'Done!' not in out

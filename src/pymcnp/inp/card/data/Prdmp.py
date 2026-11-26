@@ -19,8 +19,8 @@ class Prdmp(Data):
     """
 
     keyword: typing.Annotated[abc.Terminal, r'PRDMP'] = abc.Terminal[r'PRDMP']('PRDMP')
-    ndp: literal.Integer
-    ndm: literal.Integer
-    mct: literal.Integer
-    ndmp: literal.Integer
-    dmmp: literal.Integer
+    ndp: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    ndm: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    mct: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    ndmp: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')
+    dmmp: literal.Integer | literal.Jump | typing.Annotated[abc.Terminal, r''] = literal.Jump('J')

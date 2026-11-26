@@ -22,7 +22,8 @@ class Genxs_0(Genxs):
 
     keyword: typing.Annotated[abc.Terminal, r'GENXS'] = abc.Terminal[r'GENXS']('GENXS')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
-    filename: typing.Annotated[abc.Terminal, r'\S+']
+    # The file name is optional, so the next option's keyword is not a file name.
+    filename: typing.Annotated[abc.Terminal, r'(?!(?:GENXS|MCSCAT|NREACT|ELOSS|NESCAT)(?:\s|=|\Z))\S+']
 
 
 class Genxs_1(Genxs):
