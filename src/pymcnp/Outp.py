@@ -61,6 +61,7 @@ class Outp(abc.file.WithDataIter, abc.File):
 
         Raises:
             Error: File not found.
+            UnicodeDecodeError: The file is not text, i.e., it holds a NUL byte, e.g., binary PTRAC, or is UTF-16.
 
         Warns:
             Warning: Tally not parsed.

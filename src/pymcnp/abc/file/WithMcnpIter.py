@@ -30,6 +30,10 @@ class WithMcnpIter(symbol.WithMcnpIter[T, U], typing.Generic[T, U]):
 
         Returns:
             Nonterminal symbol corresponding to file at ``path`` and the remainder if ``returning``.
+
+        Raises:
+            Error: File not found.
+            UnicodeDecodeError: The file is not text, i.e., it holds a NUL byte, e.g., binary PTRAC, or is UTF-16.
         """
 
         path = pathlib.Path(path)
@@ -51,6 +55,9 @@ class WithMcnpIter(symbol.WithMcnpIter[T, U], typing.Generic[T, U]):
 
         Returns:
             Nonterminal symbol corresponding to file at ``path``.
+
+        Raises:
+            UnicodeDecodeError: The file is not text, i.e., it holds a NUL byte, e.g., binary PTRAC, or is UTF-16.
         """
 
         generator = cls.from_file_iter(path, returning=True)

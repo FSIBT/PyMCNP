@@ -24,6 +24,7 @@ class File(Nonterminal):
 
         Raises:
             Error: File not found.
+            UnicodeDecodeError: The file is not text, i.e., it holds a NUL byte, e.g., binary PTRAC, or is UTF-16.
         """
 
         path = pathlib.Path(path)

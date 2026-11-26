@@ -176,6 +176,7 @@ class Meshtal(abc.file.WithMcnpIter, abc.file.WithDataIter, abc.File):
         Raises:
             Error: File not found.
             Error: Expected mesh tally.
+            UnicodeDecodeError: The file is not text, i.e., it holds a NUL byte, e.g., binary PTRAC, or is UTF-16.
         """
 
         path = pathlib.Path(path)

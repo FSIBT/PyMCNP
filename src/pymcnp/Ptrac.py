@@ -171,6 +171,7 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
             Error: File not found.
             Error: Expected header.
             Error: Expected history.
+            UnicodeDecodeError: The file is not text, i.e., it holds a NUL byte, e.g., binary PTRAC, or is UTF-16.
         """
 
         reader = _read(path)
@@ -193,6 +194,7 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
         Raises:
             Error: File not found.
             Error: Expected history.
+            UnicodeDecodeError: The file is not text, i.e., it holds a NUL byte, e.g., binary PTRAC, or is UTF-16.
         """
 
         reader = _read(path)
@@ -216,6 +218,9 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
 
         Yields:
             Tracks in file order; see ``ptrac.Track``.
+
+        Raises:
+            UnicodeDecodeError: The file is not text, i.e., it holds a NUL byte, e.g., binary PTRAC, or is UTF-16.
         """
 
         yield from ptrac.tracks(Ptrac.stream(path), particle, entered)
@@ -252,6 +257,7 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
         Raises:
             Error: Invalid value.
             Error: File not found.
+            UnicodeDecodeError: The file is not text, i.e., it holds a NUL byte, e.g., binary PTRAC, or is UTF-16.
         """
 
         if chunk < 1:
