@@ -1,5 +1,5 @@
-import inspect
 import dataclasses
+import inspect
 
 from . import block
 from .Types import EventType, Particle, Surface
@@ -14,7 +14,7 @@ _ROLES_BY_FIELD = {'nxs_2_iex': 'nsx', 'nsf_pbl_i_jsu': 'nsx', 'pbl_i_ipt': 'par
 # Event types in the order of the header's J/P line pairs, after the NPS line.
 _ORDER = (EventType.SOURCE, EventType.BANK, EventType.SURFACE, EventType.COLLISION, EventType.TERMINAL)
 
-# _Layout of the J-line values per event type: number of values after `type`, and position by role.
+# Layout of the J-line values per event type: number of values after `type`, and position by role.
 _Layout = dict[EventType, tuple[int, dict[str, int]]]
 
 _EVENT_TYPE_ID = 7
@@ -29,7 +29,7 @@ def _layout(header: block.Header) -> _Layout | None:
     type (ID 7).
 
     Returns:
-        _Layout per event type, `None` if the counts and IDs are not numbers or do not fit together.
+        Layout per event type, `None` if the counts and IDs are not numbers or do not fit together.
     """
 
     try:

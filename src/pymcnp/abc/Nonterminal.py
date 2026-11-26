@@ -379,14 +379,19 @@ class Nonterminal(Symbol):
         Space = type(self)._space[0]
         null = _space_null(type(self)._fields)
 
-        last: str | None = None
-        for field in reversed(type(self)._fields.keys()):
-            if getattr(self, field) != '' and getattr(self, field) != []:
-                last = field
+        names = list(type(self)._fields)
+        end = 0
+        for index in range(len(names), 0, -1):
+            if getattr(self, names[index - 1]) != '' and getattr(self, names[index - 1]) != []:
+                end = index
                 break
 
+        # Nothing follows the last nonempty constituent, e.g., after an array emptied by ``clear``, so no space is written
+        # after it or after the empty constituents behind it, as when parsing.
         return ''.join(
-            f'{value.to_mcnp()}{self.spaces.get(name, Space(Space._default or "") if name not in null and name != last else "")}' for name in type(self)._fields if (value := getattr(self, name)) != ''
+            f'{value.to_mcnp()}{self.spaces.get(name, Space(Space._default or "") if name not in null else "") if index < end - 1 else ""}'
+            for index, name in enumerate(names)
+            if (value := getattr(self, name)) != ''
         )
 
     def scan(self, **parameters: tuple[typing.Any, ...]) -> typing.Generator[typing.Self, None, None]:

@@ -58,7 +58,7 @@ class Test_Array:
             (lambda a: a.__setitem__(slice(0, 1), [7, 8]), 'E0 7 8 2 3'),
             (lambda a: a.__setitem__(slice(0, 2), [9]), 'E0 9 3'),
             (lambda a: a.__setitem__(slice(1, 1), [5]), 'E0 1 5 2 3'),
-            (lambda a: a.__setitem__(slice(None), []), 'E0  '),
+            (lambda a: a.__setitem__(slice(None), []), 'E0'),
             (lambda a: a.__setitem__(slice(None, None, 2), [8, 9]), 'E0 8 2 9'),
             (lambda a: a.insert(0, 7), 'E0 7 1 2 3'),
             (lambda a: a.insert(10, 7), 'E0 1 2 3 7'),
@@ -73,7 +73,7 @@ class Test_Array:
             (lambda a: a.pop(), 'E0 1 2'),
             (lambda a: a.pop(0), 'E0 2 3'),
             (lambda a: a.remove(2), 'E0 1 3'),
-            (lambda a: a.clear(), 'E0  '),
+            (lambda a: a.clear(), 'E0'),
         ],
     )
     def test_mutators_keep_spaces_in_step(self, mutate, expected) -> None:
@@ -83,8 +83,18 @@ class Test_Array:
         assert len(e.e.spaces) == max(len(e.e) - 1, 0)
         assert all(isinstance(value, pymcnp.inp.literal.Real) for value in e.e)
         assert e.to_mcnp() == expected
+        # The text parses back to the same card, also when the array is empty.
+        parsed, remainder = pymcnp.inp.card.data.E.from_mcnp(expected)
+        assert remainder == ''
+        assert parsed.e == e.e and parsed.to_mcnp() == expected
         if len(e.e):
-            assert pymcnp.inp.card.data.E.from_mcnp(expected)[0] == e
+            # An emptied array leaves the unused space after `suffix` stored, so only nonempty cards compare equal.
+            assert parsed == e
+
+    def test_empty_array_writes_no_trailing_space(self) -> None:
+        # No space follows the last nonempty constituent, as when parsing, so `E0` writes `E0`, not `E0 `.
+        card, remainder = pymcnp.inp.card.data.E.from_mcnp('E0')
+        assert remainder == '' and card.e == [] and card.to_mcnp() == 'E0'
 
     def test_mutators_keep_continuation_spaces(self) -> None:
         # Spaces between kept items, e.g., a continuation line, stay where they are.
