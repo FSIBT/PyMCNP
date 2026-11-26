@@ -41,7 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Values put into an array, e.g., `card.e[1] = 2`, `append`, `insert`, `extend`, `+=` or a scan path such as `data[0].e[1]`, are converted to the item type (`inp.literal.Real`) as field values are, and invalid values raise `abc.Error`; a plain `int` was stored, and `to_mcnp` then failed.
 - **Breaking:** `PtracProcessor.run` returns the results of the `process_*` methods; a `Run` result without an output file is not `ok`.
 - The `pymcnp` command prints Python warnings, e.g., "Tally not parsed." or "Line exceeds 80 characters maximum length", as warning panels, like its own messages, instead of Python's format with the source line.
-- `pymcnp run` and `pymcnp visualize` ignored a card PyMCNP cannot parse, and every card after it. Both now warn and exit with 3, as `pymcnp check` does; `run` runs nothing, and `visualize` draws the cards before it.
+- `pymcnp run`, `visualize`, `convert` and `plot` ignored the part of a file PyMCNP cannot parse, e.g., a card and every card after it. They now warn and exit with 3, as `pymcnp check` does; `run` runs nothing, and the others draw, write or plot what was parsed before that part.
 - `pymcnp check --fix` exits with 1 and reports each line it cannot shorten, e.g., a full-line or `$` comment over 80 columns, instead of printing "Done!" and exiting with 0; `Check.fix` returns the problems left in the fixed file.
 - Depends on `pyarrow` instead of `fastparquet`, and on `docopt-ng` instead of `docopt`.
 - Python 3.15 is supported, now that `vtk` has wheels for it.

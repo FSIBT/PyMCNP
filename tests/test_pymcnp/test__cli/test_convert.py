@@ -67,3 +67,20 @@ def test_main_file_without_extension(monkeypatch, tmp_path: pathlib.Path) -> Non
     convert.main()
 
     assert (tmp_path / 'meshtal.csv').exists()
+
+
+@pytest.mark.parametrize('flag, extension', [('--csv', 'csv'), ('--parquet', 'parquet')])
+def test_main_partly_parsed(monkeypatch, capsys, tmp_path: pathlib.Path, flag: str, extension: str) -> None:
+    # A line PyMCNP cannot parse drops the rest of the file: write what was parsed, warn, and exit 3, as `visualize` does.
+    lines = (FILES / 'ptrac' / 'valid_38.ptrac').read_text().split('\n')
+    path = tmp_path / 'partly.ptrac'
+    path.write_text('\n'.join([*lines[: len(lines) // 2], 'garbage [here]', *lines[len(lines) // 2 :]]))
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'convert', 'ptrac', flag, str(path)])
+
+    with pytest.raises(SystemExit) as error:
+        convert.main()
+
+    assert error.value.code == 3
+    assert path.with_suffix(f'.{extension}').stat().st_size > 0
+    out = ' '.join(capsys.readouterr().out.replace('│', '').split())
+    assert 'Warning:' in out and 'every line after it are missing' in out and 'Done!' not in out

@@ -68,7 +68,8 @@ control, e.g., run names or hooks, use [`pymcnp.Run`](pymcnp.md) in Python.
 `pymcnp convert` writes a CSV or parquet file next to the input, e.g., `example_00.csv`. For OUTP files, it writes all
 parsed tallies; for PTRAC files, one row per event; for MESHTAL files, the rows of all mesh tallies, with a `number`
 column for the tally number. A tally in an OUTP layout PyMCNP cannot parse yet is left out, and PyMCNP issues a warning
-naming it. Large PTRAC files are better streamed in Python with `Ptrac.to_parquet`.
+naming it. If PyMCNP cannot parse part of an OUTP or PTRAC file, it writes what it parsed before that part, warns,
+and exits with 3, as `pymcnp visualize` does. Large PTRAC files are better streamed in Python with `Ptrac.to_parquet`.
 
 ### Plot
 
@@ -77,6 +78,7 @@ naming it. Large PTRAC files are better streamed in Python with `Ptrac.to_parque
 
 `pymcnp plot` plots one tally of an OUTP file, given by its number, with one figure per combination of the other bins
 (e.g., surface facet and angle bin). With `--pdf`, it writes all figures to `example_00.pdf` instead of showing them.
+If PyMCNP cannot parse part of the file, it plots the tally if it was parsed, warns, and exits with 3.
 
 For tally 1 of `example_00.outp`, these are six figures, the three facets of surface 2 times the two angle bins (shown
 here side by side):

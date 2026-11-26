@@ -11,6 +11,11 @@ Options:
 Writes the data of OUTP (all tallies), PTRAC (one row per event), or
 MESHTAL (all mesh tallies, with a ``number`` column) files next to them,
 e.g., ``file.outp`` to ``file.csv``.
+
+Exit codes:
+    0    Converted.
+    1    The file cannot be read.
+    3    PyMCNP cannot parse all of the file; the part before is converted.
 """
 
 import pathlib
@@ -45,21 +50,27 @@ def main() -> None:
     file = pathlib.Path(args['<file>'])
 
     # Reading output file; meshtal files may hold several mesh tallies.
+    remainder = ''
     try:
         if Nonterminal is Meshtal:
             frame = pandas.concat([tally.to_dataframe().assign(number=tally.tally_number) for tally in Meshtal.iter_tallies(file)], ignore_index=True)
             frame.insert(0, 'number', frame.pop('number'))
         else:
-            nonterminal, _ = Nonterminal.from_file(file)
+            nonterminal, remainder = Nonterminal.from_file(file)
             frame = nonterminal.to_dataframe()
     except abc.Error as err:
         _io.error(str(err))
         sys.exit(1)
+
+    partly = _io.partly_parsed(file, remainder, 'line')
 
     # Converting!
     if args['--csv']:
         frame.to_csv(_io.get_outfile(file, 'csv'), index=False)
     else:
         _write_parquet(frame, _io.get_outfile(file, 'parquet'))
+
+    if partly:
+        sys.exit(3)
 
     _io.done()

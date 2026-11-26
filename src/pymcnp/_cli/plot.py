@@ -9,6 +9,13 @@ Arguments:
 Options:
     --pdf       Write all figures to <outp> with the extension .pdf instead of
                 showing them.
+
+Exit codes:
+    0    Plotted.
+    1    The file cannot be read.
+    2    The tally cannot be plotted, e.g., it is not in the file.
+    3    PyMCNP cannot parse all of the file; tallies before that part are
+         plotted.
 """
 
 import sys
@@ -36,10 +43,12 @@ def main() -> None:
 
     # Reading output file.
     try:
-        outp, _ = Outp.from_file(file)
+        outp, remainder = Outp.from_file(file)
     except abc.Error as err:
         _io.error(str(err))
         sys.exit(1)
+
+    partly = _io.partly_parsed(file, remainder, 'line')
 
     plotter = Plot()
 
@@ -56,5 +65,8 @@ def main() -> None:
     except abc.Error as err:
         _io.error(str(err))
         sys.exit(2)
+
+    if partly:
+        sys.exit(3)
 
     _io.done()
