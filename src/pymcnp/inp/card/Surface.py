@@ -115,6 +115,9 @@ class Surface(Card):
 
         Returns:
             Visualization of surface cards.
+
+        Raises:
+            NotImplementedError: PyMCNP cannot draw this kind of surface yet, e.g., ``Gq``.
         """
 
-        raise NotImplementedError
+        raise NotImplementedError(type(self).__name__)

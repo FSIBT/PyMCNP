@@ -140,6 +140,8 @@ def main() -> None:
                 plot.show()
     except abc.Error as err:
         _io.fail(str(err), _io.PROBLEMS)
+    except NotImplementedError as err:
+        _io.fail(f'PyMCNP cannot visualize this geometry yet: {err}', _io.PROBLEMS)
 
     if partly:
         sys.exit(_io.PARTLY_PARSED)

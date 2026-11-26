@@ -140,3 +140,18 @@ def test_main_partly_parsed(monkeypatch, capsys, tmp_path: pathlib.Path) -> None
     assert shown == [True]
     out = ' '.join(capsys.readouterr().out.replace('│', '').split())
     assert 'Warning:' in out and 'line 10: PyMCNP cannot parse the card "qqq j j -1"' in out and 'Done!' not in out
+
+
+@pytest.mark.parametrize('options', [['-s', '1'], ['-c', '1'], ['--cells']])
+def test_main_surface_it_cannot_draw(monkeypatch, capsys, tmp_path: pathlib.Path, options) -> None:
+    # A surface type PyMCNP cannot draw yet, e.g., GQ, is an error, not a traceback.
+    inp = tmp_path / 'gq.inp'
+    inp.write_text('title\n1 0 -1\n2 0 1\n\n1 gq 1 1 1 0 0 0 0 0 0 -1\n\nnps 1\n')
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'visualize', str(inp), *options, '--pdf'])
+
+    with pytest.raises(SystemExit) as error:
+        visualize.main()
+
+    assert error.value.code == 1
+    out = ' '.join(capsys.readouterr().out.replace('│', '').split())
+    assert 'Error: PyMCNP cannot visualize this geometry yet: Gq' in out
