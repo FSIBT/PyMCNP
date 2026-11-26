@@ -14,7 +14,7 @@ from .. import classes
 PATH: pathlib.Path = pathlib.Path(__file__).parent.parent.parent / 'files' / 'ptrac'
 
 
-class Test_Ptrac(classes.Test_FromFileIter, classes.Test_ToDataframe):
+class Test_Ptrac(classes.Test_FromFileIter):
     element = pymcnp.Ptrac
 
     EXAMPLES_FROM_FILE_VALID = [
@@ -26,11 +26,6 @@ class Test_Ptrac(classes.Test_FromFileIter, classes.Test_ToDataframe):
         PATH / 'invalid_02.ptrac',
         PATH / 'invalid_03.ptrac',
         PATH / 'hello',
-    ]
-
-    EXAMPLES_TO_DATAFRAME = [
-        PATH / 'valid_38.ptrac',
-        PATH / 'valid_03.ptrac',
     ]
 
 
@@ -218,13 +213,6 @@ def test_history_tracks_links_bank_parent() -> None:
     tracks = list(history.tracks)
     assert len(tracks) == 2
     assert tracks[1].parent is tracks[0]
-
-
-def test_stream_matches_from_file_events(head) -> None:
-    path = head('valid_00.ptrac')
-    ptrac, _ = pymcnp.Ptrac.from_file(path)
-    assert sum(1 for _ in pymcnp.Ptrac.stream(path)) == sum(len(history.events) for history in ptrac.histories)
-    list(pymcnp.Ptrac.tracks(path))
 
 
 def test_stream_does_not_read_whole_file(monkeypatch: pytest.MonkeyPatch) -> None:

@@ -4,6 +4,9 @@ Records the parse result of every fixture, so that changes to the parsers are de
 The reference is ``files/snapshot.json``. Regenerate it only for an intended change of results:
 
     uv run python -c "import json,sys; sys.path.insert(0,'tests'); import snapshot; json.dump(snapshot.record_all(), open('files/snapshot.json','w'), indent=1, sort_keys=True)"
+
+Some fixtures guard specific behaviour through their ``remainder_len: 0`` entry, e.g., ``inp/valid_34.inp``
+(issue #7) and ``inp/valid_42.inp`` (vertical format).
 """
 
 import hashlib

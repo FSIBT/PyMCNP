@@ -100,23 +100,19 @@ V = typing.TypeVar('V', bound=SymbolWithDataIter)
 class Test_ToDataframe(typing.Generic[V]):
     element: type[V]
 
-    EXAMPLES_TO_DATAFRAME: list[pathlib.Path | str] = []
+    EXAMPLES_TO_DATAFRAME: list[str] = []
 
     def test_to_dataframe(self) -> None:
         """
-        Tests `to_dataframe` on EXAMPLES_TO_DATAFRAME`.
+        Tests `to_dataframe` on `EXAMPLES_TO_DATAFRAME`.
+
+        The dataframes of the file fixtures are checked by the snapshot (``tests/snapshot.py``).
         """
 
         for example in self.EXAMPLES_TO_DATAFRAME:
             print(example)
 
-            if issubclass(self.element, pymcnp.abc.File) and isinstance(example, pathlib.Path):
-                element, _ = self.element.from_file(example)
-            elif issubclass(self.element, pymcnp.abc.Symbol) and isinstance(example, str):
-                element, _ = self.element.from_mcnp(example)
-            else:
-                assert False
-
+            element, _ = self.element.from_mcnp(example)
             _ = element.to_dataframe()
 
 

@@ -65,16 +65,6 @@ class Test_Inp(classes.Test_FromFile):
         inp, source = pymcnp.Inp.from_mcnp('Hello\n1 0 -1\n\n1 SO 1\n\nsi1 1 2ilog 100\nnps 10\n')
         assert inp.data[0].to_mcnp() == 'si1 1.0 4.641588833612778 21.544346900318832 100.0'
 
-        # Testing non-inverible files.
-
-        # Testing vertical format.
-        inp, source = pymcnp.Inp.from_file(PATH / 'valid_42.inp')
-        assert source == ''
-
-        # Testing issue #7.
-        inp, source = pymcnp.Inp.from_file(PATH / 'valid_34.inp')
-        assert source == ''
-
     def test_cell_cards(self) -> None:
         """
         Tests `cell_cards` on `EXAMPLES_FROM_MCNP_VALID`.

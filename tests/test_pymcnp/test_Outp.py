@@ -11,7 +11,7 @@ from .. import classes
 PATH: pathlib.Path = pathlib.Path(__file__).parent.parent.parent / 'files' / 'outp'
 
 
-class Test_Outp(classes.Test_FromFile, classes.Test_ToDataframe):
+class Test_Outp(classes.Test_FromFile):
     element = pymcnp.Outp
 
     EXAMPLES_FROM_FILE_VALID = [
@@ -23,14 +23,7 @@ class Test_Outp(classes.Test_FromFile, classes.Test_ToDataframe):
         PATH / 'hello',
     ]
 
-    EXAMPLES_TO_DATAFRAME = [
-        PATH / 'valid_39.outp',
-        PATH / 'valid_06.outp',
-    ]
-
     def test_to_dataframe(self) -> None:
-        super().test_to_dataframe()
-
         outp, _ = pymcnp.Outp.from_file(PATH / 'valid_00.outp')
         pandas.testing.assert_frame_equal(
             outp.to_dataframe(),

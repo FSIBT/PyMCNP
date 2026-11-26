@@ -10,7 +10,7 @@ from .. import classes
 PATH: pathlib.Path = pathlib.Path(__file__).parent.parent.parent / 'files' / 'meshtal'
 
 
-class Test_Meshtal(classes.Test_FromFileIter, classes.Test_ToDataframe):
+class Test_Meshtal(classes.Test_FromFileIter):
     element = pymcnp.Meshtal
 
     EXAMPLES_FROM_FILE_VALID = [
@@ -30,15 +30,7 @@ class Test_Meshtal(classes.Test_FromFileIter, classes.Test_ToDataframe):
         PATH / 'invalid_09.meshtal',
     ]
 
-    EXAMPLES_TO_DATAFRAME = [
-        PATH / 'valid_40.meshtal',
-        PATH / 'valid_41.meshtal',
-        PATH / 'valid_42.meshtal',
-    ]
-
     def test_to_dataframe(self) -> None:
-        super().test_to_dataframe()
-
         # Testing row count.
         meshtal, _ = pymcnp.Meshtal.from_mcnp((PATH / 'valid_40.meshtal').read_text())
         assert len(meshtal.rows) == len(meshtal.to_dataframe())
@@ -144,9 +136,6 @@ class Test_Meshtal_Data:
 
 class Test_Meshtal_Tallies:
     MULTI = PATH / 'multi_00.meshtal'
-
-    def test_meshtal_multi_not_truncated(self) -> None:
-        assert len(list(pymcnp.Meshtal.iter_tallies(self.MULTI))) == 2
 
     def test_iter_tallies_reads_every_tally(self) -> None:
         tallies = list(pymcnp.Meshtal.iter_tallies(self.MULTI))

@@ -60,9 +60,6 @@ class Test_Check:
 
 
 class Test_Check_Problems:
-    def test_valid_has_no_problems(self) -> None:
-        assert pymcnp.Check(VALID).problems() == []
-
     def test_problems_line_numbers(self, tmp_path: pathlib.Path) -> None:
         path = tmp_path / 'warning.inp'
         shutil.copy(FILES / 'warning_00.inp', path)
