@@ -82,8 +82,16 @@ class Test_Inp(classes.Test_FromFile):
 
         for example in self.EXAMPLES_FROM_MCNP_VALID:
             inp, _ = pymcnp.Inp.from_mcnp(example)
-            _ = inp.cell_cards()
-            _ = inp.cell_cards(number=10, material=20, density=2.0)
+
+            cards = inp.cell_cards()
+            assert cards and len(cards) == len(inp.cells.filter(pymcnp.inp.card.Cell))
+            assert inp.cell_cards(number=10, material=20, density=2.0) == ()
+
+        inp, _ = pymcnp.Inp.from_mcnp(self.EXAMPLES_FROM_MCNP_VALID[0])
+        assert [card.to_mcnp() for card in inp.cell_cards()] == ['1 0 -1', '2 like 1 but mat=20 rho=2.0']
+        assert [card.to_mcnp() for card in inp.cell_cards(number=2, material=20, density=2.0)] == ['2 like 1 but mat=20 rho=2.0']
+        assert [card.to_mcnp() for card in inp.cell_cards(material=0)] == ['1 0 -1']
+        assert [card.to_mcnp() for card in inp.cell_cards(kind=pymcnp.inp.card.Cell_1)] == ['1 0 -1']
 
     def test_surface_cards(self) -> None:
         """
@@ -120,7 +128,12 @@ class Test_Inp(classes.Test_FromFile):
 
         for example in self.EXAMPLES_FROM_MCNP_VALID:
             inp, _ = pymcnp.Inp.from_mcnp(example)
-            _, _, _ = inp.comment_cards()
+            cells, surfaces, data = inp.comment_cards()
+            assert (cells, surfaces) == ((), ())
+            assert [card.to_mcnp() for card in data] == (['c end of file'] if 'c end of file' in example else [])
+
+        inp, _ = pymcnp.Inp.from_mcnp('Hello\nc a\n1 0 -1\n\nc b\nc bb\n1 SO 1\n\nc c\nnps 10\n')
+        assert [[card.to_mcnp() for card in cards] for cards in inp.comment_cards()] == [['c a'], ['c b', 'c bb'], ['c c']]
 
     EXAMPLES_NPS = [
         'Hello\n1 0 2\n\n2 SO 1\n\nSDEF\n',
