@@ -17,6 +17,8 @@ import matplotlib.pyplot
 import pymcnp
 from pymcnp._cli import main
 
+from ...console import plain
+
 
 FILES: pathlib.Path = pathlib.Path(__file__).parent.parent.parent.parent / 'files'
 
@@ -56,7 +58,7 @@ def _run(monkeypatch, capsys, *args: str) -> tuple[int, str]:
     else:
         code = 0
     out = capsys.readouterr()
-    text = ' '.join((out.out + out.err).translate(str.maketrans('│╭╮╰╯─', '      ')).split())
+    text = plain(out.out + out.err)
     assert 'Traceback' not in text
     return code, text
 

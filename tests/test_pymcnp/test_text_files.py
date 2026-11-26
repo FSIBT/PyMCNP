@@ -48,6 +48,7 @@ def test_inp_utf8_byte_order_mark(tmp_path: pathlib.Path) -> None:
 
 
 # Runs in a child whose locale encoding is not UTF-8, as on Windows (cp1252).
+# Its code is ASCII, which the command line of any locale can carry.
 _CHILD = """
 import sys, locale, pathlib, warnings
 import pymcnp
@@ -56,10 +57,10 @@ warnings.simplefilter('ignore')
 files = pathlib.Path(sys.argv[1])
 assert pymcnp.Ptrac.from_file(files / 'ptrac' / 'trailing_02.ptrac')[1] == '\\u3000'
 assert pymcnp.Meshtal.from_file(files / 'meshtal' / 'trailing_07.meshtal')[1] == '\\u3000\\n'
-text = (files / 'meshtal' / 'valid_41.meshtal').read_text(encoding='utf-8').replace('lunar regolith', 'Mondregolith \u00e0 \u03bb')
+text = (files / 'meshtal' / 'valid_41.meshtal').read_text(encoding='utf-8').replace('lunar regolith', 'Mondregolith \\u00e0 \\u03bb')
 pathlib.Path('t.meshtal').write_bytes(text.encode('utf-8'))
-assert '\u03bb' in next(pymcnp.Meshtal.iter_tallies('t.meshtal')).title
-text = (files / 'ptrac' / 'valid_38.ptrac').read_text(encoding='utf-8').replace('lunar regolith', 'lunar r\u00e9golith')  # the title keeps its width
+assert '\\u03bb' in next(pymcnp.Meshtal.iter_tallies('t.meshtal')).title
+text = (files / 'ptrac' / 'valid_38.ptrac').read_text(encoding='utf-8').replace('lunar regolith', 'lunar r\\u00e9golith')  # the title keeps its width
 pathlib.Path('t.ptrac').write_bytes(text.encode('utf-8'))
 assert len(list(pymcnp.Ptrac.iter_histories('t.ptrac'))) == len(list(pymcnp.Ptrac.iter_histories(files / 'ptrac' / 'valid_38.ptrac')))
 inp = pymcnp.Inp.from_file(files / 'inp' / 'valid_00.inp')[0]
