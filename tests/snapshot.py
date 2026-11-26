@@ -8,6 +8,7 @@ The reference is ``files/snapshot.json``. Regenerate it only for an intended cha
 
 import hashlib
 import pathlib
+import re
 import warnings
 
 import pandas
@@ -22,6 +23,25 @@ _CLASSES = {'inp': pymcnp.Inp, 'outp': pymcnp.Outp, 'meshtal': pymcnp.Meshtal, '
 
 def _sha(text: str) -> str:
     return hashlib.sha256(text.encode()).hexdigest()
+
+
+_FLOAT = re.compile(r'(?<![\w.])[-+]?(?:\d+\.\d*|\.\d+|\d+)(?:[eE][-+]?\d+)?(?![\w.])')
+
+
+def _norm(text: str) -> str:
+    """
+    Rounds every standalone float literal to 12 significant digits.
+
+    PyMCNP expands shorthand such as ``100log`` or ``8i`` into floats whose last digits come from
+    the platform's libm, so they differ between macOS and glibc. Integers, identifiers and tokens
+    such as ``92235.80c`` (not a whole float) are left untouched.
+    """
+
+    def fix(m: re.Match) -> str:
+        tok = m.group()
+        return format(float(tok), '.12g') if re.search(r'[.eE]', tok) else tok
+
+    return _FLOAT.sub(fix, text)
 
 
 def _frame(df: pandas.DataFrame) -> dict:
@@ -43,7 +63,7 @@ def record(path: pathlib.Path) -> dict:
         result: dict
         try:
             obj, remainder = _CLASSES[kind].from_file(path)
-            result = {'ok': True, 'mcnp': _sha(obj.to_mcnp()), 'remainder': _sha(remainder), 'remainder_len': len(remainder)}
+            result = {'ok': True, 'mcnp': _sha(_norm(obj.to_mcnp())), 'remainder': _sha(_norm(remainder)), 'remainder_len': len(remainder)}
             if kind in ('outp', 'ptrac'):
                 result['frame'] = _frame(obj.to_dataframe())
             elif kind == 'meshtal':
