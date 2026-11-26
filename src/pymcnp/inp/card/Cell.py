@@ -60,7 +60,7 @@ class Cell(Card):
 
 class Cell_0(Cell):
     """
-    Represents cell cards, form #0.
+    Represents cell cards, form #0: a cell with material ``m`` (not 0) and density ``d``, ``j m d geom params``.
 
     Attributes:
         j: cell card ``j`` parameter.
@@ -137,7 +137,7 @@ class Cell_0(Cell):
 
 class Cell_1(Cell):
     """
-    Represents cell cards, form #1.
+    Represents cell cards, form #1: a void cell, ``j 0 geom params``.
 
     Attributes:
         j: cell card ``j`` parameter.
@@ -212,7 +212,7 @@ class Cell_1(Cell):
 
 class Cell_2(Cell):
     """
-    Represents cell cards, form #2.
+    Represents cell cards, form #2: a cell like another, ``j LIKE n BUT params``.
 
     Attributes:
         j: cell card ``j`` parameter.

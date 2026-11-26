@@ -28,3 +28,14 @@ def test_package_is_typed() -> None:
     import importlib.resources
 
     assert (importlib.resources.files('pymcnp') / 'py.typed').is_file()
+
+
+def test_tally_and_cell_forms_say_what_they_are() -> None:
+    # ``help()`` names the MCNP card form of each class, so ``F_1`` is found as the point detector.
+    data = pymcnp.inp.card.data
+    assert all(f'F{n}' in data.F_0.__doc__ for n in (1, 2, 4, 6, 7, 8))
+    assert 'point detector' in data.F_1.__doc__ and 'ring detector' in data.F_2.__doc__
+    assert all(f'``{name}``' in data.F.__doc__ for name in ('F_0', 'F_1', 'F_2'))
+    assert 't:' in data.F_0.__doc__
+    card = pymcnp.inp.card
+    assert 'material' in card.Cell_0.__doc__ and 'void' in card.Cell_1.__doc__ and 'LIKE n BUT' in card.Cell_2.__doc__
