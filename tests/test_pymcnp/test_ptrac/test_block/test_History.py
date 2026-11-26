@@ -50,12 +50,22 @@ def test_subclass_from_mcnp_returns_subclass() -> None:
 def test_truncated_from_mcnp_reads_the_complete_events() -> None:
     # Cut in the last event's P line: the events before it are kept, and a subclass gets its own type.
     source = '\n'.join(HISTORY.split('\n')[:-1])
-    truncated = pymcnp.ptrac.block.HistoryTruncated.from_mcnp(source)
+    truncated, remainder = pymcnp.ptrac.block.HistoryTruncated.from_mcnp(source)
     history, _ = pymcnp.ptrac.block.History.from_mcnp(HISTORY)
+    # Like every other ``from_mcnp``, it returns ``(obj, remainder)``; the remainder is the cut event's J line.
+    assert remainder == HISTORY.split('\n')[-2]
     assert (truncated.nps, truncated.event_type) == (history.nps, history.event_type)
     assert [event.to_mcnp() for event in truncated.events] == [event.to_mcnp() for event in history.events[:-1]]
 
     class MyTruncated(pymcnp.ptrac.block.HistoryTruncated):
         pass
 
-    assert type(MyTruncated.from_mcnp(source)) is MyTruncated
+    assert type(MyTruncated.from_mcnp(source)[0]) is MyTruncated
+
+
+def test_truncated_from_mcnp_of_complete_events_leaves_no_remainder() -> None:
+    # Cut between two events: nothing is left over.
+    source = '\n'.join(HISTORY.split('\n')[:-2])
+    truncated, remainder = pymcnp.ptrac.block.HistoryTruncated.from_mcnp(source)
+    assert remainder == ''
+    assert len(truncated.events) == 8

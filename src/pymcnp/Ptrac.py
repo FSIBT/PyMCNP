@@ -304,7 +304,7 @@ def _read(path: pathlib.Path | str) -> collections.abc.Iterator[ptrac.block.Head
                     raise abc.Error('Expected history.', f'line {number}: {remainder[:80]!r}')
                 return history
 
-        truncated = _truncated('\n'.join(lines), kinds)
+        truncated, _ = _truncated('\n'.join(lines), kinds)
         warnings.warn(abc.Warning('Last history is truncated.', f'{path=} nps={truncated.nps.strip()} events kept={len(truncated.events)}'))
         return truncated
 
