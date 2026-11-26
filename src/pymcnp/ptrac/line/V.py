@@ -11,6 +11,10 @@ class Space(abc.Terminal):
     _pattern = re.compile(r'(\n |)', re.IGNORECASE)
 
 
+_TWELVE = abc.Terminal[r'.{12}']
+_VALUES = abc.Array[_TWELVE, Space]
+
+
 class _Nv(abc.Nonterminal):
     """
     Represents nv symbols.
@@ -28,43 +32,42 @@ class _Nv(abc.Nonterminal):
     v: typing.Annotated[abc.Array, typing.Annotated[abc.Terminal, r'.{12}'], Space] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     @classmethod
-    def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
+    def _from_mcnp_at(cls, source: str, pos: int) -> tuple[typing.Self, int]:
         """
-        Compiles source strings into their corresponding nonterminal symbols.
+        Compiles source strings at positions into their corresponding nonterminal symbols.
 
         Parameters:
             source: Source string to compile.
+            pos: Position in ``source`` to compile at.
 
         Returns:
-            Nonterminal symbol corresponding to ``source``.
+            Nonterminal symbol corresponding to ``source`` at ``pos`` and the position where it ends.
 
         Raises:
             Error: Invalid source string.
         """
 
-        spaces = {}
-
-        n, source = abc.Terminal[r'.{12}'].from_mcnp(source)
-        space, source = Space.from_mcnp(source)
+        n, pos = _TWELVE._from_mcnp_at(source, pos)
+        space, pos = Space._from_mcnp_at(source, pos)
 
         v = []
         spaces = []
         _n = int(decimal.Decimal(n).to_integral_value(rounding=None))
         if _n != 0:
             for i in range(_n - 1):
-                vi, source = abc.Terminal[r'.{12}'].from_mcnp(source)
+                vi, pos = _TWELVE._from_mcnp_at(source, pos)
                 v.append(vi)
-                space, source = Space.from_mcnp(source)
+                space, pos = Space._from_mcnp_at(source, pos)
                 spaces.append(space)
 
-            vi, source = abc.Terminal[r'.{12}'].from_mcnp(source)
+            vi, pos = _TWELVE._from_mcnp_at(source, pos)
             v.append(vi)
 
         return cls(
             n=n,
-            v=abc.Array[abc.Terminal[r'.{12}'], Space](*v, spaces=spaces),
+            v=_VALUES(*v, spaces=spaces),
             spaces={'n': space},
-        ), source
+        ), pos
 
 
 class V(Line):

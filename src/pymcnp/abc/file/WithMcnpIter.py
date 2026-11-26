@@ -16,21 +16,19 @@ class WithMcnpIter(symbol.WithMcnpIter[T, U], typing.Generic[T, U]):
     """
 
     @classmethod
-    def from_file_iter(
-        cls, path: pathlib.Path | str, returning: bool = False
-    ) -> typing.Generator[typing.Generator[tuple[U, str], None, tuple[T, str] | None] | tuple[T, str], None, tuple[typing.Self, str] | None]:
+    def from_file_iter(cls, path: pathlib.Path | str, returning: bool = False) -> typing.Generator[typing.Generator[U, None, None] | U, None, tuple[typing.Self, str] | None]:
         """
         Compiles source strings into their corresponding nonterminal start symbols iteratively.
 
         Parameters:
-            source: Source string to compile.
+            path: Path to file to compile.
             returning: Flag to/to not return.
 
         Yields:
-            Nonterminal subsymbols.
+            Parsed subsymbols, or generators yielding parsed subsymbols (each finished before the next is yielded).
 
         Returns:
-            Nonterminal symbol corresponding to ``source``.
+            Nonterminal symbol corresponding to file at ``path`` and the remainder if ``returning``.
         """
 
         path = pathlib.Path(path)

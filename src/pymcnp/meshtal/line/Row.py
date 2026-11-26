@@ -35,40 +35,41 @@ class Row(Line, abc.symbol.WithDataIter):
             raise abc.Error('Invalid value.', f'{self.values=}')
 
     @classmethod
-    def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
+    def _from_mcnp_at(cls, source: str, pos: int) -> tuple[typing.Self, int]:
         """
-        Compiles source strings into their corresponding data rows.
+        Compiles source strings at positions into their corresponding data rows.
 
         Rows are matched with one regular expression, which is much faster than the generic parser for files with many rows.
 
         Parameters:
             source: Source string to compile.
+            pos: Position in ``source`` to compile at.
 
         Returns:
-            Data row corresponding to ``source``.
+            Data row corresponding to ``source`` at ``pos`` and the position where it ends.
 
         Raises:
             Error: Expected data row.
             Error: Invalid value.
         """
 
-        match = _ROW.match(source)
+        match = _ROW.match(source, pos)
         if match is None:
-            raise abc.Error('Expected ``Row``.', f'{source[:200]=}')
+            raise abc.Error('Expected ``Row``.', f'source[:200]={source[pos : pos + 200]!r}')
 
         parts = _SPACES.split(match[2])
-        values = abc.Array[abc.Terminal[r'Total|[-+]?(?:\d+\.?\d*|\.\d+)(?:E[-+]?\d+)?|[-+]?(?:NaN|Inf(?:inity)?)'], abc.Terminal[r' +']](
-            *(str.__new__(abc.Terminal[r'Total|[-+]?(?:\d+\.?\d*|\.\d+)(?:E[-+]?\d+)?|[-+]?(?:NaN|Inf(?:inity)?)'], value) for value in parts[0::2]),
-            spaces=[str.__new__(abc.Terminal[r' +'], space) for space in parts[1::2]],
+        values = _VALUES(
+            *(str.__new__(_VALUE_TERMINAL, value) for value in parts[0::2]),
+            spaces=[str.__new__(_SPACE_TERMINAL, space) for space in parts[1::2]],
         )
 
         row = object.__new__(cls)
-        object.__setattr__(row, '_indent', str.__new__(abc.Terminal[r' *'], match[1]))
+        object.__setattr__(row, '_indent', str.__new__(_INDENT_TERMINAL, match[1]))
         object.__setattr__(row, '_values', values)
         row.spaces = {}
         row.__post_init__()
 
-        return row, source[match.end() :]
+        return row, match.end()
 
     def to_dataframe_iter(self, returning: bool = False) -> typing.Generator[pandas.DataFrame, None, pandas.DataFrame | None]:
         """
@@ -93,3 +94,7 @@ class Row(Line, abc.symbol.WithDataIter):
 _VALUE = r'(?:Total|[-+]?(?:\d+\.?\d*|\.\d+)(?:E[-+]?\d+)?|[-+]?(?:NaN|Inf(?:inity)?))'
 _ROW = re.compile(rf'( *)({_VALUE}(?: +{_VALUE})*)', re.IGNORECASE)
 _SPACES = re.compile(r'( +)')
+_VALUE_TERMINAL = abc.Terminal[r'Total|[-+]?(?:\d+\.?\d*|\.\d+)(?:E[-+]?\d+)?|[-+]?(?:NaN|Inf(?:inity)?)']
+_SPACE_TERMINAL = abc.Terminal[r' +']
+_INDENT_TERMINAL = abc.Terminal[r' *']
+_VALUES = abc.Array[_VALUE_TERMINAL, _SPACE_TERMINAL]

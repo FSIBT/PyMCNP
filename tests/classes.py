@@ -1,4 +1,5 @@
 import os
+import types
 import typing
 import pathlib
 import collections
@@ -119,6 +120,18 @@ class Test_ToDataframe(typing.Generic[V]):
             _ = element.to_dataframe()
 
 
+def _check_yield(item: object) -> None:
+    """
+    Checks that iterative compilers yield parsed symbols, or inner generators yielding parsed symbols.
+    """
+
+    if isinstance(item, types.GeneratorType):
+        for inner in item:
+            assert isinstance(inner, pymcnp.abc.Symbol), f'{inner=}'
+    else:
+        assert isinstance(item, pymcnp.abc.Symbol), f'{item=}'
+
+
 class FileWithMcnpIter(pymcnp.abc.file.WithMcnpIter, pymcnp.abc.File): ...
 
 
@@ -137,8 +150,8 @@ class Test_FromFileIter(Test_FromFile[W]):
             print(example)
 
             generator = self.element.from_file_iter(example, returning=False)
-            for _ in generator:
-                pass
+            for item in generator:
+                _check_yield(item)
 
 
 class SymbolWithMcnpIter(pymcnp.abc.symbol.WithMcnpIter, pymcnp.abc.Symbol): ...
@@ -159,5 +172,5 @@ class Test_FromMcnpIter(Test_FromMcnp[X]):
             print(example)
 
             generator = self.element.from_mcnp_iter(example, returning=False)
-            for _ in generator:
-                pass
+            for item in generator:
+                _check_yield(item)

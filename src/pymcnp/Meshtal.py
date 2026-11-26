@@ -67,35 +67,36 @@ class Meshtal(abc.file.WithMcnpIter, abc.file.WithDataIter, abc.File):
                     raise abc.Error('Invalid value.', f'\n{row=}\n{self.labels=}')
 
     @classmethod
-    def from_mcnp_iter(cls, source: str, returning: bool = False) -> typing.Generator[tuple[meshtal.line.Row, str], None, tuple[typing.Self, str] | None]:
+    def _from_mcnp_iter_at(cls, source: str, pos: int, returning: bool = False) -> typing.Generator[meshtal.line.Row, None, tuple[typing.Self | None, int]]:
         """
-        Compiles source strings into their corresponding meshtal files iteratively.
+        Compiles source strings at positions into their corresponding meshtal files iteratively.
 
         Parameters:
             source: Source string to compile.
-            returning: Flag to/to not return.
+            pos: Position in ``source`` to compile at.
+            returning: Flag to/to not build the meshtal file.
 
         Yields:
             Meshtal data rows, in order.
 
         Returns:
-            Meshtal file corresponding to ``source` if `returning``.
+            Meshtal file corresponding to ``source`` at ``pos`` if ``returning`` (else ``None``), and the position where it ends.
         """
 
-        header, source = meshtal.line.Header.from_mcnp(source)
-        title_preamble, source = abc.Terminal[r'\n'].from_mcnp(source)
-        title, source = abc.Terminal[r'.+'].from_mcnp(source)
-        histories_preamble, source = abc.Terminal[r'\n Number of histories used for normalizing tallies ='].from_mcnp(source)
-        histories, source = abc.Terminal[r'.{17}'].from_mcnp(source)
-        number_preamble, source = abc.Terminal[r'\n\n Mesh Tally Number *'].from_mcnp(source)
-        number, source = abc.Terminal[r'\d+'].from_mcnp(source)
-        particles_preamble, source = abc.Terminal['\n '].from_mcnp(source)
-        particle, source = abc.Terminal[r'\S+'].from_mcnp(source)
-        particle_postable, source = abc.Terminal[r' +mesh tally\.\n\n'].from_mcnp(source)
-        bins, source = meshtal.block.Bin.from_mcnp(source)
-        blank, source = abc.Terminal[r'\n\n *'].from_mcnp(source)
-        labels, source = abc.Array[meshtal.literal.Label, abc.Terminal[r' +']].from_mcnp(source)
-        labels_postable, source = abc.Terminal[r'\n'].from_mcnp(source)
+        header, pos = meshtal.line.Header._from_mcnp_at(source, pos)
+        title_preamble, pos = _TITLE_PREAMBLE._from_mcnp_at(source, pos)
+        title, pos = _TITLE._from_mcnp_at(source, pos)
+        histories_preamble, pos = _HISTORIES_PREAMBLE._from_mcnp_at(source, pos)
+        histories, pos = _HISTORIES._from_mcnp_at(source, pos)
+        number_preamble, pos = _NUMBER_PREAMBLE._from_mcnp_at(source, pos)
+        number, pos = _NUMBER._from_mcnp_at(source, pos)
+        particles_preamble, pos = _PARTICLES_PREAMBLE._from_mcnp_at(source, pos)
+        particle, pos = _PARTICLE._from_mcnp_at(source, pos)
+        particle_postable, pos = _PARTICLE_POSTABLE._from_mcnp_at(source, pos)
+        bins, pos = meshtal.block.Bin._from_mcnp_at(source, pos)
+        blank, pos = _BLANK._from_mcnp_at(source, pos)
+        labels, pos = _LABELS._from_mcnp_at(source, pos)
+        labels_postable, pos = _LABELS_POSTABLE._from_mcnp_at(source, pos)
 
         spaces: list[abc.Terminal] = []
         if returning:
@@ -103,18 +104,18 @@ class Meshtal(abc.file.WithMcnpIter, abc.file.WithDataIter, abc.File):
 
         while True:
             try:
-                item, source = meshtal.line.Row.from_mcnp(source)
-                yield item, source
+                item, pos = meshtal.line.Row._from_mcnp_at(source, pos)
+                yield item
 
                 if returning:
                     items.append(item)
             except abc.Error:
                 if spaces:
-                    source = spaces.pop(-1).to_mcnp() + source
+                    pos -= len(spaces.pop(-1))
                 break
 
             try:
-                space, source = abc.Terminal[r' *\n'].from_mcnp(source)
+                space, pos = _ROW_SPACE._from_mcnp_at(source, pos)
 
                 if returning:
                     spaces.append(space)
@@ -124,29 +125,39 @@ class Meshtal(abc.file.WithMcnpIter, abc.file.WithDataIter, abc.File):
                 break
 
         if returning:
-            rows = abc.Array[meshtal.line.Row, abc.Terminal[r' *\n']](*items, spaces=spaces)
+            rows = _ROWS(*items, spaces=spaces)
 
-        end, source = abc.Terminal[r'(?: *\n)?'].from_mcnp(source)
+        end, pos = _END._from_mcnp_at(source, pos)
 
-        if returning:
-            return cls(
-                header=header,
-                title_preamble=title_preamble,
-                title=title,
-                histories_preamble=histories_preamble,
-                histories=histories,
-                number_preamble=number_preamble,
-                number=number,
-                particles_preamble=particles_preamble,
-                particle=particle,
-                particle_postable=particle_postable,
-                bins=bins,
-                blank=blank,
-                labels=labels,
-                labels_postable=labels_postable,
-                rows=rows,
-                end=end,
-            ), source
+        if not returning:
+            return None, pos
+
+        return cls(
+            header=header,
+            title_preamble=title_preamble,
+            title=title,
+            histories_preamble=histories_preamble,
+            histories=histories,
+            number_preamble=number_preamble,
+            number=number,
+            particles_preamble=particles_preamble,
+            particle=particle,
+            particle_postable=particle_postable,
+            bins=bins,
+            blank=blank,
+            labels=labels,
+            labels_postable=labels_postable,
+            rows=rows,
+            end=end,
+        ), pos
+
+    if typing.TYPE_CHECKING:
+
+        @classmethod
+        def from_mcnp_iter(cls, source: str, returning: bool = False) -> typing.Generator[meshtal.line.Row, None, tuple[typing.Self, str] | None]: ...
+
+        @classmethod
+        def from_file_iter(cls, path: pathlib.Path | str, returning: bool = False) -> typing.Generator[meshtal.line.Row, None, tuple[typing.Self, str] | None]: ...
 
     @staticmethod
     def iter_tallies(path: pathlib.Path | str) -> collections.abc.Iterator['Meshtal']:
@@ -249,3 +260,20 @@ class Meshtal(abc.file.WithMcnpIter, abc.file.WithDataIter, abc.File):
 
         if returning:
             return frame
+
+
+_TITLE_PREAMBLE = abc.Terminal[r'\n']
+_TITLE = abc.Terminal[r'.+']
+_HISTORIES_PREAMBLE = abc.Terminal[r'\n Number of histories used for normalizing tallies =']
+_HISTORIES = abc.Terminal[r'.{17}']
+_NUMBER_PREAMBLE = abc.Terminal[r'\n\n Mesh Tally Number *']
+_NUMBER = abc.Terminal[r'\d+']
+_PARTICLES_PREAMBLE = abc.Terminal['\n ']
+_PARTICLE = abc.Terminal[r'\S+']
+_PARTICLE_POSTABLE = abc.Terminal[r' +mesh tally\.\n\n']
+_BLANK = abc.Terminal[r'\n\n *']
+_LABELS = abc.Array[meshtal.literal.Label, abc.Terminal[r' +']]
+_LABELS_POSTABLE = abc.Terminal[r'\n']
+_ROW_SPACE = abc.Terminal[r' *\n']
+_ROWS = abc.Array[meshtal.line.Row, _ROW_SPACE]
+_END = abc.Terminal[r'(?: *\n)?']

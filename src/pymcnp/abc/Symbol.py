@@ -103,6 +103,9 @@ def _from_mcnp_at_by_slice(cls: type[Symbol], source: str, pos: int) -> tuple[ty
     """
     Compiles source strings at positions with ``from_mcnp``, for symbols that do not parse by position.
 
+    The end position is computed from the length of the remainder, so it is only right for ``from_mcnp``
+    overrides that return a suffix of their source, not for ones that rewrite it, e.g., ``Inp``'s preprocessing.
+
     Parameters:
         cls: Symbol to compile.
         source: Source string to compile.

@@ -10,6 +10,9 @@ from . import abc
 from . import ptrac
 
 _REGEX_HISTORY = re.compile(r' *\d+ +(?:[1345]000|-?20\d\d)(?: |$)')
+_NEWLINE = abc.Terminal[r'\n']
+_NEWLINE_OPTIONAL = abc.Terminal[r'\n?']
+_HISTORIES = abc.Array[ptrac.block.History, _NEWLINE]
 
 
 class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.file.WithDataIter, abc.File):
@@ -26,46 +29,41 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
     newline: typing.Annotated[abc.Terminal, r'\n?']
 
     @classmethod
-    def from_mcnp_iter(
-        cls, source: str, returning: bool = False
-    ) -> typing.Generator[typing.Generator[tuple[ptrac.block.Event, str], None, tuple[ptrac.block.History, str] | None], None, tuple[typing.Self, str] | None]:
+    def _from_mcnp_iter_at(cls, source: str, pos: int, returning: bool = False) -> typing.Generator[typing.Generator[ptrac.block.Event, None, None], None, tuple[typing.Self | None, int]]:
         """
-        Compiles source strings into their corresponding ptrac files iteratively.
+        Compiles source strings at positions into their corresponding ptrac files iteratively.
 
         Parameters:
             source: Source string to compile.
+            pos: Position in ``source`` to compile at.
+            returning: Flag to/to not build the ptrac file.
 
         Yields:
-            Generators yielding ptrac events and returning ptrac histories corresponding to ``source``.
+            Generators yielding the events of one history each; an unfinished generator is finished before the next is yielded.
 
         Returns:
-            Ptrac file corresponding to ``source``.
-
-        Raises:
-            Error: Inner generator not done.
+            Ptrac file corresponding to ``source`` at ``pos`` if ``returning`` (else ``None``), and the position where it ends.
         """
 
-        header, source = ptrac.block.Header.from_mcnp(source)
+        header, pos = ptrac.block.Header._from_mcnp_at(source, pos)
 
         stop: bool = False
         spaces: list[abc.Terminal] = []
         if returning:
             items: list[abc.Symbol] = []
 
-        def _generator():
+        def _generator() -> typing.Generator[ptrac.block.Event, None, None]:
             nonlocal items
-            nonlocal source
+            nonlocal pos
             nonlocal stop
             try:
-                result = yield from ptrac.block.History.from_mcnp_iter(source, returning=True)
-                assert result is not None
-                item, source = result
+                item, pos = yield from ptrac.block.History._from_mcnp_iter_at(source, pos, returning=True)
 
                 if returning:
                     items.append(item)
             except abc.Error:
                 if spaces:
-                    source = spaces.pop(-1).to_mcnp() + source
+                    pos -= len(spaces.pop(-1))
                 stop = True
 
         while True:
@@ -78,7 +76,7 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
                 break
 
             try:
-                space, source = abc.Terminal[r'\n'].from_mcnp(source)
+                space, pos = _NEWLINE._from_mcnp_at(source, pos)
 
                 if returning:
                     spaces.append(space)
@@ -87,20 +85,21 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
             except abc.Error:
                 break
 
-        if returning:
-            histories = abc.Array[ptrac.block.History, abc.Terminal[r'\n']](*items, spaces=spaces)
+        newline, pos = _NEWLINE_OPTIONAL._from_mcnp_at(source, pos)
 
-        newline, source = abc.Terminal[r'\n?'].from_mcnp(source)
+        if not returning:
+            return None, pos
 
-        if returning:
-            return cls(header=header, histories=histories, newline=newline), source
+        histories = _HISTORIES(*items, spaces=spaces)
+        return cls(header=header, histories=histories, newline=newline), pos
 
     if typing.TYPE_CHECKING:
 
         @classmethod
-        def from_file_iter(
-            cls, path: pathlib.Path | str, returning: bool = False
-        ) -> typing.Generator[typing.Generator[tuple[ptrac.block.Event, str], None, tuple[ptrac.block.History, str] | None], None, tuple[typing.Self, str] | None]: ...
+        def from_mcnp_iter(cls, source: str, returning: bool = False) -> typing.Generator[typing.Generator[ptrac.block.Event, None, None], None, tuple[typing.Self, str] | None]: ...
+
+        @classmethod
+        def from_file_iter(cls, path: pathlib.Path | str, returning: bool = False) -> typing.Generator[typing.Generator[ptrac.block.Event, None, None], None, tuple[typing.Self, str] | None]: ...
 
     def to_dataframe_iter(self, returning: bool = False) -> typing.Generator[pandas.DataFrame, None, pandas.DataFrame | None]:
         """

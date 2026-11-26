@@ -5,6 +5,7 @@ Each test times a parse of ``n`` and of ``2n`` repeats of a unit and requires a 
 linear, 4 for quadratic).
 """
 
+import gc
 import time
 import pathlib
 import collections.abc
@@ -16,15 +17,22 @@ import pymcnp
 pytestmark = pytest.mark.scaling
 
 FILES: pathlib.Path = pathlib.Path(__file__).parent.parent / 'files'
-QUADRATIC = pytest.mark.xfail(strict=True, reason='quadratic parsing, fixed by the position protocol')
 
 
 def _best(parse: collections.abc.Callable[[str], object], source: str) -> float:
+    # Freezing the objects that exist before parsing, i.e., the imported library, keeps full garbage
+    # collections from walking them: one such collection costs as much as a small parse, so whether it
+    # falls into the parse of ``n`` or of ``2n`` would decide the ratio. Objects of the parse are still collected.
     best = float('inf')
     for _ in range(3):
-        start = time.perf_counter()
-        parse(source)
-        best = min(best, time.perf_counter() - start)
+        gc.collect()
+        gc.freeze()
+        try:
+            start = time.perf_counter()
+            parse(source)
+            best = min(best, time.perf_counter() - start)
+        finally:
+            gc.unfreeze()
     return best
 
 
@@ -46,7 +54,6 @@ def test_ptrac_scales_linearly() -> None:
     assert ratio(build, pymcnp.Ptrac.from_mcnp, 8) < 2.6
 
 
-@QUADRATIC
 def test_meshtal_scales_linearly() -> None:
     lines = (FILES / 'meshtal' / 'valid_38.meshtal').read_text().split('\n')
     start = next(i for i, line in enumerate(lines) if 'Result' in line) + 1
