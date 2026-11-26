@@ -44,7 +44,14 @@ The files are in the [examples](examples) directory, which has many more example
 ## Automation with AI Coding Agents
 
 PyMCNP ships a skill file, [SKILL.md](SKILL.md), that describes the API, the parsing contract, and the common pitfalls to an AI coding agent such as [Claude Code](https://claude.com/claude-code).
-With the skill installed (for Claude Code, copy it to `~/.claude/skills/pymcnp/SKILL.md`), an agent can write, scan, run, and plot MCNP models for you from a short description, so automating MCNP becomes easy even for complex geometries.
+With the skill installed, an agent can write, scan, run, and plot MCNP models for you from a short description, so automating MCNP becomes easy even for complex geometries.
+For Claude Code, save it as `~/.claude/skills/pymcnp/SKILL.md` (all your projects) or `.claude/skills/pymcnp/SKILL.md` (one project), taking the version that matches your installed PyMCNP:
+
+    v=$(python -c 'import pymcnp; print(pymcnp.__version__)')
+    mkdir -p ~/.claude/skills/pymcnp
+    curl -fsSL "https://raw.githubusercontent.com/FSIBT/PyMCNP/v$v/SKILL.md" -o ~/.claude/skills/pymcnp/SKILL.md
+
+[Using PyMCNP with AI agents](https://pymcnp.readthedocs.io/en/latest/skill.html) explains how to check that it loaded, how to use it with other agents, and what to ask.
 The [example](https://pymcnp.readthedocs.io/en/latest/examples/automate.html) on ReadTheDocs, 441 iron discs over a rough concrete floor with a flux plot, was created this way from a short prompt.
 Always review generated models and results before relying on them.
 
