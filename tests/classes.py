@@ -1,13 +1,19 @@
-import os
+import re
+import math
 import types
+import numbers
 
 import pytest
 import typing
 import pathlib
 import collections
 
+import pandas
+
 import pymcnp
 
+# Numbers of example texts, e.g., ``-0.19652E+01``.
+_NUMBER = re.compile(r'[-+]?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?')
 
 T = typing.TypeVar('T', bound=pymcnp.abc.Symbol)
 
@@ -101,16 +107,21 @@ class Test_FromFile(Test_FromMcnp, typing.Generic[U]):
             _, source = self.element.from_file(example)
             assert source == remainder
 
-    def test_to_file(self) -> None:
+    def test_to_file(self, tmp_path: pathlib.Path) -> None:
         """
-        Tests `EXAMPLES_FROM_FILE_VALID` on `to_file`.
+        Tests `EXAMPLES_FROM_FILE_VALID` on `to_file`: the file holds `to_mcnp` and reads back to the same object.
         """
 
-        for example in self.EXAMPLES_FROM_FILE_VALID:
+        for index, example in enumerate(self.EXAMPLES_FROM_FILE_VALID):
             print(example)
 
             a, _ = self.element.from_file(example)
-            a.to_file(pathlib.Path(os.devnull))
+            path = tmp_path / f'{index}-{example.name}'
+            a.to_file(path)
+            assert path.read_text() == a.to_mcnp()
+            b, remainder = self.element.from_file(path)
+            assert remainder == ''
+            assert b.to_mcnp() == a.to_mcnp()
 
 
 class SymbolWithDataIter(pymcnp.abc.symbol.WithDataIter, pymcnp.abc.Symbol): ...
@@ -123,19 +134,37 @@ class Test_ToDataframe(typing.Generic[V]):
     element: type[V]
 
     EXAMPLES_TO_DATAFRAME: list[str] = []
+    # Examples of ``EXAMPLES_TO_DATAFRAME`` without data rows, e.g., a tally block with only its total.
+    EXAMPLES_TO_DATAFRAME_EMPTY: collections.abc.Sequence[str] = []
 
     def test_to_dataframe(self) -> None:
         """
-        Tests `to_dataframe` on `EXAMPLES_TO_DATAFRAME`.
+        Tests `to_dataframe` on `EXAMPLES_TO_DATAFRAME`: it has rows, every number in it is a number of the example
+        text, and the text written back gives the same dataframe.
 
-        The dataframes of the file fixtures are checked by the snapshot (``tests/snapshot.py``).
+        The dataframes of the file fixtures are checked by the snapshot (``tests/snapshot.py``), and some values by hand
+        in the tests of the classes.
         """
 
         for example in self.EXAMPLES_TO_DATAFRAME:
             print(example)
 
             element, _ = self.element.from_mcnp(example)
-            _ = element.to_dataframe()
+            frame = element.to_dataframe()
+            assert isinstance(frame, pandas.DataFrame)
+            if example in self.EXAMPLES_TO_DATAFRAME_EMPTY:
+                assert frame.empty
+                continue
+
+            assert len(frame) > 0
+            found = {float(token) for token in _NUMBER.findall(example)}
+            for column in frame.columns:
+                for value in frame[column]:
+                    if isinstance(value, numbers.Real) and not isinstance(value, bool) and not math.isnan(value):
+                        assert float(value) in found, f'{column=} {value=}'
+
+            again, _ = self.element.from_mcnp(element.to_mcnp())
+            pandas.testing.assert_frame_equal(again.to_dataframe(), frame)
 
 
 def _check_yield(item: object) -> None:
