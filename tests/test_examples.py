@@ -62,10 +62,12 @@ def examples(tmp_path: pathlib.Path) -> pathlib.Path:
 def environment(examples: pathlib.Path) -> dict[str, str]:
     # Keeps the caller's environment (e.g. ``DISPLAY`` from a headless X server on CI), but puts
     # this interpreter first on ``PATH``, uses a non-interactive matplotlib backend and isolates
-    # ``HOME`` in the temporary copy of ``examples/``.
+    # ``HOME`` in the temporary copy of ``examples/``. ``PATH`` keeps the system programs, e.g., ``echo``
+    # or on Windows ``where``.
     env = dict(os.environ)
     env['MPLBACKEND'] = 'Agg'
-    env['PATH'] = os.pathsep.join([str(pathlib.Path(sys.executable).parent), '/usr/bin', '/bin'])
+    system = [os.path.join(os.environ.get('SYSTEMROOT', 'C:\\Windows'), 'System32')] if os.name == 'nt' else ['/usr/bin', '/bin']
+    env['PATH'] = os.pathsep.join([str(pathlib.Path(sys.executable).parent), *system])
     env['HOME'] = str(examples)
     return env
 
