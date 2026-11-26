@@ -335,6 +335,12 @@ class Test_VerticalFormat:
             '# si1 sp1\n1 0\n2 1 5\n',
             # A row with a `$` comment.
             '# si1 sp1\n1 0 $ first\n2 1\n',
+            # Rows with shorthands: `2j` would be one entry of one card instead of a jump over two cards.
+            '# si1 sp1\n1 2j\n2 1\n',
+            '# si1 sp1\n1 0\n2 1r\n',
+            '# si1 sp1\n1 0\n2 2m\n',
+            '# si1 sp1\n1 0\n2 1i\n',
+            '# si1 sp1\n1 0\n2 2log\n',
         ],
     )
     def test_unsupported_block_is_left_as_remainder(self, block) -> None:
@@ -343,6 +349,13 @@ class Test_VerticalFormat:
         assert remainder.startswith('# si1 sp1\n')
         assert remainder.endswith('nps 10\n')
         assert [card.to_mcnp() for card in inp.data_cards()] == ['sdef erg=d1']
+
+    def test_comment_card_ends_block(self) -> None:
+        # A comment card between rows ends the block: the rows before it are read, and the rows after it, which do not
+        # start a card, are the remainder.
+        inp, remainder = pymcnp.Inp.from_mcnp(self.BASE + '# si1 sp1\n1 0\nc mid\n2 1\nnps 10\n')
+        assert [card.to_mcnp() for card in inp.data_cards()] == ['si1 1', 'sp1 0']
+        assert remainder == '2 1\nnps 10\n'
 
     def test_block_after_data_block_is_verbatim(self) -> None:
         source = self.BASE + 'nps 10\n\n# si1 sp1\n1 0\n2 1\n'

@@ -15,6 +15,8 @@ _REGEX_UNWRAPPED_CARD = re.compile(r' {0,4}(?:c|[fs]c\d+)(?:\s|\Z)', re.IGNORECA
 # a number or a jump, so the next card ends the block, and they carry no ``$`` comment.
 _REGEX_VERTICAL_HEADER = re.compile(r' {0,4}#((?:[ \t]+[^\s$]+)+)[ \t]*\Z')
 _REGEX_VERTICAL_ROW = re.compile(r'[ \t]*(?:[-+]?\.?\d|\d*J(?:\s|\Z))[^$]*\Z', re.IGNORECASE)
+# A shorthand in a row is not one entry of one card (``2J`` jumps over two cards), so a row with one is not read.
+_REGEX_VERTICAL_SHORTHAND = re.compile(r'\d+J|[-+]?(?:\d+\.?\d*|\.\d+)(?:E[-+]?\d+)?(?:R|I|M|I?LOG)', re.IGNORECASE)
 
 _WIDTH = 80
 _INDENT = 5
@@ -30,8 +32,9 @@ def _vertical_block(lines: list[str], index: int) -> tuple[list[str], int] | Non
 
     Returns:
         The block's cards in horizontal format and the index of the line after the block, or None if no block starts at
-        ``index`` or its rows do not each have one entry per card name. Such a block stays as it is, so it ends the data
-        block and is left in the remainder instead of being read wrong.
+        ``index``, its rows do not each have one entry per card name, or a row holds a shorthand (``nJ``, ``nR``, ``nI``,
+        ``nLOG``, ``xM``). Such a block stays as it is, so it ends the data block and is left in the remainder instead of
+        being read wrong.
     """
 
     header = _REGEX_VERTICAL_HEADER.match(lines[index])
@@ -45,7 +48,7 @@ def _vertical_block(lines: list[str], index: int) -> tuple[list[str], int] | Non
         rows.append(lines[end].split())
         end += 1
 
-    if not rows or any(len(row) != len(names) for row in rows):
+    if not rows or any(len(row) != len(names) or any(map(_REGEX_VERTICAL_SHORTHAND.fullmatch, row)) for row in rows):
         return None
 
     return [' '.join([name, *(row[column] for row in rows)]) for column, name in enumerate(names)], end
