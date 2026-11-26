@@ -36,7 +36,7 @@ def test_main_invalid(monkeypatch) -> None:
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'convert', 'outp', '--csv', str(FILES / 'inp' / 'invalid_00.inp')])
     with pytest.raises(SystemExit) as error:
         convert.main()
-    assert error.value.code == 1
+    assert error.value.code == 3
 
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'convert', 'outp', '--csv', 'hello'])
     with pytest.raises(SystemExit) as error:

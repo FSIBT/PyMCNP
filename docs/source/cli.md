@@ -16,12 +16,13 @@ Every command exits with one of these codes:
 | Exit code | Meaning |
 |---|---|
 | 0 | Success. |
-| 1 | The input or output has problems, or the command failed, e.g., a run of MCNP failed or there is nothing to convert. |
-| 2 | Usage error, e.g., an unknown option or command, or a cell, surface or tally that is not in the file; or a file that does not exist or cannot be read as text, e.g., a binary PTRAC file. |
-| 3 | PyMCNP cannot parse all of a file. The command warns with the line where parsing stopped and works with the part before it, if it can. |
+| 1 | The input or output has problems, or the command failed, e.g., a line wider than 80 columns, a run of MCNP that failed, or a PTRAC file without events to convert. |
+| 2 | Usage error, e.g., an unknown option or command, or a cell, surface or tally that is not in the file; or a file that does not exist, is a directory, or cannot be read as UTF-8 text, e.g., a binary PTRAC file. |
+| 3 | PyMCNP cannot parse all of a file, e.g., a card, an input with two cells of one number, a file of another kind, or an OUTP tally in a layout PyMCNP cannot parse yet. The command warns with the line where parsing stopped and works with the part before it, if it can. |
 
-A card of an input file that PyMCNP cannot parse is named with its line number, as `pymcnp check` does. A data card
-leaves the cards before it; a cell or surface card leaves nothing to work with.
+A file gets the same code from every command that reads it. A card of an input file that PyMCNP cannot parse is named
+with its line number, as `pymcnp check` does. A data card leaves the cards before it; a cell or surface card, or an
+input that parses but is not valid, e.g., two cells with one number, leaves nothing to work with.
 
 ## Commands
 
@@ -39,7 +40,7 @@ rewrap them and `--fix` rewrites the file in place. The exit code says what it f
 | 0 | No problems (or `--fix` reformatted the file and no line is wider than 80 columns). |
 | 1 | Lines wider than 80 columns; with `--fix`, lines it cannot shorten, e.g., long comments. |
 | 2 | Usage error, or the file does not exist or cannot be read as text. |
-| 3 | PyMCNP cannot parse a card; checking stops there. `--fix` refuses to rewrite such a file. |
+| 3 | PyMCNP cannot parse a card, or the file, e.g., two cells with one number; checking stops there. `--fix` refuses to rewrite such a file. |
 
 ![pymcnp check example_00.inp](images/cli_check_ok.svg)
 
@@ -60,8 +61,9 @@ Without options, `pymcnp visualize` shows all cells and then all surfaces in a [
 The options take comma-separated numbers. With `--pdf`, it writes a PDF next to the input instead of opening a window,
 named after the option: `example_00-surface_2_3.pdf`, `example_00-cells-skip.pdf`, `example_00-cells.pdf`, and so on.
 It exits with 2 if a listed cell or surface does not exist or an option is not a list of numbers, and with 1 if PyMCNP
-cannot visualize the geometry. If PyMCNP cannot parse a card, it warns with the card's line number, draws the cards
-before it, and exits with 3, as `pymcnp check` does.
+cannot visualize the geometry. If PyMCNP cannot parse the input, it exits with 3, as `pymcnp check` does: for a data
+card, it warns with the card's line number and draws the cells and surfaces; for a cell or surface card, or an input
+that is not valid, it draws nothing.
 
 ### Run
 
@@ -73,8 +75,8 @@ before it, and exits with 3, as `pymcnp check` does.
 current directory). It creates `<path>/pymcnp-<timestamp>/` with one directory per input, `run-00000`, `run-00001`, ...,
 each holding `run-0000N.inp`, `.outp`, `.ptrac`, `.runtpe`, and `.log` (the standard output of MCNP); files such as
 `meshtal` keep MCNP's default names. It exits with 1 if a run failed or the MCNP command is not found, and with 2 if an
-input does not exist or cannot be read. If PyMCNP cannot parse a card of an input, the cards from there on would be
-missing from the run, so it warns with the card's line number, runs nothing, and exits with 3. For more control, e.g., run names or hooks, use [`pymcnp.Run`](pymcnp.md) in Python.
+input does not exist or cannot be read. If PyMCNP cannot parse an input, e.g., a card, whose cards from there on would be
+missing from the run, it warns, with the card's line number, runs nothing, and exits with 3. For more control, e.g., run names or hooks, use [`pymcnp.Run`](pymcnp.md) in Python.
 
 ### Convert
 
@@ -87,8 +89,8 @@ parsed tallies; for PTRAC files, one row per event; for MESHTAL files, the rows 
 column for the tally number. A tally in an OUTP layout PyMCNP cannot parse yet is left out, and PyMCNP issues a warning
 naming it. If PyMCNP cannot parse part of an OUTP or PTRAC file, it writes what it parsed before that part, warns
 with the line where parsing stopped (for PTRAC, the start of the history that holds the bad line), and exits with 3,
-as `pymcnp visualize` does. If there is nothing to convert, e.g., no tally PyMCNP can parse, it writes no file and exits
-with 1. Large PTRAC files are better streamed in Python with `Ptrac.to_parquet`.
+as `pymcnp visualize` does. If there is nothing to convert, it writes no file and exits with 1, or with 3 if that is
+because PyMCNP cannot parse the tallies or the file, e.g., a file of another kind. Large PTRAC files are better streamed in Python with `Ptrac.to_parquet`.
 
 ### Plot
 
@@ -97,8 +99,8 @@ with 1. Large PTRAC files are better streamed in Python with `Ptrac.to_parquet`.
 
 `pymcnp plot` plots one tally of an OUTP file, given by its number, with one figure per combination of the other bins
 (e.g., surface facet and angle bin). With `--pdf`, it writes all figures to `example_00.pdf` instead of showing them.
-It exits with 2 if the tally is not in the file, or is in a layout PyMCNP cannot parse yet. If PyMCNP cannot parse
-part of the file, it plots the tally if it was parsed, warns, and exits with 3.
+It exits with 2 if the tally is not in the file, and with 3 ("Tally not parsed.") if it is in a layout PyMCNP cannot
+parse yet. If PyMCNP cannot parse part of the file, it plots the tally if it was parsed, warns, and exits with 3.
 
 For tally 1 of `example_00.outp`, these are six figures, the three facets of surface 2 times the two angle bins (shown
 here side by side):

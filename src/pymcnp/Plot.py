@@ -27,8 +27,9 @@ class Plot(abc.Utility):
             number: Tally number to plot.
 
         Raises:
-            Error: File not found.
             Error: Tally not found.
+            Error: Tally not parsed, i.e., in the file in a layout PyMCNP
+                cannot parse.
         """
 
         number = str(number).strip()
@@ -36,7 +37,9 @@ class Plot(abc.Utility):
         try:
             tally = next(frame for frame in outp.to_dataframe_iter() if not frame.empty and str(frame['number'].iloc[0]).strip() == number)
         except StopIteration:
-            raise abc.Error('Tally not found', f'{number=}')
+            if number in (unparsed := outp._unparsed_tallies()):
+                raise abc.Error('Tally not parsed.', f'{number=}: tally {number} (type {unparsed[number]}) is in the file, but PyMCNP cannot parse its layout')
+            raise abc.Error('Tally not found.', f'{number=}')
 
         figures = []
         names = tally.columns[3:-4]

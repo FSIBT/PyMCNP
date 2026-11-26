@@ -33,7 +33,7 @@ def test_main_invalid(monkeypatch) -> None:
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'plot', str(FILES / 'outp' / 'invalid_02.outp'), '21'])
     with pytest.raises(SystemExit) as error:
         plot.main()
-    assert error.value.code == 1
+    assert error.value.code == 3
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'plot', str(FILES / 'outp' / 'valid_39.outp'), '123'])
     with pytest.raises(SystemExit) as error:
         plot.main()

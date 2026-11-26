@@ -134,6 +134,16 @@ class Test_Check_Problems:
         assert [(problem.line, problem.kind) for problem in problems] == [(6, 'warning')]
         assert 'run the check again' in problems[0].message
 
+    def test_error_before_the_card_that_does_not_parse_is_reported(self, tmp_path: pathlib.Path) -> None:
+        # Two cells with one number, and a data card PyMCNP cannot parse: the duplicate is the problem, not the card.
+        path = tmp_path / 'duplicate.inp'
+        path.write_text(SOURCE.replace('2 0 1', '1 0 1').replace('nps 10', 'nps 10\nqqq 1'))
+
+        problems = pymcnp.Check(path).problems()
+
+        assert [(problem.line, problem.kind) for problem in problems] == [(1, 'warning')]
+        assert problems[0].message.startswith("PyMCNP cannot parse this file: Invalid value. card.j='1'")
+
     def test_unknown_data_card_line_with_continuation(self, tmp_path: pathlib.Path) -> None:
         path = tmp_path / 'continued.inp'
         path.write_text(SOURCE.replace('nps 10', 'nps 10\nfoo 1 2 &\n    3'))

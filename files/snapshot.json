@@ -37,9 +37,9 @@
   "ok": false,
   "problems": [
    [
-    38,
+    1,
     "warning",
-    "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
+    "PyMCNP cannot parse this file: Invalid value. card.j='2' Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
   ]
  },

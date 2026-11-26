@@ -108,39 +108,44 @@ def fail(msg: str, code: int) -> typing.NoReturn:
     sys.exit(code)
 
 
-def read(path: pathlib.Path, parse: typing.Callable[[pathlib.Path], T], unit: str = 'line') -> T:
+def read(path: pathlib.Path, parse: typing.Callable[[pathlib.Path], T], unit: str = 'line', hint: str = '') -> T:
     """
     Reads a file for a command, exiting with a message instead of a traceback.
 
     Exits with ``USAGE`` if the file does not exist or cannot be read as
-    text, e.g., a binary PTRAC file, and with ``PROBLEMS`` if PyMCNP cannot
-    parse it. For INP files (``unit`` is ``card``), a card PyMCNP cannot parse
-    is named with its line, as ``pymcnp check`` does, and exits with
-    ``PARTLY_PARSED``.
+    text, and with ``PARTLY_PARSED`` if PyMCNP cannot parse it, as ``pymcnp
+    check`` does for every command. For INP files (``unit`` is ``card``), a
+    card PyMCNP cannot parse is named with its line, as ``pymcnp check``
+    does; other errors, e.g., two cells with one number, are given as they
+    are.
 
     Parameters:
         path: Path of the file.
         parse: Function that parses the file at a path.
         unit: What the file is made of, ``card`` for INP files or ``line``.
+        hint: Sentence added to the message for a file that is not text.
 
     Returns:
         What ``parse`` returns.
     """
 
-    if not path.is_file():
+    if not path.exists():
         fail(f'{path}: no such file.', USAGE)
+    if not path.is_file():
+        fail(f'{path}: not a file.', USAGE)
 
     try:
         return parse(path)
-    except UnicodeDecodeError:
-        fail(f'{path}: not a text file. PyMCNP reads text files only; for PTRAC, have MCNP write text with FILE=ASC.', USAGE)
+    except UnicodeDecodeError as err:
+        fail(f'{path}: not {err.encoding.upper()} text (byte offset {err.start}), so PyMCNP cannot read it.{" " + hint if hint else ""}', USAGE)
     except OSError as err:
         fail(f'{path}: cannot read the file: {err.strerror}.', USAGE)
     except abc.Error as err:
-        if unit == 'card' and (found := _unparseable_card(path.read_text().split('\n'))) is not None:
+        # Errors of the grammar have a stack; others, e.g., two cells with one number, are not about one card.
+        if unit == 'card' and err.stack and (found := _unparseable_card(path.read_text().split('\n'))) is not None:
             number, card_err = found
             fail(f'{path}, line {number}: PyMCNP cannot parse this card: {str(card_err).splitlines()[0]} Nothing is read; fix the card and check the file with "pymcnp check".', PARTLY_PARSED)
-        fail(str(err), PROBLEMS)
+        fail(f'{path}: PyMCNP cannot parse this file: {" ".join(str(err).split())}', PARTLY_PARSED)
 
 
 def done():

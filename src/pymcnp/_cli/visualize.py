@@ -16,10 +16,13 @@ shows cell 1, then cells 2 and 3 together.
 
 Exit codes:
     0    Visualized.
-    1    PyMCNP cannot parse the input or visualize it.
+    1    PyMCNP cannot visualize the input.
     2    Usage error, e.g., no such cell or surface, or the file does not exist
          or cannot be read as text.
-    3    PyMCNP cannot parse all of the input; the part before is visualized.
+    3    PyMCNP cannot parse the input. If a data card does not parse, the
+         cells and surfaces are visualized; if a cell or surface card does
+         not parse, or the input is invalid, e.g., two cells with one number,
+         nothing is.
 """
 
 import sys

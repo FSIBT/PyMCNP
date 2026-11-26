@@ -16,10 +16,12 @@ is nothing to convert.
 
 Exit codes:
     0    Converted.
-    1    There is nothing to convert, or PyMCNP cannot parse the file.
+    1    There is nothing to convert, e.g., a PTRAC file without events.
     2    Usage error, or the file does not exist or cannot be read as text,
          e.g., a binary PTRAC file.
-    3    PyMCNP cannot parse all of the file; the part before is converted.
+    3    PyMCNP cannot parse all of the file, e.g., a file of another kind;
+         the part before is converted. Also if there is nothing to convert
+         because PyMCNP cannot parse the tallies of an OUTP file.
 """
 
 import pathlib
@@ -54,15 +56,18 @@ def main() -> None:
 
     # Reading output file; meshtal files may hold several mesh tallies.
     if Nonterminal is Meshtal:
-        frame, remainder = _io.read(file, _meshtal), ''
+        frame, remainder, unparsed = _io.read(file, _meshtal), '', False
     else:
-        nonterminal, remainder = _io.read(file, Nonterminal.from_file)
+        hint = 'PyMCNP reads text PTRAC files only: have MCNP write one with the PTRAC option FILE=ASC.' if Nonterminal is Ptrac else ''
+        nonterminal, remainder = _io.read(file, Nonterminal.from_file, hint=hint)
         frame = nonterminal.to_dataframe()
+        # Tallies PyMCNP cannot parse were warned about; if they are all there is, the file is not converted in full.
+        unparsed = isinstance(nonterminal, Outp) and bool(nonterminal._unparsed_tallies())
 
     partly = _io.partly_parsed(file, remainder, 'line')
 
     if frame.empty:
-        _io.fail(f'{file}: nothing to convert; no file written.', _io.PARTLY_PARSED if partly else _io.PROBLEMS)
+        _io.fail(f'{file}: nothing to convert; no file written.', _io.PARTLY_PARSED if partly or unparsed else _io.PROBLEMS)
 
     # Converting! The output keeps the whole file name, so run.outp and run.ptrac of one run do not write the same file.
     if args['--csv']:

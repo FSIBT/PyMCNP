@@ -16,6 +16,14 @@ class Test_Plot:
         with pytest.raises(pymcnp.abc.Error):
             plotter.to_show(outp, '23423432')
 
+    def test_to_show_unparsed_tally(self) -> None:
+        outp, _ = pymcnp.Outp.from_file(pathlib.Path(__file__).parent.parent.parent / 'files' / 'outp' / 'valid_01.outp')
+
+        with pytest.raises(pymcnp.abc.Error, match='Tally not parsed'):
+            pymcnp.Plot().to_show(outp, 4)
+        with pytest.raises(pymcnp.abc.Error, match='Tally not found'):
+            pymcnp.Plot().to_show(outp, 5)
+
     def test_plot_to_pdf_writes(self, tmp_path: pathlib.Path) -> None:
         plotter = pymcnp.Plot()
         outp, _ = pymcnp.Outp.from_file(pathlib.Path(__file__).parent.parent.parent / 'files' / 'outp' / 'valid_38.outp')

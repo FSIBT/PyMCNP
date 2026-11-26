@@ -31,7 +31,7 @@ def test_main_invalid(monkeypatch) -> None:
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'run', str(FILES / 'inp' / 'invalid_00.inp')])
     with pytest.raises(SystemExit) as error:
         run.main()
-    assert error.value.code == 1
+    assert error.value.code == 3
     monkeypatch.setattr(sys, 'argv', ['pymcnp', 'run', str(FILES / 'inp' / 'invalid_01.inp')])
     with pytest.raises(SystemExit) as error:
         run.main()

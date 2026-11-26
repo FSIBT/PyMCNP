@@ -12,11 +12,11 @@ Options:
 
 Exit codes:
     0    Plotted.
-    1    PyMCNP cannot parse the file.
-    2    Usage error, e.g., the tally is not in the file (or PyMCNP cannot
-         parse it), or the file does not exist or cannot be read as text.
-    3    PyMCNP cannot parse all of the file; tallies before that part are
-         plotted.
+    2    Usage error, e.g., the tally is not in the file, or the file does not
+         exist or cannot be read as text.
+    3    PyMCNP cannot parse all of the file, e.g., a file of another kind,
+         or the tally is in a layout PyMCNP cannot parse yet. The tally is
+         plotted if it is in the part PyMCNP parsed.
 """
 
 import sys
@@ -60,7 +60,9 @@ def main() -> None:
 
             matplotlib.pyplot.close()
     except abc.Error as err:
-        _io.fail(str(err), _io.USAGE)
+        # A tally that is in the file but not parsed is PyMCNP's limit, not a usage error.
+        unparsed = str(number).strip() in outp._unparsed_tallies()
+        _io.fail(str(err), _io.PARTLY_PARSED if unparsed else _io.USAGE)
 
     if partly:
         sys.exit(_io.PARTLY_PARSED)

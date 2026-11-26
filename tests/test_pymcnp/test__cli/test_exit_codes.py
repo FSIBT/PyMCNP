@@ -1,7 +1,8 @@
 """
 Every command exits with the codes of one table: 0 success; 1 the input or
 output has problems, or the command failed; 2 usage error, or a file that does
-not exist or cannot be read as text; 3 PyMCNP cannot parse all of a file.
+not exist or cannot be read as text; 3 PyMCNP cannot parse all of a file. A
+file gets the same code from every command that reads it.
 """
 
 import os
@@ -88,13 +89,33 @@ def test_missing_file_exits_2(monkeypatch, capsys, tmp_path: pathlib.Path, comma
 
 
 @pytest.mark.parametrize('command', COMMANDS)
+def test_directory_exits_2(monkeypatch, capsys, tmp_path: pathlib.Path, command) -> None:
+    monkeypatch.chdir(tmp_path)
+    pathlib.Path('folder').mkdir()
+    code, text = _run(monkeypatch, capsys, *_args(command, pathlib.Path('folder')))
+    assert code == 2
+    assert 'Error: folder: not a file.' in text
+
+
+@pytest.mark.parametrize('command', COMMANDS)
 def test_binary_file_exits_2(monkeypatch, capsys, tmp_path: pathlib.Path, command) -> None:
-    # E.g., a PTRAC file MCNP wrote in binary, its default.
+    # E.g., a PTRAC file MCNP wrote in binary, its default: the hint is for PTRAC only.
     monkeypatch.chdir(tmp_path)
     pathlib.Path('binary').write_bytes(b'\x00\xff\xfe\x80 binary PTRAC\n')
     code, text = _run(monkeypatch, capsys, *_args(command, pathlib.Path('binary')))
     assert code == 2
-    assert 'binary: not a text file. PyMCNP reads text files only; for PTRAC, have MCNP write text with FILE=ASC.' in text
+    hint = ' PyMCNP reads text PTRAC files only: have MCNP write one with the PTRAC option FILE=ASC.'
+    assert text == f'Error: binary: not UTF-8 text (byte offset 1), so PyMCNP cannot read it.{hint if "ptrac" in command else ""}'
+
+
+@pytest.mark.parametrize('command', COMMANDS)
+def test_latin_1_file_exits_2(monkeypatch, capsys, tmp_path: pathlib.Path, command) -> None:
+    # Text, but not UTF-8: not called "not a text file".
+    monkeypatch.chdir(tmp_path)
+    pathlib.Path('latin1').write_bytes('title Müller\n'.encode('latin-1'))
+    code, text = _run(monkeypatch, capsys, *_args(command, pathlib.Path('latin1')))
+    assert code == 2
+    assert text.startswith('Error: latin1: not UTF-8 text (byte offset 7), so PyMCNP cannot read it.')
 
 
 @pytest.mark.skipif(os.name == 'nt' or (hasattr(os, 'geteuid') and os.geteuid() == 0), reason='needs file permissions that the user cannot override')
@@ -151,19 +172,19 @@ def test_convert_exit_codes(monkeypatch, capsys, tmp_path: pathlib.Path) -> None
     assert f'Wrote {tmp_path / "run.outp.csv"}'.replace(' ', '') in text.replace(' ', '') and 'Done!' in text
     assert len(pandas.read_csv(tmp_path / 'run.outp.csv')) > 0
 
-    # An INP file is not an OUTP file.
+    # An INP file is not an OUTP file: PyMCNP cannot parse it as one.
     code, text = _run(monkeypatch, capsys, 'convert', 'outp', '--csv', str(FILES / 'inp' / 'valid_00.inp'))
-    assert code == 1
-    assert 'Error:' in text
+    assert code == 3
+    assert 'PyMCNP cannot parse this file:' in text
 
 
-def test_convert_with_nothing_to_convert_exits_1(monkeypatch, capsys, tmp_path: pathlib.Path) -> None:
+def test_convert_with_only_unparsed_tallies_exits_3(monkeypatch, capsys, tmp_path: pathlib.Path) -> None:
     # valid_01.outp parses, but its only tally is in a layout PyMCNP cannot parse yet: write no empty CSV.
     outp = tmp_path / 'valid_01.outp'
     shutil.copy(FILES / 'outp' / 'valid_01.outp', outp)
     monkeypatch.chdir(tmp_path)
     code, text = _run(monkeypatch, capsys, 'convert', 'outp', '--csv', 'valid_01.outp')
-    assert code == 1
+    assert code == 3
     assert 'Error: valid_01.outp: nothing to convert; no file written.' in text
     assert sorted(path.name for path in tmp_path.iterdir()) == ['valid_01.outp']
 
@@ -201,10 +222,17 @@ def test_plot_exit_codes(monkeypatch, capsys, tmp_path: pathlib.Path) -> None:
     # A tally that is not in the file is a usage error.
     code, text = _run(monkeypatch, capsys, 'plot', '--pdf', str(outp), '999')
     assert code == 2
-    assert "Error: Tally not found number='999'" in text
+    assert "Error: Tally not found. number='999'" in text
+
+    # A tally in the file, in a layout PyMCNP cannot parse yet, as `convert` says.
+    shutil.copy(FILES / 'outp' / 'valid_01.outp', tmp_path / 'valid_01.outp')
+    code, text = _run(monkeypatch, capsys, 'plot', '--pdf', str(tmp_path / 'valid_01.outp'), '4')
+    assert code == 3
+    assert "Error: Tally not parsed. number='4'" in text
+    assert not (tmp_path / 'valid_01.pdf').exists()
 
     code, text = _run(monkeypatch, capsys, 'plot', '--pdf', str(FILES / 'inp' / 'valid_00.inp'), '1')
-    assert code == 1
+    assert code == 3
     matplotlib.pyplot.close('all')
 
 
@@ -223,8 +251,8 @@ def test_run_exit_codes(monkeypatch, capsys, tmp_path: pathlib.Path, fake_mcnp: 
     twice = tmp_path / 'twice.inp'
     twice.write_text('title\n1 0 -1\n1 0 1\n\n1 so 5\n\nnps 10\n')
     code, text = _run(monkeypatch, capsys, 'run', str(twice), f'--command={fake_mcnp}', f'--path={tmp_path / "not"}')
-    assert code == 1
-    assert "Error: Invalid value. card.j='1'" in text
+    assert code == 3
+    assert "PyMCNP cannot parse this file: Invalid value. card.j='1'" in text
     assert not (tmp_path / 'not').exists()
 
 
@@ -256,3 +284,31 @@ def test_visualize_exit_codes(monkeypatch, capsys, tmp_path: pathlib.Path) -> No
     code, text = _run(monkeypatch, capsys, 'visualize', '--pdf', '--cells', str(inp))
     assert code == 1
     assert 'Error: Cannot visualize. body' in text
+
+
+@pytest.mark.parametrize(
+    'source',
+    [
+        pytest.param('title\n1 0 -1\n1 0 1\n\n1 so 5\n\nnps 10\n', id='duplicate cells'),
+        pytest.param('title\n1 0 -1\n1 0 1\n\n1 so 5\n\nnps 10\nqqq 1\n', id='duplicate cells and a card that does not parse'),
+        pytest.param(BAD_CELL, id='cell card'),
+        pytest.param('title\n1 0 -1 imp:n=1\n2 0 1 imp:n=0\n\n1 so 5\n\nnps 10\nqqq 1\n', id='data card'),
+        pytest.param('title\n1 0 -1 imp:n=1\n', id='no surfaces'),
+    ],
+)
+def test_same_file_same_code(monkeypatch, capsys, tmp_path: pathlib.Path, fake_mcnp: str, source: str) -> None:
+    # check, run, visualize, convert and plot each exit 3 for an input PyMCNP cannot parse.
+    monkeypatch.chdir(tmp_path)
+    pathlib.Path('bad.inp').write_text(source)
+    commands = [
+        ['check', 'bad.inp'],
+        ['run', 'bad.inp', f'--command={fake_mcnp}', f'--path={tmp_path}'],
+        ['visualize', '--pdf', 'bad.inp'],
+        ['convert', 'outp', '--csv', 'bad.inp'],
+        ['plot', '--pdf', 'bad.inp', '1'],
+    ]
+    codes = {command[0]: _run(monkeypatch, capsys, *command)[0] for command in commands}
+    assert codes == dict.fromkeys(codes, 3)
+    # Nothing run, converted or plotted; `visualize` draws the cards before a data card that does not parse.
+    assert not list(tmp_path.glob('pymcnp-*')) and not list(tmp_path.glob('bad.inp.*')) and not (tmp_path / 'bad.pdf').exists()
+    matplotlib.pyplot.close('all')

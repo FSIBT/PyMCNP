@@ -15,7 +15,8 @@ Exit codes:
     0    No problems (or --fix left no line wider than 80 columns).
     1    Lines wider than 80 columns (with --fix, lines it cannot shorten).
     2    Usage error, or the file does not exist or cannot be read as text.
-    3    PyMCNP cannot parse a card; --fix does not rewrite the file.
+    3    PyMCNP cannot parse the file, e.g., a card or two cells with one
+         number; --fix does not rewrite the file.
 """
 
 import pathlib

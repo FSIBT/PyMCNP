@@ -10,10 +10,10 @@ Each input runs in its own directory, <path>/pymcnp-<timestamp>/run-0000N/.
 
 Exit codes:
     0    Every run finished.
-    1    A run failed, the MCNP command is not found, or PyMCNP cannot parse
-         an input.
+    1    A run failed, or the MCNP command is not found.
     2    Usage error, or an input does not exist or cannot be read as text.
-    3    PyMCNP cannot parse a card of an input; nothing is run.
+    3    PyMCNP cannot parse an input, e.g., a card or two cells with one
+         number; nothing is run.
 """
 
 import os

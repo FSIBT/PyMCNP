@@ -101,27 +101,32 @@ class Check(abc.Utility):
             with _quiet():
                 remainder = Inp.from_mcnp(text)[1]
         except abc.Error as err:
-            found.append(self._unparseable(lines, err))
+            found.append(self._unparseable(lines, err, bool(err.stack)))
         else:
             if remainder.strip():
-                found.append(self._unparseable(lines, abc.Error('Expected end of file.', f'{remainder=}')))
+                found.append(self._unparseable(lines, abc.Error('Expected end of file.', f'{remainder=}'), True))
 
         return sorted(found, key=lambda problem: problem.line)
 
     @staticmethod
-    def _unparseable(lines, err):
+    def _unparseable(lines, err, lookup):
         """
         Finds the first card that PyMCNP cannot parse, as ``_unparseable_card`` does.
+
+        Looks for the card only if ``lookup``: an error without a stack comes
+        from checking parsed cards, e.g., two cells with one number, not from
+        a card that does not parse, so it is reported whole, for the file.
         """
 
         stop = 'Checking stops at the first problem: fix it and run the check again to find further problems.'
 
-        found = _unparseable_card(lines)
+        found = _unparseable_card(lines) if lookup else None
         if found is not None:
             number, card_err = found
             return Problem(number, 'warning', f'PyMCNP cannot parse this card: {str(card_err).splitlines()[0]} {stop}')
 
-        return Problem(1, 'warning', f'PyMCNP cannot parse this file: {str(err).splitlines()[0]} {stop}')
+        message = str(err).splitlines()[0] if lookup else ' '.join(str(err).split())
+        return Problem(1, 'warning', f'PyMCNP cannot parse this file: {message} {stop}')
 
     def fix(self):
         """
