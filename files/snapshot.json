@@ -365,8 +365,8 @@
     "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
   ],
-  "remainder": "0d27707976183bcc00a93b391a88711c8a671aff3340be249b5e24e5a3dc3298",
-  "remainder_len": 389
+  "remainder": "f880ad0b171ecdf3b304ad107c7edd873ab9b029bf97ffa679a4ce53d1188819",
+  "remainder_len": 348
  },
  "inp/valid_34.inp": {
   "mcnp": "7d27aa258279984ef5d670f58986676e4cf62d57ccd26067afb21209ef24571c",

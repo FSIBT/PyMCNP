@@ -65,6 +65,46 @@ class Test_Inp(classes.Test_FromFile):
         inp, source = pymcnp.Inp.from_mcnp('Hello\n1 0 -1\n\n1 SO 1\n\nsi1 1 2ilog 100\nnps 10\n')
         assert inp.data[0].to_mcnp() == 'si1 1.0 4.641588833612778 21.544346900318832 100.0'
 
+    def test_from_mcnp_keeps_comments_verbatim(self) -> None:
+        # Shorthands (`nJ`, `nR`, `nI`, `nLOG`) are expanded in cards only, not in the title, comment cards, `$` comments or
+        # the text after the data block.
+        source = (
+            'Title 2j 3r\n'
+            'c cells 2r 1 2i 4\n'
+            '1 0 -1 imp:n=1 $ imp 2j 1 3r\n'
+            '2 0 1 imp:n=0\n'
+            '\n'
+            '1 so 5\n'
+            '\n'
+            'c phys:n 50000 5j 4 100\n'
+            '   C 1 2ilog 100\n'
+            'imp:n 1 &\n'
+            '1j $ 3j\n'
+            'si1 1 2r 5\n'
+            'nps 10\n'
+            '\n'
+            'notes 2j 1 3r\n'
+        )
+        inp, remainder = pymcnp.Inp.from_mcnp(source)
+        assert remainder == ''
+        assert inp.to_mcnp() == (
+            'Title 2j 3r\n'
+            'c cells 2r 1 2i 4\n'
+            '1 0 -1 imp:n=1 $ imp 2j 1 3r\n'
+            '2 0 1 imp:n=0\n'
+            '\n'
+            '1 so 5\n'
+            '\n'
+            'c phys:n 50000 5j 4 100\n'
+            '   C 1 2ilog 100\n'
+            'imp:n 1 &\n'
+            'j $ 3j\n'
+            'si1 1 1 1 5\n'
+            'nps 10\n'
+            '\n'
+            'notes 2j 1 3r\n'
+        )
+
     def test_cell_cards(self) -> None:
         """
         Tests `cell_cards` on `EXAMPLES_FROM_MCNP_VALID`.

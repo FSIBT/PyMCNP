@@ -10,12 +10,58 @@ from . import inp
 
 _REGEX_REPEAT = re.compile(r'(\S+) (\d+)R', re.IGNORECASE)
 _REGEX_INSERT = re.compile(r'(\S+) (\d+)I (\S+)', re.IGNORECASE)
-_REGEX_JUMP = re.compile(r'(?<=\s)(\d+)(J)(?=\s)', re.IGNORECASE)
+_REGEX_JUMP = re.compile(r'(?<!\S)(\d+)(J)(?!\S)', re.IGNORECASE)
 _REGEX_LOG = re.compile(r'(\S+) (\d+)I?LOG (\S+)', re.IGNORECASE)
 _REGEX_UNWRAPPED_CARD = re.compile(r'(?:c|[fs]c\d+)(?:\s|\Z)', re.IGNORECASE)
+_REGEX_COMMENT = re.compile(r' {0,4}c(?:\s|\Z)', re.IGNORECASE)
 
 _WIDTH = 80
 _INDENT = 5
+
+
+def _expand(code: str) -> str:
+    """
+    Expands the horizontal data format shorthands (``nR``, ``nI``, ``nJ``, ``nLOG``) of one line of card text.
+
+    Parameters:
+        code: Card text, without a ``$`` comment.
+
+    Returns:
+        ``code`` with its shorthands written out.
+    """
+
+    code = _REGEX_REPEAT.sub(lambda match: f'{match[1]} {" ".join([match[1]] * int(match[2]))}', code)
+    code = _REGEX_INSERT.sub(lambda match: ' '.join(map(str, numpy.linspace(float(match[1]), float(match[3]), num=int(match[2]) + 2))), code)
+    code = _REGEX_JUMP.sub(lambda match: ' '.join([match[2]] * int(match[1])), code)
+    code = _REGEX_LOG.sub(lambda match: ' '.join(map(str, numpy.geomspace(float(match[1]), float(match[3]), num=int(match[2]) + 2))), code)
+    return code
+
+
+def _expand_cards(source: str) -> str:
+    """
+    Expands the horizontal data format shorthands in the cards of an input file.
+
+    The title, comment cards, ``$`` comments and the text after the data block are left verbatim.
+
+    Parameters:
+        source: Input file text, with blank lines already empty.
+
+    Returns:
+        ``source`` with the shorthands of its cards written out.
+    """
+
+    title, newline, rest = source.partition('\n')
+    lines = []
+    blanks = 0
+    for line in rest.split('\n'):
+        if blanks < 3 and line and not _REGEX_COMMENT.match(line):
+            code, dollar, comment = line.partition('$')
+            line = _expand(code) + dollar + comment
+
+        blanks += not line
+        lines.append(line)
+
+    return title + newline + '\n'.join(lines)
 
 
 def _wrap(line: str) -> str:
@@ -167,10 +213,7 @@ class Inp(abc.File):
                 source += token
 
         # Preprocessing horizontal data format.
-        source = _REGEX_REPEAT.sub(lambda match: f'{match[1]} {" ".join([match[1]] * int(match[2]))}', source)
-        source = _REGEX_INSERT.sub(lambda match: ' '.join(map(str, numpy.linspace(float(match[1]), float(match[3]), num=int(match[2]) + 2))), source)
-        source = _REGEX_JUMP.sub(lambda match: ' '.join([match[2]] * int(match[1])), source)
-        source = _REGEX_LOG.sub(lambda match: ' '.join(map(str, numpy.geomspace(float(match[1]), float(match[3]), num=int(match[2]) + 2))), source)
+        source = _expand_cards(source)
 
         return super().from_mcnp(source)
 
