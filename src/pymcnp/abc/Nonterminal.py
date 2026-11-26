@@ -113,13 +113,14 @@ def _parse_value(kinds: tuple[type[Symbol], ...], value: typing.Any) -> Symbol:
     raise Error('Invalid value.', f'{value=}')
 
 
-def _field(name: str, kinds: tuple[type[Symbol], ...]) -> property:
+def _field(name: str, kinds: tuple[type[Symbol], ...], prepare: typing.Callable[[typing.Any], typing.Any] | None = None) -> property:
     """
     Constructs fields.
 
     Parameters:
         name: Name of field to construct.
         kinds: Type of field to construct.
+        prepare: Function the setter applies to values before compiling them, e.g., ``Inp._prepare_title``.
     """
 
     name_private: str = f'_{name}'
@@ -128,9 +129,11 @@ def _field(name: str, kinds: tuple[type[Symbol], ...]) -> property:
         return getattr(self, name_private)
 
     def setter(self, value: typing.Any) -> None:
-        value = _parse_value(kinds, value)
+        if prepare is not None:
+            value = prepare(value)
 
-        setattr(self, name_private, value)
+        # The private attribute is a plain instance attribute, so it is set without ``__setattr__``.
+        self.__dict__[name_private] = _parse_value(kinds, value)
 
         # Validating if complete.
         if all(getattr(self, field) is not dataclasses.MISSING for field in type(self)._fields):
@@ -153,6 +156,18 @@ else:  # pragma: no cover
         return inspect.get_annotations(cls)
 
 
+_object_setattr = object.__setattr__
+
+
+def _settable(cls: type) -> frozenset[str]:
+    """
+    Finds the names ``Nonterminal.__setattr__`` sets on instances of ``cls``: ``spaces`` and every data descriptor, e.g.,
+    fields and properties with setters.
+    """
+
+    return frozenset(name for klass in cls.__mro__ for name, value in vars(klass).items() if hasattr(value, '__set__')) | {'spaces'}
+
+
 @typing.dataclass_transform(kw_only_default=True)
 class Nonterminal(Symbol):
     """
@@ -168,6 +183,8 @@ class Nonterminal(Symbol):
     _fields: typing.ClassVar[dict[str, tuple[type[Symbol], ...]]] = {}
     # ``_build`` steps in ``__init__`` order: ``(None, None, False)`` sets ``spaces``, ``(name, '_name', validate)`` sets a field.
     _build_steps: typing.ClassVar[tuple[tuple[str | None, str | None, bool], ...]] = ()
+    # Names ``__setattr__`` sets: ``spaces``, fields and other settable properties, found when the class is created.
+    _settable: typing.ClassVar[frozenset[str]] = frozenset({'spaces'})
 
     if typing.TYPE_CHECKING:
 
@@ -198,11 +215,12 @@ class Nonterminal(Symbol):
             AttributeError: ``name`` is not a field or settable property.
         """
 
-        if not name.startswith('_') and name != 'spaces' and not hasattr(inspect.getattr_static(type(self), name, None), '__set__'):
-            fields = ' '.join(type(self)._fields)
-            raise AttributeError(f'{type(self).__name__} has no field {name!r}; fields: {fields}.', name=name, obj=self)
+        if name in type(self)._settable or name[0] == '_':
+            _object_setattr(self, name, value)
+            return
 
-        object.__setattr__(self, name, value)
+        fields = ' '.join(type(self)._fields)
+        raise AttributeError(f'{type(self).__name__} has no field {name!r}; fields: {fields}.', name=name, obj=self)
 
     def __init_subclass__(cls) -> None:
         """
@@ -225,6 +243,7 @@ class Nonterminal(Symbol):
                     continue
                 raise Error(f'Subclasses of ``{bases[0].__name__}`` cannot add fields.', f'{cls.__name__}.{name}: {text or hint}')
             cls._forms = ()
+            cls._settable = _settable(cls)
             return
 
         # Processing annotations.
@@ -255,7 +274,8 @@ class Nonterminal(Symbol):
                 setattr(datacls, f'_{name}', getattr(datacls, name))
             else:
                 setattr(datacls, f'_{name}', dataclasses.MISSING)
-            setattr(datacls, name, _field(name, hint))
+            # A ``_prepare_<name>`` static method of the class prepares the values the field's setter gets.
+            setattr(datacls, name, _field(name, hint, getattr(datacls, f'_prepare_{name}', None)))
 
         # Planning ``_build``: the setters validate once every field is set (fields with defaults count
         # as set), and ``__init__`` validates again at the end, which ``_build`` does once instead.
@@ -270,6 +290,7 @@ class Nonterminal(Symbol):
                 index = names.index(field.name)
                 steps.append((field.name, f'_{field.name}', first <= index < len(names) - 1))
         cls._build_steps = tuple(steps)
+        cls._settable = _settable(cls)
 
         # Adding this nonterminal to multi-form nonterminals.
         for base in cls.__bases__:

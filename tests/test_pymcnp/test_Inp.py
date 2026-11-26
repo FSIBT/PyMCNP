@@ -452,3 +452,10 @@ def test_data_block_error_is_raised_if_no_card_can_be_cut(monkeypatch, found) ->
     monkeypatch.setattr(sys.modules['pymcnp.Inp'], '_unparseable_card', lambda lines: found)
     with pytest.raises(pymcnp.abc.Error, match='Inp.blank_2'):
         pymcnp.Inp.from_mcnp(_BASE + 'f4:n 1 [1]\nnps 10\n')
+
+
+def test_error_before_the_card_that_does_not_parse_is_raised() -> None:
+    # Two cells with one number, and a data card PyMCNP cannot parse: the duplicate is the error, not the card.
+    with pytest.raises(pymcnp.abc.Error, match='Invalid value') as error:
+        pymcnp.Inp.from_mcnp('title\n1 0 -1\n1 0 1\n\n1 so 5\n\nnps 10\nqqq 1\n')
+    assert error.value.stack == []

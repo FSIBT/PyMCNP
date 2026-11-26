@@ -80,6 +80,24 @@ class Test_Nonterminal:
         with pytest.raises(AttributeError):
             next(inp.scan_with([1], lambda copy, r: setattr(copy.surface_cards(1)[0], 'radius', r)))
 
+    def test_subclass_property_with_setter_may_be_set(self) -> None:
+        # A subclass's own settable properties are found when the class is created; other names still raise.
+        class Labelled(pymcnp.inp.card.surface.So):
+            @property
+            def label(self) -> str:
+                return self._label
+
+            @label.setter
+            def label(self, value: str) -> None:
+                self._label = value
+
+        so = Labelled(j=1, r=2.0)
+        so.label = 'ball'
+        so.r = 3.0
+        assert so.label == 'ball' and so.to_mcnp() == '1 SO 3.0'
+        with pytest.raises(AttributeError, match="Labelled has no field 'labl'"):
+            so.labl = 'x'  # type:ignore
+
     def test___class_getitem___valid(self) -> None:
         assert pymcnp.inp.card.Cell[0] == pymcnp.inp.card.Cell_0
         assert pymcnp.inp.card.Cell[1] == pymcnp.inp.card.Cell_1

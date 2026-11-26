@@ -246,6 +246,19 @@ class Inp(abc.File):
     blank_2: typing.Annotated[abc.Terminal, r' *(?:\$.*)?(?:\n|\Z)'] = abc.Terminal[r' *(?:\$.*)?(?:\n|\Z)']('\n')
     other: typing.Annotated[abc.Terminal, r'\n[\s\S]*'] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
+    @staticmethod
+    def _prepare_title(value: typing.Any) -> typing.Any:
+        """
+        Adds the title card's trailing newline to a ``str`` title without one.
+
+        The ``title`` field's setter calls it, so the constructor, the setter
+        and ``scan`` all add it, e.g., ``Inp(title='Sphere', ...)``.
+        """
+
+        if isinstance(value, str) and not isinstance(value, abc.Symbol) and not value.endswith('\n'):
+            return value + '\n'
+        return value
+
     def __post_init__(self) -> None:
         """
         Validates input files.
@@ -315,10 +328,9 @@ class Inp(abc.File):
         try:
             return super().from_mcnp(source)
         except abc.Error as err:
-            # A data card that parses only in part stops the data block inside the card. Parsing up to the card
-            # instead leaves it and every card after it as the remainder.
-            if not err.stack or err.stack[-1].title != 'Expected ``Inp.blank_2``.':
-                raise
+            # A data card that parses only in part stops the data block inside the card. Parsing up to the first card
+            # that does not parse instead leaves it and every card after it as the remainder. Up to a cell or surface
+            # card, the blocks after it are missing, so that fails as well.
             lines = source.split('\n')
             found = _unparseable_card(lines)
             if found is None:
@@ -326,8 +338,10 @@ class Inp(abc.File):
             start = sum(len(line) + 1 for line in lines[: found[0] - 1])
             try:
                 inpt, rest = super().from_mcnp(source[:start])
-            except abc.Error:
-                raise err from None
+            except abc.Error as prefix_err:
+                # An error without a stack is not one of the grammar, e.g., two cells with one number: it is the
+                # problem, rather than the card.
+                raise (err if prefix_err.stack else prefix_err) from None
             return inpt, rest + source[start:]
 
     def to_mcnp(self) -> str:
@@ -558,21 +572,3 @@ class Inp(abc.File):
             tuple(self.surfaces.filter(inp.card.Comment)),
             tuple(self.data.filter(inp.card.Comment)),
         )
-
-
-def _title_field(field: property) -> property:
-    """
-    Wraps the ``title`` field so that a ``str`` value without the title card's trailing newline gets one.
-
-    The constructor, the setter and ``scan`` all set the title through it, e.g., ``Inp(title='Sphere', ...)``.
-    """
-
-    def setter(self: Inp, value: typing.Any) -> None:
-        if isinstance(value, str) and not isinstance(value, abc.Symbol) and not value.endswith('\n'):
-            value += '\n'
-        typing.cast(typing.Callable, field.fset)(self, value)
-
-    return property(field.fget, setter, doc=field.__doc__)
-
-
-Inp.title = _title_field(typing.cast(property, Inp.__dict__['title']))  # type: ignore[method-assign, assignment]
