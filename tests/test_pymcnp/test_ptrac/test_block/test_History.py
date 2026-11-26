@@ -45,3 +45,17 @@ def test_subclass_from_mcnp_returns_subclass() -> None:
     history, _ = MyHistory.from_mcnp(HISTORY)
     assert type(history) is MyHistory
     assert history.to_mcnp() == pymcnp.ptrac.block.History.from_mcnp(HISTORY)[0].to_mcnp()
+
+
+def test_truncated_from_mcnp_reads_the_complete_events() -> None:
+    # Cut in the last event's P line: the events before it are kept, and a subclass gets its own type.
+    source = '\n'.join(HISTORY.split('\n')[:-1])
+    truncated = pymcnp.ptrac.block.HistoryTruncated.from_mcnp(source)
+    history, _ = pymcnp.ptrac.block.History.from_mcnp(HISTORY)
+    assert (truncated.nps, truncated.event_type) == (history.nps, history.event_type)
+    assert [event.to_mcnp() for event in truncated.events] == [event.to_mcnp() for event in history.events[:-1]]
+
+    class MyTruncated(pymcnp.ptrac.block.HistoryTruncated):
+        pass
+
+    assert type(MyTruncated.from_mcnp(source)) is MyTruncated

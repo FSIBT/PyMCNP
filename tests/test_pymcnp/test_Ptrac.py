@@ -762,8 +762,5 @@ def test_public_signatures_have_no_private_parameters() -> None:
         for name, member in [('', cls), *inspect.getmembers(cls, callable)]:
             if name.startswith('_'):
                 continue
-            try:
-                parameters = inspect.signature(member).parameters
-            except (TypeError, ValueError):
-                continue
+            parameters = inspect.signature(member).parameters
             assert not [p for p in parameters if p.startswith('_')], f'{cls.__name__}.{name}'
