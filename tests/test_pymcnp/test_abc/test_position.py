@@ -193,6 +193,9 @@ def test_symbol_without_parser_raises():
         def to_mcnp(self) -> str:
             return ''
 
+    # Bare is a complete symbol that only lacks a parser.
+    assert Bare().to_mcnp() == ''
+
     with pytest.raises(NotImplementedError):
         Bare.from_mcnp('a')
 

@@ -16,10 +16,7 @@ class Test_Warning:
 
         with warnings.catch_warnings(record=True) as caught:
             warnings.simplefilter('always')
-            try:
-                pymcnp.Inp.from_mcnp(source)
-            except pymcnp.abc.Error:
-                pass
+            pymcnp.Inp.from_mcnp(source)
 
         assert any(issubclass(w.category, pymcnp.abc.Warning) for w in caught)
         assert warnings.showwarning.__module__ in ('warnings', '_py_warnings')

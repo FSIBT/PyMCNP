@@ -97,7 +97,7 @@ class Test_Run:
                 calls.append(result.index)
 
             def posthook_batch(self, path):
-                calls.append('batch')
+                calls.append('batch')  # pragma: no cover (must not run: a run failed, which the test asserts)
 
         with pytest.raises(pymcnp.abc.Error) as error:
             Hooked(inps, command=fake).run(tmp_path)
