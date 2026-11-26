@@ -72,8 +72,8 @@ Its exit code says what it found:
 
 | Exit code | Meaning |
 |---|---|
-| 0 | No problems (or `--fix` reformatted the file). |
-| 1 | Lines wider than 80 columns, which MCNP rejects. `--diff` shows how `--fix` would rewrap them; `--fix` rewrites the file in place. |
+| 0 | No problems (or `--fix` reformatted the file and no line is wider than 80 columns). |
+| 1 | Lines wider than 80 columns, which MCNP rejects. `--diff` shows how `--fix` would rewrap them; `--fix` rewrites the file in place, and still exits with 1 if a line, e.g., a long comment, stays too wide. |
 | 2 | The file does not exist. |
 | 3 | PyMCNP cannot parse a card. MCNP may still accept it. Checking stops at that card, so check again after fixing it. `--fix` refuses to rewrite such a file. |
 

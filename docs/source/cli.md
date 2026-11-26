@@ -20,8 +20,8 @@ rewrap them and `--fix` rewrites the file in place. The exit code says what it f
 
 | Exit code | Meaning |
 |---|---|
-| 0 | No problems (or `--fix` reformatted the file). |
-| 1 | Lines wider than 80 columns. |
+| 0 | No problems (or `--fix` reformatted the file and no line is wider than 80 columns). |
+| 1 | Lines wider than 80 columns; with `--fix`, lines it cannot shorten, e.g., long comments. |
 | 2 | The file does not exist. |
 | 3 | PyMCNP cannot parse a card; checking stops there. `--fix` refuses to rewrite such a file. |
 

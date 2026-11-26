@@ -134,9 +134,19 @@ class Check(abc.Utility):
     def fix(self):
         """
         Fixes the input file at ``path``.
+
+        Rewrites the file as PyMCNP prints it, which wraps card lines wider
+        than 80 columns. Lines it cannot shorten, e.g., long comments, stay as
+        they are.
+
+        Returns:
+            List of ``Problem`` left in the fixed file, as ``problems`` finds
+            them; empty if the file is clean.
         """
 
         assert isinstance(self.path, pathlib.Path)
 
         file = Inp.from_file(self.path)[0]
         file.to_file(self.path)
+
+        return self.problems()

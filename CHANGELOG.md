@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Breaking:** `PtracProcessor.run` returns the results of the `process_*` methods; a `Run` result without an output file is not `ok`.
 - The `pymcnp` command prints Python warnings, e.g., "Tally not parsed." or "Line exceeds 80 characters maximum length", as warning panels, like its own messages, instead of Python's format with the source line.
 - `pymcnp run` and `pymcnp visualize` ignored a card PyMCNP cannot parse, and every card after it. Both now warn and exit with 3, as `pymcnp check` does; `run` runs nothing, and `visualize` draws the cards before it.
+- `pymcnp check --fix` exits with 1 and reports each line it cannot shorten, e.g., a full-line or `$` comment over 80 columns, instead of printing "Done!" and exiting with 0; `Check.fix` returns the problems left in the fixed file.
 - Depends on `pyarrow` instead of `fastparquet`, and on `docopt-ng` instead of `docopt`.
 - Python 3.15 is supported, now that `vtk` has wheels for it.
 - Parsing time is linear in file size; it was quadratic, which made large OUTP, MESHTAL and PTRAC files very slow. E.g., `Ptrac.from_file` of a 1.1 MB file takes 0.3 s instead of 3.6 s, and `Meshtal.from_file` of a 3.3 MB file 0.5 s instead of 2.7 s. `Ptrac.to_dataframe` builds one dataframe for all histories; reading the same file and converting it with `to_dataframe` takes 0.35 s instead of 5.1 s.

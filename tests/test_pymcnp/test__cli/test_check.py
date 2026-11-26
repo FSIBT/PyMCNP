@@ -67,6 +67,28 @@ class Test_Check_Report:
         assert 'Done!' in out
         assert max(len(line) for line in path.read_text().split('\n')) <= 80
 
+    @pytest.mark.parametrize(
+        'line, number',
+        [
+            # A full-line comment and a `$` comment that `--fix` cannot rewrap.
+            ('c ' + 'c' * 80, 8),
+            ('nps 10 $ ' + 'x' * 80, 7),
+        ],
+        ids=['comment', 'dollar'],
+    )
+    @pytest.mark.filterwarnings('ignore:Line exceeds 80 characters:pymcnp.abc.Warning')
+    def test_fix_reports_lines_it_cannot_shorten(self, monkeypatch, capsys, tmp_path, line, number) -> None:
+        path = tmp_path / 'wide.inp'
+        path.write_text(SOURCE.replace('nps 10', line if line.startswith('nps') else f'nps 10\n{line}'))
+
+        code, out = _check(monkeypatch, capsys, '--fix', path)
+
+        assert code == 1
+        out = ' '.join(out.replace('│', '').split())
+        assert f'Line {number}:' in out and 'cannot shorten' in out
+        assert 'Done!' not in out
+        assert max(len(text) for text in path.read_text().split('\n')) > 80
+
     def test_unparseable_card_warns_and_exits_3(self, monkeypatch, capsys, tmp_path) -> None:
         path = tmp_path / 'unknown.inp'
         path.write_text(SOURCE.replace('1 so 5', '1 so 5\n2 zzz 5'))

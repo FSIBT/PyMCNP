@@ -80,14 +80,14 @@ CLI `pymcnp check [--diff] [--fix] f.inp`:
 
 | Exit | Meaning |
 |---|---|
-| 0 | clean (or `--fix` applied) |
-| 1 | lines over 80 columns (error), no `--fix` |
+| 0 | clean (or `--fix` applied and no line is left over 80 columns) |
+| 1 | lines over 80 columns (error); with `--fix`, lines it cannot shorten (long `c` or `$` comments), so shorten those by hand |
 | 2 | file not found |
 | 3 | PyMCNP cannot parse a card (warning; MCNP may still accept it). Checking stops at the first such card, so recheck after fixing |
 
 `--diff` shows what `--fix` would change; `--fix` rewrites the file in place (re-wrapping to 80 columns) and refuses on exit-3 files. Work on a copy if the original matters.
 
-Python: `c = pymcnp.Check(path)`; `c.problems()` returns `Problem(line, kind, message)` (kind is `'error'` or `'warning'`); `c.check()` yields a unified diff; `c.fix()` rewrites in place.
+Python: `c = pymcnp.Check(path)`; `c.problems()` returns `Problem(line, kind, message)` (kind is `'error'` or `'warning'`); `c.check()` yields a unified diff; `c.fix()` rewrites in place and returns the problems left (e.g., comments still over 80 columns).
 
 Edit loop: `inp, rest = Inp.from_file(p)`; assert `rest == ''`; change fields or use `inp.nps` / `inp.seed`; `inp.to_file(p2)`. Visualize geometry: `pymcnp.Visualize().to_show_surfaces(inp)` (pyvista; also `to_show_cells`, `to_show_cell(inp, n)`, and `to_pdf_surfaces(inp, path)` / `to_pdf_cells`).
 

@@ -58,6 +58,22 @@ class Test_Check:
         assert max(len(line) for line in path.read_text().split('\n')) <= 80
         assert pymcnp.Check(path).problems() == []
 
+    @pytest.mark.filterwarnings('ignore:Line exceeds 80 characters:pymcnp.abc.Warning')
+    def test_fix_returns_lines_it_cannot_shorten(self, tmp_path: pathlib.Path) -> None:
+        path = tmp_path / 'warning.inp'
+        shutil.copy(FILES / 'warning_00.inp', path)
+
+        remaining = pymcnp.Check(path).fix()
+
+        assert [(problem.line, problem.kind) for problem in remaining] == [(8, 'error')]
+        assert remaining == pymcnp.Check(path).problems()
+
+    def test_fix_returns_nothing_left(self, tmp_path: pathlib.Path) -> None:
+        path = tmp_path / 'ok.inp'
+        path.write_text(SOURCE)
+
+        assert pymcnp.Check(path).fix() == []
+
 
 class Test_Check_Problems:
     def test_problems_line_numbers(self, tmp_path: pathlib.Path) -> None:

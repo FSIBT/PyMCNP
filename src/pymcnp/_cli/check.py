@@ -8,7 +8,8 @@ Options:
 
 Lines wider than 80 columns are reported as errors. A card that PyMCNP cannot
 parse is reported as a warning, since MCNP may still accept it. Checking stops
-at the first such card, so run the check again after fixing it.
+at the first such card, so run the check again after fixing it. --fix rewraps
+cards, but not comments; lines it cannot shorten are reported as errors.
 """
 
 import pathlib
@@ -53,7 +54,11 @@ def main() -> None:
         if unparseable:
             _io.warning('Not reformatting, since PyMCNP cannot parse the file.')
         else:
-            check.fix()
+            remaining = check.fix()
+            for problem in remaining:
+                _io.error(f'Line {problem.line}: {problem.message} --fix cannot shorten this line, e.g., a long comment; shorten it by hand.')
+            if remaining:
+                sys.exit(1)
 
     if unparseable:
         sys.exit(3)
