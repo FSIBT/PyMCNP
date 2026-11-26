@@ -7,6 +7,17 @@ PyMCNP is accessible for installation through [PyPI](https://pypi.org/project/py
    PyMCNP supports MCNP 6.1 to 6.3 and Python 3.11 to 3.15.
 ```
 
+## Requirements
+
+- Python 3.11 or newer.
+- MCNP, only for running simulations (`pymcnp run`, `pymcnp.Run`). MCNP is not included with PyMCNP; it is distributed by
+  [RSICC](https://rsicc.ornl.gov). PyMCNP starts it as a program on your `PATH`, by default `mcnp6` (change it with
+  `pymcnp run -c <command>` or `Run(..., command=...)`), and MCNP finds its nuclear data through the `DATAPATH`
+  environment variable. Everything else, reading, checking, editing, visualizing, converting and plotting, works without
+  MCNP.
+
+After installing, continue with [Getting Started](getting_started.md).
+
 ## Using uv (recommended)
 
 We recommend [uv](https://docs.astral.sh/uv/) for installing PyMCNP. Optionally, create a virtual environment first, activate it, and install into it:
@@ -41,13 +52,13 @@ The released versions of PyMCNP are available on [PyPI](https://pypi.org/project
 
 ### Latest Version
 
-The latest version of PyMCNP is availiable on [GitHub](https://github.com/FSIBT/PyMCNP) and can be "pip installed":
+The latest version of PyMCNP is available on [GitHub](https://github.com/FSIBT/PyMCNP) and can be "pip installed":
 
     pip install git+https://github.com/FSIBT/PyMCNP
 
 ### Developer Version
 
-The PyMCNP source code is availiable on [GitHub](https://github.com/FSIBT/PyMCNP) for contributions ([guidelines](contributing.md)), suggestions, and bug reports:
+The PyMCNP source code is available on [GitHub](https://github.com/FSIBT/PyMCNP) for contributions ([guidelines](contributing.md)), suggestions, and bug reports:
 
     git clone https://github.com/FSIBT/PyMCNP
     cd PyMCNP

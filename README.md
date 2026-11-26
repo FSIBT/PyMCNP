@@ -14,7 +14,11 @@ PyMCNP is available on [PyPI](https://pypi.org/project/pymcnp/) and can be "pip 
 
     pip install pymcnp
 
-PyMCNP supports MCNP 6.1 to 6.3 and Python 3.11 to 3.15.
+PyMCNP supports MCNP 6.1 to 6.3 and Python 3.11 to 3.15. MCNP itself is not included: get it from [RSICC](https://rsicc.ornl.gov). `pymcnp run` starts it as `mcnp6` from your `PATH` (`-c` names another command), and MCNP finds its nuclear data through `DATAPATH`. Everything except running MCNP works without it.
+
+PyMCNP reads MCNP input files (INP), output files (OUTP), mesh tally files (MESHTAL), and ASCII particle track files (PTRAC, written with `PTRAC FILE=ASC`). It does not read MCTAL files or binary PTRAC files.
+
+New to PyMCNP? [Getting Started](https://pymcnp.readthedocs.io/en/latest/getting_started.html) walks through checking, editing, visualizing, and running an input and reading its results.
 
 ## Example
 
@@ -23,7 +27,8 @@ Read an input file, scan the radius of a sphere, and write one input file per ra
 ```python
 import pymcnp
 
-inp, _ = pymcnp.Inp.from_file('example_00.inp')
+inp, rest = pymcnp.Inp.from_file('example_00.inp')
+assert rest == ''  # The remainder is the text PyMCNP could not parse.
 for i, copy in enumerate(inp.scan_with([500, 600, 700], lambda inp, r: setattr(inp.surface_cards(99)[0], 'r', r))):
     copy.to_file(f'sphere-{i}.inp')
 
