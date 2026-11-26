@@ -1,5 +1,3 @@
-import pytest
-
 import pymcnp
 from .... import classes
 
@@ -40,15 +38,9 @@ class Test_History(classes.Test_FromMcnpIter, classes.Test_ToDataframe):
     ]
 
 
-def test_subclass_from_mcnp_returns_subclass(monkeypatch: pytest.MonkeyPatch) -> None:
-    # Subclassing a concrete nonterminal fails in ``Nonterminal.__init_subclass__`` (it parses the parent's
-    # already-parsed annotations again), so this subclass skips it and inherits the parent's dataclass as is.
-    monkeypatch.setattr(pymcnp.abc.Nonterminal, '__init_subclass__', classmethod(lambda cls: None))
-
+def test_subclass_from_mcnp_returns_subclass() -> None:
     class MyHistory(pymcnp.ptrac.block.History):
         pass
-
-    monkeypatch.undo()
 
     history, _ = MyHistory.from_mcnp(HISTORY)
     assert type(history) is MyHistory

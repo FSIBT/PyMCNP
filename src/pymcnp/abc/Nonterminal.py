@@ -1,3 +1,4 @@
+import re
 import copy
 import typing
 import collections.abc
@@ -5,6 +6,7 @@ import decimal
 import numbers
 import itertools
 import collections
+import inspect
 import dataclasses
 
 from .Error import Error
@@ -177,6 +179,17 @@ class Nonterminal(Symbol):
         """
 
         super().__init_subclass__()
+
+        # Subclassing a nonterminal with fields: inheriting its dataclass as is, without adding a form.
+        if any(issubclass(base, Nonterminal) and base._fields for base in cls.__bases__):
+            for name, hint in inspect.get_annotations(cls).items():
+                if name.startswith('_') or typing.get_origin(hint) is typing.ClassVar:
+                    continue
+                if isinstance(hint, str) and re.match(r'\s*(typing\s*\.\s*)?ClassVar\b', hint):
+                    continue
+                raise Error(f'Subclasses of ``{cls.__mro__[1].__name__}`` cannot add fields.', f'{cls.__name__}.{name}: {hint}')
+            cls._forms = ()
+            return
 
         # Processing annotations.
         annotations = typing.get_type_hints(cls, include_extras=True)
