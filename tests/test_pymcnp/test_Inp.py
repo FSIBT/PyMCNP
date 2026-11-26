@@ -1,12 +1,11 @@
 import pathlib
-import re
 
-import pytest
 
 import pymcnp
 from .. import classes
 
 
+EXAMPLES: pathlib.Path = pathlib.Path(__file__).parent.parent.parent / 'examples'
 PATH: pathlib.Path = pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp'
 
 
@@ -15,6 +14,7 @@ class Test_Inp(classes.Test_FromFile):
 
     EXAMPLES_FROM_FILE_VALID = [
         PATH / 'valid_11.inp',
+        *sorted(EXAMPLES.glob('example_*.inp')),
     ]
     EXAMPLES_FROM_FILE_INVALID = [
         PATH / 'invalid_00.inp',
@@ -92,8 +92,15 @@ class Test_Inp(classes.Test_FromFile):
 
         for example in self.EXAMPLES_FROM_MCNP_VALID:
             inp, _ = pymcnp.Inp.from_mcnp(example)
-            _ = inp.surface_cards()
-            _ = inp.surface_cards(number=10)
+
+            cards = inp.surface_cards()
+            assert len(cards) == len(inp.surfaces.filter(pymcnp.inp.card.Surface))
+
+            cards = inp.surface_cards(kind=pymcnp.inp.card.surface.So)
+            assert all(isinstance(card, pymcnp.inp.card.surface.So) for card in cards)
+
+            cards = inp.surface_cards(number=10)
+            assert all(hasattr(card, 'j') and card.j == 10 for card in cards)
 
     def test_data_cards(self) -> None:
         """
@@ -102,7 +109,9 @@ class Test_Inp(classes.Test_FromFile):
 
         for example in self.EXAMPLES_FROM_MCNP_VALID:
             inp, _ = pymcnp.Inp.from_mcnp(example)
-            _ = inp.data_cards()
+
+            cards = inp.data_cards()
+            assert len(cards) == len(inp.data.filter(pymcnp.inp.card.Data))
 
     def test_comment_cards(self) -> None:
         """
@@ -172,38 +181,3 @@ class Test_Inp(classes.Test_FromFile):
             assert subinp.seed == pymcnp.inp.literal.Integer('200')
             subinp.seed = 10
             assert tuple(rand.options.filter(pymcnp.inp.option.data.rand.Seed, value=10) for rand in subinp.data.filter(pymcnp.inp.card.data.Rand))
-
-
-EXAMPLES_DIR: pathlib.Path = pathlib.Path(__file__).parent.parent.parent / 'examples'
-EXAMPLE_INPS = sorted(EXAMPLES_DIR.glob('example_*.inp'))
-EXAMPLE_INPS_NO_RAND = [p for p in EXAMPLE_INPS if not re.search(r'^\s*rand\b', p.read_text(), re.I | re.M)]
-
-
-@pytest.mark.parametrize('path', EXAMPLE_INPS, ids=lambda p: p.name)
-def test_surface_cards_all(path: pathlib.Path) -> None:
-    inp_obj, _ = pymcnp.Inp.from_file(path)
-    cards = inp_obj.surface_cards()
-    assert len(cards) > 0
-    assert len(cards) == len(inp_obj.surfaces.filter(pymcnp.inp.card.Surface))
-
-
-@pytest.mark.parametrize('path', EXAMPLE_INPS, ids=lambda p: p.name)
-def test_data_cards_all(path: pathlib.Path) -> None:
-    inp_obj, _ = pymcnp.Inp.from_file(path)
-    assert len(inp_obj.data_cards()) == len(inp_obj.data.filter(pymcnp.inp.card.Data))
-
-
-def test_surface_cards_kind() -> None:
-    inp_obj, _ = pymcnp.Inp.from_file(EXAMPLES_DIR / 'example_02.inp')
-    kind = pymcnp.inp.card.surface.So
-    cards = inp_obj.surface_cards(kind=kind)
-    assert len(cards) > 0
-    assert all(isinstance(c, kind) for c in cards)
-
-
-@pytest.mark.parametrize('path', EXAMPLE_INPS_NO_RAND, ids=lambda p: p.name)
-def test_seed_added_when_no_rand(path: pathlib.Path) -> None:
-    inp_obj, _ = pymcnp.Inp.from_file(path)
-    inp_obj.seed = 12345
-    again, _ = pymcnp.Inp.from_mcnp(inp_obj.to_mcnp())
-    assert again.seed == pymcnp.inp.literal.Integer('12345')

@@ -12,20 +12,19 @@ class Test_M(classes.Test_FromMcnp):
         'm2 26054.80c 5.85\n     plib= 80p\n     26056 91.75 $ comment\n     26058.80c 0.28',
     ]
 
-    def test_form_formula(self) -> None:
-        pymcnp.inp.card.data.M.from_formula(suffix='1', formulas={'H2O': 1}, is_weight=True)
-        pymcnp.inp.card.data.M.from_formula(suffix='1', formulas={'H2O': 1}, is_weight=False)
-
-    def test_from_formula_fractions(self) -> None:
+    def test_from_formula(self) -> None:
+        # Testing weight fraction computation.
         weight = pymcnp.inp.card.data.M.from_formula(suffix='1', formulas={'NaI': 1}, is_weight=True)
         assert weight.to_mcnp() == 'M1 053127 -0.8466267323518987 011023 -0.15337326764810144'
 
+        # Testing atomic fraction computation.
         atom = pymcnp.inp.card.data.M.from_formula(suffix='1', formulas={'NaI': 1}, is_weight=False)
         assert atom.to_mcnp() == 'M1 053127 0.5 011023 0.5'
 
+        # Testing mixture computation.
         mixture = pymcnp.inp.card.data.M.from_formula(suffix='1', formulas={'N2': 0.8, 'O2': 0.2}, is_weight=True)
         assert mixture.to_mcnp() == 'M1 007014 -0.797088 008016 -0.199514'
 
-    def test_from_formula_library(self) -> None:
+        # Testing library parameter.
         material = pymcnp.inp.card.data.M.from_formula(suffix='1', formulas={'NaI': 1}, library='80c')
         assert material.to_mcnp() == 'M1 053127.80c -0.8466267323518987 011023.80c -0.15337326764810144'
