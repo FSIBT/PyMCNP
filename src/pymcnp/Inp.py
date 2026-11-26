@@ -6,6 +6,7 @@ import numpy
 
 from . import abc
 from . import inp
+from .abc.Symbol import _unix_newlines
 from .abc._path import _join
 from .abc._path import _steps
 
@@ -272,6 +273,7 @@ class Inp(abc.File):
             Error: Expected space.
         """
 
+        source = _unix_newlines(source)
         for line in re.finditer(r'[^\n]{81}', source):
             warnings.warn(abc.Warning('Line exceeds 80 characters maximum length', f'{line[0]}'))
 

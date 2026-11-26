@@ -4,6 +4,20 @@ import typing
 from .Error import Error
 
 
+def _unix_newlines(source: str) -> str:
+    """
+    Translates Windows (``\\r\\n``) and old Mac (``\\r``) line ends to ``\\n``, as ``Path.read_text`` does.
+
+    Parameters:
+        source: Source string.
+
+    Returns:
+        ``source`` with ``\\n`` line ends.
+    """
+
+    return source.replace('\r\n', '\n').replace('\r', '\n')
+
+
 class Symbol(abc.ABC):
     """
     Represents symbols.
@@ -58,6 +72,7 @@ class Symbol(abc.ABC):
             Symbol corresponding to ``source`` and the remainder of ``source``.
         """
 
+        source = _unix_newlines(source)
         parse = cls._from_mcnp_at_by_position
         if parse is None:
             raise NotImplementedError

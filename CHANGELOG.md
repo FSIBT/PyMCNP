@@ -69,6 +69,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Inp.to_mcnp` and `pymcnp check --fix` wrapped a long comment card indented in columns 2-5 with `&`, so its second half became a continuation line, and dropped the `&` at the end of a long line, so the line after it became a new card. Comment cards in columns 1-5 are written as they are, and a wrapped line keeps its `&`.
 - `prdmp` with fewer than five entries or with jumps, e.g., `prdmp 2j 1` or `prdmp j j -1`, did not parse, so it and every data card after it were left in the remainder; every entry may now be a jump or left out. `tropt genxs nreact atten` read `nreact` as the `genxs` file name.
 - The `AREA` card was checked against the number of cells instead of the number of surfaces, so a valid card raised `abc.Error`.
+- `from_mcnp` and `from_mcnp_iter` failed on text with Windows (`\r\n`) line ends, which `from_file` reads; they now translate line ends as `from_file` does.
 - Tests no longer write files into the repository.
 
 ## [0.10.0] - 2026-10-15

@@ -1,3 +1,4 @@
+import types
 import pathlib
 
 import pandas
@@ -34,3 +35,37 @@ class Test_File:
 
         assert len(pandas.read_csv(csv)) == len(outp.to_dataframe())
         assert len(pandas.read_parquet(parquet)) == len(outp.to_dataframe())
+
+
+def _items(iterator):
+    items = []
+    try:
+        while True:
+            item = next(iterator)
+            items.append(list(item) if isinstance(item, types.GeneratorType) else item)
+    except StopIteration as stop:
+        return items, stop.value
+
+
+@pytest.mark.filterwarnings('ignore::pymcnp.abc.Warning')
+@pytest.mark.parametrize(
+    'kind, path',
+    [
+        (pymcnp.Inp, FILES / 'inp' / 'valid_36.inp'),
+        (pymcnp.Outp, FILES / 'outp' / 'valid_00.outp'),
+        (pymcnp.Meshtal, FILES / 'meshtal' / 'valid_38.meshtal'),
+        (pymcnp.Ptrac, FILES / 'ptrac' / 'valid_00.ptrac'),
+    ],
+)
+def test_from_mcnp_reads_crlf(kind, path) -> None:
+    # Text with Windows line ends parses as `from_file` reads it, which translates them.
+    text = path.read_text()
+    crlf = text.replace('\n', '\r\n')
+
+    assert kind.from_mcnp(crlf) == kind.from_file(path)
+    if hasattr(kind, 'from_mcnp_iter'):
+        assert _items(kind.from_mcnp_iter(crlf, returning=True)) == _items(kind.from_mcnp_iter(text, returning=True))
+
+
+def test_card_from_mcnp_reads_crlf() -> None:
+    assert pymcnp.inp.card.Data.from_mcnp('m1 1001 2\r\n     8016 1') == pymcnp.inp.card.Data.from_mcnp('m1 1001 2\n     8016 1')

@@ -2,6 +2,7 @@ import abc
 import typing
 
 from ..Symbol import Symbol
+from ..Symbol import _unix_newlines
 
 
 T = typing.TypeVar('T', bound=Symbol)
@@ -52,6 +53,7 @@ class WithMcnpIter(abc.ABC, typing.Generic[T, U]):
             Symbol corresponding to ``source`` and the remainder of ``source`` if ``returning``.
         """
 
+        source = _unix_newlines(source)
         symbol, end = yield from cls._from_mcnp_iter_at(source, 0, returning=returning)
 
         if returning:
