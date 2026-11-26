@@ -1,3 +1,4 @@
+import inspect
 import dataclasses
 
 from . import block
@@ -13,13 +14,13 @@ _ROLES_BY_FIELD = {'nxs_2_iex': 'nsx', 'nsf_pbl_i_jsu': 'nsx', 'pbl_i_ipt': 'par
 # Event types in the order of the header's J/P line pairs, after the NPS line.
 _ORDER = (EventType.SOURCE, EventType.BANK, EventType.SURFACE, EventType.COLLISION, EventType.TERMINAL)
 
-# Layout of the J-line values per event type: number of values after `type`, and position by role.
-Layout = dict[EventType, tuple[int, dict[str, int]]]
+# _Layout of the J-line values per event type: number of values after `type`, and position by role.
+_Layout = dict[EventType, tuple[int, dict[str, int]]]
 
 _EVENT_TYPE_ID = 7
 
 
-def _layout(header: block.Header) -> Layout | None:
+def _layout(header: block.Header) -> _Layout | None:
     """
     Reads the positions of the J-line values from the variable IDs of PTRAC headers.
 
@@ -28,7 +29,7 @@ def _layout(header: block.Header) -> Layout | None:
     type (ID 7).
 
     Returns:
-        Layout per event type, `None` if the counts and IDs are not numbers or do not fit together.
+        _Layout per event type, `None` if the counts and IDs are not numbers or do not fit together.
     """
 
     try:
@@ -39,7 +40,7 @@ def _layout(header: block.Header) -> Layout | None:
     if sum(counts) != len(ids):
         return None
 
-    layout: Layout = {}
+    layout: _Layout = {}
     start = counts[0]
     for kind, j, p in zip(_ORDER, counts[1::2], counts[2::2]):
         line = ids[start : start + j]
@@ -72,7 +73,7 @@ class Event:
     A PTRAC event block's `type` is the type of the next event, so the event blocks of `pymcnp.ptrac.block` cannot know their own type.
     This class pairs each event block with its type and reads the values by their meaning.
     The J-line values are found by the variable IDs of the file's header, which `Ptrac.stream` and the other PTRAC readers pass as the
-    init-only argument `_layout` (an implementation detail, not stored); without it, by the event block's field names.
+    keyword-only, init-only argument `_layout` (an implementation detail, not stored or shown in the signature); without it, by the event block's field names.
     Values that PTRAC does not write for this event (e.g., the particle with some forms, or direction and energy without `WRITE=ALL`) are `None`.
 
     Attributes:
@@ -86,12 +87,13 @@ class Event:
     type: EventType
     creation_code: int | None
     block: block.Event
-    _layout: dataclasses.InitVar[Layout | None] = None
+    _: dataclasses.KW_ONLY
+    _layout: dataclasses.InitVar[_Layout | None] = None
     _j: list[str] = dataclasses.field(init=False, repr=False, compare=False)
     _p: list[str] = dataclasses.field(init=False, repr=False, compare=False)
     _roles: dict[str, int] = dataclasses.field(init=False, repr=False, compare=False)
 
-    def __post_init__(self, _layout: Layout | None) -> None:
+    def __post_init__(self, _layout: _Layout | None) -> None:
         # `_layout`: positions of the J-line values per event type, from the header's variable IDs; `None` (or a layout
         # whose number of values differs from the event's) to use the event block's field names.
         self._j, self._p, self._roles = _values(self.block)
@@ -249,3 +251,7 @@ class Event:
             'weight': self.weight,
             'time': self.time,
         }
+
+
+# `_layout` is an implementation detail; the documented signature leaves it out.
+Event.__signature__ = inspect.signature(Event).replace(parameters=[parameter for parameter in inspect.signature(Event).parameters.values() if parameter.name != '_layout'])  # ty: ignore[unresolved-attribute]

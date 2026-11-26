@@ -1,3 +1,4 @@
+import inspect
 import dataclasses
 import pathlib
 import re
@@ -605,6 +606,10 @@ def test_event_layout_is_private(head, tmp_path: pathlib.Path) -> None:
     assert with_layout == plain
     with pytest.raises(TypeError):
         pymcnp.ptrac.Event(event.nps, event.type, event.creation_code, event.block, layout=layout)
+    # `_layout` is keyword-only and left out of the documented signature.
+    with pytest.raises(TypeError):
+        pymcnp.ptrac.Event(event.nps, event.type, event.creation_code, event.block, layout)
+    assert list(inspect.signature(pymcnp.ptrac.Event).parameters) == ['nps', 'type', 'creation_code', 'block']
 
 
 @pytest.mark.parametrize(

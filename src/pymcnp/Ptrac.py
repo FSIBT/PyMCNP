@@ -8,7 +8,7 @@ import pandas
 
 from . import abc
 from . import ptrac
-from .ptrac.Event import Layout, _layout
+from .ptrac.Event import _Layout, _layout
 
 _REGEX_HISTORY = re.compile(r' *\d+ +(?:[1345]000|-?20\d\d)(?: |$)')
 _NEWLINE = abc.Terminal[r'\n']
@@ -360,7 +360,7 @@ def _events(file: Ptrac | pathlib.Path | str) -> collections.abc.Iterator[ptrac.
         yield from _history_events(history, layout)
 
 
-def _history_rows(history: ptrac.block.History | ptrac.block.HistoryTruncated, layout: Layout | None = None) -> list[dict]:
+def _history_rows(history: ptrac.block.History | ptrac.block.HistoryTruncated, layout: _Layout | None = None) -> list[dict]:
     """
     Converts histories to dataframe rows: ``ptrac.Event.to_dict`` plus ``track`` and ``parent_zaid``.
     """
@@ -368,7 +368,7 @@ def _history_rows(history: ptrac.block.History | ptrac.block.HistoryTruncated, l
     return [{**event.to_dict(), 'track': track.index, 'parent_zaid': track.parent_zaid} for track in ptrac.tracks(_history_events(history, layout)) for event in track.events]
 
 
-def _history_events(history: ptrac.block.History | ptrac.block.HistoryTruncated, layout: Layout | None = None) -> collections.abc.Iterator[ptrac.Event]:
+def _history_events(history: ptrac.block.History | ptrac.block.HistoryTruncated, layout: _Layout | None = None) -> collections.abc.Iterator[ptrac.Event]:
     """
     Yields the events of history blocks, each with its own type, i.e., the type announced by the line before it.
     ``layout`` is the J-line layout from the file's header; without it, values are read by the event blocks' field names.
