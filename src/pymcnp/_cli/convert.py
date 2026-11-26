@@ -9,7 +9,7 @@ Options:
     -p --parquet    Write PARQUET.
 
 Writes the data of OUTP (all tallies), PTRAC (one row per event), or
-MESHTAL (all mesh tallies, with a ``tally`` column) files next to them,
+MESHTAL (all mesh tallies, with a ``number`` column) files next to them,
 e.g., ``file.outp`` to ``file.csv``.
 """
 
@@ -47,8 +47,8 @@ def main() -> None:
     # Reading output file; meshtal files may hold several mesh tallies.
     try:
         if Nonterminal is Meshtal:
-            frame = pandas.concat([tally.to_dataframe().assign(tally=tally.tally_number) for tally in Meshtal.iter_tallies(file)], ignore_index=True)
-            frame.insert(0, 'tally', frame.pop('tally'))
+            frame = pandas.concat([tally.to_dataframe().assign(number=tally.tally_number) for tally in Meshtal.iter_tallies(file)], ignore_index=True)
+            frame.insert(0, 'number', frame.pop('number'))
         else:
             nonterminal, _ = Nonterminal.from_file(file)
             frame = nonterminal.to_dataframe()

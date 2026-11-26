@@ -48,9 +48,9 @@ def test_main_meshtal_converts_every_tally(monkeypatch, tmp_path: pathlib.Path, 
         frame = pandas.read_parquet(tmp_path / 'multi_00.parquet')
 
     assert len(frame) == 8 + 9
-    assert frame.columns[0] == 'tally'
-    assert frame['tally'].tolist() == [4] * 8 + [14] * 9
-    assert list(frame.columns) == ['tally', 'X', 'Y', 'Z', 'Result', 'Rel Error', 'Energy']
+    assert frame.columns[0] == 'number'
+    assert frame['number'].tolist() == [4] * 8 + [14] * 9
+    assert list(frame.columns) == ['number', 'X', 'Y', 'Z', 'Result', 'Rel Error', 'Energy']
     assert frame['Result'].iloc[0] == pytest.approx(0.002874, rel=1e-3)
     assert pandas.isna(frame['Energy'].iloc[0])
     assert str(frame['Energy'].iloc[-1]) == 'Total'
