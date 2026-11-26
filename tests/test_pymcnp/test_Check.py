@@ -137,11 +137,20 @@ class Test_Check_Problems:
 
     def test_unknown_card_after_vertical_data_block(self, tmp_path: pathlib.Path) -> None:
         path = tmp_path / 'vertical.inp'
-        path.write_text(SOURCE.replace('nps 10', 'nps 10\n# a b\n1 2 3\n2 4 5\nfoo 1'))
+        path.write_text(SOURCE.replace('nps 10', 'nps 10\n# si1 sp1\n1 0\n2 1\nfoo 1'))
 
         problems = pymcnp.Check(path).problems()
 
         assert [(problem.line, problem.kind) for problem in problems] == [(11, 'warning')]
+
+    def test_vertical_block_with_short_row(self, tmp_path: pathlib.Path) -> None:
+        # A block whose rows do not have one entry per card name is not read, so its `#` line is the problem.
+        path = tmp_path / 'vertical.inp'
+        path.write_text(SOURCE.replace('nps 10', 'nps 10\n# si1 sp1\n1 0\n2 1 3\nfoo 1'))
+
+        problems = pymcnp.Check(path).problems()
+
+        assert [(problem.line, problem.kind) for problem in problems] == [(8, 'warning')]
 
     def test_unknown_card_after_comment_cards(self, tmp_path: pathlib.Path) -> None:
         # Comment cards, including indented ones and those in the middle of a card, are not cards to parse.

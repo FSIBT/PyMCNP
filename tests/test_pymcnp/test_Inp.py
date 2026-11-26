@@ -1,5 +1,6 @@
 import pathlib
 
+import numpy
 import pytest
 
 import pymcnp
@@ -281,3 +282,67 @@ class Test_Inp(classes.Test_FromFile):
             assert subinp.seed == pymcnp.inp.literal.Integer('200')
             subinp.seed = 10
             assert tuple(rand.options.filter(pymcnp.inp.option.data.rand.Seed, value=10) for rand in subinp.data.filter(pymcnp.inp.card.data.Rand))
+
+
+class Test_VerticalFormat:
+    """
+    Tests the vertical data format (``#`` blocks).
+    """
+
+    BASE = 'title\n1 0 -1 imp:n=1\n2 0 1 imp:n=0\n\n1 so 1\n\n'
+
+    @pytest.mark.parametrize('name', ['valid_36.inp', 'valid_37.inp'])
+    def test_adjacent_blocks_keep_every_card(self, name) -> None:
+        inp, remainder = pymcnp.Inp.from_file(PATH / name)
+        assert remainder == ''
+        cards = [card.to_mcnp() for card in inp.data_cards()]
+        start = cards.index('SI1 0 1000 20000')
+        assert cards[start : start + 6] == [
+            'SI1 0 1000 20000',
+            'SP1 0 1 0',
+            'SI2 0 20000',
+            'SP2 0 1',
+            'F4:n 200',
+            'T4 ' + ' '.join(str(value) for value in numpy.linspace(0, 20000, 101)),
+        ]
+        assert cards[start + 6 :] == ([] if name == 'valid_36.inp' else ['E4 0 5 14'])
+        assert str(inp.other).strip() == ''
+        again, remainder = pymcnp.Inp.from_mcnp(inp.to_mcnp())
+        assert remainder == ''
+        assert [' '.join(card.to_mcnp().replace('&', '').split()) for card in again.data_cards()] == [' '.join(card.split()) for card in cards]
+
+    def test_indented_rows(self) -> None:
+        source = self.BASE + 'sdef erg=d1\n# si1 sp1\n   1  0\n   2  1\n   3  2\nnps 10\n'
+        inp, remainder = pymcnp.Inp.from_mcnp(source)
+        assert remainder == ''
+        assert [card.to_mcnp() for card in inp.data_cards()] == ['sdef erg=d1', 'si1 1 2 3', 'sp1 0 1 2', 'nps 10']
+
+    def test_single_column_and_signed_values(self) -> None:
+        source = self.BASE + '#  si1\n  -1\n  .5\n  2\n#  sp1  imp:n\n 0 j\n 1 1\nnps 10\n'
+        inp, remainder = pymcnp.Inp.from_mcnp(source)
+        assert remainder == ''
+        assert [card.to_mcnp() for card in inp.data_cards()] == ['si1 -1 .5 2', 'sp1 0 1', 'imp:n j 1', 'nps 10']
+
+    @pytest.mark.parametrize(
+        'block',
+        [
+            # A row with fewer entries than card names.
+            '# si1 sp1\n1 0\n2\n3 2\n',
+            # A row with more entries than card names.
+            '# si1 sp1\n1 0\n2 1 5\n',
+            # A row with a `$` comment.
+            '# si1 sp1\n1 0 $ first\n2 1\n',
+        ],
+    )
+    def test_unsupported_block_is_left_as_remainder(self, block) -> None:
+        # A block PyMCNP cannot read is not dropped: it and every card after it are the remainder.
+        inp, remainder = pymcnp.Inp.from_mcnp(self.BASE + 'sdef erg=d1\n' + block + 'nps 10\n')
+        assert remainder.startswith('# si1 sp1\n')
+        assert remainder.endswith('nps 10\n')
+        assert [card.to_mcnp() for card in inp.data_cards()] == ['sdef erg=d1']
+
+    def test_block_after_data_block_is_verbatim(self) -> None:
+        source = self.BASE + 'nps 10\n\n# si1 sp1\n1 0\n2 1\n'
+        inp, remainder = pymcnp.Inp.from_mcnp(source)
+        assert remainder == ''
+        assert inp.to_mcnp() == source

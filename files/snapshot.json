@@ -383,14 +383,14 @@
   "remainder_len": 0
  },
  "inp/valid_36.inp": {
-  "mcnp": "0752b8834d0a8e3eacb11b0dddc61a0ca0391fd1f585c13ead738c05b2c239d4",
+  "mcnp": "a100f912d8fa7672935ff80517e1ca1ee2b7806a65048e63e60cfb3c70457551",
   "ok": true,
   "problems": [],
   "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
   "remainder_len": 0
  },
  "inp/valid_37.inp": {
-  "mcnp": "0752b8834d0a8e3eacb11b0dddc61a0ca0391fd1f585c13ead738c05b2c239d4",
+  "mcnp": "f8fa477a742d9fb7b4b395754f56f2a2243f68c22feea905a8259ce6ec32b152",
   "ok": true,
   "problems": [],
   "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",

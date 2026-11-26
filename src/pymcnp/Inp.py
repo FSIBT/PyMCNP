@@ -19,6 +19,10 @@ _REGEX_LOG = re.compile(r'(\S+)(?<!\d[mM]) (\d+)I?LOG (\S+)', re.IGNORECASE)
 _REGEX_MULTIPLY = re.compile(rf'(?<!\S)({_NUMBER}) ({_NUMBER})M(?!\S)', re.IGNORECASE)
 _REGEX_UNWRAPPED_CARD = re.compile(r'(?:c|[fs]c\d+)(?:\s|\Z)', re.IGNORECASE)
 _REGEX_COMMENT = re.compile(r' {0,4}c(?:\s|\Z)', re.IGNORECASE)
+# Vertical data format: a ``#`` in columns 1-5 followed by card names, then one row of entries per line. Rows start with
+# a number or a jump, so the next card ends the block, and they carry no ``$`` comment.
+_REGEX_VERTICAL_HEADER = re.compile(r' {0,4}#((?:[ \t]+[^\s$]+)+)[ \t]*\Z')
+_REGEX_VERTICAL_ROW = re.compile(r'[ \t]*(?:[-+]?\.?\d|\d*J(?:\s|\Z))[^$]*\Z', re.IGNORECASE)
 
 _WIDTH = 80
 _INDENT = 5
@@ -49,6 +53,67 @@ def _expand(code: str) -> str:
         code = _REGEX_LOG.sub(lambda match: ' '.join(map(str, numpy.geomspace(float(match[1]), float(match[3]), num=int(match[2]) + 2))), code)
 
     return code
+
+
+def _vertical_block(lines: list[str], index: int) -> tuple[list[str], int] | None:
+    """
+    Reads one vertical data format block.
+
+    Parameters:
+        lines: Lines of an input file.
+        index: Index of the line that may start a block.
+
+    Returns:
+        The block's cards in horizontal format and the index of the line after the block, or None if no block starts at
+        ``index`` or its rows do not each have one entry per card name. Such a block stays as it is, so it ends the data
+        block and is left in the remainder instead of being read wrong.
+    """
+
+    header = _REGEX_VERTICAL_HEADER.match(lines[index])
+    if header is None:
+        return None
+
+    names = header[1].split()
+    rows = []
+    end = index + 1
+    while end < len(lines) and _REGEX_VERTICAL_ROW.match(lines[end]):
+        rows.append(lines[end].split())
+        end += 1
+
+    if not rows or any(len(row) != len(names) for row in rows):
+        return None
+
+    return [' '.join([name, *(row[column] for row in rows)]) for column, name in enumerate(names)], end
+
+
+def _vertical(source: str) -> str:
+    """
+    Rewrites the vertical data format blocks of an input file in horizontal format, one card per line in place of the block.
+
+    The title and the text after the data block are left verbatim.
+
+    Parameters:
+        source: Input file text, with blank lines already empty.
+
+    Returns:
+        ``source`` with its vertical data format blocks rewritten.
+    """
+
+    lines = source.split('\n')
+    result = lines[:1]
+    blanks = 0
+    index = 1
+    while index < len(lines):
+        if blanks < 3 and (block := _vertical_block(lines, index)) is not None:
+            cards, index = block
+            result += cards
+            continue
+
+        blanks += not lines[index]
+        result.append(lines[index])
+        index += 1
+
+    return '\n'.join(result)
 
 
 def _expand_cards(source: str) -> str:
@@ -209,22 +274,7 @@ class Inp(abc.File):
         source = re.sub(r'\n +\n', '\n\n', source)
 
         # Preprocessing vertical data format.
-        tokens = re.split(r'\n(#(?: \S+)+\n(?: *\d\S*(?: +\S+)+\n)+)', source)
-        source = ''
-        for token in tokens:
-            if match := re.match(r'#((?: \S+)+)\n((?: *\d\S*(?: +\S+)+\n)+)', token):
-                cards = re.split(r'\s+', match[1])[1:]
-                rows = [[card] for card in cards]
-
-                lines = match[2].split('\n')[:-1]
-                for line in lines:
-                    parameters = re.split(r'\s+', line)
-                    for parameter, row in zip(parameters, rows):
-                        row.append(parameter)
-
-                source += '\n' + '\n'.join([' '.join(row) for row in rows]) + '\n'
-            else:
-                source += token
+        source = _vertical(source)
 
         # Preprocessing horizontal data format.
         source = _expand_cards(source)

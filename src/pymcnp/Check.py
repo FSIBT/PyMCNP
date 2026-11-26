@@ -10,6 +10,7 @@ from . import inp
 from .Inp import Inp
 from .Inp import _REGEX_COMMENT
 from .Inp import _expand
+from .Inp import _vertical_block
 
 _WIDTH = 80
 
@@ -48,11 +49,9 @@ def _unparseable_card(lines: list[str]) -> tuple[int, abc.Error] | None:
         cards = []
         while index < len(lines) and lines[index].strip():
             line = lines[index]
-            if re.match(r'#( \S+)+$', line):
+            if (block := _vertical_block(lines, index)) is not None:
                 # Vertical data format is only valid across the whole block.
-                index += 1
-                while index < len(lines) and re.match(r' *\d\S*( +\S+)+$', lines[index]):
-                    index += 1
+                index = block[1]
                 continue
 
             if _REGEX_COMMENT.match(line):
