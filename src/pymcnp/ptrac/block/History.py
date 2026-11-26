@@ -136,13 +136,12 @@ class HistoryTruncated:
     events: list[Event]
 
     @classmethod
-    def from_mcnp(cls, source: str, *, _kinds: dict[str, type[Event]] | None = None) -> HistoryTruncated:
+    def from_mcnp(cls, source: str) -> HistoryTruncated:
         """
         Reads as many events of a cut-short history block as there are.
 
         Parameters:
             source: Source string to read.
-            _kinds: Event block class per event type, as for ``History``.
 
         Returns:
             Truncated history block corresponding to ``source``.
@@ -152,18 +151,8 @@ class HistoryTruncated:
             Error: Expected history.
         """
 
-        events: list[Event] = []
-        text = source + '\n'
-        end = None
-        for event, end in _events_at(History, text, 0, False, _kinds or _KINDS):
-            events.append(event)
-        remainder = source.partition('\n')[2] if end is None else text[end:]
-
-        # Only the event that was being written when the file was cut (its J and P lines) may be left over.
-        if len(remainder.removeprefix('\n').rstrip('\n').split('\n')) > 2 and remainder.strip():
-            raise abc.Error('Expected history.', f'{remainder[:80]!r}')
-
-        return cls(nps=source[1:11], event_type=source[11:21], events=events)
+        truncated = _truncated(source, _KINDS)
+        return cls(nps=truncated.nps, event_type=truncated.event_type, events=truncated.events)
 
     @property
     def tracks(self) -> collections.abc.Iterator[Track]:
@@ -338,6 +327,25 @@ def _events_at(cls: type[History], source: str, pos: int, returning: bool, kinds
         newline=newline,
         events=_EVENTS(*items, spaces=spaces),
     ), pos
+
+
+def _truncated(source: str, kinds: dict[str, type[Event]]) -> HistoryTruncated:
+    """
+    Reads cut-short history blocks, as ``HistoryTruncated.from_mcnp``, with the event block classes ``kinds``.
+    """
+
+    events: list[Event] = []
+    text = source + '\n'
+    end = None
+    for event, end in _events_at(History, text, 0, False, kinds):
+        events.append(event)
+    remainder = source.partition('\n')[2] if end is None else text[end:]
+
+    # Only the event that was being written when the file was cut (its J and P lines) may be left over.
+    if len(remainder.removeprefix('\n').rstrip('\n').split('\n')) > 2 and remainder.strip():
+        raise abc.Error('Expected history.', f'{remainder[:80]!r}')
+
+    return HistoryTruncated(nps=source[1:11], event_type=source[11:21], events=events)
 
 
 def _history(source: str, kinds: dict[str, type[Event]]) -> tuple[History, str]:

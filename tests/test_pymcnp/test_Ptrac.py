@@ -733,3 +733,17 @@ def test_block_events_agree_with_stream(path: pathlib.Path) -> None:
             count += 1
     assert next(streamed, None) is None
     assert count > 0 or len(path.read_text().splitlines()) <= 9
+
+
+def test_public_signatures_have_no_private_parameters() -> None:
+    # Private parameters belong in private functions, so that the documented signatures stay as they were.
+    classes = [pymcnp.Ptrac, pymcnp.ptrac.block.History, pymcnp.ptrac.block.HistoryTruncated, pymcnp.ptrac.Event]
+    for cls in classes:
+        for name, member in [('', cls), *inspect.getmembers(cls, callable)]:
+            if name.startswith('_'):
+                continue
+            try:
+                parameters = inspect.signature(member).parameters
+            except (TypeError, ValueError):
+                continue
+            assert not [p for p in parameters if p.startswith('_')], f'{cls.__name__}.{name}'

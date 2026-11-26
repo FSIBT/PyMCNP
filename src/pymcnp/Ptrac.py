@@ -9,7 +9,7 @@ import pandas
 from . import abc
 from . import ptrac
 from .ptrac.Event import _Layout, _layout
-from .ptrac.block.History import _history, _kinds
+from .ptrac.block.History import _history, _kinds, _truncated
 
 _REGEX_HISTORY = re.compile(r' *\d+ +(?:[1345]000|-?20\d\d)(?: |$)')
 _NEWLINE = abc.Terminal[r'\n']
@@ -304,7 +304,7 @@ def _read(path: pathlib.Path | str) -> collections.abc.Iterator[ptrac.block.Head
                     raise abc.Error('Expected history.', f'line {number}: {remainder[:80]!r}')
                 return history
 
-        truncated = ptrac.block.HistoryTruncated.from_mcnp('\n'.join(lines), _kinds=kinds)
+        truncated = _truncated('\n'.join(lines), kinds)
         warnings.warn(abc.Warning('Last history is truncated.', f'{path=} nps={truncated.nps.strip()} events kept={len(truncated.events)}'))
         return truncated
 
