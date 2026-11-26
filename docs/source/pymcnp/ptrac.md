@@ -79,6 +79,7 @@ flat memory use.
 ```{eval-rst}
 .. autoclass:: pymcnp.ptrac.EventType
    :members:
+   :undoc-members:
 ```
 
 ### `Particle` Class
@@ -86,6 +87,7 @@ flat memory use.
 ```{eval-rst}
 .. autoclass:: pymcnp.ptrac.Particle
    :members:
+   :undoc-members:
 ```
 
 ### `Surface` Class
@@ -106,4 +108,5 @@ flat memory use.
 ```{eval-rst}
 .. autoclass:: pymcnp.ptrac.ParquetWriter
    :members:
+   :undoc-members:
 ```

@@ -45,6 +45,10 @@ class ParquetWriter:
         self._started = False
 
     def write(self, rows: list[dict]):
+        """
+        Writes one chunk of rows, e.g., `Event.to_dict` rows, with the column types of `to_dataframe`.
+        """
+
         table = pyarrow.Table.from_pandas(to_dataframe(rows), preserve_index=False)
         if self._writer is None:
             self._writer = pyarrow.parquet.ParquetWriter(self.temporary, table.schema)
@@ -52,6 +56,10 @@ class ParquetWriter:
         self._started = True
 
     def close(self):
+        """
+        Finishes the file and moves it to `path`; with no rows written, `path` holds an empty table.
+        """
+
         if self._writer is not None:
             self._writer.close()
         if not self._started:
@@ -59,6 +67,10 @@ class ParquetWriter:
         self.temporary.replace(self.path)
 
     def abort(self):
+        """
+        Stops writing and removes the partial file, leaving `path` untouched.
+        """
+
         if self._writer is not None:
             self._writer.close()
         self.temporary.unlink(missing_ok=True)

@@ -169,11 +169,19 @@ class Event:
 
     @property
     def position(self) -> tuple[float, float, float]:
+        """
+        Position `(x, y, z)` of the event, in cm.
+        """
+
         x, y, z = self._p[:3]
         return float(x), float(y), float(z)
 
     @property
     def direction(self) -> tuple[float, float, float] | None:
+        """
+        Direction cosines `(u, v, w)` at the event; `None` without `PTRAC ... WRITE=ALL`.
+        """
+
         if len(self._p) < 9:
             return None
         u, v, w = self._p[3:6]
@@ -181,14 +189,26 @@ class Event:
 
     @property
     def energy(self) -> float | None:
+        """
+        Energy at the event, in MeV; `None` without `PTRAC ... WRITE=ALL`.
+        """
+
         return float(self._p[6]) if len(self._p) >= 9 else None
 
     @property
     def weight(self) -> float | None:
+        """
+        Particle weight at the event; `None` without `PTRAC ... WRITE=ALL`.
+        """
+
         return float(self._p[7]) if len(self._p) >= 9 else None
 
     @property
     def time(self) -> float | None:
+        """
+        Time of the event, in shakes (1e-8 s); `None` without `PTRAC ... WRITE=ALL`.
+        """
+
         return float(self._p[8]) if len(self._p) >= 9 else None
 
     @property
