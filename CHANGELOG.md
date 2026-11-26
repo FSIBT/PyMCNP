@@ -47,6 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - `pymcnp visualize --pdf` names cell and surface PDFs `<input>-cell_100.pdf` (not `cell_['100']`) and prints where it wrote each PDF.
+- `pymcnp convert`, `plot --pdf` and `visualize --pdf` crashed on a file name without an extension, e.g., MCNP's default `outp`, or with a dot only in a directory name; they now write, e.g., `outp.csv`.
 - The hexagonal prism visualization mask, and the shape masks of `Visualize` (vectorized, with the sign convention of MCNP).
 - `Visualize` drew a general plane `P A B C D` with `A`, `B` and `C` all non-zero centred at (0, 0, D), off the plane unless C is 1.
 - `examples/`: `do_run.py`, `do_parameter_scan.py`, `do_check.py`, `read_ptrac.py`, the tally examples, and `script_example_01_ptrac_to_parquet.py` (which ignored its `path` argument) use the current API, and `tests/test_examples.py` runs them.

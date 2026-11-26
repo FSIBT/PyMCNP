@@ -4,8 +4,8 @@ The `pymcnp` command checks and formats MCNP input files, visualizes their geome
 the results. Only `pymcnp run` needs MCNP. The examples use the files in the
 [examples directory](https://github.com/FSIBT/PyMCNP/tree/main/examples) of the repository.
 
-Output files are written next to the input file, with the extension replaced, so the input file name needs an extension,
-e.g., `example_00.outp` rather than `outp`.
+Output files are written next to the input file, with the extension replaced, e.g., `example_00.csv` for
+`example_00.outp`; a file name without an extension, e.g., MCNP's default `outp`, gets one added: `outp.csv`.
 
 ## Commands
 

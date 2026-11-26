@@ -6,10 +6,18 @@ import rich.panel
 
 
 def get_outfile(path: pathlib.Path | str, ext: str, i: str | None = None) -> pathlib.Path:
-    path = str(path)
-    path, _ = path.rsplit('.', maxsplit=1)
+    """
+    Names an output file next to ``path``, with its extension replaced by ``ext``.
 
-    return pathlib.Path(path + (f'-{i}' if i is not None else '') + '.' + ext)
+    A file name without an extension, e.g., MCNP's default ``outp``, gets
+    ``ext`` appended: ``outp.csv``. ``i``, if given, is added to the name:
+    ``example_00-cells.pdf``.
+    """
+
+    path = pathlib.Path(path)
+    name = path.stem + (f'-{i}' if i is not None else '') + '.' + ext
+
+    return path.with_name(name)
 
 
 def info(msg: str):

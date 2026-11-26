@@ -56,3 +56,14 @@ def test_main_meshtal_converts_every_tally(monkeypatch, tmp_path: pathlib.Path, 
     assert frame['Result'].iloc[0] == pytest.approx(0.002874, rel=1e-3)
     assert pandas.isna(frame['Energy'].iloc[0])
     assert str(frame['Energy'].iloc[-1]) == 'Total'
+
+
+def test_main_file_without_extension(monkeypatch, tmp_path: pathlib.Path) -> None:
+    # MCNP names its files `meshtal`, `outp` and `ptrac` by default.
+    path = tmp_path / 'meshtal'
+    shutil.copy(FILES / 'meshtal' / 'multi_00.meshtal', path)
+
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'convert', 'meshtal', '--csv', str(path)])
+    convert.main()
+
+    assert (tmp_path / 'meshtal.csv').exists()
