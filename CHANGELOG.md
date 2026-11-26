@@ -52,6 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - MESHTAL files: tally bin boundaries are required and data rows are parsed.
 - PTRAC: every history is parsed, event types 2010, 2020 and 2030 are accepted, and macrobody facets work in the `SURFACE` option.
 - `particle` of the PTRAC event blocks (`ptrac.block.EventSource_2`, ...) returned the cell, `NCL(PBL%I%ICL)`, instead of the particle type, `PBL%I%IPT`; it is `None` for the forms that do not write the particle type (`_1`, `_3`). `ptrac.Event.particle` and `Ptrac.to_dataframe` were not affected.
+- `ptrac.Event` (and so `Ptrac.stream`, `Ptrac.tracks`, `Ptrac.to_parquet` and `Ptrac.to_dataframe`) read the J line of source events that write the particle type (`NODE NSR IPT NCL MAT`) as if it had none: `cell` was the particle type, `material` the cell, and `particle` was `None`. The values are now found by the variable IDs of the PTRAC header, or, without a header, by the event block's field names.
 - The PTRAC card's `EVENT`, `CELL` and `SURFACE` options take several values separated by commas or spaces, e.g., `PTRAC EVENT=SRC,COL,BNK FILE=ASC`; they kept only the first value.
 - `nI` and `nILOG` entries expand to the values between the endpoints.
 - Input files with library keywords between substances, unindented continuation lines after `&`, thermal scattering names such as `h-zr.20t`, trailing spaces or comments at the ends of cards, or no final newline failed to parse.

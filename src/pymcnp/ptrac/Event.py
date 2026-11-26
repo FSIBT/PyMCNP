@@ -3,25 +3,65 @@ import dataclasses
 from . import block
 from .Types import EventType, Particle, Surface
 
-# J-line value positions per number of values after `type`: `(source event, any other event)`.
-# The same position means different things per event type, and PTRAC writes 4 to 7 values depending on its options.
-_SLOTS = {
-    4: ({'cell': 2, 'material': 3}, {}),
-    5: ({'cell': 2, 'material': 3}, {'nsx': 1, 'cell': 3, 'material': 4}),
-    6: ({'particle': 2, 'cell': 3, 'material': 4}, {'nsx': 1, 'particle': 3, 'cell': 4, 'material': 5}),
-    7: ({'particle': 3, 'cell': 4, 'material': 5}, {'nsx': 1, 'particle': 3, 'cell': 4, 'material': 5}),
-}
+# Roles of the J-line values `Event` reads, by PTRAC header variable ID (MCNP manual, PTRAC file format):
+# 10 ZAID (NXS(2,IEX)), 12 surface (NSF(PBL%I%JSU)), 16 particle (PBL%I%IPT), 17 cell (NCL(PBL%I%ICL)), 18 material (MAT(PBL%I%ICL)).
+_ROLES_BY_ID = {10: 'nsx', 12: 'nsx', 16: 'particle', 17: 'cell', 18: 'material'}
+
+# The same roles by event block field name, for events read without the header.
+_ROLES_BY_FIELD = {'nxs_2_iex': 'nsx', 'nsf_pbl_i_jsu': 'nsx', 'pbl_i_ipt': 'particle', 'ncl_pbl_i_icl': 'cell', 'mat_pbl_i_icl': 'material'}
+
+# Event types in the order of the header's J/P line pairs, after the NPS line.
+_ORDER = (EventType.SOURCE, EventType.BANK, EventType.SURFACE, EventType.COLLISION, EventType.TERMINAL)
+
+# Layout of the J-line values per event type: number of values after `type`, and position by role.
+Layout = dict[EventType, tuple[int, dict[str, int]]]
+
+_EVENT_TYPE_ID = 7
 
 
-def _values(event: block.Event) -> tuple[list[str], list[str]]:
+def _layout(header: block.Header) -> Layout | None:
     """
-    Splits event blocks into their J-line values after `type` and their P-line values.
+    Reads the positions of the J-line values from the variable IDs of PTRAC headers.
+
+    The header's `n1` to `n11` count the variable IDs of the NPS line, then of the J and P lines of source, bank,
+    surface, collision and termination events; `l` lists the IDs in that order. Each J line starts with the event
+    type (ID 7).
+
+    Returns:
+        Layout per event type, `None` if the counts and IDs are not numbers or do not fit together.
+    """
+
+    try:
+        counts = [int(getattr(header, f'n{i}')) for i in range(1, 12)]
+        ids = [int(i) for i in header.l]
+    except ValueError:
+        return None
+    if sum(counts) != len(ids):
+        return None
+
+    layout: Layout = {}
+    start = counts[0]
+    for kind, j, p in zip(_ORDER, counts[1::2], counts[2::2]):
+        line = ids[start : start + j]
+        if line[:1] != [_EVENT_TYPE_ID]:
+            return None
+        layout[kind] = (j - 1, {_ROLES_BY_ID[i]: index for index, i in enumerate(line[1:]) if i in _ROLES_BY_ID})
+        start += j + p
+
+    return layout
+
+
+def _values(event: block.Event) -> tuple[list[str], list[str], dict[str, int]]:
+    """
+    Splits event blocks into their J-line values after `type` and their P-line values, and finds the positions of
+    the J-line values by the block's field names.
     """
 
     names = list(type(event)._fields)
     j = names[names.index('type') + 1 : names.index('newline')]
     p = names[names.index('blank_1') + 1 :]
-    return [str(getattr(event, name)).strip() for name in j], [str(getattr(event, name)).strip() for name in p]
+    roles = {_ROLES_BY_FIELD[name]: index for index, name in enumerate(j) if name in _ROLES_BY_FIELD}
+    return [str(getattr(event, name)).strip() for name in j], [str(getattr(event, name)).strip() for name in p], roles
 
 
 @dataclasses.dataclass(slots=True)
@@ -31,6 +71,7 @@ class Event:
 
     A PTRAC event block's `type` is the type of the next event, so the event blocks of `pymcnp.ptrac.block` cannot know their own type.
     This class pairs each event block with its type and reads the values by their meaning.
+    The J-line values are found by the variable IDs of the file's header (`layout`); without it, by the event block's field names.
     Values that PTRAC does not write for this event (e.g., the particle with some forms, or direction and energy without `WRITE=ALL`) are `None`.
 
     Attributes:
@@ -38,21 +79,27 @@ class Event:
         type: Event type.
         creation_code: Bank event code (`2xxx`) naming how the banked particle was made, `None` for other events.
         block: Event block as parsed.
+        layout: Positions of the J-line values per event type, from the header's variable IDs; `None` (or a layout
+            whose number of values differs from the event's) to use the event block's field names.
     """
 
     nps: int
     type: EventType
     creation_code: int | None
     block: block.Event
+    layout: Layout | None = dataclasses.field(default=None, repr=False, compare=False)
     _j: list[str] = dataclasses.field(init=False, repr=False, compare=False)
     _p: list[str] = dataclasses.field(init=False, repr=False, compare=False)
+    _roles: dict[str, int] = dataclasses.field(init=False, repr=False, compare=False)
 
     def __post_init__(self) -> None:
-        self._j, self._p = _values(self.block)
+        self._j, self._p, self._roles = _values(self.block)
+        count, roles = (self.layout or {}).get(self.type, (None, {}))
+        if count == len(self._j):
+            self._roles = roles
 
     def _slot(self, role: str) -> str | None:
-        slots = _SLOTS.get(len(self._j), ({}, {}))[self.type is not EventType.SOURCE]
-        index = slots.get(role)
+        index = self._roles.get(role)
         return None if index is None else self._j[index]
 
     @property

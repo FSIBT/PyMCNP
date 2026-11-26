@@ -234,8 +234,12 @@ def test_to_dataframe_typed(head) -> None:
     assert not [column for column in frame.columns if frame[column].dtype == object]
 
 
+def _header() -> pymcnp.ptrac.block.Header:
+    return pymcnp.Ptrac.from_file(FILES / 'valid_03.ptrac')[0].header
+
+
 def test_to_dataframe_empty() -> None:
-    ptrac = types.SimpleNamespace(histories=[])
+    ptrac = types.SimpleNamespace(header=_header(), histories=[])
     generator = pymcnp.Ptrac.to_dataframe_iter(ptrac, returning=True)  # type: ignore[arg-type]
     with pytest.raises(StopIteration) as stop:
         next(generator)
@@ -471,7 +475,7 @@ def test_to_dataframe_equals_concat(head, name: str) -> None:
 
 
 def test_to_dataframe_equals_concat_empty() -> None:
-    ptrac = types.SimpleNamespace(histories=[])
+    ptrac = types.SimpleNamespace(header=_header(), histories=[])
     frame = pymcnp.Ptrac.to_dataframe(ptrac)  # type: ignore[arg-type]
     pandas.testing.assert_frame_equal(frame, pymcnp.ptrac.to_dataframe([]))
 
@@ -505,3 +509,96 @@ def test_from_file_iter_yields_one_generator_per_history_truncated(tmp_path: pat
     assert len(counts) == len(list(pymcnp.Ptrac.iter_histories(path))) == 2
     assert counts[0] == len(next(pymcnp.Ptrac.iter_histories(valid_27)).events)
     assert counts[1] > 0
+
+
+def _block_values(event: pymcnp.ptrac.Event) -> dict:
+    """
+    Reads the values of ``event`` from its event block's named fields.
+    """
+
+    def number(name: str) -> int | None:
+        value = getattr(event.block, name, None)
+        return int(float(value)) if value is not None and value.strip() else None
+
+    kind = event.type
+    return {
+        'particle': number('pbl_i_ipt'),
+        'cell': number('ncl_pbl_i_icl'),
+        'material': number('mat_pbl_i_icl'),
+        'zaid': (number('nxs_2_iex') or None) if kind in (pymcnp.ptrac.EventType.COLLISION, pymcnp.ptrac.EventType.BANK) else None,
+        'surface': number('nsf_pbl_i_jsu') if kind is pymcnp.ptrac.EventType.SURFACE else None,
+    }
+
+
+def _event_values(event: pymcnp.ptrac.Event) -> dict:
+    particle = event.particle
+    return {
+        'particle': None if particle is None else int(particle),
+        'cell': event.cell,
+        'material': event.material,
+        'zaid': event.zaid,
+        'surface': None if event.surface is None else event.surface.number,
+    }
+
+
+@pytest.mark.parametrize('name', ['valid_35.ptrac', 'valid_27.ptrac', 'valid_31.ptrac'])
+def test_stream_matches_block_fields(head, name: str) -> None:
+    # The source J line of these files holds NODE NSR IPT NCL MAT (variable IDs 8 9 16 17 18).
+    path = head(name, 5)
+    events = list(pymcnp.Ptrac.stream(path))
+    assert events[0].type is pymcnp.ptrac.EventType.SOURCE
+    assert any(event.type is pymcnp.ptrac.EventType.SOURCE and event.particle is not None for event in events)
+    for event in events:
+        assert _event_values(event) == _block_values(event), event.raw
+    ptrac, _ = pymcnp.Ptrac.from_file(path)
+    expected = pymcnp.ptrac.to_dataframe([event.to_dict() for event in events])
+    pandas.testing.assert_frame_equal(ptrac.to_dataframe().drop(columns=['track', 'parent_zaid']), expected.drop(columns=['track', 'parent_zaid']))
+
+
+def test_first_source_event_of_valid_35(head) -> None:
+    event = next(pymcnp.Ptrac.stream(head('valid_35.ptrac', 1)))
+    assert event.type is pymcnp.ptrac.EventType.SOURCE
+    assert (event.particle, event.cell, event.material) == (pymcnp.ptrac.Particle.PHOTON, 200, 2)
+    row = event.to_dict()
+    assert (row['particle'], row['cell'], row['material']) == ('PHOTON', 200, 2)
+
+
+def _with_header(path: pathlib.Path, tmp_path: pathlib.Path, old: str, new: str) -> pathlib.Path:
+    lines = path.read_text().split('\n')
+    assert old in lines[5] + '\n' + lines[6]
+    lines[5:7] = (lines[5] + '\n' + lines[6]).replace(old, new, 1).split('\n')
+    out = tmp_path / path.name
+    out.write_text('\n'.join(lines))
+    return out
+
+
+def test_stream_reads_values_by_header_variable_ids(head, tmp_path: pathlib.Path) -> None:
+    # The header says the source J line holds NODE NSR NCL MAT NCP (8 9 17 18 19), so the values are read that way, whatever the event block guessed.
+    path = _with_header(head('valid_35.ptrac', 1), tmp_path, '   9  16  17  18', '   9  17  18  19')
+    event = next(pymcnp.Ptrac.stream(path))
+    assert (event.particle, event.cell, event.material) == (None, 2, 200)
+    ptrac, _ = pymcnp.Ptrac.from_file(path)
+    assert ptrac.to_dataframe()[['particle', 'cell', 'material']].iloc[0].tolist() == [pandas.NA, 2, 200]
+    # Without the header, e.g., for a history block on its own, the event block's fields are used.
+    event = next(pymcnp_history_events(ptrac.histories[0]))
+    assert (event.particle, event.cell, event.material) == (pymcnp.ptrac.Particle.PHOTON, 200, 2)
+
+
+@pytest.mark.parametrize(
+    'old, new',
+    [
+        # Counts that are not numbers.
+        ('     2    6    3', '     2    x    3'),
+        # Counts that do not add up to the number of variable IDs.
+        ('     2    6    3', '     2    5    3'),
+        # A J line whose IDs do not start with the event type (ID 7).
+        ('   2   7   8   9', '   2   6   8   9'),
+        # A J line with another number of values than the event has.
+        ('     2    6    3', '     2    5    4'),
+    ],
+    ids=['number', 'counts', 'type', 'length'],
+)
+def test_stream_with_inconsistent_header_reads_block_fields(head, tmp_path: pathlib.Path, old: str, new: str) -> None:
+    path = _with_header(head('valid_35.ptrac', 1), tmp_path, old, new)
+    event = next(pymcnp.Ptrac.stream(path))
+    assert (event.particle, event.cell, event.material) == (pymcnp.ptrac.Particle.PHOTON, 200, 2)

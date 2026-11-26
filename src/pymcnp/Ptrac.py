@@ -8,6 +8,7 @@ import pandas
 
 from . import abc
 from . import ptrac
+from .ptrac.Event import Layout, _layout
 
 _REGEX_HISTORY = re.compile(r' *\d+ +(?:[1345]000|-?20\d\d)(?: |$)')
 _NEWLINE = abc.Terminal[r'\n']
@@ -130,8 +131,9 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
         if returning:
             frames = []
 
+        layout = _layout(self.header)
         for history in self.histories:
-            yield (frame := ptrac.to_dataframe(_history_rows(history)))
+            yield (frame := ptrac.to_dataframe(_history_rows(history, layout)))
 
             if returning:
                 frames.append(frame)
@@ -149,7 +151,8 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
             Pandas dataframe for all histories.
         """
 
-        return ptrac.to_dataframe([row for history in self.histories for row in _history_rows(history)])
+        layout = _layout(self.header)
+        return ptrac.to_dataframe([row for history in self.histories for row in _history_rows(history, layout)])
 
     @staticmethod
     def iter_histories(path: pathlib.Path | str) -> collections.abc.Iterator[ptrac.block.History | ptrac.block.HistoryTruncated]:
@@ -168,64 +171,9 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
             Error: Expected history.
         """
 
-        path = pathlib.Path(path)
-        if not path.is_file():
-            raise abc.Error('File not found.', f'{path=}')
-
-        def parse(lines: list[str], number: int, complete: bool, last: bool) -> ptrac.block.History | ptrac.block.HistoryTruncated:
-            # Only the last history of a file can be cut short (e.g., by a killed run); it is read as far as it goes.
-            if complete:
-                try:
-                    history, remainder = ptrac.block.History.from_mcnp('\n'.join(lines))
-                except abc.Error:
-                    if not last:
-                        raise
-                else:
-                    if remainder != '':
-                        raise abc.Error('Expected history.', f'line {number}: {remainder[:80]!r}')
-                    return history
-
-            truncated = ptrac.block.HistoryTruncated.from_mcnp('\n'.join(lines))
-            warnings.warn(abc.Warning('Last history is truncated.', f'{path=} nps={truncated.nps.strip()} events kept={len(truncated.events)}'))
-            return truncated
-
-        with path.open() as file:
-            # Header: everything before the first history line.
-            header: list[str] = []
-            line = file.readline()
-            while line and not (header and _REGEX_HISTORY.match(line) and len(header) >= 6):
-                header.append(line.rstrip('\n'))
-                line = file.readline()
-            if not header:
-                raise abc.Error('Expected header.', f'{path=}')
-            _, remainder = ptrac.block.Header.from_mcnp('\n'.join(header) + '\n')
-            if remainder != '':
-                raise abc.Error('Expected header.', f'{remainder[:80]!r}')
-
-            # Histories: one `i` line, then `j`/`p` line pairs up to the event announcing type 9000.
-            number = len(header)
-            while line:
-                lines = [line.rstrip('\n')]
-                complete = False
-                while True:
-                    j = file.readline()
-                    p = file.readline() if j else ''
-                    number += 2
-                    if not j:
-                        break
-                    lines.extend((j.rstrip('\n'), p.rstrip('\n')))
-                    if j[1:11].strip() == '9000':
-                        complete = True
-                        break
-                if len(lines) > 1 and lines[-1] == '':
-                    lines.pop()
-                line = file.readline()
-                yield parse(lines, number, complete, last=line == '')
-                number += 1
-                while line.strip() == '':
-                    line = file.readline() if line else ''
-                    if not line:
-                        break
+        reader = _read(path)
+        next(reader)
+        yield from reader
 
     @staticmethod
     def stream(path: pathlib.Path | str) -> collections.abc.Iterator[ptrac.Event]:
@@ -245,8 +193,10 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
             Error: Expected history.
         """
 
-        for history in Ptrac.iter_histories(path):
-            yield from _history_events(history)
+        reader = _read(path)
+        layout = _layout(typing.cast(ptrac.block.Header, next(reader)))
+        for history in reader:
+            yield from _history_events(typing.cast(ptrac.block.History | ptrac.block.HistoryTruncated, history), layout)
 
     @staticmethod
     def tracks(
@@ -330,6 +280,72 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
         return total
 
 
+def _read(path: pathlib.Path | str) -> collections.abc.Iterator[ptrac.block.Header | ptrac.block.History | ptrac.block.HistoryTruncated]:
+    """
+    Parses ptrac files one history at a time, yielding the header block first; see ``Ptrac.iter_histories``.
+    """
+
+    path = pathlib.Path(path)
+    if not path.is_file():
+        raise abc.Error('File not found.', f'{path=}')
+
+    def parse(lines: list[str], number: int, complete: bool, last: bool) -> ptrac.block.History | ptrac.block.HistoryTruncated:
+        # Only the last history of a file can be cut short (e.g., by a killed run); it is read as far as it goes.
+        if complete:
+            try:
+                history, remainder = ptrac.block.History.from_mcnp('\n'.join(lines))
+            except abc.Error:
+                if not last:
+                    raise
+            else:
+                if remainder != '':
+                    raise abc.Error('Expected history.', f'line {number}: {remainder[:80]!r}')
+                return history
+
+        truncated = ptrac.block.HistoryTruncated.from_mcnp('\n'.join(lines))
+        warnings.warn(abc.Warning('Last history is truncated.', f'{path=} nps={truncated.nps.strip()} events kept={len(truncated.events)}'))
+        return truncated
+
+    with path.open() as file:
+        # Header: everything before the first history line.
+        header: list[str] = []
+        line = file.readline()
+        while line and not (header and _REGEX_HISTORY.match(line) and len(header) >= 6):
+            header.append(line.rstrip('\n'))
+            line = file.readline()
+        if not header:
+            raise abc.Error('Expected header.', f'{path=}')
+        header_block, remainder = ptrac.block.Header.from_mcnp('\n'.join(header) + '\n')
+        if remainder != '':
+            raise abc.Error('Expected header.', f'{remainder[:80]!r}')
+        yield header_block
+
+        # Histories: one `i` line, then `j`/`p` line pairs up to the event announcing type 9000.
+        number = len(header)
+        while line:
+            lines = [line.rstrip('\n')]
+            complete = False
+            while True:
+                j = file.readline()
+                p = file.readline() if j else ''
+                number += 2
+                if not j:
+                    break
+                lines.extend((j.rstrip('\n'), p.rstrip('\n')))
+                if j[1:11].strip() == '9000':
+                    complete = True
+                    break
+            if len(lines) > 1 and lines[-1] == '':
+                lines.pop()
+            line = file.readline()
+            yield parse(lines, number, complete, last=line == '')
+            number += 1
+            while line.strip() == '':
+                line = file.readline() if line else ''
+                if not line:
+                    break
+
+
 def _events(file: Ptrac | pathlib.Path | str) -> collections.abc.Iterator[ptrac.Event]:
     """
     Yields the events of ptrac files, streaming them if ``file`` is a path.
@@ -339,26 +355,28 @@ def _events(file: Ptrac | pathlib.Path | str) -> collections.abc.Iterator[ptrac.
         yield from Ptrac.stream(file)
         return
 
+    layout = _layout(file.header)
     for history in file.histories:
-        yield from _history_events(history)
+        yield from _history_events(history, layout)
 
 
-def _history_rows(history: ptrac.block.History | ptrac.block.HistoryTruncated) -> list[dict]:
+def _history_rows(history: ptrac.block.History | ptrac.block.HistoryTruncated, layout: Layout | None = None) -> list[dict]:
     """
     Converts histories to dataframe rows: ``ptrac.Event.to_dict`` plus ``track`` and ``parent_zaid``.
     """
 
-    return [{**event.to_dict(), 'track': track.index, 'parent_zaid': track.parent_zaid} for track in ptrac.tracks(_history_events(history)) for event in track.events]
+    return [{**event.to_dict(), 'track': track.index, 'parent_zaid': track.parent_zaid} for track in ptrac.tracks(_history_events(history, layout)) for event in track.events]
 
 
-def _history_events(history: ptrac.block.History | ptrac.block.HistoryTruncated) -> collections.abc.Iterator[ptrac.Event]:
+def _history_events(history: ptrac.block.History | ptrac.block.HistoryTruncated, layout: Layout | None = None) -> collections.abc.Iterator[ptrac.Event]:
     """
     Yields the events of history blocks, each with its own type, i.e., the type announced by the line before it.
+    ``layout`` is the J-line layout from the file's header; without it, values are read by the event blocks' field names.
     """
 
     nps = int(history.nps)
     code = abs(int(history.event_type))
     for event in history.events:
         kind = ptrac.EventType.from_code(code)
-        yield ptrac.Event(nps, kind, code if kind is ptrac.EventType.BANK else None, event)
+        yield ptrac.Event(nps, kind, code if kind is ptrac.EventType.BANK else None, event, layout)
         code = abs(int(event.type))
