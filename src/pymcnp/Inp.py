@@ -265,6 +265,23 @@ class Inp(abc.File):
 
         return _join(steps)
 
+    def _scan_value(self, path: str, value: typing.Any) -> typing.Any:
+        """
+        Adjusts ``scan`` values: a ``title`` value gets the trailing newline the title card needs if it has none.
+
+        Parameters:
+            path: Path into ``self``.
+            value: Value given to ``scan``, e.g., ``'Case A'``.
+
+        Returns:
+            Value to set, e.g., ``'Case A\\n'``.
+        """
+
+        if path == 'title' and isinstance(value, str) and not value.endswith('\n'):
+            return value + '\n'
+
+        return value
+
     @property
     def nps(self) -> inp.literal.Integer | None:
         """

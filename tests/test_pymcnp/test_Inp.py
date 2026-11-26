@@ -102,6 +102,17 @@ class Test_Inp(classes.Test_FromFile):
         # Other paths are left as they are.
         assert [copy.nps for copy in inp.scan(nps=[1])] == [1]
 
+    def test_scan_title_adds_missing_newline(self) -> None:
+        # A scanned title value may leave out the trailing newline; one that has it is kept as it is.
+        inp, _ = pymcnp.Inp.from_mcnp(self.SCAN)
+        copies = list(inp.scan(title=['Case A', 'Case B\n']))
+        assert [copy.title for copy in copies] == ['Case A\n', 'Case B\n']
+        for copy in copies:
+            assert copy.to_mcnp().startswith(str(copy.title))
+            assert pymcnp.Inp.from_mcnp(copy.to_mcnp())[0].to_mcnp() == copy.to_mcnp()
+        # The original is unchanged.
+        assert inp.title == self.SCAN.partition('\n')[0] + '\n'
+
     def test_scan_values_keep_their_numeric_type(self) -> None:
         inp, _ = pymcnp.Inp.from_mcnp(self.SCAN)
         for path in ('surfaces[1].r', 'data[0].e[1]'):
