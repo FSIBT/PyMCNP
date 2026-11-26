@@ -6,6 +6,8 @@ import numpy
 
 from . import abc
 from . import inp
+from .abc._path import _join
+from .abc._path import _steps
 
 
 _NUMBER = r'[-+]?(?:\d+\.?\d*|\.\d+)(?:E[-+]?\d+)?'
@@ -244,6 +246,24 @@ class Inp(abc.File):
         title, _, rest = body.partition('\n')
 
         return title + '\n' + '\n'.join(_wrap(line) for line in rest.split('\n')) + self.other
+
+    def _scan_path(self, path: str) -> str:
+        """
+        Translates ``scan`` paths: the index into ``cells``, ``surfaces`` or ``data`` counts cards, not comment cards.
+
+        Parameters:
+            path: Path given to ``scan``, e.g., ``surfaces[0].r`` for the first surface card.
+
+        Returns:
+            Path into ``self``, e.g., ``surfaces[2].r`` if two comment cards come first.
+        """
+
+        steps = _steps(path)
+        if len(steps) > 1 and steps[0] in {(True, 'cells'), (True, 'surfaces'), (True, 'data')} and not steps[1][0]:
+            cards = [index for index, card in enumerate(getattr(self, str(steps[0][1]))) if not isinstance(card, inp.card.Comment)]
+            steps[1] = (False, cards[typing.cast(int, steps[1][1])])
+
+        return _join(steps)
 
     @property
     def nps(self) -> inp.literal.Integer | None:

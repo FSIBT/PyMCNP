@@ -392,8 +392,14 @@ class Nonterminal(Symbol):
         """
         Scans over nonterminals: yields deep copies for every combination of the values of the given fields or settable properties.
 
+        Values are converted to the type of the field, as when setting it, e.g., ``5`` to ``inp.literal.Real('5')``, which
+        compares and computes as a number.
+
         Parameters:
-            parameters: Fields or settable properties, e.g., ``nps`` of ``Inp``, with their values. With several, the last one varies fastest.
+            parameters: Fields or settable properties, e.g., ``nps`` of ``Inp``, with their values, or paths to nested values,
+                e.g., ``'surfaces[0].r'`` (dotted attributes and integer indices). In ``Inp`` paths, the index into
+                ``cells``, ``surfaces`` or ``data`` counts cards and skips comment cards. With several, the last one
+                varies fastest.
 
         Yields:
             Independent copies with the given values set.
@@ -405,17 +411,32 @@ class Nonterminal(Symbol):
         if not parameters:
             raise Error('Missing parameters.', f'{parameters=}')
 
+        paths = []
         for path in parameters:
             try:
-                get_path(self, path)
+                paths.append(self._scan_path(path))
+                get_path(self, paths[-1])
             except (AttributeError, LookupError):
                 raise Error('Invalid value.', f'``self`` does not have parameter {path=}')
 
         for combination in itertools.product(*parameters.values()):
             clone = copy.deepcopy(self)
-            for path, value in zip(parameters, combination):
+            for path, value in zip(paths, combination):
                 set_path(clone, path, value)
             yield clone
+
+    def _scan_path(self, path: str) -> str:
+        """
+        Translates ``scan`` paths into paths of ``self``; subclasses may renumber indices.
+
+        Parameters:
+            path: Path given to ``scan``.
+
+        Returns:
+            Path into ``self``.
+        """
+
+        return path
 
     def scan_with(self, values: collections.abc.Iterable[typing.Any], apply: collections.abc.Callable[[typing.Self, typing.Any], None]) -> typing.Generator[typing.Self, None, None]:
         """
@@ -423,7 +444,7 @@ class Nonterminal(Symbol):
 
         Parameters:
             values: Values to scan.
-            apply: Function that changes a copy for one value, e.g., ``lambda inp, r: setattr(inp.surfaces[0], 'r', r)``.
+            apply: Function that changes a copy for one value, e.g., ``lambda inp, r: setattr(inp.surface_cards(1)[0], 'r', r)``.
 
         Yields:
             Independent copies, in the order of ``values``.

@@ -41,6 +41,17 @@ class Test_Array:
         assert len(clone.spaces) == len(array.spaces) == 1
         assert clone.to_mcnp() == array.to_mcnp()
 
+    def test___setitem___converts_values(self) -> None:
+        # Items are converted like field values, so the array still writes MCNP text.
+        e, _ = pymcnp.inp.card.data.E.from_mcnp('E0 1 2 3')
+        e.e[0] = 5
+        e.e[1:3] = [6.5, '7']
+        assert [type(value) for value in e.e] == [pymcnp.inp.literal.Real] * 3
+        assert e.e == [5, 6.5, 7]
+        assert e.to_mcnp() == 'E0 5 6.5 7'
+        with pytest.raises(pymcnp.abc.Error):
+            e.e[0] = 'x'
+
     def test_filter(self) -> None:
         array, _ = pymcnp.abc.Array[pymcnp.inp.card.Surface, None].from_mcnp('1 x 1 1 1 1\n2 so 1')
         assert array.filter(pymcnp.inp.card.surface.X) == [pymcnp.inp.card.surface.X.from_mcnp('1 x 1 1 1 1')[0]]

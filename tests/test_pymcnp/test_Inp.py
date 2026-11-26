@@ -3,6 +3,7 @@ import pathlib
 import pytest
 
 import pymcnp
+from pymcnp.abc._path import get_path as pymcnp_get_path
 from .. import classes
 
 
@@ -84,6 +85,31 @@ class Test_Inp(classes.Test_FromFile):
         inp, remainder = pymcnp.Inp.from_mcnp(f'Hello\n1 0 -1\n\n1 SO 1\n\n{card}\nm1 1001 2\nnps 10\n')
         assert remainder == ''
         assert [card.to_mcnp() for card in inp.data[:2]] == [expanded, 'm1 1001 2']
+
+    SCAN = 'Hello\nc cells\n1 0 -1\nc void\n2 0 1\n\nc surfaces\n1 SO 1\nc outer\n2 SO 2\n\nc data\nE0 1 14\nnps 10\n'
+
+    def test_scan_indices_skip_comment_cards(self) -> None:
+        # In scan paths, `cells[i]`, `surfaces[i]` and `data[i]` count cards, not comment cards.
+        inp, _ = pymcnp.Inp.from_mcnp(self.SCAN)
+        copies = list(inp.scan(**{'surfaces[1].r': [5, 6], 'cells[-1].m': [0], 'data.0.e[0]': [2]}))
+        assert [copy.surface_cards(2)[0].r for copy in copies] == [5, 6]
+        assert [copy.surface_cards(1)[0].r for copy in copies] == [1, 1]
+        assert [card.to_mcnp() for card in copies[0].data] == ['c data', 'E0 2 14', 'nps 10']
+        assert copies[0].cell_cards(2)[0].to_mcnp() == '2 0 1'
+        assert inp.surface_cards(2)[0].r == 2
+        with pytest.raises(pymcnp.abc.Error, match='surfaces\\[2\\]'):
+            next(inp.scan(**{'surfaces[2].r': [5]}))
+        # Other paths are left as they are.
+        assert [copy.nps for copy in inp.scan(nps=[1])] == [1]
+
+    def test_scan_values_keep_their_numeric_type(self) -> None:
+        inp, _ = pymcnp.Inp.from_mcnp(self.SCAN)
+        for path in ('surfaces[1].r', 'data[0].e[1]'):
+            copies = list(inp.scan(**{path: [3, 4.5]}))
+            values = [pymcnp_get_path(copy, path.replace('[1].r', '[3].r').replace('data[0]', 'data[1]')) for copy in copies]
+            assert [type(value) for value in values] == [pymcnp.inp.literal.Real] * 2
+            assert values == [3, 4.5] and values[1] + 1 == 5.5
+            assert 'E0 1 3' in copies[0].to_mcnp() or '2 SO 3' in copies[0].to_mcnp()
 
     def test_from_mcnp_keeps_comments_verbatim(self) -> None:
         # Shorthands (`nJ`, `nR`, `nI`, `nLOG`) are expanded in cards only, not in the title, comment cards, `$` comments or

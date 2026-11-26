@@ -218,6 +218,27 @@ class Array(Symbol, list):
 
         return ''.join(itertools.chain.from_iterable(itertools.zip_longest((item.to_mcnp() for item in self), self.spaces, fillvalue='')))
 
+    def __setitem__(self, key: typing.Any, value: typing.Any) -> None:
+        """
+        Sets items, converting values to the array's item type as fields do, e.g., ``3`` to ``inp.literal.Real('3')``.
+
+        Parameters:
+            key: Index or slice.
+            value: Item, or items for a slice.
+
+        Raises:
+            Error: Invalid value.
+        """
+
+        from .Nonterminal import _parse_value
+
+        if isinstance(key, slice):
+            value = [_parse_value(type(self)._kind, item) for item in value]
+        else:
+            value = _parse_value(type(self)._kind, value)
+
+        super().__setitem__(key, value)
+
     def append(self, item: typing.Any) -> None:
         """
         Appends to arrays.

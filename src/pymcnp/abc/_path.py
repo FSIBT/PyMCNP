@@ -35,6 +35,14 @@ def _steps(path: str) -> list[tuple[bool, object]]:
     return steps
 
 
+def _join(steps: list[tuple[bool, object]]) -> str:
+    """
+    Joins steps, as ``_steps`` returns them, into a path.
+    """
+
+    return ''.join(f'.{key}' if is_attribute else f'[{key}]' for is_attribute, key in steps).removeprefix('.')
+
+
 def _step(obj: object, is_attribute: bool, key: object) -> object:
     if is_attribute:
         return getattr(obj, key)  # type: ignore[arg-type]
