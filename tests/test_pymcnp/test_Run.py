@@ -123,6 +123,16 @@ class Test_Run:
         (result,) = pymcnp.Run(_inps(inp, 1), command='fake-mcnp').run(tmp_path)
         assert result.ok
 
+    @pytest.mark.skipif(os.name == 'nt', reason='a .sh file is not executable on Windows; the fake is a .cmd file there')
+    def test_command_with_pathext(self, inp: pymcnp.Inp, fake: str, tmp_path: pathlib.Path, monkeypatch: pytest.MonkeyPatch) -> None:
+        # ``C:\\MCNP\\mcnp6`` for ``mcnp6.exe``, which Python 3.11's ``shutil.which`` does not find for a path; here with a POSIX stand-in.
+        pathlib.Path(fake).rename(f'{fake}.sh')
+        monkeypatch.setenv('PATHEXT', os.pathsep.join(['.exe', '.sh']))
+        (result,) = pymcnp.Run(_inps(inp, 1), command=fake).run(tmp_path)
+        assert result.ok
+        with pytest.raises(pymcnp.abc.Error, match='MCNP command not found'):
+            pymcnp.Run(_inps(inp, 1), command=fake + 'x')
+
     def test_run_exit_code_is_a_failure(self, inp: pymcnp.Inp, fake: str, tmp_path: pathlib.Path) -> None:
         inps = _inps(inp, 1, title='EXIT')
         with pytest.raises(pymcnp.abc.Error, match='Run failed'):

@@ -104,6 +104,9 @@ class Run(abc.Utility):
         """
 
         found = shutil.which(self.command)
+        # Python 3.11 tries the extensions of ``PATHEXT`` only for a name, not for a path such as ``C:\\MCNP\\mcnp6``.
+        extensions = (extension for extension in os.environ.get('PATHEXT', '').split(os.pathsep) if extension)
+        found = found or next(filter(None, (shutil.which(self.command + extension) for extension in extensions)), None)
         if not found:
             raise abc.Error(f'MCNP command not found: {self.command}', f'{self.command!r} is not an executable file or on the PATH.')
         return os.path.abspath(found)

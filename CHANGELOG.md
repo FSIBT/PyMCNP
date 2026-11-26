@@ -89,7 +89,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The `AREA` card was checked against the number of cells instead of the number of surfaces, so a valid card raised `abc.Error`.
 - `from_mcnp` and `from_mcnp_iter` failed on text with Windows (`\r\n`) line ends, which `from_file` reads; they now translate line ends as `from_file` does.
 - Windows: PyMCNP read and wrote files in the locale's encoding, e.g., cp1252, so a UTF-8 file with a character outside ASCII was read wrong, and `to_file` wrote such characters as cp1252 or failed. Every file is now read and written as UTF-8 on every OS, as on Linux and macOS before; a UTF-8 byte order mark, as Windows Notepad may write, is skipped.
-- Windows: `Run` and `pymcnp run` found an MCNP command such as `mcnp6.bat` or `mcnp6.cmd` on `PATH` but could not start it; they now start the executable that `PATH` and `PATHEXT` give, as the shell would.
+- Windows: `Run` and `pymcnp run` found an MCNP command such as `mcnp6.bat` or `mcnp6.cmd` on `PATH` but could not start it; they now start the executable that `PATH` and `PATHEXT` give, as the shell would, also for a path without its extension, e.g., `C:\MCNP\mcnp6` for `mcnp6.exe`, which Python 3.11 does not look up.
 - `Run(command=...)` with a relative path, e.g., `./mcnp6` or `bin/mcnp6`, was looked for in each run's own directory and not found; it is now relative to the working directory.
 - Windows: `pymcnp` ended in a traceback when its output went to a file or pipe (cp1252) and a message held a character cp1252 lacks, e.g., in a file name; such characters are now printed as `\u` escapes.
 - A `$` comment after a continuation `&`, e.g., `1 1 -2.7 -1 & $ geometry`, made the card fail to parse.
