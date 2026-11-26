@@ -121,15 +121,25 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
             frames = []
 
         for history in self.histories:
-            yield (
-                frame := ptrac.to_dataframe([{**event.to_dict(), 'track': track.index, 'parent_zaid': track.parent_zaid} for track in ptrac.tracks(_history_events(history)) for event in track.events])
-            )
+            yield (frame := ptrac.to_dataframe(_history_rows(history)))
 
             if returning:
                 frames.append(frame)
 
         if returning:
             return pandas.concat(frames, ignore_index=True) if frames else ptrac.to_dataframe([])
+
+    def to_dataframe(self) -> pandas.DataFrame:
+        """
+        Generates pandas dataframes for all histories.
+
+        Builds one dataframe from the rows of all histories, which equals concatenating the dataframes of ``to_dataframe_iter``.
+
+        Returns:
+            Pandas dataframe for all histories.
+        """
+
+        return ptrac.to_dataframe([row for history in self.histories for row in _history_rows(history)])
 
     @staticmethod
     def iter_histories(path: pathlib.Path | str) -> collections.abc.Iterator[ptrac.block.History | ptrac.block.HistoryTruncated]:
@@ -321,6 +331,14 @@ def _events(file: Ptrac | pathlib.Path | str) -> collections.abc.Iterator[ptrac.
 
     for history in file.histories:
         yield from _history_events(history)
+
+
+def _history_rows(history: ptrac.block.History | ptrac.block.HistoryTruncated) -> list[dict]:
+    """
+    Converts histories to dataframe rows: ``ptrac.Event.to_dict`` plus ``track`` and ``parent_zaid``.
+    """
+
+    return [{**event.to_dict(), 'track': track.index, 'parent_zaid': track.parent_zaid} for track in ptrac.tracks(_history_events(history)) for event in track.events]
 
 
 def _history_events(history: ptrac.block.History | ptrac.block.HistoryTruncated) -> collections.abc.Iterator[ptrac.Event]:

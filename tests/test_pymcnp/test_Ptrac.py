@@ -462,3 +462,36 @@ def test_final_newline_missing_is_not_truncation(tmp_path: pathlib.Path, valid_2
         histories = list(pymcnp.Ptrac.iter_histories(path))
     assert len(histories) == 2
     assert type(histories[1]) is pymcnp.ptrac.block.History
+
+
+@pytest.mark.filterwarnings('ignore::pymcnp.abc.Warning')
+@pytest.mark.parametrize('name', [path.name for path in sorted(FILES.glob('valid*.ptrac'))])
+def test_to_dataframe_equals_concat(head, name: str) -> None:
+    # Whole valid_31 (1,112 histories); the first histories of the others, since whole files are slow.
+    path = FILES / name if name == 'valid_31.ptrac' else head(name, 20)
+    try:
+        ptrac, _ = pymcnp.Ptrac.from_file(path)
+    except pymcnp.abc.Error:
+        pytest.skip('does not parse')
+    frames = list(ptrac.to_dataframe_iter())
+    expected = pandas.concat(frames, ignore_index=True) if frames else pymcnp.ptrac.to_dataframe([])
+    frame = ptrac.to_dataframe()
+    pandas.testing.assert_frame_equal(frame, expected)
+    # The generic ``to_dataframe``, i.e., the result of ``to_dataframe_iter(returning=True)``.
+    pandas.testing.assert_frame_equal(frame, pymcnp.abc.symbol.WithDataIter.to_dataframe(ptrac))
+
+
+def test_to_dataframe_equals_concat_empty() -> None:
+    ptrac = types.SimpleNamespace(histories=[])
+    frame = pymcnp.Ptrac.to_dataframe(ptrac)  # type: ignore[arg-type]
+    pandas.testing.assert_frame_equal(frame, pymcnp.ptrac.to_dataframe([]))
+
+
+def test_to_dataframe_builds_one_frame(monkeypatch: pytest.MonkeyPatch, valid_27: pathlib.Path) -> None:
+    ptrac, _ = pymcnp.Ptrac.from_file(valid_27)
+    assert len(ptrac.histories) > 1
+    calls = []
+    to_dataframe = pymcnp.ptrac.to_dataframe
+    monkeypatch.setattr(pymcnp.ptrac, 'to_dataframe', lambda rows: calls.append(1) or to_dataframe(rows))
+    ptrac.to_dataframe()
+    assert calls == [1]
