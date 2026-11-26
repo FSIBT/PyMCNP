@@ -764,3 +764,130 @@ def test_public_signatures_have_no_private_parameters() -> None:
                 continue
             parameters = inspect.signature(member).parameters
             assert not [p for p in parameters if p.startswith('_')], f'{cls.__name__}.{name}'
+
+
+# Events of the first history of valid_39 (`PTRAC ... WRITE=ALL`), one of each type, written out by hand from the file:
+# the J line holds the header's variables for the type (e.g., source: next type, node, NSR, IPT, NCL, MAT, NCP), the
+# P line x y z u v w energy weight time. A bank event's creation code is the type its previous event announced.
+VALID_39_EVENTS = {
+    # 3000 1 40 1 4 4 0 / 0 0 0 -0.23578 0.0082756 -0.97177 14.1 1 0
+    0: {
+        'nps': 1,
+        'type': 'SOURCE',
+        'creation_code': None,
+        'particle': 'NEUTRON',
+        'cell': 4,
+        'material': 4,
+        'surface': None,
+        'facet': None,
+        'zaid': None,
+        'x': 0.0,
+        'y': 0.0,
+        'z': 0.0,
+        'u': -0.23578,
+        'v': 0.0082756,
+        'w': -0.97177,
+        'energy': 14.1,
+        'weight': 1.0,
+        'time': 0.0,
+    },
+    # 3000 2 1.5 166 1 1 1 0 / ... 0.40071
+    1: {
+        'nps': 1,
+        'type': 'SURFACE',
+        'creation_code': None,
+        'particle': 'NEUTRON',
+        'cell': 1,
+        'material': 1,
+        'surface': 1,
+        'facet': 5,
+        'zaid': None,
+        'x': -4.8527,
+        'y': 0.17032,
+        'z': -20.0,
+        'u': -0.23578,
+        'v': 0.0082756,
+        'w': -0.97177,
+        'energy': 14.1,
+        'weight': 1.0,
+        'time': 0.40071,
+    },
+    # 4000 4 8016 22 1 2 2 1
+    4: {
+        'nps': 1,
+        'type': 'COLLISION',
+        'creation_code': None,
+        'particle': 'NEUTRON',
+        'cell': 2,
+        'material': 2,
+        'surface': None,
+        'facet': None,
+        'zaid': 8016,
+        'x': -24.601,
+        'y': 0.86344,
+        'z': -101.39,
+        'u': -0.92844,
+        'v': -0.2709,
+        'w': -0.2542,
+        'energy': 2.0635,
+        'weight': 0.87134,
+        'time': 2.0314,
+    },
+    # 2008 6 1 1 1 5 0 30
+    36: {
+        'nps': 1,
+        'type': 'TERMINAL',
+        'creation_code': None,
+        'particle': 'NEUTRON',
+        'cell': 5,
+        'material': 0,
+        'surface': None,
+        'facet': None,
+        'zaid': None,
+        'x': 31.745,
+        'y': -373.69,
+        'z': 330.68,
+        'u': 0.094981,
+        'v': -0.6493,
+        'w': 0.75458,
+        'energy': 1.8947e-07,
+        'weight': 0.82901,
+        'time': 96127.0,
+    },
+    # 4000 5 8016 0 2 2 2 0, after the terminal event announced 2008
+    37: {
+        'nps': 1,
+        'type': 'BANK',
+        'creation_code': 2008,
+        'particle': 'PHOTON',
+        'cell': 2,
+        'material': 2,
+        'surface': None,
+        'facet': None,
+        'zaid': 8016,
+        'x': -24.601,
+        'y': 0.86344,
+        'z': -101.39,
+        'u': -0.10228,
+        'v': -0.0084908,
+        'w': -0.99472,
+        'energy': 3.6845,
+        'weight': 1.0,
+        'time': 2.0314,
+    },
+}
+
+
+def test_event_values_of_valid_39_by_hand(head) -> None:
+    path = head('valid_39.ptrac', 1)
+    events = list(pymcnp.Ptrac.stream(path))
+
+    for index, expected in VALID_39_EVENTS.items():
+        assert events[index].to_dict() == expected, events[index].raw
+
+    # The dataframe has the same values in the same columns.
+    ptrac, _ = pymcnp.Ptrac.from_file(path)
+    frame = ptrac.to_dataframe()
+    for index, expected in VALID_39_EVENTS.items():
+        row = frame.iloc[index]
+        assert {name: (None if pandas.isna(row[name]) else row[name]) for name in expected} == expected

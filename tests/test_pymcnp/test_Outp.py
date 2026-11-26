@@ -52,6 +52,25 @@ class Test_Outp(classes.Test_FromFile):
             rtol=1e-4,
         )
 
+    def test_to_dataframe_surface_tally_by_hand(self) -> None:
+        # Rows of tally 21 (type 1, surfaces with angle bins) of valid_39, written out by hand from the file, e.g.,
+        # under "surface  3.1 / angle  bin:   0.90000E+02 to  0.00000E+00 degrees": "2.1602E-01   1.99999E-06 0.7071".
+        outp, _ = pymcnp.Outp.from_file(PATH / 'valid_39.outp')
+        frame = outp.to_dataframe()
+
+        assert list(frame.columns) == ['bins', 'counts', 'errors', 'surface_number', 'angle_from', 'angle_to', 'number', 'type', 'particles', 'nps']
+        assert len(frame) == 45
+        rows = {
+            0: [0.1, 5.02454e-06, 0.4472, '3.1', '180.0', '0.90000E+02'],
+            11: [0.21602, 1.99999e-06, 0.7071, '3.1', '0.90000E+02', '0.00000E+00'],
+            28: [0.1, 1.50736e-05, 0.2582, '2.3', '180.0', '0.90000E+02'],
+            44: [0.29336, 1.02454e-06, 1.0, '2.3', '0.90000E+02', '0.00000E+00'],
+        }
+        for index, expected in rows.items():
+            row = frame.iloc[index]
+            assert [row[name] for name in frame.columns[:6]] == expected
+            assert [row[name].strip() for name in frame.columns[6:]] == ['21', '1    number of particles crossing a surface.', 'photons', '1000000']
+
     def test_footer_properties(self) -> None:
         outp, _ = self.element.from_file(PATH / 'valid_39.outp')
 
