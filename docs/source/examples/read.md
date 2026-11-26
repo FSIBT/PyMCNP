@@ -421,10 +421,10 @@ Output:
        22   7   8  10  11  16  17  18  20  21  22   7   8  14  15  16  17  18  20  21  22
 
     Reading PTRAC from `example_02.ptrac`, event by event:
-    1 SOURCE None 1 (0.0, 0.0, 0.0)
+    1 SOURCE 1 77 (0.0, 0.0, 0.0)
     1 SURFACE 1 99 (101.7, 94.656, 143.87)
     1 TERMINAL 1 99 (101.7, 94.656, 143.87)
-    2 SOURCE None 1 (0.0, 0.0, 0.0)
+    2 SOURCE 1 77 (0.0, 0.0, 0.0)
     2 SURFACE 1 99 (179.04, -88.936, -5.8889)
     Reading PTRAC file from string:
        -1

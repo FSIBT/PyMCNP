@@ -64,7 +64,7 @@ control, e.g., run names or hooks, use [`pymcnp.Run`](pymcnp.md) in Python.
     pymcnp convert meshtal --csv meshtal.msht
 
 `pymcnp convert` writes a CSV or parquet file next to the input, e.g., `example_00.csv`. For OUTP files, it writes all
-parsed tallies; for PTRAC files, one row per event; for MESHTAL files, the rows of all mesh tallies, with a `tally`
+parsed tallies; for PTRAC files, one row per event; for MESHTAL files, the rows of all mesh tallies, with a `number`
 column for the tally number. A tally in an OUTP layout PyMCNP cannot parse yet is left out, and PyMCNP issues a warning
 naming it. Large PTRAC files are better streamed in Python with `Ptrac.to_parquet`.
 
