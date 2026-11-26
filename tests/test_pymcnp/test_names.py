@@ -39,3 +39,14 @@ def test_tally_and_cell_forms_say_what_they_are() -> None:
     assert 't:' in data.F_0.__doc__
     card = pymcnp.inp.card
     assert 'material' in card.Cell_0.__doc__ and 'void' in card.Cell_1.__doc__ and 'LIKE n BUT' in card.Cell_2.__doc__
+
+
+def test_public_namespace_has_no_private_or_stray_names() -> None:
+    # ``from pymcnp import *`` binds public names only, and ``dir(pymcnp)`` shows no imported helpers.
+    assert not [name for name in pymcnp.__all__ if name.startswith('_') and name != '__version__']
+    assert not hasattr(pymcnp, 'importlib')
+    public = {name for name in dir(pymcnp) if not name.startswith('_')}
+    assert public == set(pymcnp.__all__) - {'__version__'}
+    namespace: dict = {}
+    exec('from pymcnp import *', namespace)
+    assert '_cli' not in namespace and '_show' not in namespace and 'Inp' in namespace

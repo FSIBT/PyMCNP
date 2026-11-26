@@ -78,6 +78,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `from_mcnp` of a single card did not expand the shorthands `nR`, `nI`, `nJ`, `nLOG` and `xM`, so it stopped at the first one, e.g., `data.E.from_mcnp('E14 0.1 100i 10')` returned `E14 0.1 100` and the remainder `'i 10'`. Cards now expand them as `Inp` does.
 - `Inp` and `Check` expanded shorthand-like words in the free text of `fc` and `sc` cards, e.g., `sc1 source 2r here` became `sc1 source source source here`; the text of these cards and their continuation lines is now kept as written.
 - The docstrings of `data.F_0`, `F_1` and `F_2` and of `Cell_0`, `Cell_1` and `Cell_2` say which MCNP form each is, e.g., `F_1` is the F5 point detector and `Cell_1` a void cell, and `F_0` lists its `t` field.
+- `from pymcnp import *` imported the private `_cli` and `_show` modules, and `pymcnp.importlib` was a public name.
 - Tests no longer write files into the repository.
 
 ## [0.10.0] - 2026-10-15
