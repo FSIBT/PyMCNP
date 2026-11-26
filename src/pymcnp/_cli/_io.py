@@ -4,6 +4,8 @@ import rich
 import rich.markup
 import rich.panel
 
+from ..Check import _unparseable_card
+
 
 def get_outfile(path: pathlib.Path | str, ext: str, i: str | None = None) -> pathlib.Path:
     """
@@ -49,12 +51,16 @@ def partly_parsed(path: pathlib.Path | str, remainder: str, unit: str = 'card') 
     Prints a warning panel if PyMCNP could not parse all of a file.
 
     Parsing stops at the first card PyMCNP cannot parse, so that card and
-    every card after it are missing from the result.
+    every card after it are missing from the result. The warning names the
+    line where parsing stopped if it can find it: for INP files (``unit`` is
+    ``card``), the first card that does not parse, as ``pymcnp check`` finds
+    it; for other files, the first line of ``remainder`` that is not blank, if
+    ``remainder`` is the end of the file.
 
     Parameters:
         path: Path of the file.
         remainder: Text PyMCNP did not parse.
-        unit: What the file is made of, e.g., ``card`` or ``line``.
+        unit: What the file is made of, ``card`` for INP files or ``line``.
 
     Returns:
         True if ``remainder`` is not empty.
@@ -63,8 +69,22 @@ def partly_parsed(path: pathlib.Path | str, remainder: str, unit: str = 'card') 
     if not remainder.strip():
         return False
 
-    first = next(line for line in remainder.split('\n') if line.strip()).strip()
-    warning(rich.markup.escape(f'{path}: PyMCNP cannot parse the {unit} "{first}", so it and every {unit} after it are missing.'))
+    skip, first = next((index, line.strip()) for index, line in enumerate(remainder.split('\n')) if line.strip())
+    number = None
+    text = pathlib.Path(path).read_text()
+    if unit == 'card':
+        lines = text.split('\n')
+        found = _unparseable_card(lines)
+        if found is not None:
+            number = found[0]
+            first = lines[number - 1].strip()
+    elif text.endswith(remainder):
+        # The remainder starts where parsing stopped: count the lines before it.
+        number = text.count('\n', 0, len(text) - len(remainder)) + skip + 1
+
+    where = f', line {number}' if number is not None else ''
+
+    warning(rich.markup.escape(f'{path}{where}: PyMCNP cannot parse the {unit} "{first}", so it and every {unit} after it are missing.'))
     return True
 
 

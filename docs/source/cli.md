@@ -43,8 +43,8 @@ explicit values. Commit or copy the file first.
 Without options, `pymcnp visualize` shows all cells and then all surfaces in a [PyVista](https://pyvista.org) window.
 The options take comma-separated numbers. With `--pdf`, it writes a PDF next to the input instead of opening a window,
 named after the option: `example_00-surface_2_3.pdf`, `example_00-cells-skip.pdf`, `example_00-cells.pdf`, and so on.
-It exits with 2 if a listed cell or surface does not exist. If PyMCNP cannot parse a card, it warns, draws the cards
-before it, and exits with 3, as `pymcnp check` does.
+It exits with 2 if a listed cell or surface does not exist. If PyMCNP cannot parse a card, it warns with the card's
+line number, draws the cards before it, and exits with 3, as `pymcnp check` does.
 
 ### Run
 
@@ -56,7 +56,8 @@ before it, and exits with 3, as `pymcnp check` does.
 current directory). It creates `<path>/pymcnp-<timestamp>/` with one directory per input, `run-00000`, `run-00001`, ...,
 each holding `run-0000N.inp`, `.outp`, `.ptrac`, `.runtpe`, and `.log` (the standard output of MCNP); files such as
 `meshtal` keep MCNP's default names. It exits with 1 if an input cannot be read and with 2 if a run failed. If PyMCNP cannot parse a card of an input, the
-cards from there on would be missing from the run, so it warns, runs nothing, and exits with 3. For more
+cards from there on would be missing from the run, so it warns with the card's line number, runs nothing, and exits
+with 3. For more
 control, e.g., run names or hooks, use [`pymcnp.Run`](pymcnp.md) in Python.
 
 ### Convert
@@ -68,8 +69,9 @@ control, e.g., run names or hooks, use [`pymcnp.Run`](pymcnp.md) in Python.
 `pymcnp convert` writes a CSV or parquet file next to the input, e.g., `example_00.csv`. For OUTP files, it writes all
 parsed tallies; for PTRAC files, one row per event; for MESHTAL files, the rows of all mesh tallies, with a `number`
 column for the tally number. A tally in an OUTP layout PyMCNP cannot parse yet is left out, and PyMCNP issues a warning
-naming it. If PyMCNP cannot parse part of an OUTP or PTRAC file, it writes what it parsed before that part, warns,
-and exits with 3, as `pymcnp visualize` does. Large PTRAC files are better streamed in Python with `Ptrac.to_parquet`.
+naming it. If PyMCNP cannot parse part of an OUTP or PTRAC file, it writes what it parsed before that part, warns
+with the line where parsing stopped (for PTRAC, the start of the history that holds the bad line), and exits with 3,
+as `pymcnp visualize` does. Large PTRAC files are better streamed in Python with `Ptrac.to_parquet`.
 
 ### Plot
 

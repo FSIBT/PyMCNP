@@ -133,4 +133,4 @@ def test_main_partly_parsed(monkeypatch, capsys, tmp_path: pathlib.Path) -> None
     assert error.value.code == 3
     assert shown == [True]
     out = ' '.join(capsys.readouterr().out.replace('│', '').split())
-    assert 'Warning:' in out and 'prdmp j j -1' in out and 'Done!' not in out
+    assert 'Warning:' in out and 'line 10: PyMCNP cannot parse the card "prdmp j j -1"' in out and 'Done!' not in out

@@ -61,6 +61,7 @@ def test_main_partly_parsed(monkeypatch, capsys, tmp_path: pathlib.Path, pdf: li
     assert shown == ([] if pdf else [True])
     assert path.with_suffix('.pdf').exists() == bool(pdf)
     out = ' '.join(capsys.readouterr().out.replace('│', '').split())
-    assert 'Warning:' in out and 'garbage [here]' in out and 'Done!' not in out
+    # The patched remainder is not the end of the file, so no line number is given.
+    assert 'Warning:' in out and ': PyMCNP cannot parse the line "garbage [here]"' in out and ', line' not in out and 'Done!' not in out
 
     matplotlib.pyplot.close('all')

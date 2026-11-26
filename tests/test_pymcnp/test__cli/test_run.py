@@ -53,4 +53,4 @@ def test_main_partly_parsed(monkeypatch, capsys, tmp_path: pathlib.Path, fake_mc
     assert error.value.code == 3
     assert not list(tmp_path.glob('pymcnp-*'))
     out = ' '.join(capsys.readouterr().out.replace('│', '').split())
-    assert 'PRDMP J J [1]' in out and 'Not running' in out and 'Done!' not in out
+    assert 'line 28: PyMCNP cannot parse the card "PRDMP J J [1]"' in out and 'Not running' in out and 'Done!' not in out

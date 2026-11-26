@@ -83,4 +83,5 @@ def test_main_partly_parsed(monkeypatch, capsys, tmp_path: pathlib.Path, flag: s
     assert error.value.code == 3
     assert path.with_suffix(f'.{extension}').stat().st_size > 0
     out = ' '.join(capsys.readouterr().out.replace('│', '').split())
-    assert 'Warning:' in out and 'every line after it are missing' in out and 'Done!' not in out
+    # Parsing stops at the start of the history that holds the bad line.
+    assert 'Warning:' in out and 'line 9: PyMCNP cannot parse the line "1 1000"' in out and 'every line after it are missing' in out and 'Done!' not in out

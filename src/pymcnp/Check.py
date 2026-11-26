@@ -25,6 +25,60 @@ def _quiet():
         yield
 
 
+def _unparseable_card(lines: list[str]) -> tuple[int, abc.Error] | None:
+    """
+    Finds the first card of an INP file that PyMCNP cannot parse.
+
+    Comment cards are skipped, and each card is parsed as ``Inp`` parses it:
+    shorthands expanded, without ``$`` comments, to its end.
+
+    Parameters:
+        lines: Lines of the INP file.
+
+    Returns:
+        Number of the card's first line, counting from 1, and the error, or
+        None if every card parses.
+    """
+
+    index = 2 if lines and lines[0].lower().startswith('message:') else 1
+    for union in (inp.card.Cell, inp.card.Surface, inp.card.Data):
+        while index < len(lines) and not lines[index].strip():
+            index += 1
+
+        cards = []
+        while index < len(lines) and lines[index].strip():
+            line = lines[index]
+            if re.match(r'#( \S+)+$', line):
+                # Vertical data format is only valid across the whole block.
+                index += 1
+                while index < len(lines) and re.match(r' *\d\S*( +\S+)+$', lines[index]):
+                    index += 1
+                continue
+
+            if _REGEX_COMMENT.match(line):
+                # Comment cards are not cards to parse, but count as lines.
+                index += 1
+                continue
+
+            # Cards are parsed as ``Inp`` parses them: shorthands expanded, without ``$`` comments.
+            code = _expand(line.partition('$')[0]).rstrip()
+            if cards and (re.match(r'\s', line) or cards[-1][1][-1].endswith('&')):
+                cards[-1][1].append(code)
+            else:
+                cards.append((index + 1, [code]))
+            index += 1
+
+        for number, card in cards:
+            try:
+                rest = union.from_mcnp('\n'.join(card))[1]
+                if rest.strip():
+                    raise abc.Error(f'Expected end of card at {rest.strip().split()[0]!r}.', f'{rest=}')
+            except abc.Error as card_err:
+                return number, card_err
+
+    return None
+
+
 @dataclasses.dataclass(frozen=True)
 class Problem:
     """
@@ -114,49 +168,15 @@ class Check(abc.Utility):
     @staticmethod
     def _unparseable(lines, err):
         """
-        Finds the first card that PyMCNP cannot parse.
-
-        Comment cards are skipped, and each card is parsed as ``Inp`` parses
-        it: shorthands expanded, without ``$`` comments, to its end.
+        Finds the first card that PyMCNP cannot parse, as ``_unparseable_card`` does.
         """
 
         stop = 'Checking stops at the first problem: fix it and run the check again to find further problems.'
 
-        index = 2 if lines and lines[0].lower().startswith('message:') else 1
-        for union in (inp.card.Cell, inp.card.Surface, inp.card.Data):
-            while index < len(lines) and not lines[index].strip():
-                index += 1
-
-            cards = []
-            while index < len(lines) and lines[index].strip():
-                line = lines[index]
-                if re.match(r'#( \S+)+$', line):
-                    # Vertical data format is only valid across the whole block.
-                    index += 1
-                    while index < len(lines) and re.match(r' *\d\S*( +\S+)+$', lines[index]):
-                        index += 1
-                    continue
-
-                if _REGEX_COMMENT.match(line):
-                    # Comment cards are not cards to parse, but count as lines.
-                    index += 1
-                    continue
-
-                # Cards are parsed as ``Inp`` parses them: shorthands expanded, without ``$`` comments.
-                code = _expand(line.partition('$')[0]).rstrip()
-                if cards and (re.match(r'\s', line) or cards[-1][1][-1].endswith('&')):
-                    cards[-1][1].append(code)
-                else:
-                    cards.append((index + 1, [code]))
-                index += 1
-
-            for number, card in cards:
-                try:
-                    rest = union.from_mcnp('\n'.join(card))[1]
-                    if rest.strip():
-                        raise abc.Error(f'Expected end of card at {rest.strip().split()[0]!r}.', f'{rest=}')
-                except abc.Error as card_err:
-                    return Problem(number, 'warning', f'PyMCNP cannot parse this card: {str(card_err).splitlines()[0]} {stop}')
+        found = _unparseable_card(lines)
+        if found is not None:
+            number, card_err = found
+            return Problem(number, 'warning', f'PyMCNP cannot parse this card: {str(card_err).splitlines()[0]} {stop}')
 
         return Problem(1, 'warning', f'PyMCNP cannot parse this file: {str(err).splitlines()[0]} {stop}')
 
