@@ -21,3 +21,10 @@ def test_field_names_spell_preamble_and_postamble() -> None:
 def test_parallelepiped() -> None:
     assert pymcnp.abc.Parallelepiped.__name__ == 'Parallelepiped'
     assert not hasattr(pymcnp.abc, 'Parallelipiped')
+
+
+def test_package_is_typed() -> None:
+    # PEP 561 marker, so that type checkers use PyMCNP's annotations; pyproject.toml ships it in the wheel.
+    import importlib.resources
+
+    assert (importlib.resources.files('pymcnp') / 'py.typed').is_file()

@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Outp`, `Meshtal` and `Ptrac` are `abc.File`s with the `abc.file.WithDataIter` mixin: `to_dataframe`, `to_dataframe_iter`, `to_file_csv` and `to_file_parquet`.
 - `Run`: per-run directories, worker limit, run names, `Result` objects with `fatal_errors`, `batch=False` and `Run.directory`.
 - The FM tally multiplier card, and `M.from_formula` library suffixes.
+- A `py.typed` marker (PEP 561), so that type checkers such as mypy and pyright use PyMCNP's annotations.
 - `SKILL.md`, which describes PyMCNP to AI coding agents, and examples 01 (PTRAC to parquet) and 02 (loop-built ground model with a flux plot).
 
 ### Changed
