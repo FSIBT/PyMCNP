@@ -39,7 +39,7 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
             returning: Flag to/to not build the ptrac file.
 
         Yields:
-            Generators yielding the events of one history each; an unfinished generator is finished before the next is yielded.
+            Generators yielding the events of one history each, one per history; an unfinished generator is finished before the next is yielded.
 
         Returns:
             Ptrac file corresponding to ``source`` at ``pos`` if ``returning`` (else ``None``), and the position where it ends.
@@ -52,12 +52,13 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
         if returning:
             items: list[abc.Symbol] = []
 
-        def _generator() -> typing.Generator[ptrac.block.Event, None, None]:
+        def _generator(first: ptrac.block.Event, history: typing.Generator[ptrac.block.Event, None, tuple[ptrac.block.History | None, int]]) -> typing.Generator[ptrac.block.Event, None, None]:
             nonlocal items
             nonlocal pos
             nonlocal stop
             try:
-                item, pos = yield from ptrac.block.History._from_mcnp_iter_at(source, pos, returning=True)
+                yield first
+                item, pos = yield from history
 
                 if returning:
                     items.append(item)
@@ -67,7 +68,16 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
                 stop = True
 
         while True:
-            yield (generator := _generator())
+            # Looking ahead: a history whose first event does not compile ends the histories, without a generator.
+            history = ptrac.block.History._from_mcnp_iter_at(source, pos, returning=True)
+            try:
+                first = next(history)
+            except abc.Error:
+                if spaces:
+                    pos -= len(spaces.pop(-1))
+                break
+
+            yield (generator := _generator(first, history))
 
             for _ in generator:
                 pass

@@ -495,3 +495,24 @@ def test_to_dataframe_builds_one_frame(monkeypatch: pytest.MonkeyPatch, valid_27
     monkeypatch.setattr(pymcnp.ptrac, 'to_dataframe', lambda rows: calls.append(1) or to_dataframe(rows))
     ptrac.to_dataframe()
     assert calls == [1]
+
+
+def _events_per_generator(path: pathlib.Path) -> list[int]:
+    return [sum(1 for _ in generator) for generator in pymcnp.Ptrac.from_file_iter(path)]
+
+
+def test_from_file_iter_yields_one_generator_per_history() -> None:
+    path = FILES / 'valid_31.ptrac'
+    ptrac, _ = pymcnp.Ptrac.from_file(path)
+    assert _events_per_generator(path) == [len(history.events) for history in ptrac.histories]
+
+
+@pytest.mark.filterwarnings('ignore::pymcnp.abc.Warning')
+def test_from_file_iter_yields_one_generator_per_history_truncated(tmp_path: pathlib.Path, valid_27: pathlib.Path) -> None:
+    lines, _, j = _last_history_lines(valid_27)
+    path = tmp_path / 'ptrac'
+    path.write_text('\n'.join(lines[: j + 1]) + '\n')  # the second (last) history is cut inside its final event
+    counts = _events_per_generator(path)
+    assert len(counts) == len(list(pymcnp.Ptrac.iter_histories(path))) == 2
+    assert counts[0] == len(next(pymcnp.Ptrac.iter_histories(valid_27)).events)
+    assert counts[1] > 0
