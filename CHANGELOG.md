@@ -49,6 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - OUTP files whose footer was written to `runtpe`, ends with a newline, or is missing (runs that stopped early) did not parse.
 - MESHTAL files: tally bin boundaries are required and data rows are parsed.
 - PTRAC: every history is parsed, event types 2010, 2020 and 2030 are accepted, and macrobody facets work in the `SURFACE` option.
+- The PTRAC card's `EVENT`, `CELL` and `SURFACE` options take several values separated by commas or spaces, e.g., `PTRAC EVENT=SRC,COL,BNK FILE=ASC`; they kept only the first value.
 - `nI` and `nILOG` entries expand to the values between the endpoints.
 - Input files with library keywords between substances, unindented continuation lines after `&`, thermal scattering names such as `h-zr.20t`, trailing spaces or comments at the ends of cards, or no final newline failed to parse.
 - `Array.append` added a space before the first item, and deep copies lost or duplicated array spaces.

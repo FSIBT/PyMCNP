@@ -196,6 +196,11 @@ class Test_Data(classes.Test_FromMcnp):
         'PTRAC FILE=ASC EVENT=SUR SURFACE=3.1 3.2 3.3 TYPE=P',
         # Test write_after type is not cut.
         'PTRAC FILE=ASC EVENT=SUR SURFACE=3.1 3.2 TYPE=P WRITE=ALL',
+        # Testing EVENT, CELL and SURFACE take comma-separated lists.
+        'PTRAC EVENT=SRC,COL,BNK FILE=ASC',
+        # The PTRAC card SKILL.md tells agents to write (TYPE=, CELL=/SURFACE=, EVENT= with COL and BNK).
+        'PTRAC FILE=ASC WRITE=ALL TYPE=P EVENT=SRC,BNK,COL,SUR,TER CELL=3,4 SURFACE=3.1,4',
+        'PTRAC FILE=ASC EVENT=SRC BNK COL CELL=3 4 SURFACE=3.1 4',
     ]
     EXAMPLES_FROM_MCNP_INVALID = [
         'tr-1 1 1 1 2 2 2 3 3 3 4 4 4 5',

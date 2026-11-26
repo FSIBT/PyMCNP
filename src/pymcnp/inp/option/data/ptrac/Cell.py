@@ -3,6 +3,7 @@ import typing
 
 from ..... import abc
 from ..Ptrac import Ptrac
+from ..Ptrac import PtracSpace
 from .... import literal
 
 
@@ -18,4 +19,4 @@ class Cell(Ptrac):
 
     keyword: typing.Annotated[abc.Terminal, r'CELL'] = abc.Terminal[r'CELL']('CELL')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
-    c: typing.Annotated[abc.Array, literal.Integer, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    c: typing.Annotated[abc.Array, literal.Integer, PtracSpace] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')

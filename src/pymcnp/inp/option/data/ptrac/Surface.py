@@ -3,6 +3,7 @@ import typing
 
 from ..... import abc
 from ..Ptrac import Ptrac
+from ..Ptrac import PtracSpace
 from .... import literal
 
 
@@ -18,4 +19,4 @@ class Surface(Ptrac):
 
     keyword: typing.Annotated[abc.Terminal, r'SURFACE'] = abc.Terminal[r'SURFACE']('SURFACE')
     equals: typing.Annotated[abc.Terminal, r'='] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
-    s: typing.Annotated[abc.Array, literal.Real, None] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    s: typing.Annotated[abc.Array, literal.Real, PtracSpace] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
