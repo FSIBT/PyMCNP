@@ -44,11 +44,11 @@ The command line interface checks, runs, converts, plots, and visualizes MCNP fi
     pymcnp convert outp --csv example_00.outp
     pymcnp visualize example_00.inp
 
-The files are in the [examples](examples) directory, which has many more examples.
+The files are in the [examples](https://github.com/FSIBT/PyMCNP/tree/main/examples) directory, which has many more examples.
 
 ## Automation with AI Coding Agents
 
-PyMCNP ships a skill file, [SKILL.md](SKILL.md), that describes the API, the parsing contract, and the common pitfalls to an AI coding agent such as [Claude Code](https://claude.com/claude-code).
+PyMCNP ships a skill file, [SKILL.md](https://github.com/FSIBT/PyMCNP/blob/main/SKILL.md), that describes the API, the parsing contract, and the common pitfalls to an AI coding agent such as [Claude Code](https://claude.com/claude-code).
 With the skill installed, an agent can write, scan, run, and plot MCNP models for you from a short description, so automating MCNP becomes easy even for complex geometries.
 For Claude Code, save it as `~/.claude/skills/pymcnp/SKILL.md` (all your projects) or `.claude/skills/pymcnp/SKILL.md` (one project), taking the version that matches your installed PyMCNP:
 
@@ -64,8 +64,8 @@ Always review generated models and results before relying on them.
 
 PyMCNP welcomes contributions, including issues, pull requests, and MCNP files that PyMCNP fails to parse or visualize.
 
-For more information, see the [CONTRIBUTING.md](CONTRIBUTING.md) file.
+For more information, see the [CONTRIBUTING.md](https://github.com/FSIBT/PyMCNP/blob/main/CONTRIBUTING.md) file.
 
 ## Copyright and License
 
-For copyright and license information, see the [COPYRIGHT](COPYRIGHT) and [LICENSE](LICENSE) files.
+For copyright and license information, see the [COPYRIGHT](https://github.com/FSIBT/PyMCNP/blob/main/COPYRIGHT) and [LICENSE](https://github.com/FSIBT/PyMCNP/blob/main/LICENSE) files.
