@@ -10,6 +10,21 @@ import pymcnp
 from pymcnp.Ptrac import _events
 
 
+def pytest_addoption(parser: pytest.Parser) -> None:
+    parser.addoption('--run-mcnp', action='store_true', help='run the tests marked mcnp, which run the real mcnp6 executable')
+
+
+def pytest_collection_modifyitems(config: pytest.Config, items: list[pytest.Item]) -> None:
+    """
+    Skips the tests marked ``mcnp`` unless ``--run-mcnp`` is given, since each runs MCNP for minutes.
+    """
+
+    skip = pytest.mark.skip(reason='runs mcnp6; use --run-mcnp')
+    for item in items:
+        if item.get_closest_marker('mcnp') and not config.getoption('--run-mcnp'):
+            item.add_marker(skip)
+
+
 @pytest.fixture(autouse=True)
 def suppress_matplotlib(monkeypatch) -> None:
     matplotlib.use('Agg')

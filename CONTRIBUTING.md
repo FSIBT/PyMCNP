@@ -77,6 +77,9 @@ By default pytest runs with coverage and [testmon](https://github.com/tarpas/pyt
 which only reruns tests affected by your changes. Use `python -m pytest -o addopts=""` for a
 plain full run. Tests live under `tests/test_pymcnp/` and mirror the layout of `src/pymcnp/`.
 
+Tests marked `mcnp` run the real `mcnp6` executable on every example input, which takes
+minutes, so they are skipped unless you ask for them: `python -m pytest --run-mcnp -m mcnp`.
+
 - New parsing or writing code needs tests for both `from_mcnp` and `to_mcnp`, including a round trip.
 - Tests that write files must use pytest's `tmp_path`, never the working directory.
 - Example inputs in tests, docs, and `examples/` should be valid MCNP, since people copy them.

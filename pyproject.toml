@@ -85,6 +85,7 @@ env = ["MPLBACKEND=Agg"]
 markers = [
     "render: test performs real off-screen VTK rendering",
     "scaling: test checks that parsing time grows linearly with file size",
+    "mcnp: test runs the real mcnp6 executable; skipped unless pytest is given --run-mcnp",
 ]
 # Temporary test directories are removed unless the test failed.
 tmp_path_retention_policy = "failed"

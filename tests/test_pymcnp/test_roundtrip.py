@@ -13,14 +13,14 @@ INPS = sorted(EXAMPLES.glob('example_*.inp'))
 IDS = [path.stem for path in INPS]
 
 
-def _fast(source):
+def _fast(source):  # pragma: no cover (only with --run-mcnp)
     """Cuts the run to 2000 histories with a fixed seed."""
 
     source = re.sub(r'(?im)^(nps|rand)\b.*\n?', '', source).rstrip('\n')
     return f'{source}\nnps 2000\nrand seed=12345\n'
 
 
-def _run(directory, name, source):
+def _run(directory, name, source):  # pragma: no cover (only with --run-mcnp)
     directory.mkdir()
     path = directory / f'{name}.inp'
     path.write_text(source)
@@ -50,20 +50,27 @@ class Test_Roundtrip_PyMCNP:
         assert max(len(line) for line in inp.to_mcnp().splitlines()) <= 80
 
 
+@pytest.mark.mcnp
 @pytest.mark.skipif(shutil.which('mcnp6') is None, reason='mcnp6 is not installed')
 @pytest.mark.parametrize('path', INPS, ids=IDS)
 class Test_Roundtrip_MCNP:
-    def test_mcnp_accepts_original_and_rewritten(self, path, tmp_path):
+    """
+    Runs every example input through the real ``mcnp6``, as written and after a PyMCNP round trip.
+
+    Opt-in, since each run takes up to minutes: ``python -m pytest --run-mcnp -m mcnp``.
+    """
+
+    def test_mcnp_accepts_original_and_rewritten(self, path, tmp_path):  # pragma: no cover (only with --run-mcnp)
         original = _fast(path.read_text())
         inp, _ = pymcnp.Inp.from_mcnp(original)
         rewritten = _fast(inp.to_mcnp())
 
         out_original = _run(tmp_path / 'original', path.stem, original)
-        out_rewritten = _run(tmp_path / 'rewritten', path.stem, rewritten)
-
         if not out_original:
             pytest.skip('mcnp6 on PATH does not produce output (stub or broken install)')
         assert 'fatal error' not in out_original
+
+        out_rewritten = _run(tmp_path / 'rewritten', path.stem, rewritten)
         assert out_rewritten, 'MCNP did not run the rewritten input'
         assert 'fatal error' not in out_rewritten
 
