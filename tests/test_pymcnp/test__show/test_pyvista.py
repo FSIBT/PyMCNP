@@ -59,89 +59,6 @@ class Test_Visualization:
             a.translate(numpy.array((1, 1, 1)))
 
 
-class Test_Box:
-    def test___post_init__(self) -> None:
-        pymcnp._show.pyvista.Box(0.5, 0.5, 0.5)
-
-
-class Test_ConeTruncated:
-    def test___post_init__(self) -> None:
-        pymcnp._show.pyvista.ConeTruncated(0.5, 0.5, 0.5)
-
-
-class Test_ConeUnbounded:
-    def test___post_init__(self) -> None:
-        pymcnp._show.pyvista.ConeUnbounded(0.5, 1)
-
-
-class Test_CylinderCircular:
-    def test___post_init__(self) -> None:
-        pymcnp._show.pyvista.CylinderCircular(0.5, 0.5)
-
-
-class Test_CylinderElliptical:
-    def test___post_init__(self) -> None:
-        pymcnp._show.pyvista.CylinderElliptical(0.5, 0.5, 0.5)
-
-
-class Test_CylinderHexagonal:
-    def test___post_init__(self) -> None:
-        pymcnp._show.pyvista.CylinderHexagonal(0.5, 0.5, 0.5, 0.5)
-
-
-class Test_CylinderUnbounded:
-    def test___post_init__(self) -> None:
-        pymcnp._show.pyvista.CylinderUnbounded(0.5)
-
-
-class Test_Ellipsoid:
-    def test___post_init__(self) -> None:
-        pymcnp._show.pyvista.Ellipsoid(0.5, 0.5)
-
-
-class Test_Empty:
-    def test___post_init__(self) -> None:
-        pymcnp._show.pyvista.Empty()
-
-
-class Test_Parallelipiped:
-    def test___post_init__(self) -> None:
-        pymcnp._show.pyvista.Parallelipiped(0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
-
-
-class Test_Plane:
-    def test___post_init__(self) -> None:
-        pymcnp._show.pyvista.Plane(0.5, 0, 0, 0)
-        pymcnp._show.pyvista.Plane(0.5, 0, 0, 0.5)
-        pymcnp._show.pyvista.Plane(0.5, 0, 0.5, 0)
-        pymcnp._show.pyvista.Plane(0.5, 0, 0.5, 0.5)
-        pymcnp._show.pyvista.Plane(0.5, 0.5, 0, 0)
-        pymcnp._show.pyvista.Plane(0.5, 0.5, 0, 0.5)
-        pymcnp._show.pyvista.Plane(0.5, 0.5, 0.5, 0)
-        pymcnp._show.pyvista.Plane(0.5, 0.5, 0.5, 0.5)
-        pymcnp._show.pyvista.Plane(0, 0, 0.5, 0)
-        pymcnp._show.pyvista.Plane(0, 0, 0.5, 0.5)
-        pymcnp._show.pyvista.Plane(0, 0.5, 0, 0)
-        pymcnp._show.pyvista.Plane(0, 0.5, 0, 0.5)
-        pymcnp._show.pyvista.Plane(0, 0.5, 0.5, 0)
-        pymcnp._show.pyvista.Plane(0, 0.5, 0.5, 0.5)
-
-
-class Test_Sphere:
-    def test___post_init__(self) -> None:
-        pymcnp._show.pyvista.Sphere(0.5)
-
-
-class Test_Torus:
-    def test___post_init__(self) -> None:
-        pymcnp._show.pyvista.Torus(0.5, 0.5, 0.5)
-
-
-class Test_Wedge:
-    def test___post_init__(self) -> None:
-        pymcnp._show.pyvista.Wedge(0.5, 0.5, 0.5)
-
-
 SHAPE_NAMES = (
     'Box',
     'ConeTruncated',
@@ -261,3 +178,30 @@ def test_hexagonal_mask_matches_mesh(abc_: tuple[float, float, float]) -> None:
     assert enclosed['selected_points'].astype(bool).tolist() == expected
 
     assert not shape.cell(numpy.array([[0, 0, -0.1], [0, 0, 1.1]])).any()
+
+
+# Every combination of zero and non-zero plane coefficients, since the drawn plane's center depends on which are zero.
+PLANES = [
+    (0.5, 0, 0, 0),
+    (0.5, 0, 0, 0.5),
+    (0.5, 0, 0.5, 0),
+    (0.5, 0, 0.5, 0.5),
+    (0.5, 0.5, 0, 0),
+    (0.5, 0.5, 0, 0.5),
+    (0.5, 0.5, 0.5, 0),
+    pytest.param(0.5, 0.5, 0.5, 0.5, marks=pytest.mark.xfail(strict=True, reason='Plane draws its surface at (0, 0, d), off the plane, when a, b and c are all non-zero and c != 1')),
+    (0, 0, 0.5, 0),
+    (0, 0, 0.5, 0.5),
+    (0, 0.5, 0, 0),
+    (0, 0.5, 0, 0.5),
+    (0, 0.5, 0.5, 0),
+    (0, 0.5, 0.5, 0.5),
+]
+
+
+@pytest.mark.parametrize(('a', 'b', 'c', 'd'), PLANES)
+def test_plane(a: float, b: float, c: float, d: float) -> None:
+    plane = pymcnp._show.pyvista.Plane(a, b, c, d)
+
+    assert plane.cell(POINTS).tolist() == (a * POINTS[:, 0] + b * POINTS[:, 1] + c * POINTS[:, 2] < d).tolist()
+    assert numpy.dot((a, b, c), plane.surface.center) == pytest.approx(d)
