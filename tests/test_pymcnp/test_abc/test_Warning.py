@@ -9,7 +9,7 @@ PATH: pathlib.Path = pathlib.Path(__file__).parent.parent.parent.parent / 'files
 
 class Test_Warning:
     def test___str___valid(self) -> None:
-        str(pymcnp.abc.Warning('Hi', 'Hello'))
+        assert str(pymcnp.abc.Warning('Hi', 'Hello')) == 'Hi\n Hello'
 
     def test_warning_is_shown(self) -> None:
         source = (PATH / 'warning_00.inp').read_text()

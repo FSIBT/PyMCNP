@@ -7,7 +7,10 @@ import pymcnp
 
 class Test_Array:
     def test___init___valid(self) -> None:
-        pymcnp.abc.Array[pymcnp.inp.literal.Integer, None](pymcnp.inp.literal.Integer('1'))
+        array = pymcnp.abc.Array[pymcnp.inp.literal.Integer, None](pymcnp.inp.literal.Integer('1'), pymcnp.inp.literal.Integer('2'))
+
+        assert list(array) == ['1', '2']
+        assert array.to_mcnp() == '1 2'
 
     def test___init___invalid(self) -> None:
         with pytest.raises(pymcnp.abc.Error):
