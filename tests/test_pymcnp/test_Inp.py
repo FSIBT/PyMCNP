@@ -1,5 +1,6 @@
 import pathlib
 
+import pytest
 
 import pymcnp
 from .. import classes
@@ -64,6 +65,25 @@ class Test_Inp(classes.Test_FromFile):
         # Testing logarithmic insert horizontal format preprocessing.
         inp, source = pymcnp.Inp.from_mcnp('Hello\n1 0 -1\n\n1 SO 1\n\nsi1 1 2ilog 100\nnps 10\n')
         assert inp.data[0].to_mcnp() == 'si1 1.0 4.641588833612778 21.544346900318832 100.0'
+
+    @pytest.mark.parametrize(
+        'card, expanded',
+        [
+            ('e1 1 2m 3', 'e1 1 2.0 3'),
+            ('si1 1 2m 2m', 'si1 1 2.0 4.0'),
+            ('si1 2 1.5M 1e1m', 'si1 2 3.0 30.0'),
+            ('si1 1 2m 2r', 'si1 1 2.0 2.0 2.0'),
+            ('si1 1 2r 2m', 'si1 1 1 1 2.0'),
+            ('si1 1 2r 2m 2r', 'si1 1 1 1 2.0 2.0 2.0'),
+            ('si1 1 0.5m 2i 2', 'si1 1 0.5 1.0 1.5 2.0'),
+            ('si1 1 2r 2m 1i 6', 'si1 1 1 1 2.0 4.0 6.0'),
+        ],
+    )
+    def test_from_mcnp_expands_multiply(self, card, expanded) -> None:
+        # `xM` is the previous entry times `x`.
+        inp, remainder = pymcnp.Inp.from_mcnp(f'Hello\n1 0 -1\n\n1 SO 1\n\n{card}\nm1 1001 2\nnps 10\n')
+        assert remainder == ''
+        assert [card.to_mcnp() for card in inp.data[:2]] == [expanded, 'm1 1001 2']
 
     def test_from_mcnp_keeps_comments_verbatim(self) -> None:
         # Shorthands (`nJ`, `nR`, `nI`, `nLOG`) are expanded in cards only, not in the title, comment cards, `$` comments or
