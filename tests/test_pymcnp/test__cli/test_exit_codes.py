@@ -103,11 +103,20 @@ def test_directory_exits_2(monkeypatch, capsys, tmp_path: pathlib.Path, command)
 def test_binary_file_exits_2(monkeypatch, capsys, tmp_path: pathlib.Path, command) -> None:
     # E.g., a PTRAC file MCNP wrote in binary, its default: the hint is for PTRAC only.
     monkeypatch.chdir(tmp_path)
-    pathlib.Path('binary').write_bytes(b'\xff\xfe\x00\x80 binary PTRAC\n')
+    pathlib.Path('binary').write_bytes(b'\x01\xff\x00\x80 binary PTRAC\n')
     code, text = _run(monkeypatch, capsys, *_args(command, pathlib.Path('binary')))
     assert code == 2
     hint = ' PyMCNP reads text PTRAC files only: have MCNP write one with the PTRAC option FILE=ASC.'
     assert text == f'Error: binary: not a text file (a NUL byte at byte offset 2), so PyMCNP cannot read it.{hint if "ptrac" in command else ""}'
+
+
+@pytest.mark.parametrize('command', COMMANDS)
+def test_utf_16_file_exits_2(monkeypatch, capsys, tmp_path: pathlib.Path, command) -> None:
+    monkeypatch.chdir(tmp_path)
+    pathlib.Path('utf16').write_bytes('title\n'.encode('utf-16'))
+    code, text = _run(monkeypatch, capsys, *_args(command, pathlib.Path('utf16')))
+    assert code == 2
+    assert text == 'Error: utf16: UTF-16 text, which PyMCNP does not read; save the file as UTF-8.'
 
 
 @pytest.mark.parametrize(

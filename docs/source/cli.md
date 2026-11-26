@@ -17,7 +17,7 @@ Every command exits with one of these codes:
 |---|---|
 | 0 | Success. |
 | 1 | The input or output has problems, or the command failed, e.g., a line wider than 80 columns, a run of MCNP that failed, or a PTRAC file without events to convert. |
-| 2 | Usage error, e.g., an unknown option or command, or a cell, surface or tally that is not in the file; or a file that does not exist, is a directory, or is not a text file, e.g., a binary PTRAC file. Text that is not UTF-8 is read as Latin-1, with a warning. |
+| 2 | Usage error, e.g., an unknown option or command, or a cell, surface or tally that is not in the file; or a file that does not exist, is a directory, or is not a text file, e.g., a binary PTRAC file, or is UTF-16 text (save it as UTF-8). Text that is not UTF-8 is read as Latin-1, with a warning. |
 | 3 | PyMCNP cannot parse all of a file, e.g., a card, an input with two cells of one number, a file of another kind, or an OUTP tally in a layout PyMCNP cannot parse yet. The command warns with the line where parsing stopped and works with the part before it, if it can. |
 
 A file gets the same code from every command that reads it. An OUTP tally in a layout PyMCNP cannot parse yet is only

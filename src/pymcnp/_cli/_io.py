@@ -137,6 +137,8 @@ def read(path: pathlib.Path, parse: typing.Callable[[pathlib.Path], T], unit: st
     try:
         return parse(path)
     except UnicodeDecodeError as err:
+        if 'UTF-16' in err.reason:
+            fail(f'{path}: UTF-16 text, which PyMCNP does not read; save the file as UTF-8.', USAGE)
         # Text that is not UTF-8 is read as Latin-1, so this is a file with a NUL byte, e.g., a binary PTRAC file.
         fail(f'{path}: not a text file (a NUL byte at byte offset {err.start}), so PyMCNP cannot read it.{" " + hint if hint else ""}', USAGE)
     except OSError as err:

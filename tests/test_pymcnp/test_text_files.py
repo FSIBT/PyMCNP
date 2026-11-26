@@ -166,3 +166,16 @@ def test_latin_1_line_ends(tmp_path: pathlib.Path) -> None:
         assert _text.read_text(path) == 'é\nb\n'
         with _text.open_text(path) as file:
             assert file.read() == 'é\nb\n'
+
+
+@pytest.mark.parametrize('encoding', ['utf-16', 'utf-16-le', 'utf-16-be'])
+@pytest.mark.parametrize('read, fixture, word, line', READERS)
+def test_utf_16_file_raises(tmp_path: pathlib.Path, read, fixture: str, word: str, line: int, encoding: str) -> None:
+    # E.g., saved as "Unicode" by Windows Notepad, with a byte order mark, little- or big-endian.
+    path = tmp_path / 'utf16'
+    text = (FILES / fixture).read_text(encoding='utf-8')
+    path.write_bytes((b'' if encoding == 'utf-16' else '﻿'.encode(encoding)) + text.encode(encoding))
+
+    with pytest.raises(UnicodeDecodeError, match='UTF-16; save the file as UTF-8') as info:
+        read(path)
+    assert info.value.start == 0

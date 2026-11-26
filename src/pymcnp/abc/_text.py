@@ -3,7 +3,8 @@ Reads text files the same way on every OS: UTF-8 (a byte order mark is skipped),
 
 MCNP files are ASCII by the format's definition, so a character outside ASCII is almost always in a comment or a
 title. A file saved as Latin-1 or cp1252, e.g., by a Windows editor, is read rather than rejected; Latin-1 decodes
-every byte. A file with a NUL byte, which no text file holds, e.g., a binary PTRAC file, raises ``UnicodeDecodeError``.
+every byte. A file with a NUL byte, which no text file holds, e.g., a binary PTRAC file, or a UTF-16 file, raises
+``UnicodeDecodeError``.
 """
 
 import typing
@@ -28,13 +29,18 @@ def _encoding(path: pathlib.Path | str, warn: bool) -> str:
         warn: Flag to issue a ``Warning`` naming the first line that is not UTF-8.
 
     Raises:
-        UnicodeDecodeError: The file holds a NUL byte, so it is not text.
+        UnicodeDecodeError: The file holds a NUL byte, so it is not text, or it is UTF-16.
     """
 
     line = 1
     offset = 0
     pending = b''
     with open(path, 'rb') as file:
+        # UTF-16, e.g., Windows Notepad's "Unicode", which holds NUL bytes, is named rather than called binary.
+        head = file.read(2)
+        if head in (b'\xff\xfe', b'\xfe\xff'):
+            raise UnicodeDecodeError('utf-8', head, 0, 2, 'UTF-16; save the file as UTF-8')
+        file.seek(0)
         while True:
             chunk = file.read(_CHUNK)
             data = pending + chunk
@@ -69,7 +75,7 @@ def read_text(path: pathlib.Path | str, warn: bool = True) -> str:
         warn: Flag to warn if the file is read as Latin-1.
 
     Raises:
-        UnicodeDecodeError: The file holds a NUL byte, so it is not text.
+        UnicodeDecodeError: The file holds a NUL byte, so it is not text, or it is UTF-16.
     """
 
     return pathlib.Path(path).read_text(encoding=_encoding(path, warn))
@@ -83,7 +89,7 @@ def open_text(path: pathlib.Path | str) -> typing.TextIO:
         path: Path of the file.
 
     Raises:
-        UnicodeDecodeError: The file holds a NUL byte, so it is not text.
+        UnicodeDecodeError: The file holds a NUL byte, so it is not text, or it is UTF-16.
     """
 
     return open(path, encoding=_encoding(path, True))
