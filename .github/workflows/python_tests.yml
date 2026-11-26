@@ -2,7 +2,7 @@ name: Run Python tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, ci-windows-probe ]
   pull_request:
     branches: [ main ]
 
@@ -28,7 +28,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: ["3.11", "3.12", "3.13", "3.14", "3.15"]
     env:
       UV_PYTHON: ${{ matrix.python-version }}
@@ -46,11 +46,11 @@ jobs:
       if: runner.os == 'Linux'
 
     - name: Testing with PyTest
-      if: runner.os != 'macOS'
+      if: runner.os == 'Linux'
       run: uv run --no-sync python -m pytest
 
-    - name: Testing with PyTest (macOS, skipping GPU-less rendering tests)
-      if: runner.os == 'macOS'
+    - name: Testing with PyTest (macOS and Windows, skipping GPU-less rendering tests)
+      if: runner.os != 'Linux'
       run: uv run --no-sync python -m pytest -m "not render"
 
   package:
