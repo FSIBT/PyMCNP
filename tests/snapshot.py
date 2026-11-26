@@ -47,8 +47,7 @@ def record(path: pathlib.Path) -> dict:
             if kind in ('outp', 'ptrac'):
                 result['frame'] = _frame(obj.to_dataframe())
             elif kind == 'meshtal':
-                frames = obj.to_dataframe()
-                result['frame'] = [_frame(f) for f in (frames if isinstance(frames, list) else [frames])]
+                result['frame'] = [_frame(obj.to_dataframe())]  # a list, as recorded
         except pymcnp.abc.Error as err:
             result = {'ok': False, 'error': str(err)}
         if kind == 'inp':
