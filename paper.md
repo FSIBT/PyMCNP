@@ -21,7 +21,7 @@ affiliations:
    index: 1
  - name: University of Arizona, United States
    index: 2
-date: 10 November 2026
+date: 26 November 2026
 bibliography: paper.bib
 ---
 
@@ -40,7 +40,7 @@ plotting tallies, running simulations in parallel, and visualizing
 cell and surface geometries using PyVista [@pyvista]. Although PyMCNP
 does not fully support all MCNP syntax, it lets researchers
 programmatically create, load, read, write, modify, and validate MCNP
-cards, options, blocks, and files by packaging more than 1000 classes
+cards, options, blocks, and files by packaging more than 800 classes
 that support the most commonly used cards of MCNP versions 6.1 to 6.3.
 PyMCNP also ships a skill file that describes its interface to AI
 coding agents, making MCNP controllable through agentic
@@ -118,9 +118,10 @@ encapsulation.
 
 PyMCNP injects recursive-descent parsers into dedicated classes for each card,
 option, and block. Each class represents supported nonterminal symbols; for
-example, `pymcnp.inp.card.M` encodes material cards and `pymcnp.inp.card.Sdef`
-represents source cards. Each class specifies the syntax of the nonterminal it
-represents and checks pertinent semantic restrictions. To enable duck typing,
+example, `pymcnp.inp.card.data.M` encodes material cards and
+`pymcnp.inp.card.data.Sdef` represents source cards. Each class specifies
+the syntax of the nonterminal it represents and checks pertinent semantic
+restrictions. To enable duck typing,
 abstract syntax tree classes universally implement the `from_mcnp` and
 `to_mcnp` methods as inverses, which read and write MCNP, respectively. This
 isomorphism and the polymorphism it induces help PyMCNP handle edge cases that
@@ -129,8 +130,9 @@ break pattern-matching or regular-expression approaches.
 PyMCNP then simplifies these classes by constructing deep hierarchies of
 abstract base classes extensively for static type checking and Pythonic duck
 typing. For example, all INP cards, including the class for source cards
-`pymcnp.inp.card.Sdef` and the class for material cards `pymcnp.inp.card.M`,
-inherit from the base class for all cards `pymcnp.inp.Card`. PyMCNP then treats
+`pymcnp.inp.card.data.Sdef` and the class for material cards
+`pymcnp.inp.card.data.M`, inherit from the base class for all cards
+`pymcnp.inp.Card`. PyMCNP then treats
 these base classes as alternations, dispatching between forms to support
 multi-form cards, options, and blocks, such as INP tally cards or PTRAC
 blocks.
@@ -156,6 +158,8 @@ and tooling, simplifying workflows.
 
 # Research Impact Statement
 
+PyMCNP is used in the authors' group at Lawrence Berkeley National
+Laboratory to create, run, and analyze MCNP simulations. More generally,
 PyMCNP streamlines MCNP workflows. For example, by combining the interface with
 simple Python loops that generate inputs, researchers can calculate optimal
 shielding thicknesses for radiation protection and tune detector geometries for
