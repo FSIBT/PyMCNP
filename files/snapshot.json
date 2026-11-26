@@ -76,7 +76,7 @@
    ]
   ],
   "remainder": "ad357acdbd1be50cda69aba39811e86746320829b5e81f3413f96a6a0e8166de",
-  "remainder_len": 991
+  "remainder_len": 767
  },
  "inp/todo_02.inp": {
   "error": "Expected ``Inp.blank_0``.\nExpected Terminal[r'( *(?:\\$.*)?\\n\\n)']\n source[:200]=' fill=e10 imp:n=1 $ fill cell\\nc\\n21 0 2 imp:n=0 $ outside world\\n\\n2 so 17.4\\n\\nkcode 1000 1.0 10 100\\nksrc -5.0 0.0 0.0 5.0 0.0 0.0\\n     0.0 -5.0 0.0 0.0 5.0 0.0\\n     0.0 0.0 -5.0 0.0 0.0 5.0\\ntotnu no\\nm1 9'",
@@ -157,7 +157,7 @@
    ]
   ],
   "remainder": "1c6028d004d2d381dc2068e73711a6734b19cbf5a42f504cb6fd90e981c27a66",
-  "remainder_len": 273
+  "remainder_len": 277
  },
  "inp/valid_04.inp": {
   "mcnp": "be51b2f987352e42b4428d492565bf1add58c5a758debbf54be790da1d978702",
@@ -184,7 +184,7 @@
    ]
   ],
   "remainder": "b84dd6a47812d1fa9a64aef4e48f365ad63aaa54ef8e6b8fbdf5d14922cf8559",
-  "remainder_len": 350
+  "remainder_len": 306
  },
  "inp/valid_07.inp": {
   "mcnp": "d1fa5dab7692c22d41d21e73ba59e0437779c64de9ac5df9f248d3999400250e",
@@ -210,7 +210,7 @@
    ]
   ],
   "remainder": "0bd1f49878e0586f7561277ad2faa2c83b93594630e84f65140f2b4dd7d031ca",
-  "remainder_len": 94
+  "remainder_len": 93
  },
  "inp/valid_09.inp": {
   "mcnp": "4faf40023ec3ca5714fbb08c2395635e4023c9303bfdcb953feb9438d7b61e7a",
@@ -230,7 +230,7 @@
    ]
   ],
   "remainder": "d1685e34394d2ec5e821cc47e2528be4b15848d06f2a3abbfd4d058bf327a90e",
-  "remainder_len": 392
+  "remainder_len": 393
  },
  "inp/valid_11.inp": {
   "mcnp": "5b1b00dda738bebd47695360dde110c6b9efa58544da99c7119cabdb7b3b39f7",
@@ -340,7 +340,7 @@
    ]
   ],
   "remainder": "f74678e5a150683913954082c39ee0e33aad2d15f1a310ba0fb54575103060c8",
-  "remainder_len": 759
+  "remainder_len": 724
  },
  "inp/valid_31.inp": {
   "mcnp": "92756dc678c309c291b88787537081081c626ef34d1baba8641f57877bc4b0d4",
@@ -360,7 +360,7 @@
    ]
   ],
   "remainder": "f880ad0b171ecdf3b304ad107c7edd873ab9b029bf97ffa679a4ce53d1188819",
-  "remainder_len": 348
+  "remainder_len": 326
  },
  "inp/valid_34.inp": {
   "mcnp": "7d27aa258279984ef5d670f58986676e4cf62d57ccd26067afb21209ef24571c",
@@ -408,7 +408,7 @@
    ]
   ],
   "remainder": "9520017806905f52c1bea03c2e6f60fd12211afa14bda32c2ef76ed5e39c40cf",
-  "remainder_len": 182
+  "remainder_len": 196
  },
  "inp/valid_40.inp": {
   "mcnp": "18deab93d060a9ac85115733cdb153f496a8d2fe04e9f0b01f8077b29f17234f",
@@ -442,7 +442,7 @@
    ]
   ],
   "remainder": "88068f6acacddbd7c8339fcbb0eea0ecdc4c0eb0172a5df73520f108f8ea40d3",
-  "remainder_len": 118
+  "remainder_len": 130
  },
  "inp/valid_44.inp": {
   "mcnp": "0b3a9b167fddef673b7dba37b2cd257a776421037c43094add6079fb9bcca85a",
@@ -507,7 +507,7 @@
   "mcnp": "82fc6515dc99c68db507ac599ec5f2a33e21bf4a0e4452f59aef9d9a350161f1",
   "ok": true,
   "remainder": "09ff7ef2caeb55645fa80565e29c159edefe55ef397eda6ef5b5e0cf2c650e5d",
-  "remainder_len": 924
+  "remainder_len": 731
  },
  "meshtal/trailing_07.meshtal": {
   "frame": [

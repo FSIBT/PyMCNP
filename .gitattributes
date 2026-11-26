@@ -1,0 +1,5 @@
+# MCNP fixtures and examples are checked out byte for byte on every OS (no CRLF on
+# Windows), so files/snapshot.json and the tests see the same bytes everywhere.
+# PyMCNP itself reads CRLF files (tests/test_snapshot.py::test_snapshot_crlf).
+files/** -text
+examples/** -text

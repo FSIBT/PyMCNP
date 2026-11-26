@@ -52,7 +52,7 @@ def _frame(df: pandas.DataFrame) -> dict:
     Fingerprints a dataframe by its CSV text, which is stable across pandas versions.
     """
 
-    return {'columns': [str(c) for c in df.columns], 'dtypes': [str(t) for t in df.dtypes], 'hash': _sha(df.to_csv(index=True))}
+    return {'columns': [str(c) for c in df.columns], 'dtypes': [str(t) for t in df.dtypes], 'hash': _sha(df.to_csv(index=True, lineterminator='\n'))}
 
 
 def record(path: pathlib.Path) -> dict:
@@ -66,7 +66,7 @@ def record(path: pathlib.Path) -> dict:
         result: dict
         try:
             obj, remainder = _CLASSES[kind].from_file(path)
-            result = {'ok': True, 'mcnp': _sha(_norm(obj.to_mcnp())), 'remainder': _sha(_norm(remainder)), 'remainder_len': len(remainder)}
+            result = {'ok': True, 'mcnp': _sha(_norm(obj.to_mcnp())), 'remainder': _sha(_norm(remainder)), 'remainder_len': len(_norm(remainder))}
             if kind in ('outp', 'ptrac'):
                 result['frame'] = _frame(obj.to_dataframe())
             elif kind == 'meshtal':
@@ -83,4 +83,4 @@ def fixtures() -> list[pathlib.Path]:
 
 
 def record_all() -> dict:
-    return {str(p.relative_to(FILES)): record(p) for p in fixtures()}
+    return {p.relative_to(FILES).as_posix(): record(p) for p in fixtures()}
