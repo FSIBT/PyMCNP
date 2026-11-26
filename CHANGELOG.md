@@ -71,6 +71,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The `AREA` card was checked against the number of cells instead of the number of surfaces, so a valid card raised `abc.Error`.
 - `from_mcnp` and `from_mcnp_iter` failed on text with Windows (`\r\n`) line ends, which `from_file` reads; they now translate line ends as `from_file` does.
 - A `$` comment after a continuation `&`, e.g., `1 1 -2.7 -1 & $ geometry`, made the card fail to parse.
+- `Inp.to_mcnp` moved a long continuation line indented by fewer than 5 spaces, e.g., `    lat=1 fill= ...` in a cell card, to column 1 when wrapping it, so the output no longer parsed. A wrapped line keeps its indent.
 - Tests no longer write files into the repository.
 
 ## [0.10.0] - 2026-10-15

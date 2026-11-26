@@ -169,3 +169,19 @@ def test_wrap_keeps_continuation(dollar):
     assert remainder == ''
     assert _canonical(again) == _canonical(inp)
     assert len(again.data_cards()[0].i) == 31
+
+
+@pytest.mark.filterwarnings('ignore:Line exceeds 80 characters:pymcnp.abc.Warning')
+def test_wrap_keeps_indent_of_continuation():
+    # valid_07 continues a cell card on a line indented by 4 spaces; wrapping that line keeps its indent, so it still
+    # continues the card. (The f4 tally of valid_07 does not parse yet, so it is left out.)
+    source = re.sub(r'(?m)^f4:p.*\n', '', (FILES / 'valid_07.inp').read_text())
+    inp, remainder = pymcnp.Inp.from_mcnp(source)
+    assert remainder == ''
+
+    written = inp.to_mcnp()
+
+    assert '\n    lat=1 fill=' in written
+    again, remainder = pymcnp.Inp.from_mcnp(written)
+    assert remainder == ''
+    assert _canonical(again) == _canonical(inp)

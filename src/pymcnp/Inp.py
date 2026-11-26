@@ -164,13 +164,14 @@ def _wrap(line: str) -> str:
     # A line that ends in ``&`` is continued on the next line, so its last wrapped line keeps the ``&``.
     continued = code.endswith('&')
     code = code.removesuffix('&').rstrip()
-    indent = ' ' * _INDENT if line.startswith(' ' * _INDENT) else ''
+    # The first line keeps its indent, so a continuation line stays one.
+    indent = line[: len(line) - len(line.lstrip(' '))]
     words = code.split()
     if len(words) < 2:
         return line
 
     lines: list[str] = []
-    current = indent + words[0] if indent else words[0]
+    current = indent + words[0]
     for word in words[1:]:
         if len(current) + 1 + len(word) + 2 > _WIDTH:
             lines.append(f'{current} &')
