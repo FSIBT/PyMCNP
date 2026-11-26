@@ -55,6 +55,22 @@ class Test_Nonterminal:
         with pytest.raises(pymcnp.abc.Error, match='Invalid value'):
             e.e[0] = value
 
+    @pytest.mark.parametrize('value', ['7 8', '7 $ comment', '7\nnps 1'])
+    def test_setter_value_with_text_left_over_raises_error(self, value) -> None:
+        # A value is stored whole or not at all: ``r = '7 8'`` does not store ``7`` and drop `` 8``.
+        so, _ = pymcnp.inp.card.Surface.from_mcnp('1 SO 10')
+        with pytest.raises(pymcnp.abc.Error, match='left over'):
+            so.r = value  # type:ignore
+        assert so.to_mcnp() == '1 SO 10'
+        with pytest.raises(pymcnp.abc.Error, match='left over'):
+            pymcnp.inp.card.surface.So(j=1, r=value)  # type:ignore
+
+    def test_setter_title_with_a_second_line_raises_error(self) -> None:
+        inp, _ = pymcnp.Inp.from_mcnp('title\n1 0 -1\n\n1 so 1\n\nnps 5\n')
+        with pytest.raises(pymcnp.abc.Error, match='left over'):
+            inp.title = 'A\nB'
+        assert inp.title == 'title\n'
+
     def test_setting_an_empty_name_raises_attribute_error(self) -> None:
         rpp, _ = pymcnp.inp.card.Surface.from_mcnp('1 rpp -1 1 -1 1 -1 1')
         with pytest.raises(AttributeError, match="has no field ''"):

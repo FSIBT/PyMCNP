@@ -82,14 +82,13 @@ def _parse_value(kinds: tuple[type[Symbol], ...], value: typing.Any) -> Symbol:
     if any(isinstance(value, kind) for kind in kinds):
         return value
 
-    # Compiling ``str``s into symbols
-    if isinstance(value, str):
-        match, _ = _parse(kinds, value)
-        return match
-
-    # Compiling numbers, e.g., ``int``, ``float``, ``decimal.Decimal`` or NumPy scalars, into symbols.
-    if isinstance(value, (numbers.Real, decimal.Decimal)):
-        match, _ = _parse(kinds, str(value))
+    # Compiling ``str``s and numbers, e.g., ``int``, ``float``, ``decimal.Decimal`` or NumPy scalars, into symbols.
+    # The whole value must parse: a value is stored whole or not at all, e.g., ``r = '7 8'`` does not store ``7``.
+    if isinstance(value, (str, numbers.Real, decimal.Decimal)):
+        source = value if isinstance(value, str) else str(value)
+        match, rest = _parse(kinds, source)
+        if rest:
+            raise Error(f'Value does not parse whole, ``{rest}`` is left over.', f'{value=}')
         return match
 
     # Compiling non-string sequences into symbols.

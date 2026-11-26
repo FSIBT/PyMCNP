@@ -273,16 +273,26 @@ class Inp(abc.File):
     @staticmethod
     def _prepare_message(value: typing.Any) -> typing.Any:
         """
-        Prepares ``message`` values: None is no message block, and a ``str`` message gets its ending blank line.
+        Prepares ``message`` values: None is no message block, a ``str`` message gets the ``message:`` keyword if it
+        has none and its ending blank line.
 
-        The ``message`` field's setter calls it, e.g., ``inp.message = 'message: outp=run.o'``.
+        The ``message`` field's setter calls it, e.g., ``inp.message = 'outp=run.o'`` stores
+        ``'message: outp=run.o\\n\\n'``.
+
+        Raises:
+            abc.Error: The message holds a blank line, which would end the message block.
         """
 
         if value is None:
             return ''
-        if isinstance(value, str) and not isinstance(value, abc.Symbol) and value and not value.endswith('\n\n'):
-            return value.rstrip('\n') + '\n\n'
-        return value
+        if not isinstance(value, str) or isinstance(value, abc.Symbol) or not value.strip():
+            return value
+        value = value.rstrip()
+        if re.search(r'\n[ \t]*\n', value):
+            raise abc.Error('A message cannot hold a blank line, which ends the message block.', f'{value=}')
+        if not value.lower().startswith('message:'):
+            value = 'message: ' + value.strip()
+        return value + '\n\n'
 
     @staticmethod
     def _prepare_title(value: typing.Any) -> typing.Any:

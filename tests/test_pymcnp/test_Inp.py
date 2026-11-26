@@ -517,6 +517,32 @@ class Test_Message:
         assert inp.message is None
         assert inp.to_mcnp() == self.SOURCE
 
+    @pytest.mark.parametrize('value', ['outp=z.o', 'outp=z.o\n', 'outp=z.o\n\n', '  outp=z.o'])
+    def test_set_without_keyword(self, value) -> None:
+        # The ``message:`` keyword is added when it is missing, rather than the message being dropped.
+        inp = pymcnp.Inp.from_mcnp(self.SOURCE)[0]
+
+        inp.message = value
+        assert inp.message == 'message: ' + value.strip() + '\n\n'
+        assert inp.to_mcnp() == 'message: outp=z.o\n\n' + self.SOURCE
+        assert pymcnp.Inp.from_mcnp(inp.to_mcnp())[0].message == inp.message
+
+    def test_set_without_keyword_in_constructor_and_scan(self) -> None:
+        base = pymcnp.Inp.from_mcnp(self.SOURCE)[0]
+
+        inp = pymcnp.Inp(message='outp=x.o', title='title', cells=base.cells, surfaces=base.surfaces, data=base.data)
+        assert inp.message == 'message: outp=x.o\n\n'
+        assert [copy.message for copy in base.scan(message=['outp=y.o', 'message: outp=w.o'])] == ['message: outp=y.o\n\n', 'message: outp=w.o\n\n']
+
+    @pytest.mark.parametrize('value', ['message: a\n\nb', 'a\n\nb', 'message: a\n   \nb'])
+    def test_set_with_blank_line_inside_raises(self, value) -> None:
+        # A blank line ends the message block, so a message cannot hold one.
+        inp = pymcnp.Inp.from_mcnp('message: o=x\n\n' + self.SOURCE)[0]
+
+        with pytest.raises(pymcnp.abc.Error, match='blank line'):
+            inp.message = value
+        assert inp.message == 'message: o=x\n\n'
+
     def test_constructor_deepcopy_and_scan(self) -> None:
         import copy
 
