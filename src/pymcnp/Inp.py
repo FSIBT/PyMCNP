@@ -2,24 +2,15 @@ import re
 import typing
 import warnings
 
-import numpy
-
 from . import abc
 from . import inp
 from .abc.Symbol import _unix_newlines
+from .inp._shorthand import _expand_line
 from .abc._path import _join
 from .abc._path import _steps
 
 
-_NUMBER = r'[-+]?(?:\d+\.?\d*|\.\d+)(?:E[-+]?\d+)?'
-# An `xM` entry whose own previous entry is still a shorthand is not a value yet, so `nR`, `nI` and `nLOG` wait for it.
-_REGEX_REPEAT = re.compile(r'(\S+)(?<!\d[mM]) (\d+)R', re.IGNORECASE)
-_REGEX_INSERT = re.compile(r'(\S+)(?<!\d[mM]) (\d+)I (\S+)', re.IGNORECASE)
-_REGEX_JUMP = re.compile(r'(?<!\S)(\d+)(J)(?!\S)', re.IGNORECASE)
-_REGEX_LOG = re.compile(r'(\S+)(?<!\d[mM]) (\d+)I?LOG (\S+)', re.IGNORECASE)
-_REGEX_MULTIPLY = re.compile(rf'(?<!\S)({_NUMBER}) ({_NUMBER})M(?!\S)', re.IGNORECASE)
 _REGEX_UNWRAPPED_CARD = re.compile(r' {0,4}(?:c|[fs]c\d+)(?:\s|\Z)', re.IGNORECASE)
-_REGEX_COMMENT = re.compile(r' {0,4}c(?:\s|\Z)', re.IGNORECASE)
 # Vertical data format: a ``#`` in columns 1-5 followed by card names, then one row of entries per line. Rows start with
 # a number or a jump, so the next card ends the block, and they carry no ``$`` comment.
 _REGEX_VERTICAL_HEADER = re.compile(r' {0,4}#((?:[ \t]+[^\s$]+)+)[ \t]*\Z')
@@ -27,33 +18,6 @@ _REGEX_VERTICAL_ROW = re.compile(r'[ \t]*(?:[-+]?\.?\d|\d*J(?:\s|\Z))[^$]*\Z', r
 
 _WIDTH = 80
 _INDENT = 5
-
-
-def _expand(code: str) -> str:
-    """
-    Expands the horizontal data format shorthands (``nR``, ``nI``, ``nJ``, ``nLOG``, ``xM``) of one line of card text.
-
-    ``xM`` is the previous entry times ``x``. Its previous entry may itself come from a shorthand, e.g., ``1 2R 2M``, so
-    the shorthands are expanded until none is left.
-
-    Parameters:
-        code: Card text, without a ``$`` comment.
-
-    Returns:
-        ``code`` with its shorthands written out.
-    """
-
-    previous = None
-    while code != previous:
-        previous = code
-        while (multiplied := _REGEX_MULTIPLY.sub(lambda match: f'{match[1]} {float(match[1]) * float(match[2])}', code, count=1)) != code:
-            code = multiplied
-        code = _REGEX_REPEAT.sub(lambda match: f'{match[1]} {" ".join([match[1]] * int(match[2]))}', code)
-        code = _REGEX_INSERT.sub(lambda match: ' '.join(map(str, numpy.linspace(float(match[1]), float(match[3]), num=int(match[2]) + 2))), code)
-        code = _REGEX_JUMP.sub(lambda match: ' '.join([match[2]] * int(match[1])), code)
-        code = _REGEX_LOG.sub(lambda match: ' '.join(map(str, numpy.geomspace(float(match[1]), float(match[3]), num=int(match[2]) + 2))), code)
-
-    return code
 
 
 def _vertical_block(lines: list[str], index: int) -> tuple[list[str], int] | None:
@@ -134,9 +98,8 @@ def _expand_cards(source: str) -> str:
     lines = []
     blanks = 0
     for line in rest.split('\n'):
-        if blanks < 3 and line and not _REGEX_COMMENT.match(line):
-            code, dollar, comment = line.partition('$')
-            line = _expand(code) + dollar + comment
+        if blanks < 3:
+            line = _expand_line(line)
 
         blanks += not line
         lines.append(line)

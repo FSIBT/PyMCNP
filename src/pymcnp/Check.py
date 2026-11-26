@@ -8,8 +8,8 @@ import dataclasses
 from . import abc
 from . import inp
 from .Inp import Inp
-from .Inp import _REGEX_COMMENT
-from .Inp import _expand
+from .inp._shorthand import _REGEX_COMMENT
+from .inp._shorthand import _expand
 from .Inp import _vertical_block
 
 _WIDTH = 80
