@@ -158,18 +158,6 @@ class Test_Surface(classes.Test_FromMcnp):
             except NotImplementedError:
                 pass
 
-    def test___and__(self, surface_a: pymcnp.inp.card.Surface, surface_b: pymcnp.inp.card.Surface) -> None:
-        assert surface_a & surface_b
-
-    def test___or__(self, surface_a: pymcnp.inp.card.Surface, surface_b: pymcnp.inp.card.Surface) -> None:
-        assert surface_a | surface_b
-
-    def test___neg__(self, surface_a: pymcnp.inp.card.Surface) -> None:
-        assert -surface_a
-
-    def test___pos__(self, surface_a: pymcnp.inp.card.Surface) -> None:
-        assert +surface_a
-
     def test_and_or_build_intersections_and_unions(self) -> None:
         a, b, c = (pymcnp.inp.card.surface.So(j=i, r=i) for i in (pymcnp.inp.literal.Integer('1'), pymcnp.inp.literal.Integer('2'), pymcnp.inp.literal.Integer('3')))
 

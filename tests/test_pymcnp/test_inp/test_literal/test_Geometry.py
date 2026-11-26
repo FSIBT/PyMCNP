@@ -13,14 +13,8 @@ class Test_Geometry(classes.Test_FromMcnp):
         'hello',
     ]
 
-    def test___and__(self, geometry_a: pymcnp.inp.literal.Geometry, geometry_b: pymcnp.inp.literal.Geometry) -> None:
-        assert geometry_a & geometry_b
-
-    def test___or__(self, geometry_a: pymcnp.inp.literal.Geometry, geometry_b: pymcnp.inp.literal.Geometry) -> None:
-        assert geometry_a | geometry_b
-
     def test___invert__(self, geometry_a: pymcnp.inp.literal.Geometry) -> None:
-        assert ~geometry_a
+        assert str(~geometry_a) == '#(1:(3 #(4 5 6):(6:7) #6))'
 
     def test_and_intersects_and_or_unites(self) -> None:
         a, _ = pymcnp.inp.literal.Geometry.from_mcnp('-1')
@@ -32,6 +26,11 @@ class Test_Geometry(classes.Test_FromMcnp):
         assert str((a | b) & c) == '(-1:+2) -3'
         assert str(a & (b | c)) == '-1 (+2:-3)'
         assert str(a | (b & c)) == '(-1:+2 -3)'
+
+        # A top-level union is parenthesized before intersecting.
+        d, _ = pymcnp.inp.literal.Geometry.from_mcnp('1:2')
+        assert str(d & a) == '(1:2) -1'
+        assert str(a & d) == '-1 (1:2)'
 
 
 POINTS = numpy.array([[0, 0, 0], [1.5, 0, 0], [3, 0, 0]])

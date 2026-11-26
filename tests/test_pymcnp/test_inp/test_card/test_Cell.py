@@ -131,7 +131,7 @@ class Test_Cell(classes.Test_FromMcnp):
     ]
 
     def test___invert__(self, cell_a: pymcnp.inp.card.Cell) -> None:
-        assert ~cell_a
+        assert str(~cell_a) == '#2'
 
     def test_material(self) -> None:
         cell, _ = self.element.from_mcnp('1 1 3.1 1 (2:(+3 -4) #5) imp:@=1')

@@ -131,31 +131,8 @@ def cell_a() -> pymcnp.inp.card.Cell:
 
 
 @pytest.fixture(scope='session')
-def surface_a() -> pymcnp.inp.card.Surface:
-    return pymcnp.inp.card.surface.So(j=pymcnp.inp.literal.Integer('101'), r=pymcnp.inp.literal.Integer('1'))
-
-
-@pytest.fixture(scope='session')
-def surface_b() -> pymcnp.inp.card.Surface:
-    return pymcnp.inp.card.surface.Rpp(
-        j=pymcnp.inp.literal.Integer('102'),
-        xmin=pymcnp.inp.literal.Integer('0'),
-        xmax=pymcnp.inp.literal.Integer('1'),
-        ymin=pymcnp.inp.literal.Integer('0'),
-        ymax=pymcnp.inp.literal.Integer('1'),
-        zmin=pymcnp.inp.literal.Integer('0'),
-        zmax=pymcnp.inp.literal.Integer('1'),
-    )
-
-
-@pytest.fixture(scope='session')
 def geometry_a() -> pymcnp.inp.literal.Geometry:
     return pymcnp.inp.literal.Geometry.from_mcnp('1:(3 #(4 5 6):(6:7) #6)')[0]
-
-
-@pytest.fixture(scope='session')
-def geometry_b() -> pymcnp.inp.literal.Geometry:
-    return pymcnp.inp.literal.Geometry.from_mcnp('1 3 #4')[0]
 
 
 @pytest.fixture(scope='session')
