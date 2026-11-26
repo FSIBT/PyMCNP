@@ -61,3 +61,36 @@ def test_main_invalid(monkeypatch, capsys):
     except SystemExit:
         pass
     assert capsys.readouterr().out.strip() == f'pymcnp {pymcnp.__version__}'
+
+
+def test_main_prints_warnings_as_panels(monkeypatch, capsys, recwarn, tmp_path: pathlib.Path) -> None:
+    import warnings
+
+    outp = tmp_path / 'valid_39.outp'
+    shutil.copy(FILES / 'outp' / 'valid_39.outp', outp)
+    showwarning = warnings.showwarning
+
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'convert', 'outp', '--csv', str(outp)])
+    main.main()
+
+    out = capsys.readouterr()
+    assert '╭' in out.out
+    # The panel wraps long lines.
+    text = ' '.join(out.out.replace('│', ' ').split())
+    assert 'Warning: Tally not parsed.' in text and 'tally 1 (type 1)' in text
+    # Not Python's own format, which prints the source line of the warning.
+    assert 'warnings.warn' not in out.out + out.err
+    assert not [w for w in recwarn if 'Tally not parsed' in str(w.message)]
+    assert warnings.showwarning is showwarning
+
+
+def test_main_prints_other_warnings_with_their_category(monkeypatch, capsys) -> None:
+    import warnings
+
+    from pymcnp._cli import convert
+
+    monkeypatch.setattr(convert, 'main', lambda: warnings.warn('bins [1, 2] are empty', RuntimeWarning))
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'convert'])
+    main.main()
+
+    assert 'Warning: RuntimeWarning: bins [1, 2] are empty' in capsys.readouterr().out
