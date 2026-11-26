@@ -47,6 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `examples/`: `do_run.py`, `do_parameter_scan.py`, `do_check.py`, `read_ptrac.py`, the tally examples, and `script_example_01_ptrac_to_parquet.py` (which ignored its `path` argument) use the current API, and `tests/test_examples.py` runs them.
 - `&` and `|` on surfaces and geometries were swapped.
 - OUTP files whose footer was written to `runtpe`, ends with a newline, or is missing (runs that stopped early) did not parse.
+- OUTP tally blocks in a layout PyMCNP cannot parse yet (e.g., F8, and some F1/F2/F4/F5 layouts) were dropped silently while the remainder stayed empty; `Outp.from_file` now issues an `abc.Warning` naming each such tally's number and type, and `Outp.tally(number)` raises "Tally not parsed." for it instead of "Tally not found.".
 - MESHTAL files: tally bin boundaries are required and data rows are parsed.
 - PTRAC: every history is parsed, event types 2010, 2020 and 2030 are accepted, and macrobody facets work in the `SURFACE` option.
 - The PTRAC card's `EVENT`, `CELL` and `SURFACE` options take several values separated by commas or spaces, e.g., `PTRAC EVENT=SRC,COL,BNK FILE=ASC`; they kept only the first value.

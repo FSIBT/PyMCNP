@@ -1,5 +1,6 @@
 import re
 import typing
+import warnings
 
 import pandas
 
@@ -20,6 +21,47 @@ class Outp(abc.file.WithDataIter, abc.File):
     header: outp.Header
     blocks: typing.Annotated[abc.Array, outp.Block, abc.Terminal[r'']]
     footer: outp.Footer | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+
+    @classmethod
+    def from_mcnp(cls, source: str) -> tuple[typing.Self, str]:
+        """
+        Compiles output file text, warning about tally blocks PyMCNP cannot parse.
+
+        Tally blocks whose layout PyMCNP does not parse yet, e.g., F8 pulse height tallies, are kept as
+        unparsed ``outp.block.Else`` blocks, so they leave no remainder; each one issues an ``abc.Warning``
+        naming its tally number and type, and is missing from ``tallies``, ``tally`` and ``to_dataframe``.
+
+        Parameters:
+            source: Output file text.
+
+        Returns:
+            Output file and remainder.
+
+        Warns:
+            Warning: Tally not parsed.
+        """
+
+        outp_, remainder = super().from_mcnp(source)
+
+        for number, kind in outp_._unparsed_tallies().items():
+            warnings.warn(abc.Warning('Tally not parsed.', f'tally {number} (type {kind}) is in the file, but PyMCNP cannot parse its layout, so it is missing from the result'))
+
+        return outp_, remainder
+
+    def _unparsed_tallies(self) -> dict[str, str]:
+        """
+        Finds tally result blocks PyMCNP kept as unparsed text.
+
+        Returns:
+            Tally type by tally number, in file order, each number once.
+        """
+
+        found: dict[str, str] = {}
+        for block in self.blocks.filter(outp.block.Else):
+            if match := _REGEX_TALLY.match(block.text):
+                found.setdefault(match[1], match[2] or 'unknown')
+
+        return found
 
     @property
     def version(self) -> str:
@@ -183,10 +225,13 @@ class Outp(abc.file.WithDataIter, abc.File):
 
         Raises:
             Error: Tally not found.
+            Error: Tally not parsed, i.e., in the file in a layout PyMCNP cannot parse.
         """
 
         frames = {str(frame['number'].iloc[0]).strip(): frame for frame in self.to_dataframe_iter() if not frame.empty}
         key = str(number).strip()
+        if key not in frames and key in (unparsed := self._unparsed_tallies()):
+            raise abc.Error('Tally not parsed.', f'{number=}: tally {key} (type {unparsed[key]}) is in the file, but PyMCNP cannot parse its layout')
         if key not in frames:
             raise abc.Error('Tally not found.', f'{number=}, expected one of {sorted(frames, key=int)}')
 
@@ -250,6 +295,8 @@ _ACTIVITY_COLUMNS = (
     'average_track_weight',
     'average_track_mfp',
 )
+
+_REGEX_TALLY = re.compile(r'\n1tally +(\d+) +nps =[^\n]*(?:\n +tally type +(\S+))?')
 
 _REGEX_FATAL = re.compile(r'^ *(?:fatal error|bad trouble)\.? +(.*\S)', re.IGNORECASE | re.MULTILINE)
 

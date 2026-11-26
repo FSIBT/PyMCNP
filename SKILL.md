@@ -9,7 +9,7 @@ Python API and CLI for MCNP inputs and outputs (`pip install pymcnp`, Python 3.1
 
 ## Parsing contract
 
-`X.from_mcnp(text)` and `X.from_file(path)` return `(obj, remainder)`. Parsing stops silently at the first card it cannot parse; that card and everything after it is the `remainder`. **Always check `remainder == ''`**, otherwise part of the file was dropped. Unparseable input with nothing parseable raises `pymcnp.abc.Error`.
+`X.from_mcnp(text)` and `X.from_file(path)` return `(obj, remainder)`. Parsing stops silently at the first card it cannot parse; that card and everything after it is the `remainder`. **Always check `remainder == ''`**, otherwise part of the file was dropped. Unparseable input with nothing parseable raises `pymcnp.abc.Error`. For OUTP files an empty remainder is not enough: tally blocks in a layout PyMCNP cannot parse yet (e.g., F8, and some F1/F2/F4/F5 layouts) are kept as unparsed text, so they leave no remainder; each one issues a `pymcnp.abc.Warning` ("Tally not parsed.", with the tally number and type), is missing from `outp.tallies()` and `outp.to_dataframe()`, and `outp.tally(n)` raises `abc.Error` "Tally not parsed.". Do not silence these warnings; report the missing tally type (see "d) Missing feature or parse failure").
 
 `obj.to_mcnp()` round-trips exactly, except `Inp.to_mcnp()` wraps card lines longer than 80 columns with `&` (MCNP rejects data past column 80). `obj.to_file(path)` writes.
 

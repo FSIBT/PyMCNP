@@ -208,3 +208,69 @@ def test_activity_malformed_row_is_rejected() -> None:
     outp, _ = pymcnp.Outp.from_mcnp(broken)
     with pytest.raises(pymcnp.abc.Error, match='Invalid table row'):
         outp.activity('neutron')
+
+
+EXAMPLES: pathlib.Path = pathlib.Path(__file__).parent.parent.parent / 'examples'
+
+
+def _skipped(path: pathlib.Path) -> list[str]:
+    import warnings
+
+    with warnings.catch_warnings(record=True) as record:
+        warnings.simplefilter('always')
+        pymcnp.Outp.from_file(path)
+    return [str(w.message) for w in record if isinstance(w.message, pymcnp.abc.Warning) and w.message.title == 'Tally not parsed.']
+
+
+@pytest.mark.parametrize(
+    'path, expected',
+    [
+        (PATH / 'valid_00.outp', [('2', '2')]),
+        (EXAMPLES / 'example_01.outp', [('8', '8')]),
+        (EXAMPLES / 'example_02.outp', [('4', '4'), ('5', '5')]),
+        (PATH / 'valid_39.outp', [('1', '1')]),
+        # Tally 4 is printed twice; it is reported once.
+        (PATH / 'valid_10.outp', [('4', '4')]),
+    ],
+    ids=lambda value: value.name if isinstance(value, pathlib.Path) else '',
+)
+def test_skipped_tally_warns(path: pathlib.Path, expected: list[tuple[str, str]]) -> None:
+    messages = _skipped(path)
+    assert len(messages) == len(expected)
+    for message, (number, kind) in zip(messages, expected):
+        assert f'tally {number} (type {kind})' in message
+
+
+def test_parsed_tallies_do_not_warn() -> None:
+    import warnings
+
+    with warnings.catch_warnings():
+        warnings.simplefilter('error')
+        pymcnp.Outp.from_file(EXAMPLES / 'example_00.outp')
+
+
+@pytest.mark.parametrize('path', sorted(PATH.glob('valid_*.outp')) + sorted(EXAMPLES.glob('*.outp')), ids=lambda path: path.name)
+def test_every_unparsed_tally_warns(path: pathlib.Path) -> None:
+    import re
+    import warnings
+
+    printed = set(re.findall(r'^1tally +(\d+) +nps =', path.read_text(), re.M))
+    with warnings.catch_warnings(record=True) as record:
+        warnings.simplefilter('always')
+        outp, _ = pymcnp.Outp.from_file(path)
+    parsed = {tally.number.strip() for tally in outp.tallies()}
+    warned = {w.message.body.split()[1] for w in record if isinstance(w.message, pymcnp.abc.Warning) and w.message.title == 'Tally not parsed.'}
+    assert warned == printed - parsed
+
+
+def test_tally_of_unparsed_tally_says_so() -> None:
+    import warnings
+
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore')
+        outp = _parsed('valid_00.outp')
+    with pytest.raises(pymcnp.abc.Error, match='not parsed') as error:
+        outp.tally(2)
+    assert 'type 2' in str(error.value)
+    with pytest.raises(pymcnp.abc.Error, match='Tally not found'):
+        outp.tally(99)
