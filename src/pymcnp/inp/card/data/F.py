@@ -12,8 +12,13 @@ class F(Data):
     Represents f data cards, the standard tallies.
 
     ``F_0`` is the F1, F2, F4, F6, F7 and F8 tallies (``Fn:pl s1 ... sk``), ``F_1`` the F5 point detector
-    (``F5:pl x y z ro``) and ``F_2`` the F5 ring detector (``F5a:pl ao r ro``); the last digit of the
+    (``F5:pl x y z ro ND``) and ``F_2`` the F5 ring detector (``F5a:pl ao r ro``); the last digit of the
     ``suffix`` is the tally type, e.g., ``14`` is an F4 tally.
+
+    Limitations: ``Data.from_mcnp`` tries ``F_0`` first, so a point detector without ``ND``, e.g.,
+    ``F5:p 0 0 0 1``, parses as ``F_0`` with ``x y z ro`` read as four cells or surfaces; only
+    ``F5:p 0 0 0 1 ND`` parses as ``F_1``. ``+F6`` parses only with a particle, e.g., ``+F6:n 1``; ``+F6 1``,
+    as MCNP writes it, does not parse.
     """
 
     if typing.TYPE_CHECKING:
@@ -28,10 +33,14 @@ class F_0(F):
     """
     Represents f data cards, form #0: the F1, F2, F4, F6, F7 and F8 tallies, ``Fn:pl s1 ... sk [T]``.
 
+    An F5 point detector without ``ND``, e.g., ``F5:p 0 0 0 1``, also parses as form #0, with its
+    coordinates read as cells or surfaces; see ``F``.
+
     E.g., ``F_0(suffix=4, particle='n', s=[2])`` is ``F4:n 2``, the neutron flux in cell 2.
 
     Attributes:
-        prefix: f data card ``prefix`` parameter, ``+`` for +F6, the energy deposition of all particles.
+        prefix: f data card ``prefix`` parameter, ``+`` for +F6, the energy deposition of all particles
+            (parsed only with a particle, e.g., ``+F6:n 1``, not as ``+F6 1``).
         keyword: f data card ``r'F'`` symbol.
         suffix: f data card ``n`` parameter, the tally number, whose last digit is the tally type.
         colon: f data card ``r':'`` symbol.
@@ -63,6 +72,9 @@ class F_0(F):
 class F_1(F):
     """
     Represents f data cards, form #1: the F5 point detector tally, ``F5:pl x y z ro [ND]``.
+
+    Parsed from text only with ``ND``, e.g., ``F5:p 0 0 0 1 ND``; without it, the card parses as
+    ``F_0``. Built in Python, it writes either.
 
     Attributes:
         keyword: f data card ``r'F'`` symbol.
