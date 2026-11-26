@@ -123,31 +123,6 @@ def fake_mcnp_fail(tmp_path: pathlib.Path) -> str:
 
 
 @pytest.fixture(scope='session')
-def integer_a() -> pymcnp.inp.literal.Integer:
-    return pymcnp.inp.literal.Integer('1')
-
-
-@pytest.fixture(scope='session')
-def integer_b() -> pymcnp.inp.literal.Integer:
-    return pymcnp.inp.literal.Integer('2')
-
-
-@pytest.fixture(scope='session')
-def real_a() -> pymcnp.inp.literal.Real:
-    return pymcnp.inp.literal.Real('1.1')
-
-
-@pytest.fixture(scope='session')
-def real_b() -> pymcnp.inp.literal.Real:
-    return pymcnp.inp.literal.Real('2.1')
-
-
-@pytest.fixture(scope='session')
-def str_b() -> str:
-    return 'a'
-
-
-@pytest.fixture(scope='session')
 def cell_a() -> pymcnp.inp.card.Cell:
     return pymcnp.inp.card.Cell_2(
         j=pymcnp.inp.literal.Integer('2'), n=pymcnp.inp.literal.Integer('1'), options=pymcnp.abc.Array[pymcnp.inp.option.Cell, pymcnp.inp.OptionSpace].from_mcnp('rho=3.1')[0]
