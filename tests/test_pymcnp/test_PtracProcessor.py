@@ -1,48 +1,46 @@
+import pytest
+
 import pymcnp
 from pymcnp.Ptrac import _events
 
+from .test_PtracFilter import KINDS
+
+
+class Count(pymcnp.PtracProcessor):
+    """
+    Records the type of every processed event, by the method that processed it.
+    """
+
+    def prehook(self) -> None:
+        self.kinds: list[tuple[str, pymcnp.ptrac.EventType]] = []
+
+    def posthook(self) -> None:
+        self.done = True
+
+    def _process(self, name: str, event: pymcnp.ptrac.Event) -> None:
+        self.kinds.append((name, event.type))
+
+
+for _name in KINDS.values():
+    setattr(Count, f'process_{_name}', lambda self, event, name=_name: self._process(name, event))
+
 
 class Test_PtracProcessor:
-    def test_process_source_valid(self, event: pymcnp.ptrac.block.Event) -> None:
-        pymcnp.PtracProcessor().process_source(event)
+    @pytest.mark.parametrize('kind', KINDS.values())
+    def test_process_returns_none_by_default(self, event: pymcnp.ptrac.Event, kind: str) -> None:
+        assert getattr(pymcnp.PtracProcessor(), f'process_{kind}')(event) is None
 
-    def test_process_bank_valid(self, event: pymcnp.ptrac.block.Event) -> None:
-        pymcnp.PtracProcessor().process_bank(event)
+    def test_run_processes_each_event_by_its_type(self, ptrac: pymcnp.Ptrac) -> None:
+        count = Count()
 
-    def test_process_surface_valid(self, event: pymcnp.ptrac.block.Event) -> None:
-        pymcnp.PtracProcessor().process_surface(event)
-
-    def test_process_collision_valid(self, event: pymcnp.ptrac.block.Event) -> None:
-        pymcnp.PtracProcessor().process_collision(event)
-
-    def test_process_terminal_valid(self, event: pymcnp.ptrac.block.Event) -> None:
-        pymcnp.PtracProcessor().process_terminal(event)
-
-    def test_run_valid(self, ptrac: pymcnp.Ptrac):
-        pymcnp.PtracProcessor().run(ptrac)
+        assert count.run(ptrac) == []
+        assert count.done
+        assert count.kinds == [(KINDS[event.type], event.type) for event in _events(ptrac)]
+        assert {name for name, _ in count.kinds} == set(KINDS.values())
 
     def test_run_path_matches_object(self, head) -> None:
         path = head('valid_00.ptrac')
         ptrac, _ = pymcnp.Ptrac.from_file(path)
-
-        class Count(pymcnp.PtracProcessor):
-            def prehook(self) -> None:
-                self.kinds: list[str] = []
-
-            def process_source(self, event) -> None:
-                self.kinds.append('source')
-
-            def process_bank(self, event) -> None:
-                self.kinds.append('bank')
-
-            def process_surface(self, event) -> None:
-                self.kinds.append('surface')
-
-            def process_collision(self, event) -> None:
-                self.kinds.append('collision')
-
-            def process_terminal(self, event) -> None:
-                self.kinds.append('terminal')
 
         from_object, from_path, from_str = Count(), Count(), Count()
         from_object.run(ptrac)
@@ -56,4 +54,5 @@ class Test_PtracProcessor:
             def process_source(self, event) -> int:
                 return 1
 
+        assert pymcnp.PtracProcessor().run(ptrac) == []
         assert Collect().run(ptrac) == [1] * sum(1 for event in _events(ptrac) if event.type is pymcnp.ptrac.EventType.SOURCE)

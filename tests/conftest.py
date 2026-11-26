@@ -7,6 +7,7 @@ import pyvista
 import matplotlib.pyplot
 
 import pymcnp
+from pymcnp.Ptrac import _events
 
 
 @pytest.fixture(autouse=True)
@@ -188,8 +189,8 @@ def ptrac(path_ptrac: pathlib.Path) -> pymcnp.Ptrac:
 
 
 @pytest.fixture(scope='session')
-def event(ptrac: pymcnp.Ptrac) -> pymcnp.ptrac.block.Event:
-    return ptrac.histories[0]
+def event(ptrac: pymcnp.Ptrac) -> pymcnp.ptrac.Event:
+    return next(_events(ptrac))
 
 
 @pytest.fixture(scope='session')
