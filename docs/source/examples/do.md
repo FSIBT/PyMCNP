@@ -1,6 +1,7 @@
 # "Do" Examples
 
-PyMCNP enables common workflows using `pyvista`, `pandas`, `subprocess`, `matplotlib`, and `difflib`.
+PyMCNP enables common workflows using `pyvista`, `pandas`, `subprocess`, `matplotlib`, and `difflib`. The images on this
+page are made by `docs/make_images.py` from the same example files, without MCNP.
 
 ## Checking INP Files
 
@@ -60,10 +61,10 @@ Output:
     Plotting tally #1 from examples/example_00.outp.
     Writing plots tally #1 from examples/example_00.outp to `examples/output/example_00-1.pdf`.
 
-![do_plot_0](../images/do_plot_0.png)
-![do_plot_1](../images/do_plot_1.png)
-![do_plot_2](../images/do_plot_2.png)
-![do_plot_3](../images/do_plot_3.png)
+`Plot` makes one figure per combination of the other columns of the tally, here the three facets of surface 2 times the two
+angle bins of the `*c1 90 0` card, so `to_show` returns six figures and `to_pdf` writes six pages:
+
+![The six figures of tally 1](../images/do_plot.png)
 
 ## Running INP Files
 
@@ -82,14 +83,14 @@ Code:
 Output:
 
     Running `echo` in `examples/output`:
-    Calling `prehook_batch` pymcnp-2026-11-25--10-26-01
-    Calling `prehook_file` 1 in run-00001
+    Calling `prehook_batch` pymcnp-2026-11-26--06-49-02
     Calling `prehook_file` 0 in run-00000
+    Calling `prehook_file` 1 in run-00001
     Calling `posthook_file` run-00000 0 (ok=False)
     Calling `posthook_file` run-00001 1 (ok=False)
     Calling `prehook_file` 2 in run-00002
     Calling `posthook_file` run-00002 2 (ok=False)
-    Calling `posthook_batch` pymcnp-2026-11-25--10-26-01
+    Calling `posthook_batch` pymcnp-2026-11-26--06-49-02
     Run 0: exit code 0, input `run-00000.inp`, output `None`
     Run 1: exit code 0, input `run-00001.inp`, output `None`
     Run 2: exit code 0, input `run-00002.inp`, output `None`
@@ -115,7 +116,7 @@ Output:
     Visualizing all surfaces from `examples/example_05.inp`.
     Writing visualizations of all surfaces from `examples/example_05.inp` to `examples/output/example_05-surfaces.pdf`
 
-![do_visualize](../images/do_visualize.png)
+![Surfaces of example_05.inp, without surfaces 1 and 3](../images/do_visualize.png)
 
 ## Parameter Scan
 
@@ -136,8 +137,11 @@ Output:
     Running parameter scan `echo` in `examples/output`:
     DONE! :)
 
-![do_parameter_scan_0](../images/do_parameter_scan_0.png)
-![do_parameter_scan_1](../images/do_parameter_scan_1.png)
-![do_parameter_scan_2](../images/do_parameter_scan_2.png)
-![do_parameter_scan_3](../images/do_parameter_scan_3.png)
-![do_parameter_scan_4](../images/do_parameter_scan_4.png)
+The script shows the surfaces of each input in its own window. Drawn together, the five inputs differ only in the
+position of the sphere, which `scan` moves along y; the box stays in place:
+
+![The five scanned inputs in one view](../images/do_parameter_scan.png)
+
+`inp.scan(**{'surfaces[0].vy': [...]})` sets a nested field by its path: attributes with `.name` and list items with
+`[i]`. Settable properties such as `nps` and `seed` take plain keywords, `inp.scan(nps=[10**4, 10**5])`, and
+`inp.scan_with(values, apply)` calls a function on each copy for changes that need code.
