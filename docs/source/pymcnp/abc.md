@@ -12,6 +12,14 @@
    :inherited-members:
 ```
 
+### `ArraySpace` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.abc.ArraySpace
+   :members:
+   :inherited-members:
+```
+
 ### `Box` Class
 
 ```{eval-rst}
@@ -180,10 +188,35 @@
    :inherited-members:
 ```
 
+### `Warning` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.abc.Warning
+   :members:
+```
+
 ### `Wedge` Class
 
 ```{eval-rst}
 .. autoclass:: pymcnp.abc.Wedge
+   :members:
+   :inherited-members:
+```
+
+## File Mixins
+
+### `WithDataIter` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.abc.file.WithDataIter
+   :members:
+   :inherited-members:
+```
+
+### `WithMcnpIter` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.abc.file.WithMcnpIter
    :members:
    :inherited-members:
 ```

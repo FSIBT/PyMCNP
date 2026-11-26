@@ -15,7 +15,7 @@
 ## AST Classes
 
 PyMCNP represents PTRAC nonterminals with AST classes and stores them in nested subpackages.
-These AST class have methods for translating between PyMCNP and PTRAC:
+These AST classes have methods for translating between PyMCNP and PTRAC:
 
 * `from_mcnp`. Parses PTRAC source, checking for syntax and semantic errors.
 * `to_mcnp`. Generates PTRAC source from PyMCNP objects, reformatting.
@@ -48,3 +48,62 @@ For large files use the streaming functions of `pymcnp.Ptrac` (`stream`, `tracks
 ```
 
 [line subpackage](ptrac/line)
+
+## Streaming Classes
+
+The streaming functions of `pymcnp.Ptrac` yield these classes instead of the AST classes, so large files are read with
+flat memory use.
+
+### `Event` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.ptrac.Event
+   :members:
+```
+
+### `Track` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.ptrac.Track
+   :members:
+```
+
+### `tracks` Function
+
+```{eval-rst}
+.. autofunction:: pymcnp.ptrac.tracks
+```
+
+### `EventType` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.ptrac.EventType
+   :members:
+```
+
+### `Particle` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.ptrac.Particle
+   :members:
+```
+
+### `Surface` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.ptrac.Surface
+   :members:
+```
+
+### `to_dataframe` Function
+
+```{eval-rst}
+.. autofunction:: pymcnp.ptrac.to_dataframe
+```
+
+### `ParquetWriter` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.ptrac.ParquetWriter
+   :members:
+```

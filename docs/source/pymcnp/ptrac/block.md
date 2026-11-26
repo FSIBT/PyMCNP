@@ -225,3 +225,12 @@
    :members:
    :inherited-members:
 ```
+
+### `HistoryTruncated` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.ptrac.block.HistoryTruncated
+   :members:
+   :inherited-members:
+```
+

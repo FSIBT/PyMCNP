@@ -17,21 +17,19 @@
 .. warning::
    The following cards are not currently supported:
 
-	* `card.data.Cmesh`
-	* `card.data.Rmesh`
-	* `card.data.Smesh`
-	* `card.data.Cora`
-	* `card.data.Corb`
-	* `card.data.Corc`
-	* `card.data.Ergsh`
-	* `card.data.Mshmf`
-	* `card.data.Rmesh`
-	* `card.data.Sd`
-	* `card.data.Smesh`
-	* `card.data.Spabi`
-	* `card.data.Spdtl`
-	* `card.data.Ssw`
-	* `card.data.Tmesh`
+   * `card.data.Cmesh`
+   * `card.data.Cora`
+   * `card.data.Corb`
+   * `card.data.Corc`
+   * `card.data.Ergsh`
+   * `card.data.Mshmf`
+   * `card.data.Rmesh`
+   * `card.data.Sd`
+   * `card.data.Smesh`
+   * `card.data.Spabi`
+   * `card.data.Spdtl`
+   * `card.data.Ssw`
+   * `card.data.Tmesh`
 
    The following options are not currently supported:
 
@@ -39,7 +37,9 @@
    * `option.data.burn.Matmod`
    * `option.data.burn.Swapb`
    * `option.data.ptrac.Filter`
-   * `option.data.ft.`
+   * `option.data.ft.Phl`
+   * `option.data.ft.Ptt`
+   * `option.data.ft.Res`
 ```
 
 `pymcnp.inp` contains PyMCNP's input file parser.
@@ -48,18 +48,18 @@
 
 ```{eval-rst}
 .. toctree::
-	:maxdepth: 1
+   :maxdepth: 1
 
-	inp/card
-	inp/group
-	inp/literal
-	inp/option
+   inp/card
+   inp/group
+   inp/literal
+   inp/option
 ```
 
 ## AST Classes
 
 PyMCNP represents INP nonterminals with AST classes and stores them in nested subpackages.
-These AST class have methods for translating between PyMCNP and INP:
+These AST classes have methods for translating between PyMCNP and INP:
 
 * `from_mcnp`. Parses INP source, checking for syntax and semantic errors.
 * `to_mcnp`. Generates INP source from PyMCNP objects, reformatting.
@@ -74,6 +74,14 @@ These AST class have methods for translating between PyMCNP and INP:
 
 [card subpackage](inp/card)
 
+### `CardSpace` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.CardSpace
+   :members:
+   :inherited-members:
+```
+
 ### `Group` Class
 
 ```{eval-rst}
@@ -83,6 +91,14 @@ These AST class have methods for translating between PyMCNP and INP:
 ```
 
 [group subpackage](inp/group)
+
+### `GroupSpace` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.GroupSpace
+   :members:
+   :inherited-members:
+```
 
 ### `Literal` Class
 
@@ -103,3 +119,12 @@ These AST class have methods for translating between PyMCNP and INP:
 ```
 
 [option subpackage](inp/option)
+
+### `OptionSpace` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.OptionSpace
+   :members:
+   :inherited-members:
+```
+

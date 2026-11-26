@@ -16,7 +16,7 @@
 ## AST Classes
 
 PyMCNP represents OUTP nonterminals with AST classes and stores them in nested subpackages.
-These AST class have methods for translating between PyMCNP and OUTP:
+These AST classes have methods for translating between PyMCNP and OUTP:
 
 * `from_mcnp`. Parses OUTP source, checking for syntax and semantic errors.
 * `to_mcnp`. Generates OUTP source from PyMCNP objects, reformatting.
@@ -66,3 +66,21 @@ These AST class have methods for translating between PyMCNP and OUTP:
 ```
 
 [subblock subpackage](outp/subblock)
+
+## Summary Classes
+
+`Outp.summary` returns a `Summary`, with one `TallyCheck` per tally in `Summary.checks`.
+
+### `Summary` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.outp.Summary
+   :members:
+```
+
+### `TallyCheck` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.outp.TallyCheck
+   :members:
+```

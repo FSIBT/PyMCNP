@@ -16,7 +16,7 @@
 ## AST Classes
 
 PyMCNP represents MESHTAL nonterminals with AST classes and stores them in nested subpackages.
-These AST class have methods for translating between PyMCNP and MESHTAL:
+These AST classes have methods for translating between PyMCNP and MESHTAL:
 
 * `from_mcnp`. Parses MESHTAL source, checking for syntax and semantic errors.
 * `to_mcnp`. Generates MESHTAL source from PyMCNP objects, reformatting.
