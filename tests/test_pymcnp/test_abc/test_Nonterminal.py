@@ -1,6 +1,7 @@
 import re
 import typing
 
+import numpy
 import pytest
 
 import pymcnp
@@ -34,6 +35,25 @@ class Test_Nonterminal:
         assert vol.to_mcnp() == 'VOL no 3.1 3.1'
         vol.no = ''  # type:ignore
         assert vol.to_mcnp() == 'VOL 3.1 3.1'
+
+    def test_setter_numpy_scalars(self) -> None:
+        # NumPy scalars, e.g., from ``numpy.arange`` in a scan, are numbers like ``int`` and ``float``.
+        nps, _ = pymcnp.inp.card.data.Nps.from_mcnp('NPS 10')
+        nps.npp = numpy.int64(20)  # type:ignore
+        e, _ = pymcnp.inp.card.data.E.from_mcnp('E0 1 2')
+        e.e[1] = numpy.float64(2.5)
+        e.e += list(numpy.arange(3, 5))
+        assert nps.to_mcnp() == 'NPS 20'
+        assert e.to_mcnp() == 'E0 1 2.5 3 4'
+
+    @pytest.mark.parametrize('value', [None, object(), {'a': 1}])
+    def test_setter_invalid_value_raises_error(self, value) -> None:
+        nps, _ = pymcnp.inp.card.data.Nps.from_mcnp('NPS 10')
+        with pytest.raises(pymcnp.abc.Error, match='Invalid value'):
+            nps.npp = value  # type:ignore
+        e, _ = pymcnp.inp.card.data.E.from_mcnp('E0 1 2')
+        with pytest.raises(pymcnp.abc.Error, match='Invalid value'):
+            e.e[0] = value
 
     def test___class_getitem___valid(self) -> None:
         assert pymcnp.inp.card.Cell[0] == pymcnp.inp.card.Cell_0

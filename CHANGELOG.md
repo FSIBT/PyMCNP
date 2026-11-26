@@ -65,6 +65,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The shorthands `nR`, `nI`, `nJ` and `nLOG` were expanded in the title, comment cards, `$` comments and the text after the data block too, e.g., `c phys:n 50000 5j 4 100` became `c phys:n 50000 j j j j j 4 100`; that text is now kept as written.
 - Input files with library keywords between substances, unindented continuation lines after `&`, thermal scattering names such as `h-zr.20t`, trailing spaces or comments at the ends of cards, or no final newline failed to parse.
 - `Array.append` added a space before the first item, and deep copies lost or duplicated array spaces.
+- Setting a field or array item to `None` or another unsupported value raised `AssertionError` instead of `abc.Error`, and NumPy integers, e.g., from `numpy.arange` in a scan, were rejected; NumPy scalars are now numbers like `int` and `float`.
 - Slice assignments that change the length, `insert`, `extend`, `+=`, `del`, `pop`, `remove` and `clear` on arrays left the spaces between items out of step, so `to_mcnp` ran items together, e.g., `E0 1 2 37` after `extend([7])`.
 - Tests no longer write files into the repository.
 

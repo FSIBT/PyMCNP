@@ -2,6 +2,7 @@ import copy
 import typing
 import collections.abc
 import decimal
+import numbers
 import itertools
 import collections
 import dataclasses
@@ -83,8 +84,8 @@ def _parse_value(kinds: tuple[type[Symbol], ...], value: typing.Any) -> Symbol:
         match, _ = _parse(kinds, value)
         return match
 
-    # Compiling ``int``s, ``float``d, ``decimal.Decimal``s into symbols.
-    if isinstance(value, (int, float, decimal.Decimal)):
+    # Compiling numbers, e.g., ``int``, ``float``, ``decimal.Decimal`` or NumPy scalars, into symbols.
+    if isinstance(value, (numbers.Real, decimal.Decimal)):
         match, _ = _parse(kinds, str(value))
         return match
 
@@ -106,7 +107,7 @@ def _parse_value(kinds: tuple[type[Symbol], ...], value: typing.Any) -> Symbol:
 
         raise error or Error(f'Expected {"`` ``".join(kind.__name__ for kind in kinds)}``', f'{value=}')
 
-    assert False
+    raise Error('Invalid value.', f'{value=}')
 
 
 def _field(name: str, kinds: tuple[type[Symbol], ...]) -> property:
