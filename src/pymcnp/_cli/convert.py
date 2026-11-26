@@ -21,7 +21,7 @@ from docopt import docopt
 
 from . import _io
 from .. import abc
-from ..abc.file.WithDataIter import write_parquet
+from ..abc.file.WithDataIter import _write_parquet
 from ..Outp import Outp
 from ..Ptrac import Ptrac
 from ..Meshtal import Meshtal
@@ -60,6 +60,6 @@ def main() -> None:
     if args['--csv']:
         frame.to_csv(_io.get_outfile(file, 'csv'), index=False)
     else:
-        write_parquet(frame, _io.get_outfile(file, 'parquet'))
+        _write_parquet(frame, _io.get_outfile(file, 'parquet'))
 
     _io.done()

@@ -28,10 +28,10 @@ class WithDataIter(symbol.WithDataIter):
             path: Path of parquet file to write.
         """
 
-        write_parquet(self.to_dataframe(), path)
+        _write_parquet(self.to_dataframe(), path)
 
 
-def write_parquet(frame: pandas.DataFrame, path: pathlib.Path | str) -> None:
+def _write_parquet(frame: pandas.DataFrame, path: pathlib.Path | str) -> None:
     """
     Writes a dataframe to a parquet file, storing mixed object columns as strings.
 
