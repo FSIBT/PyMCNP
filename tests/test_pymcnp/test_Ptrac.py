@@ -1,3 +1,4 @@
+import dataclasses
 import pathlib
 import re
 import types
@@ -8,6 +9,7 @@ import pytest
 
 import pymcnp
 from pymcnp.Ptrac import _history_events as pymcnp_history_events
+from pymcnp.ptrac.Event import _layout as pymcnp_layout
 from .. import classes
 
 
@@ -582,6 +584,27 @@ def test_stream_reads_values_by_header_variable_ids(head, tmp_path: pathlib.Path
     # Without the header, e.g., for a history block on its own, the event block's fields are used.
     event = next(pymcnp_history_events(ptrac.histories[0]))
     assert (event.particle, event.cell, event.material) == (pymcnp.ptrac.Particle.PHOTON, 200, 2)
+
+
+def test_event_layout_is_private(head, tmp_path: pathlib.Path) -> None:
+    # The header layout is an implementation detail: it is an init-only `_layout` argument, not a field, attribute or repr entry.
+    names = [field.name for field in dataclasses.fields(pymcnp.ptrac.Event)]
+    assert [name for name in names if not name.startswith('_')] == ['nps', 'type', 'creation_code', 'block']
+    assert 'layout' not in names and '_layout' not in names
+    path = _with_header(head('valid_35.ptrac', 1), tmp_path, '   9  16  17  18', '   9  17  18  19')
+    event = next(pymcnp.Ptrac.stream(path))
+    assert not hasattr(event, 'layout') and '_layout' not in pymcnp.ptrac.Event.__slots__
+    assert 'layout' not in repr(event)
+    # The block alone gives the block's fields; `_layout` (here from the header) overrides them.
+    ptrac, _ = pymcnp.Ptrac.from_file(path)
+    layout = pymcnp_layout(ptrac.header)
+    plain = pymcnp.ptrac.Event(event.nps, event.type, event.creation_code, event.block)
+    assert (plain.particle, plain.cell, plain.material) == (pymcnp.ptrac.Particle.PHOTON, 200, 2)
+    with_layout = pymcnp.ptrac.Event(event.nps, event.type, event.creation_code, event.block, _layout=layout)
+    assert (with_layout.particle, with_layout.cell, with_layout.material) == (None, 2, 200)
+    assert with_layout == plain
+    with pytest.raises(TypeError):
+        pymcnp.ptrac.Event(event.nps, event.type, event.creation_code, event.block, layout=layout)
 
 
 @pytest.mark.parametrize(

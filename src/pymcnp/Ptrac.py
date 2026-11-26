@@ -378,5 +378,5 @@ def _history_events(history: ptrac.block.History | ptrac.block.HistoryTruncated,
     code = abs(int(history.event_type))
     for event in history.events:
         kind = ptrac.EventType.from_code(code)
-        yield ptrac.Event(nps, kind, code if kind is ptrac.EventType.BANK else None, event, layout)
+        yield ptrac.Event(nps, kind, code if kind is ptrac.EventType.BANK else None, event, _layout=layout)
         code = abs(int(event.type))

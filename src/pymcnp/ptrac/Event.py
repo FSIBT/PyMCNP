@@ -71,7 +71,8 @@ class Event:
 
     A PTRAC event block's `type` is the type of the next event, so the event blocks of `pymcnp.ptrac.block` cannot know their own type.
     This class pairs each event block with its type and reads the values by their meaning.
-    The J-line values are found by the variable IDs of the file's header (`layout`); without it, by the event block's field names.
+    The J-line values are found by the variable IDs of the file's header, which `Ptrac.stream` and the other PTRAC readers pass as the
+    init-only argument `_layout` (an implementation detail, not stored); without it, by the event block's field names.
     Values that PTRAC does not write for this event (e.g., the particle with some forms, or direction and energy without `WRITE=ALL`) are `None`.
 
     Attributes:
@@ -79,22 +80,22 @@ class Event:
         type: Event type.
         creation_code: Bank event code (`2xxx`) naming how the banked particle was made, `None` for other events.
         block: Event block as parsed.
-        layout: Positions of the J-line values per event type, from the header's variable IDs; `None` (or a layout
-            whose number of values differs from the event's) to use the event block's field names.
     """
 
     nps: int
     type: EventType
     creation_code: int | None
     block: block.Event
-    layout: Layout | None = dataclasses.field(default=None, repr=False, compare=False)
+    _layout: dataclasses.InitVar[Layout | None] = None
     _j: list[str] = dataclasses.field(init=False, repr=False, compare=False)
     _p: list[str] = dataclasses.field(init=False, repr=False, compare=False)
     _roles: dict[str, int] = dataclasses.field(init=False, repr=False, compare=False)
 
-    def __post_init__(self) -> None:
+    def __post_init__(self, _layout: Layout | None) -> None:
+        # `_layout`: positions of the J-line values per event type, from the header's variable IDs; `None` (or a layout
+        # whose number of values differs from the event's) to use the event block's field names.
         self._j, self._p, self._roles = _values(self.block)
-        count, roles = (self.layout or {}).get(self.type, (None, {}))
+        count, roles = (_layout or {}).get(self.type, (None, {}))
         if count == len(self._j):
             self._roles = roles
 
