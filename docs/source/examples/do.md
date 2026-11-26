@@ -95,6 +95,8 @@ Output:
     Run 1: exit code 0, input `run-00001.inp`, output `None`
     Run 2: exit code 0, input `run-00002.inp`, output `None`
 
+On Windows the stand-in is `where`, which prints that it found no file and exits with 1, so each run reads `exit code 1`.
+
 With a real MCNP (`command='mcnp6'`) every run writes its output files into its own directory `examples/output/pymcnp-<timestamp>/run-0000N/`, `ok` is true for runs that finished without fatal errors, and `Run.run` raises if one failed (the default `check=True`).
 
 ## Visualizing INP Files

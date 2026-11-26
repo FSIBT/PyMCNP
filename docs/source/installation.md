@@ -29,6 +29,8 @@ We recommend [uv](https://docs.astral.sh/uv/) for installing PyMCNP. Optionally,
 On Windows, activate the environment with `.venv\Scripts\activate` instead.
 
 PyMCNP reads and writes files as UTF-8 text on every OS, and reads files with Windows (CRLF) or Unix (LF) line ends.
+It writes the line ends of the OS, so an input written on Windows has CRLF line ends; convert it, e.g., with
+`dos2unix`, if an MCNP on Linux rejects it.
 A file that is not UTF-8, e.g., one a Windows editor saved as cp1252, is read as Latin-1, with a warning naming its
 first line that is not UTF-8.
 

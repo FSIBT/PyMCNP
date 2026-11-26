@@ -24,11 +24,11 @@ OUTPUT.mkdir(exist_ok=True)
 
 class MyRun(pymcnp.Run):
     def posthook_file(self, result: pymcnp.Result) -> None:
-        # Copying OUTP (ECHO used for demo).
+        # Copying an OUTP, since the stand-in for MCNP writes none.
         path_copy = HERE / 'example_01.outp'
         path_outp = result.inp.with_suffix('.outp')
 
-        with path_outp.open('w') as file_outp, path_copy.open('r') as file_copy:
+        with path_outp.open('w', encoding='utf-8') as file_outp, path_copy.open('r', encoding='utf-8') as file_copy:
             file_outp.write(file_copy.read())
 
         # Reading OUTP.
@@ -57,6 +57,6 @@ for inp in inps:
 
 # Running.
 print(f'Running parameter scan `{COMMAND}` in `{OUTPUT}`:')
-# `check=False`, since ECHO writes no OUTP, so MCNP would count the runs as failed.
+# `check=False`, since the stand-in writes no OUTP, so MCNP would count the runs as failed.
 runner = MyRun(inps, command=COMMAND, check=False)
 runner.run(OUTPUT)

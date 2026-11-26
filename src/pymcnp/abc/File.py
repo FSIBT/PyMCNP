@@ -38,6 +38,8 @@ class File(Nonterminal):
     def to_file(self, path: pathlib.Path | str) -> None:
         """
         Decompiles nonterminal symbols into their corresponding file at ``path``.
+
+        The file is UTF-8 text with the line ends of the OS, i.e., CRLF on Windows, as Python writes text files.
         """
 
         path = pathlib.Path(path)

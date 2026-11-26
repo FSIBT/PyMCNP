@@ -59,6 +59,13 @@ class Test_Run:
         with pytest.raises(pymcnp.abc.Error):
             pymcnp.Run((inp, inp), 'echo', names='same')
 
+    @pytest.mark.parametrize('name', ['a&calc', 'a|b', 'a>b', 'a<b', 'a^b', '%PATH%', 'a!b', 'a"b', 'a\nb'])
+    def test_names_with_cmd_metacharacters_raise(self, inp: pymcnp.Inp, name: str) -> None:
+        # On Windows, cmd.exe runs an MCNP command such as mcnp6.bat, and would read these in ``inp=<name>.inp``,
+        # e.g., run ``calc`` for ``a&calc``; a name is refused on every OS, so code behaves the same everywhere.
+        with pytest.raises(pymcnp.abc.Error, match='Invalid value'):
+            pymcnp.Run((inp,), 'echo', names=[name])
+
     def test_missing_command_is_named(self, inp: pymcnp.Inp) -> None:
         with pytest.raises(pymcnp.abc.Error, match='MCNP command not found: nosuchmcnp6') as error:
             pymcnp.Run((inp,), 'nosuchmcnp6')
@@ -115,6 +122,15 @@ class Test_Run:
         # A command given relative to the working directory, e.g., ``./mcnp6``, although each run starts in its own directory.
         monkeypatch.chdir(tmp_path)
         (result,) = pymcnp.Run(_inps(inp, 1), command=str(pathlib.Path('bin') / 'fake-mcnp')).run('out')
+        assert result.ok
+
+    @pytest.mark.skipif(os.name == 'nt', reason='symbolic links need privileges on Windows')
+    def test_command_through_a_symbolic_link(self, inp: pymcnp.Inp, fake: str, tmp_path: pathlib.Path, monkeypatch: pytest.MonkeyPatch) -> None:
+        # ``link/..`` is the directory above the link's target, as the OS reads it, not the directory of the link.
+        monkeypatch.chdir(tmp_path)
+        (tmp_path / 'bin' / 'sub').mkdir()
+        (tmp_path / 'link').symlink_to(tmp_path / 'bin' / 'sub')
+        (result,) = pymcnp.Run(_inps(inp, 1), command='link/../fake-mcnp').run('out')
         assert result.ok
 
     def test_command_on_path(self, inp: pymcnp.Inp, fake: str, tmp_path: pathlib.Path, monkeypatch: pytest.MonkeyPatch) -> None:

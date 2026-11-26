@@ -2,6 +2,7 @@ import os
 import shutil
 import pathlib
 import datetime
+import re
 import subprocess
 import dataclasses
 import collections.abc
@@ -60,7 +61,7 @@ class Run(abc.Utility):
         files: Input files to run.
         command: Command to run: a program on the ``PATH`` (on Windows also with an extension from ``PATHEXT``, e.g., ``mcnp6.bat``), or a path, relative to the working directory.
         max_workers: Maximum number of simultaneous runs, defaults to the number of CPUs.
-        names: Names of the runs: a sequence with one name per file, or a template with ``{index}``, e.g., ``'case-{index}'``. Defaults to ``run-{index:05}``.
+        names: Names of the runs: a sequence with one name per file, or a template with ``{index}``, e.g., ``'case-{index}'``. Defaults to ``run-{index:05}``. A name is a file name that does not start with ``.`` and holds none of ``& | < > ^ % ! "``, which cmd.exe would read on Windows.
         check: Whether ``run`` raises if a run failed.
         batch: Whether ``run`` puts the runs in a new ``pymcnp-<timestamp>`` directory inside the given path. If not, the run directories ``<path>/<name>`` are created directly in the given path, which must not contain them yet.
         directory: Directory holding the run directories, set by ``run``.
@@ -89,7 +90,11 @@ class Run(abc.Utility):
             raise abc.Error('Invalid value.', f'{self.max_workers=}')
 
         names = self._names()
-        if len(names) != len(self.files) or len(set(names)) != len(names) or any(not name or name != pathlib.Path(name).name or name.startswith('.') for name in names):
+        # A name goes into MCNP's arguments, e.g., ``inp=<name>.inp``. ``subprocess`` uses no shell, but on Windows
+        # cmd.exe runs a ``.bat`` or ``.cmd`` MCNP command and would read its metacharacters, e.g., run ``calc`` for
+        # ``a&calc``; they are refused on every OS, so a script behaves the same everywhere.
+        unsafe = re.compile(r'[&|<>^%!"\x00-\x1f]')
+        if len(names) != len(self.files) or len(set(names)) != len(names) or any(not name or name != pathlib.Path(name).name or name.startswith('.') or unsafe.search(name) for name in names):
             raise abc.Error('Invalid value.', f'{self.names=}')
 
     def _executable(self) -> str:
@@ -109,7 +114,8 @@ class Run(abc.Utility):
         found = found or next(filter(None, (shutil.which(self.command + extension) for extension in extensions)), None)
         if not found:
             raise abc.Error(f'MCNP command not found: {self.command}', f'{self.command!r} is not an executable file or on the PATH.')
-        return os.path.abspath(found)
+        # Joined, not ``os.path.abspath``, which would resolve ``..`` without following symbolic links.
+        return os.path.join(os.getcwd(), found)
 
     def _names(self) -> list[str]:
         if self.names is None:

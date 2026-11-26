@@ -3,6 +3,10 @@ Checks that parsing time grows linearly with the size of the input.
 
 Each test times a parse of ``n`` and of ``2n`` repeats of a unit and requires a ratio below 2.6 (2 for
 linear, 4 for quadratic).
+
+The parse is timed with the cyclic garbage collector off (see ``_best``), so the tests measure the parser's
+complexity, not the wall time users see: with the collector on, parsing MESHTAL grows faster than the file (e.g., a
+ratio of 3.1 on Python 3.14 on macOS), since each collection walks the objects of the parse so far.
 """
 
 import gc
