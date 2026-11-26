@@ -185,3 +185,13 @@ def test_wrap_keeps_indent_of_continuation():
     again, remainder = pymcnp.Inp.from_mcnp(written)
     assert remainder == ''
     assert _canonical(again) == _canonical(inp)
+
+
+@pytest.mark.parametrize('spaces, indent', [(1, 1), (4, 4), (5, 5), (17, 5), (76, 5)])
+def test_wrap_indent(spaces, indent):
+    # A wrapped line keeps an indent of 1-4 spaces, which marks a continuation line in columns 2-5, and starts one
+    # indented by 5 or more at column 6, so a deeply indented line can still be shortened.
+    lines = _wrap(' ' * spaces + ' '.join(['1.2345'] * 14)).split('\n')
+
+    assert len(lines[0]) - len(lines[0].lstrip(' ')) == indent
+    assert all(len(line) <= 80 for line in lines)

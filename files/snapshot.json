@@ -403,7 +403,7 @@
   "remainder_len": 182
  },
  "inp/valid_40.inp": {
-  "mcnp": "5ebe9e5d85032a337f5655e85f5bd9358fa276f6f48175f2a6d1692e9f26fad8",
+  "mcnp": "18deab93d060a9ac85115733cdb153f496a8d2fe04e9f0b01f8077b29f17234f",
   "ok": true,
   "problems": [],
   "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
