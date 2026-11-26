@@ -30,7 +30,9 @@ class Plot(abc.Utility):
         not in the file. It is 0 if the first bin is not negative, e.g., an
         energy or time (which may itself be 0), else one bin width below the
         first bin, e.g., -1 for cosine bins -0.5, 0, 1 (MCNP's lower bound
-        for cosines is -1).
+        for cosines is -1). Cosine bins whose first upper edge is 0 or more,
+        e.g., ``C 0 1`` (-1 to 0 and 0 to 1), are drawn from 0, so their first
+        bin has no width.
 
         Parameters:
             bins: Upper bin edges, increasing.
@@ -50,7 +52,7 @@ class Plot(abc.Utility):
 
     def to_show(self, outp: Outp, number: int | str) -> tuple[matplotlib.figure.Figure, ...]:
         """
-        Plots tally ``number` of output file `outp``.
+        Plots tally ``number`` of output file ``outp``.
 
         Parameter:
             number: Tally number to plot.
