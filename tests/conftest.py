@@ -4,9 +4,17 @@ import pathlib
 
 import pytest
 import pyvista
+import matplotlib.pyplot
 
 import pymcnp
 
+
+@pytest.fixture(autouse=True)
+def suppress_matplotlib(monkeypatch) -> None:
+    matplotlib.use("Agg")
+    monkeypatch.setattr(matplotlib.pyplot, 'show', lambda *args, **kwargs: None)
+    yield
+    matplotlib.pyplot.close("all")
 
 @pytest.fixture(scope='session')
 def pyvista_visualizations() -> tuple[pymcnp._show.pyvista.Visualization, ...]:
