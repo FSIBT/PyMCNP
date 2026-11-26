@@ -253,7 +253,7 @@ class Inp(abc.File):
             if isinstance(card, inp.card.data.Vol) and card.no == '' and len(card.x) != cell_count:
                 raise abc.Error('Invalid value.', f'{card=}')
 
-            if isinstance(card, inp.card.data.Area) and len(card.x) != cell_count:
+            if isinstance(card, inp.card.data.Area) and len(card.x) != len(surface_numbers):
                 raise abc.Error('Invalid value.', f'{card=}')
 
     @classmethod

@@ -37,6 +37,8 @@ class Test_Inp(classes.Test_FromFile):
         'Hello\n1 0 -1\n\n1 SO 1\n\nnps 10\nnps 10',
         # Testing continuation.
         'Hello\n1 0 -1\n\n1 SO 1\n\nm1 92235.80c 5 &\n92238.80c 95\nnps 10\n',
+        # Testing AREA, which has one entry per surface.
+        'Area Test\n1 0 -1\n2 0 1 -2\n3 0 2\n\n1 SO 1\n2 SO 2\n\nAREA 10 20\n',
     ]
     EXAMPLES_FROM_MCNP_INVALID = [
         'Hello\n1 0 -1\n\n1 SO 1\n1 SO 2\n\nnps 10\n',
@@ -44,6 +46,7 @@ class Test_Inp(classes.Test_FromFile):
         'Vol Test\n1 0 2\n1 0 3\n\n2 SO 1\n\nVOL 3.1 3.1\n',
         'Vol Test\n1 0 2\n2 like 3 but imp:n=2\n\n2 SO 1\n\nVOL 3.1 3.1\n',
         'Area Test\n1 0 2\n\n2 SO 1\n\nAREA 3.1 3.1\n',
+        'Area Test\n1 0 -1\n2 0 1 -2\n3 0 2\n\n1 SO 1\n2 SO 2\n\nAREA 10 20 30\n',
         'hello',
     ]
 
