@@ -20,7 +20,9 @@ Every command exits with one of these codes:
 | 2 | Usage error, e.g., an unknown option or command, or a cell, surface or tally that is not in the file; or a file that does not exist, is a directory, or is not a text file, e.g., a binary PTRAC file. Text that is not UTF-8 is read as Latin-1, with a warning. |
 | 3 | PyMCNP cannot parse all of a file, e.g., a card, an input with two cells of one number, a file of another kind, or an OUTP tally in a layout PyMCNP cannot parse yet. The command warns with the line where parsing stopped and works with the part before it, if it can. |
 
-A file gets the same code from every command that reads it. A card of an input file that PyMCNP cannot parse is named
+A file gets the same code from every command that reads it. An OUTP tally in a layout PyMCNP cannot parse yet is only
+a warning: `convert`, and `plot` of a parsed tally, exit 0, but `plot` of that tally exits 3, as does `convert` if no
+tally is left to convert. A card of an input file that PyMCNP cannot parse is named
 with its line number, as `pymcnp check` does. A data card leaves the cards before it; a cell or surface card, or an
 input that parses but is not valid, e.g., two cells with one number, leaves nothing to work with.
 

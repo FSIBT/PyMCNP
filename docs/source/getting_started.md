@@ -37,7 +37,9 @@ file, a cell or surface card PyMCNP does not understand raises `pymcnp.abc.Error
 its line. MCNP has many
 options and PyMCNP does not cover all of them yet; when it stops on a valid file, please
 [report it](https://github.com/FSIBT/PyMCNP/issues). For OUTP files, a tally in a layout PyMCNP cannot parse yet leaves
-no remainder; instead PyMCNP issues a warning (`pymcnp.abc.Warning`, "Tally not parsed.") that names the tally.
+no remainder; instead PyMCNP issues a warning (`pymcnp.abc.Warning`, "Tally not parsed.") that names the tally. So
+`pymcnp convert`, and `pymcnp plot` of a parsed tally, exit 0 with that warning, while `pymcnp plot` of the tally
+that did not parse exits 3.
 
 ## 1. Install PyMCNP
 

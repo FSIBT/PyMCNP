@@ -25,7 +25,9 @@ Exit codes (of every command):
     1    The input or output has problems, or the command failed.
     2    Usage error, or a file does not exist or cannot be read.
     3    PyMCNP cannot parse all of a file.
-A file gets the same code from every command that reads it.
+A file gets the same code from every command that reads it; an OUTP tally
+PyMCNP cannot parse yet is only a warning (exit 0 from convert, and from plot
+of a parsed tally), but plot of that tally exits 3.
 
 PyMCNP helps create, run, analyze MCNP simulation input and output.
 """
