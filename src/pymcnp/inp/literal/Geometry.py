@@ -81,7 +81,7 @@ class _Union(_Subexpression):
 
 
 class _IntersectionPrime_0(_IntersectionPrime):
-    operator: typing.Annotated[abc.Terminal, r' *(?:\$.+)?\n {1,5} *| +&\n +| +'] = abc.Terminal[r' *(?:\$.+)?\n {1,5} *| +&\n +| +'](' ')
+    operator: typing.Annotated[abc.Terminal, r' *(?:\$.+)?\n {1,5} *| +&(?: *\$.*)?\n +| +'] = abc.Terminal[r' *(?:\$.+)?\n {1,5} *| +&(?: *\$.*)?\n +| +'](' ')
     ast: _Intersection
 
 

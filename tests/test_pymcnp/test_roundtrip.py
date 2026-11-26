@@ -156,7 +156,7 @@ def test_wrap_leaves_comment_cards(comment):
 
 
 @pytest.mark.filterwarnings('ignore:Line exceeds 80 characters:pymcnp.abc.Warning')
-@pytest.mark.parametrize('dollar', [''])
+@pytest.mark.parametrize('dollar', ['', ' $ the bins', '$ the bins'])
 def test_wrap_keeps_continuation(dollar):
     # A long line that ends in `&` keeps it, so the line after it is still a continuation.
     source = BASE + 'si1 ' + ' '.join(str(i) for i in range(1, 30)) + f' &{dollar}\n30 31\nsp1 0 ' + ' '.join(['1'] * 31) + '\nnps 100\n'

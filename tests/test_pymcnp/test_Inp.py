@@ -349,3 +349,25 @@ class Test_VerticalFormat:
         inp, remainder = pymcnp.Inp.from_mcnp(source)
         assert remainder == ''
         assert inp.to_mcnp() == source
+
+
+def _words(card) -> str:
+    """Card text without `$` comments and `&`, with single spaces."""
+
+    return ' '.join(' '.join(line.partition('$')[0].replace('&', ' ') for line in card.to_mcnp().split('\n')).split())
+
+
+@pytest.mark.parametrize(
+    'cell, data, cards',
+    [
+        ('1 1 -2.7 -1 & $ geometry\n     imp:n=1', 'm1 1001 2 & $ hydrogen\n8016 1', ['m1 1001 2 8016 1']),
+        ('1 1 -2.7 -1 &$ geometry\nimp:n=1', 'si1 1 2 &  $\n     3 4\nsp1 0 1 1 1', ['si1 1 2 3 4', 'sp1 0 1 1 1']),
+    ],
+)
+def test_continuation_after_dollar_comment(cell, data, cards) -> None:
+    # `&` may be followed by a `$` comment; the next line still continues the card.
+    inp, remainder = pymcnp.Inp.from_mcnp(f'title\n{cell}\n2 0 1 imp:n=0\n\n1 so 1\n\n{data}\nnps 10\n')
+    assert remainder == ''
+    assert [_words(card) for card in inp.cell_cards()] == ['1 1 -2.7 -1 imp:n=1', '2 0 1 imp:n=0']
+    assert [_words(card) for card in inp.data_cards()] == [*cards, 'nps 10']
+    assert pymcnp.Inp.from_mcnp(inp.to_mcnp()) == (inp, '')

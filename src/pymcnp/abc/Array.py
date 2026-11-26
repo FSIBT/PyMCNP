@@ -70,7 +70,7 @@ class ArraySpace(Terminal):
     Represents spaces for array items.
     """
 
-    _pattern = re.compile(r'( *(?:\$.+)?\n {1,5} *| +&\n *| *\n +| +)', re.IGNORECASE)
+    _pattern = re.compile(r'( *(?:\$.+)?\n {1,5} *| +&(?: *\$.*)?\n *| *\n +| +)', re.IGNORECASE)
     _default = ' '
 
 
