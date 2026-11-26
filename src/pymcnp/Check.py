@@ -1,6 +1,8 @@
 import re
 import pathlib
 import difflib
+import warnings
+import contextlib
 import dataclasses
 
 from . import abc
@@ -10,6 +12,17 @@ from .Inp import _REGEX_COMMENT
 from .Inp import _expand
 
 _WIDTH = 80
+
+
+@contextlib.contextmanager
+def _quiet():
+    """
+    Ignores the parser's warnings about lines wider than 80 columns, which ``Check`` reports itself, with line numbers.
+    """
+
+    with warnings.catch_warnings():
+        warnings.filterwarnings('ignore', 'Line exceeds 80', abc.Warning)
+        yield
 
 
 @dataclasses.dataclass(frozen=True)
@@ -59,7 +72,8 @@ class Check(abc.Utility):
         assert isinstance(self.path, pathlib.Path)
 
         current = self.path.read_text()
-        correct = Inp.from_mcnp(current)[0].to_mcnp()
+        with _quiet():
+            correct = Inp.from_mcnp(current)[0].to_mcnp()
 
         return difflib.unified_diff(current.split('\n'), correct.split('\n'))
 
@@ -87,7 +101,8 @@ class Check(abc.Utility):
         found = [Problem(number, 'error', f'Line exceeds {_WIDTH} characters maximum length ({len(line)} columns).') for number, line in enumerate(lines, 1) if len(line) > _WIDTH]
 
         try:
-            remainder = Inp.from_mcnp(text)[1]
+            with _quiet():
+                remainder = Inp.from_mcnp(text)[1]
         except abc.Error as err:
             found.append(self._unparseable(lines, err))
         else:
@@ -160,7 +175,8 @@ class Check(abc.Utility):
 
         assert isinstance(self.path, pathlib.Path)
 
-        file = Inp.from_file(self.path)[0]
+        with _quiet():
+            file = Inp.from_file(self.path)[0]
         file.to_file(self.path)
 
         return self.problems()

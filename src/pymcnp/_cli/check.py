@@ -45,11 +45,14 @@ def main() -> None:
         _io.error(str(err))
         sys.exit(2)
 
+    unparseable = any(problem.kind == 'warning' for problem in problems)
+
+    # With ``--fix``, the wide lines are reported after fixing, if ``--fix`` cannot shorten them.
     for problem in problems:
+        if problem.kind == 'error' and args['--fix'] and not unparseable:
+            continue
         report = _io.error if problem.kind == 'error' else _io.warning
         report(f'Line {problem.line}: {problem.message}')
-
-    unparseable = any(problem.kind == 'warning' for problem in problems)
 
     if args['--diff'] and not unparseable:
         diff = [line.rstrip('\n') for line in check.check()]

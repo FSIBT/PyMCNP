@@ -1,4 +1,5 @@
 import sys
+import warnings
 import shutil
 import pathlib
 
@@ -76,16 +77,21 @@ class Test_Check_Report:
         ],
         ids=['comment', 'dollar'],
     )
-    @pytest.mark.filterwarnings('ignore:Line exceeds 80 characters:pymcnp.abc.Warning')
-    def test_fix_reports_lines_it_cannot_shorten(self, monkeypatch, capsys, tmp_path, line, number) -> None:
+    @pytest.mark.parametrize('fix', [[], ['--fix']])
+    def test_fix_reports_lines_it_cannot_shorten(self, monkeypatch, capsys, tmp_path, line, number, fix) -> None:
+        # Each wide line is reported once: not by the parser's warning, and with --fix only after fixing.
         path = tmp_path / 'wide.inp'
         path.write_text(SOURCE.replace('nps 10', line if line.startswith('nps') else f'nps 10\n{line}'))
 
-        code, out = _check(monkeypatch, capsys, '--fix', path)
+        with warnings.catch_warnings(record=True) as caught:
+            warnings.simplefilter('always')
+            code, out = _check(monkeypatch, capsys, *fix, path)
 
         assert code == 1
+        assert [str(warning.message) for warning in caught] == []
         out = ' '.join(out.replace('│', '').split())
-        assert f'Line {number}:' in out and 'cannot shorten' in out
+        assert out.count(f'Line {number}:') == 1
+        assert ('cannot shorten' in out) == bool(fix)
         assert 'Done!' not in out
         assert max(len(text) for text in path.read_text().split('\n')) > 80
 
