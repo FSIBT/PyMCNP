@@ -23,6 +23,8 @@ class Test_File:
         _, rest = pymcnp.Inp.from_file(path)
         assert rest == ''
 
+    # valid_39.outp holds a tally PyMCNP cannot parse.
+    @pytest.mark.filterwarnings('ignore:Tally not parsed:pymcnp.abc.Warning')
     def test_to_file_csv_and_parquet(self, tmp_path: pathlib.Path) -> None:
         outp, _ = pymcnp.Outp.from_file(FILES / 'outp' / 'valid_39.outp')
         csv, parquet = tmp_path / 'a.csv', tmp_path / 'a.parquet'

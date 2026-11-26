@@ -12,6 +12,8 @@ from pymcnp._cli import main
 FILES: pathlib.Path = pathlib.Path(__file__).parent.parent.parent.parent / 'files'
 
 
+# valid_39.outp holds a tally PyMCNP cannot parse.
+@pytest.mark.filterwarnings('ignore:Tally not parsed:pymcnp.abc.Warning')
 def test_main_valid(monkeypatch, fake_mcnp: str, tmp_path: pathlib.Path) -> None:
     outp = tmp_path / 'valid_39.outp'
     shutil.copy(FILES / 'outp' / 'valid_39.outp', outp)

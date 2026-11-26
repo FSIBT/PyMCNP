@@ -10,6 +10,8 @@ from pymcnp._cli import convert
 FILES: pathlib.Path = pathlib.Path(__file__).parent.parent.parent.parent / 'files'
 
 
+# valid_39.outp holds a tally PyMCNP cannot parse.
+@pytest.mark.filterwarnings('ignore:Tally not parsed:pymcnp.abc.Warning')
 def test_main_valid(monkeypatch, tmp_path: pathlib.Path) -> None:
     for kind, source in (('outp', FILES / 'outp' / 'valid_39.outp'), ('meshtal', FILES / 'meshtal' / 'valid_40.meshtal'), ('ptrac', FILES / 'ptrac' / 'valid_38.ptrac')):
         path = tmp_path / source.name

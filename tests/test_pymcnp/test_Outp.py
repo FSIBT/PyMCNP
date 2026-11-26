@@ -8,6 +8,9 @@ import pymcnp
 from .. import classes
 
 
+# The OUTP fixtures hold tallies PyMCNP cannot parse; the tests of that warning catch it themselves.
+pytestmark = pytest.mark.filterwarnings('ignore:Tally not parsed:pymcnp.abc.Warning')
+
 PATH: pathlib.Path = pathlib.Path(__file__).parent.parent.parent / 'files' / 'outp'
 
 

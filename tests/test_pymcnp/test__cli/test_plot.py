@@ -8,6 +8,9 @@ import matplotlib.pyplot
 from pymcnp._cli import plot
 
 
+# The OUTP fixtures hold tallies PyMCNP cannot parse.
+pytestmark = pytest.mark.filterwarnings('ignore:Tally not parsed:pymcnp.abc.Warning')
+
 FILES: pathlib.Path = pathlib.Path(__file__).parent.parent.parent.parent / 'files'
 
 

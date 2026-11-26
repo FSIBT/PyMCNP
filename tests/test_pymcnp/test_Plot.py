@@ -5,6 +5,9 @@ import pytest
 
 import pymcnp
 
+# The OUTP fixtures hold tallies PyMCNP cannot parse.
+pytestmark = pytest.mark.filterwarnings('ignore:Tally not parsed:pymcnp.abc.Warning')
+
 
 class Test_Plot:
     def test_to_show_invalid(self, outp: pymcnp.Outp) -> None:
