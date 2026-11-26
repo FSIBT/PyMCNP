@@ -3,6 +3,7 @@ import pathlib
 
 from .Nonterminal import Nonterminal
 from .Error import Error
+from . import _text
 
 
 class File(Nonterminal):
@@ -30,7 +31,7 @@ class File(Nonterminal):
         if not path.is_file():
             raise Error('File not found.', f'{path=}')
 
-        source = path.read_text(encoding='utf-8-sig')
+        source = _text.read_text(path)
 
         return cls.from_mcnp(source)
 

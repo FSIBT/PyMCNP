@@ -308,7 +308,7 @@ def _read(path: pathlib.Path | str) -> collections.abc.Iterator[ptrac.block.Head
         warnings.warn(abc.Warning('Last history is truncated.', f'{path=} nps={truncated.nps.strip()} events kept={len(truncated.events)}'))
         return truncated
 
-    with path.open(encoding='utf-8-sig') as file:
+    with abc._text.open_text(path) as file:
         # Header: everything before the first history line.
         header: list[str] = []
         line = file.readline()

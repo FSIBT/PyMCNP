@@ -79,3 +79,90 @@ def test_utf8_whatever_the_locale(tmp_path: pathlib.Path) -> None:
     if done.stdout.partition('\n')[0].strip().replace('-', '').lower() == 'utf8':  # pragma: no cover (a platform with no other locale)
         pytest.skip(f'locale encoding is UTF-8 here: {done.stdout!r} {done.stderr[-300:]!r}')
     assert done.returncode == 0, done.stdout + done.stderr
+
+
+# Readers, each with a fixture, a word of its free text (title or comment) and the line of that word.
+READERS = [
+    pytest.param(lambda path: pymcnp.Inp.from_file(path), 'inp/valid_00.inp', 'Problem', 1, id='Inp'),
+    pytest.param(lambda path: pymcnp.Check(path).problems(), 'inp/valid_00.inp', 'Problem', 1, id='Check.problems'),
+    pytest.param(lambda path: list(pymcnp.Check(path).check()), 'inp/valid_00.inp', 'Problem', 1, id='Check.check'),
+    pytest.param(lambda path: pymcnp.Outp.from_file(path), 'outp/valid_39.outp', 'regolith', 39, id='Outp'),
+    pytest.param(lambda path: pymcnp.Meshtal.from_file(path), 'meshtal/valid_41.meshtal', 'regolith', 2, id='Meshtal'),
+    pytest.param(lambda path: list(pymcnp.Meshtal.iter_tallies(path)), 'meshtal/valid_41.meshtal', 'regolith', 2, id='Meshtal.iter_tallies'),
+    pytest.param(lambda path: pymcnp.Ptrac.from_file(path), 'ptrac/valid_38.ptrac', 'regolith', 3, id='Ptrac'),
+    pytest.param(lambda path: list(pymcnp.Ptrac.iter_histories(path)), 'ptrac/valid_38.ptrac', 'regolith', 3, id='Ptrac.iter_histories'),
+    pytest.param(lambda path: list(pymcnp.Ptrac.stream(path)), 'ptrac/valid_38.ptrac', 'regolith', 3, id='Ptrac.stream'),
+]
+
+
+def _comparable(result) -> object:
+    """
+    Turns what a reader returns into something that compares by content.
+    """
+
+    if isinstance(result, (tuple, list)):
+        return [_comparable(item) for item in result]
+    if isinstance(result, pymcnp.abc.Symbol):
+        return result.to_mcnp()
+    return result
+
+
+def _variant(fixture: str, word: str, target: pathlib.Path, encoding: str) -> pathlib.Path:
+    # A non-ASCII letter replaces one of the word, so every line keeps its width.
+    text = (FILES / fixture).read_text(encoding='utf-8')
+    target.write_bytes(text.replace(word, word.replace('o', 'ö', 1).replace('e', 'é', 1), 1).encode(encoding))
+    return target
+
+
+@pytest.mark.filterwarnings('ignore:Tally not parsed:pymcnp.abc.Warning')
+@pytest.mark.parametrize('read, fixture, word, line', READERS)
+def test_latin_1_file_reads_with_a_warning(tmp_path: pathlib.Path, read, fixture: str, word: str, line: int) -> None:
+    # A file saved as Latin-1 or cp1252, e.g., by a Windows editor, reads as Latin-1, with a warning naming its first
+    # line that is not UTF-8, as a UTF-8 file with the same text reads.
+    utf8 = _variant(fixture, word, tmp_path / 'utf8', 'utf-8')
+    latin1 = _variant(fixture, word, tmp_path / 'latin1', 'cp1252')
+
+    with pytest.warns(pymcnp.abc.Warning, match=rf'not UTF-8[\s\S]*latin1, line {line}$') as records:
+        result = read(latin1)
+    assert len([record for record in records if 'UTF-8' in str(record.message)]) == 1
+    assert _comparable(result) == _comparable(read(utf8))
+
+
+@pytest.mark.parametrize('read, fixture, word, line', READERS)
+def test_binary_file_raises(tmp_path: pathlib.Path, read, fixture: str, word: str, line: int) -> None:
+    # A NUL byte, which no text file holds, e.g., a PTRAC file MCNP wrote in binary, its default.
+    binary = tmp_path / 'binary'
+    binary.write_bytes((FILES / fixture).read_bytes()[:500] + b'\x00\x00\x01\xff')
+
+    with pytest.raises(UnicodeDecodeError, match='NUL byte') as info:
+        read(binary)
+    assert info.value.start == 500
+
+
+def test_encoding_found_over_chunk_boundaries(tmp_path: pathlib.Path, monkeypatch) -> None:
+    # The file is checked in chunks: a character cut by a chunk boundary is UTF-8, and lines are counted across chunks.
+    from pymcnp.abc import _text
+
+    monkeypatch.setattr(_text, '_CHUNK', 7)
+    path = tmp_path / 'text'
+    path.write_bytes('aéééééééé long line without a newline\nb\né\n'.encode('utf-8'))
+    assert _text.read_text(path) == 'aéééééééé long line without a newline\nb\né\n'
+    path.write_bytes('aé\nbbbbbbbbbbbbbbbbbbb\nc\né'.encode('utf-8') + b'\n\xe9\nd')
+    with pytest.warns(pymcnp.abc.Warning, match=r'text, line 5$'):
+        assert _text.read_text(path) == 'aÃ©\nbbbbbbbbbbbbbbbbbbb\nc\nÃ©\né\nd'
+    path.write_bytes(b'a\nbbbbbbbbbbbbbbbbbbb\nc\x00')
+    with pytest.raises(UnicodeDecodeError, match='NUL byte') as info:
+        _text.read_text(path)
+    assert info.value.start == 23
+
+
+def test_latin_1_line_ends(tmp_path: pathlib.Path) -> None:
+    # Latin-1 text with Windows line ends reads with LF line ends, as UTF-8 text does.
+    path = tmp_path / 'crlf'
+    path.write_bytes(b'\xe9\r\nb\r\n')
+    with pytest.warns(pymcnp.abc.Warning, match='line 1$'):
+        from pymcnp.abc import _text
+
+        assert _text.read_text(path) == 'é\nb\n'
+        with _text.open_text(path) as file:
+            assert file.read() == 'é\nb\n'

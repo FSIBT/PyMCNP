@@ -103,21 +103,38 @@ def test_directory_exits_2(monkeypatch, capsys, tmp_path: pathlib.Path, command)
 def test_binary_file_exits_2(monkeypatch, capsys, tmp_path: pathlib.Path, command) -> None:
     # E.g., a PTRAC file MCNP wrote in binary, its default: the hint is for PTRAC only.
     monkeypatch.chdir(tmp_path)
-    pathlib.Path('binary').write_bytes(b'\x00\xff\xfe\x80 binary PTRAC\n')
+    pathlib.Path('binary').write_bytes(b'\xff\xfe\x00\x80 binary PTRAC\n')
     code, text = _run(monkeypatch, capsys, *_args(command, pathlib.Path('binary')))
     assert code == 2
     hint = ' PyMCNP reads text PTRAC files only: have MCNP write one with the PTRAC option FILE=ASC.'
-    assert text == f'Error: binary: not UTF-8 text (byte offset 1), so PyMCNP cannot read it.{hint if "ptrac" in command else ""}'
+    assert text == f'Error: binary: not a text file (a NUL byte at byte offset 2), so PyMCNP cannot read it.{hint if "ptrac" in command else ""}'
 
 
-@pytest.mark.parametrize('command', COMMANDS)
-def test_latin_1_file_exits_2(monkeypatch, capsys, tmp_path: pathlib.Path, command) -> None:
-    # Text, but not UTF-8: not called "not a text file".
+@pytest.mark.parametrize(
+    'command, fixture, word, line',
+    [
+        (['check'], 'inp/valid_00.inp', 'Problem', 1),
+        (['convert', 'outp', '--csv'], 'outp/valid_39.outp', 'regolith', 39),
+        (['convert', 'ptrac', '--parquet'], 'ptrac/valid_38.ptrac', 'regolith', 3),
+        (['convert', 'meshtal', '--csv'], 'meshtal/valid_41.meshtal', 'regolith', 2),
+        (['plot', '--pdf', '{file}', '14'], 'outp/valid_39.outp', 'regolith', 39),
+        (['visualize', '--pdf', '--cell=81023'], 'inp/valid_00.inp', 'Problem', 1),
+        (['run', '--command=nosuchmcnp6'], 'inp/valid_00.inp', 'Problem', 1),
+    ],
+)
+def test_latin_1_file_warns(monkeypatch, capsys, tmp_path: pathlib.Path, command, fixture, word, line) -> None:
+    # Text, but not UTF-8, e.g., saved as cp1252 on Windows: read as Latin-1 with a warning, which does not change the
+    # exit code.
     monkeypatch.chdir(tmp_path)
-    pathlib.Path('latin1').write_bytes('title Müller\n'.encode('latin-1'))
+    text = (FILES / fixture).read_text(encoding='utf-8').replace(word, word.replace('o', 'ö', 1).replace('e', 'é', 1), 1)
+    pathlib.Path('utf8').write_bytes(text.encode('utf-8'))
+    pathlib.Path('latin1').write_bytes(text.encode('cp1252'))
+    code_utf8, text_utf8 = _run(monkeypatch, capsys, *_args(command, pathlib.Path('utf8')))
     code, text = _run(monkeypatch, capsys, *_args(command, pathlib.Path('latin1')))
-    assert code == 2
-    assert text.startswith('Error: latin1: not UTF-8 text (byte offset 7), so PyMCNP cannot read it.')
+    warning = f'Warning: File is not UTF-8 text, so PyMCNP reads it as Latin-1. latin1, line {line}'
+    assert code == code_utf8
+    assert text.count(warning) == 1
+    assert text.replace(warning, '').replace('latin1', 'utf8').split() == text_utf8.split()
 
 
 @pytest.mark.skipif(os.name == 'nt' or (hasattr(os, 'geteuid') and os.geteuid() == 0), reason='needs file permissions that the user cannot override')

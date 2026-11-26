@@ -3,6 +3,7 @@ import pathlib
 
 from .. import symbol
 from ..Error import Error
+from .. import _text
 from ..Symbol import Symbol
 
 
@@ -36,7 +37,7 @@ class WithMcnpIter(symbol.WithMcnpIter[T, U], typing.Generic[T, U]):
         if not path.is_file():
             raise Error('File not found.', f'{path=}')
 
-        source = path.read_text(encoding='utf-8-sig')
+        source = _text.read_text(path)
 
         return (yield from cls.from_mcnp_iter(source, returning=returning))
 
