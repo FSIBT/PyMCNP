@@ -94,7 +94,7 @@ def do_parameter_scan() -> None:
     """The five inputs of ``examples/do_parameter_scan.py`` in one view: the sphere moves along y, the box stays."""
 
     inp, _ = pymcnp.Inp.from_file(EXAMPLES / 'example_04.inp')
-    inps = tuple(inp.scan(**{'surfaces[0].vy': [-2, -1, 0, 1, 2]}))
+    inps = tuple(inp.scan(**{'surfaces[11].vy': [-2, -1, 0, 1, 2]}))
     plotter = pyvista.Plotter()
     plotter.add_axes()
     colors = matplotlib.colormaps['viridis']

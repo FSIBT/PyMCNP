@@ -142,6 +142,6 @@ position of the sphere, which `scan` moves along y; the box stays in place:
 
 ![The five scanned inputs in one view](../images/do_parameter_scan.png)
 
-`inp.scan(**{'surfaces[0].vy': [...]})` sets a nested field by its path: attributes with `.name` and list items with
-`[i]`. Settable properties such as `nps` and `seed` take plain keywords, `inp.scan(nps=[10**4, 10**5])`, and
+`inp.scan(**{'surfaces[11].vy': [...]})` sets a nested field by its path: attributes with `.name` and list items with
+`[i]`, where the index into `cells` and `surfaces` is the card number, here surface 11. Settable properties such as `nps` and `seed` take plain keywords, `inp.scan(nps=[10**4, 10**5])`, and
 `inp.scan_with(values, apply)` calls a function on each copy for changes that need code.

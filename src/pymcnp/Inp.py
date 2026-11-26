@@ -274,19 +274,30 @@ class Inp(abc.File):
 
     def _scan_path(self, path: str) -> str:
         """
-        Translates ``scan`` paths: the index into ``cells``, ``surfaces`` or ``data`` counts cards, not comment cards.
+        Translates ``scan`` paths: the index into ``cells`` or ``surfaces`` is a card number, not a list position.
+
+        The index into ``data`` is the list position, as in ``inp.data[i]``, comment cards included.
 
         Parameters:
-            path: Path given to ``scan``, e.g., ``surfaces[0].r`` for the first surface card.
+            path: Path given to ``scan``, e.g., ``surfaces[99].r`` for surface card 99.
 
         Returns:
-            Path into ``self``, e.g., ``surfaces[2].r`` if two comment cards come first.
+            Path into ``self``, e.g., ``surfaces[5].r`` if surface card 99 is the sixth item of ``surfaces``.
+
+        Raises:
+            Error: No card with that number.
         """
 
         steps = _steps(path)
-        if len(steps) > 1 and steps[0] in {(True, 'cells'), (True, 'surfaces'), (True, 'data')} and not steps[1][0]:
-            cards = [index for index, card in enumerate(getattr(self, str(steps[0][1]))) if not isinstance(card, inp.card.Comment)]
-            steps[1] = (False, cards[typing.cast(int, steps[1][1])])
+        if len(steps) > 1 and steps[0] in {(True, 'cells'), (True, 'surfaces')} and not steps[1][0]:
+            number = typing.cast(int, steps[1][1])
+            kind = inp.card.Cell if steps[0][1] == 'cells' else inp.card.Surface
+            block = typing.cast(abc.Array, getattr(self, str(steps[0][1])))
+            found = [index for index, card in enumerate(block) if isinstance(card, kind) and card.j == number]
+            if not found:
+                name = 'cell' if kind is inp.card.Cell else 'surface'
+                raise abc.Error(f'No {name} {number}.', f'{path=}: in ``scan`` paths, the index into ``{steps[0][1]}`` is the {name} number.')
+            steps[1] = (False, found[0])
 
         return _join(steps)
 

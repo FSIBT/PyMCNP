@@ -436,9 +436,9 @@ class Nonterminal(Symbol):
 
         Parameters:
             parameters: Fields or settable properties, e.g., ``nps`` of ``Inp``, with their values, or paths to nested values,
-                e.g., ``'surfaces[0].r'`` (dotted attributes and integer indices). In ``Inp`` paths, the index into
-                ``cells``, ``surfaces`` or ``data`` counts cards and skips comment cards. With several, the last one
-                varies fastest.
+                e.g., ``'surfaces[99].r'`` (dotted attributes and integer indices). In ``Inp`` paths, the index into
+                ``cells`` or ``surfaces`` is the card number, e.g., surface 99, and the index into ``data`` is the list
+                position, comment cards included. With several, the last one varies fastest.
 
         Yields:
             Independent copies with the given values set.
