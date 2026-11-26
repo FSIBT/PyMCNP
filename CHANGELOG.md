@@ -63,7 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `nI` and `nILOG` entries expand to the values between the endpoints, and `xM` entries (the previous entry times `x`, e.g., `e1 1 2m 3`) are read; they failed to parse.
 - The shorthands `nR`, `nI`, `nJ` and `nLOG` were expanded in the title, comment cards, `$` comments and the text after the data block too, e.g., `c phys:n 50000 5j 4 100` became `c phys:n 50000 j j j j j 4 100`; that text is now kept as written.
 - Input files with library keywords between substances, unindented continuation lines after `&`, thermal scattering names such as `h-zr.20t`, trailing spaces or comments at the ends of cards, or no final newline failed to parse.
-- Subclasses of `Inp`, `Outp`, `Meshtal`, `Ptrac`, `ptrac.block.History` and the card classes are parsed as the subclass, e.g., `MyInp.from_file` returned an `Inp` for `class MyInp(pymcnp.Inp)`; they inherit the parent's fields, and a subclass that adds a field now raises `abc.Error` (0.10 ignored it).
+- Subclasses of `Inp`, `Outp`, `Meshtal`, `Ptrac`, `ptrac.block.History` and the card classes are parsed as the subclass, e.g., `MyInp.from_file` returned an `Inp` for `class MyInp(pymcnp.Inp)`; they inherit the parent's fields, and a subclass that adds a field, or a class attribute or method named like an inherited field, now raises `abc.Error` (0.10 ignored it).
 - Tests no longer write files into the repository.
 
 ## [0.10.0] - 2026-10-15

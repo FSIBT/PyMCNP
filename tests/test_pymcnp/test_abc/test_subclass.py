@@ -1,3 +1,4 @@
+import sys
 import copy
 import typing
 import pathlib
@@ -108,3 +109,32 @@ def test_subclass_adding_a_field_raises() -> None:
 def test_subclass_adding_a_field_raises_with_string_annotations() -> None:
     with pytest.raises(pymcnp.abc.Error):
         exec('from __future__ import annotations\nimport pymcnp\nclass MyInp(pymcnp.Inp):\n    extra: int', {})
+
+
+def test_subclass_shadowing_a_field_raises() -> None:
+    # A class attribute named like an inherited field would replace the field's property.
+    with pytest.raises(pymcnp.abc.Error):
+
+        class MyInp(pymcnp.Inp):
+            title = 'abc'
+
+    with pytest.raises(pymcnp.abc.Error):
+
+        class MyHistory(pymcnp.ptrac.block.History):
+            def events(self) -> None:
+                """Replaces the field."""
+
+
+@pytest.mark.skipif(sys.version_info < (3, 14), reason='annotations are evaluated lazily from Python 3.14')
+def test_subclass_with_lazy_forward_references() -> None:
+    # Names defined later, or never, in private and class-variable annotations do not stop the class.
+    class MyHistory(pymcnp.ptrac.block.History):
+        _cache: Later  # noqa: F821
+        tag: typing.ClassVar[Later]  # noqa: F821
+
+    history, _ = MyHistory.from_mcnp(HISTORY)
+    assert type(history) is MyHistory
+    with pytest.raises(pymcnp.abc.Error):
+
+        class OurHistory(pymcnp.ptrac.block.History):
+            extra: Later  # noqa: F821

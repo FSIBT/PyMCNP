@@ -28,8 +28,9 @@ PyMCNP represents MCNP files using the `Inp`, `Meshtal`, and `Ptrac` AST classes
 
 These classes, `ptrac.block.History` and the card classes, e.g., `inp.card.Cell_1`, can be subclassed to add methods,
 e.g., `class MyInp(pymcnp.Inp)`. A subclass inherits its parent's fields, defaults and parser, so `MyInp.from_file`
-returns a `MyInp`, while `Inp.from_file` still returns an `Inp`. A subclass cannot add fields: an annotation other than
-a private name or a `typing.ClassVar` raises `abc.Error`. A subclass instance never equals a parent instance, even
+returns a `MyInp`, while `Inp.from_file` still returns an `Inp`. A subclass cannot add or redefine fields: an annotation other
+than a private name or a `typing.ClassVar`, or a class attribute or method named like an inherited field, raises
+`abc.Error`. A subclass instance never equals a parent instance, even
 with the same content, since dataclass equality compares the classes; compare `to_mcnp()` instead.
 
 ### `Inp` Class

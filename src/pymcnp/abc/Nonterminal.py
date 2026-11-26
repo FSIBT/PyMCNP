@@ -1,4 +1,5 @@
 import re
+import sys
 import copy
 import typing
 import collections.abc
@@ -138,6 +139,20 @@ def _field(name: str, kinds: tuple[type[Symbol], ...]) -> property:
     return property(getter, setter)
 
 
+# A subclass's own annotations, with names that are not defined (yet) left as references from Python 3.14 on, where
+# annotations are evaluated lazily; one branch runs per Python version.
+if sys.version_info >= (3, 14):  # pragma: no cover
+    import annotationlib
+
+    def _own_annotations(cls: type) -> dict[str, typing.Any]:
+        return annotationlib.get_annotations(cls, format=annotationlib.Format.FORWARDREF)
+
+else:  # pragma: no cover
+
+    def _own_annotations(cls: type) -> dict[str, typing.Any]:
+        return inspect.get_annotations(cls)
+
+
 @typing.dataclass_transform(kw_only_default=True)
 class Nonterminal(Symbol):
     """
@@ -181,13 +196,18 @@ class Nonterminal(Symbol):
         super().__init_subclass__()
 
         # Subclassing a nonterminal with fields: inheriting its dataclass as is, without adding a form.
-        if any(issubclass(base, Nonterminal) and base._fields for base in cls.__bases__):
-            for name, hint in inspect.get_annotations(cls).items():
+        bases = [base for base in cls.__bases__ if issubclass(base, Nonterminal) and base._fields]
+        if bases:
+            inherited = set().union(*(base._fields for base in bases))
+            for name in sorted(set(vars(cls)) & inherited):
+                raise Error(f'Subclasses of ``{bases[0].__name__}`` cannot redefine fields.', f'{cls.__name__}.{name}')
+            for name, hint in _own_annotations(cls).items():
+                text = hint if isinstance(hint, str) else getattr(hint, '__forward_arg__', None)
                 if name.startswith('_') or typing.get_origin(hint) is typing.ClassVar:
                     continue
-                if isinstance(hint, str) and re.match(r'\s*(typing\s*\.\s*)?ClassVar\b', hint):
+                if text is not None and re.match(r'\s*(typing\s*\.\s*)?ClassVar\b', text):
                     continue
-                raise Error(f'Subclasses of ``{cls.__mro__[1].__name__}`` cannot add fields.', f'{cls.__name__}.{name}: {hint}')
+                raise Error(f'Subclasses of ``{bases[0].__name__}`` cannot add fields.', f'{cls.__name__}.{name}: {text or hint}')
             cls._forms = ()
             return
 
