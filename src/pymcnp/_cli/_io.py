@@ -1,6 +1,7 @@
 import pathlib
 
 import rich
+import rich.markup
 import rich.panel
 
 
@@ -33,6 +34,25 @@ def warning(msg: str):
     """
 
     rich.print(rich.panel.Panel(f'[bold][gold3]Warning:[/][/] {msg}'))
+
+
+def partly_parsed(path: pathlib.Path | str, remainder: str) -> bool:
+    """
+    Prints a warning panel if PyMCNP could not parse all of a file.
+
+    Parsing stops at the first card PyMCNP cannot parse, so that card and
+    every card after it are missing from the result.
+
+    Returns:
+        True if ``remainder`` is not empty.
+    """
+
+    if not remainder.strip():
+        return False
+
+    first = next(line for line in remainder.split('\n') if line.strip()).strip()
+    warning(rich.markup.escape(f'{path}: PyMCNP cannot parse the card "{first}", so it and every card after it are missing.'))
+    return True
 
 
 def done():

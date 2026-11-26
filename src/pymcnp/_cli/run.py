@@ -31,10 +31,17 @@ def main() -> None:
 
     # Reading input file.
     try:
-        inps = [Inp.from_file(path)[0] for path in map(pathlib.Path, args['<inp>'])]
+        parses = [(file, *Inp.from_file(file)) for file in map(pathlib.Path, args['<inp>'])]
     except abc.Error as err:
         _io.error(str(err))
         sys.exit(1)
+
+    # Running a partly parsed input would run another problem, so run nothing.
+    if [file for file, _, remainder in parses if _io.partly_parsed(file, remainder)]:
+        _io.warning('Not running, since PyMCNP cannot parse all inputs.')
+        sys.exit(3)
+
+    inps = [inpt for _, inpt, _ in parses]
 
     # Running!
     try:

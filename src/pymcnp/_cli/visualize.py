@@ -35,10 +35,12 @@ def main() -> None:
 
     # Reading input file.
     try:
-        inpt = Inp.from_file(file)[0]
+        inpt, remainder = Inp.from_file(file)
     except abc.Error as err:
         _io.error(str(err))
         sys.exit(1)
+
+    partly = _io.partly_parsed(file, remainder)
 
     if not (args['--cells-skip'] or args['--surfaces-skip'] or args['--cells'] or args['--surfaces'] or args['--cell'] or args['--surface']):
         args['--cells'] = True
@@ -128,5 +130,8 @@ def main() -> None:
     except abc.Error as err:
         _io.error(str(err))
         sys.exit(2)
+
+    if partly:
+        sys.exit(3)
 
     _io.done()

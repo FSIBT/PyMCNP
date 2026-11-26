@@ -43,7 +43,8 @@ explicit values. Commit or copy the file first.
 Without options, `pymcnp visualize` shows all cells and then all surfaces in a [PyVista](https://pyvista.org) window.
 The options take comma-separated numbers. With `--pdf`, it writes a PDF next to the input instead of opening a window,
 named after the option: `example_00-surface_2_3.pdf`, `example_00-cells-skip.pdf`, `example_00-cells.pdf`, and so on.
-It exits with 2 if a listed cell or surface does not exist.
+It exits with 2 if a listed cell or surface does not exist. If PyMCNP cannot parse a card, it warns, draws the cards
+before it, and exits with 3, as `pymcnp check` does.
 
 ### Run
 
@@ -54,7 +55,8 @@ It exits with 2 if a listed cell or surface does not exist.
 `mcnp6`, found on `PATH`; MCNP finds its data through `DATAPATH`). `-p` names the directory for the runs (default: the
 current directory). It creates `<path>/pymcnp-<timestamp>/` with one directory per input, `run-00000`, `run-00001`, ...,
 each holding `run-0000N.inp`, `.outp`, `.ptrac`, `.runtpe`, and `.log` (the standard output of MCNP); files such as
-`meshtal` keep MCNP's default names. It exits with 1 if an input cannot be read and with 2 if a run failed. For more
+`meshtal` keep MCNP's default names. It exits with 1 if an input cannot be read and with 2 if a run failed. If PyMCNP cannot parse a card of an input, the
+cards from there on would be missing from the run, so it warns, runs nothing, and exits with 3. For more
 control, e.g., run names or hooks, use [`pymcnp.Run`](pymcnp.md) in Python.
 
 ### Convert
