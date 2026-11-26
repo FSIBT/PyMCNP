@@ -22,7 +22,10 @@ These AST classes have methods for translating between PyMCNP and PTRAC:
 
 A PTRAC file is a header followed by histories (`ptrac.block.History`), and each history holds event blocks named after
 the variables of the MCNP manual (`EventSource_1`, ..., `EventTermination_4`). The `type` on an event's first line is the type
-of the *next* event, so PyMCNP picks an event's block class by the type announced on the previous line.
+of the *next* event, so PyMCNP picks an event's block class by the type announced on the previous line, and its form
+(`_1` to `_4`: with or without the particle type `PBL%I%IPT` and the collision count `PBL%I%NCP`, 3 or 9 values on the
+second line) by the variable IDs of the header. `History.from_mcnp`, which has no header, picks the form that matches
+the most text.
 
 For large files use the streaming functions of `pymcnp.Ptrac` (`stream`, `tracks`, `iter_histories`, `to_parquet`) rather than
 `from_file`; they also read files cut short by a killed MCNP run, keeping the truncated last history

@@ -9,6 +9,7 @@ import pandas
 from . import abc
 from . import ptrac
 from .ptrac.Event import _Layout, _layout
+from .ptrac.block.History import _history, _kinds
 
 _REGEX_HISTORY = re.compile(r' *\d+ +(?:[1345]000|-?20\d\d)(?: |$)')
 _NEWLINE = abc.Terminal[r'\n']
@@ -47,6 +48,7 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
         """
 
         header, pos = ptrac.block.Header._from_mcnp_at(source, pos)
+        kinds = _kinds(header)
 
         stop: bool = False
         spaces: list[abc.Terminal] = []
@@ -70,7 +72,7 @@ class Ptrac(abc.file.WithMcnpIter[ptrac.block.History, ptrac.block.Event], abc.f
 
         while True:
             # Looking ahead: a history whose first event does not compile ends the histories, without a generator.
-            history = ptrac.block.History._from_mcnp_iter_at(source, pos, returning=True)
+            history = ptrac.block.History._from_mcnp_iter_at(source, pos, returning=True, _kinds=kinds)
             try:
                 first = next(history)
             except abc.Error:
@@ -293,7 +295,7 @@ def _read(path: pathlib.Path | str) -> collections.abc.Iterator[ptrac.block.Head
         # Only the last history of a file can be cut short (e.g., by a killed run); it is read as far as it goes.
         if complete:
             try:
-                history, remainder = ptrac.block.History.from_mcnp('\n'.join(lines))
+                history, remainder = _history('\n'.join(lines), kinds)
             except abc.Error:
                 if not last:
                     raise
@@ -302,7 +304,7 @@ def _read(path: pathlib.Path | str) -> collections.abc.Iterator[ptrac.block.Head
                     raise abc.Error('Expected history.', f'line {number}: {remainder[:80]!r}')
                 return history
 
-        truncated = ptrac.block.HistoryTruncated.from_mcnp('\n'.join(lines))
+        truncated = ptrac.block.HistoryTruncated.from_mcnp('\n'.join(lines), _kinds=kinds)
         warnings.warn(abc.Warning('Last history is truncated.', f'{path=} nps={truncated.nps.strip()} events kept={len(truncated.events)}'))
         return truncated
 
@@ -318,6 +320,7 @@ def _read(path: pathlib.Path | str) -> collections.abc.Iterator[ptrac.block.Head
         header_block, remainder = ptrac.block.Header.from_mcnp('\n'.join(header) + '\n')
         if remainder != '':
             raise abc.Error('Expected header.', f'{remainder[:80]!r}')
+        kinds = _kinds(header_block)
         yield header_block
 
         # Histories: one `i` line, then `j`/`p` line pairs up to the event announcing type 9000.

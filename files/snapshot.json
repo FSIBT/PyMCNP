@@ -2645,5 +2645,58 @@
   "ok": true,
   "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
   "remainder_len": 0
+ },
+ "ptrac/valid_39_noipt.ptrac": {
+  "frame": {
+   "columns": [
+    "nps",
+    "type",
+    "creation_code",
+    "particle",
+    "cell",
+    "material",
+    "surface",
+    "facet",
+    "zaid",
+    "x",
+    "y",
+    "z",
+    "u",
+    "v",
+    "w",
+    "energy",
+    "weight",
+    "time",
+    "track",
+    "parent_zaid"
+   ],
+   "dtypes": [
+    "Int64",
+    "string",
+    "Int64",
+    "string",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "Int64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "float64",
+    "Int64",
+    "Int64"
+   ],
+   "hash": "f9bf5c1536d4683d302790f2f2d35e7458e3d2144f6df19fb137d17653ad4dc0"
+  },
+  "mcnp": "0f0c4bcea109171361825c4711b7d7c404f37a1878479e854401c990380d2e7d",
+  "ok": true,
+  "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "remainder_len": 0
  }
 }

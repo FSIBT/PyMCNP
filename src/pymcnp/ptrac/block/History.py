@@ -14,6 +14,8 @@ from .Event import EventBank
 from .Event import EventSurface
 from .Event import EventCollision
 from .Event import EventTermination
+from .Header import Header
+from .Header import _event_lines
 
 if typing.TYPE_CHECKING:
     from ..Track import Track
@@ -52,7 +54,7 @@ class History(abc.symbol.WithMcnpIter, abc.symbol.WithDataIter, Block):
             raise abc.Error('Invalid value.', f'{self.events[-1].type=}')
 
     @classmethod
-    def _from_mcnp_iter_at(cls, source: str, pos: int, returning: bool = False) -> typing.Generator[Event, None, tuple[typing.Self | None, int]]:
+    def _from_mcnp_iter_at(cls, source: str, pos: int, returning: bool = False, *, _kinds: dict[str, type[Event]] | None = None) -> typing.Generator[Event, None, tuple[typing.Self | None, int]]:
         """
         Compiles source strings at positions into their corresponding history blocks iteratively.
 
@@ -60,6 +62,8 @@ class History(abc.symbol.WithMcnpIter, abc.symbol.WithDataIter, Block):
             source: Source string to compile.
             pos: Position in ``source`` to compile at.
             returning: Flag to/to not build the history block.
+            _kinds: Event block class per event type, chosen from the PTRAC header by ``_kinds``; without it, each event
+                block is parsed by trying its forms.
 
         Yields:
             Events of history blocks.
@@ -68,7 +72,7 @@ class History(abc.symbol.WithMcnpIter, abc.symbol.WithDataIter, Block):
             History block corresponding to ``source`` at ``pos`` if ``returning`` (else ``None``), and the position where it ends.
         """
 
-        events = _events_at(cls, source, pos, returning)
+        events = _events_at(cls, source, pos, returning, _kinds or _KINDS)
         try:
             while True:
                 yield next(events)[0]
@@ -132,12 +136,13 @@ class HistoryTruncated:
     events: list[Event]
 
     @classmethod
-    def from_mcnp(cls, source: str) -> HistoryTruncated:
+    def from_mcnp(cls, source: str, *, _kinds: dict[str, type[Event]] | None = None) -> HistoryTruncated:
         """
         Reads as many events of a cut-short history block as there are.
 
         Parameters:
             source: Source string to read.
+            _kinds: Event block class per event type, as for ``History``.
 
         Returns:
             Truncated history block corresponding to ``source``.
@@ -150,7 +155,7 @@ class HistoryTruncated:
         events: list[Event] = []
         text = source + '\n'
         end = None
-        for event, end in _events_at(History, text, 0, returning=False):
+        for event, end in _events_at(History, text, 0, False, _kinds or _KINDS):
             events.append(event)
         remainder = source.partition('\n')[2] if end is None else text[end:]
 
@@ -179,15 +184,83 @@ _EMPTY = abc.Terminal[r'']
 _NEWLINE = abc.Terminal[r'\n']
 _EVENT_TYPE = abc.Terminal[r'      [13459]000|     [- ]20(?:0[1-9]|1\d|2[0-6]|3[0-4])']
 _EVENTS = abc.Array[Event, _NEWLINE]
+# Event block class per event type, in the order of the header's event lines; bank events have many type codes.
+_BANK = 'bank'
 _KINDS: dict[str, type[Event]] = {
     '      1000': EventSource,
+    _BANK: EventBank,
     '      3000': EventSurface,
     '      4000': EventCollision,
     '      5000': EventTermination,
 }
 
+# Variable IDs of the J-line fields of event blocks (MCNP manual, PTRAC file format).
+_IDS = {
+    'pbl_i_node': 8,
+    'nsr': 9,
+    'nxs_2_iex': 10,
+    'ntyn': 11,
+    'pbl_i_mtp': 11,
+    'nsf_pbl_i_jsu': 12,
+    'angle': 13,
+    'nter': 14,
+    'branch_number': 15,
+    'pbl_i_ipt': 16,
+    'ncl_pbl_i_icl': 17,
+    'mat_pbl_i_icl': 18,
+    'pbl_i_ncp': 19,
+}
 
-def _events_at(cls: type[History], source: str, pos: int, returning: bool) -> typing.Generator[tuple[Event, int], None, tuple[History | None, int]]:
+
+def _shape(form: type[Event]) -> tuple[list[int], int]:
+    """
+    Finds the variable IDs of the J-line values after ``type`` and the number of P-line values of event block forms.
+    """
+
+    names = list(form._fields)
+    return [_IDS[name] for name in names[names.index('type') + 1 : names.index('newline')]], len(names) - names.index('blank_1') - 1
+
+
+def _kinds(header: Header) -> dict[str, type[Event]]:
+    """
+    Chooses the event block class per event type from the variable IDs of PTRAC headers.
+
+    An event type gets the form whose J-line variable IDs and number of P-line values are the header's, e.g.,
+    ``EventSource_3`` for ``8 9 17 18 19`` and 9 P values. An event type that no form fits, or a header whose counts
+    and IDs do not fit together, keeps the class whose forms are tried in turn, as without a header.
+
+    Returns:
+        Event block class per event type, as ``_KINDS``.
+    """
+
+    kinds = dict(_KINDS)
+    lines = _event_lines(header)
+    if lines is not None:
+        for code, line in zip(_KINDS, lines):
+            forms = [form for form in _KINDS[code]._forms if _shape(form) == line]
+            if forms:
+                kinds[code] = forms[0]
+
+    return kinds
+
+
+def _event_at(kinds: dict[str, type[Event]], kind: str, source: str, pos: int) -> tuple[Event, int]:
+    """
+    Compiles the event block of type ``kind`` at positions, with the class ``kinds`` gives; if that form does not fit
+    the lines, its forms are tried in turn, as without a header.
+    """
+
+    form = kinds.get(kind, kinds[_BANK])
+    try:
+        return form._from_mcnp_at(source, pos)
+    except abc.Error:
+        base = _KINDS.get(kind, _KINDS[_BANK])
+        if form is base:
+            raise
+        return base._from_mcnp_at(source, pos)
+
+
+def _events_at(cls: type[History], source: str, pos: int, returning: bool, kinds: dict[str, type[Event]]) -> typing.Generator[tuple[Event, int], None, tuple[History | None, int]]:
     """
     Compiles history blocks at positions, yielding each event with the position where it ends.
 
@@ -196,6 +269,7 @@ def _events_at(cls: type[History], source: str, pos: int, returning: bool) -> ty
         source: Source string to compile.
         pos: Position in ``source`` to compile at.
         returning: Flag to/to not build the history block.
+        kinds: Event block class per event type, see ``_kinds``.
 
     Yields:
         Events of history blocks and the positions where they end.
@@ -231,7 +305,7 @@ def _events_at(cls: type[History], source: str, pos: int, returning: bool) -> ty
                     pos -= len(spaces.pop(-1))
                 break
 
-            item, pos = _KINDS.get(kind, EventBank)._from_mcnp_at(source, pos)
+            item, pos = _event_at(kinds, kind, source, pos)
 
             yield item, pos
 
@@ -264,3 +338,18 @@ def _events_at(cls: type[History], source: str, pos: int, returning: bool) -> ty
         newline=newline,
         events=_EVENTS(*items, spaces=spaces),
     ), pos
+
+
+def _history(source: str, kinds: dict[str, type[Event]]) -> tuple[History, str]:
+    """
+    Compiles source strings into history blocks, as ``History.from_mcnp``, with the event block classes ``kinds``.
+    """
+
+    events = _events_at(History, source, 0, True, kinds)
+    try:
+        while True:
+            next(events)
+    except StopIteration as stop:
+        history, end = stop.value
+
+    return history, source[end:]

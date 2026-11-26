@@ -11,6 +11,7 @@ import pytest
 import pymcnp
 from pymcnp.Ptrac import _history_events as pymcnp_history_events
 from pymcnp.ptrac.Event import _layout as pymcnp_layout
+from pymcnp.ptrac.block.History import _kinds as pymcnp_history_kinds
 from .. import classes
 
 
@@ -630,3 +631,105 @@ def test_stream_with_inconsistent_header_reads_block_fields(head, tmp_path: path
     path = _with_header(head('valid_35.ptrac', 1), tmp_path, old, new)
     event = next(pymcnp.Ptrac.stream(path))
     assert (event.particle, event.cell, event.material) == (pymcnp.ptrac.Particle.PHOTON, 200, 2)
+
+
+# valid_39_noipt.ptrac is valid_39.ptrac (MODE N P, WRITE=ALL) cut to 8 histories, with the particle type (variable ID
+# 16, IPT) dropped from the header and from every J line, as MCNP writes it for a single particle type.
+NOIPT = FILES / 'valid_39_noipt.ptrac'
+
+
+def test_header_chooses_event_block_forms() -> None:
+    # Each event type's form is the one whose J-line variable IDs and number of P-line values are the header's.
+    kinds = {
+        'valid_00.ptrac': '_1',  # 8 9 17 18, 3 P values
+        'valid_27.ptrac': '_2',  # 8 9 16 17 18, 3 P values
+        'valid_39_noipt.ptrac': '_3',  # 8 9 17 18 19, 9 P values
+        'valid_39.ptrac': '_4',  # 8 9 16 17 18 19, 9 P values
+    }
+    for name, suffix in kinds.items():
+        header = next(_read_header(FILES / name))
+        assert [form.__name__ for form in pymcnp_history_kinds(header).values()] == [f'{base}{suffix}' for base in ('EventSource', 'EventBank', 'EventSurface', 'EventCollision', 'EventTermination')]
+
+
+def _read_header(path: pathlib.Path):
+    from pymcnp.Ptrac import _read
+
+    yield next(_read(path))
+
+
+def _with_headers(path: pathlib.Path, tmp_path: pathlib.Path, *changes: tuple[str, str]) -> pathlib.Path:
+    for old, new in changes:
+        path = _with_header(path, tmp_path, old, new)
+    return path
+
+
+@pytest.mark.parametrize(
+    'changes',
+    [
+        # A source J line `8 9 17 18 19` with 3 P values, which no form has.
+        [('    2    5', '    2    6'), ('   9  17  18', '   9  17  18  19')],
+        # Counts that are not numbers.
+        [('    2    5', '    x    5')],
+    ],
+)
+def test_header_without_a_matching_form_keeps_the_trial_parse(head, tmp_path: pathlib.Path, changes: list[tuple[str, str]]) -> None:
+    # Event types no form fits are left to the parse by length, as without a header.
+    path = head('valid_00.ptrac', 1)
+    changed = _with_headers(path, tmp_path, *changes)
+    header = next(_read_header(changed))
+    assert pymcnp_history_kinds(header)['      1000'] is pymcnp.ptrac.block.EventSource
+    ptrac, remainder = pymcnp.Ptrac.from_file(changed)
+    assert remainder == ''
+    assert ptrac.histories.to_mcnp() == pymcnp.Ptrac.from_file(path)[0].histories.to_mcnp()
+
+
+def test_header_that_disagrees_with_the_lines_falls_back_to_the_trial_parse(head, tmp_path: pathlib.Path) -> None:
+    # valid_27's header without IPT (16) on the bank line names form _1, but its bank J lines hold IPT: they are parsed by
+    # length, as without a header.
+    path = head('valid_27.ptrac', 4)
+    changed = _with_headers(path, tmp_path, ('    2    6    3    7', '    2    6    3    6'), ('   8  10  11  16  17  18', '   8  10  11  17  18'))
+    header = next(_read_header(changed))
+    assert pymcnp_history_kinds(header)['bank'] is pymcnp.ptrac.block.EventBank_1
+    ptrac, remainder = pymcnp.Ptrac.from_file(changed)
+    assert remainder == ''
+    banks = [event for history in ptrac.histories for event in history.events if isinstance(event, pymcnp.ptrac.block.EventBank)]
+    assert banks and all(isinstance(event, pymcnp.ptrac.block.EventBank_2) for event in banks)
+    assert [history.to_mcnp() for history in pymcnp.Ptrac.iter_histories(changed)] == [history.to_mcnp() for history in ptrac.histories]
+
+
+def test_no_ipt_header_block_fields_and_tracks() -> None:
+    # Without IPT the blocks are forms _3: the same values as valid_39's forms _4, less the particle type.
+    ptrac, remainder = pymcnp.Ptrac.from_file(NOIPT)
+    assert remainder == ''
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore')
+        full = list(pymcnp.Ptrac.iter_histories(FILES / 'valid_39.ptrac'))[: len(ptrac.histories)]
+    assert len(ptrac.histories) == 8
+    for history, other in zip(ptrac.histories, full):
+        assert len(history.events) == len(other.events)
+        for event, original in zip(history.events, other.events):
+            assert type(event).__name__ == type(original).__name__.replace('_4', '_3')
+            assert not hasattr(event, 'pbl_i_ipt')
+            assert {name: getattr(event, name) for name in type(event)._fields} == {name: getattr(original, name) for name in type(event)._fields}
+        tracks = list(history.tracks)
+        expected = list(other.tracks)
+        assert [len(track.events) for track in tracks] == [len(track.events) for track in expected]
+        assert all(track.particle is None for track in tracks)
+        assert [[(event.cell, event.material, event.position) for event in track.events] for track in tracks] == [
+            [(event.cell, event.material, event.position) for event in track.events] for track in expected
+        ]
+    # The streaming parse reads the same blocks.
+    assert [history.to_mcnp() for history in pymcnp.Ptrac.iter_histories(NOIPT)] == [history.to_mcnp() for history in ptrac.histories]
+
+
+@pytest.mark.parametrize('path', sorted(FILES.glob('valid*.ptrac')), ids=lambda path: path.name)
+def test_block_events_agree_with_stream(path: pathlib.Path) -> None:
+    # Every event read by the block's field names (no header) equals the streamed event read by the header's IDs.
+    streamed = pymcnp.Ptrac.stream(path)
+    count = 0
+    for history in pymcnp.Ptrac.iter_histories(path):
+        for event in pymcnp_history_events(history):
+            assert event.to_dict() == next(streamed).to_dict(), event.raw
+            count += 1
+    assert next(streamed, None) is None
+    assert count > 0 or len(path.read_text().splitlines()) <= 9

@@ -82,3 +82,41 @@ class Header(Block):
     newline_4: typing.Annotated[abc.Terminal, r'\n ']
     l: typing.Annotated[abc.Array, typing.Annotated[abc.Terminal, r' \d\d\d|  \d\d|   \d'], typing.Annotated[abc.Terminal, r'\n |']] | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
     newline_5: typing.Annotated[abc.Terminal, r'\n']
+
+
+# Variable ID of the event type, the first value of every J line.
+_EVENT_TYPE_ID = 7
+
+
+def _event_lines(header: Header) -> list[tuple[list[int], int]] | None:
+    """
+    Reads the event lines that PTRAC headers describe, from their variable IDs.
+
+    The header's `n1` to `n11` count the variable IDs of the NPS line, then of the J and P lines of source, bank,
+    surface, collision and termination events; `l` lists the IDs in that order. Each J line starts with the event
+    type (ID 7).
+
+    Returns:
+        For source, bank, surface, collision and termination events, in that order, the variable IDs of the J line
+        after the event type and the number of P-line values; `None` if the counts and IDs are not numbers or do not
+        fit together.
+    """
+
+    try:
+        counts = [int(getattr(header, f'n{i}')) for i in range(1, 12)]
+        ids = [int(i) for i in header.l]
+    except ValueError:
+        return None
+    if sum(counts) != len(ids):
+        return None
+
+    lines = []
+    start = counts[0]
+    for j, p in zip(counts[1::2], counts[2::2]):
+        line = ids[start : start + j]
+        if line[:1] != [_EVENT_TYPE_ID]:
+            return None
+        lines.append((line[1:], p))
+        start += j + p
+
+    return lines

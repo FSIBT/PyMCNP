@@ -2,6 +2,7 @@ import dataclasses
 import inspect
 
 from . import block
+from .block.Header import _event_lines
 from .Types import EventType, Particle, Surface
 
 # Roles of the J-line values `Event` reads, by PTRAC header variable ID (MCNP manual, PTRAC file format):
@@ -17,39 +18,20 @@ _ORDER = (EventType.SOURCE, EventType.BANK, EventType.SURFACE, EventType.COLLISI
 # Layout of the J-line values per event type: number of values after `type`, and position by role.
 _Layout = dict[EventType, tuple[int, dict[str, int]]]
 
-_EVENT_TYPE_ID = 7
-
 
 def _layout(header: block.Header) -> _Layout | None:
     """
     Reads the positions of the J-line values from the variable IDs of PTRAC headers.
 
-    The header's `n1` to `n11` count the variable IDs of the NPS line, then of the J and P lines of source, bank,
-    surface, collision and termination events; `l` lists the IDs in that order. Each J line starts with the event
-    type (ID 7).
-
     Returns:
         Layout per event type, `None` if the counts and IDs are not numbers or do not fit together.
     """
 
-    try:
-        counts = [int(getattr(header, f'n{i}')) for i in range(1, 12)]
-        ids = [int(i) for i in header.l]
-    except ValueError:
-        return None
-    if sum(counts) != len(ids):
+    lines = _event_lines(header)
+    if lines is None:
         return None
 
-    layout: _Layout = {}
-    start = counts[0]
-    for kind, j, p in zip(_ORDER, counts[1::2], counts[2::2]):
-        line = ids[start : start + j]
-        if line[:1] != [_EVENT_TYPE_ID]:
-            return None
-        layout[kind] = (j - 1, {_ROLES_BY_ID[i]: index for index, i in enumerate(line[1:]) if i in _ROLES_BY_ID})
-        start += j + p
-
-    return layout
+    return {kind: (len(j), {_ROLES_BY_ID[i]: index for index, i in enumerate(j) if i in _ROLES_BY_ID}) for kind, (j, _) in zip(_ORDER, lines)}
 
 
 def _values(event: block.Event) -> tuple[list[str], list[str], dict[str, int]]:
