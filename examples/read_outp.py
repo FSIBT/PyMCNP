@@ -1,7 +1,7 @@
 """
 Example reading OUTP files.
 
-This example reads an OUTP file using two methods: `__init__` and `from_mcnp`.
+This example reads an OUTP file using two methods: `from_file` and `from_mcnp`.
 First, it reads the output file from a path, and second, it reads an output
 file from the source string directly. Finally, it prints both results.
 """

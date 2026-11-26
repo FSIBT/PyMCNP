@@ -1,7 +1,7 @@
 """
 Example reading INP files.
 
-This example reads an INP file using two methods: `__init__` and `from_mcnp`.
+This example reads an INP file using two methods: `from_file` and `from_mcnp`.
 First, it reads the input file from a path, and second, it reads an input file
 from the source string directly. Finally, it prints both results.
 """

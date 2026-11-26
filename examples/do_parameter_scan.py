@@ -2,7 +2,9 @@
 Example parameter scan.
 
 This example mocks the parameter scan workflow. First, it reads INP file `example_04.inp`.
-Second, it creates independent copies of the input with `Inp.scan_with`, setting a surface's `vy` parameter (`Inp.scan(nps=..., seed=...)` does the same for `nps` and `seed`). Third,
+Second, it creates independent copies of the input with `Inp.scan`, setting the `vy` parameter of the first surface
+through the path `surfaces[0].vy` (`Inp.scan(nps=..., seed=...)` scans `nps` and `seed`, and `Inp.scan_with`
+applies a function to each copy). Third,
 it visualizes the surfaces. Fourth, it subclasses `Run`, adding callbacks that process
 the output files. Finally, it runs the input files in parallel.
 """

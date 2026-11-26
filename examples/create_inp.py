@@ -10,8 +10,8 @@ type #4 tally. Fifth, it creates a INP file using `Inp` and prints the result.
 import pymcnp
 
 RADIUS_WORLD: float = 100
-RADIUS_INNER: float = 50
-RADIUS_OUTER: float = 10
+RADIUS_INNER: float = 10
+RADIUS_OUTER: float = 50
 
 # Creating surfaces.
 surface_inner = pymcnp.inp.card.surface.Rpp(
@@ -44,9 +44,9 @@ material_lead = pymcnp.inp.card.data.M.from_formula(suffix=32, formulas={'Pb': 1
 # Creating cells.
 imp = pymcnp.inp.option.cell.Imp(particle='n', x=1)
 cell_inside = pymcnp.inp.card.Cell_1(j=1, m=0, geom=-surface_inner, options=[imp])
-cell_shield = pymcnp.inp.card.Cell_0(j=2, m=material_lead.suffix, d=0.5, geom=+surface_inner & -surface_outer, options=[imp])
-cell_air = pymcnp.inp.card.Cell_0(j=3, m=material_air.suffix, d=0.5, geom=-surface_inner | (+surface_outer & -surface_world), options=[imp])
-cell_world = pymcnp.inp.card.Cell_1(j=4, m=0, geom=+surface_world, options=[imp])
+cell_shield = pymcnp.inp.card.Cell_0(j=2, m=material_lead.suffix, d=-11.34, geom=+surface_inner & -surface_outer, options=[imp])  # negative: g/cm3
+cell_air = pymcnp.inp.card.Cell_0(j=3, m=material_air.suffix, d=-0.001205, geom=+surface_outer & -surface_world, options=[imp])
+cell_world = pymcnp.inp.card.Cell_1(j=4, m=0, geom=+surface_world, options=[pymcnp.inp.option.cell.Imp(particle='n', x=0)])  # outside the world
 
 # Creating source.
 source = pymcnp.inp.card.data.Sdef(options=['POS=0 0 0', 'ERG=14.4', 'PAR=1'])
