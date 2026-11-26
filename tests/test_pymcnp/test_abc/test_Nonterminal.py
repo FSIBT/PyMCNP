@@ -1,3 +1,4 @@
+import re
 import typing
 
 import pytest
@@ -54,3 +55,74 @@ class Test_Nonterminal:
         copies = list(inp.scan_with([1, 2], lambda i, v: setattr(i, 'nps', v)))
         assert [c.nps for c in copies] == [1, 2]
         assert inp.nps == 10
+
+
+CALLS: list[tuple[str, str]] = []
+
+
+class Space(pymcnp.abc.Terminal):
+    _pattern = re.compile(r'( +)')
+    _default = ' '
+
+
+class Nonterminal1(pymcnp.abc.Nonterminal):
+    _space: typing.ClassVar = (Space,)
+
+    a: typing.Annotated[pymcnp.abc.Terminal, r'[a-z]+']
+    b: typing.Annotated[pymcnp.abc.Terminal, r'[a-z]+']
+
+    def __post_init__(self) -> None:
+        CALLS.append((self.a, self.b))
+
+        if self.b == 'bad':
+            raise pymcnp.abc.Error('Invalid value.', f'{self.b=}')
+
+
+class Nonterminal2(pymcnp.abc.Nonterminal):
+    _space: typing.ClassVar = (Space,)
+
+    a: typing.Annotated[pymcnp.abc.Terminal, r'[a-z]+']
+    b: typing.Annotated[pymcnp.abc.Terminal, r'[a-z]+'] = pymcnp.abc.Terminal[r'[a-z]+']('z')
+
+    def __post_init__(self) -> None:
+        CALLS.append((self.a, self.b))
+
+        if self.a == 'x' and self.b == 'z':
+            raise pymcnp.abc.Error('Invalid value.', f'{self.a=} {self.b=}')
+
+
+class Test_Nonterminal_build:
+    def test_build_validates_once(self) -> None:
+        CALLS.clear()
+        nonterminal, remainder = Nonterminal1.from_mcnp('ab  cd')
+        assert CALLS == [('ab', 'cd')]
+        assert remainder == ''
+        assert nonterminal == Nonterminal1(a='ab', b='cd', spaces={'a': Space('  ')})
+        assert nonterminal.spaces == {'a': '  '}
+        assert nonterminal.to_mcnp() == 'ab  cd'
+        assert vars(nonterminal) == vars(Nonterminal1(a='ab', b='cd', spaces={'a': Space('  ')}))
+
+        # Setters still validate.
+        CALLS.clear()
+        nonterminal.b = 'ef'  # type: ignore
+        assert CALLS == [('ab', 'ef')]
+        with pytest.raises(pymcnp.abc.Error):
+            nonterminal.b = '12'  # type: ignore
+        with pytest.raises(pymcnp.abc.Error, match='Invalid value'):
+            nonterminal.b = 'bad'  # type: ignore
+
+    def test_build_invalid_still_raises(self) -> None:
+        with pytest.raises(pymcnp.abc.Error) as err:
+            Nonterminal1.from_mcnp('ab bad')
+        assert str(err.value) == "Invalid value.\n self.b='bad'"
+
+    def test_build_default_after_last_required(self) -> None:
+        # Fields with defaults after the last required one: the setters validate with the defaults first.
+        CALLS.clear()
+        nonterminal, _ = Nonterminal2.from_mcnp('ab cd')
+        assert CALLS == [('ab', 'z'), ('ab', 'cd')]
+        assert nonterminal.to_mcnp() == 'ab cd'
+
+        with pytest.raises(pymcnp.abc.Error) as err:
+            Nonterminal2.from_mcnp('x cd')
+        assert str(err.value) == "Invalid value.\n self.a='x' self.b='z'"

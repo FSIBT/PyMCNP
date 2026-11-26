@@ -148,6 +148,8 @@ class Nonterminal(Symbol):
     _space: typing.ClassVar[tuple[type[Terminal], ...]] = (EMPTY_STRING_TYPE,)
     _forms: typing.ClassVar[tuple[type[typing.Self], ...]] = ()
     _fields: typing.ClassVar[dict[str, tuple[type[Symbol], ...]]] = {}
+    # ``_build`` steps in ``__init__`` order: ``(None, None, False)`` sets ``spaces``, ``(name, '_name', validate)`` sets a field.
+    _build_steps: typing.ClassVar[tuple[tuple[str | None, str | None, bool], ...]] = ()
 
     if typing.TYPE_CHECKING:
 
@@ -200,10 +202,58 @@ class Nonterminal(Symbol):
                 setattr(datacls, f'_{name}', dataclasses.MISSING)
             setattr(datacls, name, _field(name, hint))
 
+        # Planning ``_build``: the setters validate once every field is set (fields with defaults count
+        # as set), and ``__init__`` validates again at the end, which ``_build`` does once instead.
+        names = [field.name for field in dataclasses.fields(datacls) if field.name != 'spaces']
+        required = [index for index, name in enumerate(names) if getattr(datacls, f'_{name}') is dataclasses.MISSING]
+        first = required[-1] if required else 0
+        steps = []
+        for field in dataclasses.fields(datacls):
+            if field.name == 'spaces':
+                steps.append((None, None, False))
+            else:
+                index = names.index(field.name)
+                steps.append((field.name, f'_{field.name}', first <= index < len(names) - 1))
+        cls._build_steps = tuple(steps)
+
         # Adding this nonterminal to multi-form nonterminals.
         for base in cls.__bases__:
             if isinstance(base, type) and issubclass(base, Nonterminal):
                 base._forms = (*base._forms, datacls)
+
+    @classmethod
+    def _build(cls, spaces: dict[str, Terminal], parameters: dict[str, Symbol]) -> typing.Self:
+        """
+        Constructs nonterminal symbols from already compiled constituents.
+
+        Equivalent to ``cls(spaces=spaces, **parameters)`` for constituents of ``cls._fields`` kinds, without
+        recompiling them, and validating with ``__post_init__`` the same way except for one repeated last call.
+
+        Parameters:
+            spaces: Whitespaces between constituents.
+            parameters: Every constituent, already compiled.
+
+        Returns:
+            Nonterminal symbol with ``spaces`` and ``parameters``.
+
+        Raises:
+            Error: Invalid value.
+        """
+
+        self = object.__new__(cls)
+        attributes = self.__dict__
+
+        for name, name_private, validate in cls._build_steps:
+            if name is None:
+                attributes['spaces'] = spaces
+            else:
+                attributes[name_private] = parameters[name]
+                if validate:
+                    self.__post_init__()
+
+        self.__post_init__()
+
+        return self
 
     def __class_getitem__(cls, index: int) -> type[typing.Self]:
         """
@@ -298,6 +348,8 @@ class Nonterminal(Symbol):
                 if last is not None and last in spaces:
                     # Giving back the space after the last nonempty constituent.
                     pos -= len(spaces.pop(last))
+                if len(parameters) == len(cls._fields):
+                    return cls._build(spaces, parameters), pos
                 return cls(spaces=spaces, **parameters), pos
             except TypeError:
                 raise Error(f'Expected ``{cls.__name__}.{name}``.', f'source={source[pos : pos + 80]!r}')
