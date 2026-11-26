@@ -56,83 +56,35 @@ class Test_Outp(classes.Test_FromFile, classes.Test_ToDataframe):
             rtol=1e-4,
         )
 
-    def test_version(self) -> None:
-        """
-        Tests `version` on `EXAMPLES_FROM_FILE_VALID`.
-        """
+    def test_footer_properties(self) -> None:
+        outp, _ = self.element.from_file(PATH / 'valid_39.outp')
 
-        for example in self.EXAMPLES_FROM_FILE_VALID:
-            print(example)
+        assert outp.version == 'MCNP_6.20, 6.2.0'
+        assert outp.nps.strip() == '1000000'
+        assert outp.run_time.strip() == '0.79'
+        assert outp.terminated.strip() == '1000000  particle histories were done.'
+        assert outp.warnings.strip() == '15'
 
-            outp, _ = self.element.from_file(example)
-            _ = outp.version
+    def test_footer_properties_without_footer(self) -> None:
+        outp, _ = self.element.from_file(PATH / 'valid_06.outp')
 
-    def test_nps(self) -> None:
-        """
-        Tests `nps` on `EXAMPLES_FROM_FILE_VALID`.
-        """
-
-        for example in self.EXAMPLES_FROM_FILE_VALID:
-            print(example)
-
-            outp, _ = self.element.from_file(example)
-            _ = outp.nps
-
-    def test_run_time(self) -> None:
-        """
-        Tests `run_time` on `EXAMPLES_FROM_FILE_VALID`.
-        """
-
-        for example in self.EXAMPLES_FROM_FILE_VALID:
-            print(example)
-
-            outp, _ = self.element.from_file(example)
-            _ = outp.run_time
-
-    def test_terminated(self) -> None:
-        """
-        Tests `terminated` on `EXAMPLES_FROM_FILE_VALID`.
-        """
-
-        for example in self.EXAMPLES_FROM_FILE_VALID:
-            print(example)
-
-            outp, _ = self.element.from_file(example)
-            _ = outp.terminated
-
-    def test_warnings(self) -> None:
-        """
-        Tests `warnings` on `EXAMPLES_FROM_FILE_VALID`.
-        """
-
-        for example in self.EXAMPLES_FROM_FILE_VALID:
-            print(example)
-
-            outp, _ = self.element.from_file(example)
-            _ = outp.warnings
+        assert outp.version == 'MCNP6, 1.0'
+        assert (outp.nps, outp.run_time, outp.terminated, outp.warnings) == (None, None, None, None)
+        assert outp.activities() == () and outp.tallies() == ()
 
     def test_activities(self) -> None:
-        """
-        Tests `activities` on `EXAMPLES_FROM_FILE_VALID`.
-        """
+        outp, _ = self.element.from_file(PATH / 'valid_39.outp')
 
-        for example in self.EXAMPLES_FROM_FILE_VALID:
-            print(example)
-
-            outp, _ = self.element.from_file(example)
-            _ = outp.activities()
+        assert [type(block) for block in outp.activities()] == [pymcnp.outp.block.NeutronActivity, pymcnp.outp.block.PhotonActivity]
+        assert outp.activities(pymcnp.outp.block.PhotonActivity) == outp.activities()[1:]
 
     def test_tallies(self) -> None:
-        """
-        Tests `tallies` on `EXAMPLES_FROM_FILE_VALID`.
-        """
+        outp, _ = self.element.from_file(PATH / 'valid_39.outp')
 
-        for example in self.EXAMPLES_FROM_FILE_VALID:
-            print(example)
-
-            outp, _ = self.element.from_file(example)
-            _ = outp.tallies()
-            _ = outp.tallies(number='1')
+        tallies = outp.tallies()
+        assert [str(tally.number).strip() for tally in tallies] == ['21']
+        assert outp.tallies(number=21) == tallies
+        assert outp.tallies(number='1') == ()
 
 
 @functools.cache
