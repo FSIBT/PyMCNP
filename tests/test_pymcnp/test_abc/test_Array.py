@@ -52,6 +52,54 @@ class Test_Array:
         with pytest.raises(pymcnp.abc.Error):
             e.e[0] = 'x'
 
+    @pytest.mark.parametrize(
+        'mutate, expected',
+        [
+            (lambda a: a.__setitem__(slice(0, 1), [7, 8]), 'E0 7 8 2 3'),
+            (lambda a: a.__setitem__(slice(0, 2), [9]), 'E0 9 3'),
+            (lambda a: a.__setitem__(slice(1, 1), [5]), 'E0 1 5 2 3'),
+            (lambda a: a.__setitem__(slice(None), []), 'E0  '),
+            (lambda a: a.__setitem__(slice(None, None, 2), [8, 9]), 'E0 8 2 9'),
+            (lambda a: a.insert(0, 7), 'E0 7 1 2 3'),
+            (lambda a: a.insert(10, 7), 'E0 1 2 3 7'),
+            (lambda a: a.append(4), 'E0 1 2 3 4'),
+            (lambda a: a.extend([4, '5.5']), 'E0 1 2 3 4 5.5'),
+            (lambda a: a.__iadd__([4]), 'E0 1 2 3 4'),
+            (lambda a: a.__imul__(2), 'E0 1 2 3 1 2 3'),
+            (lambda a: a.__delitem__(1), 'E0 1 3'),
+            (lambda a: a.__delitem__(-1), 'E0 1 2'),
+            (lambda a: a.__delitem__(slice(0, 2)), 'E0 3'),
+            (lambda a: a.__delitem__(slice(None, None, 2)), 'E0 2'),
+            (lambda a: a.pop(), 'E0 1 2'),
+            (lambda a: a.pop(0), 'E0 2 3'),
+            (lambda a: a.remove(2), 'E0 1 3'),
+            (lambda a: a.clear(), 'E0  '),
+        ],
+    )
+    def test_mutators_keep_spaces_in_step(self, mutate, expected) -> None:
+        # Each mutator converts its values and keeps one space between items, so the card still round-trips.
+        e, _ = pymcnp.inp.card.data.E.from_mcnp('E0 1 2 3')
+        mutate(e.e)
+        assert len(e.e.spaces) == max(len(e.e) - 1, 0)
+        assert all(isinstance(value, pymcnp.inp.literal.Real) for value in e.e)
+        assert e.to_mcnp() == expected
+        if len(e.e):
+            assert pymcnp.inp.card.data.E.from_mcnp(expected)[0] == e
+
+    def test_mutators_keep_continuation_spaces(self) -> None:
+        # Spaces between kept items, e.g., a continuation line, stay where they are.
+        e, _ = pymcnp.inp.card.data.E.from_mcnp('E0 1 2 &\n     3 4')
+        e.e.insert(0, 0)
+        del e.e[1]
+        assert e.to_mcnp() == 'E0 0 2 &\n     3 4'
+
+    @pytest.mark.parametrize('mutate', [lambda a: a.append('x'), lambda a: a.insert(0, 'x'), lambda a: a.extend(['x']), lambda a: a.__iadd__(['x'])])
+    def test_mutators_reject_invalid_values(self, mutate) -> None:
+        e, _ = pymcnp.inp.card.data.E.from_mcnp('E0 1 2 3')
+        with pytest.raises(pymcnp.abc.Error):
+            mutate(e.e)
+        assert e.to_mcnp() == 'E0 1 2 3'
+
     def test_filter(self) -> None:
         array, _ = pymcnp.abc.Array[pymcnp.inp.card.Surface, None].from_mcnp('1 x 1 1 1 1\n2 so 1')
         assert array.filter(pymcnp.inp.card.surface.X) == [pymcnp.inp.card.surface.X.from_mcnp('1 x 1 1 1 1')[0]]

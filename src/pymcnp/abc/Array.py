@@ -218,9 +218,51 @@ class Array(Symbol, list):
 
         return ''.join(itertools.chain.from_iterable(itertools.zip_longest((item.to_mcnp() for item in self), self.spaces, fillvalue='')))
 
+    def _space_default(self) -> Terminal:
+        """
+        Returns the default space between items.
+        """
+
+        return type(self)._space[0](type(self)._space[0]._default or '')
+
+    def _convert(self, value: typing.Any) -> Symbol:
+        """
+        Converts values to the array's item type as fields do, e.g., ``3`` to ``inp.literal.Real('3')``.
+
+        Raises:
+            Error: Invalid value.
+        """
+
+        from .Nonterminal import _parse_value
+
+        return _parse_value(type(self)._kind, value)
+
+    def _splice(self, start: int, stop: int, count: int) -> None:
+        """
+        Keeps ``spaces`` in step when the items ``start`` to ``stop`` become ``count`` items.
+
+        Spaces between kept items stay; spaces next to the replaced items are reused, then the default space fills in.
+
+        Parameters:
+            start: First replaced item.
+            stop: Item after the last replaced item.
+            count: Number of new items.
+        """
+
+        length = len(self)
+        stop = max(start, stop)
+        prefix = self.spaces[: max(start - 1, 0)]
+        suffix = self.spaces[stop:]
+        needed = max(length - (stop - start) + count - 1, 0) - len(prefix) - len(suffix)
+        middle = self.spaces[max(start - 1, 0) : stop][:needed]
+        middle += [self._space_default() for _ in range(needed - len(middle))]
+        self.spaces = prefix + middle + suffix
+
     def __setitem__(self, key: typing.Any, value: typing.Any) -> None:
         """
         Sets items, converting values to the array's item type as fields do, e.g., ``3`` to ``inp.literal.Real('3')``.
+
+        A slice may change the length; the spaces between items are kept in step.
 
         Parameters:
             key: Index or slice.
@@ -230,27 +272,130 @@ class Array(Symbol, list):
             Error: Invalid value.
         """
 
-        from .Nonterminal import _parse_value
-
         if isinstance(key, slice):
-            value = [_parse_value(type(self)._kind, item) for item in value]
+            value = [self._convert(item) for item in value]
+            start, stop, step = key.indices(len(self))
+            if step == 1:
+                self._splice(start, stop, len(value))
         else:
-            value = _parse_value(type(self)._kind, value)
+            value = self._convert(value)
 
         super().__setitem__(key, value)
 
+    def __delitem__(self, key: typing.Any) -> None:
+        """
+        Deletes items, keeping the spaces between items in step.
+
+        Parameters:
+            key: Index or slice.
+        """
+
+        if isinstance(key, slice):
+            indices = sorted(range(*key.indices(len(self))), reverse=True)
+        else:
+            indices = [range(len(self))[key]]
+
+        for index in indices:
+            self._splice(index, index + 1, 0)
+            super().__delitem__(index)
+
+    def insert(self, index: typing.SupportsIndex, item: typing.Any) -> None:
+        """
+        Inserts into arrays, converting the item.
+
+        Parameters:
+            index: Position to insert at.
+            item: Item to insert.
+
+        Raises:
+            Error: Invalid value.
+        """
+
+        self[slice(index, index)] = [item]
+
     def append(self, item: typing.Any) -> None:
         """
-        Appends to arrays.
+        Appends to arrays, converting the item.
 
         Parameters:
             item: Item to append.
+
+        Raises:
+            Error: Invalid value.
         """
 
-        if len(self) > 0:
-            self.spaces.append(type(self)._space[0](type(self)._space[0]._default or ''))
+        self[len(self) :] = [item]
 
-        super().append(item)
+    def extend(self, items: typing.Iterable[typing.Any]) -> None:
+        """
+        Extends arrays, converting the items.
+
+        Parameters:
+            items: Items to append.
+
+        Raises:
+            Error: Invalid value.
+        """
+
+        self[len(self) :] = list(items)
+
+    def __iadd__(self, items: typing.Iterable[typing.Any]) -> typing.Self:  # ty: ignore[invalid-method-override]
+        """
+        Extends arrays in place, converting the items.
+
+        Parameters:
+            items: Items to append.
+
+        Raises:
+            Error: Invalid value.
+        """
+
+        self.extend(items)
+        return self
+
+    def __imul__(self, count: typing.SupportsIndex) -> typing.Self:
+        """
+        Repeats arrays in place, keeping the spaces between items in step.
+
+        Parameters:
+            count: Number of repeats.
+        """
+
+        items = list(self)
+        del self[:]
+        for _ in range(count.__index__()):
+            self.extend(items)
+        return self
+
+    def pop(self, index: typing.SupportsIndex = -1) -> typing.Any:
+        """
+        Removes and returns items, keeping the spaces between items in step.
+
+        Parameters:
+            index: Position to remove.
+        """
+
+        item = self[index]
+        del self[index]
+        return item
+
+    def remove(self, item: typing.Any) -> None:
+        """
+        Removes the first equal item, keeping the spaces between items in step.
+
+        Parameters:
+            item: Item to remove.
+        """
+
+        del self[self.index(item)]
+
+    def clear(self) -> None:
+        """
+        Removes all items and spaces.
+        """
+
+        super().clear()
+        self.spaces = []
 
     def filter(self, *kinds: typing.Type, **fields: typing.Any) -> Array:
         """

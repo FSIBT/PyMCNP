@@ -38,7 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Breaking:** OUTP blocks are now `Header`, `Footer`, `Activity` (`NeutronActivity`, `PhotonActivity`), and `Tally` (`TallySurface`, `TallyAngle`, `TallyCell`); the `Tally_0` to `Tally_7` blocks are gone.
 - **Breaking:** the `value` of the PTRAC card's `EVENT` option (`inp.option.data.ptrac.Event`) is an `abc.Array` of event types instead of an `abc.Terminal` string, so that `EVENT=SRC,COL,BNK` keeps every value; use `[str(v) for v in option.value]` or `option.value.to_mcnp()`.
 - **Breaking:** in `Inp.scan` paths, the index into `cells`, `surfaces` or `data` counts cards and skips comment cards: `inp.scan(**{'surfaces[0].r': [...]})` changes the first surface card, not a comment card before it. `inp.cells`, `inp.surfaces` and `inp.data` still list comment cards.
-- Values set through an array index, e.g., `card.e[1] = 2` or a scan path such as `data[0].e[1]`, are converted to the item type (`inp.literal.Real`) as field values are; a plain `int` was stored, and `to_mcnp` then failed.
+- Values put into an array, e.g., `card.e[1] = 2`, `append`, `insert`, `extend`, `+=` or a scan path such as `data[0].e[1]`, are converted to the item type (`inp.literal.Real`) as field values are, and invalid values raise `abc.Error`; a plain `int` was stored, and `to_mcnp` then failed.
 - **Breaking:** `PtracProcessor.run` returns the results of the `process_*` methods; a `Run` result without an output file is not `ok`.
 - The `pymcnp` command prints Python warnings, e.g., "Tally not parsed." or "Line exceeds 80 characters maximum length", as warning panels, like its own messages, instead of Python's format with the source line.
 - `pymcnp run` and `pymcnp visualize` ignored a card PyMCNP cannot parse, and every card after it. Both now warn and exit with 3, as `pymcnp check` does; `run` runs nothing, and `visualize` draws the cards before it.
@@ -65,6 +65,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The shorthands `nR`, `nI`, `nJ` and `nLOG` were expanded in the title, comment cards, `$` comments and the text after the data block too, e.g., `c phys:n 50000 5j 4 100` became `c phys:n 50000 j j j j j 4 100`; that text is now kept as written.
 - Input files with library keywords between substances, unindented continuation lines after `&`, thermal scattering names such as `h-zr.20t`, trailing spaces or comments at the ends of cards, or no final newline failed to parse.
 - `Array.append` added a space before the first item, and deep copies lost or duplicated array spaces.
+- Slice assignments that change the length, `insert`, `extend`, `+=`, `del`, `pop`, `remove` and `clear` on arrays left the spaces between items out of step, so `to_mcnp` ran items together, e.g., `E0 1 2 37` after `extend([7])`.
 - Tests no longer write files into the repository.
 
 ## [0.10.0] - 2026-10-15
