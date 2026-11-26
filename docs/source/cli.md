@@ -54,7 +54,8 @@ The last image is `pymcnp check files/inp/todo_13.inp`, an input of the reposito
 yet; `check` names its line. `docs/make_images.py` makes all the images.
 
 `--fix` writes the file as PyMCNP prints it, which is equivalent but not identical: shorthands such as `511i` become
-explicit values. Commit or copy the file first.
+explicit values. It writes UTF-8, also for a file that was not UTF-8 and was read as Latin-1. Commit or copy the file
+first.
 
 ### Visualize
 

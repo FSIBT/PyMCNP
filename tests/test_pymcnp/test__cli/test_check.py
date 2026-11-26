@@ -141,3 +141,33 @@ class Test_Check_Report:
 
         assert code == 0
         assert '@@' not in out
+
+
+@pytest.mark.parametrize('options', [['--fix'], ['--diff'], ['--fix', '--diff']])
+def test_latin_1_file_warns_once_and_fix_writes_utf8(monkeypatch, capsys, tmp_path, options) -> None:
+    # A wide card line, so --fix rewrites the file; the warning is shown once per command, not per read.
+    path = tmp_path / 'latin1.inp'
+    path.write_bytes(SOURCE.replace('Title', 'Titel M\xfcller').replace('nps 10', 'nps 10 $' + ' x' * 40).encode('latin-1'))
+    from pymcnp._cli import main
+
+    # Through ``pymcnp``, which prints warnings as panels.
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'check', *options, str(path)])
+    with pytest.raises(SystemExit):
+        main.main()
+    out = capsys.readouterr()
+    assert (out.out + out.err).count('not UTF-8') == 1
+    if '--fix' in options:
+        assert path.read_bytes().startswith('Titel Müller\n'.encode('utf-8'))
+    else:
+        assert path.read_bytes().startswith(b'Titel M\xfcller\n')
+
+
+def test_fix_of_a_latin_1_file_warns_once(tmp_path) -> None:
+    import pymcnp
+
+    path = tmp_path / 'latin1.inp'
+    path.write_bytes(SOURCE.replace('Title', 'Titel M\xfcller').encode('latin-1'))
+    with pytest.warns(pymcnp.abc.Warning, match='not UTF-8') as records:
+        assert pymcnp.Check(path).fix() == []
+    assert len([record for record in records if 'not UTF-8' in str(record.message)]) == 1
+    assert path.read_text(encoding='utf-8').startswith('Titel Müller\n')

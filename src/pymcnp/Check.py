@@ -12,13 +12,16 @@ _WIDTH = 80
 
 
 @contextlib.contextmanager
-def _quiet():
+def _quiet(read_again: bool = False):
     """
-    Ignores the parser's warnings about lines wider than 80 columns, which ``Check`` reports itself, with line numbers.
+    Ignores the parser's warnings about lines wider than 80 columns, which ``Check`` reports itself, with line numbers,
+    and, for a file ``read_again``, the warning about a file read as Latin-1, which its first read issued.
     """
 
     with warnings.catch_warnings():
         warnings.filterwarnings('ignore', 'Line exceeds 80', abc.Warning)
+        if read_again:
+            warnings.filterwarnings('ignore', abc._text.NOT_UTF8, abc.Warning)
         yield
 
 
@@ -134,7 +137,7 @@ class Check(abc.Utility):
 
         Rewrites the file as PyMCNP prints it, which wraps card lines wider
         than 80 columns. Lines it cannot shorten, e.g., long comments, stay as
-        they are. A file PyMCNP cannot parse completely is not rewritten,
+        they are. The file is written as UTF-8, also a file read as Latin-1. A file PyMCNP cannot parse completely is not rewritten,
         since the part it cannot parse would be lost.
 
         Returns:
@@ -152,7 +155,7 @@ class Check(abc.Utility):
             if problem.kind == 'warning':
                 raise abc.Error(f'File not rewritten: PyMCNP cannot parse line {problem.line}.', f'{self.path=}\n{problem.message}')
 
-        with _quiet():
+        with _quiet(read_again=True):
             file = Inp.from_file(self.path)[0]
         file.to_file(self.path)
 

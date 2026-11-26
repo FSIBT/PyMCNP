@@ -9,7 +9,8 @@ Options:
 Lines wider than 80 columns are reported as errors. A card that PyMCNP cannot
 parse is reported as a warning, since MCNP may still accept it. Checking stops
 at the first such card, so run the check again after fixing it. --fix rewraps
-cards, but not comments; lines it cannot shorten are reported as errors.
+cards, but not comments; lines it cannot shorten are reported as errors. It
+writes the file as UTF-8.
 
 Exit codes:
     0    No problems (or --fix left no line wider than 80 columns).
@@ -19,12 +20,14 @@ Exit codes:
          number; --fix does not rewrite the file.
 """
 
-import pathlib
 import sys
+import pathlib
+import warnings
 
 from docopt import docopt
 
 from . import _io
+from .. import abc
 from ..Check import Check
 
 
@@ -50,20 +53,23 @@ def main() -> None:
         report = _io.error if problem.kind == 'error' else _io.warning
         report(f'Line {problem.line}: {problem.message}')
 
-    if args['--diff'] and not unparseable:
-        diff = [line.rstrip('\n') for line in check.check()]
-        if diff:
-            print('\n'.join(diff))
+    # The file was read; reading it again for --diff and --fix does not repeat its warning, e.g., read as Latin-1.
+    with warnings.catch_warnings():
+        warnings.filterwarnings('ignore', abc._text.NOT_UTF8, abc.Warning)
+        if args['--diff'] and not unparseable:
+            diff = [line.rstrip('\n') for line in check.check()]
+            if diff:
+                print('\n'.join(diff))
 
-    if args['--fix']:
-        if unparseable:
-            _io.warning('Not reformatting, since PyMCNP cannot parse the file.')
-        else:
-            remaining = check.fix()
-            for problem in remaining:
-                _io.error(f'Line {problem.line}: {problem.message} --fix cannot shorten this line, e.g., a long comment; shorten it by hand.')
-            if remaining:
-                sys.exit(_io.PROBLEMS)
+        if args['--fix']:
+            if unparseable:
+                _io.warning('Not reformatting, since PyMCNP cannot parse the file.')
+            else:
+                remaining = check.fix()
+                for problem in remaining:
+                    _io.error(f'Line {problem.line}: {problem.message} --fix cannot shorten this line, e.g., a long comment; shorten it by hand.')
+                if remaining:
+                    sys.exit(_io.PROBLEMS)
 
     if unparseable:
         sys.exit(_io.PARTLY_PARSED)

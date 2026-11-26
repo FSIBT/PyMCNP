@@ -12,6 +12,9 @@ import warnings
 
 from .Warning import Warning
 
+# Start of the warning for a file read as Latin-1, e.g., to ignore it when a file is read again.
+NOT_UTF8 = 'File is not UTF-8 text'
+
 # Bytes checked at a time, so a large file, e.g., PTRAC, is checked with flat memory.
 _CHUNK = 1 << 20
 
@@ -48,7 +51,7 @@ def _encoding(path: pathlib.Path | str, warn: bool) -> str:
             except UnicodeDecodeError as err:
                 if warn:
                     number = line + complete.count(b'\n', 0, err.start)
-                    warnings.warn(Warning('File is not UTF-8 text, so PyMCNP reads it as Latin-1.', f'{path}, line {number}'), stacklevel=4)
+                    warnings.warn(Warning(f'{NOT_UTF8}, so PyMCNP reads it as Latin-1.', f'{path}, line {number}'), stacklevel=4)
                 return 'latin-1'
 
             line += complete.count(b'\n')
