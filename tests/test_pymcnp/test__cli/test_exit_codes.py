@@ -340,3 +340,23 @@ def test_same_file_same_code(monkeypatch, capsys, tmp_path: pathlib.Path, fake_m
     # Nothing run, converted or plotted; `visualize` draws the cards before a data card that does not parse.
     assert not list(tmp_path.glob('pymcnp-*')) and not list(tmp_path.glob('bad.inp.*')) and not (tmp_path / 'bad.pdf').exists()
     matplotlib.pyplot.close('all')
+
+
+def test_convert_says_mcnp_stopped_with_a_fatal_error(monkeypatch, capsys, tmp_path: pathlib.Path) -> None:
+    # MCNP stopped before running histories, so the file has no tallies: say why.
+    outp = tmp_path / 'valid_26.outp'
+    shutil.copy(FILES / 'outp' / 'valid_26.outp', outp)
+    monkeypatch.chdir(tmp_path)
+    code, text = _run(monkeypatch, capsys, 'convert', 'outp', '--csv', 'valid_26.outp')
+    assert code == 1
+    assert 'valid_26.outp: nothing to convert; no file written.' in text
+    assert 'MCNP stopped with a fatal error: cross-section tables missing for zaid = 6012.60c' in text
+
+
+def test_convert_names_the_first_three_fatal_errors(monkeypatch, capsys, tmp_path: pathlib.Path) -> None:
+    outp = tmp_path / 'valid_25.outp'
+    shutil.copy(FILES / 'outp' / 'valid_25.outp', outp)
+    code, text = _run(monkeypatch, capsys, 'convert', 'outp', '--parquet', str(outp))
+    assert code == 1
+    assert 'MCNP stopped with 40 fatal errors, e.g.:' in text
+    assert text.count('is not a legal data symbol.') == 1

@@ -99,7 +99,9 @@ column for the tally number. A tally in an OUTP layout PyMCNP cannot parse yet i
 naming it. If PyMCNP cannot parse part of an OUTP or PTRAC file, it writes what it parsed before that part, warns
 with the line where parsing stopped (for PTRAC, the start of the history that holds the bad line), and exits with 3,
 as `pymcnp visualize` does. If there is nothing to convert, it writes no file and exits with 1, or with 3 if that is
-because PyMCNP cannot parse the tallies or the file, e.g., a file of another kind. Large PTRAC files are better streamed in Python with `Ptrac.to_parquet`.
+because PyMCNP cannot parse the tallies or the file, e.g., a file of another kind. For an OUTP file of a run MCNP
+stopped with a fatal error, which has no tallies, it names the error, e.g., "MCNP stopped with a fatal error: illegal
+entry: xdmf". Large PTRAC files are better streamed in Python with `Ptrac.to_parquet`.
 
 ### Plot
 
