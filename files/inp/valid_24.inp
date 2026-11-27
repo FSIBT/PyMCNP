@@ -28,20 +28,20 @@ m238 92238 1.0
 m235 92235 1.0
 c
 fmesh04:n geom=xyz origin -10 -10 -10
-    imesh 10 iints 100
-    jmesh 10 jints 100
-    kmesh 10 kints 100
-    out=none
+     imesh 10 iints 100
+     jmesh 10 jints 100
+     kmesh 10 kints 100
+     out=none
 fmesh14:n geom=xyz origin -10 -10 -10
-    imesh 10 iints 100
-    jmesh 10 jints 100
-    kmesh 10 kints 100
-    out=none
+     imesh 10 iints 100
+     jmesh 10 jints 100
+     kmesh 10 kints 100
+     out=none
 fmesh24:n geom=xyz origin -10 -10 -10
-    imesh 10 iints 100
-    jmesh 10 jints 100
-    kmesh 10 kints 100
-    out=none
+     imesh 10 iints 100
+     jmesh 10 jints 100
+     kmesh 10 kints 100
+     out=none
 c Tally multipliers
 +fm04 -1 235 -6 $ fission rate per cm3 from U235
 +fm14 -1 238 -6 $ fission rate per cm3 from U238

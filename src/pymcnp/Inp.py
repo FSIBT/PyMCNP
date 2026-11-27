@@ -135,8 +135,8 @@ def _wrap(line: str) -> str:
     # A line that ends in ``&`` is continued on the next line, so its last wrapped line keeps the ``&``.
     continued = code.endswith('&')
     code = code.removesuffix('&').rstrip()
-    # The first line keeps an indent of 1-4 spaces, so a continuation line in columns 2-5 stays one; a deeper indent is
-    # reset to ``_INDENT`` spaces, so the line can still be shortened.
+    # The first line keeps an indent of 1-4 spaces, so a card name in columns 2-5 stays one; a deeper indent, a
+    # continuation line, is reset to ``_INDENT`` spaces, so the line can still be shortened.
     indent = line[: min(len(line) - len(line.lstrip(' ')), _INDENT)]
     words = code.split()
     if len(words) < 2:
@@ -209,7 +209,8 @@ def _unparseable_card(lines: list[str]) -> tuple[int, abc.Error] | None:
 
             # Cards are parsed without ``$`` comments; ``from_mcnp`` expands their shorthands as ``Inp`` does.
             code = line.partition('$')[0].rstrip()
-            if cards and (re.match(r'\s', line) or cards[-1][1][-1].endswith('&')):
+            # One to four blanks before a card name still start a card; five or more mark a continuation line.
+            if cards and ((re.match(r'\s', line) and not re.match(r' {1,4}\S', line)) or cards[-1][1][-1].endswith('&')):
                 cards[-1][1].append(code)
             else:
                 cards.append((index + 1, [code]))

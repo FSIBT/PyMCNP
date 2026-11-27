@@ -1,8 +1,8 @@
 2-MeV photons into Si grid
 1 1 -2.3 -1 lat=1 u=1 imp:p=1
-    fill=0:0 -2:2 -2:2 1 24r
+     fill=0:0 -2:2 -2:2 1 24r
 2 1 -2.3 -2 lat=1 u=2 imp:p=1
-    fill=0:0 -2:2 -2:2 2 24r
+     fill=0:0 -2:2 -2:2 2 24r
 3 0 -3 fill=1 imp:p=1
 4 0 -4 fill=2 imp:p=1
 5 0 -5 4 3 imp:p=1
@@ -28,7 +28,7 @@ f8:e 1
 ft8 PHL 1 16 0 $ Region 1
         1 26 0 $ Region 2
         0
-    COM 5 1
+     COM 5 1
 e8 0.2 100 NT
 fu8 0.2 100 NT
 tf8 j j 2 j j j 2 j

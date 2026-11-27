@@ -173,7 +173,7 @@ def test_wrap_keeps_continuation(dollar):
 
 @pytest.mark.filterwarnings('ignore:Line exceeds 80 characters:pymcnp.abc.Warning')
 def test_wrap_keeps_indent_of_continuation():
-    # valid_07 continues a cell card on a line indented by 4 spaces; wrapping that line keeps its indent, so it still
+    # valid_07 continues a cell card on a line indented by 5 spaces; wrapping that line keeps its indent, so it still
     # continues the card. (The f4 tally of valid_07 does not parse yet, so it is left out.)
     source = re.sub(r'(?m)^f4:p.*\n', '', (FILES / 'valid_07.inp').read_text())
     inp, remainder = pymcnp.Inp.from_mcnp(source)
@@ -181,7 +181,7 @@ def test_wrap_keeps_indent_of_continuation():
 
     written = inp.to_mcnp()
 
-    assert '\n    lat=1 fill=' in written
+    assert '\n     lat=1 fill=' in written
     again, remainder = pymcnp.Inp.from_mcnp(written)
     assert remainder == ''
     assert _canonical(again) == _canonical(inp)
@@ -189,8 +189,8 @@ def test_wrap_keeps_indent_of_continuation():
 
 @pytest.mark.parametrize('spaces, indent', [(1, 1), (4, 4), (5, 5), (17, 5), (76, 5)])
 def test_wrap_indent(spaces, indent):
-    # A wrapped line keeps an indent of 1-4 spaces, which marks a continuation line in columns 2-5, and starts one
-    # indented by 5 or more at column 6, so a deeply indented line can still be shortened.
+    # A wrapped line keeps an indent of 1-4 spaces, which starts a card in columns 2-5, and starts one indented by 5 or
+    # more, a continuation line, at column 6, so a deeply indented line can still be shortened.
     lines = _wrap(' ' * spaces + ' '.join(['1.2345'] * 14)).split('\n')
 
     assert len(lines[0]) - len(lines[0].lstrip(' ')) == indent

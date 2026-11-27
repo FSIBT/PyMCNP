@@ -221,3 +221,13 @@ def test_message_block(tmp_path: pathlib.Path, message: str) -> None:
     path.write_text(message + 'title\n1 0 -1 imp:n=1\n2 0 1 imp:n=0\n\n1 so 1\n\nqqq 1\nnps 5\n')
 
     assert pymcnp.Check(path).problems()[0].line == message.count('\n') + 7
+
+
+def test_indented_cards(tmp_path: pathlib.Path) -> None:
+    # Card names may start in columns 1-5, so an indented card is a card of its own, not a continuation line.
+    path = tmp_path / 'indented.inp'
+    path.write_text('Title\n  1 0 -1 imp:n=1\n  2 0 1 imp:n=0\n\n  1 so 5\n\n  nps 10\n  foo 1\n\n')
+
+    problems = pymcnp.Check(path).problems()
+
+    assert [(problem.line, problem.kind) for problem in problems] == [(8, 'warning')]

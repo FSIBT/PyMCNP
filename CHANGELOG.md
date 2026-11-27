@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+- A card whose name starts in columns 2-5, e.g., `  100 0 1`, failed to parse ("Expected Cell"). One to four blanks before a card name start a card, as in MCNP, and five or more mark a continuation line. Lines indented by one to four blanks that PyMCNP read as continuation lines, which MCNP reads as new cards, now start a card too.
+
 ## [1.0.0] - 2026-11-26
 
 ### Added

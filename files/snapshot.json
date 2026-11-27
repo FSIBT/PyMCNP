@@ -44,7 +44,7 @@
   ]
  },
  "inp/invalid_19.inp": {
-  "error": "Expected ``Inp.blank_0``.\nExpected Terminal[r'( *(?:\\$.*)?\\n\\n)']\n source[:200]=' fill=e10 imp:n=1 $ embedded mesh fill cell\\n99 0 1 imp:n=0 $ outside world\\n\\n1 so 20\\n\\nkcode 500 1.0 50 100\\nksrc 1 1 5 1 -1 5 -1 -1 5 -1 1 5\\n    5 5 5 5 -5 5 -5 -5 5 -5 5 5\\n    1 1 -5 1 -1 -5 -1 -1 -5 -'",
+  "error": "Expected ``Inp.blank_0``.\nExpected Terminal[r'( *(?:\\$.*)?\\n\\n)']\n source[:200]=' fill=e10 imp:n=1 $ embedded mesh fill cell\\n99 0 1 imp:n=0 $ outside world\\n\\n1 so 20\\n\\nkcode 500 1.0 50 100\\nksrc 1 1 5 1 -1 5 -1 -1 5 -1 1 5\\n     5 5 5 5 -5 5 -5 -5 5 -5 5 5\\n     1 1 -5 1 -1 -5 -1 -1 -5'",
   "ok": false,
   "problems": [
    [
@@ -55,7 +55,7 @@
   ]
  },
  "inp/invalid_20.inp": {
-  "error": "Expected ``Inp.blank_0``.\nExpected Terminal[r'( *(?:\\$.*)?\\n\\n)']\n source[:200]=' fill=1e10 (20 0 0) imp:n=1 $ fill cell 1\\n21 0 -2 fill=1e10 (-20 0 0 -1 1 0 1 1 0) imp:n=1 $ fill cell 2\\n\\n1 so 20\\n\\nkcode 500 1.0 50 100\\nksrc 1 1 5 1 -1 5 -1 -1 5 -1 1 5\\n    5 5 5 5 -5 5 -5 -5 5 -5 5 5'",
+  "error": "Expected ``Inp.blank_0``.\nExpected Terminal[r'( *(?:\\$.*)?\\n\\n)']\n source[:200]=' fill=1e10 (20 0 0) imp:n=1 $ fill cell 1\\n21 0 -2 fill=1e10 (-20 0 0 -1 1 0 1 1 0) imp:n=1 $ fill cell 2\\n\\n1 so 20\\n\\nkcode 500 1.0 50 100\\nksrc 1 1 5 1 -1 5 -1 -1 5 -1 1 5\\n     5 5 5 5 -5 5 -5 -5 5 -5 5 '",
   "ok": false,
   "problems": [
    [
@@ -90,7 +90,7 @@
   ]
  },
  "inp/todo_13.inp": {
-  "error": "Expected ``Inp.blank_0``.\nExpected Terminal[r'( *(?:\\$.*)?\\n\\n)']\n source[:200]='(3) 1 1 3 1 1 1\\n   1 2 3 2 1 1 1 1 1 1 1 4(2) 2 1 1 1 1 3 4(1) 1\\n   1 2 3 1 1 1 1 1 1 1\\n5 3 -0.5 -11 10 12 imp:n=1 u=2\\n6 4 -0.4 11:-10:-12 imp:n=1 u=2\\n7 0 -13 imp:n=1 u=3 fill=5\\n8 3 -0.5 13 imp:n=1 u='",
+  "error": "Expected ``Inp.blank_0``.\nExpected Terminal[r'( *(?:\\$.*)?\\n\\n)']\n source[:200]='(3) 1 1 3 1 1 1\\n     1 2 3 2 1 1 1 1 1 1 1 4(2) 2 1 1 1 1 3 4(1) 1\\n     1 2 3 1 1 1 1 1 1 1\\n5 3 -0.5 -11 10 12 imp:n=1 u=2\\n6 4 -0.4 11:-10:-12 imp:n=1 u=2\\n7 0 -13 imp:n=1 u=3 fill=5\\n8 3 -0.5 13 imp:n='",
   "ok": false,
   "problems": [
    [
@@ -114,7 +114,7 @@
   "remainder_len": 77
  },
  "inp/todo_30.inp": {
-  "mcnp": "39cd439be0f9db7ef15eee13dc644df4386c6705f35278624c6ef48240ff0214",
+  "mcnp": "3beec4078c81d8e2bb9e38a73803fb4cabb836117d04ba71e38ab2fc82123759",
   "ok": true,
   "problems": [
    [
@@ -123,8 +123,8 @@
     "PyMCNP cannot parse this card: Expected end of card at '(5<(3[-2:2'. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
   ],
-  "remainder": "c82d1c137103050416a6f9449e3d709e909f4091b352c3f2c4f5804c0b12e463",
-  "remainder_len": 326
+  "remainder": "0f9c45149281e79794e45af3585c540e3a502be8ff171084e4648782ed609683",
+  "remainder_len": 332
  },
  "inp/valid_00.inp": {
   "mcnp": "4bef2a39952bc0d60ab3a9f9effe887bd3ef11008241184e5e7de84c2a4315a2",
@@ -174,7 +174,7 @@
   "remainder_len": 0
  },
  "inp/valid_06.inp": {
-  "mcnp": "ca49274dac78c9191574523be2ff004eca704d1eada81f0a82ea13b85c852d8a",
+  "mcnp": "23e98946225ecbdbea8b91e7912b60f0ff32039deb43be9404262b3bf5308918",
   "ok": true,
   "problems": [
    [
@@ -183,11 +183,11 @@
     "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
   ],
-  "remainder": "b84dd6a47812d1fa9a64aef4e48f365ad63aaa54ef8e6b8fbdf5d14922cf8559",
-  "remainder_len": 306
+  "remainder": "eb60f48a06074351817bc50b1e34af996605f93a91d749bac8838a99caf86657",
+  "remainder_len": 309
  },
  "inp/valid_07.inp": {
-  "mcnp": "d1fa5dab7692c22d41d21e73ba59e0437779c64de9ac5df9f248d3999400250e",
+  "mcnp": "46c719103a324c9a3b03bd80c9a48fc2180d05fea887fa5529d04114c43a5b72",
   "ok": true,
   "problems": [
    [
@@ -209,8 +209,8 @@
     "PyMCNP cannot parse this card: Expected end of card at 'J'. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
   ],
-  "remainder": "0bd1f49878e0586f7561277ad2faa2c83b93594630e84f65140f2b4dd7d031ca",
-  "remainder_len": 93
+  "remainder": "ff68549d87959f1170ea2137590327e9892db7384d92d92b0a536f03c0d76131",
+  "remainder_len": 94
  },
  "inp/valid_09.inp": {
   "mcnp": "4faf40023ec3ca5714fbb08c2395635e4023c9303bfdcb953feb9438d7b61e7a",
@@ -233,7 +233,7 @@
   "remainder_len": 393
  },
  "inp/valid_11.inp": {
-  "mcnp": "5b1b00dda738bebd47695360dde110c6b9efa58544da99c7119cabdb7b3b39f7",
+  "mcnp": "686c415c87eacc60498aa84b396f7effa69e1bdc7cfd84d94355970d4252ecb3",
   "ok": true,
   "problems": [],
   "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -267,14 +267,14 @@
   "remainder_len": 0
  },
  "inp/valid_17.inp": {
-  "mcnp": "daa932bdab8c0a0926c9eb8650ba0b7c5e799b3e27dab332f06c52c34f0ab2fe",
+  "mcnp": "bbf551c7944f3ec068d8df044e34684019184a341728994eb7c59b254afdad7c",
   "ok": true,
   "problems": [],
   "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
   "remainder_len": 0
  },
  "inp/valid_18.inp": {
-  "mcnp": "3de62ee937227687f4e3d9bdbaf6d86edea7630c60a7533eea1543e7270eec74",
+  "mcnp": "1e251a6e0127c0f9fb7ec56dcdef528df58b00f91d7102fb3c2b4b67e2aa416d",
   "ok": true,
   "problems": [],
   "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -302,14 +302,14 @@
   "remainder_len": 0
  },
  "inp/valid_24.inp": {
-  "mcnp": "facd8eb1432b0236a2eafc041e2452d6fc841d3c9e762afdb2195366231f97bf",
+  "mcnp": "eb6eef9aa074eb199ae4397a9b6f31eabb597070947da2db5a374c066f4bc8d7",
   "ok": true,
   "problems": [],
   "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
   "remainder_len": 0
  },
  "inp/valid_25.inp": {
-  "mcnp": "c506e2783715e62d3a30c29ce157df1763daeff2051b0885673927ad47017403",
+  "mcnp": "b973edc4387bcd566ac49a6a494a5f5c09bf3c40e25694c58de4e922f5e556dd",
   "ok": true,
   "problems": [],
   "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -339,8 +339,8 @@
     "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
   ],
-  "remainder": "f74678e5a150683913954082c39ee0e33aad2d15f1a310ba0fb54575103060c8",
-  "remainder_len": 724
+  "remainder": "2dc184c60a54e63c362033980829f45f9d01e281362dda409e3fca98f1f7eab4",
+  "remainder_len": 725
  },
  "inp/valid_31.inp": {
   "mcnp": "92756dc678c309c291b88787537081081c626ef34d1baba8641f57877bc4b0d4",
@@ -350,7 +350,7 @@
   "remainder_len": 0
  },
  "inp/valid_33.inp": {
-  "mcnp": "c2dd729d605b9e46275cb0a990b37259de2405102f7baf330b4bfafbbad06812",
+  "mcnp": "78eca272f3c34741f07ee6a7ad6bf9d1bbe4fbe05e8324bf248bb7833f7a828e",
   "ok": true,
   "problems": [
    [
@@ -359,8 +359,8 @@
     "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
   ],
-  "remainder": "f880ad0b171ecdf3b304ad107c7edd873ab9b029bf97ffa679a4ce53d1188819",
-  "remainder_len": 326
+  "remainder": "1a312b15dfad7cdf171a0a9611bbd36922fd53efcbff1d473f8134ab690fd256",
+  "remainder_len": 327
  },
  "inp/valid_34.inp": {
   "mcnp": "7d27aa258279984ef5d670f58986676e4cf62d57ccd26067afb21209ef24571c",
@@ -391,7 +391,7 @@
   "remainder_len": 0
  },
  "inp/valid_38.inp": {
-  "mcnp": "2156546e07e3d40e90d5a7932d574996a5e9bd023d8dc73cfdf674fda7b3ee8d",
+  "mcnp": "a9fd10670950314f7689c48dfe499db0f4e977fb8d6552d619be5107bad9ba8c",
   "ok": true,
   "problems": [],
   "remainder": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",

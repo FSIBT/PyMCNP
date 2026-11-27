@@ -12,6 +12,8 @@ _REGEX_LOG = re.compile(r'(\S+)(?<!\d[mM]) (\d+)I?LOG (\S+)', re.IGNORECASE)
 _REGEX_MULTIPLY = re.compile(rf'(?<!\S)({_NUMBER}) ({_NUMBER})M(?!\S)', re.IGNORECASE)
 _REGEX_COMMENT = re.compile(r' {0,4}c(?:\s|\Z)', re.IGNORECASE)
 _REGEX_TEXT = re.compile(r' {0,4}[fs]c\d+(?:\s|\Z)', re.IGNORECASE)
+# A card name may start in columns 1-5: one to four blanks before it still start a card, five or more a continuation line.
+_REGEX_INDENT = re.compile(r' {1,4}(?=\S)')
 
 
 def _expand(code: str) -> str:
@@ -66,6 +68,7 @@ def _expand_lines(lines: list[str]) -> list[str]:
     Expands the horizontal data format shorthands of lines of an input file.
 
     Comment cards, ``$`` comments and text cards (``fc``, ``sc``), with their continuation lines, are left verbatim.
+    The one to four blanks before a card name are removed, so every card starts in column 1.
 
     Parameters:
         lines: Lines of card text.
@@ -83,6 +86,8 @@ def _expand_lines(lines: list[str]) -> list[str]:
             continue
 
         continued = line.startswith(' ' * 5) or previous.partition('$')[0].rstrip().endswith('&')
+        if not continued and (indent := _REGEX_INDENT.match(line)):
+            line = line[indent.end() :]
         text = bool(_REGEX_TEXT.match(line)) or (text and bool(line) and continued)
         result.append(line if text else _expand_line(line))
         previous = line

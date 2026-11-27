@@ -568,3 +568,19 @@ class Test_Message:
 
         assert inp.message == 'message: o=x\n  more\n\n'
         assert remainder.startswith('qqq 1\n')
+
+
+@pytest.mark.parametrize('indent', [' ', '  ', '   ', '    '])
+def test_card_names_may_start_in_columns_1_to_5(indent) -> None:
+    # Leading blanks before a card name start a new card; five or more mark a continuation line.
+    source = f'title\n{indent}1 0 -1 imp:n=1 $ inside\n{indent}2 0 1\n     imp:n=0\n\n{indent}1 so 5\n\n{indent}mode n\n{indent}nps 10\n'
+    inp, remainder = pymcnp.Inp.from_mcnp(source)
+    assert remainder == ''
+    assert [_words(card) for card in inp.cell_cards()] == ['1 0 -1 imp:n=1', '2 0 1 imp:n=0']
+    assert [_words(card) for card in inp.surface_cards()] == ['1 so 5']
+    assert [_words(card) for card in inp.data_cards()] == ['mode n', 'nps 10']
+    assert pymcnp.Inp.from_mcnp(inp.to_mcnp()) == (inp, '')
+
+
+def test_indented_card_name_is_a_card() -> None:
+    assert _words(pymcnp.inp.card.Cell.from_mcnp('  100 0 1')[0]) == '100 0 1'
