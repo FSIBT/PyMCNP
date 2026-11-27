@@ -157,3 +157,19 @@ def test_main_surface_it_cannot_draw(monkeypatch, capsys, tmp_path: pathlib.Path
     assert error.value.code == 1
     out = ' '.join(capsys.readouterr().out.replace('│', '').split())
     assert 'Error: PyMCNP cannot visualize this geometry yet: Gq' in out
+
+
+@pytest.mark.render
+@pytest.mark.parametrize('options', [['-c', '1'], ['--cells']])
+def test_main_missing_surface(monkeypatch, capsys, tmp_path: pathlib.Path, options) -> None:
+    # A cell that refers to a surface that is not in the file is an error that names both, not a traceback.
+    inp = tmp_path / 'missing.inp'
+    inp.write_text('title\n1 0 -1 -7\n2 0 1\n\n1 so 1\n\nnps 1\n')
+    monkeypatch.setattr(sys, 'argv', ['pymcnp', 'visualize', str(inp), *options, '--pdf'])
+
+    with pytest.raises(SystemExit) as error:
+        visualize.main()
+
+    assert error.value.code == 1
+    out = ' '.join(capsys.readouterr().out.replace('│', '').split())
+    assert 'Error: Cell 1 refers to surface 7, which is not in the file.' in out

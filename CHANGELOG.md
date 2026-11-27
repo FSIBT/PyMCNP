@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A card whose name starts in columns 2-5, e.g., `  100 0 1`, failed to parse ("Expected Cell"). One to four blanks before a card name start a card, as in MCNP, and five or more mark a continuation line. Lines indented by one to four blanks that PyMCNP read as continuation lines, which MCNP reads as new cards, now start a card too.
 - An `sp` or `sb` card with a built-in function and fewer than two parameters, e.g., `sp1 -21 1` or `sp1 -5`, failed to parse; its parameters are optional, as in MCNP. Probabilities may exceed 1, as MCNP normalizes them: `sp1 0 2 3` was read as function 0 with parameters 2 and 3. A function number must be negative.
 - `pymcnp visualize`, and `Visualize`, failed with "Invalid value." for a cell that complements a cell after it, e.g., `#415` in cell 200 before cell 415; a cell may complement any cell of the file, as in MCNP. Cells that complement each other in a loop raise `abc.Error` "Cells complement each other in a loop.".
+- `pymcnp visualize`, and `Visualize`, reported a cell or surface that is not in the file as "Invalid value." with its number, or ended in a Python traceback for a surface with a sign, e.g., `-7`; the error now names both, e.g., "Cell 1 refers to surface 7, which is not in the file.", followed by the cell card. `Geometry.to_show` raises `inp.literal.Geometry.Missing`.
 
 ## [1.0.0] - 2026-11-26
 

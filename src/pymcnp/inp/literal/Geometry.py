@@ -3,10 +3,39 @@ from __future__ import annotations
 import re
 import abc as _abc
 import typing
+import dataclasses
 
 from ... import abc
 from ... import _show
 from .Number import Integer
+
+
+@dataclasses.dataclass
+class Missing(abc.Error):
+    """
+    Represents references to a cell or surface that is not in the file.
+
+    Attributes:
+        kind: ``'cell'`` or ``'surface'``.
+        number: Number of the missing cell or surface.
+    """
+
+    kind: str = ''
+    number: str = ''
+
+
+def _look_up(cards: dict[str, abc.Visualization], number: str, kind: str) -> abc.Visualization:
+    """
+    Looks up the visualization of a cell or surface.
+
+    Raises:
+        Missing: The cell or surface is not in the file.
+    """
+
+    try:
+        return cards[Integer(number)]
+    except KeyError:
+        raise Missing(f'{kind.capitalize()} {number} is not in the file.', number, kind=kind, number=number) from None
 
 
 class _Subexpression(abc.Nonterminal):
@@ -28,14 +57,13 @@ class _Primary_1(_Primary):
 
     def to_show(self, surfaces: dict[str, abc.Visualization], cells: dict[str, abc.Visualization], shapes: abc.Endpoint = _show.pyvista, is_cell: bool = False) -> abc.Visualization:
         if self.ast.startswith('-'):
-            return surfaces[Integer(self.ast[1:])]
+            return _look_up(surfaces, self.ast[1:], 'surface')
         elif self.ast.startswith('+'):
-            return ~surfaces[Integer(self.ast[1:])]
+            return ~_look_up(surfaces, self.ast[1:], 'surface')
+        elif is_cell:
+            return _look_up(cells, self.ast, 'cell')
         else:
-            try:
-                return cells[Integer(self.ast)] if is_cell else ~surfaces[Integer(self.ast)]
-            except KeyError:
-                raise abc.Error('Invalid value.', f'{self.ast}')
+            return ~_look_up(surfaces, self.ast, 'surface')
 
 
 class _Complement(_Subexpression):

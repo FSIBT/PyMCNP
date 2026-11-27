@@ -8,6 +8,7 @@ from ... import abc
 from ..Card import Card
 from .. import literal
 from .. import option
+from ..literal.Geometry import Missing
 
 
 class Cell(Card):
@@ -104,9 +105,15 @@ class Cell_0(Cell):
 
         Returns:
             Visualization of cell cards.
+
+        Raises:
+            Error: The cell refers to a cell or surface that is not in the file.
         """
 
-        return self.geom.to_show(surfaces, cells)
+        try:
+            return self.geom.to_show(surfaces, cells)
+        except Missing as err:
+            raise abc.Error(f'Cell {self.j} refers to {err.kind} {err.number}, which is not in the file.', self.to_mcnp()) from None
 
     def material(self, cells: tuple[Cell, ...]) -> literal.Integer:
         """
@@ -179,9 +186,15 @@ class Cell_1(Cell):
 
         Returns:
             Visualization of cell cards.
+
+        Raises:
+            Error: The cell refers to a cell or surface that is not in the file.
         """
 
-        return self.geom.to_show(surfaces, cells)
+        try:
+            return self.geom.to_show(surfaces, cells)
+        except Missing as err:
+            raise abc.Error(f'Cell {self.j} refers to {err.kind} {err.number}, which is not in the file.', self.to_mcnp()) from None
 
     def material(self, cells: tuple[Cell, ...]) -> literal.Integer:
         """

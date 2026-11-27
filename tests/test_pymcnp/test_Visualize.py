@@ -144,3 +144,23 @@ class Test_Visualize_complements:
 
         with pytest.raises(pymcnp.abc.Error, match='complement'):
             pymcnp.Visualize().to_show_cells(inp)
+
+
+@pytest.mark.parametrize(
+    'cells, message',
+    [
+        ('1 0 -1 #9\n2 0 1\n', 'Cell 1 refers to cell 9, which is not in the file.'),
+        ('1 0 -1 -7\n2 0 1\n', 'Cell 1 refers to surface 7, which is not in the file.'),
+        ('1 0 -1 7\n2 0 1\n', 'Cell 1 refers to surface 7, which is not in the file.'),
+        ('1 0 -1 +7\n2 0 1\n', 'Cell 1 refers to surface 7, which is not in the file.'),
+        # Cell 1 is made with cell 2, which holds the missing surface.
+        ('1 0 -1 #2\n2 0 1 -7\n', 'Cell 2 refers to surface 7, which is not in the file.'),
+    ],
+)
+def test_missing_cell_or_surface_is_named(cells, message) -> None:
+    inp = pymcnp.Inp.from_mcnp(f'title\n{cells}\n1 so 1\n\nnps 1\n')[0]
+
+    with pytest.raises(pymcnp.abc.Error) as error:
+        pymcnp.Visualize().to_show_cells(inp)
+
+    assert error.value.title == message
