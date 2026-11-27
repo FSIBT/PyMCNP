@@ -584,3 +584,17 @@ def test_card_names_may_start_in_columns_1_to_5(indent) -> None:
 
 def test_indented_card_name_is_a_card() -> None:
     assert _words(pymcnp.inp.card.Cell.from_mcnp('  100 0 1')[0]) == '100 0 1'
+
+
+def test_indented_cards_sp_function_and_mplot() -> None:
+    # As in a file posted on the MCNP forum: indented cards, an sp function with one parameter and an mplot card
+    # continued over two lines, with CRLF line ends.
+    source = (
+        'candle\r\n  100 0 1 $ outside\r\n  200 1 -19.3 -1\r\n\r\n    1 rcc 0 0 0 0 0 10 2\r\n\r\n'
+        'mode p\r\nm1 74000 1\r\nsdef rad=d1\r\nsi1 0 .01\r\nsp1 -21 1 $ disk\r\nnps 10\r\n'
+        'mplot tal 14 freq -5 $ plot\r\n     py 0 theta -90\r\n'
+    )
+    inp, remainder = pymcnp.Inp.from_mcnp(source)
+    assert remainder == ''
+    assert [_words(card) for card in inp.data_cards()][-3:] == ['sp1 -21 1', 'nps 10', 'mplot tal 14 freq -5 py 0 theta -90']
+    assert pymcnp.Inp.from_mcnp(inp.to_mcnp()) == (inp, '')

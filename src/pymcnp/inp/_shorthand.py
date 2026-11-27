@@ -11,7 +11,8 @@ _REGEX_JUMP = re.compile(r'(?<!\S)(\d+)(J)(?!\S)', re.IGNORECASE)
 _REGEX_LOG = re.compile(r'(\S+)(?<!\d[mM]) (\d+)I?LOG (\S+)', re.IGNORECASE)
 _REGEX_MULTIPLY = re.compile(rf'(?<!\S)({_NUMBER}) ({_NUMBER})M(?!\S)', re.IGNORECASE)
 _REGEX_COMMENT = re.compile(r' {0,4}c(?:\s|\Z)', re.IGNORECASE)
-_REGEX_TEXT = re.compile(r' {0,4}[fs]c\d+(?:\s|\Z)', re.IGNORECASE)
+# Text cards, and mplot, whose plot commands are not data entries, keep their shorthands.
+_REGEX_TEXT = re.compile(r' {0,4}(?:[fs]c\d+|mplot)(?:\s|\Z)', re.IGNORECASE)
 # A card name may start in columns 1-5: one to four blanks before it still start a card, five or more a continuation line.
 _REGEX_INDENT = re.compile(r' {1,4}(?=\S)')
 
@@ -67,7 +68,8 @@ def _expand_lines(lines: list[str]) -> list[str]:
     """
     Expands the horizontal data format shorthands of lines of an input file.
 
-    Comment cards, ``$`` comments and text cards (``fc``, ``sc``), with their continuation lines, are left verbatim.
+    Comment cards, ``$`` comments, text cards (``fc``, ``sc``) and ``mplot``, with their continuation lines, are left
+    verbatim.
     The one to four blanks before a card name are removed, so every card starts in column 1.
 
     Parameters:

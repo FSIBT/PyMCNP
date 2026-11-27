@@ -118,6 +118,7 @@ from .Zd import Zd
 from .Zc import Zc
 from .Zb import Zb
 from .Za import Za
+from .Mplot import Mplot
 from .Tr import Tr
 from .Tm import Tm
 from .Sp import Sp
@@ -298,6 +299,7 @@ __all__ = (
     'Idum',
     'Rdum',
     'Za',
+    'Mplot',
     'Zb',
     'Zc',
     'Zd',

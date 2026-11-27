@@ -674,6 +674,14 @@
    :inherited-members:
 ```
 
+### `Mplot` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.card.data.Mplot
+   :members:
+   :inherited-members:
+```
+
 ### `Mt` Class
 
 ```{eval-rst}

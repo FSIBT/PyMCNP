@@ -202,6 +202,8 @@ class Test_Data(classes.Test_FromMcnp):
         'idum 1 1 1',
         'rdum 3.1 3.1 3.1',
         'za hello',
+        'mplot fmesh 14 freq -5 py 0 theta -90 extent 510 510',
+        'mplot tal 4 freq 1000',
         'zb hello',
         'zc hello',
         'zd hello',
@@ -415,3 +417,16 @@ def test_sp_sb_invalid(source) -> None:
     except pymcnp.abc.Error:
         return
     assert remainder.strip()
+
+
+@pytest.mark.parametrize('source', ['mplot tal 4 freq 1000', 'MPLOT fmesh 14 freq -5 py 0'])
+def test_mplot(source) -> None:
+    card, remainder = pymcnp.inp.card.Data.from_mcnp(source)
+    assert type(card) is pymcnp.inp.card.data.Mplot
+    assert remainder == ''
+    assert ' '.join(map(str, card.x)) == source.split(maxsplit=1)[1]
+
+
+def test_mplot_keeps_its_commands() -> None:
+    # Plot commands are not data entries, so their shorthands are not expanded.
+    assert pymcnp.inp.card.Data.from_mcnp('mplot tal 4 xlims 1 2r')[0].to_mcnp() == 'mplot tal 4 xlims 1 2r'
