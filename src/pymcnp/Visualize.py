@@ -15,6 +15,37 @@ def _numbers(numbers) -> set[str]:
     return {str(number).strip() for number in numbers}
 
 
+class _Cells(dict):
+    """
+    Visualizations of the cells of an input file, made when first looked up.
+
+    A cell may complement any cell of the file with ``#``, also one after it, so a cell is made when a cell refers to
+    it, not in file order.
+    """
+
+    def __init__(self, inp: Inp, surfaces: dict[str, abc.Visualization]):
+        super().__init__()
+        self._cards = {str(cell.j).strip(): cell for cell in inp.cells.filter(inp_.card.Cell)}
+        self._surfaces = surfaces
+        self._making: set[str] = set()
+
+    def __missing__(self, key) -> abc.Visualization:
+        number = str(key).strip()
+        if number not in self._cards:
+            raise KeyError(key)
+        if number in self._making:
+            raise abc.Error('Cells complement each other in a loop.', f'cell {number}')
+
+        self._making.add(number)
+        try:
+            shape = self._cards[number].to_show(self._surfaces, self)
+        finally:
+            self._making.discard(number)
+
+        self[number] = shape
+        return shape
+
+
 @dataclasses.dataclass
 class Visualize(abc.Utility):
     """
@@ -47,11 +78,10 @@ class Visualize(abc.Utility):
 
         number = _numbers(number)
         surfaces = {str(surface.j): surface.to_show() for surface in inp.surfaces.filter(inp_.card.Surface)}
-        cells = {}
+        cells = _Cells(inp, surfaces)
 
         for cell in inp.cells.filter(inp_.card.Cell):
-            shape = cell.to_show(surfaces, cells)
-            cells[str(cell.j)] = shape
+            shape = cells[str(cell.j).strip()]
 
             if str(cell.j).strip() not in number:
                 continue
@@ -97,12 +127,10 @@ class Visualize(abc.Utility):
         pyvista.Plotter.add_axes(plot)
 
         surfaces = {str(surface.j): surface.to_show() for surface in inp.surfaces.filter(inp_.card.Surface)}
-        cells = {}
+        cells = _Cells(inp, surfaces)
 
         for cell in inp.cells.filter(inp_.card.Cell):
-            # Skipped cells are still resolved, since other cells may refer to them with ``#``.
-            shape = cell.to_show(surfaces, cells)
-            cells[str(cell.j)] = shape
+            shape = cells[str(cell.j).strip()]
 
             if str(cell.j).strip() in skip:
                 continue

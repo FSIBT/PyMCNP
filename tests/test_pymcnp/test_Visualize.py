@@ -122,3 +122,25 @@ class Test_Visualize_numbers:
 
         assert _actors(visualizer.to_show_surface(spheres, number)) == _actors(visualizer.to_show_surface(spheres, '1'))
         assert _actors(visualizer.to_show_surface(spheres, '1')) > _actors(visualizer.to_show_surface(spheres))
+
+
+# Cell 1 refers to cell 2, which comes after it, with ``#2``, as MCNP allows.
+FORWARD = 'title\n1 0 -2 #2\n2 0 -1\n3 0 2\n\n1 so 1\n2 so 2\n\nnps 1\n'
+
+
+class Test_Visualize_complements:
+    def test_to_show_cells_complement_of_a_later_cell(self) -> None:
+        inp = pymcnp.Inp.from_mcnp(FORWARD)[0]
+        visualizer = pymcnp.Visualize()
+
+        spheres = pymcnp.Inp.from_mcnp(SPHERES)[0]
+
+        # The same cells as ``SPHERES``, whose ``#1`` refers back.
+        assert _actors(visualizer.to_show_cells(inp)) == _actors(visualizer.to_show_cells(spheres))
+        assert _actors(visualizer.to_show_cell(inp, 1)) == _actors(visualizer.to_show_cell(spheres, 2))
+
+    def test_complements_in_a_loop(self) -> None:
+        inp = pymcnp.Inp.from_mcnp(FORWARD.replace('2 0 -1\n', '2 0 -1 #1\n'))[0]
+
+        with pytest.raises(pymcnp.abc.Error, match='complement'):
+            pymcnp.Visualize().to_show_cells(inp)
