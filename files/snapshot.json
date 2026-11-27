@@ -220,17 +220,17 @@
   "remainder_len": 0
  },
  "inp/valid_10.inp": {
-  "mcnp": "5f303c713ab016f45310e42b9048062c35e5a178b4e7d6a585643f86cd0c7506",
+  "mcnp": "d561e588ff4ed94ef9e128af72803f7f8e464bf906e99f0e5ce18aa87ca7c106",
   "ok": true,
   "problems": [
    [
-    48,
+    63,
     "warning",
     "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
   ],
-  "remainder": "d1685e34394d2ec5e821cc47e2528be4b15848d06f2a3abbfd4d058bf327a90e",
-  "remainder_len": 393
+  "remainder": "011c3fac1bc7b05a26721faeca7345ba84c4ec6cb56f893639511b2d52098b3e",
+  "remainder_len": 138
  },
  "inp/valid_11.inp": {
   "mcnp": "686c415c87eacc60498aa84b396f7effa69e1bdc7cfd84d94355970d4252ecb3",
@@ -240,17 +240,17 @@
   "remainder_len": 0
  },
  "inp/valid_14.inp": {
-  "mcnp": "946ce0975dc4e4a5d3f80f2b22954fc33b02586e0189baf82159a3431d7e69d4",
+  "mcnp": "aa0bf8ac8f139e5c7016060016311277fe518b0a1df3c212b0f76a9ae14d313f",
   "ok": true,
   "problems": [
    [
-    47,
+    90,
     "warning",
     "PyMCNP cannot parse this card: Expected ``Data``. Checking stops at the first problem: fix it and run the check again to find further problems."
    ]
   ],
-  "remainder": "acced07e3604249eba90558879c94efa590d0056541a9467fc98e5e5d6605508",
-  "remainder_len": 728
+  "remainder": "6c7e62f97301620f326cda7eabd42b377e3fd09e785777e6280643e29a482fae",
+  "remainder_len": 73
  },
  "inp/valid_15.inp": {
   "mcnp": "749a8b57edef410e3913b3a290521e7c9812b5434d3d8897386f828e06343c9c",

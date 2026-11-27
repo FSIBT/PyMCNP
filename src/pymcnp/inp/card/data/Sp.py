@@ -45,7 +45,8 @@ class Sp_0(Sp):
         if not (1 <= self.suffix <= 999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')
 
-        if isinstance(self.p, abc.Array) and not all(0 <= pi <= 1 for pi in self.p):
+        # Probabilities are relative, as MCNP normalizes them, so they may exceed 1.
+        if isinstance(self.p, abc.Array) and not all(0 <= pi for pi in self.p):
             raise abc.Error('Invalid value.', f'{self.p=}')
 
 
@@ -56,16 +57,16 @@ class Sp_1(Sp):
     Attributes:
         keyword: sp data card ``r'SP'`` symbol.
         suffix: sp data card ``n`` parameter.
-        f: sp data card ``f`` parameter.
-        a: sp data card ``a`` parameter.
-        b: sp data card ``b`` parameter.
+        f: sp data card ``f`` parameter, the number of a built-in function, e.g., ``-21``.
+        a: sp data card ``a`` parameter, empty for the function's default.
+        b: sp data card ``b`` parameter, empty for the function's default.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'SP'] = abc.Terminal[r'SP']('SP')
     suffix: literal.Integer
     f: literal.Integer
-    a: literal.Real
-    b: literal.Real
+    a: literal.Real | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    b: literal.Real | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -77,3 +78,6 @@ class Sp_1(Sp):
 
         if not (1 <= self.suffix <= 999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')
+
+        if self.f >= 0:
+            raise abc.Error('Invalid value.', f'{self.f=}')

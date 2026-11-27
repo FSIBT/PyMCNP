@@ -43,7 +43,8 @@ class Sb_0(Sb):
         if not (1 <= self.suffix <= 999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')
 
-        if not isinstance(self.b, abc.Terminal) and not all(0 <= bi <= 1 for bi in self.b):
+        # Probabilities are relative, as MCNP normalizes them, so they may exceed 1.
+        if not isinstance(self.b, abc.Terminal) and not all(0 <= bi for bi in self.b):
             raise abc.Error('Invalid value.', f'{self.b=}')
 
 
@@ -54,16 +55,16 @@ class Sb_1(Sb):
     Attributes:
         keyword: sb data card ``r'SB'`` symbol.
         suffix: sb data card ``n`` parameter.
-        f: sb data card ``f`` parameter.
-        a: sb data card ``a`` parameter.
-        b: sb data card ``b`` parameter.
+        f: sb data card ``f`` parameter, the number of a built-in function, e.g., ``-21``.
+        a: sb data card ``a`` parameter, empty for the function's default.
+        b: sb data card ``b`` parameter, empty for the function's default.
     """
 
     keyword: typing.Annotated[abc.Terminal, r'SB'] = abc.Terminal[r'SB']('SB')
     suffix: literal.Integer
     f: literal.Integer
-    a: literal.Real
-    b: literal.Real
+    a: literal.Real | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
+    b: literal.Real | typing.Annotated[abc.Terminal, r''] = abc.Terminal[r'']('')
 
     def __post_init__(self) -> None:
         """
@@ -75,3 +76,6 @@ class Sb_1(Sb):
 
         if not (1 <= self.suffix <= 999):
             raise abc.Error('Invalid value.', f'{self.suffix=}')
+
+        if self.f >= 0:
+            raise abc.Error('Invalid value.', f'{self.f=}')

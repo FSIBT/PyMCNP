@@ -1,3 +1,5 @@
+import pytest
+
 import pymcnp
 from .... import classes
 
@@ -75,8 +77,14 @@ class Test_Data(classes.Test_FromMcnp):
         # 'si1 h @ @ @',
         'sp1 d 0.1 0.1 0.1',
         'sp1 -2 3.1 3.1',
+        'sp1 -21 1',
+        'sp1 -5',
+        'sp1 0 2 3',
         'sb1 d 0.1 0.1 0.1',
         'sb1 -2 3.1 3.1',
+        'sb1 -21 2',
+        'sb1 -31',
+        'sb1 1 2 4',
         'ds1 h 3.1 3.1 3.1',
         'ds1 t 1 3.1 1 3.1 1 3.1',
         'ds1 q d1 3.1 d2 3.1 d3 3.1',
@@ -382,3 +390,28 @@ class Test_Data(classes.Test_FromMcnp):
         'cosyp 1 4 1 3.1': 'p 1 4 1 3.1',
         'cosyp 1 1 4 3.1': 'p 1 1 4 3.1',
     }
+
+
+@pytest.mark.parametrize(
+    'source, kind',
+    [
+        ('sp1 0 2 3', pymcnp.inp.card.data.Sp_0),
+        ('sp1 -21 1', pymcnp.inp.card.data.Sp_1),
+        ('sb1 1 2 4', pymcnp.inp.card.data.Sb_0),
+        ('sb1 -21 2', pymcnp.inp.card.data.Sb_1),
+    ],
+)
+def test_sp_sb_forms(source, kind) -> None:
+    # Probabilities are relative, so they may exceed 1; a negative first entry is a built-in function.
+    assert type(pymcnp.inp.card.Data.from_mcnp(source)[0]) is kind
+
+
+@pytest.mark.parametrize('source', ['sp1 0 -1', 'sb1 0 -1', 'sp1 -21 1 2 3', 'sb1 -21 1 2 3'])
+def test_sp_sb_invalid(source) -> None:
+    # A negative probability, a function number that is not negative, or more than two function parameters: the card
+    # does not parse, or not to its end.
+    try:
+        remainder = pymcnp.inp.card.Data.from_mcnp(source)[1]
+    except pymcnp.abc.Error:
+        return
+    assert remainder.strip()
