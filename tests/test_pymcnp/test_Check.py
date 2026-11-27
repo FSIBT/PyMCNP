@@ -231,3 +231,38 @@ def test_indented_cards(tmp_path: pathlib.Path) -> None:
     problems = pymcnp.Check(path).problems()
 
     assert [(problem.line, problem.kind) for problem in problems] == [(8, 'warning')]
+
+
+class Test_Check_Output:
+    def test_fix_writes_output(self, tmp_path: pathlib.Path) -> None:
+        path = tmp_path / 'wide.inp'
+        bins = ' '.join(str(10 * n) for n in range(1, 40))
+        text = SOURCE.replace('nps 10', f'si1 {bins}\nnps 10')
+        path.write_text(text)
+        output = tmp_path / 'fixed.inp'
+
+        problems = pymcnp.Check(path).fix(output)
+
+        assert problems == []
+        assert path.read_text() == text
+        assert max(len(line) for line in output.read_text().split('\n')) <= 80
+
+    def test_fix_reports_problems_of_output(self, tmp_path: pathlib.Path) -> None:
+        # The lines it cannot shorten are those of the output, which the original keeps.
+        path = tmp_path / 'wide.inp'
+        path.write_text(SOURCE.replace('nps 10', 'nps 10\nc ' + 'c' * 80))
+        output = tmp_path / 'fixed.inp'
+
+        problems = pymcnp.Check(path).fix(output)
+
+        assert [(problem.line, problem.kind) for problem in problems] == [(8, 'error')]
+
+    def test_fix_of_unparseable_file_writes_no_output(self, tmp_path: pathlib.Path) -> None:
+        path = tmp_path / 'unknown.inp'
+        path.write_text(SOURCE.replace('1 so 5', '1 so 5\n2 zzz 5'))
+        output = tmp_path / 'fixed.inp'
+
+        with pytest.raises(pymcnp.abc.Error):
+            pymcnp.Check(path).fix(output)
+
+        assert not output.exists()

@@ -33,16 +33,18 @@ input that parses but is not valid, e.g., two cells with one number, leaves noth
     pymcnp check example_00.inp
     pymcnp check --diff model.inp
     pymcnp check --fix model.inp
+    pymcnp check --fix -o fixed.inp model.inp
 
 `pymcnp check` parses an input file and looks for lines wider than MCNP's 80 columns. `--diff` shows how PyMCNP would
-rewrap them and `--fix` rewrites the file in place. The exit code says what it found:
+rewrap them and `--fix` rewrites the file in place, or, with `-o`/`--output=<file>`, writes the fixed file to `<file>`
+and leaves the input as it is. The exit code says what it found:
 
 | Exit code | Meaning |
 |---|---|
 | 0 | No problems (or `--fix` reformatted the file and no line is wider than 80 columns). |
 | 1 | Lines wider than 80 columns; with `--fix`, lines it cannot shorten, e.g., long comments. |
-| 2 | Usage error, or the file does not exist or cannot be read as text. |
-| 3 | PyMCNP cannot parse a card, or the file, e.g., two cells with one number; checking stops there. `--fix` refuses to rewrite such a file. |
+| 2 | Usage error, e.g., `--output` without `--fix`, or the file does not exist or cannot be read as text, or the `--output` file cannot be written. |
+| 3 | PyMCNP cannot parse a card, or the file, e.g., two cells with one number; checking stops there. `--fix` refuses to rewrite such a file, and writes no `--output` file. |
 
 ![pymcnp check example_00.inp](images/cli_check_ok.svg)
 
@@ -55,7 +57,8 @@ yet; `check` names its line. `docs/make_images.py` makes all the images.
 
 `--fix` writes the file as PyMCNP prints it, which is equivalent but not identical: shorthands such as `511i` become
 explicit values. It writes UTF-8, also for a file that was not UTF-8 and was read as Latin-1. Commit or copy the file
-first.
+first, or write the fixed file elsewhere with `--output`; the line numbers of lines it cannot shorten are then those of
+the output.
 
 ### Visualize
 

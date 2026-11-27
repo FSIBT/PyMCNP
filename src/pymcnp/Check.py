@@ -131,14 +131,19 @@ class Check(abc.Utility):
         message = str(err).splitlines()[0] if lookup else ' '.join(str(err).split())
         return Problem(1, 'warning', f'PyMCNP cannot parse this file: {message} {stop}')
 
-    def fix(self):
+    def fix(self, output: pathlib.Path | str | None = None):
         """
         Fixes the input file at ``path``.
 
         Rewrites the file as PyMCNP prints it, which wraps card lines wider
-        than 80 columns. Lines it cannot shorten, e.g., long comments, stay as
-        they are. The file is written as UTF-8, also a file read as Latin-1. A file PyMCNP cannot parse completely is not rewritten,
+        than 80 columns, or writes it to ``output`` and leaves the file as it
+        is. Lines it cannot shorten, e.g., long comments, stay as they are.
+        The file is written as UTF-8, also a file read as Latin-1. A file PyMCNP cannot parse completely is not rewritten,
         since the part it cannot parse would be lost.
+
+        Parameters:
+            output: Path to write the fixed file to, or None to rewrite the
+                file at ``path``.
 
         Returns:
             List of ``Problem`` left in the fixed file, as ``problems`` finds
@@ -146,7 +151,7 @@ class Check(abc.Utility):
 
         Raises:
             Error: PyMCNP cannot parse the file completely; the file is left
-                as it is.
+                as it is, and ``output`` is not written.
         """
 
         assert isinstance(self.path, pathlib.Path)
@@ -157,6 +162,9 @@ class Check(abc.Utility):
 
         with _quiet(read_again=True):
             file = Inp.from_file(self.path)[0]
-        file.to_file(self.path)
+        if output is None:
+            file.to_file(self.path)
+            return self.problems()
 
-        return self.problems()
+        file.to_file(output)
+        return Check(output).problems()

@@ -77,7 +77,7 @@ Run: `results = pymcnp.Run(inps, command='mcnp6', max_workers=4, names='case-{in
 
 ## c) Check and modify existing files
 
-CLI `pymcnp check [--diff] [--fix] f.inp`:
+CLI `pymcnp check [--diff] [--fix [-o out.inp]] f.inp`:
 
 | Exit | Meaning |
 |---|---|
@@ -88,7 +88,7 @@ CLI `pymcnp check [--diff] [--fix] f.inp`:
 
 Every `pymcnp` command uses the same exit codes, and a file gets the same code from every command that reads it (but an OUTP tally PyMCNP cannot parse yet is only a warning: `convert`, and `plot` of a parsed tally, exit 0; `plot` of that tally exits 3): 0 success; 1 the input or output has problems or the command failed (a line over 80 columns, a run failed, the MCNP command is not found, a PTRAC file without events to convert); 2 usage error (unknown option or command, a cell, surface or tally not in the file) or a file that does not exist, is a directory, or is not a text file (e.g., binary PTRAC, or UTF-16 text, which must be saved as UTF-8; text that is not UTF-8 is read as Latin-1 with a warning); 3 PyMCNP cannot parse all of a file (the warning names the line; a cell or surface card PyMCNP cannot parse, or an input that is not valid, e.g., two cells with one number, leaves nothing to work with; also a file of another kind, an OUTP tally in a layout PyMCNP cannot parse yet given to `plot` ("Tally not parsed."), or nothing to convert because the tallies did not parse).
 
-`--diff` shows what `--fix` would change; `--fix` rewrites the file in place (re-wrapping to 80 columns) and refuses on exit-3 files. Work on a copy if the original matters.
+`--diff` shows what `--fix` would change; `--fix` rewrites the file in place (re-wrapping to 80 columns) and refuses on exit-3 files; `--fix -o out.inp` (`--output=out.inp`) writes the fixed file there and leaves the original as it is (`Check(path).fix(output)` in Python). `--output` without `--fix` is a usage error (exit 2).
 
 Python: `c = pymcnp.Check(path)`; `c.problems()` returns `Problem(line, kind, message)` (kind is `'error'` or `'warning'`); `c.check()` yields a unified diff; `c.fix()` rewrites in place and returns the problems left (e.g., comments still over 80 columns); on a file PyMCNP cannot parse completely it raises `abc.Error`, naming the line, and leaves the file as it is.
 

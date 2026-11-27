@@ -96,6 +96,65 @@ class Test_Check_Report:
         assert 'Done!' not in out
         assert max(len(text) for text in path.read_text().split('\n')) > 80
 
+    @pytest.mark.parametrize('option', [['-o'], ['--output']])
+    def test_fix_output(self, monkeypatch, capsys, tmp_path, option) -> None:
+        # The fixed file is written to the output, and the input is left as it is.
+        path = tmp_path / 'wide.inp'
+        bins = ' '.join(str(10 * n) for n in range(1, 40))
+        text = SOURCE.replace('nps 10', f'si1 {bins}\nnps 10')
+        path.write_text(text)
+        output = tmp_path / 'fixed.inp'
+
+        code, out = _check(monkeypatch, capsys, '--fix', *option, output, path)
+
+        assert code == 0
+        assert path.read_text() == text
+        assert max(len(line) for line in output.read_text().split('\n')) <= 80
+        out = ' '.join(out.replace('│', '').split())
+        assert 'Wrote' in out and 'fixed.inp' in out and 'Done!' in out
+
+    def test_fix_output_reports_its_lines(self, monkeypatch, capsys, tmp_path) -> None:
+        path = tmp_path / 'wide.inp'
+        path.write_text(SOURCE.replace('nps 10', 'nps 10\nc ' + 'c' * 80))
+
+        output = tmp_path / 'fixed.inp'
+
+        code, out = _check(monkeypatch, capsys, '--fix', '-o', output, path)
+
+        assert code == 1
+        # Rich wraps a long path, so the output is compared without spaces.
+        assert f'Line8of{output}:' in ''.join(out.replace('│', '').split())
+
+    def test_output_needs_fix(self, monkeypatch, capsys, tmp_path) -> None:
+        path = tmp_path / 'ok.inp'
+        path.write_text(SOURCE)
+
+        code, out = _check(monkeypatch, capsys, '-o', tmp_path / 'fixed.inp', path)
+
+        assert code == 2
+        assert '--output needs --fix' in ' '.join(out.replace('│', '').split())
+        assert not (tmp_path / 'fixed.inp').exists()
+
+    def test_output_that_cannot_be_written(self, monkeypatch, capsys, tmp_path) -> None:
+        path = tmp_path / 'ok.inp'
+        path.write_text(SOURCE)
+
+        code, out = _check(monkeypatch, capsys, '--fix', '-o', tmp_path / 'missing' / 'fixed.inp', path)
+
+        assert code == 2
+        assert 'cannot write' in ' '.join(out.replace('│', '').split())
+        assert path.read_text() == SOURCE
+
+    def test_fix_output_of_unparseable_file(self, monkeypatch, capsys, tmp_path) -> None:
+        path = tmp_path / 'unknown.inp'
+        path.write_text(SOURCE.replace('1 so 5', '1 so 5\n2 zzz 5'))
+
+        code, out = _check(monkeypatch, capsys, '--fix', '-o', tmp_path / 'fixed.inp', path)
+
+        assert code == 3
+        assert 'Not reformatting' in out
+        assert not (tmp_path / 'fixed.inp').exists()
+
     def test_unparseable_card_warns_and_exits_3(self, monkeypatch, capsys, tmp_path) -> None:
         path = tmp_path / 'unknown.inp'
         path.write_text(SOURCE.replace('1 so 5', '1 so 5\n2 zzz 5'))
