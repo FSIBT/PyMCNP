@@ -360,3 +360,39 @@ def test_convert_names_the_first_three_fatal_errors(monkeypatch, capsys, tmp_pat
     assert code == 1
     assert 'MCNP stopped with 40 fatal errors, e.g.:' in text
     assert text.count('is not a legal data symbol.') == 1
+
+
+@pytest.mark.parametrize(
+    'args, message',
+    [
+        (['convert', '--partquet', 'outp'], 'Unknown option --partquet; did you mean --parquet?'),
+        (['convert', 'outp', '--partquet', 'outp'], 'Unknown option --partquet; did you mean --parquet?'),
+        (['convert', '--parquet', 'outp.txt'], 'pymcnp convert needs outp, ptrac or meshtal, not outp.txt.'),
+        (['convert', 'otup', '--csv', 'a'], 'pymcnp convert needs outp, ptrac or meshtal, not otup; did you mean outp?'),
+        (['convert', 'outp', 'a.outp'], 'Give --csv or --parquet.'),
+        (['convert', 'outp', '--csv', '--parquet', 'a.outp'], 'Give only one of --csv and --parquet.'),
+        (['convert', 'outp', '--csv'], 'pymcnp convert outp needs <file>.'),
+        (['check', '--fxi', 'a.inp'], 'Unknown option --fxi; did you mean --fix?'),
+        (['check'], 'pymcnp check needs <inp>.'),
+        (['check', 'a.inp', 'b.inp'], 'Unexpected argument b.inp.'),
+        (['visualize', '-q', 'a.inp'], 'Unknown option -q.'),
+        (['plot', 'a.outp'], 'pymcnp plot needs <number>.'),
+        (['run'], 'pymcnp run needs <inp>.'),
+        (['nosuch'], 'pymcnp needs run, check, visualize, convert, plot or help, not nosuch.'),
+        ([], 'pymcnp needs run, check, visualize, convert, plot or help.'),
+        (['--bogus'], 'Unknown option --bogus.'),
+    ],
+)
+def test_usage_error_says_what_is_wrong(monkeypatch, capsys, args, message) -> None:
+    code, text = _run(monkeypatch, capsys, *args)
+    assert code == 2
+    assert f'Error: {message}' in text
+    assert 'Usage:' in text
+    assert 'unmatched' not in text
+
+
+def test_options_may_be_abbreviated_or_bundled(monkeypatch, capsys, tmp_path: pathlib.Path) -> None:
+    # docopt accepts a unique prefix of a long option and bundled short options; do not call them unknown.
+    code, text = _run(monkeypatch, capsys, 'check', '--fi', '-fd')
+    assert code == 2
+    assert 'Error: pymcnp check needs <inp>.' in text

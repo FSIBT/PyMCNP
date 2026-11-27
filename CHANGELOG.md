@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `pymcnp check --fix -o <file>` (`--output=<file>`) writes the fixed file to `<file>` and leaves the input as it is; `Check.fix(output)` in Python. Lines `--fix` cannot shorten are reported with the output's line numbers. `--output` without `--fix` is a usage error (exit 2).
 - The `mplot` data card (`inp.card.data.Mplot`), e.g., `mplot tal 4 freq 1000`; its plot commands are kept as words, without expanding shorthands.
 - `pymcnp convert` names the fatal errors that stopped MCNP when an OUTP file has no tallies to convert, e.g., "nothing to convert; no file written. MCNP stopped with a fatal error: illegal entry: xdmf", instead of only "nothing to convert".
+- Usage errors of every command say what is wrong, e.g., "Unknown option --partquet; did you mean --parquet?", "Give --csv or --parquet." or "pymcnp check needs <inp>.", before the usage, instead of docopt's "found unmatched (duplicate?) arguments" with its internal patterns, or nothing. They still exit with 2.
 
 ### Fixed
 - A card whose name starts in columns 2-5, e.g., `  100 0 1`, failed to parse ("Expected Cell"). One to four blanks before a card name start a card, as in MCNP, and five or more mark a continuation line. Lines indented by one to four blanks that PyMCNP read as continuation lines, which MCNP reads as new cards, now start a card too.

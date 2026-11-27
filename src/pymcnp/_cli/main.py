@@ -36,7 +36,6 @@ import io
 import sys
 import warnings
 
-from docopt import docopt
 from docopt import DocoptExit
 
 import pymcnp
@@ -87,7 +86,7 @@ def _main() -> None:
     Runs the PyMCNP command line interface commands.
     """
 
-    args = docopt(__doc__, options_first=True, version=f'pymcnp {pymcnp.__version__}')
+    args = _io.docopt(__doc__, options_first=True, version=f'pymcnp {pymcnp.__version__}')
 
     if args['run']:
         run.main()

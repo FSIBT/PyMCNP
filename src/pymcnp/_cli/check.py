@@ -27,7 +27,6 @@ import sys
 import pathlib
 import warnings
 
-from docopt import docopt
 
 from . import _io
 from .. import abc
@@ -40,7 +39,7 @@ def main() -> None:
     """
 
     # Processing CLI arguments.
-    args = docopt(__doc__)
+    args = _io.docopt(__doc__)
     file = pathlib.Path(args['<inp>'])
     output = pathlib.Path(args['--output']) if args['--output'] else None
     if output is not None and not args['--fix']:

@@ -24,7 +24,6 @@ import pathlib
 
 import matplotlib.pyplot
 import matplotlib.backends.backend_pdf
-from docopt import docopt
 
 from . import _io
 from .. import abc
@@ -38,7 +37,7 @@ def main() -> None:
     """
 
     # Processing CLI arguments.
-    args = docopt(__doc__)
+    args = _io.docopt(__doc__)
     number = args['<number>']
     file = pathlib.Path(args['<outp>'])
 

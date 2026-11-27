@@ -20,7 +20,6 @@ import os
 import sys
 import pathlib
 
-from docopt import docopt
 
 from . import _io
 from .. import abc
@@ -34,7 +33,7 @@ def main() -> None:
     """
 
     # Processing CLI arguments.
-    args = docopt(__doc__)
+    args = _io.docopt(__doc__)
     path = args['--path'] if args['--path'] else os.getcwd()
     command = args['--command'] if args['--command'] else 'mcnp6'
 

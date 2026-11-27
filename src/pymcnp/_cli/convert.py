@@ -30,7 +30,6 @@ import pathlib
 import sys
 
 import pandas
-from docopt import docopt
 
 from . import _io
 from ..abc.file.WithDataIter import _write_parquet
@@ -45,7 +44,7 @@ def main() -> None:
     """
 
     # Processing CLI arguments.
-    args = docopt(__doc__)
+    args = _io.docopt(__doc__)
 
     if args['outp']:
         Nonterminal = Outp

@@ -1,6 +1,10 @@
+import re
 import sys
 import typing
+import difflib
 import pathlib
+
+import docopt as _docopt
 
 import rich
 import rich.markup
@@ -16,6 +20,132 @@ OK = 0
 PROBLEMS = 1
 USAGE = 2
 PARTLY_PARSED = 3
+
+
+def docopt(doc: str, argv: list[str] | None = None, options_first: bool = False, **kwargs) -> dict:
+    """
+    Parses the command line as ``docopt.docopt`` does, but says what is wrong with it if it does not fit the usage.
+
+    docopt itself only says "found unmatched (duplicate?) arguments" with its internal patterns, or nothing.
+
+    Raises:
+        docopt.DocoptExit: The message names the problem, e.g., "Unknown option --partquet; did you mean --parquet?", followed by the usage.
+    """
+
+    argv = sys.argv[1:] if argv is None else argv
+    try:
+        return _docopt.docopt(doc, argv, options_first=options_first, **kwargs)
+    except _docopt.DocoptExit:
+        pass
+    raise _docopt.DocoptExit(f'Error: {_usage_problem(doc, argv, options_first)}\n') from None
+
+
+def _or(words: list[str], conjunction: str = 'or') -> str:
+    return words[0] if len(words) == 1 else f'{", ".join(words[:-1])} {conjunction} {words[-1]}'
+
+
+def _suggest(word: str, words: typing.Iterable[str]) -> str:
+    close = difflib.get_close_matches(word, list(words), n=1, cutoff=0.6)
+    return f'; did you mean {close[0]}?' if close else '.'
+
+
+def _usage_problem(doc: str, argv: list[str], options_first: bool) -> str:
+    """
+    Finds the first way ``argv`` does not fit the usage of ``doc``.
+    """
+
+    usage = doc.partition('Usage:')[2].strip().partition('\n\n')[0]
+    lines = [re.findall(r'\.\.\.|[\[\]()|]|[^\s\[\]()|]+', line)[1:] for line in usage.splitlines()]
+
+    # Options: the names of each, the long ones, and those taking a value, e.g., -o --output=<file>.
+    aliases: dict[str, str] = {}
+    valued: set[str] = set()
+    for line in doc.splitlines():
+        if (line := line.strip()).startswith('-'):
+            names = re.findall(r'--?[A-Za-z][\w-]*', line.partition('  ')[0])
+            for name in names:
+                aliases[name] = names[-1]
+            if '<' in line.partition('  ')[0]:
+                valued.update(names)
+    for name in re.findall(r'(?<![\w-])--?[A-Za-z][\w-]*', usage):
+        aliases.setdefault(name, name)
+    longs = [name for name in aliases if name.startswith('--')]
+
+    # Splitting the arguments into options and positional arguments, as docopt does.
+    given: list[str] = []
+    positionals: list[str] = []
+    tokens = iter(argv)
+    for token in tokens:
+        if token == '--' or (options_first and positionals):
+            positionals += [token] if token != '--' else []
+            positionals += list(tokens)
+        elif token.startswith('--') and len(token) > 2:
+            name, equals, _ = token.partition('=')
+            matches = [name] if name in aliases else [option for option in longs if option.startswith(name)]
+            if len(matches) != 1:
+                return f'Unknown option {name}{_suggest(name, longs)}'
+            given.append(aliases[matches[0]])
+            if matches[0] in valued and not equals:
+                next(tokens, None)
+        elif re.match(r'-[A-Za-z]', token):
+            for i, letter in enumerate(token[1:], 1):
+                if (name := f'-{letter}') not in aliases:
+                    return f'Unknown option {name}.'
+                given.append(aliases[name])
+                if name in valued:
+                    if i == len(token) - 1:
+                        next(tokens, None)
+                    break
+        else:
+            positionals.append(token)
+
+    # Commands, e.g., "convert outp": the words of the usage lines that fit the arguments so far.
+    def words(line: list[str]) -> list[str]:
+        return [token for token in line if re.fullmatch(r'[a-z][\w-]*', token) and token != 'options']
+
+    candidates = lines
+    depth = 0
+    while choices := list(dict.fromkeys(words(line)[depth] for line in candidates if len(words(line)) > depth)):
+        program = ' '.join(['pymcnp', *positionals[:depth]])
+        if depth >= len(positionals):
+            return f'{program} needs {_or(choices)}.'
+        if positionals[depth] not in choices:
+            word = positionals[depth]
+            # A path, e.g., outp.txt, is a file given too early, not a misspelled command.
+            return f'{program} needs {_or(choices)}, not {word}' + ('.' if re.search(r'[./\\]', word) else _suggest(word, choices))
+        candidates = [line for line in candidates if len(words(line)) > depth and words(line)[depth] == positionals[depth]]
+        depth += 1
+    if not candidates:
+        return 'The arguments do not fit the usage.'
+    line = candidates[0]
+    program = ' '.join(['pymcnp', *positionals[:depth]])
+
+    # Required alternatives, e.g., (--csv | --parquet).
+    for group in re.findall(r'\(([^()]*\|[^()]*)\)', ' '.join(line)):
+        options = [aliases.get(option, option) for option in group.replace('|', ' ').split()]
+        chosen = [option for option in options if option in given]
+        if not chosen:
+            return f'Give {_or(options)}.'
+        if len(chosen) > 1:
+            return f'Give only one of {_or(chosen, "and")}.'
+
+    # Positional arguments, e.g., <inp>, [<command>] or <inp>...
+    required, repeated, optional, bracket = [], False, 0, 0
+    for i, token in enumerate(line):
+        bracket += (token == '[') - (token == ']')
+        if token.startswith('<'):
+            if bracket:
+                optional += 1
+            else:
+                required.append(token)
+            repeated |= line[i + 1 : i + 2] == ['...']
+    values = positionals[depth:]
+    if len(values) < len(required):
+        return f'{program} needs {_or(required[len(values) :], "and")}.'
+    if not repeated and len(values) > len(required) + optional:
+        return f'Unexpected argument {values[len(required) + optional]}.'
+
+    return 'The arguments do not fit the usage.'
 
 
 def get_outfile(path: pathlib.Path | str, ext: str, i: str | None = None) -> pathlib.Path:
